@@ -71,4 +71,21 @@ export default class Wrapper {
     this.update()
     this.vNode = this.vm._vnode
   }
+
+  /**
+   * Sets vm props
+   *
+   * @param {Object} data - data to set
+   */
+  setProps (data) {
+    if (!this.isVueComponent) {
+      throw new Error('wrapper.setProps() can only be called on a Vue instance')
+    }
+
+    Object.keys(data).forEach((key) => {
+      this.vm._props[key] = data[key]
+    })
+    this.update()
+    this.vNode = this.vm._vnode
+  }
 }
