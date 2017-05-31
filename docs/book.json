@@ -1,0 +1,22 @@
+{
+  "gitbook": ">3.0.0",
+  "structure": {
+    "summary": "SUMMARY.md"
+  },
+  "plugins": ["edit-link", "prism", "theme-vuejs@git+https://github.com/pearofducks/gitbook-plugin-theme-vuejs.git", "-fontsettings", "-highlight", "github"],
+  "pluginsConfig": {
+    "edit-link": {
+      "base": "https://github.com/eddyerburgh/avoriaz/tree/master/docs",
+      "label": "Edit This Page"
+    },
+    "github": {
+      "url": "https://github.com/eddyerburgh/avoriaz"
+    }
+  },
+  "links": {
+    "sharing": {
+      "facebook": false,
+      "twitter": false
+    }
+  }
+}
