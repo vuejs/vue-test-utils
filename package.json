@@ -4,7 +4,10 @@
   "description": "Utilities for testing Vue components",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "eslint src test",
+    "lint:fix": "npm run lint -- --fix",
+    "test": "npm run lint && npm run test:unit",
+    "test:unit": "mocha-webpack --webpack-config test/unit/setup/webpack.config.js test --recursive --require test/unit/setup/mocha.setup.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +18,24 @@
   "bugs": {
     "url": "https://github.com/vuejs/vue-test-utils/issues"
   },
-  "homepage": "https://github.com/vuejs/vue-test-utils#readme"
+  "homepage": "https://github.com/vuejs/vue-test-utils#readme",
+  "devDependencies": {
+    "chai": "^4.0.0",
+    "eslint": "^3.19.0",
+    "eslint-config-vue": "^2.0.2",
+    "eslint-plugin-vue": "^2.0.1",
+    "jsdom": "^11.0.0",
+    "jsdom-global": "^3.0.2",
+    "mocha": "^3.4.2",
+    "mocha-webpack": "next",
+    "sinon": "^2.3.2",
+    "vue": "^2.3.3",
+    "vue-loader": "^12.2.1",
+    "vue-template-compiler": "^2.3.3",
+    "webpack": "^2.6.1",
+    "webpack-node-externals": "^1.6.0"
+  },
+  "peerDependencies": {
+    "vue": "2.x"
+  }
 }
