@@ -1,0 +1,19 @@
+{
+  "name": "vue-test-utils",
+  "version": "1.0.0",
+  "description": "Utilities for testing Vue components",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vuejs/vue-test-utils.git"
+  },
+  "author": "vuejs",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vuejs/vue-test-utils/issues"
+  },
+  "homepage": "https://github.com/vuejs/vue-test-utils#readme"
+}

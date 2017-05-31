@@ -1,0 +1,22 @@
+.DS_Store
+node_modules/
+
+# Editor files
+/.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Log files
+*.log
+reports
+coverage
+
+# Build
+dist
+
+# Docs
+_book
+.tmp
+tmp*
