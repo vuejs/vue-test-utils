@@ -30,12 +30,12 @@ export default class Wrapper {
     return this.element.querySelectorAll(selector).length > 0
   }
 
-    /**
-     * Finds every node in the mount tree of the current wrapper that matches the provided selector.
-     *
-     * @param {String|Object} selector
-     * @returns {VueWrapper||VueWrapper[]}
-     */
+  /**
+   * Finds every node in the mount tree of the current wrapper that matches the provided selector.
+   *
+   * @param {String|Object} selector
+   * @returns {VueWrapper||VueWrapper[]}
+   */
   find (selector) {
     if (!isValidSelector(selector)) {
       throw new Error('wrapper.find() must be passed a valid CSS selector or a Vue constructor')
@@ -53,5 +53,22 @@ export default class Wrapper {
     const nodes = findMatchingVNodes(this.vNode, selector)
 
     return nodes.map(node => new Wrapper(node, this.update, this.mountedToDom))
+  }
+
+  /**
+   * Sets vm data
+   *
+   * @param {Object} data - data to set
+   */
+  setData (data) {
+    if (!this.isVueComponent) {
+      throw new Error('wrapper.setData() can only be called on a Vue instance')
+    }
+
+    Object.keys(data).forEach((key) => {
+      this.vm.$set(this.vm, [key], data[key])
+    })
+    this.update()
+    this.vNode = this.vm._vnode
   }
 }

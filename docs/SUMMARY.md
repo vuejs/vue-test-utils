@@ -6,6 +6,7 @@
     * [contains](/api/mount/contains.md) 
     * [find](/api/mount/find.md)
     * [update](/api/mount/update.md)
+    * [setData](/api/mount/setData.md)          
     * [vm](/api/mount/vm.md)    
   * [selectors](/api/selectors.md)
 
