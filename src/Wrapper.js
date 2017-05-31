@@ -88,4 +88,39 @@ export default class Wrapper {
     this.update()
     this.vNode = this.vm._vnode
   }
+
+  /**
+   * Dispatches a DOM event on wrapper
+   *
+   * @param {String} type - type of event
+   * @returns {Boolean}
+   */
+  trigger (type) {
+    if (typeof type !== 'string') {
+      throw new Error('wrapper.trigger() must be passed a string')
+    }
+
+    const modifiers = {
+      enter: 13,
+      tab: 9,
+      delete: 46,
+      esc: 27,
+      space: 32,
+      up: 38,
+      down: 40,
+      left: 37,
+      right: 39
+    }
+
+    const event = type.split('.')
+
+    const eventObject = new window.Event(event[0])
+
+    if (event.length === 2) {
+      eventObject.keyCode = modifiers[event[1]]
+    }
+
+    this.element.dispatchEvent(eventObject)
+    this.update()
+  }
 }
