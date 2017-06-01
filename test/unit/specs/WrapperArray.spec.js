@@ -127,6 +127,25 @@ describe('WrapperArray', () => {
     expect(wrapper.html.called).to.equal(true)
   })
 
+  it('name throws error if called when there are 0 items in wrapper array', () => {
+    const wrapperArray = new WrapperArray()
+    const message = 'name cannot be called on 0 items'
+    expect(() => wrapperArray.name()).to.throw(Error, message)
+  })
+
+  it('name throws error if called when there is more than 1 item in wrapper array', () => {
+    const wrapperArray = new WrapperArray([1, 2, 3])
+    const message = 'name cannot be called on more than 1 item, use at(i) to access the item'
+    expect(() => wrapperArray.name()).to.throw(Error, message)
+  })
+
+  it('name calls name on wrapper if there is only 1 in array', () => {
+    const wrapper = { name: sinon.stub() }
+    const wrapperArray = new WrapperArray([wrapper])
+    wrapperArray.name()
+    expect(wrapper.name.called).to.equal(true)
+  })
+
   it('setData calls setData on each wrapper', () => {
     const setData = sinon.stub()
     const data = {}

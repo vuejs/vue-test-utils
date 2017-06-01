@@ -167,6 +167,19 @@ export default class Wrapper {
   }
 
   /**
+   * Returns name of component, or tag name if node is not a Vue component
+   *
+   * @returns {String}
+   */
+  name () {
+    if (this.isVueComponent) {
+      return this.vm.$options.name
+    }
+
+    return this.vNode.tag
+  }
+
+  /**
    * Sets vm data
    *
    * @param {Object} data - data to set

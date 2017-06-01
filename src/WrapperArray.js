@@ -56,6 +56,18 @@ export default class WrapperArray {
     return this.wrappers.every(wrapper => wrapper.isEmpty())
   }
 
+  name () {
+    if (this.wrappers.length === 0) {
+      throw new Error('name cannot be called on 0 items')
+    }
+
+    if (this.wrappers.length > 1) {
+      throw new Error('name cannot be called on more than 1 item, use at(i) to access the item')
+    }
+
+    return this.wrappers[0].name()
+  }
+
   setData (data) {
     this.wrappers.forEach(wrapper => wrapper.setData(data))
   }
