@@ -125,6 +125,17 @@ export default class Wrapper {
   }
 
   /**
+   * Returns HTML of element as a string
+   *
+   * @returns {String} HTML of wrapper element
+   */
+  html () {
+    const tmp = document.createElement('div')
+    tmp.appendChild(this.element)
+    return tmp.innerHTML
+  }
+
+  /**
    * Sets vm data
    *
    * @param {Object} data - data to set

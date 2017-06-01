@@ -36,6 +36,18 @@ export default class WrapperArray {
     return this.wrappers[0].find(selector)
   }
 
+  html () {
+    if (this.wrappers.length === 0) {
+      throw new Error('html cannot be called on 0 items')
+    }
+
+    if (this.wrappers.length > 1) {
+      throw new Error('html cannot be called on more than 1 item, use at(i) to access the item')
+    }
+
+    return this.wrappers[0].html()
+  }
+
   setData (data) {
     this.wrappers.forEach(wrapper => wrapper.setData(data))
   }

@@ -80,6 +80,25 @@ describe('WrapperArray', () => {
     expect(wrapperArray.hasStyle(style, value)).to.equal(true)
   })
 
+  it('html throws error if called when there are 0 items in wrapper array', () => {
+    const wrapperArray = new WrapperArray()
+    const message = 'html cannot be called on 0 items'
+    expect(() => wrapperArray.html()).to.throw(Error, message)
+  })
+
+  it('html throws error if called when there is more than 1 item in wrapper array', () => {
+    const wrapperArray = new WrapperArray([1, 2, 3])
+    const message = 'html cannot be called on more than 1 item, use at(i) to access the item'
+    expect(() => wrapperArray.html()).to.throw(Error, message)
+  })
+
+  it('find calls find on wrapper if there is only 1 in array', () => {
+    const wrapper = { html: sinon.stub() }
+    const wrapperArray = new WrapperArray([wrapper])
+    wrapperArray.html()
+    expect(wrapper.html.called).to.equal(true)
+  })
+
   it('hasStyle returns false if not every wrapper.hasStyle() returns true', () => {
     const wrapperArray = new WrapperArray([{ hasStyle: () => true }, { hasStyle: () => false }])
     expect(wrapperArray.hasStyle('style', 'value')).to.equal(false)

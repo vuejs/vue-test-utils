@@ -7,6 +7,8 @@
     * [find](/api/mount/find.md)
     * [hasAttribute](/api/mount/hasAttribute.md)
     * [hasClass](/api/mount/hasClass.md)
+    * [hasStyle](/api/mount/hasStyle.md)
+    * [html](/api/mount/html.md)
     * [update](/api/mount/update.md)
     * [setData](/api/mount/setData.md)
     * [setProps](/api/mount/setProps.md)
