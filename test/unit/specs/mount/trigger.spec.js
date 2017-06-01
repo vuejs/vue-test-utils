@@ -7,7 +7,7 @@ describe('dispatch', () => {
     const wrapper = mount(ComponentWithEvents, {
       propsData: { clickHandler }
     })
-    const button = wrapper.find('.click')[0]
+    const button = wrapper.find('.click').at(0)
     button.trigger('click')
 
     expect(clickHandler.calledOnce).to.equal(true)
@@ -18,7 +18,7 @@ describe('dispatch', () => {
     const wrapper = mount(ComponentWithEvents, {
       propsData: { keydownHandler }
     })
-    wrapper.find('.keydown')[0].trigger('keydown')
+    wrapper.find('.keydown').at(0).trigger('keydown')
 
     expect(keydownHandler.calledOnce).to.equal(true)
   })
@@ -28,7 +28,7 @@ describe('dispatch', () => {
     const wrapper = mount(ComponentWithEvents, {
       propsData: { keydownHandler }
     })
-    wrapper.find('.keydown-enter')[0].trigger('keydown.enter')
+    wrapper.find('.keydown-enter').at(0).trigger('keydown.enter')
 
     expect(keydownHandler.calledOnce).to.equal(true)
   })

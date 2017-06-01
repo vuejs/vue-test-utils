@@ -14,7 +14,7 @@ describe('setData', () => {
     const message = 'wrapper.setData() can only be called on a Vue instance'
     const compiled = compileToFunctions('<div><p></p></div>')
     const wrapper = mount(compiled)
-    const input = wrapper.find('p')[0]
+    const input = wrapper.find('p').at(0)
     expect(() => input.setData({ ready: true })).throw(Error, message)
   })
 })

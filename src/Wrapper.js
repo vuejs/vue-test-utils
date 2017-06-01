@@ -2,6 +2,7 @@ import { isValidSelector } from './lib/validators'
 import findVueComponents from './lib/findVueComponents'
 import findMatchingVNodes from './lib/findMatchingVNodes'
 import VueWrapper from './VueWrapper'
+import WrapperArray from './WrapperArray'
 
 export default class Wrapper {
   constructor (vNode, update, mountedToDom) {
@@ -47,12 +48,12 @@ export default class Wrapper {
       }
       const vm = this.vm || this.vNode.context.$root
       const components = findVueComponents(vm, selector.name)
-      return components.map(component => new VueWrapper(component, undefined, this.mounted))
+      return new WrapperArray(components.map(component => new VueWrapper(component, undefined, this.mounted)))
     }
 
     const nodes = findMatchingVNodes(this.vNode, selector)
 
-    return nodes.map(node => new Wrapper(node, this.update, this.mountedToDom))
+    return new WrapperArray(nodes.map(node => new Wrapper(node, this.update, this.mountedToDom)))
   }
 
   /**

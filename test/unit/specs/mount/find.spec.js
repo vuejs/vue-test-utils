@@ -88,7 +88,7 @@ describe('find', () => {
 
   it('returns an array of VueWrappers of Vue Components matching component using Wrapper as reference', () => {
     const wrapper = mount(ComponentWithChildComponent)
-    const div = wrapper.find('span')[0]
+    const div = wrapper.find('span').at(0)
     const secondChildComponents = div.find(Component)
     expect(secondChildComponents.length).to.equal(1)
   })
