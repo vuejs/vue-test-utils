@@ -16,6 +16,10 @@ export default class WrapperArray {
     return this.wrappers.every(wrapper => wrapper.hasAttribute(attribute, value))
   }
 
+  hasClass (className) {
+    return this.wrappers.every(wrapper => wrapper.hasClass(className))
+  }
+
   find (selector) {
     if (this.wrappers.length === 0) {
       throw new Error('find cannot be called on 0 items')

@@ -51,6 +51,20 @@ export default class Wrapper {
   }
 
   /**
+   * Asserts wrapper has a class name
+   *
+   * @param {String} className - class name to assert
+   * @returns {Boolean}
+   */
+  hasClass (className) {
+    if (typeof className !== 'string') {
+      throw new Error('wrapper.hasClass() must be passed a string')
+    }
+
+    return this.element.className.split(' ').indexOf(className) !== -1
+  }
+
+  /**
    * Finds every node in the mount tree of the current wrapper that matches the provided selector.
    *
    * @param {String|Object} selector

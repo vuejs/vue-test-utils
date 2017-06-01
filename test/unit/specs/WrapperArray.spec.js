@@ -58,6 +58,19 @@ describe('WrapperArray', () => {
     expect(wrapperArray.hasAttribute('attribute', 'value')).to.equal(false)
   })
 
+  it('hasClass returns true if every wrapper.hasClass() returns true', () => {
+    const className = 'class'
+    const hasClass = sinon.stub()
+    hasClass.withArgs(className).returns(true)
+    const wrapperArray = new WrapperArray([{ hasClass }, { hasClass }])
+    expect(wrapperArray.hasClass(className)).to.equal(true)
+  })
+
+  it('hasClass returns false if not every wrapper.hasClass() returns true', () => {
+    const wrapperArray = new WrapperArray([{ hasClass: () => true }, { hasClass: () => false }])
+    expect(wrapperArray.hasClass('class')).to.equal(false)
+  })
+
   it('setData calls setData on each wrapper', () => {
     const setData = sinon.stub()
     const data = {}
