@@ -98,6 +98,16 @@ describe('WrapperArray', () => {
     expect(wrapperArray.is('selector')).to.equal(false)
   })
 
+  it('isEmpty returns true if every wrapper.isEmpty() returns true', () => {
+    const wrapperArray = new WrapperArray([{ isEmpty: () => true }, { isEmpty: () => true }])
+    expect(wrapperArray.isEmpty()).to.equal(true)
+  })
+
+  it('isEmpty returns false if not every wrapper.isEmpty() returns true', () => {
+    const wrapperArray = new WrapperArray([{ isEmpty: () => true }, { isEmpty: () => false }])
+    expect(wrapperArray.isEmpty()).to.equal(false)
+  })
+
   it('html throws error if called when there are 0 items in wrapper array', () => {
     const wrapperArray = new WrapperArray()
     const message = 'html cannot be called on 0 items'

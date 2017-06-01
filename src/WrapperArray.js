@@ -52,6 +52,10 @@ export default class WrapperArray {
     return this.wrappers.every(wrapper => wrapper.is(selector))
   }
 
+  isEmpty () {
+    return this.wrappers.every(wrapper => wrapper.isEmpty())
+  }
+
   setData (data) {
     this.wrappers.forEach(wrapper => wrapper.setData(data))
   }

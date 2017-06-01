@@ -158,6 +158,15 @@ export default class Wrapper {
   }
 
   /**
+   * Checks if node is empty
+   *
+   * @returns {Boolean}
+   */
+  isEmpty () {
+    return this.vNode.children === undefined
+  }
+
+  /**
    * Sets vm data
    *
    * @param {Object} data - data to set
