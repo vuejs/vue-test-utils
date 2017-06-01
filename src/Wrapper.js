@@ -32,6 +32,25 @@ export default class Wrapper {
   }
 
   /**
+   * Checks if wrapper has an attribute with matching value
+   *
+   * @param {String} attribute - attribute to assert
+   * @param {String} value - value attribute should contain
+   * @returns {Boolean}
+   */
+  hasAttribute (attribute, value) {
+    if (typeof attribute !== 'string') {
+      throw new Error('wrapper.hasAttribute() must be passed attribute as a string')
+    }
+
+    if (typeof value !== 'string') {
+      throw new Error('wrapper.hasAttribute() must be passed value as a string')
+    }
+
+    return this.element.getAttribute(attribute) === value
+  }
+
+  /**
    * Finds every node in the mount tree of the current wrapper that matches the provided selector.
    *
    * @param {String|Object} selector

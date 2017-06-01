@@ -5,6 +5,7 @@
   * [mount](/api/mount/README.md)
     * [contains](/api/mount/contains.md) 
     * [find](/api/mount/find.md)
+    * [hasAttribute](/api/mount/hasAttribute.md)
     * [update](/api/mount/update.md)
     * [setData](/api/mount/setData.md)
     * [setProps](/api/mount/setProps.md)

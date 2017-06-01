@@ -33,14 +33,29 @@ describe('WrapperArray', () => {
 
   it('contains returns true if every wrapper.contains() returns true', () => {
     const selector = 'selector'
-    const contains = sinon.stub().withArgs(selector).returns(true)
+    const contains = sinon.stub()
+    contains.withArgs(selector).returns(true)
     const wrapperArray = new WrapperArray([{ contains }, { contains }])
-    expect(wrapperArray.contains()).to.equal(true)
+    expect(wrapperArray.contains(selector)).to.equal(true)
   })
 
   it('contains returns false if not every wrapper.contains() returns true', () => {
     const wrapperArray = new WrapperArray([{ contains: () => true }, { contains: () => false }])
     expect(wrapperArray.contains()).to.equal(false)
+  })
+
+  it('hasAttribute returns true if every wrapper.hasAttribute() returns true', () => {
+    const attribute = 'attribute'
+    const value = 'value'
+    const hasAttribute = sinon.stub()
+    hasAttribute.withArgs(attribute, value).returns(true)
+    const wrapperArray = new WrapperArray([{ hasAttribute }, { hasAttribute }])
+    expect(wrapperArray.hasAttribute(attribute, value)).to.equal(true)
+  })
+
+  it('hasAttribute returns false if not every wrapper.hasAttribute() returns true', () => {
+    const wrapperArray = new WrapperArray([{ hasAttribute: () => true }, { hasAttribute: () => false }])
+    expect(wrapperArray.hasAttribute('attribute', 'value')).to.equal(false)
   })
 
   it('setData calls setData on each wrapper', () => {
