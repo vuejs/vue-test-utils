@@ -22,11 +22,13 @@ export default function mount (component, options = {}) {
     elem = createElem()
     delete options.attachToDocument // eslint-disable-line no-param-reassign
   }
+
   if (options.intercept) {
     const globals = addGlobals(options.intercept)
     Vue.use(globals)
   }
-   // Remove cached constructor
+
+  // Remove cached constructor
   delete component._Ctor // eslint-disable-line no-param-reassign
 
   const Constructor = Vue.extend(component)
