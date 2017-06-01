@@ -214,6 +214,15 @@ export default class Wrapper {
   }
 
   /**
+   * Return text of wrapper element
+   *
+   * @returns {Boolean}
+   */
+  text () {
+    return this.element.textContent
+  }
+
+  /**
    * Dispatches a DOM event on wrapper
    *
    * @param {String} type - type of event

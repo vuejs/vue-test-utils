@@ -15,6 +15,7 @@
     * [update](/api/mount/update.md)
     * [setData](/api/mount/setData.md)
     * [setProps](/api/mount/setProps.md)
+    * [text](/api/mount/trigger.md)
     * [trigger](/api/mount/trigger.md)
     * [vm](/api/mount/vm.md)    
   * [selectors](/api/selectors.md)
