@@ -9,6 +9,7 @@
     * [hasClass](/api/mount/hasClass.md)
     * [hasStyle](/api/mount/hasStyle.md)
     * [html](/api/mount/html.md)
+    * [is](/api/mount/is.md)
     * [update](/api/mount/update.md)
     * [setData](/api/mount/setData.md)
     * [setProps](/api/mount/setProps.md)

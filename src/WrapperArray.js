@@ -48,6 +48,10 @@ export default class WrapperArray {
     return this.wrappers[0].html()
   }
 
+  is (selector) {
+    return this.wrappers.every(wrapper => wrapper.is(selector))
+  }
+
   setData (data) {
     this.wrappers.forEach(wrapper => wrapper.setData(data))
   }

@@ -1,3 +1,4 @@
+import { matchesSelector } from 'sizzle'
 import { isValidSelector } from './lib/validators'
 import findVueComponents from './lib/findVueComponents'
 import findMatchingVNodes from './lib/findMatchingVNodes'
@@ -133,6 +134,27 @@ export default class Wrapper {
     const tmp = document.createElement('div')
     tmp.appendChild(this.element)
     return tmp.innerHTML
+  }
+
+  /**
+   * Checks if node matches selector
+   *
+   * @param {String} selector - selector to check node is
+   * @returns {Boolean}
+   */
+  is (selector) {
+    if (!isValidSelector(selector)) {
+      throw new Error('wrapper.is() must be passed a valid CSS selector or a Vue constructor')
+    }
+
+    if (typeof selector === 'object') {
+      if (!this.isVueComponent) {
+        return false
+      }
+            // TODO: Throw error if component does not have name
+      return this.vm.$vnode.componentOptions.Ctor.options.name === selector.name
+    }
+    return this.element.getAttribute && matchesSelector(this.element, selector)
   }
 
   /**

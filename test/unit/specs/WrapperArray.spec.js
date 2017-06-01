@@ -80,6 +80,24 @@ describe('WrapperArray', () => {
     expect(wrapperArray.hasStyle(style, value)).to.equal(true)
   })
 
+  it('hasStyle returns false if not every wrapper.hasStyle() returns true', () => {
+    const wrapperArray = new WrapperArray([{ hasStyle: () => true }, { hasStyle: () => false }])
+    expect(wrapperArray.hasStyle('style', 'value')).to.equal(false)
+  })
+
+  it('is returns true if every wrapper.is() returns true', () => {
+    const selector = 'selector'
+    const is = sinon.stub()
+    is.withArgs(selector).returns(true)
+    const wrapperArray = new WrapperArray([{ is }, { is }])
+    expect(wrapperArray.is(selector)).to.equal(true)
+  })
+
+  it('is returns false if not every wrapper.is() returns true', () => {
+    const wrapperArray = new WrapperArray([{ is: () => true }, { is: () => false }])
+    expect(wrapperArray.is('selector')).to.equal(false)
+  })
+
   it('html throws error if called when there are 0 items in wrapper array', () => {
     const wrapperArray = new WrapperArray()
     const message = 'html cannot be called on 0 items'
@@ -92,16 +110,11 @@ describe('WrapperArray', () => {
     expect(() => wrapperArray.html()).to.throw(Error, message)
   })
 
-  it('find calls find on wrapper if there is only 1 in array', () => {
+  it('html calls html on wrapper if there is only 1 in array', () => {
     const wrapper = { html: sinon.stub() }
     const wrapperArray = new WrapperArray([wrapper])
     wrapperArray.html()
     expect(wrapper.html.called).to.equal(true)
-  })
-
-  it('hasStyle returns false if not every wrapper.hasStyle() returns true', () => {
-    const wrapperArray = new WrapperArray([{ hasStyle: () => true }, { hasStyle: () => false }])
-    expect(wrapperArray.hasStyle('style', 'value')).to.equal(false)
   })
 
   it('setData calls setData on each wrapper', () => {
