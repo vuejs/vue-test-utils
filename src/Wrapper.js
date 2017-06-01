@@ -65,6 +65,41 @@ export default class Wrapper {
   }
 
   /**
+   * Checks if wrapper has a style with value
+   *
+   * @param {String} style - style to assert
+   * @param {String} value - value to assert style contains
+   * @returns {Boolean}
+   */
+  hasStyle (style, value) {
+    if (typeof style !== 'string') {
+      throw new Error('wrapper.hasStyle() must be passed style as a string')
+    }
+
+    if (typeof value !== 'string') {
+      throw new Error('wrapper.hasClass() must be passed value as string')
+    }
+
+      /* istanbul ignore next */
+    if (navigator.userAgent.includes && (navigator.userAgent.includes('node.js') || navigator.userAgent.includes('jsdom'))) {
+      console.warn('wrapper.hasStyle is not fully supported when running jsdom - only inline styles are supported') // eslint-disable-line no-console
+    }
+    const body = document.querySelector('body')
+    const mockElement = document.createElement('div')
+    const mockNode = body.insertBefore(mockElement, null)
+    mockElement.style[style] = value
+
+    if (!this.mountedToDom) {
+      const vm = this.vm || this.vNode.context.$root
+      body.insertBefore(vm.$root._vnode.elm, null)
+    }
+
+    const elStyle = window.getComputedStyle(this.element)[style]
+    const mockNodeStyle = window.getComputedStyle(mockNode)[style]
+    return elStyle === mockNodeStyle
+  }
+
+  /**
    * Finds every node in the mount tree of the current wrapper that matches the provided selector.
    *
    * @param {String|Object} selector

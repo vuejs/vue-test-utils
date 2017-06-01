@@ -71,6 +71,20 @@ describe('WrapperArray', () => {
     expect(wrapperArray.hasClass('class')).to.equal(false)
   })
 
+  it('hasStyle returns true if every wrapper.hasStyle() returns true', () => {
+    const style = 'style'
+    const value = 'value'
+    const hasStyle = sinon.stub()
+    hasStyle.withArgs(style, value).returns(true)
+    const wrapperArray = new WrapperArray([{ hasStyle }, { hasStyle }])
+    expect(wrapperArray.hasStyle(style, value)).to.equal(true)
+  })
+
+  it('hasStyle returns false if not every wrapper.hasStyle() returns true', () => {
+    const wrapperArray = new WrapperArray([{ hasStyle: () => true }, { hasStyle: () => false }])
+    expect(wrapperArray.hasStyle('style', 'value')).to.equal(false)
+  })
+
   it('setData calls setData on each wrapper', () => {
     const setData = sinon.stub()
     const data = {}
