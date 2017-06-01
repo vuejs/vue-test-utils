@@ -1,4 +1,8 @@
 const nodeExternals = require('webpack-node-externals')
+const browser = process.env.TARGET === 'browser'
+const path = require('path')
+
+const projectRoot = path.resolve(__dirname, '../../../')
 
 module.exports = {
   module: {
@@ -10,12 +14,13 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
+        include: [projectRoot],
         exclude: /node_modules/
       }
     ]
   },
-  target: 'node',
-  externals: [nodeExternals()],
+  target: !browser ? 'node' : undefined,
+  externals: !browser ? [nodeExternals()] : undefined,
   resolve: {
     alias: {
       'vue$': 'vue/dist/vue.esm.js'
