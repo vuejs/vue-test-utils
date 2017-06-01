@@ -1,6 +1,6 @@
 # find(selector)
 
-Returns an array of wrappers of DOM nodes or Vue components. Use any valid [avoriaz selector](/api/selectors.md).
+Returns an array of wrappers of DOM nodes or Vue components. Use any valid [selector](/api/selectors.md).
 
 ### Arguments
 
@@ -8,7 +8,8 @@ Returns an array of wrappers of DOM nodes or Vue components. Use any valid [avor
 
 ### Returns
 
-(`Array`): returns an `array` of wrappers matching selector. Vue component wrappers have extra methods ([computed](/api/mount/computed.md), [data](/api/mount/data.md), [methods](/api/mount/methods.md), [propsData](/api/mount/propsData.md)). To check if a wrapper is a Vue component wrapper, use wrapper.isVueComponent.
+(`WrapperArray`): returns an `object` containing wrappers matching selector. Access wrappers using the `at` method
+
 
 ### Example
 
@@ -17,7 +18,7 @@ import { mount } from 'vue-test-utils';
 import Foo from './Foo.vue';
 
 const wrapper = mount(Foo);
-const div = wrapper.find('div')[0];
+const div = wrapper.find('div');
 expect(div.is('div')).to.equal(true);
 ```
 
@@ -28,6 +29,6 @@ import Foo from './Foo.vue';
 import Bar from './Bar.vue'
 
 const wrapper = mount(Foo);
-const bar = wrapper.find(Bar)[0];
+const bar = wrapper.find(Bar).at(0);
 expect(bar.isVueComponent).to.equal(true);
 ```
