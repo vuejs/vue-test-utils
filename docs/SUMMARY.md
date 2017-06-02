@@ -11,6 +11,7 @@
     * [html](/api/mount/html.md)
     * [is](/api/mount/is.md)
     * [isEmpty](/api/mount/isEmpty.md)
+    * [isVueInstance](/api/mount/isVueInstance.md)
     * [name](/api/mount/name.md)    
     * [update](/api/mount/update.md)
     * [setData](/api/mount/setData.md)

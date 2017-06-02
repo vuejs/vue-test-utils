@@ -167,6 +167,15 @@ export default class Wrapper {
   }
 
   /**
+   * Checks if wrapper is a vue instance
+   *
+   * @returns {Boolean}
+   */
+  isVueInstance () {
+    return !!this.isVueComponent
+  }
+
+  /**
    * Returns name of component, or tag name if node is not a Vue component
    *
    * @returns {String}

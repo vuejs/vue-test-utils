@@ -108,6 +108,16 @@ describe('WrapperArray', () => {
     expect(wrapperArray.isEmpty()).to.equal(false)
   })
 
+  it('isVueInstance returns true if every wrapper.isVueInstance() returns true', () => {
+    const wrapperArray = new WrapperArray([{ isVueInstance: () => true }, { isVueInstance: () => true }])
+    expect(wrapperArray.isVueInstance()).to.equal(true)
+  })
+
+  it('isVueInstance returns false if not every wrapper.isVueInstance() returns true', () => {
+    const wrapperArray = new WrapperArray([{ isVueInstance: () => true }, { isVueInstance: () => false }])
+    expect(wrapperArray.isVueInstance()).to.equal(false)
+  })
+
   it('html throws error if called when there are 0 items in wrapper array', () => {
     const wrapperArray = new WrapperArray()
     const message = 'html cannot be called on 0 items'

@@ -56,6 +56,10 @@ export default class WrapperArray {
     return this.wrappers.every(wrapper => wrapper.isEmpty())
   }
 
+  isVueInstance () {
+    return this.wrappers.every(wrapper => wrapper.isVueInstance())
+  }
+
   name () {
     if (this.wrappers.length === 0) {
       throw new Error('name cannot be called on 0 items')
