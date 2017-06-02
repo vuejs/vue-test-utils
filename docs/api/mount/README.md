@@ -12,7 +12,7 @@ Create a fully rendered Vue component. Returns a wrapper that includes methods t
 
 `options.slots` (`Object`): Render component with slots.
 
-`options.slots.default` (`Array[Component]|Component`): Default slot object to render, can be a Vue component or array of Vue components
+`options.slots.default` (`Array[Component]|Component|String`): Default slot object to render, can be a Vue component or array of Vue components
 
 `options.slots.name` (`Array[Component]|Component`): Named slots. i.e. slots.name will match a <slot name="name" />, can be a Vue component or array of Vue components
 
@@ -31,8 +31,8 @@ describe('Foo', () => {
   it('renders a div', () => {
     const wrapper = mount(Foo);
     expect(wrapper.props(div)).to.equal(true);
-  });
-});
+  })
+})
 ```
 #### With Vue options
 ```js
@@ -46,10 +46,10 @@ describe('Foo', () => {
         propsData: { 
             color: 'red',
         },
-    });
+    })
     expect(wrapper.props(div)).to.equal(true);
-  });
-});
+  })
+})
 ```
 
 #### Attach to DOM
@@ -62,10 +62,10 @@ describe('Foo', () => {
   it('renders a div', () => {
     const wrapper = mount(Foo, { 
         attachToDocument: true
-    });
+    })
     expect(wrapper.props(div)).to.equal(true);
-  });
-});
+  })
+})
 ```
 #### Default and named slots
 ```js
@@ -80,12 +80,13 @@ describe('Foo', () => {
     const wrapper = mount(Foo, { 
         slots: {
             default: [Bar, FoorBar],
-            fooBar: FooBar // Will match <slot name="FooBar" />
+            fooBar: FooBar, // Will match <slot name="FooBar" />,
+            foo: '<div />'
         }
-    });
+    })
     expect(wrapper.props(div)).to.equal(true);
-  });
-});
+  })
+})
 ```
 
 #### Adding globals
@@ -101,8 +102,8 @@ describe('Foo', () => {
         globals: {
             $route
         }
-    });
+    })
     expect(wrapper.vm.$route.path).to.equal($route.path);
-  });
-});
+  })
+})
 ```

@@ -46,6 +46,16 @@ describe('mount', () => {
     expect(wrapper.contains('#div')).to.equal(true)
   })
 
+  it('mounts component with default slot if passed string in slot object', () => {
+    const wrapper = mount(ComponentWithSlots, { slots: { default: '<span />' }})
+    expect(wrapper.contains('span')).to.equal(true)
+  })
+
+  it('mounts component with default slot if passed string in slot array object', () => {
+    const wrapper = mount(ComponentWithSlots, { slots: { default: ['<span />'] }})
+    expect(wrapper.contains('span')).to.equal(true)
+  })
+
   it('mounts component with named slot if passed component in slot object', () => {
     const wrapper = mount(ComponentWithSlots, {
       slots: {
