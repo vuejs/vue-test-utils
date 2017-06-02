@@ -20,6 +20,10 @@ export default class WrapperArray {
     return this.wrappers.every(wrapper => wrapper.hasClass(className))
   }
 
+  hasProp (prop, value) {
+    return this.wrappers.every(wrapper => wrapper.hasProp(prop, value))
+  }
+
   hasStyle (style, value) {
     return this.wrappers.every(wrapper => wrapper.hasStyle(style, value))
   }

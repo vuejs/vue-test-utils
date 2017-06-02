@@ -71,6 +71,20 @@ describe('WrapperArray', () => {
     expect(wrapperArray.hasClass('class')).to.equal(false)
   })
 
+  it('hasProp returns true if every wrapper.hasProp() returns true', () => {
+    const prop = 'prop'
+    const value = 'value'
+    const hasProp = sinon.stub()
+    hasProp.withArgs(prop, value).returns(true)
+    const wrapperArray = new WrapperArray([{ hasProp }, { hasProp }])
+    expect(wrapperArray.hasProp(prop, value)).to.equal(true)
+  })
+
+  it('hasProp returns false if not every wrapper.hasProp() returns true', () => {
+    const wrapperArray = new WrapperArray([{ hasProp: () => true }, { hasProp: () => false }])
+    expect(wrapperArray.hasProp('prop', 'value')).to.equal(false)
+  })
+
   it('hasStyle returns true if every wrapper.hasStyle() returns true', () => {
     const style = 'style'
     const value = 'value'

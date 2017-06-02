@@ -66,6 +66,24 @@ export default class Wrapper {
   }
 
   /**
+   * Asserts wrapper has a prop name
+   *
+   * @param {String} prop - prop name to assert
+   * @param {any} value - expected value of prop
+   * @returns {Boolean}
+   */
+  hasProp (prop, value) {
+    if (!this.isVueComponent) {
+      throw new Error('wrapper.hasProp() must be called on a Vue instance')
+    }
+    if (typeof prop !== 'string') {
+      throw new Error('wrapper.hasProp() must be passed prop as a string')
+    }
+
+    return !!this.vm.$props && this.vm.$props[prop] === value
+  }
+
+  /**
    * Checks if wrapper has a style with value
    *
    * @param {String} style - style to assert
