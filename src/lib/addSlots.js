@@ -1,5 +1,9 @@
 import { compileToFunctions } from 'vue-template-compiler'
 
+function isValidSlot (slot) {
+  return Array.isArray(slot) || (slot !== null && typeof slot === 'object') || typeof slot === 'string'
+}
+
 function addSlotToVm (vm, slotName, slotValue) {
   if (Array.isArray(vm.$slots[slotName])) {
     if (typeof slotValue === 'string') {
@@ -11,21 +15,18 @@ function addSlotToVm (vm, slotName, slotValue) {
     if (typeof slotValue === 'string') {
       vm.$slots[slotName] = [vm.$createElement(compileToFunctions(slotValue))]
     } else {
-      vm.$slots[slotName] = [vm.$createElement(slotValue)] // eslint-disable-line no-param-reassign,max-len
+      vm.$slots[slotName] = [vm.$createElement(slotValue)] // eslint-disable-line no-param-reassign
     }
   }
 }
 
 function addSlots (vm, slots) {
   Object.keys(slots).forEach((key) => {
-    if (!(Array.isArray(slots[key])) &&
-        !(slots[key] !== null && typeof slots[key] === 'object') &&
-        typeof slots[key] !== 'string') {
+    if (!isValidSlot(slots[key])) {
       throw new Error('slots[key] must be a Component, string or an array of Components')
     }
-    const isArray = Array.isArray(slots[key])
 
-    if (isArray) {
+    if (Array.isArray(slots[key])) {
       slots[key].forEach((slotValue) => {
         addSlotToVm(vm, key, slotValue)
       })
