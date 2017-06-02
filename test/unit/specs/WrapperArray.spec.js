@@ -19,7 +19,7 @@ describe('WrapperArray', () => {
 
   it('throws error if find is called when there is more than 1 item in wrapper array', () => {
     const wrapperArray = new WrapperArray([1, 2, 3])
-    const message = 'find cannot be called on more than 1 item, use at(i) to access the item'
+    const message = 'find must be called on a single wrapper, use at(i) to access the wrapper'
     expect(() => wrapperArray.find()).to.throw(Error, message)
   })
 
@@ -140,7 +140,7 @@ describe('WrapperArray', () => {
 
   it('html throws error if called when there is more than 1 item in wrapper array', () => {
     const wrapperArray = new WrapperArray([1, 2, 3])
-    const message = 'html cannot be called on more than 1 item, use at(i) to access the item'
+    const message = 'html must be called on a single wrapper, use at(i) to access the wrapper'
     expect(() => wrapperArray.html()).to.throw(Error, message)
   })
 
@@ -159,7 +159,7 @@ describe('WrapperArray', () => {
 
   it('name throws error if called when there is more than 1 item in wrapper array', () => {
     const wrapperArray = new WrapperArray([1, 2, 3])
-    const message = 'name cannot be called on more than 1 item, use at(i) to access the item'
+    const message = 'name must be called on a single wrapper, use at(i) to access the wrapper'
     expect(() => wrapperArray.name()).to.throw(Error, message)
   })
 
@@ -178,7 +178,7 @@ describe('WrapperArray', () => {
 
   it('text throws error if called when there is more than 1 item in wrapper array', () => {
     const wrapperArray = new WrapperArray([1, 2, 3])
-    const message = 'text cannot be called on more than 1 item, use at(i) to access the item'
+    const message = 'text must be called on a single wrapper, use at(i) to access the wrapper'
     expect(() => wrapperArray.text()).to.throw(Error, message)
   })
 

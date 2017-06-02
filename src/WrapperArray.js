@@ -34,7 +34,7 @@ export default class WrapperArray {
     }
 
     if (this.wrappers.length > 1) {
-      throw new Error('find cannot be called on more than 1 item, use at(i) to access the item')
+      throw new Error('find must be called on a single wrapper, use at(i) to access the wrapper')
     }
 
     return this.wrappers[0].find(selector)
@@ -46,7 +46,7 @@ export default class WrapperArray {
     }
 
     if (this.wrappers.length > 1) {
-      throw new Error('html cannot be called on more than 1 item, use at(i) to access the item')
+      throw new Error('html must be called on a single wrapper, use at(i) to access the wrapper')
     }
 
     return this.wrappers[0].html()
@@ -70,7 +70,7 @@ export default class WrapperArray {
     }
 
     if (this.wrappers.length > 1) {
-      throw new Error('name cannot be called on more than 1 item, use at(i) to access the item')
+      throw new Error('name must be called on a single wrapper, use at(i) to access the wrapper')
     }
 
     return this.wrappers[0].name()
@@ -82,7 +82,7 @@ export default class WrapperArray {
     }
 
     if (this.wrappers.length > 1) {
-      throw new Error('text cannot be called on more than 1 item, use at(i) to access the item')
+      throw new Error('text must be called on a single wrapper, use at(i) to access the wrapper')
     }
 
     return this.wrappers[0].text()
