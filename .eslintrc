@@ -1,5 +1,10 @@
 {
   "root": true,
-  "plugins": ["vue-libs"],
-  "extends": ["plugin:vue-libs/recommended"]
+  "plugins": [
+    "flowtype"
+  ],
+  "extends": [
+    "plugin:vue-libs/recommended",
+    "plugin:flowtype/recommended"
+  ]
 }
