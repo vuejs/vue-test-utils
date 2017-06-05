@@ -23,6 +23,7 @@
   "homepage": "https://github.com/vuejs/vue-test-utils#readme",
   "devDependencies": {
     "babel-cli": "^6.24.1",
+    "babel-loader": "^7.0.0",
     "babel-plugin-istanbul": "^4.1.4",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
