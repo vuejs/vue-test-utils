@@ -8,5 +8,8 @@
     export default {
         name: 'component-with-inject',
         inject: ['fromMount'],
+        beforeCreate() {
+          this.setByOriginalBeforeCreate = 'created'
+        }
     };
 </script>
