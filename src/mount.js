@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueWrapper from './VueWrapper'
 import addSlots from './lib/addSlots'
 import addGlobals from './lib/addGlobals'
+import addProvide from './lib/addProvide'
 
 Vue.config.productionTip = false
 
@@ -32,12 +33,7 @@ export default function mount (component, options = {}) {
   delete component._Ctor // eslint-disable-line no-param-reassign
 
   if (options.provide) {
-    const provide = Object.assign({}, options.provide)
-    delete options.provide
-
-    component.beforeCreate = function beforeCreate() {
-      this._provided = provide
-    }
+    addProvide(component, options)
   }
 
   const Constructor = Vue.extend(component)

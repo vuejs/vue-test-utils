@@ -9,7 +9,7 @@
         name: 'component-with-inject',
         inject: ['fromMount'],
         beforeCreate() {
-          this.setByOriginalBeforeCreate = 'created'
+          this.setInBeforeCreate = 'created'
         }
     };
 </script>
