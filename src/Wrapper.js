@@ -6,9 +6,9 @@ import VueWrapper from './VueWrapper'
 import WrapperArray from './WrapperArray'
 
 export default class Wrapper {
-  constructor (vNode, update, mountedToDom) {
-    this.vNode = vNode
-    this.element = vNode.elm
+  constructor (vnode, update, mountedToDom) {
+    this.vnode = vnode
+    this.element = vnode.elm
     this.update = update
     this.mountedToDom = mountedToDom
   }
@@ -25,7 +25,7 @@ export default class Wrapper {
     }
 
     if (typeof selector === 'object') {
-      const vm = this.vm || this.vNode.context.$root
+      const vm = this.vm || this.vnode.context.$root
       return findVueComponents(vm, selector.name).length > 0
     }
 
@@ -109,7 +109,7 @@ export default class Wrapper {
     mockElement.style[style] = value
 
     if (!this.mountedToDom) {
-      const vm = this.vm || this.vNode.context.$root
+      const vm = this.vm || this.vnode.context.$root
       body.insertBefore(vm.$root._vnode.elm, null)
     }
 
@@ -133,12 +133,12 @@ export default class Wrapper {
       if (!selector.name) {
         throw new Error('.find() requires component to have a name property')
       }
-      const vm = this.vm || this.vNode.context.$root
+      const vm = this.vm || this.vnode.context.$root
       const components = findVueComponents(vm, selector.name)
       return new Wrapper(new VueWrapper(components[0], undefined, this.mounted))
     }
 
-    const nodes = findMatchingVNodes(this.vNode, selector)
+    const nodes = findMatchingVNodes(this.vnode, selector)
 
     return new Wrapper(nodes[0], this.update, this.mountedToDom)
   }
@@ -158,7 +158,7 @@ export default class Wrapper {
       if (!selector.name) {
         throw new Error('.findAll() requires component to have a name property')
       }
-      const vm = this.vm || this.vNode.context.$root
+      const vm = this.vm || this.vnode.context.$root
       const components = findVueComponents(vm, selector.name)
       return new WrapperArray(components.map(component => new VueWrapper(component, undefined, this.mounted)))
     }
@@ -166,7 +166,7 @@ export default class Wrapper {
       return node.elm && node.elm.getAttribute && matchesSelector(node.elm, selector)
     }
 
-    const nodes = findMatchingVNodes(this.vNode, selector)
+    const nodes = findMatchingVNodes(this.vnode, selector)
     const matchingNodes = nodes.filter(node => nodeMatchesSelector(node, selector))
 
     return new WrapperArray(matchingNodes.map(node => new Wrapper(node, this.update, this.mountedToDom)))
@@ -210,7 +210,7 @@ export default class Wrapper {
    * @returns {Boolean}
    */
   isEmpty () {
-    return this.vNode.children === undefined
+    return this.vnode.children === undefined
   }
 
   /**
@@ -232,7 +232,7 @@ export default class Wrapper {
       return this.vm.$options.name
     }
 
-    return this.vNode.tag
+    return this.vnode.tag
   }
 
   /**
@@ -249,7 +249,7 @@ export default class Wrapper {
       this.vm.$set(this.vm, [key], data[key])
     })
     this.update()
-    this.vNode = this.vm._vnode
+    this.vnode = this.vm._vnode
   }
 
   /**
@@ -266,7 +266,7 @@ export default class Wrapper {
       this.vm._props[key] = data[key]
     })
     this.update()
-    this.vNode = this.vm._vnode
+    this.vnode = this.vm._vnode
   }
 
   /**

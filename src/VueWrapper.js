@@ -10,11 +10,6 @@ export default class VueWrapper extends Wrapper {
 
     this.vm = vm
 
-    Object.defineProperty(this, 'vNode', {
-      get: () => this.vm._vnode,
-      set: () => {}
-    })
-
     this.isVueComponent = true
   }
 }
