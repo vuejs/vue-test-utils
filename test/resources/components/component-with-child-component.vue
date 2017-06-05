@@ -7,12 +7,12 @@
 </template>
 
 <script>
-    import Component from './component.vue';
+    import Component from './component.vue'
 
     export default{
-        name: 'child-component',
-        components: {
-            Component
-        }
-    };
+      name: 'child-component',
+      components: {
+        Component
+      }
+    }
 </script>

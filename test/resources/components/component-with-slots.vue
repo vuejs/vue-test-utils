@@ -14,6 +14,6 @@
 
 <script>
     export default {
-        name: 'component-with-slots',
-    };
+      name: 'component-with-slots'
+    }
 </script>

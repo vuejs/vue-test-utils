@@ -11,9 +11,9 @@
 
 <script>
     export default {
-        name: 'If',
-        data: () => ({
-            ready: false,
-        }),
-    };
+      name: 'If',
+      data: () => ({
+        ready: false
+      })
+    }
 </script>

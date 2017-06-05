@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "babel src --out-dir dist",
-    "lint": "eslint src test --ignore-path .gitignore",
+    "lint": "eslint --ext js,vue src test --ignore-path .gitignore",
     "lint:fix": "npm run lint -- --fix",
     "test": "npm run lint && npm run test:unit && npm run test:unit:karma",
     "test:unit": "cross-env BABEL_ENV=test mocha-webpack --webpack-config test/unit/setup/webpack.config.js test/unit/specs --recursive --require test/unit/setup/mocha.setup.js",

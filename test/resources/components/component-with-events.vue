@@ -8,16 +8,16 @@
 
 <script>
     export default{
-        name: 'ClickComponent',
-        props: {
-            clickHandler: {
-                type: Function,
-                default: () => {}
-            },
-            keydownHandler: {
-                type: Function,
-                default: () => {}
-            }
+      name: 'ClickComponent',
+      props: {
+        clickHandler: {
+          type: Function,
+          default: () => {}
         },
-    };
+        keydownHandler: {
+          type: Function,
+          default: () => {}
+        }
+      }
+    }
 </script>

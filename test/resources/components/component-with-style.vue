@@ -26,6 +26,6 @@
 
 <script>
     export default{
-        name: 'component-with-style',
-    };
+      name: 'component-with-style'
+    }
 </script>

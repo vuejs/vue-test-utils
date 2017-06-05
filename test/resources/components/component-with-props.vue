@@ -7,7 +7,7 @@
 
 <script>
     export default{
-        name: 'component-with-props',
-        props: ['prop1', 'prop2'],
-    };
+      name: 'component-with-props',
+      props: ['prop1', 'prop2']
+    }
 </script>
