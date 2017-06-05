@@ -1,3 +1,6 @@
 [ignore]
 .*/node_modules/.*
 .*/test/.*
+
+[libs]
+flow
