@@ -1,18 +1,18 @@
 <template>
     <div>
         <span>
-            <component />
+            <child-component />
         </span>
     </div>
 </template>
 
 <script>
-    import Component from './component.vue'
+    import ChildComponent from './component.vue'
 
     export default{
       name: 'component-with-child',
       components: {
-        Component
+        ChildComponent
       }
     }
 </script>
