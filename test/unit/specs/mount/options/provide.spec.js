@@ -1,14 +1,12 @@
-import mount from '../../../../src/mount'
-import ComponentWrappingInjected from '../../../resources/components/provide-inject/component-wrapping-injected.vue'
+import mount from '../../../../../src/mount'
+import ComponentWithInject from '../../../../resources/components/component-with-inject.vue'
 
-describe('provide mount option', () => {
-  it('Supports passing provide as option', () => {
-    const injectSpy = sinon.stub()
-    mount(ComponentWrappingInjected, {
-      propsData: { handleInject: injectSpy },
+describe('supports provide mount option', () => {
+  it('works', () => {
+    const wrapper = mount(ComponentWithInject, {
       provide: { fromMount: 'providedValue' }
     })
 
-    expect(injectSpy.withArgs('providedValue').calledOnce).to.equal(true)
+    expect(wrapper.text()).to.contain('providedValue')
   })
 })

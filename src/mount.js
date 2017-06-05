@@ -31,7 +31,17 @@ export default function mount (component, options = {}) {
   // Remove cached constructor
   delete component._Ctor // eslint-disable-line no-param-reassign
 
+  if (options.provide) {
+    const provide = Object.assign({}, options.provide)
+    delete options.provide
+
+    component.beforeCreate = function beforeCreate() {
+      this._provided = provide
+    }
+  }
+
   const Constructor = Vue.extend(component)
+
   const vm = new Constructor(options)
 
   if (options.slots) {
