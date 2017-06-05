@@ -1,6 +1,6 @@
-# find(selector)
+# findAll(selector)
 
-Returns Wrapper of first DOM node or Vue component matching selector. Use any valid [selector](/api/selectors.md).
+Returns an array of wrappers of DOM nodes or Vue components. Use any valid [selector](/api/selectors.md).
 
 ### Arguments
 
@@ -8,7 +8,7 @@ Returns Wrapper of first DOM node or Vue component matching selector. Use any va
 
 ### Returns
 
-(`Wrapper`): returns a Wrapper `object`
+(`WrapperArray`): returns an `object` containing wrappers matching selector. Access wrappers using the `at` method
 
 
 ### Example
@@ -18,7 +18,7 @@ import { mount } from 'vue-test-utils';
 import Foo from './Foo.vue';
 
 const wrapper = mount(Foo);
-const div = wrapper.find('div');
+const div = wrapper.findAll('div');
 expect(div.is('div')).to.equal(true);
 ```
 
@@ -29,6 +29,6 @@ import Foo from './Foo.vue';
 import Bar from './Bar.vue'
 
 const wrapper = mount(Foo);
-const bar = wrapper.find(Bar);
+const bar = wrapper.findAll(Bar).at(0);
 expect(bar.isVueComponent).to.equal(true);
 ```

@@ -63,7 +63,7 @@ describe('mount', () => {
         footer: [Component]
       }
     })
-    expect(wrapper.find(Component).length).to.equal(2)
+    expect(wrapper.findAll(Component).length).to.equal(2)
   })
 
   it('mounts component with named slot if passed component in slot object', () => {
@@ -72,7 +72,7 @@ describe('mount', () => {
         header: Component
       }
     })
-    expect(wrapper.find(Component).length).to.equal(1)
+    expect(wrapper.findAll(Component).length).to.equal(1)
     expect(Array.isArray(wrapper.vm.$slots.header)).to.equal(true)
   })
 

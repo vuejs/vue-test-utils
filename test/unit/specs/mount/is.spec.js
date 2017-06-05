@@ -24,13 +24,13 @@ describe('is', () => {
 
   it('returns true if root node matches Vue Component selector', () => {
     const wrapper = mount(ComponentWithChildComponent)
-    const component = wrapper.find(Component).at(0)
+    const component = wrapper.findAll(Component).at(0)
     expect(component.is(Component)).to.equal(true)
   })
 
   it('returns false if root node is not a Vue Component', () => {
     const wrapper = mount(ComponentWithChildComponent)
-    const input = wrapper.find('span').at(0)
+    const input = wrapper.findAll('span').at(0)
     expect(input.is(Component)).to.equal(false)
   })
 

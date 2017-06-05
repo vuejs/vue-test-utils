@@ -11,7 +11,7 @@ describe('isVueInstance', () => {
   it('returns the tag name of the element if it is not a Vue component', () => {
     const compiled = compileToFunctions('<div><p /></div>')
     const wrapper = mount(compiled)
-    expect(wrapper.find('p').at(0).isVueInstance()).to.equal(false)
+    expect(wrapper.find('p').isVueInstance()).to.equal(false)
   })
 })
 

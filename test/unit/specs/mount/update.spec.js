@@ -15,8 +15,8 @@ describe('update', () => {
   it('causes vm to re render, and retain slots', () => {
     const compiled = compileToFunctions('<div><slot></slot></div>')
     const wrapper = mount(compiled, { slots: { default: [compileToFunctions('<div class="test-div" />')] }})
-    expect(wrapper.find('.test-div').length).to.equal(1)
+    expect(wrapper.findAll('.test-div').length).to.equal(1)
     wrapper.update()
-    expect(wrapper.find('.test-div').length).to.equal(1)
+    expect(wrapper.findAll('.test-div').length).to.equal(1)
   })
 })

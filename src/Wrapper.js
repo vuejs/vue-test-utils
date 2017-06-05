@@ -119,10 +119,10 @@ export default class Wrapper {
   }
 
   /**
-   * Finds every node in the mount tree of the current wrapper that matches the provided selector.
+   * Finds first node in tree of the current wrapper that matches the provided selector.
    *
    * @param {String|Object} selector
-   * @returns {VueWrapper||VueWrapper[]}
+   * @returns {Wrapper|VueWrapper}
    */
   find (selector) {
     if (!isValidSelector(selector)) {
@@ -135,12 +135,41 @@ export default class Wrapper {
       }
       const vm = this.vm || this.vNode.context.$root
       const components = findVueComponents(vm, selector.name)
-      return new WrapperArray(components.map(component => new VueWrapper(component, undefined, this.mounted)))
+      return new Wrapper(new VueWrapper(components[0], undefined, this.mounted))
     }
 
     const nodes = findMatchingVNodes(this.vNode, selector)
 
-    return new WrapperArray(nodes.map(node => new Wrapper(node, this.update, this.mountedToDom)))
+    return new Wrapper(nodes[0], this.update, this.mountedToDom)
+  }
+
+    /**
+     * Finds node in tree of the current wrapper that matches the provided selector.
+     *
+     * @param {String|Object} selector
+     * @returns {WrapperArray}
+     */
+  findAll (selector) {
+    if (!isValidSelector(selector)) {
+      throw new Error('wrapper.findAll() must be passed a valid CSS selector or a Vue constructor')
+    }
+
+    if (typeof selector === 'object') {
+      if (!selector.name) {
+        throw new Error('.findAll() requires component to have a name property')
+      }
+      const vm = this.vm || this.vNode.context.$root
+      const components = findVueComponents(vm, selector.name)
+      return new WrapperArray(components.map(component => new VueWrapper(component, undefined, this.mounted)))
+    }
+    function nodeMatchesSelector (node, selector) {
+      return node.elm && node.elm.getAttribute && matchesSelector(node.elm, selector)
+    }
+
+    const nodes = findMatchingVNodes(this.vNode, selector)
+    const matchingNodes = nodes.filter(node => nodeMatchesSelector(node, selector))
+
+    return new WrapperArray(matchingNodes.map(node => new Wrapper(node, this.update, this.mountedToDom)))
   }
 
   /**

@@ -20,7 +20,7 @@ describe('hasProp', () => {
 
   it('throws an error if called on a non vm wrapper', () => {
     const compiled = compileToFunctions('<div><p /></div>')
-    const p = mount(compiled).find('p').at(0)
+    const p = mount(compiled).findAll('p').at(0)
     const message = 'wrapper.hasProp() must be called on a Vue instance'
     expect(() => p.hasProp('no-prop', 'value')).to.throw(Error, message)
   })

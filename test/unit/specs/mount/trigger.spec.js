@@ -1,34 +1,34 @@
 import mount from '../../../../src/mount'
 import ComponentWithEvents from '../../../resources/components/component-with-events.vue'
 
-describe('dispatch', () => {
-  it('causes click handler to fire when wrapper.dispatch("click") is called on a Component', () => {
+describe('trigger', () => {
+  it('causes click handler to fire when wrapper.trigger("click") is called on a Component', () => {
     const clickHandler = sinon.stub()
     const wrapper = mount(ComponentWithEvents, {
       propsData: { clickHandler }
     })
-    const button = wrapper.find('.click').at(0)
+    const button = wrapper.find('.click')
     button.trigger('click')
 
     expect(clickHandler.calledOnce).to.equal(true)
   })
 
-  it('causes keydown handler to fire when wrapper.dispatch("keydown") is fired on a Component', () => {
+  it('causes keydown handler to fire when wrapper.trigger("keydown") is fired on a Component', () => {
     const keydownHandler = sinon.stub()
     const wrapper = mount(ComponentWithEvents, {
       propsData: { keydownHandler }
     })
-    wrapper.find('.keydown').at(0).trigger('keydown')
+    wrapper.find('.keydown').trigger('keydown')
 
     expect(keydownHandler.calledOnce).to.equal(true)
   })
 
-  it('causes keydown handler to fire when wrapper.dispatch("keydown.enter") is fired on a Component', () => {
+  it('causes keydown handler to fire when wrapper.trigger("keydown.enter") is fired on a Component', () => {
     const keydownHandler = sinon.stub()
     const wrapper = mount(ComponentWithEvents, {
       propsData: { keydownHandler }
     })
-    wrapper.find('.keydown-enter').at(0).trigger('keydown.enter')
+    wrapper.find('.keydown-enter').trigger('keydown.enter')
 
     expect(keydownHandler.calledOnce).to.equal(true)
   })

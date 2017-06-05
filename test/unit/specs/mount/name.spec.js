@@ -11,7 +11,7 @@ describe('name', () => {
   it('returns the tag name of the element if it is not a Vue component', () => {
     const compiled = compileToFunctions('<div><p /></div>')
     const wrapper = mount(compiled)
-    expect(wrapper.find('p').at(0).name()).to.equal('p')
+    expect(wrapper.find('p').name()).to.equal('p')
   })
 })
 

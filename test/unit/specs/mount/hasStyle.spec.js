@@ -23,9 +23,9 @@ describe('hasStyle', () => {
       return
     }
     const wrapper = mount(ComponentWithStyle)
-    expect(wrapper.find('p').at(0).hasStyle('color', 'red')).to.equal(true)
-    expect(wrapper.find('span').at(0).hasStyle('color', 'red')).to.equal(true)
-    expect(wrapper.find('span').at(0).hasStyle('color', 'orange')).to.equal(false)
+    expect(wrapper.find('p').hasStyle('color', 'red')).to.equal(true)
+    expect(wrapper.find('span').hasStyle('color', 'red')).to.equal(true)
+    expect(wrapper.find('span').hasStyle('color', 'orange')).to.equal(false)
   })
 
   it('returns true when element contains styles, set in stylesheet with multiple selectors when attached to document', () => {
@@ -33,9 +33,9 @@ describe('hasStyle', () => {
       return
     }
     const wrapper = mount(ComponentWithStyle, { attachToDocument: true })
-    expect(wrapper.find('p').at(0).hasStyle('color', 'red')).to.equal(true)
-    expect(wrapper.find('span').at(0).hasStyle('color', 'red')).to.equal(true)
-    expect(wrapper.find('span').at(0).hasStyle('color', 'orange')).to.equal(false)
+    expect(wrapper.find('p').hasStyle('color', 'red')).to.equal(true)
+    expect(wrapper.find('span').hasStyle('color', 'red')).to.equal(true)
+    expect(wrapper.find('span').hasStyle('color', 'orange')).to.equal(false)
   })
 
   it('throws an error if style is not a string', () => {
