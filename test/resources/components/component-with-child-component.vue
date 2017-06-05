@@ -10,7 +10,7 @@
     import Component from './component.vue'
 
     export default{
-      name: 'child-component',
+      name: 'component-with-child',
       components: {
         Component
       }

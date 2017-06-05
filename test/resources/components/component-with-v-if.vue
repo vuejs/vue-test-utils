@@ -11,7 +11,7 @@
 
 <script>
     export default {
-      name: 'If',
+      name: 'component-with-if',
       data: () => ({
         ready: false
       })

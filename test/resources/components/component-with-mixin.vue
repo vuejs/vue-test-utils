@@ -6,7 +6,7 @@
     import testMixin from '../testMixin'
 
 export default {
-      name: 'MixinComponent',
+      name: 'component-with-mixin',
       mixins: [testMixin],
       created () {
         this.someMethod()

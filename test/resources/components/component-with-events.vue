@@ -8,7 +8,7 @@
 
 <script>
     export default{
-      name: 'ClickComponent',
+      name: 'component-with-event',
       props: {
         clickHandler: {
           type: Function,
