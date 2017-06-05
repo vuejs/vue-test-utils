@@ -7,7 +7,7 @@ function update () {
 }
 
 export default class VueWrapper extends Wrapper {
-  constructor (vm: Component, mountedToDom: Boolean) {
+  constructor (vm: Component, mountedToDom: boolean) {
     super(vm._vnode, update.bind(vm), mountedToDom)
 
     this.vm = vm

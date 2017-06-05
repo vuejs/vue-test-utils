@@ -1,3 +1,5 @@
+// @flow
+
 import { matchesSelector } from 'sizzle'
 import { isValidSelector } from './lib/validators'
 import findVueComponents from './lib/findVueComponents'
@@ -6,7 +8,14 @@ import VueWrapper from './VueWrapper'
 import WrapperArray from './WrapperArray'
 
 export default class Wrapper {
-  constructor (vnode, update, mountedToDom) {
+  vnode: VNode;
+  vm: Component | null;
+  isVueComponent: boolean;
+  element: HTMLElement;
+  update: Function;
+  mountedToDom: boolean;
+
+  constructor (vnode: VNode, update: Function, mountedToDom: boolean) {
     this.vnode = vnode
     this.element = vnode.elm
     this.update = update
@@ -15,11 +24,8 @@ export default class Wrapper {
 
   /**
    * Checks if wrapper contains provided selector.
-   *
-   * @param {String} selector
-   * @returns {Boolean}
    */
-  contains (selector) {
+  contains (selector: string | Component) {
     if (!isValidSelector(selector)) {
       throw new Error('wrapper.contains() must be passed a valid CSS selector or a Vue constructor')
     }
@@ -29,17 +35,17 @@ export default class Wrapper {
       return findVueComponents(vm, selector.name).length > 0
     }
 
-    return this.element.querySelectorAll(selector).length > 0
+    if (typeof selector === 'string' && this.element instanceof HTMLElement) {
+      return this.element.querySelectorAll(selector).length > 0
+    }
+
+    return false
   }
 
   /**
    * Checks if wrapper has an attribute with matching value
-   *
-   * @param {String} attribute - attribute to assert
-   * @param {String} value - value attribute should contain
-   * @returns {Boolean}
    */
-  hasAttribute (attribute, value) {
+  hasAttribute (attribute: string, value: string) {
     if (typeof attribute !== 'string') {
       throw new Error('wrapper.hasAttribute() must be passed attribute as a string')
     }
@@ -48,16 +54,13 @@ export default class Wrapper {
       throw new Error('wrapper.hasAttribute() must be passed value as a string')
     }
 
-    return this.element.getAttribute(attribute) === value
+    return this.element && this.element.getAttribute(attribute) === value
   }
 
   /**
    * Asserts wrapper has a class name
-   *
-   * @param {String} className - class name to assert
-   * @returns {Boolean}
    */
-  hasClass (className) {
+  hasClass (className: string) {
     if (typeof className !== 'string') {
       throw new Error('wrapper.hasClass() must be passed a string')
     }
@@ -67,12 +70,8 @@ export default class Wrapper {
 
   /**
    * Asserts wrapper has a prop name
-   *
-   * @param {String} prop - prop name to assert
-   * @param {any} value - expected value of prop
-   * @returns {Boolean}
    */
-  hasProp (prop, value) {
+  hasProp (prop: string, value: string) {
     if (!this.isVueComponent) {
       throw new Error('wrapper.hasProp() must be called on a Vue instance')
     }
@@ -80,17 +79,13 @@ export default class Wrapper {
       throw new Error('wrapper.hasProp() must be passed prop as a string')
     }
 
-    return !!this.vm.$props && this.vm.$props[prop] === value
+    return !!this.vm && !!this.vm.$props && this.vm.$props[prop] === value
   }
 
   /**
    * Checks if wrapper has a style with value
-   *
-   * @param {String} style - style to assert
-   * @param {String} value - value to assert style contains
-   * @returns {Boolean}
    */
-  hasStyle (style, value) {
+  hasStyle (style: string, value: string) {
     if (typeof style !== 'string') {
       throw new Error('wrapper.hasStyle() must be passed style as a string')
     }
@@ -105,7 +100,12 @@ export default class Wrapper {
     }
     const body = document.querySelector('body')
     const mockElement = document.createElement('div')
+
+    if (!(body instanceof HTMLElement)) {
+      return false
+    }
     const mockNode = body.insertBefore(mockElement, null)
+    // $FlowIgnore : Flow thinks style[style] returns a number
     mockElement.style[style] = value
 
     if (!this.mountedToDom) {
@@ -120,11 +120,8 @@ export default class Wrapper {
 
   /**
    * Finds first node in tree of the current wrapper that matches the provided selector.
-   *
-   * @param {String|Object} selector
-   * @returns {Wrapper|VueWrapper}
    */
-  find (selector) {
+  find (selector: string) {
     if (!isValidSelector(selector)) {
       throw new Error('wrapper.find() must be passed a valid CSS selector or a Vue constructor')
     }
@@ -135,7 +132,7 @@ export default class Wrapper {
       }
       const vm = this.vm || this.vnode.context.$root
       const components = findVueComponents(vm, selector.name)
-      return new Wrapper(new VueWrapper(components[0], undefined, this.mounted))
+      return new VueWrapper(components[0], this.mountedToDom)
     }
 
     const nodes = findMatchingVNodes(this.vnode, selector)
@@ -143,13 +140,10 @@ export default class Wrapper {
     return new Wrapper(nodes[0], this.update, this.mountedToDom)
   }
 
-    /**
-     * Finds node in tree of the current wrapper that matches the provided selector.
-     *
-     * @param {String|Object} selector
-     * @returns {WrapperArray}
-     */
-  findAll (selector) {
+  /**
+   * Finds node in tree of the current wrapper that matches the provided selector.
+   */
+  findAll (selector: string | Component) {
     if (!isValidSelector(selector)) {
       throw new Error('wrapper.findAll() must be passed a valid CSS selector or a Vue constructor')
     }
@@ -160,7 +154,7 @@ export default class Wrapper {
       }
       const vm = this.vm || this.vnode.context.$root
       const components = findVueComponents(vm, selector.name)
-      return new WrapperArray(components.map(component => new VueWrapper(component, undefined, this.mounted)))
+      return new WrapperArray(components.map(component => new VueWrapper(component, this.mountedToDom)))
     }
     function nodeMatchesSelector (node, selector) {
       return node.elm && node.elm.getAttribute && matchesSelector(node.elm, selector)
@@ -174,10 +168,8 @@ export default class Wrapper {
 
   /**
    * Returns HTML of element as a string
-   *
-   * @returns {String} HTML of wrapper element
    */
-  html () {
+  html (): string {
     const tmp = document.createElement('div')
     tmp.appendChild(this.element)
     return tmp.innerHTML
@@ -185,11 +177,8 @@ export default class Wrapper {
 
   /**
    * Checks if node matches selector
-   *
-   * @param {String} selector - selector to check node is
-   * @returns {Boolean}
    */
-  is (selector) {
+  is (selector: string | Component): boolean {
     if (!isValidSelector(selector)) {
       throw new Error('wrapper.is() must be passed a valid CSS selector or a Vue constructor')
     }
@@ -199,36 +188,30 @@ export default class Wrapper {
         return false
       }
             // TODO: Throw error if component does not have name
-      return this.vm.$vnode.componentOptions.Ctor.options.name === selector.name
+      return !!this.vm && this.vm.$vnode.componentOptions.Ctor.options.name === selector.name
     }
     return this.element.getAttribute && matchesSelector(this.element, selector)
   }
 
   /**
    * Checks if node is empty
-   *
-   * @returns {Boolean}
    */
-  isEmpty () {
+  isEmpty (): boolean {
     return this.vnode.children === undefined
   }
 
   /**
    * Checks if wrapper is a vue instance
-   *
-   * @returns {Boolean}
    */
-  isVueInstance () {
+  isVueInstance (): boolean {
     return !!this.isVueComponent
   }
 
   /**
    * Returns name of component, or tag name if node is not a Vue component
-   *
-   * @returns {String}
    */
-  name () {
-    if (this.isVueComponent) {
+  name (): string {
+    if (this.isVueComponent && this.vm) {
       return this.vm.$options.name
     }
 
@@ -237,54 +220,49 @@ export default class Wrapper {
 
   /**
    * Sets vm data
-   *
-   * @param {Object} data - data to set
    */
-  setData (data) {
+  setData (data: Object) {
     if (!this.isVueComponent) {
       throw new Error('wrapper.setData() can only be called on a Vue instance')
     }
 
     Object.keys(data).forEach((key) => {
+      // $FlowIgnore : Problem with possibly null this.vm
       this.vm.$set(this.vm, [key], data[key])
     })
     this.update()
+    // $FlowIgnore : Problem with possibly null this.vm
     this.vnode = this.vm._vnode
   }
 
   /**
    * Sets vm props
-   *
-   * @param {Object} data - data to set
    */
-  setProps (data) {
-    if (!this.isVueComponent) {
+  setProps (data: Object) {
+    if (!this.isVueComponent || !this.vm) {
       throw new Error('wrapper.setProps() can only be called on a Vue instance')
     }
 
     Object.keys(data).forEach((key) => {
+      // $FlowIgnore : Problem with possibly null this.vm
       this.vm._props[key] = data[key]
     })
     this.update()
+    // $FlowIgnore : Problem with possibly null this.vm
     this.vnode = this.vm._vnode
   }
 
   /**
    * Return text of wrapper element
-   *
-   * @returns {Boolean}
    */
-  text () {
+  text (): string {
     return this.element.textContent
   }
 
   /**
    * Dispatches a DOM event on wrapper
-   *
-   * @param {String} type - type of event
-   * @returns {Boolean}
    */
-  trigger (type) {
+  trigger (type: string) {
     if (typeof type !== 'string') {
       throw new Error('wrapper.trigger() must be passed a string')
     }
