@@ -2,7 +2,7 @@
 import type Wrapper from './Wrapper'
 import type VueWrapper from './VueWrapper'
 
-export default class WrapperArray {
+export default class WrapperArray implements BaseWrapper {
   wrappers: Array<Wrapper | VueWrapper>;
   length: number;
 
