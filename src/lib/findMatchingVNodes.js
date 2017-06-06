@@ -1,22 +1,24 @@
+// @flow
+
 import { matchesSelector } from 'sizzle'
 
-function findAllVNodes (vNode, nodes = []) {
-  nodes.push(vNode)
+function findAllVNodes (vnode: VNode, nodes: Array<VNode> = []): Array<VNode> {
+  nodes.push(vnode)
 
-  if (Array.isArray(vNode.children)) {
-    vNode.children.forEach((childVNode) => {
+  if (Array.isArray(vnode.children)) {
+    vnode.children.forEach((childVNode) => {
       findAllVNodes(childVNode, nodes)
     })
   }
 
-  if (vNode.child) {
-    findAllVNodes(vNode.child._vnode, nodes)
+  if (vnode.child) {
+    findAllVNodes(vnode.child._vnode, nodes)
   }
 
   return nodes
 }
 
-function removeDuplicateNodes (vNodes) {
+function removeDuplicateNodes (vNodes: Array<VNode>): Array<VNode> {
   const uniqueNodes = []
   vNodes.forEach((vNode) => {
     const exists = uniqueNodes.some(node => vNode.elm === node.elm)
@@ -27,11 +29,11 @@ function removeDuplicateNodes (vNodes) {
   return uniqueNodes
 }
 
-function nodeMatchesSelector (node, selector) {
+function nodeMatchesSelector (node: VNode, selector: string): boolean {
   return node.elm && node.elm.getAttribute && matchesSelector(node.elm, selector)
 }
 
-export default function findMatchingVNodes (vNode, selector) {
+export default function findMatchingVNodes (vNode: VNode, selector: string): Array<VNode> {
   const nodes = findAllVNodes(vNode)
   const matchingNodes = nodes.filter(node => nodeMatchesSelector(node, selector))
   return removeDuplicateNodes(matchingNodes)

@@ -1,5 +1,7 @@
-export function isDomSelector (str) {
-  if (typeof str !== 'string') {
+// @flow
+
+export function isDomSelector (selector: any): boolean {
+  if (typeof selector !== 'string') {
     return false
   }
 
@@ -12,14 +14,14 @@ export function isDomSelector (str) {
   }
 
   try {
-    document.querySelector(str)
+    document.querySelector(selector)
     return true
   } catch (error) {
     return false
   }
 }
 
-export function isVueComponent (component) {
+export function isVueComponent (component: any): boolean {
   if (typeof component === 'function') {
     return false
   }
@@ -35,7 +37,7 @@ export function isVueComponent (component) {
   return typeof component.render === 'function'
 }
 
-export function isValidSelector (selector) {
+export function isValidSelector (selector: any): boolean {
   if (isDomSelector(selector)) {
     return true
   }

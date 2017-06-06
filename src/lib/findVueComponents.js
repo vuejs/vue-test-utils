@@ -1,4 +1,6 @@
-function findAllVueComponents (vm, components = []) {
+// @flow
+
+function findAllVueComponents (vm: Component, components: Array<Component> = []): Array<Component> {
   components.push(vm)
 
   vm.$children.forEach((child) => {
@@ -8,11 +10,11 @@ function findAllVueComponents (vm, components = []) {
   return components
 }
 
-function vmCtorMatchesName (vm, name) {
+function vmCtorMatchesName (vm: Component, name: string): boolean {
   return vm.$vnode.componentOptions.Ctor.options.name === name
 }
 
-export default function findVueComponents (vm, componentName) {
+export default function findVueComponents (vm: Component, componentName: string): Array<Component> {
   const components = findAllVueComponents(vm)
   return components.filter((component) => {
     if (!component.$vnode) {

@@ -1,10 +1,12 @@
+// @flow
+
 import { compileToFunctions } from 'vue-template-compiler'
 
-function isValidSlot (slot) {
+function isValidSlot (slot: any): boolean {
   return Array.isArray(slot) || (slot !== null && typeof slot === 'object') || typeof slot === 'string'
 }
 
-function addSlotToVm (vm, slotName, slotValue) {
+function addSlotToVm (vm: Component, slotName: string, slotValue: Component | string | Array<Component> | Array<string>): void {
   if (Array.isArray(vm.$slots[slotName])) {
     if (typeof slotValue === 'string') {
       vm.$slots[slotName].push(vm.$createElement(compileToFunctions(slotValue)))
@@ -20,7 +22,7 @@ function addSlotToVm (vm, slotName, slotValue) {
   }
 }
 
-function addSlots (vm, slots) {
+function addSlots (vm: Component, slots: Object): void {
   Object.keys(slots).forEach((key) => {
     if (!isValidSlot(slots[key])) {
       throw new Error('slots[key] must be a Component, string or an array of Components')
