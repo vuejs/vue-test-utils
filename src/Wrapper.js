@@ -112,7 +112,7 @@ export default class Wrapper implements BaseWrapper {
     // $FlowIgnore : Flow thinks style[style] returns a number
     mockElement.style[style] = value
 
-    if (!this.options.mountedToDom) {
+    if (!this.options.attachedToDocument) {
       const vm = this.vm || this.vnode.context.$root
       body.insertBefore(vm.$root._vnode.elm, null)
     }

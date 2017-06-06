@@ -40,5 +40,5 @@ export default function mount (component, options = {}) {
 
   vm.$mount(elem)
 
-  return new VueWrapper(vm, { mountedToDom: attachToDocument })
+  return new VueWrapper(vm, { attachedToDocument: attachToDocument })
 }
