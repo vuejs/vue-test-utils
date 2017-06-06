@@ -7,7 +7,7 @@ import findMatchingVNodes from './lib/findMatchingVNodes'
 import VueWrapper from './VueWrapper'
 import WrapperArray from './WrapperArray'
 
-export default class Wrapper {
+export default class Wrapper implements WrapperInterface {
   vnode: VNode;
   vm: Component | null;
   isVueComponent: boolean;
@@ -20,6 +20,10 @@ export default class Wrapper {
     this.element = vnode.elm
     this.update = update
     this.mountedToDom = mountedToDom
+  }
+
+  at () {
+    throw new Error('at() must be called on a WrapperArray')
   }
 
   /**
