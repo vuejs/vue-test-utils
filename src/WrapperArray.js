@@ -1,34 +1,41 @@
+// @flow
+import type Wrapper from './Wrapper'
+import type VueWrapper from './VueWrapper'
+
 export default class WrapperArray {
-  constructor (wrappers) {
+  wrappers: Array<Wrapper | VueWrapper>;
+  length: number;
+
+  constructor (wrappers: Array<Wrapper | VueWrapper>) {
     this.wrappers = wrappers || []
     this.length = this.wrappers.length
   }
 
-  at (index) {
+  at (index: number): Wrapper | VueWrapper {
     return this.wrappers[index]
   }
 
-  contains (selector) {
+  contains (selector: string | Component): boolean {
     return this.wrappers.every(wrapper => wrapper.contains(selector))
   }
 
-  hasAttribute (attribute, value) {
+  hasAttribute (attribute: string, value: string): boolean {
     return this.wrappers.every(wrapper => wrapper.hasAttribute(attribute, value))
   }
 
-  hasClass (className) {
+  hasClass (className: string): boolean {
     return this.wrappers.every(wrapper => wrapper.hasClass(className))
   }
 
-  hasProp (prop, value) {
+  hasProp (prop: string, value: string): boolean {
     return this.wrappers.every(wrapper => wrapper.hasProp(prop, value))
   }
 
-  hasStyle (style, value) {
+  hasStyle (style: string, value: string): boolean {
     return this.wrappers.every(wrapper => wrapper.hasStyle(style, value))
   }
 
-  find (selector) {
+  find (selector: string | Component): Wrapper | VueWrapper {
     if (this.wrappers.length === 0) {
       throw new Error('find cannot be called on 0 items')
     }
@@ -40,7 +47,7 @@ export default class WrapperArray {
     return this.wrappers[0].find(selector)
   }
 
-  html () {
+  html (): string {
     if (this.wrappers.length === 0) {
       throw new Error('html cannot be called on 0 items')
     }
@@ -52,19 +59,19 @@ export default class WrapperArray {
     return this.wrappers[0].html()
   }
 
-  is (selector) {
+  is (selector: string | Component): boolean {
     return this.wrappers.every(wrapper => wrapper.is(selector))
   }
 
-  isEmpty () {
+  isEmpty (): boolean {
     return this.wrappers.every(wrapper => wrapper.isEmpty())
   }
 
-  isVueInstance () {
+  isVueInstance (): boolean {
     return this.wrappers.every(wrapper => wrapper.isVueInstance())
   }
 
-  name () {
+  name (): string {
     if (this.wrappers.length === 0) {
       throw new Error('name cannot be called on 0 items')
     }
@@ -76,7 +83,7 @@ export default class WrapperArray {
     return this.wrappers[0].name()
   }
 
-  text () {
+  text (): string {
     if (this.wrappers.length === 0) {
       throw new Error('text cannot be called on 0 items')
     }
@@ -88,15 +95,15 @@ export default class WrapperArray {
     return this.wrappers[0].text()
   }
 
-  setData (data) {
+  setData (data: Object): void {
     this.wrappers.forEach(wrapper => wrapper.setData(data))
   }
 
-  setProps (props) {
+  setProps (props: Object): void {
     this.wrappers.forEach(wrapper => wrapper.setProps(props))
   }
 
-  trigger (event) {
+  trigger (event: string): void {
     this.wrappers.forEach(wrapper => wrapper.trigger(event))
   }
 }
