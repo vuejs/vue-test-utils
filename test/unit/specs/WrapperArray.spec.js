@@ -227,4 +227,11 @@ describe('WrapperArray', () => {
     expect(trigger.calledTwice).to.equal(true)
     expect(trigger.calledWith(selector)).to.equal(true)
   })
+
+  it('update calls update on each wrapper', () => {
+    const update = sinon.stub()
+    const wrapperArray = new WrapperArray([{ update }, { update }])
+    wrapperArray.update()
+    expect(update.calledTwice).to.equal(true)
+  })
 })

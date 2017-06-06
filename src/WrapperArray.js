@@ -114,4 +114,8 @@ export default class WrapperArray {
   trigger (event: string): void {
     this.wrappers.forEach(wrapper => wrapper.trigger(event))
   }
+
+  update (): void {
+    this.wrappers.forEach(wrapper => wrapper.update())
+  }
 }
