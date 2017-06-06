@@ -1,7 +1,7 @@
 import type Wrapper from '../src/Wrapper';
 import type WrapperArray from '../src/WrapperArray';
 
-declare interface WrapperInterface {
+declare interface BaseWrapper {
     at(index: number): Wrapper,
     contains(selector: String | Component): boolean,
     hasAttribute(attribute: string, value: string): boolean,

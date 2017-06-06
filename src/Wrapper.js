@@ -7,7 +7,7 @@ import findMatchingVNodes from './lib/findMatchingVNodes'
 import VueWrapper from './VueWrapper'
 import WrapperArray from './WrapperArray'
 
-export default class Wrapper implements WrapperInterface {
+export default class Wrapper implements BaseWrapper {
   vnode: VNode;
   vm: Component | null;
   isVueComponent: boolean;
