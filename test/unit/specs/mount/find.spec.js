@@ -2,6 +2,8 @@ import { compileToFunctions } from 'vue-template-compiler'
 import mount from '../../../../src/mount'
 import ComponentWithChildComponent from '../../../resources/components/component-with-child-component.vue'
 import ComponentWithoutName from '../../../resources/components/component-without-name.vue'
+import ComponentWithSlots from '../../../resources/components/component-with-slots.vue'
+import ComponentWithVFor from '../../../resources/components/component-with-v-for.vue'
 import Component from '../../../resources/components/component.vue'
 import Wrapper from '../../../../src/Wrapper'
 
@@ -24,7 +26,13 @@ describe('find', () => {
     expect(wrapper.find('div')).to.be.instanceOf(Wrapper)
   })
 
-  it.skip('returns an array of Wrapper of elements matching class selector passed if they are declared inside a slot', () => {
+  it('returns an array of Wrapper of elements matching class selector passed if they are declared inside a slot', () => {
+    const wrapper = mount(ComponentWithSlots, {
+      slots: {
+        default: '<div class="foo"></div>'
+      }
+    })
+    expect(wrapper.find('.foo')).to.be.instanceOf(Wrapper)
   })
 
   it('returns Wrapper of elements matching id selector passed', () => {
@@ -69,10 +77,17 @@ describe('find', () => {
     expect(wrapper.find(Component)).to.be.instanceOf(Wrapper)
   })
 
-  it.skip('returns correct number of Vue Wrapper when component has a v-for', () => {
+  it('returns correct number of Vue Wrapper when component has a v-for', () => {
+    const items = [{ id: 1 }, { id: 2 }, { id: 3 }]
+    const wrapper = mount(ComponentWithVFor, { propsData: { items }})
+    expect(wrapper.find(Component)).to.be.instanceOf(Wrapper)
   })
 
-  it.skip('returns array of VueWrappers of Vue Components matching component if component name in parent is different to filename', () => {
+  it('returns array of VueWrappers of Vue Components matching component if component name in parent is different to filename', () => {
+    // same test as above, but good to be explicit
+    const wrapper = mount(ComponentWithChildComponent)
+    const div = wrapper.find('span')
+    expect(div.find(Component)).to.be.instanceOf(Wrapper)
   })
 
   it('returns Wrapper of Vue Component matching component using Wrapper as reference', () => {

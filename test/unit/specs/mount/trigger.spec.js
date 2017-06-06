@@ -33,7 +33,12 @@ describe('trigger', () => {
     expect(keydownHandler.calledOnce).to.equal(true)
   })
 
-  it.skip('causes DOM to update after clickHandler method that changes components data is called', () => {
+  it('causes DOM to update after clickHandler method that changes components data is called', () => {
+    const wrapper = mount(ComponentWithEvents)
+    const toggle = wrapper.find('.toggle')
+    expect(toggle.hasClass('active')).to.equal(false)
+    toggle.trigger('click')
+    expect(toggle.hasClass('active')).to.equal(true)
   })
 
   it('throws an error if type is not a string', () => {

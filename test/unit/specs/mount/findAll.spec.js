@@ -2,6 +2,8 @@ import { compileToFunctions } from 'vue-template-compiler'
 import mount from '../../../../src/mount'
 import ComponentWithChildComponent from '../../../resources/components/component-with-child-component.vue'
 import ComponentWithoutName from '../../../resources/components/component-without-name.vue'
+import ComponentWithSlots from '../../../resources/components/component-with-slots.vue'
+import ComponentWithVFor from '../../../resources/components/component-with-v-for.vue'
 import Component from '../../../resources/components/component.vue'
 import WrapperArray from '../../../../src/WrapperArray'
 
@@ -30,7 +32,15 @@ describe('findAll', () => {
     expect(divArr.length).to.equal(1)
   })
 
-  it.skip('returns an array of Wrapper of elements matching class selector passed if they are declared inside a slot', () => {
+  it('returns an array of Wrapper of elements matching class selector passed if they are declared inside a slot', () => {
+    const wrapper = mount(ComponentWithSlots, {
+      slots: {
+        default: '<div class="foo"><div class="foo"></div></div>'
+      }
+    })
+    const fooArr = wrapper.findAll('.foo')
+    expect(fooArr).to.be.instanceOf(WrapperArray)
+    expect(fooArr.length).to.equal(2)
   })
 
   it('returns an array of Wrappers of elements matching id selector passed', () => {
@@ -92,13 +102,24 @@ describe('findAll', () => {
     expect(componentArr.length).to.equal(1)
   })
 
-  it.skip('returns correct number of Vue Wrapper when component has a v-for', () => {
+  it('returns correct number of Vue Wrapper when component has a v-for', () => {
+    const items = [{ id: 1 }, { id: 2 }, { id: 3 }]
+    const wrapper = mount(ComponentWithVFor, { propsData: { items }})
+    const componentArray = wrapper.findAll(Component)
+    expect(componentArray).to.be.instanceOf(WrapperArray)
+    expect(componentArray.length).to.equal(items.length)
   })
 
-  it.skip('returns array of VueWrappers of Vue Components matching component if component name in parent is different to filename', () => {
+  it('returns array of VueWrappers of Vue Components matching component if component name in parent is different to filename', () => {
+    const wrapper = mount(ComponentWithChildComponent)
+    const div = wrapper.findAll('span').at(0)
+    const componentArr = div.findAll(Component)
+    expect(componentArr).to.be.instanceOf(WrapperArray)
+    expect(componentArr.length).to.equal(1)
   })
 
   it('returns an array of VueWrappers of Vue Components matching component using Wrapper as reference', () => {
+    // same test as above, but good to be explicit
     const wrapper = mount(ComponentWithChildComponent)
     const div = wrapper.findAll('span').at(0)
     const componentArr = div.findAll(Component)
