@@ -18,5 +18,6 @@ declare interface WrapperInterface {
     text(): string,
     setData(data: Object): void,
     setProps(data: Object): void,
-    trigger(type: string): void
+    trigger(type: string): void,
+    update(): void
 }
