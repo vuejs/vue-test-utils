@@ -133,10 +133,11 @@ describe('findAll', () => {
     expect(() => wrapper.findAll(ComponentWithoutName)).to.throw(Error, message)
   })
 
-  it.skip('returns an empty array if no nodes matching selector are found', () => {
+  it('returns VueWrapper with length 0 if no nodes matching selector are found', () => {
     const wrapper = mount(Component)
-    const secondChildComponents = wrapper.findAll('pre')
-    expect(secondChildComponents.length).to.equal(0)
+    const preArray = wrapper.findAll('pre')
+    expect(preArray.length).to.equal(0)
+    expect(preArray.wrappers).to.deep.equal([])
   })
 
   it('throws an error if selector is not a valid selector', () => {

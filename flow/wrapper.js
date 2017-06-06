@@ -4,18 +4,18 @@ import type Wrapper from '../src/Wrapper'
 import type WrapperArray from '../src/WrapperArray'
 
 declare interface BaseWrapper { // eslint-disable-line no-undef
-    at(index: number): Wrapper,
-    contains(selector: String | Component): boolean,
-    hasAttribute(attribute: string, value: string): boolean,
-    hasClass(className: string): boolean,
-    hasProp(prop: string, value: string): boolean,
-    hasStyle(style: string, value: string): boolean,
+    at(index: number): Wrapper | void,
+    contains(selector: String | Component): boolean | void,
+    hasAttribute(attribute: string, value: string): boolean | void,
+    hasClass(className: string): boolean | void,
+    hasProp(prop: string, value: string): boolean | void,
+    hasStyle(style: string, value: string): boolean | void,
     find(selector: string | Component): Wrapper | void,
     findAll(selector: string | Component): WrapperArray | void,
     html(): string | void,
-    is(selector: string | Component): boolean,
-    isEmpty(): boolean,
-    isVueInstance(): boolean,
+    is(selector: string | Component): boolean | void,
+    isEmpty(): boolean | void,
+    isVueInstance(): boolean | void,
     name(): string | void,
     text(): string | void,
     setData(data: Object): void,
@@ -25,5 +25,6 @@ declare interface BaseWrapper { // eslint-disable-line no-undef
 }
 
 declare type WrapperOptions = { // eslint-disable-line no-undef
-    attachedToDocument: boolean
+    attachedToDocument: boolean,
+    error?: string
 }

@@ -6,6 +6,7 @@ import findVueComponents from './lib/findVueComponents'
 import findMatchingVNodes from './lib/findMatchingVNodes'
 import VueWrapper from './VueWrapper'
 import WrapperArray from './WrapperArray'
+import ErrorWrapper from './ErrorWrapper'
 
 export default class Wrapper implements BaseWrapper {
   vnode: VNode;
@@ -136,11 +137,17 @@ export default class Wrapper implements BaseWrapper {
       }
       const vm = this.vm || this.vnode.context.$root
       const components = findVueComponents(vm, selector.name)
+      if (components.length === 0) {
+        return new ErrorWrapper()
+      }
       return new VueWrapper(components[0], this.options)
     }
 
     const nodes = findMatchingVNodes(this.vnode, selector)
 
+    if (nodes.length === 0) {
+      return new ErrorWrapper()
+    }
     return new Wrapper(nodes[0], this.update, this.options)
   }
 

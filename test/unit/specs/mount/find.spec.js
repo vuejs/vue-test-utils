@@ -6,6 +6,7 @@ import ComponentWithSlots from '../../../resources/components/component-with-slo
 import ComponentWithVFor from '../../../resources/components/component-with-v-for.vue'
 import Component from '../../../resources/components/component.vue'
 import Wrapper from '../../../../src/Wrapper'
+import ErrorWrapper from '../../../../src/ErrorWrapper'
 
 describe('find', () => {
   it('returns an array of Wrappers of elements matching tag selector passed', () => {
@@ -102,10 +103,17 @@ describe('find', () => {
     expect(() => wrapper.find(ComponentWithoutName)).to.throw(Error, message)
   })
 
-  it.skip('returns an empty Wrapper if no nodes matching selector are found', () => {
+  it('returns empty Wrapper with error if no nodes are found', () => {
     const wrapper = mount(Component)
-    const secondChildComponents = wrapper.find('pre')
-    expect(secondChildComponents.length).to.equal(0)
+    const selector = 'pre'
+    const error = wrapper.find(selector)
+    expect(error).to.be.instanceOf(ErrorWrapper)
+  })
+
+  it('returns empty Wrapper with error if no nodes are found when passed a component', () => {
+    const wrapper = mount(Component)
+    const error = wrapper.find(ComponentWithChildComponent)
+    expect(error).to.be.instanceOf(ErrorWrapper)
   })
 
   it('throws an error if selector is not a valid selector', () => {
