@@ -1,3 +1,5 @@
+// @flow
+
 import Vue from 'vue'
 import VueWrapper from './VueWrapper'
 import addSlots from './lib/addSlots'
@@ -5,15 +7,24 @@ import addGlobals from './lib/addGlobals'
 
 Vue.config.productionTip = false
 
-function createElem () {
-  const elem = document.createElement('div')
+function createElem (): HTMLElement | void {
+  if (document) {
+    const elem = document.createElement('div')
 
-  document.body.appendChild(elem)
-
-  return elem
+    if (document.body) {
+      document.body.appendChild(elem)
+    }
+    return elem
+  }
 }
 
-export default function mount (component, options = {}) {
+type MountOptions = {
+    attachToDocument?: boolean,
+    intercept?: Object,
+    slots?: Object
+}
+
+export default function mount (component: Component, options: MountOptions = {}): VueWrapper {
   let elem
 
   const attachToDocument = options.attachToDocument
@@ -40,5 +51,5 @@ export default function mount (component, options = {}) {
 
   vm.$mount(elem)
 
-  return new VueWrapper(vm, { attachedToDocument: attachToDocument })
+  return new VueWrapper(vm, { attachedToDocument: !!attachToDocument })
 }
