@@ -14,6 +14,8 @@ function addProvide (component, options) {
     if (originalBeforeCreate) {
       originalBeforeCreate.call(this)
     }
+
+    component.beforeCreate = originalBeforeCreate
   }
 }
 
