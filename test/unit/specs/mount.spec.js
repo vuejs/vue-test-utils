@@ -79,7 +79,7 @@ describe('mount', () => {
   it('returns VueWrapper with mountedToDom set to true when passed attachToDocument in options', () => {
     const compiled = compileToFunctions('<div><input /></div>')
     const wrapper = mount(compiled, { attachToDocument: true })
-    expect(wrapper.mountedToDom).to.equal(true)
+    expect(wrapper.options.mountedToDom).to.equal(true)
   })
 
   it('injects global variables when passed as intercept object', () => {

@@ -23,3 +23,7 @@ declare interface BaseWrapper { // eslint-disable-line no-undef
     trigger(type: string): void,
     update(): void
 }
+
+declare type WrapperOptions = { // eslint-disable-line no-undef
+    mountedToDom: boolean
+}

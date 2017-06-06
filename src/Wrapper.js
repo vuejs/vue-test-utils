@@ -13,13 +13,13 @@ export default class Wrapper implements BaseWrapper {
   isVueComponent: boolean;
   element: HTMLElement;
   update: Function;
-  mountedToDom: boolean;
+  options: WrapperOptions;
 
-  constructor (vnode: VNode, update: Function, mountedToDom: boolean) {
+  constructor (vnode: VNode, update: Function, options: WrapperOptions) {
     this.vnode = vnode
     this.element = vnode.elm
     this.update = update
-    this.mountedToDom = mountedToDom
+    this.options = options
   }
 
   at () {
@@ -112,7 +112,7 @@ export default class Wrapper implements BaseWrapper {
     // $FlowIgnore : Flow thinks style[style] returns a number
     mockElement.style[style] = value
 
-    if (!this.mountedToDom) {
+    if (!this.options.mountedToDom) {
       const vm = this.vm || this.vnode.context.$root
       body.insertBefore(vm.$root._vnode.elm, null)
     }
@@ -136,12 +136,12 @@ export default class Wrapper implements BaseWrapper {
       }
       const vm = this.vm || this.vnode.context.$root
       const components = findVueComponents(vm, selector.name)
-      return new VueWrapper(components[0], this.mountedToDom)
+      return new VueWrapper(components[0], this.options)
     }
 
     const nodes = findMatchingVNodes(this.vnode, selector)
 
-    return new Wrapper(nodes[0], this.update, this.mountedToDom)
+    return new Wrapper(nodes[0], this.update, this.options)
   }
 
   /**
@@ -158,8 +158,9 @@ export default class Wrapper implements BaseWrapper {
       }
       const vm = this.vm || this.vnode.context.$root
       const components = findVueComponents(vm, selector.name)
-      return new WrapperArray(components.map(component => new VueWrapper(component, this.mountedToDom)))
+      return new WrapperArray(components.map(component => new VueWrapper(component, this.options)))
     }
+
     function nodeMatchesSelector (node, selector) {
       return node.elm && node.elm.getAttribute && matchesSelector(node.elm, selector)
     }
@@ -167,7 +168,7 @@ export default class Wrapper implements BaseWrapper {
     const nodes = findMatchingVNodes(this.vnode, selector)
     const matchingNodes = nodes.filter(node => nodeMatchesSelector(node, selector))
 
-    return new WrapperArray(matchingNodes.map(node => new Wrapper(node, this.update, this.mountedToDom)))
+    return new WrapperArray(matchingNodes.map(node => new Wrapper(node, this.update, this.options)))
   }
 
   /**
