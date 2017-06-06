@@ -31,6 +31,18 @@ describe('WrapperArray', () => {
     expect(wrapper.find.calledWith(selector)).to.equal(true)
   })
 
+  it('findAll throws error if wrapper is not empty', () => {
+    const wrapperArray = new WrapperArray([])
+    const message = 'findAll cannot be called on 0 items'
+    expect(() => wrapperArray.findAll()).to.throw(Error, message)
+  })
+
+  it('findAll throws error if wrapper is empty', () => {
+    const wrapperArray = new WrapperArray([1, 2, 3])
+    const message = 'findAll must be called on a single wrapper, use at(i) to access a wrapper'
+    expect(() => wrapperArray.findAll()).to.throw(Error, message)
+  })
+
   it('contains returns true if every wrapper.contains() returns true', () => {
     const selector = 'selector'
     const contains = sinon.stub()

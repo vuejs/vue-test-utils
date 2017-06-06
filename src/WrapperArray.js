@@ -35,6 +35,14 @@ export default class WrapperArray {
     return this.wrappers.every(wrapper => wrapper.hasStyle(style, value))
   }
 
+  findAll (): void {
+    if (this.wrappers.length === 0) {
+      throw new Error('findAll cannot be called on 0 items')
+    }
+
+    throw new Error('findAll must be called on a single wrapper, use at(i) to access a wrapper')
+  }
+
   find (selector: string | Component): Wrapper | VueWrapper {
     if (this.wrappers.length === 0) {
       throw new Error('find cannot be called on 0 items')
