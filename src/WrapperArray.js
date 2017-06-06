@@ -43,28 +43,20 @@ export default class WrapperArray implements BaseWrapper {
     throw new Error('findAll must be called on a single wrapper, use at(i) to access a wrapper')
   }
 
-  find (selector: string | Component): Wrapper | VueWrapper {
+  find (): void {
     if (this.wrappers.length === 0) {
       throw new Error('find cannot be called on 0 items')
     }
 
-    if (this.wrappers.length > 1) {
-      throw new Error('find must be called on a single wrapper, use at(i) to access a wrapper')
-    }
-
-    return this.wrappers[0].find(selector)
+    throw new Error('find must be called on a single wrapper, use at(i) to access a wrapper')
   }
 
-  html (): string {
+  html (): void {
     if (this.wrappers.length === 0) {
       throw new Error('html cannot be called on 0 items')
     }
 
-    if (this.wrappers.length > 1) {
-      throw new Error('html must be called on a single wrapper, use at(i) to access a wrapper')
-    }
-
-    return this.wrappers[0].html()
+    throw new Error('html must be called on a single wrapper, use at(i) to access a wrapper')
   }
 
   is (selector: string | Component): boolean {
@@ -79,28 +71,20 @@ export default class WrapperArray implements BaseWrapper {
     return this.wrappers.every(wrapper => wrapper.isVueInstance())
   }
 
-  name (): string {
+  name (): void {
     if (this.wrappers.length === 0) {
       throw new Error('name cannot be called on 0 items')
     }
 
-    if (this.wrappers.length > 1) {
-      throw new Error('name must be called on a single wrapper, use at(i) to access a wrapper')
-    }
-
-    return this.wrappers[0].name()
+    throw new Error('name must be called on a single wrapper, use at(i) to access a wrapper')
   }
 
-  text (): string {
+  text (): void {
     if (this.wrappers.length === 0) {
       throw new Error('text cannot be called on 0 items')
     }
 
-    if (this.wrappers.length > 1) {
-      throw new Error('text must be called on a single wrapper, use at(i) to access a wrapper')
-    }
-
-    return this.wrappers[0].text()
+    throw new Error('text must be called on a single wrapper, use at(i) to access a wrapper')
   }
 
   setData (data: Object): void {

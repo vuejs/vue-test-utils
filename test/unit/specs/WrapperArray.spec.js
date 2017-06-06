@@ -17,18 +17,10 @@ describe('WrapperArray', () => {
     expect(() => wrapperArray.find()).to.throw(Error, message)
   })
 
-  it('throws error if find is called when there is more than 1 item in wrapper array', () => {
-    const wrapperArray = new WrapperArray([1, 2, 3])
+  it('throws error if find is called when there are items in wrapper array', () => {
+    const wrapperArray = new WrapperArray([1])
     const message = 'find must be called on a single wrapper, use at(i) to access a wrapper'
     expect(() => wrapperArray.find()).to.throw(Error, message)
-  })
-
-  it('find calls find on wrapper if there is only 1 in array', () => {
-    const wrapper = { find: sinon.stub() }
-    const selector = 'selector'
-    const wrapperArray = new WrapperArray([wrapper])
-    wrapperArray.find(selector)
-    expect(wrapper.find.calledWith(selector)).to.equal(true)
   })
 
   it('findAll throws error if wrapper is not empty', () => {
@@ -150,17 +142,10 @@ describe('WrapperArray', () => {
     expect(() => wrapperArray.html()).to.throw(Error, message)
   })
 
-  it('html throws error if called when there is more than 1 item in wrapper array', () => {
-    const wrapperArray = new WrapperArray([1, 2, 3])
+  it('html throws error if called when there are items in wrapper array', () => {
+    const wrapperArray = new WrapperArray([1])
     const message = 'html must be called on a single wrapper, use at(i) to access a wrapper'
     expect(() => wrapperArray.html()).to.throw(Error, message)
-  })
-
-  it('html calls html on wrapper if there is only 1 in array', () => {
-    const wrapper = { html: sinon.stub() }
-    const wrapperArray = new WrapperArray([wrapper])
-    wrapperArray.html()
-    expect(wrapper.html.called).to.equal(true)
   })
 
   it('name throws error if called when there are 0 items in wrapper array', () => {
@@ -169,17 +154,10 @@ describe('WrapperArray', () => {
     expect(() => wrapperArray.name()).to.throw(Error, message)
   })
 
-  it('name throws error if called when there is more than 1 item in wrapper array', () => {
-    const wrapperArray = new WrapperArray([1, 2, 3])
+  it('name throws error if called when there are items in wrapper array', () => {
+    const wrapperArray = new WrapperArray([1])
     const message = 'name must be called on a single wrapper, use at(i) to access a wrapper'
     expect(() => wrapperArray.name()).to.throw(Error, message)
-  })
-
-  it('name calls name on wrapper if there is only 1 in array', () => {
-    const wrapper = { name: sinon.stub() }
-    const wrapperArray = new WrapperArray([wrapper])
-    wrapperArray.name()
-    expect(wrapper.name.called).to.equal(true)
   })
 
   it('text throws error if called when there are 0 items in wrapper array', () => {
@@ -188,17 +166,10 @@ describe('WrapperArray', () => {
     expect(() => wrapperArray.text()).to.throw(Error, message)
   })
 
-  it('text throws error if called when there is more than 1 item in wrapper array', () => {
-    const wrapperArray = new WrapperArray([1, 2, 3])
+  it('text throws error if called when there are items in wrapper array', () => {
+    const wrapperArray = new WrapperArray([1])
     const message = 'text must be called on a single wrapper, use at(i) to access a wrapper'
     expect(() => wrapperArray.text()).to.throw(Error, message)
-  })
-
-  it('text calls text on wrapper if there is only 1 in array', () => {
-    const wrapper = { text: sinon.stub() }
-    const wrapperArray = new WrapperArray([wrapper])
-    wrapperArray.text()
-    expect(wrapper.text.called).to.equal(true)
   })
 
   it('setData calls setData on each wrapper', () => {
