@@ -5,17 +5,10 @@ function addProvide (component, options) {
 
   delete options.provide
 
-  const originalBeforeCreate = component.beforeCreate
-  component.beforeCreate = function beforeCreate () {
+  options.beforeCreate = function vueTestUtilBeforeCreate () {
     this._provided = typeof provide === 'function'
       ? provide.call(this)
       : provide
-
-    if (originalBeforeCreate) {
-      originalBeforeCreate.call(this)
-    }
-
-    component.beforeCreate = originalBeforeCreate
   }
 }
 
