@@ -10,7 +10,7 @@ describe('hasAttribute', () => {
     expect(wrapper.findAll('div').hasAttribute(attribute, value)).to.equal(true)
   })
 
-  it('returns false if wrapper does not contain attribute', () => {
+  it('returns false if every item does not contain attribute', () => {
     const compiled = compileToFunctions('<div><div /></div>')
     const wrapper = mount(compiled)
     expect(wrapper.findAll('div').hasAttribute('attribute', 'value')).to.equal(false)
