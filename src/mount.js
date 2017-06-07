@@ -4,6 +4,7 @@ import Vue from 'vue'
 import VueWrapper from './VueWrapper'
 import addSlots from './lib/addSlots'
 import addGlobals from './lib/addGlobals'
+import addProvide from './lib/addProvide'
 
 Vue.config.productionTip = false
 
@@ -42,7 +43,12 @@ export default function mount (component: Component, options: MountOptions = {})
   // Remove cached constructor
   delete component._Ctor // eslint-disable-line no-param-reassign
 
+  if (options.provide) {
+    addProvide(component, options)
+  }
+
   const Constructor = Vue.extend(component)
+
   const vm = new Constructor(options)
 
   if (options.slots) {
