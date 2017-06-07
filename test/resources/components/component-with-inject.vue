@@ -6,10 +6,10 @@
 
 <script>
     export default {
-        name: 'component-with-inject',
-        inject: ['fromMount'],
-        beforeCreate() {
-          this.setInBeforeCreate = 'created'
-        }
-    };
+      name: 'component-with-inject',
+      inject: ['fromMount'],
+      beforeCreate () {
+        this.setInBeforeCreate = 'created'
+      }
+    }
 </script>
