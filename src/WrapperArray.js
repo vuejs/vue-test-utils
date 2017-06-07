@@ -13,6 +13,9 @@ export default class WrapperArray implements BaseWrapper {
   }
 
   at (index: number): Wrapper | VueWrapper {
+    if (index > this.length - 1) {
+      throw new Error(`no item exists at ${index}`)
+    }
     return this.wrappers[index]
   }
 
