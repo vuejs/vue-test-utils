@@ -1,7 +1,7 @@
 import mount from '../../../../../src/mount'
 import ComponentWithInject from '../../../../resources/components/component-with-inject.vue'
 
-describe('provide option in mount', () => {
+describe('mount.provide', () => {
   it('provides objects which is injected by mounted component', () => {
     const wrapper = mount(ComponentWithInject, {
       provide: { fromMount: 'objectValue' }

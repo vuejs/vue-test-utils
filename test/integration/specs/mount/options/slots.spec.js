@@ -3,7 +3,7 @@ import mount from '../../../../../src/mount'
 import Component from '../../../../resources/components/component.vue'
 import ComponentWithSlots from '../../../../resources/components/component-with-slots.vue'
 
-describe('slots', () => {
+describe('mount.slots', () => {
   it('mounts component with default slot if passed component in slot object', () => {
     const wrapper = mount(ComponentWithSlots, { slots: { default: [Component] }})
     expect(wrapper.contains(Component)).to.equal(true)

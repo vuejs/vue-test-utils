@@ -1,7 +1,7 @@
 import { compileToFunctions } from 'vue-template-compiler'
 import mount from '../../../../../src/mount'
 
-describe('provide option in mount', () => {
+describe('mount.attachToDocument', () => {
   it('returns VueWrapper with attachedToDocument set to true when passed attachToDocument in options', () => {
     const compiled = compileToFunctions('<div><input /></div>')
     const wrapper = mount(compiled, { attachToDocument: true })

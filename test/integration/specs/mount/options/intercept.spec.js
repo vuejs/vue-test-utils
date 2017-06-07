@@ -1,7 +1,7 @@
 import mount from '../../../../../src/mount'
 import Component from '../../../../resources/components/component.vue'
 
-describe('provide option in mount', () => {
+describe('mount.intercept', () => {
   it('injects global variables when passed as intercept object', () => {
     const $store = { store: true }
     const $route = { path: 'http://test.com' }
