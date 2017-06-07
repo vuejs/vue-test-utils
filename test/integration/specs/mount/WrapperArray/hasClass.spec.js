@@ -2,7 +2,7 @@ import { compileToFunctions } from 'vue-template-compiler'
 import mount from '../../../../../src/mount'
 
 describe('hasClass', () => {
-  it('returns true if wrapper has class name', () => {
+  it('returns true if every item has class name', () => {
     const compiled = compileToFunctions('<span><div class="a-class" /></span>')
     const wrapper = mount(compiled)
     expect(wrapper.findAll('div').hasClass('a-class')).to.equal(true)

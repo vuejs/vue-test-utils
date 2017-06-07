@@ -1,9 +1,11 @@
 <template>
-    <div class="color-red">
-        <p>
-            <span />
-        </p>
-    </div>
+    <a>
+        <div class="color-red">
+            <p>
+                <span />
+            </p>
+        </div>
+    </a>
 </template>
 
 <style>
