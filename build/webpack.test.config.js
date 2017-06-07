@@ -2,7 +2,7 @@ const nodeExternals = require('webpack-node-externals')
 const browser = process.env.TARGET === 'browser'
 const path = require('path')
 
-const projectRoot = path.resolve(__dirname, '../../../')
+const projectRoot = path.resolve(__dirname, '../')
 
 module.exports = {
   module: {
