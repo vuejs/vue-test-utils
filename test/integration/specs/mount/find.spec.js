@@ -108,12 +108,14 @@ describe('find', () => {
     const selector = 'pre'
     const error = wrapper.find(selector)
     expect(error).to.be.instanceOf(ErrorWrapper)
+    expect(error.selector).to.equal(selector)
   })
 
   it('returns empty Wrapper with error if no nodes are found when passed a component', () => {
     const wrapper = mount(Component)
     const error = wrapper.find(ComponentWithChildComponent)
     expect(error).to.be.instanceOf(ErrorWrapper)
+    expect(error.selector).to.equal('Component')
   })
 
   it('throws an error if selector is not a valid selector', () => {

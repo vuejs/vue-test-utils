@@ -138,7 +138,7 @@ export default class Wrapper implements BaseWrapper {
       const vm = this.vm || this.vnode.context.$root
       const components = findVueComponents(vm, selector.name)
       if (components.length === 0) {
-        return new ErrorWrapper()
+        return new ErrorWrapper('Component')
       }
       return new VueWrapper(components[0], this.options)
     }
@@ -146,7 +146,7 @@ export default class Wrapper implements BaseWrapper {
     const nodes = findMatchingVNodes(this.vnode, selector)
 
     if (nodes.length === 0) {
-      return new ErrorWrapper()
+      return new ErrorWrapper(selector)
     }
     return new Wrapper(nodes[0], this.update, this.options)
   }
