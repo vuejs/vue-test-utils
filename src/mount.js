@@ -35,11 +35,6 @@ export default function mount (component: Component, options: MountOptions = {})
     delete options.attachToDocument // eslint-disable-line no-param-reassign
   }
 
-  if (options.intercept) {
-    const globals = addGlobals(options.intercept)
-    Vue.use(globals)
-  }
-
   // Remove cached constructor
   delete component._Ctor // eslint-disable-line no-param-reassign
 
@@ -48,6 +43,11 @@ export default function mount (component: Component, options: MountOptions = {})
   }
 
   const Constructor = Vue.extend(component)
+
+  if (options.intercept) {
+    const globals = addGlobals(options.intercept)
+    Constructor.use(globals)
+  }
 
   const vm = new Constructor(options)
 
