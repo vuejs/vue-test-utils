@@ -1,11 +1,11 @@
 import { compileToFunctions } from 'vue-template-compiler'
-import mount from '../../../../src/mount'
-import ComponentWithChildComponent from '../../../resources/components/component-with-child-component.vue'
-import ComponentWithoutName from '../../../resources/components/component-without-name.vue'
-import ComponentWithSlots from '../../../resources/components/component-with-slots.vue'
-import ComponentWithVFor from '../../../resources/components/component-with-v-for.vue'
-import Component from '../../../resources/components/component.vue'
-import WrapperArray from '../../../../src/WrapperArray'
+import mount from '../../../../../src/mount'
+import ComponentWithChildComponent from '../../../../resources/components/component-with-child-component.vue'
+import ComponentWithoutName from '../../../../resources/components/component-without-name.vue'
+import ComponentWithSlots from '../../../../resources/components/component-with-slots.vue'
+import ComponentWithVFor from '../../../../resources/components/component-with-v-for.vue'
+import Component from '../../../../resources/components/component.vue'
+import WrapperArray from '../../../../../src/WrapperArray'
 
 describe('findAll', () => {
   it('returns an WrapperArray of elements matching tag selector passed', () => {

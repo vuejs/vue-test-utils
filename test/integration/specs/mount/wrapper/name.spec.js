@@ -1,6 +1,6 @@
-import mount from '../../../../src/mount'
+import mount from '../../../../../src/mount'
 import { compileToFunctions } from 'vue-template-compiler'
-import Component from '../../../resources/components/component.vue'
+import Component from '../../../../resources/components/component.vue'
 
 describe('name', () => {
   it('returns the name of the component it was called on', () => {

@@ -1,6 +1,6 @@
 import { compileToFunctions } from 'vue-template-compiler'
-import mount from '../../../../src/mount'
-import Component from '../../../resources/components/component.vue'
+import mount from '../../../../../src/mount'
+import Component from '../../../../resources/components/component.vue'
 
 describe('html', () => {
   it('returns a VueWrappers HTML as a string', () => {

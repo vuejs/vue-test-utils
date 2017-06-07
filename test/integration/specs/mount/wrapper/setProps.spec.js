@@ -1,6 +1,6 @@
 import { compileToFunctions } from 'vue-template-compiler'
-import mount from '../../../../src/mount'
-import ComponentWithProps from '../../../resources/components/component-with-props.vue'
+import mount from '../../../../../src/mount'
+import ComponentWithProps from '../../../../resources/components/component-with-props.vue'
 
 describe('setProps', () => {
   it('sets component props and updates DOM when called on Vue instance', () => {

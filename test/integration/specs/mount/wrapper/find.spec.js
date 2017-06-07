@@ -1,12 +1,12 @@
 import { compileToFunctions } from 'vue-template-compiler'
-import mount from '../../../../src/mount'
-import ComponentWithChildComponent from '../../../resources/components/component-with-child-component.vue'
-import ComponentWithoutName from '../../../resources/components/component-without-name.vue'
-import ComponentWithSlots from '../../../resources/components/component-with-slots.vue'
-import ComponentWithVFor from '../../../resources/components/component-with-v-for.vue'
-import Component from '../../../resources/components/component.vue'
-import Wrapper from '../../../../src/Wrapper'
-import ErrorWrapper from '../../../../src/ErrorWrapper'
+import mount from '../../../../../src/mount'
+import ComponentWithChildComponent from '../../../../resources/components/component-with-child-component.vue'
+import ComponentWithoutName from '../../../../resources/components/component-without-name.vue'
+import ComponentWithSlots from '../../../../resources/components/component-with-slots.vue'
+import ComponentWithVFor from '../../../../resources/components/component-with-v-for.vue'
+import Component from '../../../../resources/components/component.vue'
+import Wrapper from '../../../../../src/Wrapper'
+import ErrorWrapper from '../../../../../src/ErrorWrapper'
 
 describe('find', () => {
   it('returns an array of Wrappers of elements matching tag selector passed', () => {
