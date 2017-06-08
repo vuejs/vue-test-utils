@@ -1,6 +1,3 @@
-/**
- * Created by eyerburgh on 07/06/2017.
- */
 import { compileToFunctions } from 'vue-template-compiler'
 import mount from '../../../../../src/mount'
 
