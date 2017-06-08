@@ -1,15 +1,14 @@
 import { compileToFunctions } from 'vue-template-compiler'
 import mount from '../../../../../src/mount'
+import ComponentWithVIf from '../../../../resources/components/component-with-v-if.vue'
 
 describe('update', () => {
-    // TODO: Improve this test
   it('causes vm to re render', () => {
-    const compiled = compileToFunctions('<div></div>')
-    const wrapper = mount(compiled)
-    expect(wrapper.vm.bar).to.equal(undefined)
-    wrapper.vm.bar = 'new value'
+    const wrapper = mount(ComponentWithVIf)
+    expect(wrapper.findAll('.child.ready').length).to.equal(0)
+    wrapper.vm.$set(wrapper.vm, 'ready', true)
     wrapper.update()
-    expect(wrapper.vm.bar).to.equal('new value')
+    expect(wrapper.findAll('.child.ready').length).to.equal(1)
   })
 
   it('causes vm to re render, and retain slots', () => {

@@ -10,8 +10,13 @@ export default class VueWrapper extends Wrapper implements BaseWrapper {
   constructor (vm: Component, options: WrapperOptions) {
     super(vm._vnode, update.bind(vm), options)
 
-    this.vm = vm
+    // $FlowIgnore : issue with defineProperty - https://github.com/facebook/flow/issues/285
+    Object.defineProperty(this, 'vnode', ({
+      get: () => vm._vnode,
+      set: () => {}
+    }))
 
+    this.vm = vm
     this.isVueComponent = true
   }
 }

@@ -243,8 +243,6 @@ export default class Wrapper implements BaseWrapper {
       this.vm.$set(this.vm, [key], data[key])
     })
     this.update()
-    // $FlowIgnore : Problem with possibly null this.vm
-    this.vnode = this.vm._vnode
   }
 
   /**
