@@ -19,7 +19,10 @@
     * [setProps](/api/mount/setProps.md)
     * [text](/api/mount/trigger.md)
     * [trigger](/api/mount/trigger.md)
-    * [vm](/api/mount/vm.md)    
+    * [vm](/api/mount/vm.md)
+  * [shallow](/api/mount/README.md)
+    * [hasAttribute](/api/shallow/hasAttribute.md)
+    * [isVueInstance](/api/shallow/isVueInstance.md)
   * [selectors](/api/selectors.md)
 
 
