@@ -17,8 +17,16 @@ export default class ShallowWrapper implements BaseWrapper {
     throw new Error('contains() is not currently supported in shallow render')
   }
 
-  hasAttribute (): void {
-    throw new Error('hasAttribute() is not currently supported in shallow render')
+  hasAttribute (attribute: string, value: string) {
+    if (typeof attribute !== 'string') {
+      throw new Error('wrapper.hasAttribute() must be passed attribute as a string')
+    }
+
+    if (typeof value !== 'string') {
+      throw new Error('wrapper.hasAttribute() must be passed value as a string')
+    }
+
+    return !!(this.vnode.data && this.vnode.data.attrs && this.vnode.data.attrs[attribute] === value)
   }
 
   hasClass (): void {
