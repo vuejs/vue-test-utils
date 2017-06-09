@@ -43,8 +43,18 @@ export default class ShallowWrapper implements BaseWrapper {
     return !!(this.vnode.data && this.vnode.data.staticClass.indexOf(className) !== -1)
   }
 
-  hasProp (): void {
-    throw new Error('hasProp() is not currently supported in shallow render')
+  /**
+   * Asserts wrapper has a prop name
+   */
+  hasProp (prop: string, value: string) {
+    if (!this.isVueComponent) {
+      throw new Error('wrapper.hasProp() must be called on a Vue instance')
+    }
+    if (typeof prop !== 'string') {
+      throw new Error('wrapper.hasProp() must be passed prop as a string')
+    }
+
+    return !!(this.vm && this.vm.$props && this.vm.$props[prop] === value)
   }
 
   hasStyle (): void {
