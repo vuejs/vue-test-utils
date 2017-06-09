@@ -24,6 +24,7 @@
     * [hasAttribute](/api/shallow/hasAttribute.md)
     * [hasClass](/api/shallow/hasClass.md)
     * [hasProp](/api/shallow/hasProps.md)
+    * [isEmpty](/api/shallow/isEmpty.md)
     * [isVueInstance](/api/shallow/isVueInstance.md)
   * [selectors](/api/selectors.md)
 

@@ -77,8 +77,11 @@ export default class ShallowWrapper implements BaseWrapper {
     throw new Error('is() is not currently supported in shallow render')
   }
 
-  isEmpty (): void {
-    throw new Error('isEmpty() is not currently supported in shallow render')
+  /**
+   * Checks if node is empty
+   */
+  isEmpty (): boolean {
+    return this.vnode.children === undefined
   }
 
   /**
