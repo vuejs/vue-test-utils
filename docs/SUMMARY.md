@@ -22,6 +22,7 @@
     * [vm](/api/mount/vm.md)
   * [shallow](/api/mount/README.md)
     * [hasAttribute](/api/shallow/hasAttribute.md)
+    * [hasClass](/api/shallow/hasClass.md)
     * [isVueInstance](/api/shallow/isVueInstance.md)
   * [selectors](/api/selectors.md)
 

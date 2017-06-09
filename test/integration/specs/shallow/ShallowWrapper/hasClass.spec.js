@@ -2,10 +2,27 @@ import { compileToFunctions } from 'vue-template-compiler'
 import shallow from '../../../../../src/shallow'
 
 describe('hasClass', () => {
-  it('throws an error', () => {
+  it('returns true if wrapper has class name', () => {
+    const compiled = compileToFunctions('<div class="a-class" />')
+    const wrapper = shallow(compiled)
+    expect(wrapper.hasClass('a-class')).to.equal(true)
+  })
+
+  it('returns false if wrapper does not have class name', () => {
     const compiled = compileToFunctions('<div />')
     const wrapper = shallow(compiled)
-    const message = 'hasClass() is not currently supported in shallow render'
-    expect(() => wrapper.hasClass()).to.throw(Error, message)
+    expect(wrapper.hasClass('not-class-name')).to.equal(false)
+  })
+
+  it('throws an error if selector is not a string', () => {
+    const compiled = compileToFunctions('<div />')
+    const wrapper = shallow(compiled)
+    const invalidSelectors = [
+      undefined, null, NaN, 0, 2, true, false, () => {}, {}, []
+    ]
+    invalidSelectors.forEach((invalidSelector) => {
+      const message = 'wrapper.hasClass() must be passed a string'
+      expect(() => wrapper.hasClass(invalidSelector)).to.throw(Error, message)
+    })
   })
 })

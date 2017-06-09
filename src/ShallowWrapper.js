@@ -17,7 +17,10 @@ export default class ShallowWrapper implements BaseWrapper {
     throw new Error('contains() is not currently supported in shallow render')
   }
 
-  hasAttribute (attribute: string, value: string) {
+  /**
+   * Checks if wrapper has an attribute with matching value
+   */
+  hasAttribute (attribute: string, value: string): boolean {
     if (typeof attribute !== 'string') {
       throw new Error('wrapper.hasAttribute() must be passed attribute as a string')
     }
@@ -29,8 +32,15 @@ export default class ShallowWrapper implements BaseWrapper {
     return !!(this.vnode.data && this.vnode.data.attrs && this.vnode.data.attrs[attribute] === value)
   }
 
-  hasClass (): void {
-    throw new Error('hasClass() is not currently supported in shallow render')
+  /**
+   * Asserts wrapper has a class name
+   */
+  hasClass (className: string): boolean {
+    if (typeof className !== 'string') {
+      throw new Error('wrapper.hasClass() must be passed a string')
+    }
+
+    return !!(this.vnode.data && this.vnode.data.staticClass.indexOf(className) !== -1)
   }
 
   hasProp (): void {
@@ -61,6 +71,9 @@ export default class ShallowWrapper implements BaseWrapper {
     throw new Error('isEmpty() is not currently supported in shallow render')
   }
 
+  /**
+   * Checks if wrapper is a vue instance
+   */
   isVueInstance (): boolean {
     return !!this.isVueComponent
   }
