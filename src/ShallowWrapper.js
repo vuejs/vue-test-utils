@@ -1,6 +1,14 @@
 // @flow
 
 export default class ShallowWrapper implements BaseWrapper {
+  vnode: VNode;
+  vm: Component | null;
+  isVueComponent: boolean;
+
+  constructor (vnode: VNode) {
+    this.vnode = vnode
+  }
+
   at (): void {
     throw new Error('at() is not currently supported in shallow render')
   }
@@ -45,8 +53,8 @@ export default class ShallowWrapper implements BaseWrapper {
     throw new Error('isEmpty() is not currently supported in shallow render')
   }
 
-  isVueInstance (): void {
-    throw new Error('isVueInstance() is not currently supported in shallow render')
+  isVueInstance (): boolean {
+    return !!this.isVueComponent
   }
 
   name (): void {

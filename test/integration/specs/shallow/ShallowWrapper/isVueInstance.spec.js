@@ -2,10 +2,16 @@ import { compileToFunctions } from 'vue-template-compiler'
 import shallow from '../../../../../src/shallow'
 
 describe('isVueInstance', () => {
-  it('throws an error', () => {
+  it('returns true if wrapper is Vue instance', () => {
     const compiled = compileToFunctions('<div />')
     const wrapper = shallow(compiled)
-    const message = 'isVueInstance() is not currently supported in shallow render'
-    expect(() => wrapper.isVueInstance()).to.throw(Error, message)
+    expect(wrapper.isVueInstance()).to.equal(true)
+  })
+
+  it.skip('returns the tag name of the element if it is not a Vue component', () => {
+    const compiled = compileToFunctions('<div><p /></div>')
+    const wrapper = shallow(compiled)
+    expect(wrapper.find('p').isVueInstance()).to.equal(false)
   })
 })
+
