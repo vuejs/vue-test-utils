@@ -126,7 +126,7 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Finds first node in tree of the current wrapper that matches the provided selector.
    */
-  find (selector: string) {
+  find (selector: string): Wrapper | ErrorWrapper | VueWrapper {
     if (!isValidSelector(selector)) {
       throw new Error('wrapper.find() must be passed a valid CSS selector or a Vue constructor')
     }
@@ -154,7 +154,7 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Finds node in tree of the current wrapper that matches the provided selector.
    */
-  findAll (selector: string | Component) {
+  findAll (selector: string | Component): WrapperArray {
     if (!isValidSelector(selector)) {
       throw new Error('wrapper.findAll() must be passed a valid CSS selector or a Vue constructor')
     }

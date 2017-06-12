@@ -1,5 +1,24 @@
 // @flow
 
+import findAllVNodes from './lib/findAllVNodes'
+import ErrorWrapper from './ErrorWrapper'
+import { isValidSelector } from './lib/validators'
+
+function matchesSelector (vnode, selector) {
+  if (selector[0] === '.') {
+    return vnode.data && vnode.data.staticClass.indexOf(selector.substr(1)) !== -1
+  }
+
+  if (selector[0] === '#') {
+    return !!(vnode.data && vnode.data.attrs && vnode.data.attrs.id === selector.substr(1))
+  }
+
+  if (selector.match('^[a-zA-Z\(\)]+$')) {
+    return vnode.tag === selector
+  }
+  return false
+}
+
 export default class ShallowWrapper implements BaseWrapper {
   vnode: VNode;
   vm: Component | null;
@@ -61,12 +80,26 @@ export default class ShallowWrapper implements BaseWrapper {
     throw new Error('hasStyle() is not currently supported in shallow render')
   }
 
-  findAll (): void {
-    throw new Error('findAll() is not currently supported in shallow render')
+  /**
+   * Finds first node in tree of the current wrapper that matches the provided selector.
+   */
+  find (selector: string | Component): ShallowWrapper | ErrorWrapper {
+    if (!isValidSelector(selector)) {
+      throw new Error('wrapper.find() must be passed a valid CSS selector or a Vue constructor')
+    }
+    const nodes = findAllVNodes(this.vnode)
+
+    const matchingNodes = nodes.filter(node => matchesSelector(node, selector))
+
+    if (matchingNodes.length > 0) {
+      return new ShallowWrapper(matchingNodes[0])
+    } else {
+      return new ErrorWrapper(selector)
+    }
   }
 
-  find (): void {
-    throw new Error('find() is not currently supported in shallow render')
+  findAll (): void {
+    throw new Error('findAll() is not currently supported in shallow render')
   }
 
   html (): void {
