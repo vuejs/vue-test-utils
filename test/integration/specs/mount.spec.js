@@ -1,7 +1,7 @@
 import { compileToFunctions } from 'vue-template-compiler'
 import mount from '~src/mount'
-import ComponentWithProps from '../../resources/components/component-with-props.vue'
-import ComponentWithMixin from '../../resources/components/component-with-mixin.vue'
+import ComponentWithProps from '~resources/components/component-with-props.vue'
+import ComponentWithMixin from '~resources/components/component-with-mixin.vue'
 
 describe('mount', () => {
   it('returns new VueWrapper with mounted Vue instance if no options are passed', () => {

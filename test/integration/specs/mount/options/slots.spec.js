@@ -1,7 +1,7 @@
 import { compileToFunctions } from 'vue-template-compiler'
 import mount from '~src/mount'
-import Component from '../../../../resources/components/component.vue'
-import ComponentWithSlots from '../../../../resources/components/component-with-slots.vue'
+import Component from '~resources/components/component.vue'
+import ComponentWithSlots from '~resources/components/component-with-slots.vue'
 
 describe('mount.slots', () => {
   it('mounts component with default slot if passed component in slot object', () => {

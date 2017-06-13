@@ -1,7 +1,7 @@
 import { compileToFunctions } from 'vue-template-compiler'
 import mount from '~src/mount'
-import ComponentWithChildComponent from '../../../../resources/components/component-with-child-component.vue'
-import Component from '../../../../resources/components/component.vue'
+import ComponentWithChildComponent from '~resources/components/component-with-child-component.vue'
+import Component from '~resources/components/component.vue'
 
 describe('is', () => {
   it('returns true if root node matches tag selector', () => {

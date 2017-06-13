@@ -1,6 +1,6 @@
 import { compileToFunctions } from 'vue-template-compiler'
 import shallow from '~src/shallow'
-import ComponentWithProps from '../../../../resources/components/component-with-props.vue'
+import ComponentWithProps from '~resources/components/component-with-props.vue'
 
 describe('hasProp', () => {
   it('returns true if wrapper has prop', () => {

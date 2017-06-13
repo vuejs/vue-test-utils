@@ -2,11 +2,11 @@ import { compileToFunctions } from 'vue-template-compiler'
 import shallow from '~src/shallow'
 import ShallowWrapper from '~src/ShallowWrapper'
 import ErrorWrapper from '~src/ErrorWrapper'
-import Component from '../../../../resources/components/component.vue'
-import ComponentWithSlots from '../../../../resources/components/component-with-slots.vue'
-import ComponentWithChildComponent from '../../../../resources/components/component-with-child-component.vue'
-import ComponentWithVFor from '../../../../resources/components/component-with-v-for.vue'
-import ComponentWithoutName from '../../../../resources/components/component-without-name.vue'
+import Component from '~resources/components/component.vue'
+import ComponentWithSlots from '~resources/components/component-with-slots.vue'
+import ComponentWithChildComponent from '~resources/components/component-with-child-component.vue'
+import ComponentWithVFor from '~resources/components/component-with-v-for.vue'
+import ComponentWithoutName from '~resources/components/component-without-name.vue'
 
 describe('find', () => {
   it('returns an array of Wrappers of elements matching tag selector passed', () => {

@@ -1,5 +1,5 @@
 import mount from '~src/mount'
-import Component from '../../../../resources/components/component.vue'
+import Component from '~resources/components/component.vue'
 
 describe('mount.intercept', () => {
   it('injects global variables when passed as intercept object', () => {

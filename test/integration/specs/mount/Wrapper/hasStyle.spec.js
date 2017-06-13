@@ -1,6 +1,6 @@
 import { compileToFunctions } from 'vue-template-compiler'
 import mount from '~src/mount'
-import ComponentWithStyle from '../../../../resources/components/component-with-style.vue'
+import ComponentWithStyle from '~resources/components/component-with-style.vue'
 
 describe('hasStyle', () => {
   it('returns true when element contains styles, set inline', () => {
