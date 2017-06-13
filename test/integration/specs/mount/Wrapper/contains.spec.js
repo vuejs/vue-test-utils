@@ -21,7 +21,7 @@ describe('contains', () => {
     expect(wrapper.contains('doesntexist')).to.equal(false)
   })
 
-  it('throws an error if selector is not a valid avoriaz selector', () => {
+  it('throws an error if selector is not a valid selector', () => {
     const wrapper = mount(Component)
     const invalidSelectors = [
       undefined, null, NaN, 0, 2, true, false, () => {}, {}, { name: undefined }, []

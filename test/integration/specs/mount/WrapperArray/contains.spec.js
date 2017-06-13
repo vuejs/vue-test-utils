@@ -16,7 +16,7 @@ describe('contains', () => {
     expect(divArr.contains('p')).to.equal(false)
   })
 
-  it('throws an error if selector is not a valid avoriaz selector', () => {
+  it('throws an error if selector is not a valid selector', () => {
     const compiled = compileToFunctions('<div><p></p></div>')
     const wrapper = mount(compiled)
     const pArr = wrapper.findAll('p')
