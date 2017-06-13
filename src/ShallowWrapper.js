@@ -5,13 +5,13 @@ import ErrorWrapper from './ErrorWrapper'
 import { isValidSelector } from './lib/validators'
 
 function hasClass (vnode, selector) {
-  return (vnode.data && vnode.data.staticClass && vnode.data.staticClass.indexOf(selector.substr(1)) !== -1) ||
-        (vnode.data && vnode.data.class && vnode.data.class[selector.substr(1)])
+  return (vnode.data && vnode.data.staticClass && vnode.data.staticClass.indexOf(selector) !== -1) ||
+        (vnode.data && vnode.data.class && vnode.data.class[selector])
 }
 
 function matchesSelector (vnode, selector) {
   if (selector[0] === '.') {
-    return hasClass(vnode, selector)
+    return hasClass(vnode, selector.substr(1))
   }
 
   if (selector[0] === '#') {
@@ -64,7 +64,7 @@ export default class ShallowWrapper implements BaseWrapper {
       throw new Error('wrapper.hasClass() must be passed a string')
     }
 
-    return !!(this.vnode.data && this.vnode.data.staticClass.indexOf(className) !== -1)
+    return !!(hasClass(this.vnode, className))
   }
 
   /**

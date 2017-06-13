@@ -8,6 +8,12 @@ describe('hasClass', () => {
     expect(wrapper.hasClass('a-class')).to.equal(true)
   })
 
+  it('returns true if wrapper has dynamic class name', () => {
+    const compiled = compileToFunctions('<div v-bind:class="{ foo: true }" />')
+    const wrapper = shallow(compiled)
+    expect(wrapper.hasClass('foo')).to.equal(true)
+  })
+
   it('returns false if wrapper does not have class name', () => {
     const compiled = compileToFunctions('<div />')
     const wrapper = shallow(compiled)
