@@ -17,6 +17,7 @@
     * [update](/api/mount/update.md)
     * [setData](/api/mount/setData.md)
     * [setProps](/api/mount/setProps.md)
+   * [selectors](/api/mount/selectors.md)
     * [text](/api/mount/trigger.md)
     * [trigger](/api/mount/trigger.md)
     * [vm](/api/mount/vm.md)
@@ -28,6 +29,4 @@
     * [isEmpty](/api/shallow/isEmpty.md)
     * [isVueInstance](/api/shallow/isVueInstance.md)
     * [selectors](/api/shallow/selectors.md)    
-  * [selectors](/api/selectors.md)
-
 

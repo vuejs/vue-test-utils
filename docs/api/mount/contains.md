@@ -1,10 +1,10 @@
 # contains(selector)
 
-Returns true if wrapper contains selector. Use any valid [avoriaz selector](/api/selectors.md).
+Returns true if wrapper contains selector. Use any valid [selector](/api/mount/selectors.md).
 
 ### Arguments
 
-`selector` (`String`|`Component`): a CSS selector ('#id', '.class-name', 'tag') or a Vue component. See [selectors](/api/selectors.md).
+`selector` (`String`|`Component`): a CSS selector ('#id', '.class-name', 'tag') or a Vue component. See [selectors](/api/mount/selectors.md).
 
 ### Returns
 
