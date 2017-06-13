@@ -5,10 +5,10 @@ import ShallowVueWrapper from './ShallowVueWrapper'
 
 Vue.config.productionTip = false
 
-export default function shallow (component: Component): ShallowVueWrapper {
+export default function shallow (component: Component, options: Object): ShallowVueWrapper {
   const Constructor = Vue.extend(component)
 
-  const vm = new Constructor()
+  const vm = new Constructor(options)
 
   return new ShallowVueWrapper(vm)
 }
