@@ -1,6 +1,6 @@
 # Selectors
 
-A lot of avoriaz methods take a selector as an argument. A selector can either be a CSS selector, or a Vue component.
+A lot of methods take a selector as an argument. A selector can either be a CSS selector, or a Vue component.
 
 ## CSS Selectors
 

@@ -11,7 +11,7 @@ Create a fully rendered Vue component. Returns a wrapper that includes methods t
 #### Without options
 
 ```js
-import { shallow } from 'avoriaz'
+import { shallow } from 'vue-test-utils'
 import { expect } from 'chai'
 import Foo from './Foo.vue'
 

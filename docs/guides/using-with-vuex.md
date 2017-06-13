@@ -37,13 +37,11 @@ For the purposes of this test, we don’t care what the actions do, or what the 
 
 To test this, we need to pass a mock store to Vue when we mount our component.
 
-In this tutorial we will be using avoriaz, which has a mount method. We can pass the store as an option to mount.
-
 Let’s see what this looks like:
 
 ```js
 import Vue from 'vue'
-import { mount } from 'avoriaz';
+import { mount } from 'vue-test-utils';
 import sinon from 'sinon';
 import { expect } from 'chai';
 import Vuex from 'vuex';
@@ -102,7 +100,7 @@ Now the way we define the store might look a bit foreign to you.
 
 We’re using beforeEach to ensure we have a clean store before each test. beforeEach is a mocha hook that’s called before each test. In our test, we are reassigning the store variables value. If we didn’t do this, the sinon stubs would need to be automatically reset. It also lets us change the state in our tests, without it affecting later tests.
 
-The most important thing to note in this test is that **we create a mock Vuex store and then pass it to avoriaz**.
+The most important thing to note in this test is that **we create a mock Vuex store and then pass it to vue-test-utils**.
 
 Great, so now we can mock actions, let’s look at mocking getters.
 
@@ -136,7 +134,7 @@ Let’s see the test:
 ```javascript
 import 'babel-polyfill';
 import Vue from 'vue';
-import { mount } from 'avoriaz';
+import { mount } from 'vue-test-utils';
 import { expect } from 'chai';
 import Vuex from 'vuex';
 import Actions from '../../../src/components/Getters';
@@ -212,7 +210,7 @@ And the test:
 
 ```javascript
 import Vue from 'vue';
-import { mount } from 'avoriaz';
+import { mount } from 'vue-test-utils';
 import sinon from 'sinon';
 import { expect } from 'chai';
 import Vuex from 'vuex';

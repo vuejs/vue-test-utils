@@ -6,7 +6,7 @@ Create a fully rendered Vue component. Returns a wrapper that includes methods t
 
 `component` (`Component`): A vue component
 
-`options` (`Object`) [optional]: a Vue options object. Vue options are passed to the component when a new instance is created. , e.g. `store`, `propsData`. For full list, see the [Vue API](https://vuejs.org/v2/api/). Also takes avoriaz options:
+`options` (`Object`) [optional]: a Vue options object. Vue options are passed to the component when a new instance is created. , e.g. `store`, `propsData`. For full list, see the [Vue API](https://vuejs.org/v2/api/). Also takes vue-test-utils options:
 
 `options.attachToDocument` (`Boolean`): Component will attach to DOM when rendered. This can be used with [`hasStyle`](/api/mount/hasStyle.md) to check multi element CSS selectors
 
@@ -23,7 +23,7 @@ Create a fully rendered Vue component. Returns a wrapper that includes methods t
 #### Without options
 
 ```js
-import { mount } from 'avoriaz';
+import { mount } from 'vue-test-utils';
 import { expect } from 'chai';
 import Foo from './Foo.vue';
 
@@ -36,8 +36,8 @@ describe('Foo', () => {
 ```
 #### With Vue options
 ```js
-import { mount } from 'avoriaz';
-import { expect } from 'chai';]
+import { mount } from 'vue-test-utils';
+import { expect } from 'chai';
 import Foo from './Foo.vue';
 
 describe('Foo', () => {
@@ -54,8 +54,8 @@ describe('Foo', () => {
 
 #### Attach to DOM
 ```js
-import { mount } from 'avoriaz';
-import { expect } from 'chai';]
+import { mount } from 'vue-test-utils';
+import { expect } from 'chai';
 import Foo from './Foo.vue';
 
 describe('Foo', () => {
@@ -69,8 +69,8 @@ describe('Foo', () => {
 ```
 #### Default and named slots
 ```js
-import { mount } from 'avoriaz';
-import { expect } from 'chai';]
+import { mount } from 'vue-test-utils';
+import { expect } from 'chai';
 import Foo from './Foo.vue';
 import Bar from './Bar.vue';
 import FooBar from './FooBar.vue';
@@ -91,8 +91,8 @@ describe('Foo', () => {
 
 #### Adding globals
 ```js
-import { mount } from 'avoriaz';
-import { expect } from 'chai';]
+import { mount } from 'vue-test-utils';
+import { expect } from 'chai';
 import Foo from './Foo.vue';
 
 describe('Foo', () => {

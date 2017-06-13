@@ -27,7 +27,7 @@ export default {
 `Foo.spec.js`
 
 ```js
-import { mount } from 'avoriaz';
+import { mount } from 'vue-test-utils';
 import Foo from './Foo.vue';
 
 const wrapper = mount(Foo);

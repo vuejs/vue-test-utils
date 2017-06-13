@@ -9,7 +9,7 @@ event (`String`): type of event (e.g. click).
 ## Example
 
 ```js
-import { mount } from 'avoriaz';
+import { mount } from 'vue-test-utils';
 import sinon from 'sinon';
 import Foo from './Foo';
 

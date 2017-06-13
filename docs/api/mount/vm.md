@@ -5,7 +5,7 @@ Every Vue component wrapper has a vm property, which is the Vue instance.
 ### Example
 
 ```js
-import { mount } from 'avoriaz';
+import { mount } from 'vue-test-utils';
 import Foo from './Foo.vue';
 
 const wrapper = mount(Foo);
