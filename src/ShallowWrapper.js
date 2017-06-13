@@ -145,8 +145,21 @@ export default class ShallowWrapper implements BaseWrapper {
     throw new Error('setProps() is not currently supported in shallow render')
   }
 
-  trigger (): void {
-    throw new Error('trigger() is not currently supported in shallow render')
+  /**
+   * Dispatches a DOM event on wrapper
+   */
+  trigger (type: string): void {
+    if (typeof type !== 'string') {
+      throw new Error('wrapper.trigger() must be passed a string')
+    }
+
+    if (this.vnode.data && this.vnode.data.on) {
+      try {
+        this.vnode.data.on[type]()
+      } catch (e) {
+        console.log(e)
+      }
+    }
   }
 
   update (): void {
