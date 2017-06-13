@@ -1,7 +1,7 @@
 import { compileToFunctions } from 'vue-template-compiler'
 import { isVueComponent } from '../../../../src/lib/validators'
-import Component from '../../../resources/components/component.vue'
-import ComponentWithoutName from '../../../resources/components/component-without-name.vue'
+import Component from '~resources/components/component.vue'
+import ComponentWithoutName from '~resources/components/component-without-name.vue'
 
 describe('isVueComponent', () => {
   it('returns true using a named .vue file', () => {

@@ -1,6 +1,6 @@
 import { compileToFunctions } from 'vue-template-compiler'
 import mount from '~src/mount'
-import ComponentWithVIf from '../../../../resources/components/component-with-v-if.vue'
+import ComponentWithVIf from '~resources/components/component-with-v-if.vue'
 
 describe('setData', () => {
   it('sets component data and updates nested vm nodes when called on Vue instance', () => {

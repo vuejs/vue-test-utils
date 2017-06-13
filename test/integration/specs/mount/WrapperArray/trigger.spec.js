@@ -1,5 +1,5 @@
 import mount from '~src/mount'
-import ComponentWithEvents from '../../../../resources/components/component-with-events.vue'
+import ComponentWithEvents from '~resources/components/component-with-events.vue'
 
 describe('trigger', () => {
   it('causes click handler to fire when wrapper.trigger("click") is called on a Component', () => {
