@@ -20,12 +20,14 @@
     * [text](/api/mount/trigger.md)
     * [trigger](/api/mount/trigger.md)
     * [vm](/api/mount/vm.md)
-  * [shallow](/api/mount/README.md)
+  * [shallow](/api/shallow/README.md)
+    * [find](/api/shallow/find.md)
     * [hasAttribute](/api/shallow/hasAttribute.md)
     * [hasClass](/api/shallow/hasClass.md)
     * [hasProp](/api/shallow/hasProps.md)
     * [isEmpty](/api/shallow/isEmpty.md)
     * [isVueInstance](/api/shallow/isVueInstance.md)
+    * [selectors](/api/shallow/selectors.md)    
   * [selectors](/api/selectors.md)
 
 
