@@ -1,5 +1,5 @@
 import { compileToFunctions } from 'vue-template-compiler'
-import shallow from '../../../../../src/shallow'
+import shallow from '~src/shallow'
 
 describe('at', () => {
   it('throws an error', () => {

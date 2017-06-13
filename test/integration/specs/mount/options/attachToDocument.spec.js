@@ -1,5 +1,5 @@
 import { compileToFunctions } from 'vue-template-compiler'
-import mount from '../../../../../src/mount'
+import mount from '~src/mount'
 
 describe('mount.attachToDocument', () => {
   it('returns VueWrapper with attachedToDocument set to true when passed attachToDocument in options', () => {

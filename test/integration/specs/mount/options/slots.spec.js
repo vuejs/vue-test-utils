@@ -1,5 +1,5 @@
 import { compileToFunctions } from 'vue-template-compiler'
-import mount from '../../../../../src/mount'
+import mount from '~src/mount'
 import Component from '../../../../resources/components/component.vue'
 import ComponentWithSlots from '../../../../resources/components/component-with-slots.vue'
 

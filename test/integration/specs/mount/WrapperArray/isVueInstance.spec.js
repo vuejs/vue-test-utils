@@ -1,4 +1,4 @@
-import mount from '../../../../../src/mount'
+import mount from '~src/mount'
 import { compileToFunctions } from 'vue-template-compiler'
 import ComponentWithChildComponent from '../../../../resources/components/component-with-child-component.vue'
 import Component from '../../../../resources/components/component.vue'

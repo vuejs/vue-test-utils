@@ -1,4 +1,4 @@
-import mount from '../../../../../src/mount'
+import mount from '~src/mount'
 import { compileToFunctions } from 'vue-template-compiler'
 
 describe('isVueInstance', () => {
