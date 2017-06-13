@@ -1,5 +1,5 @@
 import { compileToFunctions } from 'vue-template-compiler'
-import mount from '../../../../../src/mount'
+import mount from '~src/mount'
 
 describe('html', () => {
   it('throws an error when called on a WrapperArray', () => {

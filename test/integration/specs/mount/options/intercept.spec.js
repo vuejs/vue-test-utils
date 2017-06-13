@@ -1,4 +1,4 @@
-import mount from '../../../../../src/mount'
+import mount from '~src/mount'
 import Component from '../../../../resources/components/component.vue'
 
 describe('mount.intercept', () => {

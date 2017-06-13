@@ -1,4 +1,4 @@
-import mount from '../../../../../src/mount'
+import mount from '~src/mount'
 import ComponentWithInject from '../../../../resources/components/component-with-inject.vue'
 
 describe('mount.provide', () => {

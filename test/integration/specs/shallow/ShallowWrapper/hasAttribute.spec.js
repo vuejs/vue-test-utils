@@ -1,5 +1,5 @@
 import { compileToFunctions } from 'vue-template-compiler'
-import shallow from '../../../../../src/shallow'
+import shallow from '~src/shallow'
 
 describe('hasAttribute', () => {
   it('returns true if wrapper contains attribute matching value', () => {

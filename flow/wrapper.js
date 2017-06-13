@@ -1,7 +1,7 @@
 // @flow
 
-import type Wrapper from '../src/Wrapper'
-import type WrapperArray from '../src/WrapperArray'
+import type Wrapper from '~src/Wrapper'
+import type WrapperArray from '~src/WrapperArray'
 
 declare interface BaseWrapper { // eslint-disable-line no-undef
     at(index: number): Wrapper | void,
