@@ -21,6 +21,12 @@ describe('find', () => {
     expect(wrapper.find('.foo')).to.be.instanceOf(ShallowWrapper)
   })
 
+  it('returns Wrapper of elements matching class selector passed when dynamic class used', () => {
+    const compiled = compileToFunctions('<div><div v-bind:class="{ foo: true }" /></div>')
+    const wrapper = shallow(compiled)
+    expect(wrapper.find('.foo')).to.be.instanceOf(ShallowWrapper)
+  })
+
   it.skip('returns Wrapper matching class selector passed if nested in a transition', () => {
     const compiled = compileToFunctions('<transition><div /></transition>')
     const wrapper = shallow(compiled)

@@ -4,9 +4,14 @@ import findAllVNodes from './lib/findAllVNodes'
 import ErrorWrapper from './ErrorWrapper'
 import { isValidSelector } from './lib/validators'
 
+function hasClass (vnode, selector) {
+  return (vnode.data && vnode.data.staticClass && vnode.data.staticClass.indexOf(selector.substr(1)) !== -1) ||
+        (vnode.data && vnode.data.class && vnode.data.class[selector.substr(1)])
+}
+
 function matchesSelector (vnode, selector) {
   if (selector[0] === '.') {
-    return vnode.data && vnode.data.staticClass.indexOf(selector.substr(1)) !== -1
+    return hasClass(vnode, selector)
   }
 
   if (selector[0] === '#') {
