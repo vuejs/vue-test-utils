@@ -1,10 +1,10 @@
 # is(selector)
 
-Returns true if wrapper node matches selector. Use any valid [selector](/api/mount/selectors.md).
+Returns true if wrapper node matches selector. Use any valid [selector](/api/selectors.md).
 
 ### Arguments
 
-`selector` (`String`|`Component`): a CSS selector ('#id', '.class-name', 'tag') or a Vue component. See [selectors](/api/mount/selectors.md).
+`selector` (`String`|`Component`): a CSS selector ('#id', '.class-name', 'tag') or a Vue component. See [selectors](/api/selectors.md).
 
 ### Returns
 
