@@ -19,5 +19,12 @@ describe('shallow', () => {
     expect(wrapper.findAll(Component).length).to.equal(0)
     expect(wrapper.findAll(ComponentWithChildComponent).length).to.equal(1)
   })
+
+  it('does not call children lifecycle hooks stubbed', () => {
+    const time = sinon.stub(console, 'time')
+    shallow(ComponentWithNestedChildren)
+    expect(time.called).to.equal(false)
+    time.restore()
+  })
 })
 
