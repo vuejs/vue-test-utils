@@ -25,7 +25,7 @@ module.exports = {
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
       '~src': `${projectRoot}/src`,
-      '~resources': `${projectRoot}/test/resources`,
+      '~resources': `${projectRoot}/test/resources`
     }
   },
   devtool: '#eval-source-map'
