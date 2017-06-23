@@ -14,7 +14,13 @@ describe('hasClass', () => {
     expect(wrapper.findAll('div').hasClass('not-class-name')).to.equal(false)
   })
 
-  it('throws an error if selector is not a string', () => {
+  it('throws error if wrapper array contains no items', () => {
+    const compiled = compileToFunctions('<div />')
+    const message = 'hasClass cannot be called on 0 items'
+    expect(() => mount(compiled).findAll('p').hasClass('p')).to.throw(Error, message)
+  })
+
+  it('throws error if selector is not a string', () => {
     const compiled = compileToFunctions('<div />')
     const wrapper = mount(compiled)
     const invalidSelectors = [

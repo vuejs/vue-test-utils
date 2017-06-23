@@ -35,4 +35,10 @@ describe('setProps', () => {
     const p = wrapper.findAll('p')
     expect(() => p.setProps({ ready: true })).throw(Error, message)
   })
+
+  it('throws error if wrapper array contains no items', () => {
+    const compiled = compileToFunctions('<div />')
+    const message = 'setProps cannot be called on 0 items'
+    expect(() => mount(compiled).findAll('p').setProps('p')).to.throw(Error, message)
+  })
 })

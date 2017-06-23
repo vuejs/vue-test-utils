@@ -1,3 +1,4 @@
+import { compileToFunctions } from 'vue-template-compiler'
 import mount from '~src/mount'
 import ComponentWithEvents from '~resources/components/component-with-events.vue'
 
@@ -50,5 +51,11 @@ describe('trigger', () => {
       const message = 'wrapper.trigger() must be passed a string'
       expect(() => wrapper.trigger(invalidSelector)).to.throw(Error, message)
     })
+  })
+
+  it('throws error if wrapper array contains no items', () => {
+    const compiled = compileToFunctions('<div />')
+    const message = 'trigger cannot be called on 0 items'
+    expect(() => mount(compiled).findAll('p').trigger('p')).to.throw(Error, message)
   })
 })

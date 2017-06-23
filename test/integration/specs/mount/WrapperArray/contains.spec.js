@@ -16,7 +16,13 @@ describe('contains', () => {
     expect(divArr.contains('p')).to.equal(false)
   })
 
-  it('throws an error if selector is not a valid selector', () => {
+  it('throws error if wrapper array contains no items', () => {
+    const compiled = compileToFunctions('<div />')
+    const message = 'contains cannot be called on 0 items'
+    expect(() => mount(compiled).findAll('p').contains('p')).to.throw(Error, message)
+  })
+
+  it('throws error if selector is not a valid selector', () => {
     const compiled = compileToFunctions('<div><p></p></div>')
     const wrapper = mount(compiled)
     const pArr = wrapper.findAll('p')

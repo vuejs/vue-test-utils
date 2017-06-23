@@ -15,4 +15,10 @@ describe('isEmpty', () => {
 
     expect(wrapper.findAll('span').isEmpty()).to.equal(false)
   })
+
+  it('throws error if wrapper array contains no items', () => {
+    const compiled = compileToFunctions('<div />')
+    const message = 'isEmpty cannot be called on 0 items'
+    expect(() => mount(compiled).findAll('p').isEmpty('p')).to.throw(Error, message)
+  })
 })

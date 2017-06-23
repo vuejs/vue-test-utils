@@ -20,4 +20,10 @@ describe('setData', () => {
     const wrapper = mount(compiled)
     expect(() => wrapper.findAll('p').setData({ ready: true })).throw(Error, message)
   })
+
+  it('throws error if wrapper array contains no items', () => {
+    const compiled = compileToFunctions('<div />')
+    const message = 'setData cannot be called on 0 items'
+    expect(() => mount(compiled).findAll('p').setData('p')).to.throw(Error, message)
+  })
 })

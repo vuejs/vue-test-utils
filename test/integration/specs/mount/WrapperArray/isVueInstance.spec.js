@@ -14,5 +14,11 @@ describe('isVueInstance', () => {
     const wrapper = mount(compiled)
     expect(wrapper.findAll('p').isVueInstance()).to.equal(false)
   })
+
+  it('throws error if wrapper array contains no items', () => {
+    const compiled = compileToFunctions('<div />')
+    const message = 'isVueInstance cannot be called on 0 items'
+    expect(() => mount(compiled).findAll('p').isVueInstance('p')).to.throw(Error, message)
+  })
 })
 

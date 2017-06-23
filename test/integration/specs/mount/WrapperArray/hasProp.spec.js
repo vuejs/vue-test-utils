@@ -9,14 +9,20 @@ describe('hasProp', () => {
     expect(wrapper.findAll(Component).hasProp('no-prop', 'value')).to.equal(false)
   })
 
-  it('throws an error if items are not Vue components', () => {
+  it('throws error if items are not Vue components', () => {
     const compiled = compileToFunctions('<div><p /></div>')
     const p = mount(compiled).findAll('p').at(0)
     const message = 'wrapper.hasProp() must be called on a Vue instance'
     expect(() => p.hasProp('no-prop', 'value')).to.throw(Error, message)
   })
 
-  it('throws an error if prop is not a string', () => {
+  it('throws error if wrapper array contains no items', () => {
+    const compiled = compileToFunctions('<div />')
+    const message = 'hasProp cannot be called on 0 items'
+    expect(() => mount(compiled).findAll('p').hasProp('p')).to.throw(Error, message)
+  })
+
+  it('throws error if prop is not a string', () => {
     const wrapper = mount(ComponentWithChildComponents)
     const invalidSelectors = [
       undefined, null, NaN, 0, 2, true, false, () => {}, {}, []

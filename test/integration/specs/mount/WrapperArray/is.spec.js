@@ -28,7 +28,13 @@ describe('is', () => {
     expect(wrapper.findAll('div').is('.a-class')).to.equal(false)
   })
 
-  it('throws an error if selector is not a valid selector', () => {
+  it('throws error if wrapper array contains no items', () => {
+    const compiled = compileToFunctions('<div />')
+    const message = 'is cannot be called on 0 items'
+    expect(() => mount(compiled).findAll('p').is('p')).to.throw(Error, message)
+  })
+
+  it('throws error if selector is not a valid selector', () => {
     const compiled = compileToFunctions('<div><div></div></div>')
     const wrapper = mount(compiled)
     const invalidSelectors = [

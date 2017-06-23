@@ -23,6 +23,12 @@ describe('hasAttribute', () => {
     expect(() => wrapper.findAll('div').hasAttribute(undefined, 'value')).to.throw(Error, message)
   })
 
+  it('throws error if wrapper array contains no items', () => {
+    const compiled = compileToFunctions('<div />')
+    const message = 'hasAttribute cannot be called on 0 items'
+    expect(() => mount(compiled).findAll('p').hasAttribute('p')).to.throw(Error, message)
+  })
+
   it('throws an error if value is not a string', () => {
     const compiled = compileToFunctions('<div><div /></div>')
     const wrapper = mount(compiled)

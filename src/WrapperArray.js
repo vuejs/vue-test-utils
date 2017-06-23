@@ -20,90 +20,110 @@ export default class WrapperArray implements BaseWrapper {
   }
 
   contains (selector: string | Component): boolean {
+    this.throwErrorIfWrappersIsEmpty('contains')
+
     return this.wrappers.every(wrapper => wrapper.contains(selector))
   }
 
   hasAttribute (attribute: string, value: string): boolean {
+    this.throwErrorIfWrappersIsEmpty('hasAttribute')
+
     return this.wrappers.every(wrapper => wrapper.hasAttribute(attribute, value))
   }
 
   hasClass (className: string): boolean {
+    this.throwErrorIfWrappersIsEmpty('hasClass')
+
     return this.wrappers.every(wrapper => wrapper.hasClass(className))
   }
 
   hasProp (prop: string, value: string): boolean {
+    this.throwErrorIfWrappersIsEmpty('hasProp')
+
     return this.wrappers.every(wrapper => wrapper.hasProp(prop, value))
   }
 
   hasStyle (style: string, value: string): boolean {
+    this.throwErrorIfWrappersIsEmpty('hasStyle')
+
     return this.wrappers.every(wrapper => wrapper.hasStyle(style, value))
   }
 
   findAll (): void {
-    if (this.wrappers.length === 0) {
-      throw new Error('findAll cannot be called on 0 items')
-    }
+    this.throwErrorIfWrappersIsEmpty('findAll')
 
     throw new Error('findAll must be called on a single wrapper, use at(i) to access a wrapper')
   }
 
   find (): void {
-    if (this.wrappers.length === 0) {
-      throw new Error('find cannot be called on 0 items')
-    }
+    this.throwErrorIfWrappersIsEmpty('find')
 
     throw new Error('find must be called on a single wrapper, use at(i) to access a wrapper')
   }
 
   html (): void {
-    if (this.wrappers.length === 0) {
-      throw new Error('html cannot be called on 0 items')
-    }
+    this.throwErrorIfWrappersIsEmpty('html')
 
     throw new Error('html must be called on a single wrapper, use at(i) to access a wrapper')
   }
 
   is (selector: string | Component): boolean {
+    this.throwErrorIfWrappersIsEmpty('is')
+
     return this.wrappers.every(wrapper => wrapper.is(selector))
   }
 
   isEmpty (): boolean {
+    this.throwErrorIfWrappersIsEmpty('isEmpty')
+
     return this.wrappers.every(wrapper => wrapper.isEmpty())
   }
 
   isVueInstance (): boolean {
+    this.throwErrorIfWrappersIsEmpty('isVueInstance')
+
     return this.wrappers.every(wrapper => wrapper.isVueInstance())
   }
 
   name (): void {
-    if (this.wrappers.length === 0) {
-      throw new Error('name cannot be called on 0 items')
-    }
+    this.throwErrorIfWrappersIsEmpty('name')
 
     throw new Error('name must be called on a single wrapper, use at(i) to access a wrapper')
   }
 
   text (): void {
-    if (this.wrappers.length === 0) {
-      throw new Error('text cannot be called on 0 items')
-    }
+    this.throwErrorIfWrappersIsEmpty('text')
 
     throw new Error('text must be called on a single wrapper, use at(i) to access a wrapper')
   }
 
+  throwErrorIfWrappersIsEmpty (method: string): void {
+    if (this.wrappers.length === 0) {
+      throw new Error(`${method} cannot be called on 0 items`)
+    }
+  }
+
   setData (data: Object): void {
+    this.throwErrorIfWrappersIsEmpty('setData')
+
     this.wrappers.forEach(wrapper => wrapper.setData(data))
   }
 
   setProps (props: Object): void {
+    this.throwErrorIfWrappersIsEmpty('setProps')
+
     this.wrappers.forEach(wrapper => wrapper.setProps(props))
   }
 
   trigger (event: string): void {
+    this.throwErrorIfWrappersIsEmpty('trigger')
+
     this.wrappers.forEach(wrapper => wrapper.trigger(event))
   }
 
   update (): void {
+    this.throwErrorIfWrappersIsEmpty('update')
+
     this.wrappers.forEach(wrapper => wrapper.update())
   }
 }

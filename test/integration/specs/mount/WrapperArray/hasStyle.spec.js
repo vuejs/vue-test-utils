@@ -38,14 +38,20 @@ describe('hasStyle', () => {
     expect(wrapper.findAll('span').hasStyle('color', 'orange')).to.equal(false)
   })
 
-  it('throws an error if style is not a string', () => {
+  it('throws error if wrapper array contains no items', () => {
+    const compiled = compileToFunctions('<div />')
+    const message = 'hasStyle cannot be called on 0 items'
+    expect(() => mount(compiled).findAll('p').hasStyle('p')).to.throw(Error, message)
+  })
+
+  it('throws error if style is not a string', () => {
     const compiled = compileToFunctions('<div><div /></div>')
     const wrapper = mount(compiled)
     const message = 'wrapper.hasStyle() must be passed style as a string'
     expect(() => wrapper.findAll('div').hasStyle(undefined, 'red')).to.throw(Error, message)
   })
 
-  it('throws an error if value is not a string', () => {
+  it('throws error if value is not a string', () => {
     const compiled = compileToFunctions('<div><div /></div>')
     const wrapper = mount(compiled)
     const message = 'wrapper.hasClass() must be passed value as string'
