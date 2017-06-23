@@ -1,6 +1,7 @@
 import { compileToFunctions } from 'vue-template-compiler'
 import mount from '~src/mount'
 import ComponentWithProps from '~resources/components/component-with-props.vue'
+import ComponentWithWatch from '~resources/components/component-with-watch.vue'
 
 describe('setProps', () => {
   it('sets component props and updates DOM when called on Vue instance', () => {
@@ -20,6 +21,13 @@ describe('setProps', () => {
     wrapper.setProps({ prop1, prop2 })
     expect(wrapper.find('.prop-1').element.textContent).to.equal(prop1)
     expect(wrapper.find('.prop-2').element.textContent).to.equal(prop2)
+  })
+
+  it('runs watch function when prop is updated', () => {
+    const wrapper = mount(ComponentWithWatch)
+    const prop1 = 'testest'
+    wrapper.setProps({ prop1 })
+    expect(wrapper.vm.prop2).to.equal(prop1)
   })
 
   it('throws an error if node is not a Vue instance', () => {
