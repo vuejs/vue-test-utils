@@ -22,7 +22,8 @@ function createElem (): HTMLElement | void {
 type MountOptions = {
     attachToDocument?: boolean,
     intercept?: Object,
-    slots?: Object
+    slots?: Object,
+    instance?: Component
 }
 
 export default function mount (component: Component, options: MountOptions = {}): VueWrapper {
@@ -42,7 +43,13 @@ export default function mount (component: Component, options: MountOptions = {})
     addProvide(component, options)
   }
 
-  const Constructor = Vue.extend(component)
+  let Constructor
+
+  if (options.instance) {
+    Constructor = options.instance.extend(component)
+  } else {
+    Constructor = Vue.extend(component)
+  }
 
   if (options.intercept) {
     const globals = addGlobals(options.intercept)
