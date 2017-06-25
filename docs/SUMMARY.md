@@ -23,6 +23,7 @@
     * [trigger](/api/wrapper/trigger.md)
     * [vm](/api/wrapper/vm.md)
   * [WrapperArray](/api/wrapper-array/README.md)
+    * [at](/api/wrapper-array/at.md)
     * [contains](/api/wrapper-array/contains.md) 
     * [hasAttribute](/api/wrapper-array/hasAttribute.md)
     * [hasClass](/api/wrapper-array/hasClass.md)
