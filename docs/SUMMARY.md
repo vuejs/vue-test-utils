@@ -2,8 +2,8 @@
 
 * [Introduction](/README.md)
 * [API](/api/README.md)
-  * [mount](/api/mount/README.md)
-  * [shallow](/api/shallow/README.md)
+  * [mount](/api/mount.md)
+  * [shallow](/api/shallow.md)
   * wrapper methods
     * [contains](/api/methods/contains.md) 
     * [find](/api/methods/find.md)
