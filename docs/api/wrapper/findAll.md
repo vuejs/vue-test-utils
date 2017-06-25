@@ -1,6 +1,6 @@
 # findAll(selector)
 
-Returns an array of wrappers of DOM nodes or Vue components. Use any valid [selector](/api/selectors.md).
+Returns a [`WrapperArray`](/api/wrapper-array/README.md) of [Wrappers](/api/wrapper/README.md). Use any valid [selector](/api/selectors.md).
 
 ### Arguments
 
@@ -8,7 +8,7 @@ Returns an array of wrappers of DOM nodes or Vue components. Use any valid [sele
 
 ### Returns
 
-(`WrapperArray`): returns an `object` containing wrappers matching selector. Access wrappers using the `at` method
+(`WrapperArray`): returns a [`WrapperArray`](/api/wrapper-array/README.md) with [Wrappers](/api/wrapper/README.md) matching selector. Access wrappers using the [`at`](/api/WrapperArray/at.md) method
 
 
 ### Example

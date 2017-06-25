@@ -2,7 +2,7 @@
 
 vue-test-utils is a wrapper based API.
 
-A wrapper is an object that contains a mounted component or vnode and methods to test the component or vnode.
+A `Wrapper` is an object that contains a mounted component or vnode and methods to test the component or vnode.
 
 ## Properties
 

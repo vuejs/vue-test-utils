@@ -1,6 +1,6 @@
 # find(selector)
 
-Returns Wrapper of first DOM node or Vue component matching selector. Use any valid [selector](/api/selectors.md).
+Returns [`Wrapper`](/api/wrapper/README.md) of first DOM node or Vue component matching selector. Use any valid [selector](/api/selectors.md).
 
 ### Arguments
 
@@ -8,7 +8,7 @@ Returns Wrapper of first DOM node or Vue component matching selector. Use any va
 
 ### Returns
 
-(`Wrapper`): returns a Wrapper `object`
+(`Wrapper`): returns a [`Wrapper`](/api/wrapper/README.md)
 
 
 ### Example
