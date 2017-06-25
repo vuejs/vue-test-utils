@@ -23,87 +23,88 @@ Create a fully rendered Vue component, with stubbed child components. Returns a 
 #### Without options
 
 ```js
-import { shallow } from 'vue-test-utils';
-import { expect } from 'chai';
-import Foo from './Foo.vue';
+import { shallow } from 'vue-test-utils'
+import { expect } from 'chai'
+import Foo from './Foo.vue'
 
 describe('Foo', () => {
   it('renders a div', () => {
-    const wrapper = shallow(Foo);
-    expect(wrapper.props(div)).to.equal(true);
+    const wrapper = shallow(Foo)
+    expect(wrapper.contains('div')).to.equal(true)
   })
 })
 ```
 #### With Vue options
 ```js
-import { shallow } from 'vue-test-utils';
-import { expect } from 'chai';
-import Foo from './Foo.vue';
+import { shallow } from 'vue-test-utils'
+import { expect } from 'chai'
+import Foo from './Foo.vue'
 
 describe('Foo', () => {
   it('renders a div', () => {
-    const wrapper = shallow(Foo, { 
-        propsData: { 
-            color: 'red',
-        },
+    const wrapper = shallow(Foo, {
+      propsData: {
+        color: 'red'
+      }
     })
-    expect(wrapper.props(div)).to.equal(true);
+    expect(wrapper.hasProp('color', 'red')).to.equal(true)
   })
 })
 ```
 
 #### Attach to DOM
 ```js
-import { shallow } from 'vue-test-utils';
-import { expect } from 'chai';
-import Foo from './Foo.vue';
+import { shallow } from 'vue-test-utils'
+import { expect } from 'chai'
+import Foo from './Foo.vue'
 
 describe('Foo', () => {
   it('renders a div', () => {
-    const wrapper = shallow(Foo, { 
-        attachToDocument: true
+    const wrapper = shallow(Foo, {
+      attachToDocument: true
     })
-    expect(wrapper.props(div)).to.equal(true);
+    expect(wrapper.contains('div')).to.equal(true)
   })
 })
 ```
+
 #### Default and named slots
 ```js
-import { shallow } from 'vue-test-utils';
-import { expect } from 'chai';
-import Foo from './Foo.vue';
-import Bar from './Bar.vue';
-import FooBar from './FooBar.vue';
+import { shallow } from 'vue-test-utils'
+import { expect } from 'chai'
+import Foo from './Foo.vue'
+import Bar from './Bar.vue'
+import FooBar from './FooBar.vue'
 
 describe('Foo', () => {
   it('renders a div', () => {
-    const wrapper = shallow(Foo, { 
-        slots: {
-            default: [Bar, FoorBar],
-            fooBar: FooBar, // Will match <slot name="FooBar" />,
-            foo: '<div />'
-        }
+    const wrapper = shallow(Foo, {
+      slots: {
+        default: [Bar, FooBar],
+        fooBar: FooBar, // Will match <slot name="FooBar" />,
+        foo: '<div />'
+      }
     })
-    expect(wrapper.props(div)).to.equal(true);
+    expect(wrapper.find('div')).to.equal(true)
   })
 })
 ```
 
 #### Adding globals
 ```js
-import { shallow } from 'vue-test-utils';
-import { expect } from 'chai';
-import Foo from './Foo.vue';
+import { shallow } from 'vue-test-utils'
+import { expect } from 'chai'
+import Foo from './Foo.vue'
 
 describe('Foo', () => {
   it('renders a div', () => {
-    const $route = {path: 'http://www.example-path.com'};
-    const wrapper = shallow(Foo, { 
-        globals: {
-            $route
-        }
+    const $route = { path: 'http://www.example-path.com' }
+    const wrapper = shallow(Foo, {
+      globals: {
+        $route
+      }
     })
-    expect(wrapper.vm.$route.path).to.equal($route.path);
+    expect(wrapper.vm.$route.path).to.equal($route.path)
   })
 })
 ```

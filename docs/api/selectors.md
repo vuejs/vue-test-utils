@@ -31,13 +31,15 @@ vue-test-utils uses the `name` property to search the instance tree for matching
 // Foo.vue
 
 export default{
-  name: 'Foo',
-};
+  name: 'Foo'
+}
 ```
 
 ```js
-import Foo from './Foo.vue';
-const wrapper = mount(Foo);
+import { shallow } from 'vue-test-utils'
+import { expect } from 'chai'
+import Foo from './Foo.vue'
 
-expect(wrapper.is(Foo)).to.equal(true);
+const wrapper = shallow(Foo)
+expect(wrapper.is(Foo)).to.equal(true)
 ```

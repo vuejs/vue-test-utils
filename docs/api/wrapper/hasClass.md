@@ -13,9 +13,10 @@ Check if wrapper DOM node has a class name. Returns a boolean.
 ## Example
 
 ```js
-import { mount } from 'vue-test-utils';
-import Foo from './Foo.vue';
+import { mount } from 'vue-test-utils'
+import { expect } from 'chai'
+import Foo from './Foo.vue'
 
-const wrapper = mount(Foo);
-expect(wrapper.hasClass('bar')).to.equal(true);
+const wrapper = mount(Foo)
+expect(wrapper.hasClass('bar')).to.equal(true)
 ```

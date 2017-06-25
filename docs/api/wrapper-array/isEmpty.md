@@ -10,9 +10,10 @@ Check if every wrapper in wrapper array contains child nodes. Returns a boolean.
 
 ```js
 import { mount } from 'vue-test-utils'
+import { expect } from 'chai'
 import Foo from './Foo.vue'
 
 const wrapper = mount(Foo)
 const divArray = wrapper.findAll('div')
-expect(wrapper.isEmpty()).to.equal(true)
+expect(divArray.isEmpty()).to.equal(true)
 ```

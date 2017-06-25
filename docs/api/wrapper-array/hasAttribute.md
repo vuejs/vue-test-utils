@@ -15,10 +15,11 @@ Check if every wrapper vnode in wrapper array has attribute matching value
 ## Example
 
 ```js
-import { mount } from 'vue-test-utils';
-import Foo from './Foo.vue';
+import { mount } from 'vue-test-utils'
+import { expect } from 'chai'
+import Foo from './Foo.vue'
 
-const wrapper = mount(Foo);
+const wrapper = mount(Foo)
 const divArray = wrapper.findAll('div')
-expect(divArray.hasAttribute('id', 'foo')).to.equal(true);
+expect(divArray.hasAttribute('id', 'foo')).to.equal(true)
 ```

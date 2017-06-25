@@ -13,11 +13,12 @@ Returns true if wrapper contains selector. Use any valid [selector](/api/selecto
 ### Example
 
 ```js
-import { mount } from 'vue-test-utils';
-import Foo from './Foo.vue';
+import { mount } from 'vue-test-utils'
+import { expect } from 'chai'
+import Foo from './Foo.vue'
 
-const wrapper = mount(Foo);
-expect(wrapper.contains('p')).to.equal(true);
+const wrapper = mount(Foo)
+expect(wrapper.contains('p')).to.equal(true)
 ```
 
 
@@ -25,8 +26,9 @@ expect(wrapper.contains('p')).to.equal(true);
 
 ```js
 import { mount } from 'vue-test-utils'
-import Bar from './Bar.vue'
+import { expect } from 'chai'
 import Foo from './Foo.vue'
+import Bar from './Bar.vue'
 
 const wrapper = mount(Bar)
 expect(wrapper.contains(Foo)).to.equal(true)

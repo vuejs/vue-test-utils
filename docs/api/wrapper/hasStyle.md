@@ -14,11 +14,12 @@ Check if wrapper DOM node has style matching value
 
 ## Example
 ```js
-import { mount } from 'vue-test-utils';
-import Foo from './Foo.vue';
+import { mount } from 'vue-test-utils'
+import { expect } from 'chai'
+import Foo from './Foo.vue'
 
-const wrapper = mount(Foo);
-expect(wrapper.hasStyle('color', 'red')).to.equal(true);
+const wrapper = mount(Foo)
+expect(wrapper.hasStyle('color', 'red')).to.equal(true)
 ```
 
 ### Note

@@ -13,9 +13,10 @@ Returns true if wrapper node matches selector. Use any valid [selector](/api/sel
 ### Example
 
 ```js
-import { mount } from 'vue-test-utils';
-import Foo from './Foo.vue';
+import { mount } from 'vue-test-utils'
+import { expect } from 'chai'
+import Foo from './Foo.vue'
 
-const wrapper = mount(Foo);
-expect(wrapper.is('div')).to.equal(true);
+const wrapper = mount(Foo)
+expect(wrapper.is('div')).to.equal(true)
 ```

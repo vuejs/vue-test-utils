@@ -9,10 +9,11 @@ props (`Object`): Props properties and corresponding value to set
 ### Example
 
 ```js
-import { mount } from 'vue-test-utils';
-import Foo from './Foo.vue';
+import { mount } from 'vue-test-utils'
+import { expect } from 'chai'
+import Foo from './Foo.vue'
 
-const wrapper = mount(Foo);
-wrapper.setProps({foo: 'bar'});
-expect(wrapper.props().foo).to.equal('bar');
+const wrapper = mount(Foo)
+wrapper.setProps({ foo: 'bar' })
+expect(wrapper.props().foo).to.equal('bar')
 ```

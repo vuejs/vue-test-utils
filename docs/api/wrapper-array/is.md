@@ -13,10 +13,11 @@ Returns true if every wrapper in wrapper array matches selector. Use any valid [
 ### Example
 
 ```js
-import { mount } from 'vue-test-utils';
-import Foo from './Foo.vue';
+import { mount } from 'vue-test-utils'
+import { expect } from 'chai'
+import Foo from './Foo.vue'
 
-const wrapper = mount(Foo);
-const divArray = 
-expect(wrapper.is('div')).to.equal(true);
+const wrapper = mount(Foo)
+const divArray = wrapper.find('div')
+expect(divArray.is('div')).to.equal(true)
 ```

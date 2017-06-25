@@ -10,7 +10,7 @@ Returns HTML of wrapper DOM node as a string.
 
 `Foo.vue`
 
-```js
+```vue
 <template lang="html">
     <div>
         <p>Foo</p>
@@ -18,18 +18,20 @@ Returns HTML of wrapper DOM node as a string.
 </template>
 
 <script>
-export default {
-    name: 'foo'
-}
+    export default {
+      name: 'foo'
+    }
 </script>
+
 ```
 
 `Foo.spec.js`
 
 ```js
-import { mount } from 'vue-test-utils';
-import Foo from './Foo.vue';
+import { mount } from 'vue-test-utils'
+import { expect } from 'chai'
+import Foo from './Foo.vue'
 
-const wrapper = mount(Foo);
-expect(wrapper.html()).to.equal('<div><p>Foo</p></div>');
+const wrapper = mount(Foo)
+expect(wrapper.html()).to.equal('<div><p>Foo</p></div>')
 ```

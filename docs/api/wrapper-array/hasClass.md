@@ -14,9 +14,10 @@ Check if every wrapper vnode in wrapper array has a class name containing `class
 
 ```js
 import { mount } from 'vue-test-utils'
+import { expect } from 'chai'
 import Foo from './Foo.vue'
 
 const wrapper = mount(Foo)
 const divArray = wrapper.findAll('div')
-expect(wrapper.hasClass('bar')).to.equal(true)
+expect(divArray.hasClass('bar')).to.equal(true)
 ```

@@ -15,6 +15,7 @@ Check if every wrapper vnode in wrapper array has a `style` matching `value`. Re
 ## Example
 ```js
 import { mount } from 'vue-test-utils'
+import { expect } from 'chai'
 import Foo from './Foo.vue'
 
 const wrapper = mount(Foo)

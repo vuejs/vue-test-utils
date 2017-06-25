@@ -9,9 +9,10 @@ Returns component name if node is a Vue component, or the tag name if it is a na
 ## Example
 
 ```js
-import { mount } from 'vue-test-utils';
-import Foo from './Foo.vue';
+import { mount } from 'vue-test-utils'
+import { expect } from 'chai'
+import Foo from './Foo.vue'
 
-const wrapper = mount(Foo);
-expect(wrapper.name()).to.equal('Foo');
+const wrapper = mount(Foo)
+expect(wrapper.name()).to.equal('Foo')
 ```
