@@ -1,6 +1,6 @@
 # mount(component,{,options}])
 
-Create a fully rendered Vue component. Returns a wrapper that includes methods to test the component renders and reacts as expected.
+Create a fully rendered Vue component. Returns a Wrapper that includes methods to test the component renders and reacts as expected.
 
 ### Arguments
 
@@ -8,7 +8,7 @@ Create a fully rendered Vue component. Returns a wrapper that includes methods t
 
 `options` (`Object`) [optional]: a Vue options object. Vue options are passed to the component when a new instance is created. , e.g. `store`, `propsData`. For full list, see the [Vue API](https://vuejs.org/v2/api/). Also takes vue-test-utils options:
 
-`options.attachToDocument` (`Boolean`): Component will attach to DOM when rendered. This can be used with [`hasStyle`](/api/methods/hasStyle.md) to check multi element CSS selectors
+`options.attachToDocument` (`Boolean`): Component will attach to DOM when rendered. This can be used with [`hasStyle`](/api/wrapper/hasStyle.md) to check multi element CSS selectors
 
 `options.slots` (`Object`): Render component with slots.
 
