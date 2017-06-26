@@ -28,5 +28,9 @@ module.exports = {
       '~resources': `${projectRoot}/test/resources`
     }
   },
-  devtool: '#eval-source-map'
+  output: {
+    devtoolModuleFilenameTemplate: '[absolute-resource-path]',
+    devtoolFallbackModuleFilenameTemplate: '[absolute-resource-path]?[hash]'
+  },
+  devtool: '#inline-cheap-module-source-map'
 }

@@ -4,3 +4,4 @@
 
 import type VNode from 'vue/src/core/vdom/vnode' // eslint-disable-line no-unused-vars
 import type Component from 'vue/flow/component' // eslint-disable-line no-unused-vars
+import type GlobalAPI from 'vue/flow/global-api' // eslint-disable-line no-unused-vars

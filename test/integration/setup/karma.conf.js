@@ -5,7 +5,10 @@ module.exports = function (config) {
     browsers: ['PhantomJS'],
     frameworks: ['mocha', 'sinon-chai', 'phantomjs-shim'],
     reporters: ['spec', 'coverage'],
-    files: ['../specs/**/*.+(vue|js)'],
+    files: [
+      '../../../node_modules/babel-polyfill/dist/polyfill.js',
+      '../specs/**/*.+(vue|js)'
+    ],
     preprocessors: {
       '../specs/**/*.+(vue|js)': ['webpack', 'sourcemap']
     },

@@ -3,6 +3,7 @@
 * [Introduction](/README.md)
 * [API](/api/README.md)
   * [mount](/api/mount.md)
+  * [scopedVue](/api/scopedVue.md)
   * [shallow](/api/shallow.md)
   * [Wrapper](/api/wrapper/README.md)
     * [contains](/api/wrapper/contains.md) 

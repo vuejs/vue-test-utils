@@ -18,6 +18,8 @@ Create a fully rendered Vue component. Returns a Wrapper that includes methods t
 
 `options.globals` (`Object`): Add globals to Vue instance.
 
+`options.instance` ('Object): instance for vue-test-utils to use. See [scopedVue](/api/scopedVue.md)
+
 ### Examples
 
 #### Without options
