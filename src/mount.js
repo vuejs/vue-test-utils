@@ -5,6 +5,20 @@ import VueWrapper from './VueWrapper'
 import addSlots from './lib/addSlots'
 import addGlobals from './lib/addGlobals'
 import addProvide from './lib/addProvide'
+import { compileToFunctions } from 'vue-template-compiler'
+
+const LIFECYCLE_HOOKS = [
+  'beforeCreate',
+  'created',
+  'beforeMount',
+  'mounted',
+  'beforeUpdate',
+  'updated',
+  'beforeDestroy',
+  'destroyed',
+  'activated',
+  'deactivated'
+]
 
 Vue.config.productionTip = false
 
@@ -23,7 +37,27 @@ type MountOptions = {
     attachToDocument?: boolean,
     intercept?: Object,
     slots?: Object,
-    instance?: Component
+    instance?: Component,
+    stub?: Object
+}
+
+function stubLifeCycleEvents (component: Component): void {
+  LIFECYCLE_HOOKS.forEach((hook) => {
+    component[hook] = () => {} // eslint-disable-line no-param-reassign
+  })
+}
+
+function replaceComponents (component: Component, stubs): void {
+  Object.keys(stubs).forEach(stub => {
+        // Remove cached constructor
+    delete component.components[stub]._Ctor
+    component.components[stub] = {
+      ...component.components[stub],
+      ...compileToFunctions(stubs[stub])
+    }
+    Vue.config.ignoredElements.push(stub)
+    stubLifeCycleEvents(component.components[stub])
+  })
 }
 
 export default function mount (component: Component, options: MountOptions = {}): VueWrapper {
@@ -34,6 +68,10 @@ export default function mount (component: Component, options: MountOptions = {})
   if (attachToDocument) {
     elem = createElem()
     delete options.attachToDocument // eslint-disable-line no-param-reassign
+  }
+
+  if (options.stub) {
+    replaceComponents(component, options.stub)
   }
 
   // Remove cached constructor

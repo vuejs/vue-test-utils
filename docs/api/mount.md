@@ -20,6 +20,8 @@ Create a fully rendered Vue component. Returns a Wrapper that includes methods t
 
 `options.instance` ('Object): instance for vue-test-utils to use. See [scopedVue](/api/scopedVue.md)
 
+`options.stub` ('Object): Stubs components matchng the name passed with a string 
+
 ### Examples
 
 #### Without options
@@ -106,6 +108,26 @@ describe('Foo', () => {
       }
     })
     expect(wrapper.vm.$route.path).to.equal($route.path)
+  })
+})
+```
+
+#### Stubbing components
+```js
+import { mount } from 'vue-test-utils'
+import { expect } from 'chai'
+import Foo from './Foo.vue'
+import Bar from './Bar'
+
+describe('Foo', () => {
+  it('renders a div', () => {
+    const wrapper = mount(Foo, {
+      stub: {
+        Bar: '<div class="stubbed />'
+      }
+    })
+    expect(wrapper.contains('.stubbed')).to.equal(true)
+    expect(wrapper.contains(Bar)).to.equal(true)
   })
 })
 ```
