@@ -1,8 +1,9 @@
 // @flow
 
+import Vue from 'vue'
+import { cloneDeep } from 'lodash'
 import mount from './mount'
 import type VueWrapper from './VueWrapper'
-import Vue from 'vue'
 
 const LIFECYCLE_HOOKS = [
   'beforeCreate',
@@ -19,7 +20,7 @@ const LIFECYCLE_HOOKS = [
 
 function stubLifeCycleEvents (component: Component): void {
   LIFECYCLE_HOOKS.forEach((hook) => {
-    component[hook] = () => {} // eslint-disable-line no-param-reassign
+    component[hook] = () => {}
   })
 }
 
@@ -37,10 +38,11 @@ function replaceComponents (component: Component): void {
 }
 
 export default function shallow (component: Component, options: Object): VueWrapper {
-  if (component.components) {
-    replaceComponents(component)
+  const clonedComponent = cloneDeep(component)
+  if (clonedComponent.components) {
+    replaceComponents(clonedComponent)
   }
 
-  return mount(component, options)
+  return mount(clonedComponent, options)
 }
 
