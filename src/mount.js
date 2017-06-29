@@ -5,20 +5,7 @@ import VueWrapper from './wrappers/vue-wrapper'
 import addSlots from './lib/add-slots'
 import addGlobals from './lib/add-globals'
 import addProvide from './lib/add-provide'
-import { compileToFunctions } from 'vue-template-compiler'
-
-const LIFECYCLE_HOOKS = [
-  'beforeCreate',
-  'created',
-  'beforeMount',
-  'mounted',
-  'beforeUpdate',
-  'updated',
-  'beforeDestroy',
-  'destroyed',
-  'activated',
-  'deactivated'
-]
+import { stubComponents } from './lib/stub-components'
 
 Vue.config.productionTip = false
 
@@ -41,25 +28,6 @@ type MountOptions = {
     stub?: Object
 }
 
-function stubLifeCycleEvents (component: Component): void {
-  LIFECYCLE_HOOKS.forEach((hook) => {
-    component[hook] = () => {} // eslint-disable-line no-param-reassign
-  })
-}
-
-function replaceComponents (component: Component, stubs): void {
-  Object.keys(stubs).forEach(stub => {
-        // Remove cached constructor
-    delete component.components[stub]._Ctor
-    component.components[stub] = {
-      ...component.components[stub],
-      ...compileToFunctions(stubs[stub])
-    }
-    Vue.config.ignoredElements.push(stub)
-    stubLifeCycleEvents(component.components[stub])
-  })
-}
-
 export default function mount (component: Component, options: MountOptions = {}): VueWrapper {
   let elem
 
@@ -71,7 +39,7 @@ export default function mount (component: Component, options: MountOptions = {})
   }
 
   if (options.stub) {
-    replaceComponents(component, options.stub)
+    stubComponents(component, options.stub)
   }
 
   // Remove cached constructor
