@@ -5,8 +5,8 @@ import ComponentWithoutName from '~resources/components/component-without-name.v
 import ComponentWithSlots from '~resources/components/component-with-slots.vue'
 import ComponentWithVFor from '~resources/components/component-with-v-for.vue'
 import Component from '~resources/components/component.vue'
-import Wrapper from '~src/Wrapper'
-import ErrorWrapper from '~src/ErrorWrapper'
+import Wrapper from '~src/wrapper'
+import ErrorWrapper from '~src/error-wrapper'
 
 describe('find', () => {
   it('returns an array of Wrappers of elements matching tag selector passed', () => {

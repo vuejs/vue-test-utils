@@ -5,7 +5,7 @@ import ComponentWithoutName from '~resources/components/component-without-name.v
 import ComponentWithSlots from '~resources/components/component-with-slots.vue'
 import ComponentWithVFor from '~resources/components/component-with-v-for.vue'
 import Component from '~resources/components/component.vue'
-import WrapperArray from '~src/WrapperArray'
+import WrapperArray from '~src/wrapper-array'
 
 describe('findAll', () => {
   it('returns an WrapperArray of elements matching tag selector passed', () => {

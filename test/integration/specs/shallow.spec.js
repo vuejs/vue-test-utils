@@ -1,7 +1,7 @@
 import { compileToFunctions } from 'vue-template-compiler'
 import shallow from '~src/shallow'
 import mount from '~src/mount'
-import VueWrapper from '~src/VueWrapper'
+import VueWrapper from '~src/vue-wrapper'
 import Component from '~resources/components/component.vue'
 import ComponentWithChildComponent from '~resources/components/component-with-child-component.vue'
 import ComponentWithNestedChildren from '~resources/components/component-with-nested-children.vue'

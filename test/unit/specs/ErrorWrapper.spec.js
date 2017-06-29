@@ -1,4 +1,4 @@
-import ErrorWrapper from '../../../src/ErrorWrapper'
+import ErrorWrapper from '../../../src/error-wrapper'
 
 describe('ErrorWrapper', () => {
   it('at throws error when called', () => {

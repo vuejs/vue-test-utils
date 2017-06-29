@@ -1,4 +1,4 @@
-import WrapperArray from '../../../src/WrapperArray'
+import WrapperArray from '../../../src/wrapper-array'
 
 describe('WrapperArray', () => {
   it('returns class with length equal to lenght of wrappers passed in constructor', () => {

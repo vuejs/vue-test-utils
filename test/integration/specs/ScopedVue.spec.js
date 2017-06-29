@@ -1,4 +1,4 @@
-import scopedVue from '~src/ScopedVue'
+import scopedVue from '~src/scoped-vue'
 import Vuex from 'vuex'
 import VueRouter from 'vue-router'
 import mount from '~src/mount'

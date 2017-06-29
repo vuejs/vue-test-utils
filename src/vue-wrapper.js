@@ -1,6 +1,6 @@
 // @flow
 
-import Wrapper from './Wrapper'
+import Wrapper from './wrapper'
 
 function update () {
   this._update(this._render())

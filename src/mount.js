@@ -1,10 +1,10 @@
 // @flow
 
 import Vue from 'vue'
-import VueWrapper from './VueWrapper'
-import addSlots from './lib/addSlots'
-import addGlobals from './lib/addGlobals'
-import addProvide from './lib/addProvide'
+import VueWrapper from './vue-wrapper'
+import addSlots from './lib/add-slots'
+import addGlobals from './lib/add-globals'
+import addProvide from './lib/add-provide'
 import { compileToFunctions } from 'vue-template-compiler'
 
 const LIFECYCLE_HOOKS = [

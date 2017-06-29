@@ -1,7 +1,7 @@
 // @flow
 
-import type Wrapper from './Wrapper'
-import type VueWrapper from './VueWrapper'
+import type Wrapper from './wrapper'
+import type VueWrapper from './vue-wrapper'
 
 export default class WrapperArray implements BaseWrapper {
   wrappers: Array<Wrapper | VueWrapper>;

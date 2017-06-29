@@ -2,11 +2,11 @@
 
 import { matchesSelector } from 'sizzle'
 import { isValidSelector } from './lib/validators'
-import findVueComponents from './lib/findVueComponents'
-import findMatchingVNodes from './lib/findMatchingVNodes'
-import VueWrapper from './VueWrapper'
-import WrapperArray from './WrapperArray'
-import ErrorWrapper from './ErrorWrapper'
+import findVueComponents from './lib/find-vue-components'
+import findMatchingVNodes from './lib/find-matching-vnodes'
+import VueWrapper from './vue-wrapper'
+import WrapperArray from './wrapper-array'
+import ErrorWrapper from './error-wrapper'
 
 export default class Wrapper implements BaseWrapper {
   vnode: VNode;
