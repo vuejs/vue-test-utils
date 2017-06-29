@@ -6,34 +6,34 @@
     export default{
       name: 'component-with-lifecycle-hooks',
       beforeCreate () {
-        console.time()
+        console.log()
       },
       created () {
-        console.time()
+        console.log()
       },
       beforeMount () {
-        console.time()
+        console.log()
       },
       mounted () {
-        console.time()
+        console.log()
       },
       beforeUpdate () {
-        console.time()
+        console.log()
       },
       updated () {
-        console.time()
+        console.log()
       },
       beforeDestroy () {
-        console.time()
+        console.log()
       },
       destroyed () {
-        console.time()
+        console.log()
       },
       activated () {
-        console.time()
+        console.log()
       },
       deactivated () {
-        console.time()
+        console.log()
       }
     }
 </script>

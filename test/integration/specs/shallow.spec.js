@@ -36,10 +36,10 @@ describe('shallow', () => {
   })
 
   it('does not call stubbed children lifecycle hooks', () => {
-    const time = sinon.stub(console, 'time')
+    const log = sinon.stub(console, 'log')
     shallow(ComponentWithNestedChildren)
-    expect(time.called).to.equal(false)
-    time.restore()
+    expect(log.called).to.equal(false)
+    log.restore()
   })
 })
 
