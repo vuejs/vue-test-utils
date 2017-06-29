@@ -1,9 +1,9 @@
 // @flow
 
 import { matchesSelector } from 'sizzle'
-import { isValidSelector } from './lib/validators'
-import findVueComponents from './lib/find-vue-components'
-import findMatchingVNodes from './lib/find-matching-vnodes'
+import { isValidSelector } from '../lib/validators'
+import findVueComponents from '../lib/find-vue-components'
+import findMatchingVNodes from '../lib/find-matching-vnodes'
 import VueWrapper from './vue-wrapper'
 import WrapperArray from './wrapper-array'
 import ErrorWrapper from './error-wrapper'

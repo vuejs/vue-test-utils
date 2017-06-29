@@ -1,6 +1,6 @@
 import { compileToFunctions } from 'vue-template-compiler'
 import mount from '~src/mount'
-import Wrapper from '~src/wrapper'
+import Wrapper from '~src/wrappers/wrapper'
 
 describe('at', () => {
   it('returns Wrapper at index', () => {

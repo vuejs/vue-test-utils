@@ -3,7 +3,7 @@
 import Vue from 'vue'
 import { cloneDeep } from 'lodash'
 import mount from './mount'
-import type VueWrapper from './vue-wrapper'
+import type VueWrapper from './wrappers/vue-wrapper'
 
 const LIFECYCLE_HOOKS = [
   'beforeCreate',

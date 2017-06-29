@@ -1,7 +1,7 @@
 // @flow
 
 import Vue from 'vue'
-import VueWrapper from './vue-wrapper'
+import VueWrapper from './wrappers/vue-wrapper'
 import addSlots from './lib/add-slots'
 import addGlobals from './lib/add-globals'
 import addProvide from './lib/add-provide'
