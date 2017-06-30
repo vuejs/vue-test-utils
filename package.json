@@ -9,6 +9,7 @@
   ],
   "scripts": {
     "build": "node build/build.js",
+    "docs": "cd docs && gitbook install && gitbook serve",
     "flow": "flow check",
     "lint": "eslint --ext js,vue src test flow build --ignore-path .gitignore",
     "lint:docs": "eslint --ext js,vue,md docs",
@@ -46,6 +47,7 @@
     "eslint-plugin-vue": "^2.0.1",
     "eslint-plugin-vue-libs": "1.2.0",
     "flow-bin": "^0.47.0",
+    "gitbook-cli": "^2.3.0",
     "jsdom": "^11.0.0",
     "jsdom-global": "^3.0.2",
     "karma": "^1.7.0",

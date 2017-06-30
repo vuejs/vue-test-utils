@@ -1,7 +1,22 @@
 {
   "gitbook": ">3.0.0",
+  "plugins": ["edit-link", "theme-vuejs@git+https://github.com/pearofducks/gitbook-plugin-theme-vuejs.git", "-fontsettings", "github"],
   "structure": {
     "summary": "SUMMARY.md"
   },
-  "plugins": ["edit-link", "prism", "theme-vuejs@git+https://github.com/pearofducks/gitbook-plugin-theme-vuejs.git", "-fontsettings", "-highlight", "github"]
+  "pluginsConfig": {
+    "edit-link": {
+      "base": "https://github.com/vuejs/vue-test-utils/edit/master/docs",
+      "label": "Edit This Page"
+    },
+    "github": {
+      "url": "https://github.com/vuejs/vue-test-utils/"
+    }
+  },
+  "links": {
+    "sharing": {
+    "facebook": false,
+    "twitter": false
+    }
+  }
 }
