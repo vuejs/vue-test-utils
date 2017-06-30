@@ -41,7 +41,6 @@
     "cross-env": "^5.0.0",
     "css-loader": "^0.28.4",
     "eslint": "^3.19.0",
-    "eslint-config-vue": "^2.0.2",
     "eslint-plugin-flowtype": "^2.34.0",
     "eslint-plugin-markdown": "^1.0.0-beta.6",
     "eslint-plugin-vue": "^2.0.1",
