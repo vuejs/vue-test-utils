@@ -4,7 +4,6 @@ import Wrapper from './wrapper'
 
 function update () {
   this._update(this._render())
-  this._watchers.forEach(watcher => watcher.run())
 }
 
 export default class VueWrapper extends Wrapper implements BaseWrapper {

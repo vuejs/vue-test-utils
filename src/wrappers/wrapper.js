@@ -256,6 +256,10 @@ export default class Wrapper implements BaseWrapper {
     Object.keys(data).forEach((key) => {
       // $FlowIgnore : Problem with possibly null this.vm
       this.vm._props[key] = data[key]
+      // $FlowIgnore : Problem with possibly null this.vm
+      this.vm._watchers.forEach((watcher) => {
+        if (watcher.expression === key) { watcher.run() }
+      })
     })
     this.update()
     // $FlowIgnore : Problem with possibly null this.vm
