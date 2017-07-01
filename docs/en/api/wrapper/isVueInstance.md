@@ -1,18 +1,16 @@
 # isVueInstance()
+ 
+- **Returns:** `{boolean}`
 
-Check if wrapper is vue instance. Returns a boolean.
+- **Usage:**
 
-### Returns
+Assert `Wrapper` is Vue instance.
 
-(`Boolean`): true if node does is vue instance. False if not.
-
-## Example
-
-```js
+ ```js
 import { mount } from 'vue-test-utils'
 import { expect } from 'chai'
 import Foo from './Foo.vue'
 
 const wrapper = mount(Foo)
 expect(wrapper.isVueInstance()).to.equal(true)
-```
+ ```

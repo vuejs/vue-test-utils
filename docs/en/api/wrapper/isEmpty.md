@@ -1,12 +1,10 @@
 # isEmpty()
 
-Check if wrapper contains child nodes. Returns a boolean.
+- **Returns:** `{boolean}`
 
-### Returns
+- **Usage:**
 
-(`Boolean`): true if node does not contain any child nodes. False if it does.
-
-## Example
+Assert `Wrapper`contains child node.
 
 ```js
 import { mount } from 'vue-test-utils'

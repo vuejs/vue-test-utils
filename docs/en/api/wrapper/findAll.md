@@ -1,29 +1,16 @@
 # findAll(selector)
 
-Returns a [`WrapperArray`](/api/wrapper-array/README.md) of [Wrappers](/api/wrapper/README.md). Use any valid [selector](/api/selectors.md).
+- **Arguments:**
+  - `{string|Component} selector`
 
-### Arguments
+- **Returns:** `{WrapperArray}`
 
-`selector` (`String`|`Component`): a CSS selector ('#id', '.class-name', 'tag') or a Vue component. See [selectors](/api/selectors.md).
+- **Usage:**
 
-### Returns
+Returns a [`WrapperArray`](/api/wrapper-array/README.md) of [Wrappers](/api/wrapper/README.md). 
 
-(`WrapperArray`): returns a [`WrapperArray`](/api/wrapper-array/README.md) with [Wrappers](/api/wrapper/README.md) matching selector. Access wrappers using the [`at`](/api/WrapperArray/at.md) method
+Use any valid [selector](/api/selectors.md).
 
-
-### Example
-
-```js
-import { mount } from 'vue-test-utils'
-import { expect } from 'chai'
-import Foo from './Foo.vue'
-
-const wrapper = mount(Foo)
-const div = wrapper.findAll('div')
-expect(div.is('div')).to.equal(true)
-```
-
-With a Vue Component:
 ```js
 import { mount } from 'vue-test-utils'
 import { expect } from 'chai'
@@ -31,6 +18,10 @@ import Foo from './Foo.vue'
 import Bar from './Bar.vue'
 
 const wrapper = mount(Foo)
+const div = wrapper.findAll('div').at(0)
+expect(div.is('div')).to.equal(true)
 const bar = wrapper.findAll(Bar).at(0)
-expect(bar.isVueComponent).to.equal(true)
+expect(bar.is(Bar)).to.equal(true)
 ```
+
+- **See also:** [Wrapper](/api/wrapper/README.md)

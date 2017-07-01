@@ -1,18 +1,16 @@
 # hasAttribute(attribute, value)
 
-Check if wrapper DOM node has attribute matching value
+- **Arguments:**
+  - `{string} attribute`
+  - `{string} value`
 
-### Arguments
+- **Returns:** `{boolean}`
 
-`attribute` (`String`): attribute name to assert value of.
+- **Usage:**
 
-`value` (`String`): the value attribute should hold.
+Assert `Wrapper` DOM node has attribute matching value.
 
-### Returns
-
-(`Boolean`): `true` if element contains attribute with matching value, `false` otherwise.
-
-## Example
+Returns `true` if `Wrapper` DOM node contains attribute with matching value.
 
 ```js
 import { mount } from 'vue-test-utils'

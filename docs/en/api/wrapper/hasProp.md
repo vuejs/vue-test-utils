@@ -1,20 +1,18 @@
 # hasProp(prop, value)
 
-Check if wrapper DOM node has a class name. Returns a boolean. 
+- **Arguments:**
+  - `{string} prop`
+  - `{any} value`
 
-Can only be called on a Vue instance.
+- **Returns:** `{boolean}`
 
-### Arguments
+- **Usage:**
 
-`prop` (`String`): prop name to assert value of.
+Assert `Wrapper` `vm` has `prop` matching `value`.
 
-`value` (`String`): the value prop should hold.
+Returns `true` if `Wrapper` `vm` has `prop` matching `value`.
 
-### Returns
-
-(`Boolean`): `true` if instance has prop. `false` if not.
-
-## Example
+**Note the Wrapper must contain a Vue instance.**
 
 ```js
 import { mount } from 'vue-test-utils'

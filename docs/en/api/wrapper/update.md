@@ -1,8 +1,10 @@
 # update()
 
-Force root Vue component to re-render. If called on a Vue component wrapper, it will force the Vue component to re-render.
+- **Usage:**
 
-### Example
+Force root Vue component to re-render. 
+
+If called on a `Wrapper` containing a `vm`, it will force the `Wrapper` `vm` to re-render.
 
 ```js
 import { mount } from 'vue-test-utils'

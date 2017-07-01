@@ -1,18 +1,19 @@
 # hasStyle(style, value)
 
-Check if wrapper DOM node has style matching value
+- **Arguments:**
+  - `{string} style`
+  - `{string} value`
 
-### Arguments
+- **Returns:** `{boolean}`
 
-`style` (`String`): style name to assert value of.
-`value` (`String`): the value style property should hold.
+- **Usage:**
 
-### Returns
+Assert `Wrapper` DOM node has style matching value
 
-(`Boolean`): `true` if element contains style with matching value,
-`false` otherwise.
+Returns `true` if `Wrapper` DOM node has `style` matching `string`.
 
-## Example
+**Note will only detect inline styles when running in `jsdom`.**
+
 ```js
 import { mount } from 'vue-test-utils'
 import { expect } from 'chai'
@@ -21,7 +22,3 @@ import Foo from './Foo.vue'
 const wrapper = mount(Foo)
 expect(wrapper.hasStyle('color', 'red')).to.equal(true)
 ```
-
-### Note
-
-Will only work with inline styles when running in `jsdom`.

@@ -1,28 +1,13 @@
 # contains(selector)
 
-Returns true if wrapper contains selector. Use any valid [selector](/api/selectors.md).
+- **Arguments:**
+  - `{string|Component} selector`
 
-### Arguments
+- **Returns:** `{boolean}`
 
-`selector` (`String`|`Component`): a CSS selector ('#id', '.class-name', 'tag') or a Vue component. See [selectors](/api/selectors.md).
+- **Usage:**
 
-### Returns
-
-(`Boolean`): returns `true` if wrapper contains selector.
-
-### Example
-
-```js
-import { mount } from 'vue-test-utils'
-import { expect } from 'chai'
-import Foo from './Foo.vue'
-
-const wrapper = mount(Foo)
-expect(wrapper.contains('p')).to.equal(true)
-```
-
-
-`Bar.spec.js`
+Assert `Wrapper` contains an element or component matching [selector](/api/selectors.md).
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -30,6 +15,9 @@ import { expect } from 'chai'
 import Foo from './Foo.vue'
 import Bar from './Bar.vue'
 
-const wrapper = mount(Bar)
-expect(wrapper.contains(Foo)).to.equal(true)
+const wrapper = mount(Foo)
+expect(wrapper.contains('p')).to.equal(true)
+expect(wrapper.contains(Bar)).to.equal(true)
 ```
+
+- **See also:** [selectors](/api/selectors.md)

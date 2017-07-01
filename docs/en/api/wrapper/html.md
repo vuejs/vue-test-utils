@@ -1,31 +1,10 @@
 # html()
 
-Returns HTML of wrapper DOM node as a string.
+- **Returns:** `{string}`
 
-### Returns
+- **Usage:**
 
-(`String`): HTML of wrapper node
-
-## Example
-
-`Foo.vue`
-
-```vue
-<template lang="html">
-    <div>
-        <p>Foo</p>
-    </div>
-</template>
-
-<script>
-    export default {
-      name: 'foo'
-    }
-</script>
-
-```
-
-`Foo.spec.js`
+Returns HTML of `Wrapper` DOM node as a string.
 
 ```js
 import { mount } from 'vue-test-utils'

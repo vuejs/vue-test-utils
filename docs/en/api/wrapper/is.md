@@ -1,16 +1,13 @@
 # is(selector)
 
-Returns true if wrapper node matches selector. Use any valid [selector](/api/selectors.md).
+- **Arguments:**
+  - `{string|Component} selector`
 
-### Arguments
+- **Returns:** `{boolean}`
 
-`selector` (`String`|`Component`): a CSS selector ('#id', '.class-name', 'tag') or a Vue component. See [selectors](/api/selectors.md).
+- **Usage:**
 
-### Returns
-
-(`Boolean`): returns true if wrapper node matches selector.
-
-### Example
+Assert `Wrapper` DOM node or `vm` matches [selector](/api/selectors.md).
 
 ```js
 import { mount } from 'vue-test-utils'

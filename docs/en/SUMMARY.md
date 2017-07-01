@@ -20,7 +20,7 @@
     * [update](api/wrapper/update.md)
     * [setData](api/wrapper/setData.md)
     * [setProps](api/wrapper/setProps.md)
-    * [text](api/wrapper/trigger.md)
+    * [text](api/wrapper/text.md)
     * [trigger](api/wrapper/trigger.md)
   * [WrapperArray](api/wrapper-array/README.md)
     * [at](api/wrapper-array/at.md)

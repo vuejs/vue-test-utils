@@ -1,12 +1,13 @@
-# setProps(data)
+# setProps(props)
 
-Sets Vue instance props and forces update. Can only be called on a Vue component wrapper
+- **Arguments:**
+  - `{Object} props`
 
-### Arguments
+- **Usage:**
 
-props (`Object`): Props properties and corresponding value to set
+Sets `Wrapper` `vm` props and forces update.
 
-### Example
+**Note the Wrapper must contain a Vue instance.**
 
 ```js
 import { mount } from 'vue-test-utils'

@@ -1,16 +1,15 @@
 # hasClass(className)
 
-Check if wrapper DOM node has a class name. Returns a boolean.
+- **Arguments:**
+  - `{string} className`
 
-### Arguments
+- **Returns:** `{boolean}`
 
-`className` (`String`): class name to assert element contains.
+- **Usage:**
 
-### Returns
+Assert `Wrapper` DOM node has class contains `className`.
 
-(`Boolean`): `true` if element contains class. `false` otherwise.
-
-## Example
+Returns `true` if `Wrapper` DOM node contains class.
 
 ```js
 import { mount } from 'vue-test-utils'
