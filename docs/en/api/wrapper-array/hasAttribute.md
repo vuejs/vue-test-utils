@@ -1,18 +1,14 @@
 # hasAttribute(attribute, value)
 
-Check if every wrapper vnode in wrapper array has attribute matching value
+- **Arguments:**
+  - `{string} attribute`
+  - `{string} value`
 
-### Arguments
+- **Returns:** `{boolean}`
 
-`attribute` (`String`): attribute name to assert value of.
+- **Usage:**
 
-`value` (`String`): the value attribute should hold.
-
-### Returns
-
-(`Boolean`): `true` if every wrapper vnode contains attribute with matching value, `false` otherwise.
-
-## Example
+Assert every `Wrapper` in `WrapperArray` DOM node has `attribute` matching `value`. 
 
 ```js
 import { mount } from 'vue-test-utils'

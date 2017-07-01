@@ -1,14 +1,13 @@
 # setData(data)
 
-Sets Vue instance data and forces update of every wrapper in wrapper array.
+- **Arguments:**
+  - `{Object} data`
 
-Can only be called on a wrapper array of Vue component wrappers.
+- **Usage:**
 
-### Arguments
+Sets `Wrapper` `vm` data and forces update on each `Wrapper` in `WrapperArray`.
 
-data (`Object`): Data properties and corresponding value to set
-
-### Example
+**Note every `Wrapper` must contain a Vue instance.**
 
 ```js
 import { mount } from 'vue-test-utils'

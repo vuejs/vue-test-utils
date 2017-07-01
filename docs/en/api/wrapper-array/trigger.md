@@ -1,12 +1,13 @@
 # trigger(eventName)
 
-Triggers an event on each wrapper in the wrapper array
+- **Arguments:**
+  - `{string} eventName
 
-### Arguments
+- **Usage:**
 
-event (`String`): type of event (e.g. click).
+Triggers an event on every `Wrapper` in the `WrapperArray` DOM node.
 
-## Example
+**Note every `Wrapper` must contain a Vue instance.**
 
 ```js
 import { mount } from 'vue-test-utils'

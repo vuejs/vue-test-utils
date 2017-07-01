@@ -4,17 +4,19 @@ Check if every wrapper vm in wrapper array has prop matching value
 
 Can only be called on a Vue instance.
 
-### Arguments
+# hasProp(prop, value)
 
-`prop` (`String`): prop name to assert value of.
+- **Arguments:**
+  - `{string} prop`
+  - `{any} value`
 
-`value` (`String`): the value prop should hold.
+- **Returns:** `{boolean}`
 
-### Returns
+- **Usage:**
 
-(`Boolean`): `true` if instance has prop. `false` if not.
+Assert every `Wrapper` in `WrapperArray`  `vm` has `prop` matching `value`.
 
-## Example
+**Note the Wrapper must contain a Vue instance.**
 
 ```js
 import { mount } from 'vue-test-utils'

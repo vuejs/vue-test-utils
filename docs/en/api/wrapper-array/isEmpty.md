@@ -1,12 +1,10 @@
 # isEmpty()
 
-Check if every wrapper in wrapper array contains child nodes. Returns a boolean.
+- **Returns:** `{boolean}`
 
-### Returns
+- **Usage:**
 
-(`Boolean`): true if every wrapper in wrapper array does not contain any child nodes. False if it does.
-
-## Example
+Assert every `Wrapper` in `WrapperArray` does not contain child node.
 
 ```js
 import { mount } from 'vue-test-utils'

@@ -1,16 +1,13 @@
 # hasClass(className)
 
-Check if every wrapper vnode in wrapper array has a class name containing `className`. Returns a boolean.
+- **Arguments:**
+  - `{string} className`
 
-### Arguments
+- **Returns:** `{boolean}`
 
-`className` (`String`): class name to assert vnode contains.
+- **Usage:**
 
-### Returns
-
-(`Boolean`): `true` if every wrapper vnode contains class. `false` otherwise.
-
-## Example
+Assert every `Wrapper` in `WrapperArray` DOM node has class containing `className`. 
 
 ```js
 import { mount } from 'vue-test-utils'

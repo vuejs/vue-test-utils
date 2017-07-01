@@ -4,7 +4,7 @@
 
 - **Usage:**
 
-Assert `Wrapper`contains child node.
+Assert `Wrapper` does not contain child node.
 
 ```js
 import { mount } from 'vue-test-utils'

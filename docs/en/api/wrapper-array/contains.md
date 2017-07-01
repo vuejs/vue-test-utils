@@ -1,26 +1,15 @@
 # contains(selector)
 
-Returns true if every wrapper in array contains selector. Use any valid [selector](/api/selectors.md).
+- **Arguments:**
+  - `{string|Component} selector`
 
-### Arguments
+- **Returns:** `{boolean}`
 
-`selector` (`String`|`Component`): a CSS selector ('#id', '.class-name', 'tag') or a Vue component. See [selectors](/api/selectors.md).
+- **Usage:**
 
-### Returns
+Assert every wrapper in `WrapperArray` contains selector. 
 
-(`Boolean`): returns `true` if every wrapper in wrapper array contains selector.
-
-### Example
-
-```js
-import { shallow } from 'vue-test-utils'
-import { expect } from 'chai'
-import Foo from './Foo.vue'
-
-const wrapper = shallow(Foo)
-const divArray = wrapper.findAll('div')
-expect(divArray.contains('p')).to.equal(true)
-```
+Use any valid [selector](/api/selectors.md).
 
 ```js
 import { shallow } from 'vue-test-utils'
@@ -30,5 +19,6 @@ import Bar from './Bar.vue'
 
 const wrapper = shallow(Foo)
 const divArray = wrapper.findAll('div')
+expect(divArray.contains('p')).to.equal(true)
 expect(divArray.contains(Bar)).to.equal(true)
 ```

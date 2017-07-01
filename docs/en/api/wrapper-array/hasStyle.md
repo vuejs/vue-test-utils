@@ -1,18 +1,19 @@
 # hasStyle(style, value)
 
-Check if every wrapper vnode in wrapper array has a `style` matching `value`. Returns a boolean.
+- **Arguments:**
+  - `{string} style`
+  - `{string} value`
 
-### Arguments
+- **Returns:** `{boolean}`
 
-`style` (`String`): style name to assert value of.
-`value` (`String`): the value style property should hold.
+- **Usage:**
 
-### Returns
+Assert every `Wrapper` in `WrapperArray` DOM node has style matching value.
 
-(`Boolean`): `true` if every wrapper vnode contains class. `false` otherwise.
-`false` otherwise.
+Returns `true` if `Wrapper` DOM node has `style` matching `string`.
 
-## Example
+**Note will only detect inline styles when running in `jsdom`.**
+
 ```js
 import { mount } from 'vue-test-utils'
 import { expect } from 'chai'
@@ -22,7 +23,3 @@ const wrapper = mount(Foo)
 const divArray = wrapper.findAll('div')
 expect(divArray.hasStyle('color', 'red')).to.equal(true)
 ```
-
-### Note
-
-Only checks inline styles when running in `jsdom`.

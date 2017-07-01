@@ -1,12 +1,10 @@
 # isVueInstance()
 
-Check if every wrapper in wrapper array is vue instance. Returns a boolean.
+- **Returns:** `{boolean}`
 
-### Returns
+- **Usage:**
 
-(`Boolean`): true if node does is vue instance. False if not.
-
-## Example
+Assert every `Wrapper` in `WrapperArray` is Vue instance.
 
 ```js
 import { mount } from 'vue-test-utils'

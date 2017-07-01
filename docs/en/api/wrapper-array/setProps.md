@@ -1,14 +1,13 @@
-# setProps(data)
+# setProps(props)
 
-Sets Vue instance props and forces update of every wrapper in wrapper array.
+- **Arguments:**
+  - `{Object} props`
 
-Can only be called on a wrapper array of Vue component wrappers.
+- **Usage:**
 
-### Arguments
+Sets `Wrapper` `vm` props and forces update on each `Wrapper` in `WrapperArray`.
 
-props (`Object`): Props properties and corresponding value to set
-
-### Example
+**Note every `Wrapper` must contain a Vue instance.**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -21,4 +20,3 @@ const barArray = wrapper.findAll(Bar)
 barArray.setProps({ foo: 'bar' })
 expect(barArray.at(0).vm.foo).to.equal('bar')
 ```
-
