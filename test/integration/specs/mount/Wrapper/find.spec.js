@@ -36,6 +36,30 @@ describe('find', () => {
     expect(wrapper.find('.foo')).to.be.instanceOf(Wrapper)
   })
 
+  it('returns an array of Wrapper of elements matching class selector passed if they are declared inside a functional component', () => {
+    const Component = {
+      functional: true,
+      render (h, { props }) {
+        return h('div', {}, [
+          h('p', {
+            'class': {
+              foo: true
+            }
+          }),
+          h('p')
+        ])
+      },
+      name: 'common'
+    }
+    const context = {
+      data: { hello: true }
+    }
+    const wrapper = mount(Component, {
+      context
+    })
+    expect(wrapper.find('.foo')).to.be.instanceOf(Wrapper)
+  })
+
   it('returns Wrapper of elements matching id selector passed', () => {
     const compiled = compileToFunctions('<div><div id="foo" /></div>')
     const wrapper = mount(compiled)
