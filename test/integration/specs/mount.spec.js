@@ -5,18 +5,32 @@ import ComponentWithMixin from '~resources/components/component-with-mixin.vue'
 
 describe('mount', () => {
   it('returns new VueWrapper with mounted Vue instance if no options are passed', () => {
-    if (navigator.userAgent.includes && navigator.userAgent.includes('node.js')) {
-      return
-    }
     const compiled = compileToFunctions('<div><input /></div>')
     const wrapper = mount(compiled)
     expect(wrapper.vm).to.be.an('object')
   })
 
-  it('returns new VueWrapper with mounted Vue instance with props, if passed as propsData', () => {
-    if (navigator.userAgent.includes && navigator.userAgent.includes('node.js')) {
-      return
+  it('returns new VueWrapper with mounted Vue instance when root is functional component', () => {
+    const Component = {
+      functional: true,
+      render (h) {
+        return h('div', {}, [
+          h('p', {
+            'class': {
+              foo: true
+            }
+          }),
+          h('p')
+        ])
+      },
+      name: 'common'
     }
+
+    const wrapper = mount(Component)
+    expect(wrapper.findAll('p').length).to.equal(2)
+  })
+
+  it('returns new VueWrapper with mounted Vue instance with props, if passed as propsData', () => {
     const prop1 = { test: 'TEST' }
     const wrapper = mount(ComponentWithProps, { propsData: { prop1 }})
     expect(wrapper.vm).to.be.an('object')
