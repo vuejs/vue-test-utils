@@ -17,16 +17,6 @@
 
 - **Returns:** `{Wrapper}`
 
-
-Returns [`Wrapper`](/api/wrapper/README.md) of first DOM node or Vue component matching selector. 
-
-Use any valid [selector](/api/selectors.md).
-
-
-- **See also:** [Wrapper](/api/wrapper/README.md)
-
-Create a fully rendered Vue component. Returns a Wrapper that includes methods to test the component renders and reacts as expected.
-
 - **Options:**
 
 `options` (`Object`): a Vue options object. Vue options are passed to the component when a new instance is created. , e.g. `store`, `propsData`. For full list, see the [Vue API](https://vuejs.org/v2/api/). Also takes vue-test-utils options:
@@ -49,7 +39,11 @@ Create a fully rendered Vue component. Returns a Wrapper that includes methods t
 
 - **Usage:**
 
-#### Without options
+Returns [`Wrapper`](/api/wrapper/README.md) of first DOM node or Vue component matching selector. 
+
+Use any valid [selector](/api/selectors.md).
+
+**Without options:**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -63,7 +57,8 @@ describe('Foo', () => {
   })
 })
 ```
-#### With Vue options
+**With Vue options:**
+
 ```js
 import { mount } from 'vue-test-utils'
 import { expect } from 'chai'
@@ -81,7 +76,8 @@ describe('Foo', () => {
 })
 ```
 
-#### Attach to DOM
+**Attach to DOM:**
+
 ```js
 import { mount } from 'vue-test-utils'
 import { expect } from 'chai'
@@ -96,7 +92,8 @@ describe('Foo', () => {
   })
 })
 ```
-#### Default and named slots
+**Default and named slots:**
+
 ```js
 import { mount } from 'vue-test-utils'
 import { expect } from 'chai'
@@ -118,7 +115,8 @@ describe('Foo', () => {
 })
 ```
 
-#### Adding globals
+**Adding globals:**
+
 ```js
 import { mount } from 'vue-test-utils'
 import { expect } from 'chai'
@@ -137,7 +135,8 @@ describe('Foo', () => {
 })
 ```
 
-#### Stubbing components
+**Stubbing components:**
+
 ```js
 import { mount } from 'vue-test-utils'
 import { expect } from 'chai'
@@ -156,3 +155,5 @@ describe('Foo', () => {
   })
 })
 ```
+
+- **See also:** [Wrapper](/api/wrapper/README.md)

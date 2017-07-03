@@ -1,14 +1,29 @@
 # shallow(component,{,options}])
 
-Create a fully rendered Vue component, with stubbed child components. Returns a wrapper that includes methods to test the component renders and reacts as expected.
+- **Arguments:**
 
-### Arguments
+  - `{Component} component`
+  - `{Object} options`
+    - `{boolean} attachToDocument`
+    - `{Object} context`
+    - `{Object} slots`  
+        - `{Array<Componet|Object>|Component|String} default`  
+        - `{Array<Componet|Object>|Component|String} named`  
+    - `{Object} globals`
+    - `{Object} instance`
+    - `{Object} stub` 
+    
+- **Arguments:**
 
-`component` (`Component`): A vue component
+- **Returns:** `{Wrapper}`
 
-`options` (`Object`) [optional]: a Vue options object. Vue options are passed to the component when a new instance is created. , e.g. `store`, `propsData`. For full list, see the [Vue API](https://vuejs.org/v2/api/). Also takes vue-test-utils options:
+- **Options:**
+
+`options` (`Object`): a Vue options object. Vue options are passed to the component when a new instance is created. , e.g. `store`, `propsData`. For full list, see the [Vue API](https://vuejs.org/v2/api/). Also takes vue-test-utils options:
 
 `options.attachToDocument` (`Boolean`): Component will attach to DOM when rendered. This can be used with [`hasStyle`](/api/wrapper/hasStyle.md) to check multi element CSS selectors
+
+`options.context` (`Object`): Passes context to functional component. Can only be used with functional components
 
 `options.slots` (`Object`): Render component with slots.
 
@@ -18,9 +33,19 @@ Create a fully rendered Vue component, with stubbed child components. Returns a 
 
 `options.globals` (`Object`): Add globals to Vue instance.
 
-### Examples
+`options.instance` ('Object): instance for vue-test-utils to use. See [scopedVue](/api/scopedVue.md)
 
-#### Without options
+`options.stub` ('Object): Stubs components matchng the name passed with a string 
+
+- **Usage:**
+
+Returns [`Wrapper`](/api/wrapper/README.md) of first DOM node or Vue component matching selector. 
+
+Stubs all child components.
+
+Use any valid [selector](/api/selectors.md).
+
+**Without options:**
 
 ```js
 import { shallow } from 'vue-test-utils'
@@ -34,7 +59,9 @@ describe('Foo', () => {
   })
 })
 ```
-#### With Vue options
+
+**With Vue options:**
+
 ```js
 import { shallow } from 'vue-test-utils'
 import { expect } from 'chai'
@@ -52,7 +79,8 @@ describe('Foo', () => {
 })
 ```
 
-#### Attach to DOM
+**Attach to DOM:**
+
 ```js
 import { shallow } from 'vue-test-utils'
 import { expect } from 'chai'
@@ -68,7 +96,8 @@ describe('Foo', () => {
 })
 ```
 
-#### Default and named slots
+**Default and named slots:**
+
 ```js
 import { shallow } from 'vue-test-utils'
 import { expect } from 'chai'
@@ -90,7 +119,8 @@ describe('Foo', () => {
 })
 ```
 
-#### Adding globals
+**Adding globals:**
+
 ```js
 import { shallow } from 'vue-test-utils'
 import { expect } from 'chai'
