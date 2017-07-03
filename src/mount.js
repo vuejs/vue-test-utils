@@ -6,6 +6,7 @@ import addSlots from './lib/add-slots'
 import addGlobals from './lib/add-globals'
 import addProvide from './lib/add-provide'
 import { stubComponents } from './lib/stub-components'
+import { cloneDeep } from 'lodash'
 
 Vue.config.productionTip = false
 
@@ -25,7 +26,8 @@ type MountOptions = {
     intercept?: Object,
     slots?: Object,
     instance?: Component,
-    stub?: Object
+    stub?: Object,
+    context?: Object
 }
 
 export default function mount (component: Component, options: MountOptions = {}): VueWrapper {
@@ -35,15 +37,27 @@ export default function mount (component: Component, options: MountOptions = {})
 
   if (attachToDocument) {
     elem = createElem()
-    delete options.attachToDocument // eslint-disable-line no-param-reassign
-  }
-
-  if (options.stub) {
-    stubComponents(component, options.stub)
+    delete options.attachToDocument
   }
 
   // Remove cached constructor
-  delete component._Ctor // eslint-disable-line no-param-reassign
+  delete component._Ctor
+
+  if (options.context) {
+    if (!component.functional) {
+      throw new Error('mount.context can only be used when mounting a functional component')
+    }
+
+    if (typeof options.context !== 'object') {
+      throw new Error('mount.context must be an object')
+    }
+    const clonedComponent = cloneDeep(component)
+    component = {
+      render (h) {
+        return h(clonedComponent, options.context)
+      }
+    }
+  }
 
   if (options.provide) {
     addProvide(component, options)
@@ -54,6 +68,9 @@ export default function mount (component: Component, options: MountOptions = {})
   if (options.instance) {
     Constructor = options.instance.extend(component)
   } else {
+    if (options.stub) {
+      stubComponents(component, options.stub)
+    }
     Constructor = Vue.extend(component)
   }
 

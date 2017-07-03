@@ -2,7 +2,7 @@
 
 import { matchesSelector } from 'sizzle'
 import { isValidSelector } from '../lib/validators'
-import findVueComponents from '../lib/find-vue-components'
+import findVueComponents, { vmCtorMatchesName } from '../lib/find-vue-components'
 import findMatchingVNodes from '../lib/find-matching-vnodes'
 import VueWrapper from './vue-wrapper'
 import WrapperArray from './wrapper-array'
@@ -199,8 +199,8 @@ export default class Wrapper implements BaseWrapper {
       if (!this.isVueComponent) {
         return false
       }
-            // TODO: Throw error if component does not have name
-      return !!this.vm && this.vm.$vnode.componentOptions.Ctor.options.name === selector.name
+      // TODO: Throw error if component does not have name
+      return vmCtorMatchesName(this.vm, selector.name)
     }
     return this.element.getAttribute && matchesSelector(this.element, selector)
   }

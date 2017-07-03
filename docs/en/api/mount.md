@@ -1,14 +1,39 @@
 # mount(component,{,options}])
 
+- **Arguments:**
+
+  - `{Component} component`
+  - `{Object} options`
+    - `{boolean} attachToDocument`
+    - `{Object} context`
+    - `{Object} slots`  
+        - `{Array<Componet|Object>|Component|String} default`  
+        - `{Array<Componet|Object>|Component|String} named`  
+    - `{Object} globals`
+    - `{Object} instance`
+    - `{Object} stub` 
+    
+- **Arguments:**
+
+- **Returns:** `{Wrapper}`
+
+
+Returns [`Wrapper`](/api/wrapper/README.md) of first DOM node or Vue component matching selector. 
+
+Use any valid [selector](/api/selectors.md).
+
+
+- **See also:** [Wrapper](/api/wrapper/README.md)
+
 Create a fully rendered Vue component. Returns a Wrapper that includes methods to test the component renders and reacts as expected.
 
-### Arguments
+- **Options:**
 
-`component` (`Component`): A vue component
-
-`options` (`Object`) [optional]: a Vue options object. Vue options are passed to the component when a new instance is created. , e.g. `store`, `propsData`. For full list, see the [Vue API](https://vuejs.org/v2/api/). Also takes vue-test-utils options:
+`options` (`Object`): a Vue options object. Vue options are passed to the component when a new instance is created. , e.g. `store`, `propsData`. For full list, see the [Vue API](https://vuejs.org/v2/api/). Also takes vue-test-utils options:
 
 `options.attachToDocument` (`Boolean`): Component will attach to DOM when rendered. This can be used with [`hasStyle`](/api/wrapper/hasStyle.md) to check multi element CSS selectors
+
+`options.context` (`Object`): Passes context to functional component. Can only be used with functional components
 
 `options.slots` (`Object`): Render component with slots.
 
@@ -22,7 +47,7 @@ Create a fully rendered Vue component. Returns a Wrapper that includes methods t
 
 `options.stub` ('Object): Stubs components matchng the name passed with a string 
 
-### Examples
+- **Usage:**
 
 #### Without options
 
