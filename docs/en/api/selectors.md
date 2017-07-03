@@ -25,13 +25,11 @@ Vue components are also valid selectors.
 
 vue-test-utils uses the `name` property to search the instance tree for matching Vue components.
 
-### Example
-
 ```js
 // Foo.vue
 
 export default{
-  name: 'Foo'
+  name: 'FooComponent'
 }
 ```
 
