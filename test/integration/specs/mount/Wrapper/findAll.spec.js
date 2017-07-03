@@ -43,6 +43,26 @@ describe('findAll', () => {
     expect(fooArr.length).to.equal(2)
   })
 
+  it('returns an array of Wrapper of elements matching class selector passed if they are declared inside a functional component', () => {
+    const Component = {
+      functional: true,
+      render (h) {
+        return h('p', {}, [
+          h('p', {
+            'class': {
+              foo: true
+            }
+          }),
+          h('p')
+        ])
+      },
+      name: 'common'
+    }
+
+    const wrapper = mount(Component)
+    expect(wrapper.findAll('p').length).to.equal(3)
+  })
+
   it('returns an array of Wrappers of elements matching id selector passed', () => {
     const compiled = compileToFunctions('<div><div id="foo" /></div>')
     const wrapper = mount(compiled)
