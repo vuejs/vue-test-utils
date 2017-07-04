@@ -1,4 +1,8 @@
 {
+  "globals": {
+    "wrapper": true,
+    "expect": true
+  },
   "root": true,
   "plugins": [
     "flowtype"
