@@ -31,7 +31,7 @@ export default {
   },
 
   methods: {
-    increment() {
+    increment () {
       this.count++
     }
   }
@@ -149,6 +149,6 @@ describe('DOM updates', () => {
 
 ## What Next
 
-Of course there is a lot more discover for you in `vue-test-utils` and it's recommended to go through the list of the [provided API](SUMMARY.md)
+Of course there is a lot more  to discover for you in `vue-test-utils` and it's recommended to go through the list of the [provided API](SUMMARY.md) to get a good oversight.
 
-The `vue-test-utils` aim to play nice with your testrunner, should you run into any issues though, you'll find the official repository here: [vue-test-utils](https://github.com/vuejs/vue-test-utils)
+The `vue-test-utils` aim to play nice with various testrunners, should you run into any issues though, the official repository can be found here: [vue-test-utils](https://github.com/vuejs/vue-test-utils)
