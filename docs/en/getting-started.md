@@ -1,6 +1,6 @@
 # Getting Started
 
-Get up and running on with the official `vue-test-utils` is straight forward.
+Getting up and running with the official `vue-test-utils` package is straight forward.
 Use either `npm` or `yarn` to install the package:
 
 ```shell
@@ -11,7 +11,7 @@ $ npm install --save vue-test-utils
 $ yarn add vue-test-utils
 ```
 
-Let's test a simple Vue component like a counter:
+Let's test a simple Vue component like a counter to get a feeling for how to use these utils.
 
 ```js
 // counter.js
@@ -39,9 +39,12 @@ export default {
 
 ```
 
-We have a bunch of nice things we could test here, so let's see what `vue-test-utils` can do for you. The general concept of interacting with a your Vue component through the utils is a wrapper, with a lot of useful helpers under its belt.
+This component is very basic in it's capabilities and scope,
+but never the less it allows for things we could test here. The general concept of interacting with a Vue component through the `vue-test-utils` is using a wrapper. This wrapper comes with a lot of useful helpers under its belt that should make writing even complex specs a breeze. But let's start simple:
 
-**1. How to Wrap a component**
+### How to wrap a component
+
+As mentioned above, the wrapper is the core element that allows for efficient interaction with a component. The flow goes as following:
 
 ```js
 // Import the mount() method from the test utils
@@ -50,14 +53,20 @@ We have a bunch of nice things we could test here, so let's see what `vue-test-u
 import { mount } from 'vue-test-utils'
 import Counter from './counter'
 
-// Now mount the component and there you have your wrapper
+// Now mount the component and you have the wrapper
 const wrapper = mount(Counter)
+
+// To inspect the wrapper deeper just log it to the console
+// and your adventure with the vue-test-utils begins
+console.log(wrapper)
 ```
 
-So that was quite easy to do right, so let's start with our first spec.
-Maybe you are curious about how the rendered HTML output of the component looks like.
+We already took the first hurdle, and luckily it was an easy one. So, let's put the wrapper to good use.
 
-**2. Test rendered HTML output of the component**
+
+### Test rendered HTML output of the component
+
+As a first spec it would be nice to verify that the rendered HTML output of the component looks like expected.
 
 ```js
 // For getting the html output, the wrapper provides
@@ -77,36 +86,44 @@ describe('Counter', () => {
 
 That was easy as well, so let's step up the game.
 
-**3. Component data**
+### Component data
 
-Changing the data of the component can be quite useful for efficient testing.
+Changing the data of the component can be quite useful for efficient testing. The method `setData({...})` is ment for changing the data and `data()` returns the current data object of the component.
+It may be useful to change the data accordingly for a whole group of specs, so `beforeEach()` could be a good place for that:
 
 ```js
 
 describe('Data interactions', () => {
   beforeEach(() => {
-    wrapper.setData({count: 10})
+    wrapper.setData({ count: 10 })
   })
 
   it('should be set to 10', () => {
-    // Get the current data of the Component with the data() method
     expect(wrapper.data().count).to.equal(10)
   })
 })
 
 ```
 
-**4. Interactions**
+At this point you should also know that you can interact with the vue instance itself as well using the `vm` key.
 
-This section will introduce two important functions.
-`find()` to find an HTML element inside you components HTML output and `trigger()` will allow for firing general events.
+```js
+  wrapper.vm.$data
+  // is equal to
+  wrapper.data()
+```
+
+### Interactions
+
+This section will introduce two important methods of the wrapper object.
+`find()` to find an HTML element inside your component's HTML output and `trigger()` will allow for firing general events.
 
 ```js
 
 describe('Trigger an event', () => {
   it('button should increment the count', () => {
     expect(wrapper.data().count).to.equal(0)
-    let button = wrapper.find('button')
+    const button = wrapper.find('button')
     button.trigger('click')
     expect(wrapper.data().count).to.equal(1)
   })
@@ -114,9 +131,9 @@ describe('Trigger an event', () => {
 
 ```
 
-**5. Handle async DOM updates**
+### Handle async DOM updates
 
-As you probably know, Vue updates the DOM based on an internal `tick` to prevent unnecessary rerenders if a bunch of data gets changed. That's why `Vue.nextTick(...)` allows you to verify that DOM changes have been applied correctly. Luckily this is handled for you by the `.html()` method.
+Vue updates the DOM based on an internal `tick` to prevent unnecessary rerenders if a bunch of data gets changed. That's why `Vue.nextTick(...)` allows you to verify that DOM changes have been applied correctly and to pass in a callback to run right after that. Luckily this async DOM update is taked care of by the `.html()` method.
 
 ```js
 
