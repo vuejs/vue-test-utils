@@ -32,6 +32,10 @@ type MountOptions = {
 }
 
 export default function mount (component: Component, options: MountOptions = {}): VueWrapper {
+  if (!window) {
+    throw new Error('window is undefined, vue-test-utils needs to be run in a browser environment.\n You can run the tests in node using JSDOM')
+  }
+
   let elem
 
   const attachToDocument = options.attachToDocument

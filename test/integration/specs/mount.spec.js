@@ -45,4 +45,16 @@ describe('mount', () => {
     mount(ComponentWithMixin)
     expect(ComponentWithMixin.methods.someMethod.callCount).to.equal(1)
   })
+
+  it('throws an error if window is undefined', () => {
+    const windowSave = global.window
+    try {
+      global.window = undefined
+      const message = 'window is undefined, vue-test-utils needs to be run in a browser environment.\n You can run the tests in node using JSDOM'
+      expect(() => mount(compileToFunctions('<div />'))).to.throw(Error, message)
+      global.window = windowSave
+    } catch (err) {
+      console.log('window cannot be overwritten (in browser), skipping test')
+    }
+  })
 })
