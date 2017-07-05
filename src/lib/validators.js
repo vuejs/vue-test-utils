@@ -1,4 +1,5 @@
 // @flow
+import { throwError } from './util'
 
 export function isDomSelector (selector: any): boolean {
   if (typeof selector !== 'string') {
@@ -7,10 +8,10 @@ export function isDomSelector (selector: any): boolean {
 
   try {
     if (typeof document === 'undefined') {
-      throw new Error('mount must be run in a browser environment like PhantomJS, jsdom or chrome')
+      throwError('mount must be run in a browser environment like PhantomJS, jsdom or chrome')
     }
   } catch (error) {
-    throw new Error('mount must be run in a browser environment like PhantomJS, jsdom or chrome')
+    throwError('mount must be run in a browser environment like PhantomJS, jsdom or chrome')
   }
 
   try {

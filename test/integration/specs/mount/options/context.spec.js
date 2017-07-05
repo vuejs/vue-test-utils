@@ -23,8 +23,9 @@ describe('context', () => {
       render: h => h('div')
     }
     const context = {}
-    const message = 'mount.context can only be used when mounting a functional component'
-    expect(() => mount(Component, { context })).to.throw(Error, message)
+    const message = '[vue-test-utils]: mount.context can only be used when mounting a functional component'
+    const fn = () => mount(Component, { context })
+    expect(fn).to.throw().with.property('message', message)
   })
 
   it('throws error if context option is not an object', () => {
@@ -33,7 +34,8 @@ describe('context', () => {
       render: h => h('div')
     }
     const context = 'string'
-    const message = 'mount.context must be an object'
-    expect(() => mount(Component, { context })).to.throw(Error, message)
+    const message = '[vue-test-utils]: mount.context must be an object'
+    const fn = () => mount(Component, { context })
+    expect(fn).to.throw().with.property('message', message)
   })
 })

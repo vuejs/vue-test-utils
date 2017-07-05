@@ -1,12 +1,13 @@
 // @flow
 
 import Vue from 'vue'
+import { cloneDeep } from 'lodash'
 import VueWrapper from './wrappers/vue-wrapper'
 import addSlots from './lib/add-slots'
 import addGlobals from './lib/add-globals'
 import addProvide from './lib/add-provide'
 import { stubComponents } from './lib/stub-components'
-import { cloneDeep } from 'lodash'
+import { throwError } from './lib/util'
 import './lib/matches-polyfill'
 
 Vue.config.productionTip = false
@@ -33,7 +34,7 @@ type MountOptions = {
 
 export default function mount (component: Component, options: MountOptions = {}): VueWrapper {
   if (!window) {
-    throw new Error('window is undefined, vue-test-utils needs to be run in a browser environment.\n You can run the tests in node using JSDOM')
+    throwError('window is undefined, vue-test-utils needs to be run in a browser environment.\n You can run the tests in node using JSDOM')
   }
 
   let elem
@@ -50,11 +51,11 @@ export default function mount (component: Component, options: MountOptions = {})
 
   if (options.context) {
     if (!component.functional) {
-      throw new Error('mount.context can only be used when mounting a functional component')
+      throwError('mount.context can only be used when mounting a functional component')
     }
 
     if (typeof options.context !== 'object') {
-      throw new Error('mount.context must be an object')
+      throwError('mount.context must be an object')
     }
     const clonedComponent = cloneDeep(component)
     component = {

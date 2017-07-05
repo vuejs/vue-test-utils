@@ -82,8 +82,9 @@ describe('findAll', () => {
   it('throws an error when passed an invalid DOM selector', () => {
     const compiled = compileToFunctions('<div><a href="/"></a></div>')
     const wrapper = mount(compiled)
-    const message = 'wrapper.findAll() must be passed a valid CSS selector or a Vue constructor'
-    expect(() => wrapper.findAll('[href=&6"/"]')).to.throw(Error, message)
+    const message = '[vue-test-utils]: wrapper.findAll() must be passed a valid CSS selector or a Vue constructor'
+    const fn = () => wrapper.findAll('[href=&6"/"]')
+    expect(fn).to.throw().with.property('message', message)
   })
 
   it('returns an array of Wrappers of elements matching selector when descendant combinator passed', () => {
@@ -149,8 +150,8 @@ describe('findAll', () => {
 
   it('throws an error if component does not have a name property', () => {
     const wrapper = mount(Component)
-    const message = '.findAll() requires component to have a name property'
-    expect(() => wrapper.findAll(ComponentWithoutName)).to.throw(Error, message)
+    const message = '[vue-test-utils]: .findAll() requires component to have a name property'
+    expect(() => wrapper.findAll(ComponentWithoutName)).to.throw().with.property('message', message)
   })
 
   it('returns VueWrapper with length 0 if no nodes matching selector are found', () => {
@@ -166,8 +167,9 @@ describe('findAll', () => {
       undefined, null, NaN, 0, 2, true, false, () => {}, {}, { name: undefined }, []
     ]
     invalidSelectors.forEach((invalidSelector) => {
-      const message = 'wrapper.findAll() must be passed a valid CSS selector or a Vue constructor'
-      expect(() => wrapper.findAll(invalidSelector)).to.throw(Error, message)
+      const message = '[vue-test-utils]: wrapper.findAll() must be passed a valid CSS selector or a Vue constructor'
+      const fn = () => wrapper.findAll(invalidSelector)
+      expect(fn).to.throw().with.property('message', message)
     })
   })
 })

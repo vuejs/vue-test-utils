@@ -16,8 +16,8 @@ describe('hasClass', () => {
 
   it('throws error if wrapper array contains no items', () => {
     const compiled = compileToFunctions('<div />')
-    const message = 'hasClass cannot be called on 0 items'
-    expect(() => mount(compiled).findAll('p').hasClass('p')).to.throw(Error, message)
+    const message = '[vue-test-utils]: hasClass cannot be called on 0 items'
+    expect(() => mount(compiled).findAll('p').hasClass('p')).to.throw().with.property('message', message)
   })
 
   it('throws error if selector is not a string', () => {
@@ -27,8 +27,9 @@ describe('hasClass', () => {
       undefined, null, NaN, 0, 2, true, false, () => {}, {}, []
     ]
     invalidSelectors.forEach((invalidSelector) => {
-      const message = 'wrapper.hasClass() must be passed a string'
-      expect(() => wrapper.hasClass(invalidSelector)).to.throw(Error, message)
+      const message = '[vue-test-utils]: wrapper.hasClass() must be passed a string'
+      const fn = () => wrapper.hasClass(invalidSelector)
+      expect(fn).to.throw().with.property('message', message)
     })
   })
 })

@@ -47,8 +47,9 @@ describe('trigger', () => {
       undefined, null, NaN, 0, 2, true, false, () => {}, {}, []
     ]
     invalidSelectors.forEach((invalidSelector) => {
-      const message = 'wrapper.trigger() must be passed a string'
-      expect(() => wrapper.trigger(invalidSelector)).to.throw(Error, message)
+      const message = '[vue-test-utils]: wrapper.trigger() must be passed a string'
+      const fn = () => wrapper.trigger(invalidSelector)
+      expect(fn).to.throw().with.property('message', message)
     })
   })
 })

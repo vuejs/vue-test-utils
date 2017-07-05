@@ -13,26 +13,26 @@ describe('WrapperArray', () => {
 
   it('throws error if find is called when there are no items in wrapper array', () => {
     const wrapperArray = new WrapperArray()
-    const message = 'find cannot be called on 0 items'
-    expect(() => wrapperArray.find()).to.throw(Error, message)
+    const message = '[vue-test-utils]: find cannot be called on 0 items'
+    expect(() => wrapperArray.find()).to.throw().with.property('message', message)
   })
 
   it('throws error if find is called when there are items in wrapper array', () => {
     const wrapperArray = new WrapperArray([1])
-    const message = 'find must be called on a single wrapper, use at(i) to access a wrapper'
-    expect(() => wrapperArray.find()).to.throw(Error, message)
+    const message = '[vue-test-utils]: find must be called on a single wrapper, use at(i) to access a wrapper'
+    expect(() => wrapperArray.find()).to.throw().with.property('message', message)
   })
 
   it('findAll throws error if wrapper is not empty', () => {
     const wrapperArray = new WrapperArray([])
-    const message = 'findAll cannot be called on 0 items'
-    expect(() => wrapperArray.findAll()).to.throw(Error, message)
+    const message = '[vue-test-utils]: findAll cannot be called on 0 items'
+    expect(() => wrapperArray.findAll()).to.throw().with.property('message', message)
   })
 
   it('findAll throws error if wrapper is empty', () => {
     const wrapperArray = new WrapperArray([1, 2, 3])
-    const message = 'findAll must be called on a single wrapper, use at(i) to access a wrapper'
-    expect(() => wrapperArray.findAll()).to.throw(Error, message)
+    const message = '[vue-test-utils]: findAll must be called on a single wrapper, use at(i) to access a wrapper'
+    expect(() => wrapperArray.findAll()).to.throw().with.property('message', message)
   })
 
   it('contains returns true if every wrapper.contains() returns true', () => {
@@ -138,38 +138,38 @@ describe('WrapperArray', () => {
 
   it('html throws error if called when there are 0 items in wrapper array', () => {
     const wrapperArray = new WrapperArray()
-    const message = 'html cannot be called on 0 items'
-    expect(() => wrapperArray.html()).to.throw(Error, message)
+    const message = '[vue-test-utils]: html cannot be called on 0 items'
+    expect(() => wrapperArray.html()).to.throw().with.property('message', message)
   })
 
   it('html throws error if called when there are items in wrapper array', () => {
     const wrapperArray = new WrapperArray([1])
-    const message = 'html must be called on a single wrapper, use at(i) to access a wrapper'
-    expect(() => wrapperArray.html()).to.throw(Error, message)
+    const message = '[vue-test-utils]: html must be called on a single wrapper, use at(i) to access a wrapper'
+    expect(() => wrapperArray.html()).to.throw().with.property('message', message)
   })
 
   it('name throws error if called when there are 0 items in wrapper array', () => {
     const wrapperArray = new WrapperArray()
-    const message = 'name cannot be called on 0 items'
-    expect(() => wrapperArray.name()).to.throw(Error, message)
+    const message = '[vue-test-utils]: name cannot be called on 0 items'
+    expect(() => wrapperArray.name()).to.throw().with.property('message', message)
   })
 
   it('name throws error if called when there are items in wrapper array', () => {
     const wrapperArray = new WrapperArray([1])
-    const message = 'name must be called on a single wrapper, use at(i) to access a wrapper'
-    expect(() => wrapperArray.name()).to.throw(Error, message)
+    const message = '[vue-test-utils]: name must be called on a single wrapper, use at(i) to access a wrapper'
+    expect(() => wrapperArray.name()).to.throw().with.property('message', message)
   })
 
   it('text throws error if called when there are 0 items in wrapper array', () => {
     const wrapperArray = new WrapperArray()
-    const message = 'text cannot be called on 0 items'
-    expect(() => wrapperArray.text()).to.throw(Error, message)
+    const message = '[vue-test-utils]: text cannot be called on 0 items'
+    expect(() => wrapperArray.text()).to.throw().with.property('message', message)
   })
 
   it('text throws error if called when there are items in wrapper array', () => {
     const wrapperArray = new WrapperArray([1])
-    const message = 'text must be called on a single wrapper, use at(i) to access a wrapper'
-    expect(() => wrapperArray.text()).to.throw(Error, message)
+    const message = '[vue-test-utils]: text must be called on a single wrapper, use at(i) to access a wrapper'
+    expect(() => wrapperArray.text()).to.throw().with.property('message', message)
   })
 
   it('setData calls setData on each wrapper', () => {

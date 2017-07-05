@@ -19,20 +19,23 @@ describe('hasAttribute', () => {
   it('throws an error if attribute is not a string', () => {
     const compiled = compileToFunctions('<div />')
     const wrapper = mount(compiled)
-    const message = 'wrapper.hasAttribute() must be passed attribute as a string'
-    expect(() => wrapper.findAll('div').hasAttribute(undefined, 'value')).to.throw(Error, message)
+    const message = '[vue-test-utils]: wrapper.hasAttribute() must be passed attribute as a string'
+    const fn = () => wrapper.findAll('div').hasAttribute(undefined, 'value')
+    expect(fn).to.throw().with.property('message', message)
   })
 
   it('throws error if wrapper array contains no items', () => {
     const compiled = compileToFunctions('<div />')
-    const message = 'hasAttribute cannot be called on 0 items'
-    expect(() => mount(compiled).findAll('p').hasAttribute('p')).to.throw(Error, message)
+    const message = '[vue-test-utils]: hasAttribute cannot be called on 0 items'
+    const fn = () => mount(compiled).findAll('p').hasAttribute('p')
+    expect(fn).to.throw().with.property('message', message)
   })
 
   it('throws an error if value is not a string', () => {
     const compiled = compileToFunctions('<div><div /></div>')
     const wrapper = mount(compiled)
-    const message = 'wrapper.hasAttribute() must be passed value as a string'
-    expect(() => wrapper.findAll('div').hasAttribute('attribute', undefined)).to.throw(Error, message)
+    const message = '[vue-test-utils]: wrapper.hasAttribute() must be passed value as a string'
+    const fn = () => wrapper.findAll('div').hasAttribute('attribute', undefined)
+    expect(fn).to.throw().with.property('message', message)
   })
 })

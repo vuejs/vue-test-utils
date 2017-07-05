@@ -30,8 +30,9 @@ describe('is', () => {
 
   it('throws error if wrapper array contains no items', () => {
     const compiled = compileToFunctions('<div />')
-    const message = 'is cannot be called on 0 items'
-    expect(() => mount(compiled).findAll('p').is('p')).to.throw(Error, message)
+    const message = '[vue-test-utils]: is cannot be called on 0 items'
+    const fn = () => mount(compiled).findAll('p').is('p')
+    expect(fn).to.throw().with.property('message', message)
   })
 
   it('throws error if selector is not a valid selector', () => {
@@ -41,8 +42,9 @@ describe('is', () => {
       undefined, null, NaN, 0, 2, true, false, () => {}, {}, { name: undefined }, []
     ]
     invalidSelectors.forEach((invalidSelector) => {
-      const message = 'wrapper.is() must be passed a valid CSS selector or a Vue constructor'
-      expect(() => wrapper.findAll('div').is(invalidSelector)).to.throw(Error, message)
+      const message = '[vue-test-utils]: wrapper.is() must be passed a valid CSS selector or a Vue constructor'
+      const fn = () => wrapper.findAll('div').is(invalidSelector)
+      expect(fn).to.throw().with.property('message', message)
     })
   })
 })

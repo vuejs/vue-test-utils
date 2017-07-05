@@ -1,6 +1,7 @@
 // @flow
 
 import { compileToFunctions } from 'vue-template-compiler'
+import { throwError } from './util'
 
 function isValidSlot (slot: any): boolean {
   return Array.isArray(slot) || (slot !== null && typeof slot === 'object') || typeof slot === 'string'
@@ -25,7 +26,7 @@ function addSlotToVm (vm: Component, slotName: string, slotValue: Component | st
 function addSlots (vm: Component, slots: Object): void {
   Object.keys(slots).forEach((key) => {
     if (!isValidSlot(slots[key])) {
-      throw new Error('slots[key] must be a Component, string or an array of Components')
+      throwError('slots[key] must be a Component, string or an array of Components')
     }
 
     if (Array.isArray(slots[key])) {

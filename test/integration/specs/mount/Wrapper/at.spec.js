@@ -5,7 +5,8 @@ describe('at', () => {
   it('throws an error', () => {
     const compiled = compileToFunctions('<div />')
     const wrapper = mount(compiled)
-    const message = 'at() must be called on a WrapperArray'
-    expect(() => wrapper.at()).to.throw(Error, message)
+    const message = '[vue-test-utils]: at() must be called on a WrapperArray'
+    const fn = () => wrapper.at()
+    expect(fn).to.throw().with.property('message', message)
   })
 })

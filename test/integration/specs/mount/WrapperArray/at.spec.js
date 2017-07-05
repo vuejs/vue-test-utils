@@ -13,7 +13,7 @@ describe('at', () => {
   it('throws error if no item exists at index', () => {
     const index = 2
     const compiled = compileToFunctions('<div><p /><p class="index-1"/></div>')
-    const message = `no item exists at ${index}`
-    expect(() => mount(compiled).findAll('p').at(index)).to.throw(Error, message)
+    const message = `[vue-test-utils]: no item exists at ${index}`
+    expect(() => mount(compiled).findAll('p').at(index)).to.throw().with.property('message', message)
   })
 })

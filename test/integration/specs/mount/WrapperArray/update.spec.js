@@ -17,7 +17,8 @@ describe('update', () => {
 
   it('throws error if wrapper array contains no items', () => {
     const compiled = compileToFunctions('<div />')
-    const message = 'update cannot be called on 0 items'
-    expect(() => mount(compiled).findAll('p').update('p')).to.throw(Error, message)
+    const message = '[vue-test-utils]: update cannot be called on 0 items'
+    const fn = () => mount(compiled).findAll('p').update('p')
+    expect(fn).to.throw().with.property('message', message)
   })
 })

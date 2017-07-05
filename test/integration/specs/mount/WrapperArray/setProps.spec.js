@@ -29,16 +29,18 @@ describe('setProps', () => {
   })
 
   it('throws an error if node is not a Vue instance', () => {
-    const message = 'wrapper.setProps() can only be called on a Vue instance'
+    const message = '[vue-test-utils]: wrapper.setProps() can only be called on a Vue instance'
     const compiled = compileToFunctions('<div><p></p></div>')
     const wrapper = mount(compiled)
     const p = wrapper.findAll('p')
-    expect(() => p.setProps({ ready: true })).throw(Error, message)
+    const fn = () => p.setProps({ ready: true })
+    expect(fn).to.throw().with.property('message', message)
   })
 
   it('throws error if wrapper array contains no items', () => {
     const compiled = compileToFunctions('<div />')
-    const message = 'setProps cannot be called on 0 items'
-    expect(() => mount(compiled).findAll('p').setProps('p')).to.throw(Error, message)
+    const message = '[vue-test-utils]: setProps cannot be called on 0 items'
+    const fn = () => mount(compiled).findAll('p').setProps('p')
+    expect(fn).to.throw().with.property('message', message)
   })
 })

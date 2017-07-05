@@ -2,6 +2,7 @@
 
 import type Wrapper from './wrapper'
 import type VueWrapper from './vue-wrapper'
+import { throwError } from '../lib/util'
 
 export default class WrapperArray implements BaseWrapper {
   wrappers: Array<Wrapper | VueWrapper>;
@@ -14,7 +15,7 @@ export default class WrapperArray implements BaseWrapper {
 
   at (index: number): Wrapper | VueWrapper {
     if (index > this.length - 1) {
-      throw new Error(`no item exists at ${index}`)
+      throwError(`no item exists at ${index}`)
     }
     return this.wrappers[index]
   }
@@ -52,19 +53,19 @@ export default class WrapperArray implements BaseWrapper {
   findAll (): void {
     this.throwErrorIfWrappersIsEmpty('findAll')
 
-    throw new Error('findAll must be called on a single wrapper, use at(i) to access a wrapper')
+    throwError('findAll must be called on a single wrapper, use at(i) to access a wrapper')
   }
 
   find (): void {
     this.throwErrorIfWrappersIsEmpty('find')
 
-    throw new Error('find must be called on a single wrapper, use at(i) to access a wrapper')
+    throwError('find must be called on a single wrapper, use at(i) to access a wrapper')
   }
 
   html (): void {
     this.throwErrorIfWrappersIsEmpty('html')
 
-    throw new Error('html must be called on a single wrapper, use at(i) to access a wrapper')
+    throwError('html must be called on a single wrapper, use at(i) to access a wrapper')
   }
 
   is (selector: string | Component): boolean {
@@ -88,18 +89,18 @@ export default class WrapperArray implements BaseWrapper {
   name (): void {
     this.throwErrorIfWrappersIsEmpty('name')
 
-    throw new Error('name must be called on a single wrapper, use at(i) to access a wrapper')
+    throwError('name must be called on a single wrapper, use at(i) to access a wrapper')
   }
 
   text (): void {
     this.throwErrorIfWrappersIsEmpty('text')
 
-    throw new Error('text must be called on a single wrapper, use at(i) to access a wrapper')
+    throwError('text must be called on a single wrapper, use at(i) to access a wrapper')
   }
 
   throwErrorIfWrappersIsEmpty (method: string): void {
     if (this.wrappers.length === 0) {
-      throw new Error(`${method} cannot be called on 0 items`)
+      throwError(`${method} cannot be called on 0 items`)
     }
   }
 

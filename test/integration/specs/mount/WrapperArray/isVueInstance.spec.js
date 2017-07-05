@@ -17,8 +17,9 @@ describe('isVueInstance', () => {
 
   it('throws error if wrapper array contains no items', () => {
     const compiled = compileToFunctions('<div />')
-    const message = 'isVueInstance cannot be called on 0 items'
-    expect(() => mount(compiled).findAll('p').isVueInstance('p')).to.throw(Error, message)
+    const message = '[vue-test-utils]: isVueInstance cannot be called on 0 items'
+    const fn = () => mount(compiled).findAll('p').isVueInstance('p')
+    expect(fn).to.throw().with.property('message', message)
   })
 })
 

@@ -40,21 +40,24 @@ describe('hasStyle', () => {
 
   it('throws error if wrapper array contains no items', () => {
     const compiled = compileToFunctions('<div />')
-    const message = 'hasStyle cannot be called on 0 items'
-    expect(() => mount(compiled).findAll('p').hasStyle('p')).to.throw(Error, message)
+    const message = '[vue-test-utils]: hasStyle cannot be called on 0 items'
+    const fn = () => mount(compiled).findAll('p').hasStyle('p')
+    expect(fn).to.throw().with.property('message', message)
   })
 
   it('throws error if style is not a string', () => {
     const compiled = compileToFunctions('<div><div /></div>')
     const wrapper = mount(compiled)
-    const message = 'wrapper.hasStyle() must be passed style as a string'
-    expect(() => wrapper.findAll('div').hasStyle(undefined, 'red')).to.throw(Error, message)
+    const message = '[vue-test-utils]: wrapper.hasStyle() must be passed style as a string'
+    const fn = () => wrapper.findAll('div').hasStyle(undefined, 'red')
+    expect(fn).to.throw().with.property('message', message)
   })
 
   it('throws error if value is not a string', () => {
     const compiled = compileToFunctions('<div><div /></div>')
     const wrapper = mount(compiled)
-    const message = 'wrapper.hasClass() must be passed value as string'
-    expect(() => wrapper.findAll('div').hasStyle('color', undefined)).to.throw(Error, message)
+    const message = '[vue-test-utils]: wrapper.hasClass() must be passed value as string'
+    const fn = () => wrapper.findAll('div').hasStyle('color', undefined)
+    expect(fn).to.throw().with.property('message', message)
   })
 })

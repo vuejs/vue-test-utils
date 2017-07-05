@@ -18,7 +18,8 @@ describe('isEmpty', () => {
 
   it('throws error if wrapper array contains no items', () => {
     const compiled = compileToFunctions('<div />')
-    const message = 'isEmpty cannot be called on 0 items'
-    expect(() => mount(compiled).findAll('p').isEmpty('p')).to.throw(Error, message)
+    const message = '[vue-test-utils]: isEmpty cannot be called on 0 items'
+    const fn = () => mount(compiled).findAll('p').isEmpty('p')
+    expect(fn).to.throw().with.property('message', message)
   })
 })

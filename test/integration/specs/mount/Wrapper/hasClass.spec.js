@@ -21,8 +21,9 @@ describe('hasClass', () => {
       undefined, null, NaN, 0, 2, true, false, () => {}, {}, []
     ]
     invalidSelectors.forEach((invalidSelector) => {
-      const message = 'wrapper.hasClass() must be passed a string'
-      expect(() => wrapper.hasClass(invalidSelector)).to.throw(Error, message)
+      const message = '[vue-test-utils]: wrapper.hasClass() must be passed a string'
+      const fn = () => wrapper.hasClass(invalidSelector)
+      expect(fn).to.throw().with.property('message', message)
     })
   })
 })

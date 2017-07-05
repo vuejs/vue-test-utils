@@ -59,8 +59,9 @@ describe('is', () => {
       undefined, null, NaN, 0, 2, true, false, () => {}, {}, { name: undefined }, []
     ]
     invalidSelectors.forEach((invalidSelector) => {
-      const message = 'wrapper.is() must be passed a valid CSS selector or a Vue constructor'
-      expect(() => wrapper.is(invalidSelector)).to.throw(Error, message)
+      const message = '[vue-test-utils]: wrapper.is() must be passed a valid CSS selector or a Vue constructor'
+      const fn = () => wrapper.is(invalidSelector)
+      expect(fn).to.throw().with.property('message', message)
     })
   })
 })

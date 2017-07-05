@@ -21,8 +21,9 @@ describe('hasProp', () => {
   it('throws an error if called on a non vm wrapper', () => {
     const compiled = compileToFunctions('<div><p /></div>')
     const p = mount(compiled).findAll('p').at(0)
-    const message = 'wrapper.hasProp() must be called on a Vue instance'
-    expect(() => p.hasProp('no-prop', 'value')).to.throw(Error, message)
+    const message = '[vue-test-utils]: wrapper.hasProp() must be called on a Vue instance'
+    const fn = () => p.hasProp('no-prop', 'value')
+    expect(fn).to.throw().with.property('message', message)
   })
 
   it('throws an error if prop is not a string', () => {
@@ -32,8 +33,9 @@ describe('hasProp', () => {
       undefined, null, NaN, 0, 2, true, false, () => {}, {}, []
     ]
     invalidSelectors.forEach((invalidSelector) => {
-      const message = 'wrapper.hasProp() must be passed prop as a string'
-      expect(() => wrapper.hasProp(invalidSelector, 'value')).to.throw(Error, message)
+      const message = '[vue-test-utils]: wrapper.hasProp() must be passed prop as a string'
+      const fn = () => wrapper.hasProp(invalidSelector, 'value')
+      expect(fn).to.throw().with.property('message', message)
     })
   })
 })

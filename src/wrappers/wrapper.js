@@ -6,6 +6,7 @@ import findMatchingVNodes from '../lib/find-matching-vnodes'
 import VueWrapper from './vue-wrapper'
 import WrapperArray from './wrapper-array'
 import ErrorWrapper from './error-wrapper'
+import { throwError } from '../lib/util'
 
 export default class Wrapper implements BaseWrapper {
   vnode: VNode;
@@ -23,7 +24,7 @@ export default class Wrapper implements BaseWrapper {
   }
 
   at () {
-    throw new Error('at() must be called on a WrapperArray')
+    throwError('at() must be called on a WrapperArray')
   }
 
   /**
@@ -31,7 +32,7 @@ export default class Wrapper implements BaseWrapper {
    */
   contains (selector: string | Component) {
     if (!isValidSelector(selector)) {
-      throw new Error('wrapper.contains() must be passed a valid CSS selector or a Vue constructor')
+      throwError('wrapper.contains() must be passed a valid CSS selector or a Vue constructor')
     }
 
     if (typeof selector === 'object') {
@@ -51,11 +52,11 @@ export default class Wrapper implements BaseWrapper {
    */
   hasAttribute (attribute: string, value: string) {
     if (typeof attribute !== 'string') {
-      throw new Error('wrapper.hasAttribute() must be passed attribute as a string')
+      throwError('wrapper.hasAttribute() must be passed attribute as a string')
     }
 
     if (typeof value !== 'string') {
-      throw new Error('wrapper.hasAttribute() must be passed value as a string')
+      throwError('wrapper.hasAttribute() must be passed value as a string')
     }
 
     return this.element && this.element.getAttribute(attribute) === value
@@ -66,7 +67,7 @@ export default class Wrapper implements BaseWrapper {
    */
   hasClass (className: string) {
     if (typeof className !== 'string') {
-      throw new Error('wrapper.hasClass() must be passed a string')
+      throwError('wrapper.hasClass() must be passed a string')
     }
 
     return this.element.className.split(' ').indexOf(className) !== -1
@@ -77,10 +78,10 @@ export default class Wrapper implements BaseWrapper {
    */
   hasProp (prop: string, value: string) {
     if (!this.isVueComponent) {
-      throw new Error('wrapper.hasProp() must be called on a Vue instance')
+      throwError('wrapper.hasProp() must be called on a Vue instance')
     }
     if (typeof prop !== 'string') {
-      throw new Error('wrapper.hasProp() must be passed prop as a string')
+      throwError('wrapper.hasProp() must be passed prop as a string')
     }
 
     return !!this.vm && !!this.vm.$props && this.vm.$props[prop] === value
@@ -91,11 +92,11 @@ export default class Wrapper implements BaseWrapper {
    */
   hasStyle (style: string, value: string) {
     if (typeof style !== 'string') {
-      throw new Error('wrapper.hasStyle() must be passed style as a string')
+      throwError('wrapper.hasStyle() must be passed style as a string')
     }
 
     if (typeof value !== 'string') {
-      throw new Error('wrapper.hasClass() must be passed value as string')
+      throwError('wrapper.hasClass() must be passed value as string')
     }
 
       /* istanbul ignore next */
@@ -127,12 +128,12 @@ export default class Wrapper implements BaseWrapper {
    */
   find (selector: string): Wrapper | ErrorWrapper | VueWrapper {
     if (!isValidSelector(selector)) {
-      throw new Error('wrapper.find() must be passed a valid CSS selector or a Vue constructor')
+      throwError('wrapper.find() must be passed a valid CSS selector or a Vue constructor')
     }
 
     if (typeof selector === 'object') {
       if (!selector.name) {
-        throw new Error('.find() requires component to have a name property')
+        throwError('.find() requires component to have a name property')
       }
       const vm = this.vm || this.vnode.context.$root
       const components = findVueComponents(vm, selector.name)
@@ -155,12 +156,12 @@ export default class Wrapper implements BaseWrapper {
    */
   findAll (selector: string | Component): WrapperArray {
     if (!isValidSelector(selector)) {
-      throw new Error('wrapper.findAll() must be passed a valid CSS selector or a Vue constructor')
+      throwError('wrapper.findAll() must be passed a valid CSS selector or a Vue constructor')
     }
 
     if (typeof selector === 'object') {
       if (!selector.name) {
-        throw new Error('.findAll() requires component to have a name property')
+        throwError('.findAll() requires component to have a name property')
       }
       const vm = this.vm || this.vnode.context.$root
       const components = findVueComponents(vm, selector.name)
@@ -191,7 +192,7 @@ export default class Wrapper implements BaseWrapper {
    */
   is (selector: string | Component): boolean {
     if (!isValidSelector(selector)) {
-      throw new Error('wrapper.is() must be passed a valid CSS selector or a Vue constructor')
+      throwError('wrapper.is() must be passed a valid CSS selector or a Vue constructor')
     }
 
     if (typeof selector === 'object') {
@@ -234,7 +235,7 @@ export default class Wrapper implements BaseWrapper {
    */
   setData (data: Object) {
     if (!this.isVueComponent) {
-      throw new Error('wrapper.setData() can only be called on a Vue instance')
+      throwError('wrapper.setData() can only be called on a Vue instance')
     }
 
     Object.keys(data).forEach((key) => {
@@ -249,7 +250,7 @@ export default class Wrapper implements BaseWrapper {
    */
   setProps (data: Object) {
     if (!this.isVueComponent || !this.vm) {
-      throw new Error('wrapper.setProps() can only be called on a Vue instance')
+      throwError('wrapper.setProps() can only be called on a Vue instance')
     }
 
     Object.keys(data).forEach((key) => {
@@ -277,7 +278,7 @@ export default class Wrapper implements BaseWrapper {
    */
   trigger (type: string) {
     if (typeof type !== 'string') {
-      throw new Error('wrapper.trigger() must be passed a string')
+      throwError('wrapper.trigger() must be passed a string')
     }
 
     const modifiers = {

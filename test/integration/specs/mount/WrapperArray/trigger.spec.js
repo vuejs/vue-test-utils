@@ -48,14 +48,16 @@ describe('trigger', () => {
       undefined, null, NaN, 0, 2, true, false, () => {}, {}, []
     ]
     invalidSelectors.forEach((invalidSelector) => {
-      const message = 'wrapper.trigger() must be passed a string'
-      expect(() => wrapper.trigger(invalidSelector)).to.throw(Error, message)
+      const message = '[vue-test-utils]: wrapper.trigger() must be passed a string'
+      const fn = () => wrapper.trigger(invalidSelector)
+      expect(fn).to.throw().with.property('message', message)
     })
   })
 
   it('throws error if wrapper array contains no items', () => {
     const compiled = compileToFunctions('<div />')
-    const message = 'trigger cannot be called on 0 items'
-    expect(() => mount(compiled).findAll('p').trigger('p')).to.throw(Error, message)
+    const message = '[vue-test-utils]: trigger cannot be called on 0 items'
+    const fn = () => mount(compiled).findAll('p').trigger('p')
+    expect(fn).to.throw().with.property('message', message)
   })
 })

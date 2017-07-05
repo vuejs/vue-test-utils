@@ -75,8 +75,9 @@ describe('find', () => {
   it('throws an error when passed an invalid DOM selector', () => {
     const compiled = compileToFunctions('<div><a href="/"></a></div>')
     const wrapper = mount(compiled)
-    const message = 'wrapper.find() must be passed a valid CSS selector or a Vue constructor'
-    expect(() => wrapper.find('[href=&6"/"]')).to.throw(Error, message)
+    const message = '[vue-test-utils]: wrapper.find() must be passed a valid CSS selector or a Vue constructor'
+    const fn = () => wrapper.find('[href=&6"/"]')
+    expect(fn).to.throw().with.property('message', message)
   })
 
   it('returns Wrapper of elements matching selector when descendant combinator passed', () => {
@@ -123,8 +124,9 @@ describe('find', () => {
 
   it('throws error if component does not have a name property', () => {
     const wrapper = mount(Component)
-    const message = '.find() requires component to have a name property'
-    expect(() => wrapper.find(ComponentWithoutName)).to.throw(Error, message)
+    const message = '[vue-test-utils]: .find() requires component to have a name property'
+    const fn = () => wrapper.find(ComponentWithoutName)
+    expect(fn).to.throw().with.property('message', message)
   })
 
   it('returns empty Wrapper with error if no nodes are found', () => {
@@ -148,8 +150,9 @@ describe('find', () => {
       undefined, null, NaN, 0, 2, true, false, () => {}, {}, { name: undefined }, []
     ]
     invalidSelectors.forEach((invalidSelector) => {
-      const message = 'wrapper.find() must be passed a valid CSS selector or a Vue constructor'
-      expect(() => wrapper.find(invalidSelector)).to.throw(Error, message)
+      const message = '[vue-test-utils]: wrapper.find() must be passed a valid CSS selector or a Vue constructor'
+      const fn = () => wrapper.find(invalidSelector)
+      expect(fn).to.throw().with.property('message', message)
     })
   })
 })

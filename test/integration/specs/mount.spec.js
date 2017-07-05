@@ -47,14 +47,18 @@ describe('mount', () => {
   })
 
   it('throws an error if window is undefined', () => {
-    const windowSave = global.window
-    try {
-      global.window = undefined
-      const message = 'window is undefined, vue-test-utils needs to be run in a browser environment.\n You can run the tests in node using JSDOM'
-      expect(() => mount(compileToFunctions('<div />'))).to.throw(Error, message)
-      global.window = windowSave
-    } catch (err) {
-      console.log('window cannot be overwritten (in browser), skipping test')
+    if (!(navigator.userAgent.includes && navigator.userAgent.includes('node.js'))) {
+      console.log('window read only. skipping test ...')
+      return
     }
+    const windowSave = global.window
+
+    after(() => {
+      global.window = windowSave
+    })
+    const message = '[vue-test-utils]: window is undefined, vue-test-utils needs to be run in a browser environment.\n You can run the tests in node using JSDOM'
+    global.window = undefined
+
+    expect(() => mount(compileToFunctions('<div />'))).to.throw().with.property('message', message)
   })
 })
