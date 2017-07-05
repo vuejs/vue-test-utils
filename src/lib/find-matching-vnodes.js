@@ -1,7 +1,5 @@
 // @flow
 
-import { matchesSelector } from 'sizzle'
-
 function findAllVNodes (vnode: VNode, nodes: Array<VNode> = []): Array<VNode> {
   nodes.push(vnode)
 
@@ -19,7 +17,7 @@ function findAllVNodes (vnode: VNode, nodes: Array<VNode> = []): Array<VNode> {
 }
 
 function nodeMatchesSelector (node: VNode, selector: string): boolean {
-  return node.elm && node.elm.getAttribute && matchesSelector(node.elm, selector)
+  return node.elm && node.elm.getAttribute && node.elm.matches(selector)
 }
 
 function removeDuplicateNodes (vNodes: Array<VNode>): Array<VNode> {

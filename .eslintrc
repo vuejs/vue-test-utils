@@ -6,5 +6,8 @@
   "extends": [
     "plugin:vue-libs/recommended",
     "plugin:flowtype/recommended"
-  ]
+  ],
+  "globals": {
+    "Element": true
+  }
 }

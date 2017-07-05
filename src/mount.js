@@ -7,6 +7,7 @@ import addGlobals from './lib/add-globals'
 import addProvide from './lib/add-provide'
 import { stubComponents } from './lib/stub-components'
 import { cloneDeep } from 'lodash'
+import './lib/matches-polyfill'
 
 Vue.config.productionTip = false
 

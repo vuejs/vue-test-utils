@@ -1,6 +1,5 @@
 // @flow
 
-import { matchesSelector } from 'sizzle'
 import { isValidSelector } from '../lib/validators'
 import findVueComponents, { vmCtorMatchesName } from '../lib/find-vue-components'
 import findMatchingVNodes from '../lib/find-matching-vnodes'
@@ -169,7 +168,7 @@ export default class Wrapper implements BaseWrapper {
     }
 
     function nodeMatchesSelector (node, selector) {
-      return node.elm && node.elm.getAttribute && matchesSelector(node.elm, selector)
+      return node.elm && node.elm.getAttribute && node.elm.matches(selector)
     }
 
     const nodes = findMatchingVNodes(this.vnode, selector)
@@ -202,7 +201,7 @@ export default class Wrapper implements BaseWrapper {
       // TODO: Throw error if component does not have name
       return vmCtorMatchesName(this.vm, selector.name)
     }
-    return this.element.getAttribute && matchesSelector(this.element, selector)
+    return this.element.getAttribute && this.element.matches(selector)
   }
 
   /**

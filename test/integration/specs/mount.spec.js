@@ -11,7 +11,7 @@ describe('mount', () => {
   })
 
   it('returns new VueWrapper with mounted Vue instance when root is functional component', () => {
-    const Component = {
+    const FunctionalComponent = {
       functional: true,
       render (h) {
         return h('div', {}, [
@@ -26,7 +26,7 @@ describe('mount', () => {
       name: 'common'
     }
 
-    const wrapper = mount(Component)
+    const wrapper = mount(FunctionalComponent)
     expect(wrapper.findAll('p').length).to.equal(2)
   })
 
