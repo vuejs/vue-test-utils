@@ -11,7 +11,10 @@ $ npm install --save vue-test-utils
 $ yarn add vue-test-utils
 ```
 
+**Notice:** To test Vue components and to make use of the `vue-test-utils` run the specs in a browser with a testrunner like [Karma](https://karma-runner.github.io/1.0/index.html) or node based runners that support virtual DOMs like `jsDOM` (e.g.: [jest](https://facebook.github.io/jest/), [ava](https://github.com/avajs/ava))
+
 Let's test a simple Vue component like a counter to get a feeling for how to use these utils.
+
 
 ```js
 // counter.js
@@ -133,7 +136,7 @@ describe('Trigger an event', () => {
 
 ### Handle async DOM updates
 
-Vue updates the DOM based on an internal `tick` to prevent unnecessary rerenders if a bunch of data gets changed. That's why `Vue.nextTick(...)` allows you to verify that DOM changes have been applied correctly and to pass in a callback to run right after that. Luckily this async DOM update is taked care of by the `.html()` method.
+Vue updates the DOM based on an internal `tick` to prevent unnecessary rerenders if a bunch of data gets changed. That's why `Vue.nextTick(...)` allows you to verify that DOM changes have been applied correctly and to pass in a callback to run right after that. Luckily `vue-test-utils` got you covered here as well. The `update()` method will enforce a rerender. Using `html()` afterwards will return the updated DOM.
 
 ```js
 
@@ -141,6 +144,7 @@ describe('DOM updates', () => {
   it('html() should account for async DOM updates', () => {
     expect(wrapper.html()).to.equal('<div>0<button>Increment</button></div>')
     wrapper.setData({ count: 23 })
+    wrapper.update()
     expect(wrapper.html()).to.equal('<div>23<button>Increment</button></div>')
   })
 })
