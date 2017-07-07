@@ -1,7 +1,8 @@
 {
   "globals": {
     "wrapper": true,
-    "expect": true
+    "expect": true,
+    "Element": true
   },
   "root": true,
   "plugins": [
@@ -10,8 +11,5 @@
   "extends": [
     "plugin:vue-libs/recommended",
     "plugin:flowtype/recommended"
-  ],
-  "globals": {
-    "Element": true
-  }
+  ]
 }
