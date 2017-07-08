@@ -2,7 +2,7 @@
 
 - **Arguments:**
   - `{string} eventName`
-  - `{string} process` - optional callback allowing to modify event object
+  - `{Function} process` - optional callback allowing to modify event object
 
 - **Usage:**
 
