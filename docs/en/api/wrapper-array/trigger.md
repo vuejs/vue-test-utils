@@ -1,7 +1,8 @@
-# trigger(eventName)
+# trigger(eventName, process)
 
 - **Arguments:**
-  - `{string} eventName
+  - `{string} eventName`
+  - `{string} process` - optional callback allowing to modify event object
 
 - **Usage:**
 

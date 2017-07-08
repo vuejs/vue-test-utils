@@ -1,7 +1,8 @@
-# trigger(eventName)
+# trigger(eventName, process)
 
 - **Arguments:**
   - `{string} eventName`
+  - `{string} process` - optional callback allowing to modify event object
 
 - **Usage:**
 
@@ -13,12 +14,19 @@ import { expect } from 'chai'
 import sinon from 'sinon'
 import Foo from './Foo'
 
-const clickHandler = sinon.stub()
+const keydownHandler = sinon.stub()
 const wrapper = mount(Foo, {
-  propsData: { clickHandler }
+  propsData: { keydownHandler }
 })
 
-wrapper.trigger('click')
+const input = wrapper.find('input')
 
-expect(clickHandler.called).to.equal(true)
+// fails
+input.trigger('keydown')
+// passes
+input.trigger('keydown', (e) => {
+  e.key = 'Escape'
+})
+
+expect(keydownHandler.calledOnce).to.equal(true)
 ```

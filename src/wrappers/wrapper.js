@@ -276,7 +276,7 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Dispatches a DOM event on wrapper
    */
-  trigger (type: string) {
+  trigger (type: string, process?: Function) {
     if (typeof type !== 'string') {
       throwError('wrapper.trigger() must be passed a string')
     }
@@ -299,6 +299,10 @@ export default class Wrapper implements BaseWrapper {
 
     if (event.length === 2) {
       eventObject.keyCode = modifiers[event[1]]
+    }
+
+    if (typeof process === 'function') {
+      process(eventObject)
     }
 
     this.element.dispatchEvent(eventObject)
