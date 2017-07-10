@@ -29,4 +29,16 @@ describe('mount.stub', () => {
     expect(log.calledWith('stubbed')).to.equal(true)
     log.restore()
   })
+
+  const invalidValues = [1, null, [], {}, NaN]
+  invalidValues.forEach(invalidValue => {
+    it('throws an error when passed an invalid value as stub', () => {
+      const error = '[vue-test-utils]: options.stub values must be passed a string or component'
+      const fn = () => mount(ComponentWithChildComponent, {
+        stub: {
+          ChildComponent: invalidValue
+        }})
+      expect(fn).to.throw().with.property('message', error)
+    })
+  })
 })

@@ -1,6 +1,8 @@
 // @flow
+
 import Vue from 'vue'
 import { compileToFunctions } from 'vue-template-compiler'
+import { throwError } from './util'
 
 const LIFECYCLE_HOOKS = [
   'beforeCreate',
@@ -21,8 +23,18 @@ function stubLifeCycleEvents (component: Component): void {
   })
 }
 
+function isValidStub (stub: any) {
+  return !!stub &&
+      (typeof stub === 'string' ||
+      (typeof stub === 'object' &&
+      typeof stub.render === 'function'))
+}
+
 export function stubComponents (component: Component, stubs: Object): void {
   Object.keys(stubs).forEach(stub => {
+    if (!isValidStub(stubs[stub])) {
+      throwError('options.stub values must be passed a string or component')
+    }
         // Remove cached constructor
     delete component.components[stub]._Ctor
     if (typeof stubs[stub] === 'string') {
@@ -41,7 +53,7 @@ export function stubComponents (component: Component, stubs: Object): void {
     } else {
       component.components[stub] = {
         ...stubs[stub],
-        name: component.components[stub].name,
+        name: component.components[stub].name
       }
       Vue.config.ignoredElements.push(stub)
     }
