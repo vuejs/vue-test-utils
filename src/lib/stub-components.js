@@ -41,14 +41,7 @@ export function stubComponents (component: Component, stubs: Object): void {
     } else {
       component.components[stub] = {
         ...stubs[stub],
-        attrs: component.components[stub].attrs,
         name: component.components[stub].name,
-        on: component.components[stub].on,
-        key: component.components[stub].key,
-        ref: component.components[stub].ref,
-        props: component.components[stub].props,
-        domProps: component.components[stub].domProps,
-        class: component.components[stub].class
       }
       Vue.config.ignoredElements.push(stub)
     }
