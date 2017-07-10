@@ -12,4 +12,21 @@ describe('mount.stub', () => {
     expect(wrapper.findAll('.stub').length).to.equal(1)
     expect(wrapper.findAll(Component).length).to.equal(1)
   })
+
+  it('replaces component with a component', () => {
+    const log = sinon.stub(console, 'log')
+    const wrapper = mount(ComponentWithChildComponent, {
+      stub: {
+        ChildComponent: {
+          render: h => h('div'),
+          mounted () {
+            console.log('stubbed')
+          }
+        }
+      }
+    })
+    expect(wrapper.findAll(Component).length).to.equal(1)
+    expect(log.calledWith('stubbed')).to.equal(true)
+    log.restore()
+  })
 })

@@ -69,14 +69,15 @@ export default function mount (component: Component, options: MountOptions = {})
     addProvide(component, options)
   }
 
+  if (options.stub) {
+    stubComponents(component, options.stub)
+  }
+
   let Constructor
 
   if (options.instance) {
     Constructor = options.instance.extend(component)
   } else {
-    if (options.stub) {
-      stubComponents(component, options.stub)
-    }
     Constructor = Vue.extend(component)
   }
 
