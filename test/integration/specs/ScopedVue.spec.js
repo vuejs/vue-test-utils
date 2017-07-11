@@ -18,7 +18,6 @@ describe('scopedVue', () => {
         }
       }
     })
-    console.log(Vuex.state)
     const wrapper = mount(Component, { instance, store })
     expect(wrapper.vm.$store).to.be.an('object')
     const freshWrapper = mount(Component)
