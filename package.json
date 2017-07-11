@@ -18,7 +18,9 @@
     "test": "npm run lint && npm run lint:docs && npm run flow && npm run test:unit && npm run test:integration && npm run test:integration:karma",
     "test:integration": "cross-env BABEL_ENV=test mocha-webpack --webpack-config build/webpack.test.config.js test/integration/specs --recursive --require test/integration/setup/mocha.setup.js",
     "test:integration:karma": "cross-env BABEL_ENV=test TARGET=browser karma start test/integration/setup/karma.conf.js --single-run",
-    "test:unit": "cross-env BABEL_ENV=test mocha-webpack --webpack-config build/webpack.test.config.js test/unit/specs --recursive --require test/unit/setup/mocha.setup.js"
+    "test:unit": "cross-env BABEL_ENV=test mocha-webpack --webpack-config build/webpack.test.config.js test/unit/specs --recursive --require test/unit/setup/mocha.setup.js",
+    "release": "bash build/release.sh",
+    "release:note": "node build/gen-release-note.js"
   },
   "repository": {
     "type": "git",
@@ -40,6 +42,7 @@
     "babel-preset-flow-vue": "^1.0.0",
     "babel-preset-stage-2": "^6.24.1",
     "chai": "^4.0.0",
+    "conventional-changelog": "^1.1.3",
     "cross-env": "^5.0.0",
     "css-loader": "^0.28.4",
     "eslint": "^3.19.0",
