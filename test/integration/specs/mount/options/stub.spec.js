@@ -30,6 +30,14 @@ describe('mount.stub', () => {
     log.restore()
   })
 
+  it('does not error if component to stub contains no components', () => {
+    mount(Component, {
+      stub: {
+        doesNotExist: Component
+      }
+    })
+  })
+
   const invalidValues = [1, null, [], {}, NaN]
   invalidValues.forEach(invalidValue => {
     it('throws an error when passed an invalid value as stub', () => {

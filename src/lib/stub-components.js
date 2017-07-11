@@ -35,6 +35,14 @@ export function stubComponents (component: Component, stubs: Object): void {
     if (!isValidStub(stubs[stub])) {
       throwError('options.stub values must be passed a string or component')
     }
+
+    if (!component.components) {
+      return
+    }
+
+    if (typeof component.components[stub] === 'undefined') {
+      throwError('options.stub values must be passed a string or component')
+    }
         // Remove cached constructor
     delete component.components[stub]._Ctor
     if (typeof stubs[stub] === 'string') {
