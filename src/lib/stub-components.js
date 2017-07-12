@@ -34,6 +34,32 @@ function isRequired (name) {
   return name === 'KeepAlive' || name === 'Transition' || name === 'TransitionGroup'
 }
 
+function getCoreProperties (component: Component) {
+  return {
+    attrs: component.attrs,
+    name: component.name,
+    on: component.on,
+    key: component.key,
+    ref: component.ref,
+    props: component.props,
+    domProps: component.domProps,
+    class: component.class
+  }
+}
+function createStubFromString (templateString: string, originalComponent: Component): void {
+  return {
+    ...getCoreProperties(originalComponent),
+    ...compileToFunctions(templateString)
+  }
+}
+
+function createBlankStub (originalComponent: Component) {
+  return {
+    ...getCoreProperties(originalComponent),
+    render: () => {}
+  }
+}
+
 export function stubComponents (component: Component, stubs: Object): void {
   Object.keys(stubs).forEach(stub => {
     if (!isValidStub(stubs[stub])) {
@@ -48,17 +74,7 @@ export function stubComponents (component: Component, stubs: Object): void {
         // Remove cached constructor
       delete component.components[stub]._Ctor
       if (typeof stubs[stub] === 'string') {
-        component.components[stub] = {
-          attrs: component.components[stub].attrs,
-          name: component.components[stub].name,
-          on: component.components[stub].on,
-          key: component.components[stub].key,
-          ref: component.components[stub].ref,
-          props: component.components[stub].props,
-          domProps: component.components[stub].domProps,
-          class: component.components[stub].class,
-          ...compileToFunctions(stubs[stub])
-        }
+        component.components[stub] = createStubFromString(stubs[stub], component.components[stub])
         stubLifeCycleEvents(component.components[stub])
       } else {
         component.components[stub] = {
@@ -86,17 +102,8 @@ export function stubAllComponents (component: Component): void {
   Object.keys(component.components).forEach(c => {
         // Remove cached constructor
     delete component.components[c]._Ctor
-    component.components[c] = {
-      attrs: component.components[c].attrs,
-      name: component.components[c].name,
-      on: component.components[c].on,
-      key: component.components[c].key,
-      ref: component.components[c].ref,
-      props: component.components[c].props,
-      domProps: component.components[c].domProps,
-      class: component.components[c].class,
-      render: () => {}
-    }
+    component.components[c] = createBlankStub(component.components[c])
+
     Vue.config.ignoredElements.push(c)
     stubLifeCycleEvents(component.components[c])
   })
@@ -111,17 +118,7 @@ export function stubGlobalComponents (component: Component, instance: Component)
       component.components = {} // eslint-disable-line no-param-reassign
     }
 
-    component.components[c] = { // eslint-disable-line no-param-reassign
-      render: () => {},
-      attrs: instance.options.components[c].attrs,
-      name: instance.options.components[c].name,
-      on: instance.options.components[c].on,
-      key: instance.options.components[c].key,
-      ref: instance.options.components[c].ref,
-      props: instance.options.components[c].props,
-      domProps: instance.options.components[c].domProps,
-      class: instance.options.components[c].class
-    }
+    component.components[c] = createBlankStub(instance.options.components[c])
     delete instance.options.components[c]._Ctor // eslint-disable-line no-param-reassign
     delete component.components[c]._Ctor // eslint-disable-line no-param-reassign
     stubLifeCycleEvents(component.components[c])
