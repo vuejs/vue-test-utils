@@ -30,6 +30,10 @@ function isValidStub (stub: any) {
       typeof stub.render === 'function'))
 }
 
+function isRequired (name) {
+  return name === 'KeepAlive' || name === 'Transition' || name === 'TransitionGroup'
+}
+
 export function stubComponents (component: Component, stubs: Object): void {
   Object.keys(stubs).forEach(stub => {
     if (!isValidStub(stubs[stub])) {
@@ -81,10 +85,37 @@ export function stubAllComponents (component: Component): void {
       props: component.components[c].props,
       domProps: component.components[c].domProps,
       class: component.components[c].class,
-      render: () => {}
+      render: () => {
+      }
     }
     Vue.config.ignoredElements.push(c)
     stubLifeCycleEvents(component.components[c])
   })
 }
 
+export function stubGlobalComponents (component: Component, instance: Component) {
+  Object.keys(instance.options.components).forEach((c) => {
+    if (isRequired(c)) {
+      return
+    }
+    if (!component.components) {
+      component.components = {} // eslint-disable-line no-param-reassign
+    }
+
+    component.components[c] = { // eslint-disable-line no-param-reassign
+      render: () => {},
+      attrs: instance.options.components[c].attrs,
+      name: instance.options.components[c].name,
+      on: instance.options.components[c].on,
+      key: instance.options.components[c].key,
+      ref: instance.options.components[c].ref,
+      props: instance.options.components[c].props,
+      domProps: instance.options.components[c].domProps,
+      class: instance.options.components[c].class
+    }
+    delete instance.options.components[c]._Ctor // eslint-disable-line no-param-reassign
+    delete component.components[c]._Ctor // eslint-disable-line no-param-reassign
+    stubLifeCycleEvents(component.components[c])
+    stubLifeCycleEvents(instance.options.components[c])
+  })
+}
