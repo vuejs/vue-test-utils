@@ -33,6 +33,8 @@ type MountOptions = {
 }
 
 export default function mount (component: Component, options: MountOptions = {}): VueWrapper {
+  const instance = options.instance || Vue
+
   if (!window) {
     throwError('window is undefined, vue-test-utils needs to be run in a browser environment.\n You can run the tests in node using JSDOM')
   }
@@ -73,13 +75,7 @@ export default function mount (component: Component, options: MountOptions = {})
     stubComponents(component, options.stub)
   }
 
-  let Constructor
-
-  if (options.instance) {
-    Constructor = options.instance.extend(component)
-  } else {
-    Constructor = Vue.extend(component)
-  }
+  const Constructor = instance.extend(component)
 
   if (options.intercept) {
     const globals = addGlobals(options.intercept)
