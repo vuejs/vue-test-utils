@@ -38,6 +38,18 @@ describe('mount.stub', () => {
     })
   })
 
+  it('stubs components on component if they do not already exist', () => {
+    const ComponentWithGlobalComponent = {
+      render: h => h('registered-component')
+    }
+    const wrapper = mount(ComponentWithGlobalComponent, {
+      stub: {
+        'registered-component': Component
+      }
+    })
+    expect(wrapper.findAll(Component).length).to.equal(1)
+  })
+
   const invalidValues = [1, null, [], {}, NaN]
   invalidValues.forEach(invalidValue => {
     it('throws an error when passed an invalid value as stub', () => {

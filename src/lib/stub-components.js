@@ -41,34 +41,44 @@ export function stubComponents (component: Component, stubs: Object): void {
     }
 
     if (!component.components) {
-      return
+      component.components = {}
     }
 
-    if (typeof component.components[stub] === 'undefined') {
-      throwError('options.stub values must be passed a string or component')
-    }
+    if (component.components[stub]) {
         // Remove cached constructor
-    delete component.components[stub]._Ctor
-    if (typeof stubs[stub] === 'string') {
-      component.components[stub] = {
-        attrs: component.components[stub].attrs,
-        name: component.components[stub].name,
-        on: component.components[stub].on,
-        key: component.components[stub].key,
-        ref: component.components[stub].ref,
-        props: component.components[stub].props,
-        domProps: component.components[stub].domProps,
-        class: component.components[stub].class,
-        ...compileToFunctions(stubs[stub])
+      delete component.components[stub]._Ctor
+      if (typeof stubs[stub] === 'string') {
+        component.components[stub] = {
+          attrs: component.components[stub].attrs,
+          name: component.components[stub].name,
+          on: component.components[stub].on,
+          key: component.components[stub].key,
+          ref: component.components[stub].ref,
+          props: component.components[stub].props,
+          domProps: component.components[stub].domProps,
+          class: component.components[stub].class,
+          ...compileToFunctions(stubs[stub])
+        }
+        stubLifeCycleEvents(component.components[stub])
+      } else {
+        component.components[stub] = {
+          ...stubs[stub],
+          name: component.components[stub].name
+        }
       }
-      stubLifeCycleEvents(component.components[stub])
     } else {
-      component.components[stub] = {
-        ...stubs[stub],
-        name: component.components[stub].name
+      if (typeof stubs[stub] === 'string') {
+        component.components[stub] = {
+          ...compileToFunctions(stubs[stub])
+        }
+        stubLifeCycleEvents(component.components[stub])
+      } else {
+        component.components[stub] = {
+          ...stubs[stub]
+        }
       }
-      Vue.config.ignoredElements.push(stub)
     }
+    Vue.config.ignoredElements.push(stub)
   })
 }
 
@@ -85,8 +95,7 @@ export function stubAllComponents (component: Component): void {
       props: component.components[c].props,
       domProps: component.components[c].domProps,
       class: component.components[c].class,
-      render: () => {
-      }
+      render: () => {}
     }
     Vue.config.ignoredElements.push(c)
     stubLifeCycleEvents(component.components[c])
@@ -116,6 +125,5 @@ export function stubGlobalComponents (component: Component, instance: Component)
     delete instance.options.components[c]._Ctor // eslint-disable-line no-param-reassign
     delete component.components[c]._Ctor // eslint-disable-line no-param-reassign
     stubLifeCycleEvents(component.components[c])
-    stubLifeCycleEvents(instance.options.components[c])
   })
 }
