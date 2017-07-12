@@ -37,6 +37,20 @@ describe('shallow', () => {
     expect(mountedWrapper.findAll(Component).length).to.equal(1)
   })
 
+  it('stubs globally registered components when options.instance is provided', () => {
+    const freshVue = Vue.extend()
+    const log = sinon.stub(console, 'log')
+    freshVue.component('registered-component', ComponentWithLifecycleHooks)
+    const Component = {
+      render: h => h('registered-component')
+    }
+    shallow(Component, { instance: freshVue })
+    mount(Component, { instance: freshVue })
+
+    expect(log.callCount).to.equal(4)
+    log.restore()
+  })
+
   it('stubs globally registered components', () => {
     const log = sinon.stub(console, 'log')
     Vue.component('registered-component', ComponentWithLifecycleHooks)
