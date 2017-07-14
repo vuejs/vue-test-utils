@@ -30,7 +30,7 @@ function isValidStub (stub: any) {
       typeof stub.render === 'function'))
 }
 
-function isRequired (name) {
+function isRequiredComponent (name) {
   return name === 'KeepAlive' || name === 'Transition' || name === 'TransitionGroup'
 }
 
@@ -111,9 +111,10 @@ export function stubAllComponents (component: Component): void {
 
 export function stubGlobalComponents (component: Component, instance: Component) {
   Object.keys(instance.options.components).forEach((c) => {
-    if (isRequired(c)) {
+    if (isRequiredComponent(c)) {
       return
     }
+
     if (!component.components) {
       component.components = {} // eslint-disable-line no-param-reassign
     }
