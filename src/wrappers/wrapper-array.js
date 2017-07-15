@@ -116,10 +116,10 @@ export default class WrapperArray implements BaseWrapper {
     this.wrappers.forEach(wrapper => wrapper.setProps(props))
   }
 
-  trigger (event: string): void {
+  trigger (event: string, process?: Function): void {
     this.throwErrorIfWrappersIsEmpty('trigger')
 
-    this.wrappers.forEach(wrapper => wrapper.trigger(event))
+    this.wrappers.forEach(wrapper => wrapper.trigger(event, process))
   }
 
   update (): void {

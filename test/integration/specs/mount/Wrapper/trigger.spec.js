@@ -52,4 +52,19 @@ describe('trigger', () => {
       expect(fn).to.throw().with.property('message', message)
     })
   })
+
+  it('trigger with the callback function', () => {
+    const clickHandler = sinon.stub()
+    const wrapper = mount(ComponentWithEvents, {
+      propsData: { clickHandler }
+    })
+    const button = wrapper.find('.left-click')
+
+    button.trigger('mousedown')
+    button.trigger('mousedown', (e) => {
+      e.button = 0
+    })
+
+    expect(clickHandler.calledOnce).to.equal(true)
+  })
 })
