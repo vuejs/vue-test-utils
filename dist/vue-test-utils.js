@@ -1,6 +1,10 @@
-import Vue from 'vue';
-import { cloneDeep } from 'lodash';
-import { compileToFunctions } from 'vue-template-compiler';
+'use strict';
+
+function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
+
+var Vue = _interopDefault(require('vue'));
+var lodash = require('lodash');
+var vueTemplateCompiler = require('vue-template-compiler');
 
 // 
 
@@ -54,7 +58,7 @@ function getCoreProperties (component) {
 }
 function createStubFromString (templateString, originalComponent) {
   return Object.assign({}, getCoreProperties(originalComponent),
-    compileToFunctions(templateString))
+    vueTemplateCompiler.compileToFunctions(templateString))
 }
 
 function createBlankStub (originalComponent) {
@@ -84,7 +88,7 @@ function stubComponents (component, stubs) {
       }
     } else {
       if (typeof stubs[stub] === 'string') {
-        component.components[stub] = Object.assign({}, compileToFunctions(stubs[stub]));
+        component.components[stub] = Object.assign({}, vueTemplateCompiler.compileToFunctions(stubs[stub]));
         stubLifeCycleEvents(component.components[stub]);
       } else {
         component.components[stub] = Object.assign({}, stubs[stub]);
@@ -772,13 +776,13 @@ function isValidSlot (slot) {
 function addSlotToVm (vm, slotName, slotValue) {
   if (Array.isArray(vm.$slots[slotName])) {
     if (typeof slotValue === 'string') {
-      vm.$slots[slotName].push(vm.$createElement(compileToFunctions(slotValue)));
+      vm.$slots[slotName].push(vm.$createElement(vueTemplateCompiler.compileToFunctions(slotValue)));
     } else {
       vm.$slots[slotName].push(vm.$createElement(slotValue));
     }
   } else {
     if (typeof slotValue === 'string') {
-      vm.$slots[slotName] = [vm.$createElement(compileToFunctions(slotValue))];
+      vm.$slots[slotName] = [vm.$createElement(vueTemplateCompiler.compileToFunctions(slotValue))];
     } else {
       vm.$slots[slotName] = [vm.$createElement(slotValue)]; // eslint-disable-line no-param-reassign
     }
@@ -827,58 +831,10 @@ function addProvide (component, options) {
   };
 }
 
-if (!Element.prototype.matches) {
-  Element.prototype.matches =
-        Element.prototype.matchesSelector ||
-        Element.prototype.mozMatchesSelector ||
-        Element.prototype.msMatchesSelector ||
-        Element.prototype.oMatchesSelector ||
-        Element.prototype.webkitMatchesSelector ||
-        function (s) {
-          var matches = (this.document || this.ownerDocument).querySelectorAll(s);
-          var i = matches.length;
-          while (--i >= 0 && matches.item(i) !== this) {}
-          return i > -1
-        };
-}
-
 // 
 
-Vue.config.productionTip = false;
-
-function createElem () {
-  if (document) {
-    var elem = document.createElement('div');
-
-    if (document.body) {
-      document.body.appendChild(elem);
-    }
-    return elem
-  }
-}
-
-
-
-function mount (component, options) {
-  if ( options === void 0 ) options = {};
-
+function createConstructor (component, options) {
   var instance = options.instance || Vue;
-
-  if (!window) {
-    throwError('window is undefined, vue-test-utils needs to be run in a browser environment.\n You can run the tests in node using JSDOM');
-  }
-
-  var elem;
-
-  var attachToDocument = options.attachToDocument;
-
-  if (attachToDocument) {
-    elem = createElem();
-    delete options.attachToDocument;
-  }
-
-  // Remove cached constructor
-  delete component._Ctor;
 
   if (options.context) {
     if (!component.functional) {
@@ -888,7 +844,7 @@ function mount (component, options) {
     if (typeof options.context !== 'object') {
       throwError('mount.context must be an object');
     }
-    var clonedComponent = cloneDeep(component);
+    var clonedComponent = lodash.cloneDeep(component);
     component = {
       render: function render (h) {
         return h(clonedComponent, options.context)
@@ -917,9 +873,60 @@ function mount (component, options) {
     addSlots(vm, options.slots);
   }
 
-  vm.$mount(elem);
+  return vm
+}
 
-  return new VueWrapper(vm, { attachedToDocument: !!attachToDocument })
+// 
+
+function createElement () {
+  if (document) {
+    var elem = document.createElement('div');
+
+    if (document.body) {
+      document.body.appendChild(elem);
+    }
+    return elem
+  }
+}
+
+if (!Element.prototype.matches) {
+  Element.prototype.matches =
+        Element.prototype.matchesSelector ||
+        Element.prototype.mozMatchesSelector ||
+        Element.prototype.msMatchesSelector ||
+        Element.prototype.oMatchesSelector ||
+        Element.prototype.webkitMatchesSelector ||
+        function (s) {
+          var matches = (this.document || this.ownerDocument).querySelectorAll(s);
+          var i = matches.length;
+          while (--i >= 0 && matches.item(i) !== this) {}
+          return i > -1
+        };
+}
+
+// 
+
+Vue.config.productionTip = false;
+
+function mount (component, options) {
+  if ( options === void 0 ) options = {};
+
+  if (!window) {
+    throwError('window is undefined, vue-test-utils needs to be run in a browser environment.\n You can run the tests in node using JSDOM');
+  }
+
+  // Remove cached constructor
+  delete component._Ctor;
+
+  var vm = createConstructor(component, options);
+
+  if (options.attachToDocument) {
+    vm.$mount(createElement());
+  } else {
+    vm.$mount();
+  }
+
+  return new VueWrapper(vm, { attachedToDocument: !!options.attachToDocument })
 }
 
 // 
@@ -928,7 +935,7 @@ function shallow (component, options) {
   if ( options === void 0 ) options = {};
 
   var instance = options.instance || Vue;
-  var clonedComponent = cloneDeep(component);
+  var clonedComponent = lodash.cloneDeep(component);
 
   if (clonedComponent.components) {
     stubAllComponents(clonedComponent);
@@ -944,8 +951,8 @@ function shallow (component, options) {
 function scopedVue () {
   var instance = Vue.extend();
   instance.version = Vue.version;
-  instance.config = cloneDeep(Vue.config);
-  instance.util = cloneDeep(Vue.util);
+  instance.config = lodash.cloneDeep(Vue.config);
+  instance.util = lodash.cloneDeep(Vue.util);
   return instance
 }
 
@@ -955,4 +962,4 @@ var index = {
   scopedVue: scopedVue
 };
 
-export default index;
+module.exports = index;

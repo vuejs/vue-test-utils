@@ -9,13 +9,13 @@ rollup({
   plugins: [
     flow(),
     buble({
-      objectAssign: 'Object.assign'
+      objectAssign: 'Object.assign',
     })
   ]
 }).then(bundle => {
   bundle.write({
     dest: resolve('dist/vue-test-utils.js'),
-    format: 'es'
+    format: 'cjs'
   })
 })
     .then(() => console.log('Build successful'))
