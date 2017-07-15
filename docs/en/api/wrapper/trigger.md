@@ -2,10 +2,16 @@
 
 - **Arguments:**
   - `{string} eventName`
+  - `{Object} options` 
+    - `{boolean} preventDefault`
 
 - **Usage:**
 
 Triggers an event on the `Wrapper` DOM node.
+
+Trigger takes an optional `options` object. The properties in the `options` object are added to the Event.
+
+You can run preventDefault on the event by passing `preventDefault: true` in `options`.
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -19,6 +25,14 @@ const wrapper = mount(Foo, {
 })
 
 wrapper.trigger('click')
+
+wrapper.trigger('click', {
+  button: 0
+})
+
+wrapper.trigger('click', {
+  preventDefault: true
+})
 
 expect(clickHandler.called).to.equal(true)
 ```
