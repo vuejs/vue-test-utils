@@ -16,6 +16,10 @@ export default class ErrorWrapper implements BaseWrapper {
     throwError(`find did not return ${this.selector}, cannot call contains() on empty Wrapper`)
   }
 
+  exists (): boolean {
+    return false
+  }
+
   hasAttribute (): void {
     throwError(`find did not return ${this.selector}, cannot call hasAttribute() on empty Wrapper`)
   }

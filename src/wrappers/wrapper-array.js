@@ -26,6 +26,10 @@ export default class WrapperArray implements BaseWrapper {
     return this.wrappers.every(wrapper => wrapper.contains(selector))
   }
 
+  exists (): boolean {
+    return this.wrappers.length > 0
+  }
+
   hasAttribute (attribute: string, value: string): boolean {
     this.throwErrorIfWrappersIsEmpty('hasAttribute')
 

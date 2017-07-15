@@ -6,6 +6,7 @@ import type WrapperArray from '~src/WrapperArray'
 declare interface BaseWrapper { // eslint-disable-line no-undef
     at(index: number): Wrapper | void,
     contains(selector: String | Component): boolean | void,
+    exists(): boolean,
     hasAttribute(attribute: string, value: string): boolean | void,
     hasClass(className: string): boolean | void,
     hasProp(prop: string, value: string): boolean | void,

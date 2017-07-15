@@ -48,6 +48,16 @@ describe('WrapperArray', () => {
     expect(wrapperArray.contains()).to.equal(false)
   })
 
+  it('exists returns true if length is greater then 0', () => {
+    const wrapperArray = new WrapperArray([{}])
+    expect(wrapperArray.exists()).to.equal(true)
+  })
+
+  it('exists returns false if length is 0', () => {
+    const wrapperArray = new WrapperArray([])
+    expect(wrapperArray.exists()).to.equal(false)
+  })
+
   it('hasAttribute returns true if every wrapper.hasAttribute() returns true', () => {
     const attribute = 'attribute'
     const value = 'value'
