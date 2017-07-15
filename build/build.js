@@ -9,7 +9,7 @@ rollup({
   plugins: [
     flow(),
     buble({
-      objectAssign: 'Object.assign',
+      objectAssign: 'Object.assign'
     })
   ]
 }).then(bundle => {
