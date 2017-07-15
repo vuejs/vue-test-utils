@@ -20,7 +20,7 @@ declare interface BaseWrapper { // eslint-disable-line no-undef
     text(): string | void,
     setData(data: Object): void,
     setProps(data: Object): void,
-    trigger(type: string): void,
+    trigger(type: string, options: Object): void,
     update(): void
 }
 

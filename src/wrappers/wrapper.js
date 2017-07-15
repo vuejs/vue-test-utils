@@ -276,7 +276,7 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Dispatches a DOM event on wrapper
    */
-  trigger (type: string) {
+  trigger (type: string, options: Object = {}) {
     if (typeof type !== 'string') {
       throwError('wrapper.trigger() must be passed a string')
     }
@@ -295,7 +295,20 @@ export default class Wrapper implements BaseWrapper {
 
     const event = type.split('.')
 
-    const eventObject = new window.Event(event[0])
+    const eventObject = new window.Event(event[0], {
+      bubbles: true,
+      cancelable: true
+    })
+
+    if (options && options.preventDefault) {
+      eventObject.preventDefault()
+    }
+
+    if (options) {
+      Object.keys(options).forEach(key => {
+        eventObject[key] = options[key]
+      })
+    }
 
     if (event.length === 2) {
       eventObject.keyCode = modifiers[event[1]]

@@ -192,11 +192,12 @@ describe('WrapperArray', () => {
 
   it('trigger calls trigger on each wrapper', () => {
     const trigger = sinon.stub()
-    const selector = {}
+    const event = 'click'
+    const options = {}
     const wrapperArray = new WrapperArray([{ trigger }, { trigger }])
-    wrapperArray.trigger(selector)
+    wrapperArray.trigger(event, options)
     expect(trigger.calledTwice).to.equal(true)
-    expect(trigger.calledWith(selector)).to.equal(true)
+    expect(trigger.calledWith(event, options)).to.equal(true)
   })
 
   it('update calls update on each wrapper', () => {

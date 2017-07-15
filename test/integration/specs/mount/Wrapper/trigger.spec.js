@@ -41,6 +41,31 @@ describe('trigger', () => {
     expect(toggle.hasClass('active')).to.equal(true)
   })
 
+  it('adds options to event', () => {
+    const clickHandler = sinon.stub()
+    const wrapper = mount(ComponentWithEvents, {
+      propsData: { clickHandler }
+    })
+    const button = wrapper.find('.left-click')
+    button.trigger('mousedown')
+    button.trigger('mousedown', {
+      button: 0
+    })
+    expect(clickHandler.calledOnce).to.equal(true)
+  })
+
+  it('prevents default on event when pass preventDefault as true', () => {
+    const log = sinon.stub(console, 'log')
+    const wrapper = mount(ComponentWithEvents)
+    const button = wrapper.find('.left-click')
+    button.trigger('mousedown', {
+      preventDefault: true,
+      button: 0
+    })
+    expect(log.calledWith(true)).to.equal(true)
+    log.restore()
+  })
+
   it('throws an error if type is not a string', () => {
     const wrapper = mount(ComponentWithEvents)
     const invalidSelectors = [
