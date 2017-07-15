@@ -9,7 +9,7 @@ import {
 import mount from './mount'
 import type VueWrapper from './wrappers/vue-wrapper'
 
-export default function shallow (component: Component, options: Object = {}): VueWrapper {
+export default function shallow (component: Component, options: Options = {}): VueWrapper {
   const instance = options.instance || Vue
   const clonedComponent = cloneDeep(component)
 
