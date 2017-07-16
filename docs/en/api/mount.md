@@ -21,11 +21,13 @@
 
 `options` (`Object`): a Vue options object. Vue options are passed to the component when a new instance is created. , e.g. `store`, `propsData`. For full list, see the [Vue API](https://vuejs.org/v2/api/). Also takes vue-test-utils options:
 
-`options.attachToDocument` (`Boolean`): Component will attach to DOM when rendered. This can be used with [`hasStyle`](/api/wrapper/hasStyle.md) to check multi element CSS selectors
+`options.attachToDocument` (`boolean`): Component will attach to DOM when rendered. This can be used with [`hasStyle`](/api/wrapper/hasStyle.md) to check multi element CSS selectors
+
+`options.clone` (`boolean`): Clones component before editing if `true`, does not if `false`. Defaults to `true`
 
 `options.context` (`Object`): Passes context to functional component. Can only be used with functional components
 
-`options.localVue` ('Object): vue class to use in `mount`. See [createLocalVue](/api/createLocalVue.md)
+`options.localVue` (`Object`): vue class to use in `mount`. See [createLocalVue](/api/createLocalVue.md)
 
 `options.slots` (`Object`): Render component with slots.
 
