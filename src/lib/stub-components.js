@@ -26,6 +26,7 @@ function stubLifeCycleEvents (component: Component): void {
 function isValidStub (stub: any) {
   return !!stub &&
       (typeof stub === 'string' ||
+      (stub === true) ||
       (typeof stub === 'object' &&
       typeof stub.render === 'function'))
 }
@@ -77,7 +78,10 @@ export function stubComponents (component: Component, stubs: Object): void {
       if (!isValidStub(stubs[stub])) {
         throwError('options.stub values must be passed a string or component')
       }
-
+      if (stubs[stub] === true) {
+        component.components[stub] = createBlankStub({})
+        return
+      }
       if (component.components[stub]) {
               // Remove cached constructor
         delete component.components[stub]._Ctor

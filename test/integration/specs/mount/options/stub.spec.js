@@ -74,6 +74,21 @@ describe('mount.stub', () => {
     expect(warn.called).to.equal(false)
     warn.restore()
   })
+
+  it('stubs components with dummy when passed a boolean', () => {
+    const warn = sinon.stub(console, 'error')
+    const ComponentWithGlobalComponent = {
+      render: h => h('registered-component')
+    }
+    mount(ComponentWithGlobalComponent, {
+      stub: {
+        'registered-component': true
+      }
+    })
+    expect(warn.called).to.equal(false)
+    warn.restore()
+  })
+
   it('stubs components with dummy when passed as an array', () => {
     const ComponentWithGlobalComponent = {
       render: h => h('registered-component')
