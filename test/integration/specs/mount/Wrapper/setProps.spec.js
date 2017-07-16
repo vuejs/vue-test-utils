@@ -30,6 +30,14 @@ describe('setProps', () => {
     expect(wrapper.vm.prop2).to.equal(prop1)
   })
 
+  it('runs watch function after all props are updated', () => {
+    const info = sinon.stub(console, 'info')
+    const wrapper = mount(ComponentWithWatch)
+    const prop1 = 'testest'
+    wrapper.setProps({ prop2: 'newProp', prop1 })
+    expect(info.args[0][0]).to.equal(prop1)
+  })
+
   it('throws an error if node is not a Vue instance', () => {
     const message = 'wrapper.setProps() can only be called on a Vue instance'
     const compiled = compileToFunctions('<div><p></p></div>')

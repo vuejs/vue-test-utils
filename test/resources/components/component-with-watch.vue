@@ -14,6 +14,9 @@
       watch: {
         prop1 (val) {
           this.prop2 = val
+        },
+        prop2 () {
+          console.info(this.prop1)
         }
       }
     }

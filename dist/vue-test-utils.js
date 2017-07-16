@@ -264,6 +264,10 @@ WrapperArray.prototype.contains = function contains (selector) {
   return this.wrappers.every(function (wrapper) { return wrapper.contains(selector); })
 };
 
+WrapperArray.prototype.exists = function exists () {
+  return this.wrappers.length > 0
+};
+
 WrapperArray.prototype.hasAttribute = function hasAttribute (attribute, value) {
   this.throwErrorIfWrappersIsEmpty('hasAttribute');
 
@@ -354,10 +358,10 @@ WrapperArray.prototype.setProps = function setProps (props) {
   this.wrappers.forEach(function (wrapper) { return wrapper.setProps(props); });
 };
 
-WrapperArray.prototype.trigger = function trigger (event) {
+WrapperArray.prototype.trigger = function trigger (event, options) {
   this.throwErrorIfWrappersIsEmpty('trigger');
 
-  this.wrappers.forEach(function (wrapper) { return wrapper.trigger(event); });
+  this.wrappers.forEach(function (wrapper) { return wrapper.trigger(event, options); });
 };
 
 WrapperArray.prototype.update = function update () {
@@ -377,6 +381,10 @@ ErrorWrapper.prototype.at = function at () {
 
 ErrorWrapper.prototype.contains = function contains () {
   throwError(("find did not return " + (this.selector) + ", cannot call contains() on empty Wrapper"));
+};
+
+ErrorWrapper.prototype.exists = function exists () {
+  return false
 };
 
 ErrorWrapper.prototype.hasAttribute = function hasAttribute () {
@@ -474,6 +482,13 @@ Wrapper.prototype.contains = function contains (selector) {
   }
 
   return false
+};
+
+/**
+ * Utility to check wrapper exists. Returns true as Wrapper always exists
+ */
+Wrapper.prototype.exists = function exists () {
+  return true
 };
 
 /**
@@ -711,7 +726,9 @@ Wrapper.prototype.text = function text () {
 /**
  * Dispatches a DOM event on wrapper
  */
-Wrapper.prototype.trigger = function trigger (type) {
+Wrapper.prototype.trigger = function trigger (type, options) {
+    if ( options === void 0 ) options = {};
+
   if (typeof type !== 'string') {
     throwError('wrapper.trigger() must be passed a string');
   }
@@ -730,7 +747,20 @@ Wrapper.prototype.trigger = function trigger (type) {
 
   var event = type.split('.');
 
-  var eventObject = new window.Event(event[0]);
+  var eventObject = new window.Event(event[0], {
+    bubbles: true,
+    cancelable: true
+  });
+
+  if (options && options.preventDefault) {
+    eventObject.preventDefault();
+  }
+
+  if (options) {
+    Object.keys(options).forEach(function (key) {
+      eventObject[key] = options[key];
+    });
+  }
 
   if (event.length === 2) {
     eventObject.keyCode = modifiers[event[1]];
@@ -834,7 +864,7 @@ function addProvide (component, options) {
 // 
 
 function createConstructor (component, options) {
-  var instance = options.instance || Vue;
+  var vue = options.localVue || Vue;
 
   if (options.context) {
     if (!component.functional) {
@@ -860,7 +890,7 @@ function createConstructor (component, options) {
     stubComponents(component, options.stub);
   }
 
-  var Constructor = instance.extend(component);
+  var Constructor = vue.extend(component);
 
   if (options.intercept) {
     var globals = addGlobals(options.intercept);
@@ -934,21 +964,21 @@ function mount (component, options) {
 function shallow (component, options) {
   if ( options === void 0 ) options = {};
 
-  var instance = options.instance || Vue;
+  var vue = options.localVue || Vue;
   var clonedComponent = lodash.cloneDeep(component);
 
   if (clonedComponent.components) {
     stubAllComponents(clonedComponent);
   }
 
-  stubGlobalComponents(clonedComponent, instance);
+  stubGlobalComponents(clonedComponent, vue);
 
   return mount(clonedComponent, options)
 }
 
 // 
 
-function scopedVue () {
+function createLocalVue () {
   var instance = Vue.extend();
   instance.version = Vue.version;
   instance.config = lodash.cloneDeep(Vue.config);
@@ -957,9 +987,9 @@ function scopedVue () {
 }
 
 var index = {
+  createLocalVue: createLocalVue,
   mount: mount,
-  shallow: shallow,
-  scopedVue: scopedVue
+  shallow: shallow
 };
 
 module.exports = index;
