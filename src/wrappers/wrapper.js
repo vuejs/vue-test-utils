@@ -206,7 +206,9 @@ export default class Wrapper implements BaseWrapper {
       if (!this.isVueComponent) {
         return false
       }
-      // TODO: Throw error if component does not have name
+      if (typeof selector.name !== 'string') {
+        throwError('a Component used as a selector must have a name property')
+      }
       return vmCtorMatchesName(this.vm, selector.name)
     }
     return this.element.getAttribute && this.element.matches(selector)

@@ -52,6 +52,15 @@ describe('is', () => {
     expect(wrapper.is('#p')).to.equal(false)
   })
 
+  it('throws error if component passed to use as identifier does not have a name', () => {
+    const compiled = compileToFunctions('<div />')
+    const wrapper = mount(compiled)
+
+    const message = '[vue-test-utils]: a Component used as a selector must have a name property'
+    const fn = () => wrapper.is({ render: () => {} })
+    expect(fn).to.throw().with.property('message', message)
+  })
+
   it('throws an error if selector is not a valid selector', () => {
     const compiled = compileToFunctions('<div />')
     const wrapper = mount(compiled)
