@@ -1,5 +1,6 @@
 import mount from '~src/mount'
 import ComponentWithChildComponent from '~resources/components/component-with-child-component.vue'
+import ComponentWithNestedChildren from '~resources/components/component-with-nested-children.vue'
 import Component from '~resources/components/component.vue'
 
 describe('mount.stub', () => {
@@ -36,6 +37,17 @@ describe('mount.stub', () => {
         doesNotExist: Component
       }
     })
+  })
+
+  it('does not modify component directly', () => {
+    const wrapper = mount(ComponentWithNestedChildren, {
+      stub: {
+        ChildComponent: '<div />'
+      }
+    })
+    expect(wrapper.findAll(Component).length).to.equal(0)
+    const mountedWrapper = mount(ComponentWithNestedChildren)
+    expect(mountedWrapper.findAll(Component).length).to.equal(1)
   })
 
   it('stubs components on component if they do not already exist', () => {
