@@ -37,7 +37,7 @@
 
 `options.globals` (`Object`): Add globals to Vue instance.
 
-`options.stub` ('Object): Stubs components matching the name passed with a string
+`options.stub` (`Object|Array<string>`): Stubs components matching the name. Takes object or array of strings 
 
 - **Usage:**
 
@@ -121,7 +121,7 @@ describe('Foo', () => {
 })
 ```
 
-**Adding globals:**
+**Stubbing global properties:**
 
 ```js
 import { shallow } from 'vue-test-utils'
@@ -132,7 +132,7 @@ describe('Foo', () => {
   it('renders a div', () => {
     const $route = { path: 'http://www.example-path.com' }
     const wrapper = shallow(Foo, {
-      globals: {
+      intercept: {
         $route
       }
     })

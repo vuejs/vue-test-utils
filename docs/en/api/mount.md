@@ -37,7 +37,7 @@
 
 `options.globals` (`Object`): Add globals to Vue instance.
 
-`options.stub` ('Object): Stubs components matching the name passed with a string 
+`options.stub` (`Object|Array<string>`): Stubs components matching the name. Takes object or array of strings 
 
 - **Usage:**
 
@@ -117,7 +117,7 @@ describe('Foo', () => {
 })
 ```
 
-**Adding globals:**
+**Stubbing global properties:**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -128,7 +128,7 @@ describe('Foo', () => {
   it('renders a div', () => {
     const $route = { path: 'http://www.example-path.com' }
     const wrapper = mount(Foo, {
-      globals: {
+      intercept: {
         $route
       }
     })
@@ -143,13 +143,16 @@ describe('Foo', () => {
 import { mount } from 'vue-test-utils'
 import { expect } from 'chai'
 import Foo from './Foo.vue'
-import Bar from './Bar'
+import Bar from './Bar.vue'
+import Faz from './Faz.vue'
 
 describe('Foo', () => {
   it('renders a div', () => {
     const wrapper = mount(Foo, {
       stub: {
-        Bar: '<div class="stubbed />'
+        Bar: '<div class="stubbed />',
+        BarFoo: true,
+        FooBar: Faz
       }
     })
     expect(wrapper.contains('.stubbed')).to.equal(true)
