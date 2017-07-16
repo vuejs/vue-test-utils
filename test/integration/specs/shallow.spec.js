@@ -9,21 +9,21 @@ import ComponentWithNestedChildren from '~resources/components/component-with-ne
 import ComponentWithLifecycleHooks from '~resources/components/component-with-lifecycle-hooks.vue'
 
 describe('shallow', () => {
-  it('returns new VueWrapper of Vue instance if no options are passed', () => {
+  it('returns new VueWrapper of Vue localVue if no options are passed', () => {
     const compiled = compileToFunctions('<div><input /></div>')
     const wrapper = shallow(compiled)
     expect(wrapper).to.be.instanceOf(VueWrapper)
     expect(wrapper.vm).to.be.an('object')
   })
 
-  it('returns new VueWrapper of Vue instance with all children stubbed', () => {
+  it('returns new VueWrapper of Vue localVue with all children stubbed', () => {
     const wrapper = shallow(ComponentWithNestedChildren)
     expect(wrapper).to.be.instanceOf(VueWrapper)
     expect(wrapper.findAll(Component).length).to.equal(0)
     expect(wrapper.findAll(ComponentWithChildComponent).length).to.equal(1)
   })
 
-  it('returns new VueWrapper of Vue instance with all children stubbed', () => {
+  it('returns new VueWrapper of Vue localVue with all children stubbed', () => {
     const wrapper = shallow(ComponentWithNestedChildren)
     expect(wrapper).to.be.instanceOf(VueWrapper)
     expect(wrapper.findAll(Component).length).to.equal(0)
@@ -37,15 +37,15 @@ describe('shallow', () => {
     expect(mountedWrapper.findAll(Component).length).to.equal(1)
   })
 
-  it('stubs globally registered components when options.instance is provided', () => {
-    const freshVue = Vue.extend()
+  it('stubs globally registered components when options.localVue is provided', () => {
+    const localVue = Vue.extend()
     const log = sinon.stub(console, 'log')
-    freshVue.component('registered-component', ComponentWithLifecycleHooks)
+    localVue.component('registered-component', ComponentWithLifecycleHooks)
     const Component = {
       render: h => h('registered-component')
     }
-    shallow(Component, { instance: freshVue })
-    mount(Component, { instance: freshVue })
+    shallow(Component, { localVue })
+    mount(Component, { localVue })
 
     expect(log.callCount).to.equal(4)
     log.restore()

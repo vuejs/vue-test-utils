@@ -2,9 +2,9 @@
 
 * [Introduction](README.md)
 * [API](api/README.md)
+  * [createLocalVue](api/createLocalVue.md)
   * [mount](api/mount.md)
   * [shallow](api/shallow.md)
-  * [scopedVue](api/scopedVue.md)
   * [Wrapper](api/wrapper/README.md)
     * [contains](api/wrapper/contains.md) 
     * [find](api/wrapper/find.md)

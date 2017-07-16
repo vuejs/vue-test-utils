@@ -9,7 +9,7 @@ import { throwError } from './util'
 import { cloneDeep } from 'lodash'
 
 export default function createConstructor (component: Component, options: Options): Component {
-  const instance = options.instance || Vue
+  const vue = options.localVue || Vue
 
   if (options.context) {
     if (!component.functional) {
@@ -35,7 +35,7 @@ export default function createConstructor (component: Component, options: Option
     stubComponents(component, options.stub)
   }
 
-  const Constructor = instance.extend(component)
+  const Constructor = vue.extend(component)
 
   if (options.intercept) {
     const globals = addGlobals(options.intercept)

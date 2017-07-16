@@ -25,6 +25,8 @@
 
 `options.context` (`Object`): Passes context to functional component. Can only be used with functional components
 
+`options.localVue` ('Object): vue class to use in `mount`. See [createLocalVue](/api/createLocalVue.md)
+
 `options.slots` (`Object`): Render component with slots.
 
 `options.slots.default` (`Array[Component]|Component|String`): Default slot object to render, can be a Vue component or array of Vue components
@@ -33,9 +35,7 @@
 
 `options.globals` (`Object`): Add globals to Vue instance.
 
-`options.instance` ('Object): instance for vue-test-utils to use. See [scopedVue](/api/scopedVue.md)
-
-`options.stub` ('Object): Stubs components matchng the name passed with a string 
+`options.stub` ('Object): Stubs components matching the name passed with a string 
 
 - **Usage:**
 

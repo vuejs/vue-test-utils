@@ -3,7 +3,7 @@
 import Vue from 'vue'
 import { cloneDeep } from 'lodash'
 
-function scopedVue (): Component {
+function createLocalVue (): Component {
   const instance = Vue.extend()
   instance.version = Vue.version
   instance.config = cloneDeep(Vue.config)
@@ -11,4 +11,4 @@ function scopedVue (): Component {
   return instance
 }
 
-export default scopedVue
+export default createLocalVue

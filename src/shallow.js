@@ -10,14 +10,14 @@ import mount from './mount'
 import type VueWrapper from './wrappers/vue-wrapper'
 
 export default function shallow (component: Component, options: Options = {}): VueWrapper {
-  const instance = options.instance || Vue
+  const vue = options.localVue || Vue
   const clonedComponent = cloneDeep(component)
 
   if (clonedComponent.components) {
     stubAllComponents(clonedComponent)
   }
 
-  stubGlobalComponents(clonedComponent, instance)
+  stubGlobalComponents(clonedComponent, vue)
 
   return mount(clonedComponent, options)
 }
