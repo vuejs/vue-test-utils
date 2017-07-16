@@ -62,10 +62,36 @@ describe('mount.stub', () => {
     expect(wrapper.findAll(Component).length).to.equal(1)
   })
 
-  const invalidValues = [1, null, [], {}, NaN]
-  invalidValues.forEach(invalidValue => {
-    it('throws an error when passed an invalid value as stub', () => {
-      const error = '[vue-test-utils]: options.stub values must be passed a string or component'
+  it('stubs components with dummy when passed as an array', () => {
+    const warn = sinon.stub(console, 'error')
+    const ComponentWithGlobalComponent = {
+      render: h => h('registered-component')
+    }
+    mount(ComponentWithGlobalComponent, {
+      stub: ['registered-component']
+    })
+
+    expect(warn.called).to.equal(false)
+    warn.restore()
+  })
+  it('stubs components with dummy when passed as an array', () => {
+    const ComponentWithGlobalComponent = {
+      render: h => h('registered-component')
+    }
+    const invalidValues = [{}, [], 3]
+    const error = '[vue-test-utils]: each item in options.stub must be a string'
+    invalidValues.forEach(invalidValue => {
+      const fn = () => mount(ComponentWithGlobalComponent, {
+        stub: [invalidValue]
+      })
+      expect(fn).to.throw().with.property('message', error)
+    })
+  })
+
+  it('throws an error when passed an invalid value as stub', () => {
+    const error = '[vue-test-utils]: options.stub values must be passed a string or component'
+    const invalidValues = [1, null, [], {}, NaN]
+    invalidValues.forEach(invalidValue => {
       const fn = () => mount(ComponentWithChildComponent, {
         stub: {
           ChildComponent: invalidValue

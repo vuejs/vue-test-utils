@@ -61,41 +61,50 @@ function createBlankStub (originalComponent: Component) {
 }
 
 export function stubComponents (component: Component, stubs: Object): void {
-  Object.keys(stubs).forEach(stub => {
-    if (!isValidStub(stubs[stub])) {
-      throwError('options.stub values must be passed a string or component')
-    }
+  if (!component.components) {
+    component.components = {}
+  }
 
-    if (!component.components) {
-      component.components = {}
-    }
+  if (Array.isArray(stubs)) {
+    stubs.forEach(stub => {
+      if (typeof stub !== 'string') {
+        throwError('each item in options.stub must be a string')
+      }
+      component.components[stub] = createBlankStub({})
+    })
+  } else {
+    Object.keys(stubs).forEach(stub => {
+      if (!isValidStub(stubs[stub])) {
+        throwError('options.stub values must be passed a string or component')
+      }
 
-    if (component.components[stub]) {
-        // Remove cached constructor
-      delete component.components[stub]._Ctor
-      if (typeof stubs[stub] === 'string') {
-        component.components[stub] = createStubFromString(stubs[stub], component.components[stub])
-        stubLifeCycleEvents(component.components[stub])
+      if (component.components[stub]) {
+              // Remove cached constructor
+        delete component.components[stub]._Ctor
+        if (typeof stubs[stub] === 'string') {
+          component.components[stub] = createStubFromString(stubs[stub], component.components[stub])
+          stubLifeCycleEvents(component.components[stub])
+        } else {
+          component.components[stub] = {
+            ...stubs[stub],
+            name: component.components[stub].name
+          }
+        }
       } else {
-        component.components[stub] = {
-          ...stubs[stub],
-          name: component.components[stub].name
+        if (typeof stubs[stub] === 'string') {
+          component.components[stub] = {
+            ...compileToFunctions(stubs[stub])
+          }
+          stubLifeCycleEvents(component.components[stub])
+        } else {
+          component.components[stub] = {
+            ...stubs[stub]
+          }
         }
       }
-    } else {
-      if (typeof stubs[stub] === 'string') {
-        component.components[stub] = {
-          ...compileToFunctions(stubs[stub])
-        }
-        stubLifeCycleEvents(component.components[stub])
-      } else {
-        component.components[stub] = {
-          ...stubs[stub]
-        }
-      }
-    }
-    Vue.config.ignoredElements.push(stub)
-  })
+      Vue.config.ignoredElements.push(stub)
+    })
+  }
 }
 
 export function stubAllComponents (component: Component): void {
