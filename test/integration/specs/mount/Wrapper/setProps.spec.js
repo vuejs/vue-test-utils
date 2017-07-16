@@ -36,6 +36,7 @@ describe('setProps', () => {
     const prop1 = 'testest'
     wrapper.setProps({ prop2: 'newProp', prop1 })
     expect(info.args[0][0]).to.equal(prop1)
+    info.restore()
   })
 
   it('throws an error if node is not a Vue instance', () => {

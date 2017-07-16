@@ -14,20 +14,20 @@ describe('mount.stub', () => {
   })
 
   it('replaces component with a component', () => {
-    const log = sinon.stub(console, 'log')
+    const info = sinon.stub(console, 'info')
     const wrapper = mount(ComponentWithChildComponent, {
       stub: {
         ChildComponent: {
           render: h => h('div'),
           mounted () {
-            console.log('stubbed')
+            console.info('stubbed')
           }
         }
       }
     })
     expect(wrapper.findAll(Component).length).to.equal(1)
-    expect(log.calledWith('stubbed')).to.equal(true)
-    log.restore()
+    expect(info.calledWith('stubbed')).to.equal(true)
+    info.restore()
   })
 
   it('does not error if component to stub contains no components', () => {

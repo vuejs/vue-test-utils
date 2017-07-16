@@ -39,7 +39,7 @@ describe('shallow', () => {
 
   it('stubs globally registered components when options.localVue is provided', () => {
     const localVue = Vue.extend()
-    const log = sinon.stub(console, 'log')
+    const info = sinon.stub(console, 'info')
     localVue.component('registered-component', ComponentWithLifecycleHooks)
     const Component = {
       render: h => h('registered-component')
@@ -47,12 +47,12 @@ describe('shallow', () => {
     shallow(Component, { localVue })
     mount(Component, { localVue })
 
-    expect(log.callCount).to.equal(4)
-    log.restore()
+    expect(info.callCount).to.equal(4)
+    info.restore()
   })
 
   it('stubs globally registered components', () => {
-    const log = sinon.stub(console, 'log')
+    const info = sinon.stub(console, 'info')
     Vue.component('registered-component', ComponentWithLifecycleHooks)
     const Component = {
       render: h => h('registered-component')
@@ -60,15 +60,15 @@ describe('shallow', () => {
     shallow(Component)
     mount(Component)
 
-    expect(log.callCount).to.equal(4)
-    log.restore()
+    expect(info.callCount).to.equal(4)
+    info.restore()
   })
 
   it('does not call stubbed children lifecycle hooks', () => {
-    const log = sinon.stub(console, 'log')
+    const info = sinon.stub(console, 'info')
     shallow(ComponentWithNestedChildren)
-    expect(log.called).to.equal(false)
-    log.restore()
+    expect(info.called).to.equal(false)
+    info.restore()
   })
 })
 

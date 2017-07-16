@@ -30,7 +30,7 @@
         mousedownHandler (event) {
           if (event.button === 0) {
             this.clickHandler()
-            console.log(event.defaultPrevented)
+            console.info(event.defaultPrevented)
           }
         },
         toggleActive () {

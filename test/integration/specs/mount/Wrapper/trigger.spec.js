@@ -55,15 +55,15 @@ describe('trigger', () => {
   })
 
   it('prevents default on event when pass preventDefault as true', () => {
-    const log = sinon.stub(console, 'log')
+    const info = sinon.stub(console, 'info')
     const wrapper = mount(ComponentWithEvents)
     const button = wrapper.find('.left-click')
     button.trigger('mousedown', {
       preventDefault: true,
       button: 0
     })
-    expect(log.calledWith(true)).to.equal(true)
-    log.restore()
+    expect(info.calledWith(true)).to.equal(true)
+    info.restore()
   })
 
   it('throws an error if type is not a string', () => {
