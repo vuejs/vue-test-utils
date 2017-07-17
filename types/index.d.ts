@@ -54,17 +54,17 @@ interface Wrapper<V extends Vue> extends BaseWrapper {
   readonly options: WrapperOptions
 
   find<R extends Vue> (selector: Selector): Wrapper<R>
-  findAll (selector: Selector): WrapperArray
+  findAll<R extends Vue> (selector: Selector): WrapperArray<R>
 
   html (): string
   text (): string
   name (): string
 }
 
-interface WrapperArray extends BaseWrapper {
+interface WrapperArray<V extends Vue> extends BaseWrapper {
   readonly length: number
 
-  at<V extends Vue> (index: number): Wrapper<V>
+  at (index: number): Wrapper<V>
 }
 
 interface WrapperOptions {

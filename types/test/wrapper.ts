@@ -39,7 +39,7 @@ let el: HTMLElement = wrapper.element
 bool = wrapper.options.attachedToDocument
 
 wrapper = wrapper.find('.foo')
-let array = wrapper.findAll('.bar')
+let array = wrapper.findAll<Normal>(normalOptions)
 
 let str: string = wrapper.html()
 str = wrapper.text()
