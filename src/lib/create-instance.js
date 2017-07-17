@@ -2,7 +2,7 @@
 
 import Vue from 'vue'
 import addSlots from './add-slots'
-import addGlobals from './add-globals'
+import createInterceptPlugin from './create-intercept-plugin'
 import addProvide from './add-provide'
 import { stubComponents } from './stub-components'
 import { throwError } from './util'
@@ -38,8 +38,10 @@ export default function createConstructor (component: Component, options: Option
   const Constructor = vue.extend(component)
 
   if (options.intercept) {
-    const globals = addGlobals(options.intercept)
-    Constructor.use(globals)
+    // creates a plugin that adds properties, and then install on local Constructor
+    // this does not affect the base Vue class
+    const interceptPlugin = createInterceptPlugin(options.intercept)
+    Constructor.use(interceptPlugin)
   }
 
   const vm = new Constructor(options)
