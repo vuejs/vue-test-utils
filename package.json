@@ -5,7 +5,6 @@
   "main": "dist/vue-test-utils.js",
   "types": "types/index.d.ts",
   "files": [
-    "src",
     "dist/*.js",
     "types/index.d.ts"
   ],
