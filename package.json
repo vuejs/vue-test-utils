@@ -3,9 +3,11 @@
   "version": "0.1.0",
   "description": "Utilities for testing Vue components.",
   "main": "dist/vue-test-utils.js",
+  "types": "types/index.d.ts",
   "files": [
     "src",
-    "dist/*.js"
+    "dist/*.js",
+    "types/index.d.ts"
   ],
   "scripts": {
     "build": "node build/build.js",
@@ -16,10 +18,11 @@
     "lint:docs": "eslint --ext js,vue,md docs --ignore-path .gitignore",
     "lint:fix": "npm run lint -- --fix",
     "postinstall": "node build/install-hooks.js",
-    "test": "npm run lint && npm run lint:docs && npm run flow && npm run test:unit && npm run test:integration && npm run test:integration:karma",
+    "test": "npm run lint && npm run lint:docs && npm run flow && npm run test:types && npm run test:unit && npm run test:integration && npm run test:integration:karma",
     "test:integration": "cross-env BABEL_ENV=test mocha-webpack --webpack-config build/webpack.test.config.js test/integration/specs --recursive --require test/integration/setup/mocha.setup.js",
     "test:integration:karma": "cross-env BABEL_ENV=test TARGET=browser karma start test/integration/setup/karma.conf.js --single-run",
     "test:unit": "cross-env BABEL_ENV=test mocha-webpack --webpack-config build/webpack.test.config.js test/unit/specs --recursive --require test/unit/setup/mocha.setup.js",
+    "test:types": "tsc -p types",
     "release": "bash build/release.sh",
     "release:note": "node build/gen-release-note.js"
   },
@@ -72,6 +75,7 @@
     "shelljs": "^0.7.8",
     "sinon": "^2.3.2",
     "sinon-chai": "^2.10.0",
+    "typescript": "^2.4.1",
     "vue": "^2.3.3",
     "vue-loader": "^12.2.1",
     "vue-router": "^2.6.0",
