@@ -6,7 +6,7 @@ import { normalOptions, functionalOptions, Normal, ClassComponent } from './reso
  * Should create wrapper vm based on (function) component options or constructors
  * The users can specify component type via the type parameter
  */
-const normalWrapper = shallow<Normal>(normalOptions)
+const normalWrapper = shallow(normalOptions)
 const normalFoo: string = normalWrapper.vm.foo
 
 const classWrapper = shallow<ClassComponent>(ClassComponent)
