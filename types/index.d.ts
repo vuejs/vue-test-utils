@@ -53,8 +53,15 @@ interface Wrapper<V extends Vue> extends BaseWrapper {
   readonly element: HTMLElement
   readonly options: WrapperOptions
 
-  find<R extends Vue> (selector: Selector): Wrapper<R>
-  findAll<R extends Vue> (selector: Selector): WrapperArray<R>
+  find<R extends Vue, Ctor extends VueClass<R> = VueClass<R>> (selector: Ctor): Wrapper<R>
+  find<R extends Vue> (selector: ComponentOptions<R>): Wrapper<R>
+  find (selector: FunctionalComponentOptions): Wrapper<Vue>
+  find (selector: string): Wrapper<Vue>
+
+  findAll<R extends Vue, Ctor extends VueClass<R> = VueClass<R>> (selector: Ctor): WrapperArray<R>
+  findAll<R extends Vue> (selector: ComponentOptions<R>): WrapperArray<R>
+  findAll (selector: FunctionalComponentOptions): WrapperArray<Vue>
+  findAll (selector: string): WrapperArray<Vue>
 
   html (): string
   text (): string

@@ -1,5 +1,5 @@
 import { mount } from '../'
-import { normalOptions, Normal, ClassComponent } from './resources'
+import { normalOptions, functionalOptions, Normal, ClassComponent } from './resources'
 
 /**
  * Tests for BaseWrapper API
@@ -38,8 +38,15 @@ let el: HTMLElement = wrapper.element
 
 bool = wrapper.options.attachedToDocument
 
-wrapper = wrapper.find('.foo')
-let array = wrapper.findAll<Normal>(normalOptions)
+let found = wrapper.find('.foo')
+found = wrapper.find(normalOptions)
+found = wrapper.find(functionalOptions)
+found = wrapper.find<ClassComponent>(ClassComponent)
+
+let array = wrapper.findAll('.bar')
+array = wrapper.findAll(normalOptions)
+array = wrapper.findAll(functionalOptions)
+array = wrapper.findAll<ClassComponent>(ClassComponent)
 
 let str: string = wrapper.html()
 str = wrapper.text()
@@ -49,4 +56,4 @@ str = wrapper.name()
  * Tests for WrapperArray API
  */
 let num: number = array.length
-wrapper = array.at(1)
+found = array.at(1)
