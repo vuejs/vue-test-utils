@@ -16,7 +16,6 @@
     "lint": "eslint --ext js,vue src test flow build --ignore-path .gitignore",
     "lint:docs": "eslint --ext js,vue,md docs --ignore-path .gitignore",
     "lint:fix": "npm run lint -- --fix",
-    "postinstall": "node build/install-hooks.js",
     "test": "npm run lint && npm run lint:docs && npm run flow && npm run test:types && npm run test:unit && npm run test:integration && npm run test:integration:karma",
     "test:integration": "cross-env BABEL_ENV=test mocha-webpack --webpack-config build/webpack.test.config.js test/integration/specs --recursive --require test/integration/setup/mocha.setup.js",
     "test:integration:karma": "cross-env BABEL_ENV=test TARGET=browser karma start test/integration/setup/karma.conf.js --single-run",
