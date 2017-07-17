@@ -36,6 +36,7 @@ function stubLifeCycleEvents (component) {
 function isValidStub (stub) {
   return !!stub &&
       (typeof stub === 'string' ||
+      (stub === true) ||
       (typeof stub === 'object' &&
       typeof stub.render === 'function'))
 }
@@ -67,35 +68,47 @@ function createBlankStub (originalComponent) {
 }
 
 function stubComponents (component, stubs) {
-  Object.keys(stubs).forEach(function (stub) {
-    if (!isValidStub(stubs[stub])) {
-      throwError('options.stub values must be passed a string or component');
-    }
+  if (!component.components) {
+    component.components = {};
+  }
 
-    if (!component.components) {
-      component.components = {};
-    }
-
-    if (component.components[stub]) {
-        // Remove cached constructor
-      delete component.components[stub]._Ctor;
-      if (typeof stubs[stub] === 'string') {
-        component.components[stub] = createStubFromString(stubs[stub], component.components[stub]);
-        stubLifeCycleEvents(component.components[stub]);
-      } else {
-        component.components[stub] = Object.assign({}, stubs[stub],
-          {name: component.components[stub].name});
+  if (Array.isArray(stubs)) {
+    stubs.forEach(function (stub) {
+      if (typeof stub !== 'string') {
+        throwError('each item in options.stub must be a string');
       }
-    } else {
-      if (typeof stubs[stub] === 'string') {
-        component.components[stub] = Object.assign({}, vueTemplateCompiler.compileToFunctions(stubs[stub]));
-        stubLifeCycleEvents(component.components[stub]);
-      } else {
-        component.components[stub] = Object.assign({}, stubs[stub]);
+      component.components[stub] = createBlankStub({});
+    });
+  } else {
+    Object.keys(stubs).forEach(function (stub) {
+      if (!isValidStub(stubs[stub])) {
+        throwError('options.stub values must be passed a string or component');
       }
-    }
-    Vue.config.ignoredElements.push(stub);
-  });
+      if (stubs[stub] === true) {
+        component.components[stub] = createBlankStub({});
+        return
+      }
+      if (component.components[stub]) {
+              // Remove cached constructor
+        delete component.components[stub]._Ctor;
+        if (typeof stubs[stub] === 'string') {
+          component.components[stub] = createStubFromString(stubs[stub], component.components[stub]);
+          stubLifeCycleEvents(component.components[stub]);
+        } else {
+          component.components[stub] = Object.assign({}, stubs[stub],
+            {name: component.components[stub].name});
+        }
+      } else {
+        if (typeof stubs[stub] === 'string') {
+          component.components[stub] = Object.assign({}, vueTemplateCompiler.compileToFunctions(stubs[stub]));
+          stubLifeCycleEvents(component.components[stub]);
+        } else {
+          component.components[stub] = Object.assign({}, stubs[stub]);
+        }
+      }
+      Vue.config.ignoredElements.push(stub);
+    });
+  }
 }
 
 function stubAllComponents (component) {
@@ -645,7 +658,9 @@ Wrapper.prototype.is = function is (selector) {
     if (!this.isVueComponent) {
       return false
     }
-    // TODO: Throw error if component does not have name
+    if (typeof selector.name !== 'string') {
+      throwError('a Component used as a selector must have a name property');
+    }
     return vmCtorMatchesName(this.vm, selector.name)
   }
   return this.element.getAttribute && this.element.matches(selector)
@@ -706,7 +721,9 @@ Wrapper.prototype.setProps = function setProps (data) {
   Object.keys(data).forEach(function (key) {
     // $FlowIgnore : Problem with possibly null this.vm
     this$1.vm._props[key] = data[key];
-    // $FlowIgnore : Problem with possibly null this.vm
+  });
+  Object.keys(data).forEach(function (key) {
+      // $FlowIgnore : Problem with possibly null this.vm
     this$1.vm._watchers.forEach(function (watcher) {
       if (watcher.expression === key) { watcher.run(); }
     });
@@ -837,11 +854,11 @@ function addSlots (vm, slots) {
 
 // 
 
-function addGlobals (globals) {
+function createInterceptPlugin (interceptedProperties) {
   return {
     install: function (Vue$$1) {
-      Object.keys(globals).forEach(function (key) {
-        Vue$$1.prototype[key] = globals[key];
+      Object.keys(interceptedProperties).forEach(function (key) {
+        Vue$$1.prototype[key] = interceptedProperties[key];
       });
     }
   }
@@ -886,15 +903,17 @@ function createConstructor (component, options) {
     addProvide(component, options);
   }
 
-  if (options.stub) {
-    stubComponents(component, options.stub);
+  if (options.stubs) {
+    stubComponents(component, options.stubs);
   }
 
   var Constructor = vue.extend(component);
 
   if (options.intercept) {
-    var globals = addGlobals(options.intercept);
-    Constructor.use(globals);
+    // creates a plugin that adds properties, and then install on local Constructor
+    // this does not affect the base Vue class
+    var interceptPlugin = createInterceptPlugin(options.intercept);
+    Constructor.use(interceptPlugin);
   }
 
   var vm = new Constructor(options);
@@ -945,10 +964,11 @@ function mount (component, options) {
     throwError('window is undefined, vue-test-utils needs to be run in a browser environment.\n You can run the tests in node using JSDOM');
   }
 
+  var componentToMount = options.clone === false ? component : lodash.cloneDeep(component);
   // Remove cached constructor
-  delete component._Ctor;
+  delete componentToMount._Ctor;
 
-  var vm = createConstructor(component, options);
+  var vm = createConstructor(componentToMount, options);
 
   if (options.attachToDocument) {
     vm.$mount(createElement());
