@@ -22,7 +22,7 @@ type Slots = {
  * If it is an array of string, the specified children are replaced by blank components
  */
 type Stubs = {
-  [key: string]: Component | string | boolean
+  [key: string]: Component | string | true
 } | string[]
 
 /**
