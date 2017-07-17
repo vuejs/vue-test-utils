@@ -13,9 +13,26 @@ describe('createLocalVue', () => {
         test: 0
       },
       mutations: {
-        increment (state) {
-          state.count++
-        }
+        increment () {}
+      }
+    })
+    const wrapper = mount(Component, { localVue, store })
+    expect(wrapper.vm.$store).to.be.an('object')
+    const freshWrapper = mount(Component)
+    expect(typeof freshWrapper.vm.$store).to.equal('undefined')
+  })
+
+  it('installs Vuex without polluting global Vue', () => {
+    const localVue = createLocalVue()
+    Vuex.installed = false
+    Vuex.forceInstall = true
+    localVue.use(Vuex)
+    const store = new Vuex.Store({
+      state: {
+        test: 0
+      },
+      mutations: {
+        increment () {}
       }
     })
     const wrapper = mount(Component, { localVue, store })
@@ -35,6 +52,15 @@ describe('createLocalVue', () => {
     })
     const wrapper = mount(Component, { localVue, router })
     expect(wrapper.vm.$route).to.be.an('object')
+    const freshWrapper = mount(Component)
+    expect(typeof freshWrapper.vm.$route).to.equal('undefined')
+  })
+
+  it('sets installed to false inside Vue.use', () => {
+    const localVue = createLocalVue()
+    localVue.use(Vuex)
+    expect(Vuex.installed).to.equal(true)
+    localVue.use(Vuex)
     const freshWrapper = mount(Component)
     expect(typeof freshWrapper.vm.$route).to.equal('undefined')
   })

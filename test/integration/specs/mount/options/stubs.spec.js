@@ -6,7 +6,7 @@ import Component from '~resources/components/component.vue'
 describe('mount.stub', () => {
   it('replaces component with template string ', () => {
     const wrapper = mount(ComponentWithChildComponent, {
-      stub: {
+      stubs: {
         ChildComponent: '<div class="stub"></div>'
       }
     })
@@ -17,7 +17,7 @@ describe('mount.stub', () => {
   it('replaces component with a component', () => {
     const info = sinon.stub(console, 'info')
     const wrapper = mount(ComponentWithChildComponent, {
-      stub: {
+      stubs: {
         ChildComponent: {
           render: h => h('div'),
           mounted () {
@@ -33,7 +33,7 @@ describe('mount.stub', () => {
 
   it('does not error if component to stub contains no components', () => {
     mount(Component, {
-      stub: {
+      stubs: {
         doesNotExist: Component
       }
     })
@@ -41,7 +41,7 @@ describe('mount.stub', () => {
 
   it('does not modify component directly', () => {
     const wrapper = mount(ComponentWithNestedChildren, {
-      stub: {
+      stubs: {
         ChildComponent: '<div />'
       }
     })
@@ -55,7 +55,7 @@ describe('mount.stub', () => {
       render: h => h('registered-component')
     }
     const wrapper = mount(ComponentWithGlobalComponent, {
-      stub: {
+      stubs: {
         'registered-component': Component
       }
     })
@@ -68,7 +68,7 @@ describe('mount.stub', () => {
       render: h => h('registered-component')
     }
     mount(ComponentWithGlobalComponent, {
-      stub: ['registered-component']
+      stubs: ['registered-component']
     })
 
     expect(warn.called).to.equal(false)
@@ -81,7 +81,7 @@ describe('mount.stub', () => {
       render: h => h('registered-component')
     }
     mount(ComponentWithGlobalComponent, {
-      stub: {
+      stubs: {
         'registered-component': true
       }
     })
@@ -97,7 +97,7 @@ describe('mount.stub', () => {
     const error = '[vue-test-utils]: each item in options.stub must be a string'
     invalidValues.forEach(invalidValue => {
       const fn = () => mount(ComponentWithGlobalComponent, {
-        stub: [invalidValue]
+        stubs: [invalidValue]
       })
       expect(fn).to.throw().with.property('message', error)
     })
@@ -108,7 +108,7 @@ describe('mount.stub', () => {
     const invalidValues = [1, null, [], {}, NaN]
     invalidValues.forEach(invalidValue => {
       const fn = () => mount(ComponentWithChildComponent, {
-        stub: {
+        stubs: {
           ChildComponent: invalidValue
         }})
       expect(fn).to.throw().with.property('message', error)

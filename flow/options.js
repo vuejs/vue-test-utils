@@ -3,7 +3,7 @@ declare type Options = { // eslint-disable-line no-undef
     intercept?: Object,
     slots?: Object,
     localVue?: Component,
-    stub?: Object,
+    stubs?: Object,
     context?: Object,
     clone?: boolean
 }

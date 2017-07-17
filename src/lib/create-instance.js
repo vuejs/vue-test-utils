@@ -31,8 +31,8 @@ export default function createConstructor (component: Component, options: Option
     addProvide(component, options)
   }
 
-  if (options.stub) {
-    stubComponents(component, options.stub)
+  if (options.stubs) {
+    stubComponents(component, options.stubs)
   }
 
   const Constructor = vue.extend(component)

@@ -6,7 +6,7 @@ describe('mount.clone', () => {
       render: h => h('div')
     }
     mount(TestComponent, {
-      stub: {
+      stubs: {
         test: ('<div />')
       },
       clone: true
@@ -19,7 +19,7 @@ describe('mount.clone', () => {
       render: h => h('div')
     }
     mount(TestComponent, {
-      stub: {
+      stubs: {
         test: ('<div />')
       }
     })
@@ -31,7 +31,7 @@ describe('mount.clone', () => {
       render: h => h('div')
     }
     mount(TestComponent, {
-      stub: {
+      stubs: {
         test: ('<div />')
       },
       clone: false
