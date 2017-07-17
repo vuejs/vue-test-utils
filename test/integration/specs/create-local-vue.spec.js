@@ -22,25 +22,6 @@ describe('createLocalVue', () => {
     expect(typeof freshWrapper.vm.$store).to.equal('undefined')
   })
 
-  it('installs Vuex without polluting global Vue', () => {
-    const localVue = createLocalVue()
-    Vuex.installed = false
-    Vuex.forceInstall = true
-    localVue.use(Vuex)
-    const store = new Vuex.Store({
-      state: {
-        test: 0
-      },
-      mutations: {
-        increment () {}
-      }
-    })
-    const wrapper = mount(Component, { localVue, store })
-    expect(wrapper.vm.$store).to.be.an('object')
-    const freshWrapper = mount(Component)
-    expect(typeof freshWrapper.vm.$store).to.equal('undefined')
-  })
-
   it('installs Router without polluting global Vue', () => {
     const localVue = createLocalVue()
     localVue.use(VueRouter)
