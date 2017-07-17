@@ -34,7 +34,7 @@ shallow<ClassComponent>(ClassComponent, {
     foo: [normalOptions, functionalOptions],
     baz: ClassComponent
   },
-  stub: {
+  stubs: {
     foo: normalOptions,
     bar: functionalOptions,
     baz: ClassComponent,
@@ -46,7 +46,7 @@ shallow(functionalOptions, {
   context: {
     props: { foo: 'test' }
   },
-  stub: ['child']
+  stubs: ['child']
 })
 
 /**

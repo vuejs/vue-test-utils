@@ -34,7 +34,7 @@ mount<ClassComponent>(ClassComponent, {
     foo: [normalOptions, functionalOptions],
     bar: ClassComponent
   },
-  stub: {
+  stubs: {
     foo: normalOptions,
     bar: functionalOptions,
     baz: ClassComponent,
@@ -46,7 +46,7 @@ mount(functionalOptions, {
   context: {
     props: { foo: 'test' }
   },
-  stub: ['child']
+  stubs: ['child']
 })
 
 /**
