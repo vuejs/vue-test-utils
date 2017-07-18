@@ -69,7 +69,7 @@ describe('Actions.vue', () => {
     const wrapper = mount(Actions, { store })
     const input = wrapper.find('input')[0]
     input.element.value = 'input'
-    input.dispatch('input')
+    input.trigger('input')
     expect(actions.actionInput.calledOnce).to.equal(true)
   })
 
@@ -77,13 +77,13 @@ describe('Actions.vue', () => {
     const wrapper = mount(Actions, { store })
     const input = wrapper.find('input')[0]
     input.element.value = 'not input'
-    input.dispatch('input')
+    input.trigger('input')
     expect(actions.actionInput.calledOnce).to.equal(false)
   })
 
   it('calls store action actionClick when button is clicked', () => {
     const wrapper = mount(Actions, { store })
-    wrapper.find('button')[0].dispatch('click')
+    wrapper.find('button')[0].trigger('click')
     expect(actions.actionClick.calledOnce).to.equal(true)
   })
 })
@@ -245,7 +245,7 @@ describe('Modules.vue', () => {
   it('calls store action moduleActionClick when button is clicked', () => {
     const wrapper = mount(Modules, { store })
     const button = wrapper.find('button')[0]
-    button.dispatch('click')
+    button.trigger('click')
     expect(actions.moduleActionClick.calledOnce).to.equal(true)
   })
 
