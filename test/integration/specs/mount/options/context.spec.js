@@ -1,6 +1,6 @@
 import mount from '~src/mount'
 
-describe('context', () => {
+describe('mount.context', () => {
   it('mounts functional component when passed context object', () => {
     const Component = {
       functional: true,

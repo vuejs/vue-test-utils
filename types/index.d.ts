@@ -25,6 +25,8 @@ type Stubs = {
   [key: string]: Component | string | true
 } | string[]
 
+type Children =  (Component | string)[]
+
 /**
  * Base class of Wrapper and WrapperArray
  * It has common methods on both Wrapper and WrapperArray
@@ -85,7 +87,8 @@ interface MountOptions<V extends Vue> extends ComponentOptions<V> {
   localVue?: typeof Vue
   intercept?: object
   slots?: Slots
-  stubs?: Stubs
+  stubs?: Stubs,
+  children?: Children
 }
 
 type ShallowOptions<V extends Vue> = MountOptions<V>

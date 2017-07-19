@@ -46,6 +46,7 @@ mount(functionalOptions, {
   context: {
     props: { foo: 'test' }
   },
+  children: ['child', ClassComponent],
   stubs: ['child']
 })
 

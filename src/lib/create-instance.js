@@ -22,7 +22,7 @@ export default function createConstructor (component: Component, options: Option
     const clonedComponent = cloneDeep(component)
     component = {
       render (h) {
-        return h(clonedComponent, options.context)
+        return h(clonedComponent, options.context, options.children)
       }
     }
   }
