@@ -9,11 +9,11 @@
     - `{Object} slots`  
         - `{Array<Componet|Object>|Component|String} default`  
         - `{Array<Componet|Object>|Component|String} named`  
-    - `{Object} globals`
-    - `{Object} instance`
-    - `{Object} stub` 
-    
-- **Arguments:**
+    - `{Object} intercept`
+    - `{Object|Array<string>} stubs`
+    - `{boolean} clone`
+    - `{Object} children`
+    - `{Vue} localVue`
 
 - **Returns:** `{Wrapper}`
 
@@ -27,6 +27,8 @@
 
 `options.context` (`Object`): Passes context to functional component. Can only be used with functional components
 
+`options.children` (`Array<string|Component|Function>`): Passes children to be rendered by functional components
+
 `options.localVue` (`Object`): vue class to use in `mount`. See [createLocalVue](/api/createLocalVue.md)
 
 `options.slots` (`Object`): Render component with slots.
@@ -35,9 +37,9 @@
 
 `options.slots.name` (`Array[Component]|Component`): Named slots. i.e. slots.name will match a <slot name="name" />, can be a Vue component or array of Vue components
 
-`options.globals` (`Object`): Add globals to Vue instance.
+`options.intercept` (`Object`): Add globals to Vue instance.
 
-`options.stub` (`Object|Array<string>`): Stubs components matching the name. Takes object or array of strings 
+`options.stubs` (`Object|Array<string>`): Stubs components matching the name. Takes object or array of strings
 
 - **Usage:**
 
