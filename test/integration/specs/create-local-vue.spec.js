@@ -37,6 +37,23 @@ describe('createLocalVue', () => {
     expect(typeof freshWrapper.vm.$route).to.equal('undefined')
   })
 
+  it('installs Router after a previous installed', () => {
+    const localVue = createLocalVue()
+    VueRouter.installed = false
+    VueRouter.install.installed = false
+    localVue.use(VueRouter)
+    const routes = [
+          { path: '/foo', component: Component }
+    ]
+    const router = new VueRouter({
+      routes
+    })
+    const wrapper = mount(Component, { localVue, router })
+    expect(wrapper.vm.$route).to.be.an('object')
+    const freshWrapper = mount(Component)
+    expect(typeof freshWrapper.vm.$route).to.equal('undefined')
+  })
+
   it('sets installed to false inside Vue.use', () => {
     const localVue = createLocalVue()
     localVue.use(Vuex)
