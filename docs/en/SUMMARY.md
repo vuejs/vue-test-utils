@@ -38,3 +38,4 @@
     * [text](api/wrapper-array/text.md)
     * [trigger](api/wrapper-array/trigger.md)
   * [selectors](api/selectors.md)
+  * [common gotchas](common-gotchas.md)

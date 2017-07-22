@@ -5,5 +5,9 @@
   ],
   "env": {
     "mocha": true
+  },
+  "globals": {
+    "mount": true,
+    "Component": true
   }
 }

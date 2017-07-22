@@ -24,3 +24,5 @@ expect(wrapper.vm.foo).to.equal(true)
 const freshWrapper = shallow(Foo)
 expect(freshWrapper.vm.foo).to.equal(false)
 ```
+
+- **See also:** [Common Gotchas](/en/common-gotchas.md)
