@@ -44,7 +44,12 @@ function getCoreProperties (component: Component) {
     ref: component.ref,
     props: component.props,
     domProps: component.domProps,
-    class: component.class
+    class: component.class,
+    staticClass: component.staticClass,
+    staticStyle: component.staticStyle,
+    style: component.style,
+    normalizedStyle: component.normalizedStyle,
+    nativeOn: component.nativeOn
   }
 }
 function createStubFromString (templateString: string, originalComponent: Component): void {
