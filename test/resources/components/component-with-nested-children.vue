@@ -8,13 +8,13 @@
 </template>
 
 <script>
-    import ComponentWithChildComponent from './component-with-child-component.vue'
+    import ComponentWithChild from './component-with-child.vue'
     import ComponentWithLifecycleHooks from './component-with-lifecycle-hooks.vue'
 
     export default{
       name: 'component-with-nested-children',
       components: {
-        ChildComponent: ComponentWithChildComponent,
+        ChildComponent: ComponentWithChild,
         ComponentWithLifecycleHooks
       }
     }

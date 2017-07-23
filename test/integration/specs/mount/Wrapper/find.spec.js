@@ -1,6 +1,6 @@
 import { compileToFunctions } from 'vue-template-compiler'
 import mount from '~src/mount'
-import ComponentWithChildComponent from '~resources/components/component-with-child-component.vue'
+import ComponentWithChild from '~resources/components/component-with-child.vue'
 import ComponentWithoutName from '~resources/components/component-without-name.vue'
 import ComponentWithSlots from '~resources/components/component-with-slots.vue'
 import ComponentWithVFor from '~resources/components/component-with-v-for.vue'
@@ -99,7 +99,7 @@ describe('find', () => {
   })
 
   it('returns Wrapper of Vue Components matching component', () => {
-    const wrapper = mount(ComponentWithChildComponent)
+    const wrapper = mount(ComponentWithChild)
     expect(wrapper.find(Component)).to.be.instanceOf(Wrapper)
   })
 
@@ -111,13 +111,13 @@ describe('find', () => {
 
   it('returns array of VueWrappers of Vue Components matching component if component name in parent is different to filename', () => {
     // same test as above, but good to be explicit
-    const wrapper = mount(ComponentWithChildComponent)
+    const wrapper = mount(ComponentWithChild)
     const div = wrapper.find('span')
     expect(div.find(Component)).to.be.instanceOf(Wrapper)
   })
 
   it('returns Wrapper of Vue Component matching component using Wrapper as reference', () => {
-    const wrapper = mount(ComponentWithChildComponent)
+    const wrapper = mount(ComponentWithChild)
     const div = wrapper.find('span')
     expect(div.find(Component)).to.be.instanceOf(Wrapper)
   })
@@ -139,7 +139,7 @@ describe('find', () => {
 
   it('returns empty Wrapper with error if no nodes are found when passed a component', () => {
     const wrapper = mount(Component)
-    const error = wrapper.find(ComponentWithChildComponent)
+    const error = wrapper.find(ComponentWithChild)
     expect(error).to.be.instanceOf(ErrorWrapper)
     expect(error.selector).to.equal('Component')
   })

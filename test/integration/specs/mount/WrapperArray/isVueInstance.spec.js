@@ -1,11 +1,11 @@
 import mount from '~src/mount'
 import { compileToFunctions } from 'vue-template-compiler'
-import ComponentWithChildComponent from '~resources/components/component-with-child-component.vue'
+import ComponentWithChild from '~resources/components/component-with-child.vue'
 import Component from '~resources/components/component.vue'
 
 describe('isVueInstance', () => {
   it('returns true if wrapper is Vue instance', () => {
-    const wrapper = mount(ComponentWithChildComponent)
+    const wrapper = mount(ComponentWithChild)
     expect(wrapper.findAll(Component).isVueInstance()).to.equal(true)
   })
 

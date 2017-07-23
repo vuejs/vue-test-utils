@@ -1,6 +1,6 @@
 import { compileToFunctions } from 'vue-template-compiler'
 import mount from '~src/mount'
-import ComponentWithChildComponent from '~resources/components/component-with-child-component.vue'
+import ComponentWithChild from '~resources/components/component-with-child.vue'
 import ComponentWithoutName from '~resources/components/component-without-name.vue'
 import ComponentWithSlots from '~resources/components/component-with-slots.vue'
 import ComponentWithVFor from '~resources/components/component-with-v-for.vue'
@@ -117,7 +117,7 @@ describe('findAll', () => {
   })
 
   it('returns an array of VueWrappers of Vue Components matching component', () => {
-    const wrapper = mount(ComponentWithChildComponent)
+    const wrapper = mount(ComponentWithChild)
     const componentArr = wrapper.findAll(Component)
     expect(componentArr).to.be.instanceOf(WrapperArray)
     expect(componentArr.length).to.equal(1)
@@ -132,7 +132,7 @@ describe('findAll', () => {
   })
 
   it('returns array of VueWrappers of Vue Components matching component if component name in parent is different to filename', () => {
-    const wrapper = mount(ComponentWithChildComponent)
+    const wrapper = mount(ComponentWithChild)
     const div = wrapper.findAll('span').at(0)
     const componentArr = div.findAll(Component)
     expect(componentArr).to.be.instanceOf(WrapperArray)
@@ -141,7 +141,7 @@ describe('findAll', () => {
 
   it('returns an array of VueWrappers of Vue Components matching component using Wrapper as reference', () => {
     // same test as above, but good to be explicit
-    const wrapper = mount(ComponentWithChildComponent)
+    const wrapper = mount(ComponentWithChild)
     const div = wrapper.findAll('span').at(0)
     const componentArr = div.findAll(Component)
     expect(componentArr).to.be.instanceOf(WrapperArray)

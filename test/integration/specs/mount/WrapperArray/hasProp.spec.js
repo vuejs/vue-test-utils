@@ -1,11 +1,11 @@
 import { compileToFunctions } from 'vue-template-compiler'
 import mount from '~src/mount'
-import ComponentWithChildComponents from '~resources/components/component-with-child-component.vue'
+import ComponentWithChild from '~resources/components/component-with-child.vue'
 import Component from '~resources/components/component.vue'
 
 describe('hasProp', () => {
   it('returns false if every item does not have prop', () => {
-    const wrapper = mount(ComponentWithChildComponents)
+    const wrapper = mount(ComponentWithChild)
     expect(wrapper.findAll(Component).hasProp('no-prop', 'value')).to.equal(false)
   })
 
@@ -23,7 +23,7 @@ describe('hasProp', () => {
   })
 
   it('throws error if prop is not a string', () => {
-    const wrapper = mount(ComponentWithChildComponents)
+    const wrapper = mount(ComponentWithChild)
     const invalidSelectors = [
       undefined, null, NaN, 0, 2, true, false, () => {}, {}, []
     ]

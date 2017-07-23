@@ -1,6 +1,6 @@
 import { compileToFunctions } from 'vue-template-compiler'
 import mount from '~src/mount'
-import ComponentWithChildComponent from '~resources/components/component-with-child-component.vue'
+import ComponentWithChild from '~resources/components/component-with-child.vue'
 import Component from '~resources/components/component.vue'
 
 describe('contains', () => {
@@ -11,7 +11,7 @@ describe('contains', () => {
   })
 
   it('returns true if wrapper contains Vue component', () => {
-    const wrapper = mount(ComponentWithChildComponent)
+    const wrapper = mount(ComponentWithChild)
     expect(wrapper.contains(Component)).to.equal(true)
   })
 

@@ -1,6 +1,6 @@
 import { compileToFunctions } from 'vue-template-compiler'
 import mount from '~src/mount'
-import ComponentWithChildComponent from '~resources/components/component-with-child-component.vue'
+import ComponentWithChild from '~resources/components/component-with-child.vue'
 import Component from '~resources/components/component.vue'
 
 describe('is', () => {
@@ -11,13 +11,13 @@ describe('is', () => {
   })
 
   it('returns true if each item matches Vue Component selector', () => {
-    const wrapper = mount(ComponentWithChildComponent)
+    const wrapper = mount(ComponentWithChild)
     const component = wrapper.findAll(Component).at(0)
     expect(component.is(Component)).to.equal(true)
   })
 
   it('returns false if each item is not a Vue Component', () => {
-    const wrapper = mount(ComponentWithChildComponent)
+    const wrapper = mount(ComponentWithChild)
     const input = wrapper.findAll('span').at(0)
     expect(input.is(Component)).to.equal(false)
   })

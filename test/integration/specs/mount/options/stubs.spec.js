@@ -1,11 +1,11 @@
 import mount from '~src/mount'
-import ComponentWithChildComponent from '~resources/components/component-with-child-component.vue'
+import ComponentWithChild from '~resources/components/component-with-child.vue'
 import ComponentWithNestedChildren from '~resources/components/component-with-nested-children.vue'
 import Component from '~resources/components/component.vue'
 
 describe('mount.stub', () => {
   it('replaces component with template string ', () => {
-    const wrapper = mount(ComponentWithChildComponent, {
+    const wrapper = mount(ComponentWithChild, {
       stubs: {
         ChildComponent: '<div class="stub"></div>'
       }
@@ -16,7 +16,7 @@ describe('mount.stub', () => {
 
   it('replaces component with a component', () => {
     const info = sinon.stub(console, 'info')
-    const wrapper = mount(ComponentWithChildComponent, {
+    const wrapper = mount(ComponentWithChild, {
       stubs: {
         ChildComponent: {
           render: h => h('div'),
@@ -107,7 +107,7 @@ describe('mount.stub', () => {
     const error = '[vue-test-utils]: options.stub values must be passed a string or component'
     const invalidValues = [1, null, [], {}, NaN]
     invalidValues.forEach(invalidValue => {
-      const fn = () => mount(ComponentWithChildComponent, {
+      const fn = () => mount(ComponentWithChild, {
         stubs: {
           ChildComponent: invalidValue
         }})
