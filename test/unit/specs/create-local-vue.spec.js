@@ -39,8 +39,6 @@ describe('createLocalVue', () => {
 
   it('installs Router after a previous installed', () => {
     const localVue = createLocalVue()
-    VueRouter.installed = false
-    VueRouter.install.installed = false
     localVue.use(VueRouter)
     const routes = [
           { path: '/foo', component: Component }
