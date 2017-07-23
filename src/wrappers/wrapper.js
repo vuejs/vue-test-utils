@@ -30,7 +30,7 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Checks if wrapper contains provided selector.
    */
-  contains (selector: string | Component) {
+  contains (selector: Selector) {
     if (!isValidSelector(selector)) {
       throwError('wrapper.contains() must be passed a valid CSS selector or a Vue constructor')
     }
@@ -161,7 +161,7 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Finds node in tree of the current wrapper that matches the provided selector.
    */
-  findAll (selector: string | Component): WrapperArray {
+  findAll (selector: Selector): WrapperArray {
     if (!isValidSelector(selector)) {
       throwError('wrapper.findAll() must be passed a valid CSS selector or a Vue constructor')
     }
@@ -197,7 +197,7 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Checks if node matches selector
    */
-  is (selector: string | Component): boolean {
+  is (selector: Selector): boolean {
     if (!isValidSelector(selector)) {
       throwError('wrapper.is() must be passed a valid CSS selector or a Vue constructor')
     }

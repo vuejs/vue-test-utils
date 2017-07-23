@@ -20,7 +20,7 @@ export default class WrapperArray implements BaseWrapper {
     return this.wrappers[index]
   }
 
-  contains (selector: string | Component): boolean {
+  contains (selector: Selector): boolean {
     this.throwErrorIfWrappersIsEmpty('contains')
 
     return this.wrappers.every(wrapper => wrapper.contains(selector))
@@ -72,7 +72,7 @@ export default class WrapperArray implements BaseWrapper {
     throwError('html must be called on a single wrapper, use at(i) to access a wrapper')
   }
 
-  is (selector: string | Component): boolean {
+  is (selector: Selector): boolean {
     this.throwErrorIfWrappersIsEmpty('is')
 
     return this.wrappers.every(wrapper => wrapper.is(selector))
