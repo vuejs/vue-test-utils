@@ -91,7 +91,7 @@ That was easy as well, so let's step up the game.
 
 ### Component data
 
-Changing the data of the component can be quite useful for efficient testing. The method `setData({...})` is ment for changing the data and `data()` returns the current data object of the component.
+Changing the data of the component can be quite useful for efficient testing. The method `setData({...})` is meant for changing the data on the instance. You can interact with the instance directly using the `vm` key. As Vue automatically sets all data values and computed properties as getters on the root instance, we can access those values straight away.
 It may be useful to change the data accordingly for a whole group of specs, so `beforeEach()` could be a good place for that:
 
 ```js
@@ -102,18 +102,10 @@ describe('Data interactions', () => {
   })
 
   it('should be set to 10', () => {
-    expect(wrapper.data().count).to.equal(10)
+    expect(wrapper.vm.count).to.equal(10)
   })
 })
 
-```
-
-At this point you should also know that you can interact with the vue instance itself as well using the `vm` key.
-
-```js
-  wrapper.vm.$data
-  // is equal to
-  wrapper.data()
 ```
 
 ### Interactions
@@ -125,10 +117,10 @@ This section will introduce two important methods of the wrapper object.
 
 describe('Trigger an event', () => {
   it('button should increment the count', () => {
-    expect(wrapper.data().count).to.equal(0)
+    expect(wrapper.vm.count).to.equal(0)
     const button = wrapper.find('button')
     button.trigger('click')
-    expect(wrapper.data().count).to.equal(1)
+    expect(wrapper.vm.count).to.equal(1)
   })
 })
 
