@@ -91,7 +91,7 @@ That was easy as well, so let's step up the game.
 
 ### Component data
 
-Changing the data of the component can be quite useful for efficient testing. The method `setData({...})` is ment for changing the data on the instance. You can interact with the instance directly using the `vm` key. As Vue automatically sets all data values and computed properties as getters on the root instance, we can access those values straight away.
+Changing the data of the component can be quite useful for efficient testing. The method `setData({...})` is meant for changing the data on the instance. You can interact with the instance directly using the `vm` key. As Vue automatically sets all data values and computed properties as getters on the root instance, we can access those values straight away.
 It may be useful to change the data accordingly for a whole group of specs, so `beforeEach()` could be a good place for that:
 
 ```js
