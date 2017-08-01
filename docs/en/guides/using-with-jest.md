@@ -14,7 +14,7 @@ will install jest and makes it available to be executed through yarn or a packag
 // package.json
 {
   "scripts": {
-    "test": "yarn"
+    "test": "jest"
   }
 }
 ```
