@@ -52,13 +52,13 @@ That's pretty much everything necessary to do before writing the first specs.
 
 ### Where should my tests live
 
-By default, jest will pick up all files that have a `.spec.js` or `.test.js` extension. If this is not fitting your needs, it's possible [to chang the testRegex](https://facebook.github.io/jest/docs/en/configuration.html#testregex-string) in the config section in the `package.json` file.
+By default, jest will pick up all files that have a `.spec.js` or `.test.js` extension. If this does not fit your needs, it's possible [to chang the testRegex](https://facebook.github.io/jest/docs/en/configuration.html#testregex-string) in the config section in the `package.json` file.
 
 Jest recommends to create a `__spec__` folder, but feel free to do as you like. Just know ahead of time, that when using the [snapshot](https://facebook.github.io/jest/docs/en/snapshot-testing.html#content) feature, snapshots will get stored in a `__snapshot__` folder.
 
 ### Example Spec
 
-If you are familiar with Jasmin, or similar test libraries you should feel at home in Jest right away. Many useful assertions are in place, so
+If you are familiar with Jasmine, or similar test libraries you should feel at home in Jest right away. Many useful assertions are in place, so
 enjoy writing specs.
 
 ```js
@@ -66,7 +66,7 @@ import { mount } from 'vue-test-utils'
 import Component from './component'
 
 describe('Component', () => {
-  test('it's a Vue instance', () => {
+  test('is a Vue instance', () => {
     const wrapper = mount(Component)
     expect(wrapper.isVueInstance()).toBeTruthy()
   })
