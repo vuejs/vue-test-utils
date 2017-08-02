@@ -114,6 +114,12 @@ export default class WrapperArray implements BaseWrapper {
     this.wrappers.forEach(wrapper => wrapper.setData(data))
   }
 
+  setMethods (props: Object): void {
+    this.throwErrorIfWrappersIsEmpty('setMethods')
+
+    this.wrappers.forEach(wrapper => wrapper.setMethods(props))
+  }
+
   setProps (props: Object): void {
     this.throwErrorIfWrappersIsEmpty('setProps')
 

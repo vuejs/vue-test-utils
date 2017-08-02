@@ -44,6 +44,7 @@ interface BaseWrapper {
 
   update (): void
   setData (data: object): void
+  setMethods (data: object): void
   setProps (props: object): void
   trigger (eventName: string, options?: object): void
 }

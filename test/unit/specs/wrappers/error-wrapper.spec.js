@@ -106,6 +106,13 @@ describe('ErrorWrapper', () => {
     expect(() => error.setData()).to.throw().with.property('message', message)
   })
 
+  it('setMethods throws error when called', () => {
+    const selector = 'div'
+    const message = `[vue-test-utils]: find did not return ${selector}, cannot call setMethods() on empty Wrapper`
+    const error = new ErrorWrapper(selector)
+    expect(() => error.setMethods()).to.throw().with.property('message', message)
+  })
+
   it('setProps throws error when called', () => {
     const selector = 'div'
     const message = `[vue-test-utils]: find did not return ${selector}, cannot call setProps() on empty Wrapper`

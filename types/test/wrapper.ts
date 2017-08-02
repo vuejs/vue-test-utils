@@ -23,6 +23,7 @@ bool = wrapper.isVueInstance()
 
 wrapper.update()
 wrapper.setData({ foo: 'bar' })
+wrapper.setMethods({checked: true})
 wrapper.setProps({ checked: true })
 wrapper.trigger('mousedown.enter', {
   preventDefault: true

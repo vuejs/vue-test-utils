@@ -255,6 +255,22 @@ export default class Wrapper implements BaseWrapper {
   }
 
   /**
+   * Sets vm data
+   */
+  setMethods (methods: Object) {
+    if (!this.isVueComponent) {
+      throwError('wrapper.setMethods() can only be called on a Vue instance')
+    }
+    Object.keys(methods).forEach((key) => {
+      // $FlowIgnore : Problem with possibly null this.vm
+      this.vm[key] = methods[key]
+      // $FlowIgnore : Problem with possibly null this.vm
+      this.vm.$options.methods[key] = methods[key]
+    })
+    this.update()
+  }
+
+  /**
    * Sets vm props
    */
   setProps (data: Object) {

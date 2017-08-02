@@ -72,6 +72,10 @@ export default class ErrorWrapper implements BaseWrapper {
     throwError(`find did not return ${this.selector}, cannot call setData() on empty Wrapper`)
   }
 
+  setMethods (): void {
+    throwError(`find did not return ${this.selector}, cannot call setMethods() on empty Wrapper`)
+  }
+
   setProps (): void {
     throwError(`find did not return ${this.selector}, cannot call setProps() on empty Wrapper`)
   }
