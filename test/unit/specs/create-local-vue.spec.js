@@ -51,13 +51,4 @@ describe('createLocalVue', () => {
     const freshWrapper = mount(Component)
     expect(typeof freshWrapper.vm.$route).to.equal('undefined')
   })
-
-  it('sets installed to false inside Vue.use', () => {
-    const localVue = createLocalVue()
-    localVue.use(Vuex)
-    expect(Vuex.installed).to.equal(true)
-    localVue.use(Vuex)
-    const freshWrapper = mount(Component)
-    expect(typeof freshWrapper.vm.$route).to.equal('undefined')
-  })
 })
