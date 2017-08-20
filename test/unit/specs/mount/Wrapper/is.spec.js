@@ -28,6 +28,11 @@ describe('is', () => {
     expect(component.is(Component)).to.equal(true)
   })
 
+  it('returns true if root node matches Component', () => {
+    const wrapper = mount(Component)
+    expect(wrapper.is(Component)).to.equal(true)
+  })
+
   it('returns false if root node is not a Vue Component', () => {
     const wrapper = mount(ComponentWithChild)
     const input = wrapper.findAll('span').at(0)

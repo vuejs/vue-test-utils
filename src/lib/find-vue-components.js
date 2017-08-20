@@ -12,7 +12,8 @@ function findAllVueComponents (vm: Component, components: Array<Component> = [])
 
 export function vmCtorMatchesName (vm: Component, name: string): boolean {
   return (vm.$vnode && vm.$vnode.componentOptions && vm.$vnode.componentOptions.Ctor.options.name === name) ||
-        (vm._vnode && vm._vnode.functionalOptions && vm._vnode.functionalOptions.name === name)
+        (vm._vnode && vm._vnode.functionalOptions && vm._vnode.functionalOptions.name === name) ||
+        vm.$options && vm.$options.name === name
 }
 
 export default function findVueComponents (vm: Component, componentName: string): Array<Component> {
