@@ -2,6 +2,16 @@ import mount from '~src/mount'
 import ComponentWithEvents from '~resources/components/component-with-events.vue'
 
 describe('trigger', () => {
+  let info
+
+  beforeEach(() => {
+    info = sinon.stub(console, 'info')
+  })
+
+  afterEach(() => {
+    info.restore()
+  })
+
   it('causes click handler to fire when wrapper.trigger("click") is called on a Component', () => {
     const clickHandler = sinon.stub()
     const wrapper = mount(ComponentWithEvents, {
@@ -55,7 +65,6 @@ describe('trigger', () => {
   })
 
   it('prevents default on event when pass preventDefault as true', () => {
-    const info = sinon.stub(console, 'info')
     const wrapper = mount(ComponentWithEvents)
     const button = wrapper.find('.left-click')
     button.trigger('mousedown', {
@@ -63,7 +72,6 @@ describe('trigger', () => {
       button: 0
     })
     expect(info.calledWith(true)).to.equal(true)
-    info.restore()
   })
 
   it('throws an error if type is not a string', () => {

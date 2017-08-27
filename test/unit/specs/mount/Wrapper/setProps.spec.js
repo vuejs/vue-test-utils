@@ -4,6 +4,16 @@ import ComponentWithProps from '~resources/components/component-with-props.vue'
 import ComponentWithWatch from '~resources/components/component-with-watch.vue'
 
 describe('setProps', () => {
+  let info
+
+  beforeEach(() => {
+    info = sinon.stub(console, 'info')
+  })
+
+  afterEach(() => {
+    info.restore()
+  })
+
   it('sets component props and updates DOM when called on Vue instance', () => {
     const prop1 = 'prop 1'
     const prop2 = 'prop 2'
@@ -31,12 +41,10 @@ describe('setProps', () => {
   })
 
   it('runs watch function after all props are updated', () => {
-    const info = sinon.stub(console, 'info')
     const wrapper = mount(ComponentWithWatch)
     const prop1 = 'testest'
     wrapper.setProps({ prop2: 'newProp', prop1 })
     expect(info.args[0][0]).to.equal(prop1)
-    info.restore()
   })
 
   it('throws an error if node is not a Vue instance', () => {

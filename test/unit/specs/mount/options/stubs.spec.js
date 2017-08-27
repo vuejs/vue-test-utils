@@ -4,6 +4,19 @@ import ComponentWithNestedChildren from '~resources/components/component-with-ne
 import Component from '~resources/components/component.vue'
 
 describe('mount.stub', () => {
+  let info
+  let warn
+
+  beforeEach(() => {
+    info = sinon.stub(console, 'info')
+    warn = sinon.stub(console, 'error')
+  })
+
+  afterEach(() => {
+    info.restore()
+    warn.restore()
+  })
+
   it('replaces component with template string ', () => {
     const wrapper = mount(ComponentWithChild, {
       stubs: {
@@ -15,7 +28,6 @@ describe('mount.stub', () => {
   })
 
   it('replaces component with a component', () => {
-    const info = sinon.stub(console, 'info')
     const wrapper = mount(ComponentWithChild, {
       stubs: {
         ChildComponent: {
@@ -28,7 +40,6 @@ describe('mount.stub', () => {
     })
     expect(wrapper.findAll(Component).length).to.equal(1)
     expect(info.calledWith('stubbed')).to.equal(true)
-    info.restore()
   })
 
   it('does not error if component to stub contains no components', () => {
@@ -63,7 +74,6 @@ describe('mount.stub', () => {
   })
 
   it('stubs components with dummy when passed as an array', () => {
-    const warn = sinon.stub(console, 'error')
     const ComponentWithGlobalComponent = {
       render: h => h('registered-component')
     }
@@ -72,11 +82,9 @@ describe('mount.stub', () => {
     })
 
     expect(warn.called).to.equal(false)
-    warn.restore()
   })
 
   it('stubs components with dummy when passed a boolean', () => {
-    const warn = sinon.stub(console, 'error')
     const ComponentWithGlobalComponent = {
       render: h => h('registered-component')
     }
@@ -86,7 +94,6 @@ describe('mount.stub', () => {
       }
     })
     expect(warn.called).to.equal(false)
-    warn.restore()
   })
 
   it('stubs components with dummy when passed as an array', () => {

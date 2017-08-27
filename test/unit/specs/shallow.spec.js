@@ -9,6 +9,16 @@ import ComponentWithNestedChildren from '~resources/components/component-with-ne
 import ComponentWithLifecycleHooks from '~resources/components/component-with-lifecycle-hooks.vue'
 
 describe('shallow', () => {
+  let info
+
+  beforeEach(() => {
+    info = sinon.stub(console, 'info')
+  })
+
+  afterEach(() => {
+    info.restore()
+  })
+
   it('returns new VueWrapper of Vue localVue if no options are passed', () => {
     const compiled = compileToFunctions('<div><input /></div>')
     const wrapper = shallow(compiled)
@@ -39,7 +49,6 @@ describe('shallow', () => {
 
   it('stubs globally registered components when options.localVue is provided', () => {
     const localVue = Vue.extend()
-    const info = sinon.stub(console, 'info')
     localVue.component('registered-component', ComponentWithLifecycleHooks)
     const Component = {
       render: h => h('registered-component')
@@ -48,11 +57,9 @@ describe('shallow', () => {
     mount(Component, { localVue })
 
     expect(info.callCount).to.equal(4)
-    info.restore()
   })
 
   it('stubs globally registered components', () => {
-    const info = sinon.stub(console, 'info')
     Vue.component('registered-component', ComponentWithLifecycleHooks)
     const Component = {
       render: h => h('registered-component')
@@ -61,14 +68,10 @@ describe('shallow', () => {
     mount(Component)
 
     expect(info.callCount).to.equal(4)
-    info.restore()
   })
 
   it('does not call stubbed children lifecycle hooks', () => {
-    const info = sinon.stub(console, 'info')
     shallow(ComponentWithNestedChildren)
     expect(info.called).to.equal(false)
-    info.restore()
   })
 })
-
