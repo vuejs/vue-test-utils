@@ -19,7 +19,6 @@ module.exports = {
       }
     ]
   },
-  target: !browser ? 'node' : undefined,
   externals: !browser ? [nodeExternals()] : undefined,
   resolve: {
     alias: {
