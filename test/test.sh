@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 test_version_number(){
   rm -rf node_modules
   echo "testing vue@$1"
