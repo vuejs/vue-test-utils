@@ -1,6 +1,6 @@
 machine:
   node:
-    version: 6
+    version: 8.1.1
 test:
   override:
     - npm run test:compatibility
