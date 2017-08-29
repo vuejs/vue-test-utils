@@ -111,7 +111,10 @@ export function stubComponents (component: Component, stubs: Object): void {
           }
         }
       }
-      Vue.config.ignoredElements.push(stub)
+      // ignoreElements does not exist in Vue 2.0.x
+      if (Vue.config.ignoredElements) {
+        Vue.config.ignoredElements.push(stub)
+      }
     })
   }
 }
@@ -122,7 +125,10 @@ export function stubAllComponents (component: Component): void {
     delete component.components[c]._Ctor
     component.components[c] = createBlankStub(component.components[c])
 
-    Vue.config.ignoredElements.push(c)
+    // ignoreElements does not exist in Vue 2.0.x
+    if (Vue.config.ignoredElements) {
+      Vue.config.ignoredElements.push(c)
+    }
     stubLifeCycleEvents(component.components[c])
   })
 }

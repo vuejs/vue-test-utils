@@ -10,7 +10,7 @@ test_version_number(){
   npm install vue-template-compiler@$1
   npm test
 }
-
+test_version_number "2.0.8"
 test_version_number "2.1.10"
 test_version_number "2.2.6"
 test_version_number "2.3.4"
