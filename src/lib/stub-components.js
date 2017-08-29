@@ -88,7 +88,7 @@ export function stubComponents (component: Component, stubs: Object): void {
         return
       }
       if (component.components[stub]) {
-              // Remove cached constructor
+        // Remove cached constructor
         delete component.components[stub]._Ctor
         if (typeof stubs[stub] === 'string') {
           component.components[stub] = createStubFromString(stubs[stub], component.components[stub])
@@ -111,18 +111,24 @@ export function stubComponents (component: Component, stubs: Object): void {
           }
         }
       }
-      Vue.config.ignoredElements.push(stub)
+      // ignoreElements does not exist in Vue 2.0.x
+      if (Vue.config.ignoredElements) {
+        Vue.config.ignoredElements.push(stub)
+      }
     })
   }
 }
 
 export function stubAllComponents (component: Component): void {
   Object.keys(component.components).forEach(c => {
-        // Remove cached constructor
+    // Remove cached constructor
     delete component.components[c]._Ctor
     component.components[c] = createBlankStub(component.components[c])
 
-    Vue.config.ignoredElements.push(c)
+    // ignoreElements does not exist in Vue 2.0.x
+    if (Vue.config.ignoredElements) {
+      Vue.config.ignoredElements.push(c)
+    }
     stubLifeCycleEvents(component.components[c])
   })
 }

@@ -111,7 +111,7 @@ export default class Wrapper implements BaseWrapper {
       throwError('wrapper.hasClass() must be passed value as string')
     }
 
-      /* istanbul ignore next */
+    /* istanbul ignore next */
     if (navigator.userAgent.includes && (navigator.userAgent.includes('node.js') || navigator.userAgent.includes('jsdom'))) {
       console.warn('wrapper.hasStyle is not fully supported when running jsdom - only inline styles are supported') // eslint-disable-line no-console
     }
@@ -294,7 +294,7 @@ export default class Wrapper implements BaseWrapper {
     })
 
     Object.keys(data).forEach((key) => {
-        // $FlowIgnore : Problem with possibly null this.vm
+      // $FlowIgnore : Problem with possibly null this.vm
       this.vm._watchers.forEach((watcher) => {
         if (watcher.expression === key) { watcher.run() }
       })

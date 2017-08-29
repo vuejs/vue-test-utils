@@ -18,7 +18,7 @@ rollup({
     format: 'cjs'
   })
 })
-    .then(() => console.log('Build successful'))
-.catch(err => {
-  console.error(err)
-})
+  .then(() => console.log('Build successful'))
+  .catch(err => {
+    console.error(err)
+  })

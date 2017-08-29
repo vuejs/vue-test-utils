@@ -22,7 +22,6 @@ module.exports = {
   externals: !browser ? [nodeExternals()] : undefined,
   resolve: {
     alias: {
-      'vue$': 'vue/dist/vue.esm.js',
       '~src': `${projectRoot}/src`,
       '~resources': `${projectRoot}/test/resources`
     }
