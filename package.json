@@ -18,7 +18,7 @@
     "lint:fix": "npm run lint -- --fix",
     "setup": "node build/install-hooks.js",
     "test": "npm run lint && npm run lint:docs && npm run flow && npm run test:types && npm run test:unit && npm run test:unit:karma",
-    "test:unit": "cross-env BABEL_ENV=test mocha-webpack --webpack-config build/webpack.test.config.js test/unit/specs --recursive --require test/unit/setup/mocha.setup.js",
+    "test:unit": "mocha-webpack --webpack-config build/webpack.test.config.js test/unit/specs --recursive --require test/unit/setup/mocha.setup.js",
     "test:unit:karma": "cross-env BABEL_ENV=test TARGET=browser karma start test/unit/setup/karma.conf.js --single-run",
     "test:types": "tsc -p types",
     "release": "bash build/release.sh",
@@ -65,8 +65,8 @@
     "karma-sourcemap-loader": "^0.3.7",
     "karma-spec-reporter": "^0.0.31",
     "karma-webpack": "^2.0.3",
-    "mocha": "^3.4.2",
-    "mocha-webpack": "0.7.0",
+    "mocha": "^3.5.0",
+    "mocha-webpack": "^1.0.0-rc.1",
     "rollup": "^0.43.0",
     "rollup-plugin-buble": "^0.15.0",
     "rollup-plugin-flow-no-whitespace": "^1.0.0",
@@ -79,7 +79,7 @@
     "vue-router": "^2.6.0",
     "vue-template-compiler": "^2.4.2",
     "vuex": "^2.3.1",
-    "webpack": "^2.6.1",
+    "webpack": "^2.7.0",
     "webpack-node-externals": "^1.6.0"
   },
   "peerDependencies": {

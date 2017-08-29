@@ -91,6 +91,11 @@ export default class Wrapper implements BaseWrapper {
       throwError('wrapper.hasProp() must be passed prop as a string')
     }
 
+    // $props object does not exist in Vue 2.1.x, so use $options.propsData instead
+    if (this.vm && this.vm.$options && this.vm.$options.propsData && this.vm.$options.propsData[prop] === value) {
+      return true
+    }
+
     return !!this.vm && !!this.vm.$props && this.vm.$props[prop] === value
   }
 
@@ -280,8 +285,14 @@ export default class Wrapper implements BaseWrapper {
 
     Object.keys(data).forEach((key) => {
       // $FlowIgnore : Problem with possibly null this.vm
-      this.vm._props[key] = data[key]
+      if (this.vm._props) {
+        this.vm._props[key] = data[key]
+      } else {
+        // $FlowIgnore : Problem with possibly null this.vm
+        this.vm[key] = data[key]
+      }
     })
+
     Object.keys(data).forEach((key) => {
         // $FlowIgnore : Problem with possibly null this.vm
       this.vm._watchers.forEach((watcher) => {

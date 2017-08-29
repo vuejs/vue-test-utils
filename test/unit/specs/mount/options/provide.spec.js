@@ -1,8 +1,16 @@
+import Vue from 'vue'
 import mount from '~src/mount'
 import ComponentWithInject from '~resources/components/component-with-inject.vue'
 
+function injectNoSupported () {
+  const version = Number(`${Vue.version.split('.')[0]}.${Vue.version.split('.')[0]}`)
+  return version <= 2.2
+}
+
 describe('mount.provide', () => {
   it('provides objects which is injected by mounted component', () => {
+    if (injectNoSupported()) return
+
     const wrapper = mount(ComponentWithInject, {
       provide: { fromMount: 'objectValue' }
     })
@@ -11,6 +19,8 @@ describe('mount.provide', () => {
   })
 
   it('provides function which is injected by mounted component', () => {
+    if (injectNoSupported()) return
+
     const wrapper = mount(ComponentWithInject, {
       provide () {
         return {
@@ -23,6 +33,8 @@ describe('mount.provide', () => {
   })
 
   it('supports beforeCreate in component', () => {
+    if (injectNoSupported()) return
+
     const wrapper = mount(ComponentWithInject, {
       provide: { fromMount: '_' }
     })

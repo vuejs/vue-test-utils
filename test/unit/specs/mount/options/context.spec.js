@@ -1,7 +1,18 @@
+import Vue from 'vue'
 import mount from '~src/mount'
+
+function cannotIdentifyComponent () {
+  const version = Number(`${Vue.version.split('.')[0]}.${Vue.version.split('.')[0]}`)
+  return version <= 2.2
+}
 
 describe('context', () => {
   it('mounts functional component when passed context object', () => {
+    if (cannotIdentifyComponent()) {
+      console.log('WARN: no current way to test functional component is component in v2.1.x')
+      return
+    }
+
     const Component = {
       functional: true,
       render (h, { props }) {
@@ -10,7 +21,7 @@ describe('context', () => {
       name: 'common'
     }
     const context = {
-      data: { hellpo: true },
+      data: { hello: true },
       props: { show: true }
     }
 
