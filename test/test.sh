@@ -4,7 +4,7 @@ set -e
 
 test_version_number(){
   rm -rf node_modules
-  echo "testing Vue Test Utils with Vue $1"
+  echo "running unit tests with Vue $1"
   npm install
   npm install vue@$1
   npm install vue-template-compiler@$1
