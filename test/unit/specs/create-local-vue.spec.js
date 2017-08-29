@@ -26,7 +26,7 @@ describe('createLocalVue', () => {
     const localVue = createLocalVue()
     localVue.use(VueRouter)
     const routes = [
-            { path: '/foo', component: Component }
+      { path: '/foo', component: Component }
     ]
     const router = new VueRouter({
       routes
@@ -41,7 +41,7 @@ describe('createLocalVue', () => {
     const localVue = createLocalVue()
     localVue.use(VueRouter)
     const routes = [
-          { path: '/foo', component: Component }
+      { path: '/foo', component: Component }
     ]
     const router = new VueRouter({
       routes

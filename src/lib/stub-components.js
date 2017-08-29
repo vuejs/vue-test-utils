@@ -88,7 +88,7 @@ export function stubComponents (component: Component, stubs: Object): void {
         return
       }
       if (component.components[stub]) {
-              // Remove cached constructor
+        // Remove cached constructor
         delete component.components[stub]._Ctor
         if (typeof stubs[stub] === 'string') {
           component.components[stub] = createStubFromString(stubs[stub], component.components[stub])
@@ -118,7 +118,7 @@ export function stubComponents (component: Component, stubs: Object): void {
 
 export function stubAllComponents (component: Component): void {
   Object.keys(component.components).forEach(c => {
-        // Remove cached constructor
+    // Remove cached constructor
     delete component.components[c]._Ctor
     component.components[c] = createBlankStub(component.components[c])
 
