@@ -36,7 +36,7 @@
   },
   "homepage": "https://github.com/vuejs/vue-test-utils#readme",
   "devDependencies": {
-    "babel-cli": "^6.24.1",
+    "babel-core": "^6.26.0",
     "babel-eslint": "^7.2.3",
     "babel-loader": "^7.0.0",
     "babel-plugin-istanbul": "^4.1.4",
