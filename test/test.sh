@@ -5,11 +5,11 @@ set -e
 test_version_number(){
   rm -rf node_modules
   echo "running unit tests with Vue $1"
-  npm install
-  npm install vue@$1
-  npm install vue-template-compiler@$1
-  npm test
+  yarn install
+  yarn add vue@$1 vue-template-compiler@$1
+  yarn test
 }
+
 test_version_number "2.0.8"
 test_version_number "2.1.10"
 test_version_number "2.2.6"
