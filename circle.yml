@@ -1,6 +1,9 @@
 machine:
   node:
-    version: 8.1.1
+    version: 8.2.0
+dependencies:
+  pre:
+    - npm install -g npm@5.2.0
 test:
   override:
     - npm run test:compatibility
