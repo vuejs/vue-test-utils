@@ -1,7 +1,7 @@
 // @flow
 
 import Vue from 'vue'
-import { cloneDeep } from 'lodash'
+import cloneDeep from 'lodash/cloneDeep'
 
 function createLocalVue (): Component {
   const instance = Vue.extend()

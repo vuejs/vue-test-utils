@@ -4,7 +4,7 @@ import Vue from 'vue'
 import VueWrapper from './wrappers/vue-wrapper'
 import createInstance from './lib/create-instance'
 import { throwError } from './lib/util'
-import { cloneDeep } from 'lodash'
+import cloneDeep from 'lodash/cloneDeep'
 import createElement from './lib/create-element'
 import './lib/matches-polyfill'
 

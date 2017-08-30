@@ -1,7 +1,7 @@
 // @flow
 
 import Vue from 'vue'
-import { cloneDeep } from 'lodash'
+import cloneDeep from 'lodash/cloneDeep'
 import {
   stubAllComponents,
   stubGlobalComponents
@@ -21,4 +21,3 @@ export default function shallow (component: Component, options: Options = {}): V
 
   return mount(clonedComponent, options)
 }
-

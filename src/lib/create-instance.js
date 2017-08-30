@@ -6,7 +6,7 @@ import createInterceptPlugin from './create-intercept-plugin'
 import addProvide from './add-provide'
 import { stubComponents } from './stub-components'
 import { throwError } from './util'
-import { cloneDeep } from 'lodash'
+import cloneDeep from 'lodash/cloneDeep'
 
 export default function createConstructor (component: Component, options: Options): Component {
   const vue = options.localVue || Vue
