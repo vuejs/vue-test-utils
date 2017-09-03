@@ -5,5 +5,6 @@ declare type Options = { // eslint-disable-line no-undef
     localVue?: Component,
     stubs?: Object,
     context?: Object,
-    clone?: boolean
+    clone?: boolean,
+    attrs?: Object
 }

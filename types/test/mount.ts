@@ -39,6 +39,9 @@ mount<ClassComponent>(ClassComponent, {
     bar: functionalOptions,
     baz: ClassComponent,
     qux: `<div>Test</div>`
+  },
+  attrs: {
+    attribute: 'attr'
   }
 })
 

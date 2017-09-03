@@ -86,7 +86,8 @@ interface MountOptions<V extends Vue> extends ComponentOptions<V> {
   localVue?: typeof Vue
   intercept?: object
   slots?: Slots
-  stubs?: Stubs
+  stubs?: Stubs,
+  attrs?: object
 }
 
 type ShallowOptions<V extends Vue> = MountOptions<V>

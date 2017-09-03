@@ -8,6 +8,7 @@ Vue options are passed to the component when a new instance is created. , e.g. `
 
 - `{Object} options`
   - `{boolean} attachToDocument`
+  - `{Object} attrs`
   - `{Object} children`
   - `{boolean} clone`
   - `{Object} context`
@@ -22,6 +23,8 @@ Vue options are passed to the component when a new instance is created. , e.g. `
 `options` (`Object`): a Vue options object. Vue options are passed to the component when a new instance is created. , e.g. `store`, `propsData`. For full list, see the [Vue API](https://vuejs.org/v2/api/). Also takes vue-test-utils options:
 
 `options.attachToDocument` (`boolean`): Component will attach to DOM when rendered. This can be used with [`hasStyle`](/api/wrapper/hasStyle.md) to check multi element CSS selectors
+
+`options.attrs` (`Object`): Attrs object to pass to component.
 
 `options.children` (`Array<string|Component|Function>`): Passes children to be rendered by functional components
 
@@ -81,6 +84,16 @@ const wrapper = shallow(Component, {
   attachToDocument: true
 })
 expect(wrapper.contains('div')).to.equal(true)
+```
+
+**Pass attrs:**
+
+```js
+shallow(Component, {
+  attrs: {
+    attribute: 'value'
+  }
+})
 ```
 
 **Mount a functional component:**
