@@ -1,5 +1,11 @@
 # vue-test-utils
 
+## Currently not published on npm 
+To use vue-test-utils pre-release:
+```
+npm install --save-dev https://github.com/vuejs/vue-test-utils/
+```
+
 ## Intro
 
 `vue-test-utils` is the official test library for [Vue.js](http://vuejs.org). It provides methods for unit testing Vue components.
