@@ -42,6 +42,9 @@ mount<ClassComponent>(ClassComponent, {
   },
   attrs: {
     attribute: 'attr'
+  },
+  listeners: {
+    listener: () => {}
   }
 })
 

@@ -4,6 +4,7 @@ import Vue from 'vue'
 import addSlots from './add-slots'
 import createInterceptPlugin from './create-intercept-plugin'
 import addAttrs from './add-attrs'
+import addListeners from './add-listeners'
 import addProvide from './add-provide'
 import { stubComponents } from './stub-components'
 import { throwError } from './util'
@@ -48,6 +49,7 @@ export default function createConstructor (component: Component, options: Option
   const vm = new Constructor(options)
 
   addAttrs(vm, options.attrs)
+  addListeners(vm, options.listeners)
 
   if (options.slots) {
     addSlots(vm, options.slots)

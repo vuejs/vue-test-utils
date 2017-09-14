@@ -6,5 +6,6 @@ declare type Options = { // eslint-disable-line no-undef
     stubs?: Object,
     context?: Object,
     clone?: boolean,
-    attrs?: Object
+    attrs?: Object,
+    listeners?: Object
 }
