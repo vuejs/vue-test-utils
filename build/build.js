@@ -44,6 +44,30 @@ rollup({
     nodeResolve(),
     commonjs()
   ]
+}).then(bundle => {
+  bundle.write({
+    name: 'globals',
+    dest: resolve('dist/vue-test-utils.iife.js'),
+    moduleName: 'vueTestUtils',
+    format: 'iife'
+  })
+})
+  .then(() => success('IIFE build successful'))
+  .catch((err) => {
+    error(err)
+  })
+
+rollup({
+  entry: resolve('src/index.js'),
+  external: ['vue', 'vue-template-compiler'],
+  plugins: [
+    flow(),
+    buble({
+      objectAssign: 'Object.assign'
+    }),
+    nodeResolve(),
+    commonjs()
+  ]
 }).then((bundle) => {
   bundle.write({
     dest: resolve('dist/vue-test-utils.amd.js'),
@@ -70,7 +94,7 @@ rollup({
   bundle.write({
     dest: resolve('dist/vue-test-utils.umd.js'),
     format: 'umd',
-    moduleName: 'avoriaz'
+    moduleName: 'vueTestUtils'
   })
 })
   .then(() => success('UMD build successful'))
