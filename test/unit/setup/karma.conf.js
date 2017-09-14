@@ -2,7 +2,7 @@ const webpackConfig = require('../../../build/webpack.test.config.js')
 
 module.exports = function (config) {
   config.set({
-    browsers: ['PhantomJS'],
+    browsers: ['ChromeHeadless'],
     frameworks: ['mocha', 'sinon-chai', 'phantomjs-shim'],
     reporters: ['spec', 'coverage'],
     files: [
@@ -12,6 +12,7 @@ module.exports = function (config) {
     preprocessors: {
       '../specs/**/*.+(vue|js)': ['webpack', 'sourcemap']
     },
+    client: { mocha: { timeout: 20000 }},
     webpack: webpackConfig,
     webpackMiddleware: {
       noInfo: true
