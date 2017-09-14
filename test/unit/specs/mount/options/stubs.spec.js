@@ -110,6 +110,26 @@ describe('mount.stub', () => {
     })
   })
 
+  it('throws error if passed string in object when vue-template-compiler is undefined', () => {
+    const compilerSave = require.cache[require.resolve('vue-template-compiler')].exports.compileToFunctions
+    require.cache[require.resolve('vue-template-compiler')].exports.compileToFunctions = undefined
+    delete require.cache[require.resolve('../../../../../src/mount')]
+    const mountFresh = require('../../../../../src/mount').default
+    const message = '[vue-test-utils]: vueTemplateCompiler is undefined, you must pass components explicitly if vue-template-compiler is undefined'
+    const fn = () => mountFresh(Component, {
+      stubs: {
+        ChildComponent: '<div />'
+      }
+    })
+    try {
+      expect(fn).to.throw().with.property('message', message)
+    } catch (err) {
+      require.cache[require.resolve('vue-template-compiler')].exports.compileToFunctions = compilerSave
+      throw err
+    }
+    require.cache[require.resolve('vue-template-compiler')].exports.compileToFunctions = compilerSave
+  })
+
   it('throws an error when passed an invalid value as stub', () => {
     const error = '[vue-test-utils]: options.stub values must be passed a string or component'
     const invalidValues = [1, null, [], {}, NaN]

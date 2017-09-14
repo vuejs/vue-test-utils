@@ -53,6 +53,9 @@ function getCoreProperties (component: Component) {
   }
 }
 function createStubFromString (templateString: string, originalComponent: Component): void {
+  if (!compileToFunctions) {
+    throwError('vueTemplateCompiler is undefined, you must pass components explicitly if vue-template-compiler is undefined')
+  }
   return {
     ...getCoreProperties(originalComponent),
     ...compileToFunctions(templateString)
@@ -101,6 +104,9 @@ export function stubComponents (component: Component, stubs: Object): void {
         }
       } else {
         if (typeof stubs[stub] === 'string') {
+          if (!compileToFunctions) {
+            throwError('vueTemplateCompiler is undefined, you must pass components explicitly if vue-template-compiler is undefined')
+          }
           component.components[stub] = {
             ...compileToFunctions(stubs[stub])
           }

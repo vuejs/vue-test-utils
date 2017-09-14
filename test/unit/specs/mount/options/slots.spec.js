@@ -30,9 +30,41 @@ describe('mount.slots', () => {
     expect(wrapper.contains('span')).to.equal(true)
   })
 
+  it('throws error if passed string in default slot object and vue-template-compiler is undefined', () => {
+    const compilerSave = require.cache[require.resolve('vue-template-compiler')].exports.compileToFunctions
+    require.cache[require.resolve('vue-template-compiler')].exports.compileToFunctions = undefined
+    delete require.cache[require.resolve('../../../../../src/mount')]
+    const mountFresh = require('../../../../../src/mount').default
+    const message = '[vue-test-utils]: vueTemplateCompiler is undefined, you must pass components explicitly if vue-template-compiler is undefined'
+    const fn = () => mountFresh(ComponentWithSlots, { slots: { default: '<span />' }})
+    try {
+      expect(fn).to.throw().with.property('message', message)
+    } catch (err) {
+      require.cache[require.resolve('vue-template-compiler')].exports.compileToFunctions = compilerSave
+      throw err
+    }
+    require.cache[require.resolve('vue-template-compiler')].exports.compileToFunctions = compilerSave
+  })
+
   it('mounts component with default slot if passed string in slot array object', () => {
     const wrapper = mount(ComponentWithSlots, { slots: { default: ['<span />'] }})
     expect(wrapper.contains('span')).to.equal(true)
+  })
+
+  it('throws error if passed string in default slot array vue-template-compiler is undefined', () => {
+    const compilerSave = require.cache[require.resolve('vue-template-compiler')].exports.compileToFunctions
+    require.cache[require.resolve('vue-template-compiler')].exports.compileToFunctions = undefined
+    delete require.cache[require.resolve('../../../../../src/mount')]
+    const mountFresh = require('../../../../../src/mount').default
+    const message = '[vue-test-utils]: vueTemplateCompiler is undefined, you must pass components explicitly if vue-template-compiler is undefined'
+    const fn = () => mountFresh(ComponentWithSlots, { slots: { default: ['<span />'] }})
+    try {
+      expect(fn).to.throw().with.property('message', message)
+    } catch (err) {
+      require.cache[require.resolve('vue-template-compiler')].exports.compileToFunctions = compilerSave
+      throw err
+    }
+    require.cache[require.resolve('vue-template-compiler')].exports.compileToFunctions = compilerSave
   })
 
   it('mounts component with named slot if passed component in slot object', () => {
