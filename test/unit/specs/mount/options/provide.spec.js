@@ -3,7 +3,7 @@ import mount from '~src/mount'
 import ComponentWithInject from '~resources/components/component-with-inject.vue'
 
 function injectNoSupported () {
-  const version = Number(`${Vue.version.split('.')[0]}.${Vue.version.split('.')[0]}`)
+  const version = Number(`${Vue.version.split('.')[0]}.${Vue.version.split('.')[1]}`)
   return version <= 2.2
 }
 

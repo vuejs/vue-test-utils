@@ -2,7 +2,7 @@ import Vue from 'vue'
 import mount from '~src/mount'
 
 function cannotIdentifyComponent () {
-  const version = Number(`${Vue.version.split('.')[0]}.${Vue.version.split('.')[0]}`)
+  const version = Number(`${Vue.version.split('.')[0]}.${Vue.version.split('.')[1]}`)
   return version <= 2.2
 }
 
