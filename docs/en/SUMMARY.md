@@ -1,6 +1,5 @@
 ## Table of Contents
 
-* [Introduction](README.md)
 * [API](api/README.md)
   * [createLocalVue](api/createLocalVue.md)
   * [mount](api/mount.md)
@@ -36,7 +35,6 @@
     * [update](api/wrapper-array/update.md)
     * [setData](api/wrapper-array/setData.md)
     * [setProps](api/wrapper-array/setProps.md)
-    * [text](api/wrapper-array/text.md)
     * [trigger](api/wrapper-array/trigger.md)
   * [selectors](api/selectors.md)
   * [common gotchas](common-gotchas.md)

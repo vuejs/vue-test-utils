@@ -7,9 +7,9 @@
 
 - **Usage:**
 
-Returns a [`WrapperArray`](/api/wrapper-array/README.md) of [Wrappers](/api/wrapper/README.md). 
+Returns a [`WrapperArray`](/docs/en/api/wrapper-array/README.md) of [Wrappers](/docs/en/api/wrapper/README.md). 
 
-Use any valid [selector](/api/selectors.md).
+Use any valid [selector](/docs/en/api/selectors.md).
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -24,4 +24,4 @@ const bar = wrapper.findAll(Bar).at(0)
 expect(bar.is(Bar)).to.equal(true)
 ```
 
-- **See also:** [Wrapper](/api/wrapper/README.md)
+- **See also:** [Wrapper](/docs/en/api/wrapper/README.md)

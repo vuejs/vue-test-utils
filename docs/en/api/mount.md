@@ -9,13 +9,13 @@
 
 - **Options:**
 
-See [options](/api/options.md)
+See [options](/docs/en/api/options.md)
 
 - **Usage:**
 
-Returns [`Wrapper`](/api/wrapper/README.md) of first DOM node or Vue component matching selector.
+Returns [`Wrapper`](/docs/en/api/wrapper/README.md) of first DOM node or Vue component matching selector.
 
-Use any valid [selector](/api/selectors.md).
+Use any valid [selector](/docs/en/api/selectors.md).
 
 **Without options:**
 
@@ -133,4 +133,4 @@ describe('Foo', () => {
 })
 ```
 
-- **See also:** [Wrapper](/api/wrapper/README.md)
+- **See also:** [Wrapper](/docs/en/api/wrapper/README.md)

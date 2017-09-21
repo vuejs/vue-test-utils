@@ -7,7 +7,7 @@
 
 - **Usage:**
 
-Assert `Wrapper` DOM node or `vm` matches [selector](/api/selectors.md).
+Assert `Wrapper` DOM node or `vm` matches [selector](/docs/en/api/selectors.md).
 
 ```js
 import { mount } from 'vue-test-utils'
