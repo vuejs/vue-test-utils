@@ -7,7 +7,7 @@
 
 - **Usage:**
 
-Assert `Wrapper` contains an element or component matching [selector](/api/selectors.md).
+Assert `Wrapper` contains an element or component matching [selector](/docs/en/api/selectors.md).
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -20,4 +20,4 @@ expect(wrapper.contains('p')).to.equal(true)
 expect(wrapper.contains(Bar)).to.equal(true)
 ```
 
-- **See also:** [selectors](/api/selectors.md)
+- **See also:** [selectors](/docs/en/api/selectors.md)

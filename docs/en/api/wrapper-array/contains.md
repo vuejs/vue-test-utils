@@ -9,7 +9,7 @@
 
 Assert every wrapper in `WrapperArray` contains selector. 
 
-Use any valid [selector](/api/selectors.md).
+Use any valid [selector](/docs/en/api/selectors.md).
 
 ```js
 import { shallow } from 'vue-test-utils'

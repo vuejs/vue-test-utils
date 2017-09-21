@@ -7,7 +7,7 @@
 
 - **Usage:**
 
-Assert every `Wrapper` in `WrapperArray` DOM node or `vm` matches [selector](/api/selectors.md).
+Assert every `Wrapper` in `WrapperArray` DOM node or `vm` matches [selector](/docs/en/api/selectors.md).
 
 ```js
 import { mount } from 'vue-test-utils'
