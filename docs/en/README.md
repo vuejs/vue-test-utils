@@ -1,3 +1,5 @@
 # vue-test-utils
 
-[Summary](SUMMARY.md)
+vue-test-utils is the official test library for Vue.js. It provides methods for unit testing Vue components.
+
+[Documentation Summary](SUMMARY.md)
