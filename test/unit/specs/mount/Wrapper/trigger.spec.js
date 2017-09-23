@@ -74,6 +74,14 @@ describe('trigger', () => {
     expect(info.calledWith(true)).to.equal(true)
   })
 
+  it('throws error if wrapper does not contain eleemnt', () => {
+    const wrapper = mount({ render: () => {} })
+    wrapper.element = null
+    const fn = () => wrapper.trigger('click')
+    const message = '[vue-test-utils]: cannot call wrapper.trigger() on a wrapper without an element'
+    expect(fn).to.throw().with.property('message', message)
+  })
+
   it('throws an error if type is not a string', () => {
     const wrapper = mount(ComponentWithEvents)
     const invalidSelectors = [

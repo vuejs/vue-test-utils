@@ -10,7 +10,7 @@ describe('text', () => {
     expect(wrapper.text()).to.equal(text)
   })
 
-  it('throws error if wrapper does not contain eleemnt', () => {
+  it('throws error if wrapper does not contain elememnt', () => {
     const compiled = compileToFunctions(`<div />`)
     const wrapper = mount(compiled)
     wrapper.element = null

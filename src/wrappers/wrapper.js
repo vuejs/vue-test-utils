@@ -327,6 +327,10 @@ export default class Wrapper implements BaseWrapper {
       throwError('wrapper.trigger() must be passed a string')
     }
 
+    if (!this.element) {
+      throwError('cannot call wrapper.trigger() on a wrapper without an element')
+    }
+
     const modifiers = {
       enter: 13,
       tab: 9,
