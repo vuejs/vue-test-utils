@@ -66,7 +66,7 @@ export default class Wrapper implements BaseWrapper {
       throwError('wrapper.hasAttribute() must be passed value as a string')
     }
 
-    return this.element && this.element.getAttribute(attribute) === value
+    return !!(this.element && this.element.getAttribute(attribute) === value)
   }
 
   /**
@@ -77,7 +77,8 @@ export default class Wrapper implements BaseWrapper {
       throwError('wrapper.hasClass() must be passed a string')
     }
 
-    return this.element.className.split(' ').indexOf(className) !== -1
+    return !!(this.element &&
+    this.element.className.split(' ').indexOf(className) !== -1)
   }
 
   /**
@@ -216,7 +217,10 @@ export default class Wrapper implements BaseWrapper {
       }
       return vmCtorMatchesName(this.vm, selector.name)
     }
-    return this.element.getAttribute && this.element.matches(selector)
+
+    return !!(this.element &&
+    this.element.getAttribute &&
+    this.element.matches(selector))
   }
 
   /**
@@ -308,6 +312,10 @@ export default class Wrapper implements BaseWrapper {
    * Return text of wrapper element
    */
   text (): string {
+    if (!this.element) {
+      throwError('cannot call wrapper.text() on a wrapper without an element')
+    }
+
     return this.element.textContent
   }
 
@@ -317,6 +325,10 @@ export default class Wrapper implements BaseWrapper {
   trigger (type: string, options: Object = {}) {
     if (typeof type !== 'string') {
       throwError('wrapper.trigger() must be passed a string')
+    }
+
+    if (!this.element) {
+      throwError('cannot call wrapper.trigger() on a wrapper without an element')
     }
 
     const modifiers = {

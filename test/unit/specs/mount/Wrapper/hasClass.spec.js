@@ -14,6 +14,19 @@ describe('hasClass', () => {
     expect(wrapper.hasClass('not-class-name')).to.equal(false)
   })
 
+  it('returns false if wrapper includes class name in string, but not as a seperate class', () => {
+    const compiled = compileToFunctions('<div class="class-name-together"/>')
+    const wrapper = mount(compiled)
+    expect(wrapper.hasClass('class-name')).to.equal(false)
+  })
+
+  it('returns false if wrapper does not have an element', () => {
+    const compiled = compileToFunctions('<div />')
+    const wrapper = mount(compiled)
+    wrapper.element = null
+    expect(wrapper.hasClass('not-class-name')).to.equal(false)
+  })
+
   it('throws an error if selector is not a string', () => {
     const compiled = compileToFunctions('<div />')
     const wrapper = mount(compiled)
