@@ -312,6 +312,10 @@ export default class Wrapper implements BaseWrapper {
    * Return text of wrapper element
    */
   text (): string {
+    if (!this.element) {
+      throwError('cannot call wrapper.text() on a wrapper without an element')
+    }
+
     return this.element.textContent
   }
 
