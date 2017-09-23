@@ -217,7 +217,10 @@ export default class Wrapper implements BaseWrapper {
       }
       return vmCtorMatchesName(this.vm, selector.name)
     }
-    return this.element.getAttribute && this.element.matches(selector)
+
+    return !!(this.element &&
+    this.element.getAttribute &&
+    this.element.matches(selector))
   }
 
   /**
