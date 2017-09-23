@@ -66,7 +66,7 @@ export default class Wrapper implements BaseWrapper {
       throwError('wrapper.hasAttribute() must be passed value as a string')
     }
 
-    return this.element && this.element.getAttribute(attribute) === value
+    return !!(this.element && this.element.getAttribute(attribute) === value)
   }
 
   /**
