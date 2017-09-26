@@ -38,6 +38,7 @@
     * [trigger](api/wrapper-array/trigger.md)
   * [selectors](api/selectors.md)
   * [guides](guides/README.md)
+    * [Introduction to unit tests](guides/introduction-to-unit-tests.md)
     * [Using with Jest](guides/using-with-jest.md)
     * [Testing SFCs with Jest](guides/testing-SFCs-with-jest.md)
     * [Using with Vuex](guides/using-with-vuex.md)  
