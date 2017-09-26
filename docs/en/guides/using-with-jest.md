@@ -1,12 +1,14 @@
+## Using with Jest
+
 Jest and Vue Test Utils work great together.
 
-To get started, you need to install Jest and Vue Test Utils:
+To get started, we need to install Jest and Vue Test Utils:
 
 ```
 npm install --save-dev jest vue-test-utils
 ```
 
-Inside package.json, create an npm script that runs Jest:
+Inside `package.json`, create an npm script that runs Jest:
 
 ```
 "scripts": {
@@ -37,4 +39,9 @@ And run the tests from the command line:
 npm run unit
 ```
 
-If you want to test .vue files, please see the testing SFCs with Jest guide.
+To test .vue files, please see the [testing SFCs with Jest guide](https://github.com/eddyerburgh/vue-test-utils-jest-example).
+
+## Resources
+
+- [Testing SFCs with Jest](testing-SFCs-with-jest.md)
+- [Example project with Jest and Vue Test Utils](https://github.com/eddyerburgh/vue-test-utils-jest-example)
