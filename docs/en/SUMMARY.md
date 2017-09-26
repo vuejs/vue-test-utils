@@ -39,6 +39,7 @@
   * [selectors](api/selectors.md)
   * [guides](guides/README.md)
     * [Introduction to unit tests](guides/introduction-to-unit-tests.md)
+    * [Choosing a test runner](guides/choosing-a-test-runner.md)
     * [Using with Jest](guides/using-with-jest.md)
     * [Testing SFCs with Jest](guides/testing-SFCs-with-jest.md)
     * [Testing SFCs with Mocha and webpack](guides/testing-SFCs-with-mocha-webpack.md)
