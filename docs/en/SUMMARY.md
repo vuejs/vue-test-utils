@@ -37,7 +37,8 @@
     * [setProps](api/wrapper-array/setProps.md)
     * [trigger](api/wrapper-array/trigger.md)
   * [selectors](api/selectors.md)
-  * guides
-    * [using with Jest](guides/using-with-jest.md)
-    * [testing compiled components with Jest](guides/using-compiled-components-with-jest.md)
+  * [guides](guides/README.md)
+    * [Using with Jest](guides/using-with-jest.md)
+    * [Testing SFCs with Jest](guides/testing-SFCs-with-jest.md)
+    * [Using with Vuex](guides/using-with-vuex.md)  
   * [common gotchas](common-gotchas.md)
