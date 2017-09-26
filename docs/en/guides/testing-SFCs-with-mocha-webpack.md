@@ -1,12 +1,12 @@
-# Testing single file components with mocha
+# Testing single file components with Mocha
 
-We need to compile single file components (SFCs) to run them in mocha.
+We need to compile single file components (SFCs) to run them in Mocha.
 
-We can make use of a package called mocha-webpack, that does exactly that. It compiles source files in webpack before running mocha.
+We can make use of a package called mocha-webpack, that does exactly that. It compiles source files in webpack before running Mocha.
 
 ## Setting up mocha-webpack
 
-The first thing to do is install mocha, mocha webpack, webpack and webpack loaders:
+The first thing to do is install Mocha, mocha webpack, webpack and webpack loaders:
 
 ```bash
 npm install --save-dev vue-test-utils mocha mocha-webpack webpack webpack-node-externals vue vue-loader css-loader babel-loader
