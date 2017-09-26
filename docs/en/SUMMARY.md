@@ -37,4 +37,7 @@
     * [setProps](api/wrapper-array/setProps.md)
     * [trigger](api/wrapper-array/trigger.md)
   * [selectors](api/selectors.md)
+  * guides
+    * [using with Jest](guides/using-with-jest.md)
+    * [testing compiled components with Jest](guides/using-compiled-components-with-jest.md)
   * [common gotchas](common-gotchas.md)
