@@ -17,8 +17,9 @@ Refer to [documentation](https://vuejs.github.io/vue-test-utils/)
 ## Examples
 
 - [example with Jest](https://github.com/eddyerburgh/vue-test-utils-jest-example)
-- [example with AVA](https://github.com/eddyerburgh/vue-test-utils-ava-example)
+- [example with Mocha](https://github.com/eddyerburgh/vue-test-utils-mocha-example)
 - [example with tape](https://github.com/eddyerburgh/vue-test-utils-tape-example)
+- [example with AVA](https://github.com/eddyerburgh/vue-test-utils-ava-example)
 
 ## Questions
 
