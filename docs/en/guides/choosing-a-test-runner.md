@@ -22,6 +22,8 @@ Jest is the most fully featured test runner. It requires the leat configuration,
 
 tape is very minimal. If you choose tape, you will need to do a lot of set up yourself.
 
+To run SFCs in Jest, you need to use jest-vue—a transformer for Jest. jest-vue does not support styles or custom blocks. If you need to use those features, you'll need to use webpack. Mocha works well with webpack, you can read the guide on [testing SFCs with mocha](testing-SFCs-with-mocha-webpack.md) to get started.
+
 ## Getting started
 
 You can use our guides to get started with a test runner:
@@ -32,3 +34,7 @@ You can use our guides to get started with a test runner:
 ## Resources
 
 - [Test runner performance comparison](https://github.com/eddyerburgh/vue-unit-test-perf-comparison)
+- [Example project with Jest](https://github.com/eddyerburgh/vue-test-utils-jest-example)
+- [Example project with Mocha](https://github.com/eddyerburgh/vue-test-utils-mocha-example)
+- [Example project with tape](https://github.com/eddyerburgh/vue-test-utils-tape-example)
+- [Example project with AVA](https://github.com/eddyerburgh/vue-test-utils-ava-example)
