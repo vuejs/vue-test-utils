@@ -45,7 +45,7 @@ Vue follows a pattern of injecting properties. Normally this is done in a main.j
 import { mount } from 'vue-test-utils'
 
 const $store = {
-  getters:
+  getters: {}
 }
 mount(Component, {
   intercept: {

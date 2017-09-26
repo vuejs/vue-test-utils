@@ -71,7 +71,7 @@ That's pretty much everything necessary to do before writing the first specs.
 
 By default, jest will pick up all files that have a `.spec.js` or `.test.js` extension. If this does not fit your needs, it's possible [to chang the testRegex](https://facebook.github.io/jest/docs/en/configuration.html#testregex-string) in the config section in the `package.json` file.
 
-Jest recommends to create a `__spec__` folder, but feel free to do as you like. Just know ahead of time, that when using the [snapshot](https://facebook.github.io/jest/docs/en/snapshot-testing.html#content) feature, snapshots will get stored in a `__snapshot__` folder.
+Jest recommends to create a `__tests__` folder, but feel free to do as you like. Just know ahead of time, that when using the [snapshot](https://facebook.github.io/jest/docs/en/snapshot-testing.html#content) feature, snapshots will get stored in a `__snapshot__` folder.
 
 ### Example Spec
 
