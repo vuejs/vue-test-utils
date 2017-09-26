@@ -41,5 +41,6 @@
     * [Introduction to unit tests](guides/introduction-to-unit-tests.md)
     * [Using with Jest](guides/using-with-jest.md)
     * [Testing SFCs with Jest](guides/testing-SFCs-with-jest.md)
+    * [Testing SFCs with Mocha and webpack](guides/testing-SFCs-with-mocha-webpack.md)
     * [Using with Vuex](guides/using-with-vuex.md)  
   * [common gotchas](common-gotchas.md)
