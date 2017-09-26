@@ -1,8 +1,10 @@
-# Using with Jest
+# Testing single file components with Jest
 
 Jest is a test runner developed by Facebook, aiming to come with everything included to get started. [Learn more about Jest](https://facebook.github.io/jest/)  So let's get started.
 
 To test SFCs, we need to compile the files before running them in node.
+
+*Note: Jest uses a jest-vue transformer. It does not contain all the features of vue-loader, like custom block support and style loading. To use them, read the [testing SFCs with Mocha](test-SFCs-with-mocha.md) guide*
 
 ## Setting up Jest
 
