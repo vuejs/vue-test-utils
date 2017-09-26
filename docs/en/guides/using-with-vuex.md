@@ -256,6 +256,7 @@ describe('Modules.vue', () => {
   })
 })
 ```
+
 To have a look at what the module file looks like, [check out the repo](https://github.com/eddyerburgh/mock-vuex-in-vue-unit-tests-tutorial).
 
 So now we’re importing getters from out Vuex store module. This means we need to mock the state.

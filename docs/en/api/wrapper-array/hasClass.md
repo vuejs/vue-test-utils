@@ -1,13 +1,15 @@
 # hasClass(className)
 
+- **Usage:**
+
+Assert every `Wrapper` in `WrapperArray` DOM node has class containing `className`. 
+
 - **Arguments:**
   - `{string} className`
 
 - **Returns:** `{boolean}`
 
-- **Usage:**
-
-Assert every `Wrapper` in `WrapperArray` DOM node has class containing `className`. 
+- **Example:**
 
 ```js
 import { mount } from 'vue-test-utils'

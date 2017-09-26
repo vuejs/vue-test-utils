@@ -1,16 +1,18 @@
 # hasAttribute(attribute, value)
 
+- **Usage:**
+
+Assert `Wrapper` DOM node has attribute matching value.
+
+Returns `true` if `Wrapper` DOM node contains attribute with matching value.
+
 - **Arguments:**
   - `{string} attribute`
   - `{string} value`
 
 - **Returns:** `{boolean}`
 
-- **Usage:**
-
-Assert `Wrapper` DOM node has attribute matching value.
-
-Returns `true` if `Wrapper` DOM node contains attribute with matching value.
+- **Example:**
 
 ```js
 import { mount } from 'vue-test-utils'

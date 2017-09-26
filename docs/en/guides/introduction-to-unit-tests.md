@@ -62,7 +62,7 @@ The two recommended ways are to test with a Jest preprocessor, or use Webpack.
 
 You can learn how to test SFCs by reading these guides:
 
-- [Testing SFCs with Jest]()
+- [Testing SFCs with Jest](testing-SFCs-with-jest.md)
 
 ## Knowing what to test
 

@@ -1,8 +1,8 @@
-# vue-test-utils
+# Vue Test Utils
 
-vue-test-utils is the official test library for Vue.js. 
+Vue Test Utils is the official test library for Vue.js. 
 
-It provides methods for unit testing Vue components.
+It provides methods for [unit testing](guides/introduction-to-unit-tests.md) Vue components.
 
 ## Example
 
@@ -18,9 +18,9 @@ expect(wrapper.text()).toContain('1')
 
 ## Getting started
 
-To get started using Vue Test Utils, please see [using with jest]().
+To get started using Vue Test Utils, please see [using with jest](guides/using-with-jest.md).
 
-If you're new to unit testing, please read our [introduction to unit tests]().
+If you're new to unit testing, you can read our [introduction to unit tests](guides/introduction-to-unit-tests.md).
 
 ## Testing single file components (SFCs)
 

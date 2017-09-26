@@ -1,3 +1,7 @@
-## [mount](/docs/en/api/mount.md)
-## [shallow](/docs/en/api/shallow.md)
-## [selectors](/docs/en/api/selectors.md)
+# API
+
+## [mount](api/mount.md)
+## [shallow](shallow.md)
+## [options](options.md)
+## [createLocalVue](createLocalVue.md)
+## [selectors](selectors.md)

@@ -1,18 +1,21 @@
 # hasProp(prop, value)
 
-- **Arguments:**
-  - `{string} prop`
-  - `{any} value`
-
-- **Returns:** `{boolean}`
-
 - **Usage:**
 
 Assert `Wrapper` `vm` has `prop` matching `value`.
 
 Returns `true` if `Wrapper` `vm` has `prop` matching `value`.
 
-**Note the Wrapper must contain a Vue instance.**
+
+**Note: the Wrapper must contain a Vue instance.**
+
+- **Arguments:**
+  - `{string} prop`
+  - `{any} value`
+
+- **Returns:** `{boolean}`
+
+- **Example:**
 
 ```js
 import { mount } from 'vue-test-utils'
