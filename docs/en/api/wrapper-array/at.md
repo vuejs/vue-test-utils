@@ -1,13 +1,15 @@
 # at(index)
 
+- **Usage:**
+
+Returns `Wrapper` at `index` passed. Uses zero based numbering (i.e. first item is at index 0).
+
 - **Arguments:**
   - `{number} index`
 
 - **Returns:** `{Wrapper}`
 
-- **Usage:**
-
-Returns `Wrapper` at `index` passed. Uses zero based numbering (i.e. first item is at index 0).
+- **Example:**
 
 ```js
 import { shallow } from 'vue-test-utils'

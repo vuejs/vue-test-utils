@@ -1,15 +1,17 @@
 # find(selector)
 
+- **Usage:**
+
+Returns [`Wrapper`](README.md) of first DOM node or Vue component matching selector. 
+
+Use any valid [selector](../selectors.md).
+
 - **Arguments:**
   - `{string|Component} selector`
 
 - **Returns:** `{Wrapper}`
 
-- **Usage:**
-
-Returns [`Wrapper`](/docs/en/api/wrapper/README.md) of first DOM node or Vue component matching selector. 
-
-Use any valid [selector](/docs/en/api/selectors.md).
+- **Example:**
 
 ```js
 import { mount } from 'vue-test-utils'

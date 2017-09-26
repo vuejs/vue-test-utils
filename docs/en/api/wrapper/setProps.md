@@ -1,13 +1,15 @@
 # setProps(props)
 
-- **Arguments:**
-  - `{Object} props`
-
 - **Usage:**
 
 Sets `Wrapper` `vm` props and forces update.
 
 **Note the Wrapper must contain a Vue instance.**
+
+- **Arguments:**
+  - `{Object} props`
+
+- **Example:**
 
 ```js
 import { mount } from 'vue-test-utils'

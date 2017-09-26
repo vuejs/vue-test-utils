@@ -22,7 +22,7 @@ Vue options are passed to the component when a new instance is created. , e.g. `
 
 `options` (`Object`): a Vue options object. Vue options are passed to the component when a new instance is created. , e.g. `store`, `propsData`. For full list, see the [Vue API](https://vuejs.org/v2/api/). Also takes vue-test-utils options:
 
-`options.attachToDocument` (`boolean`): Component will attach to DOM when rendered. This can be used with [`hasStyle`](/docs/en/api/wrapper/hasStyle.md) to check multi element CSS selectors
+`options.attachToDocument` (`boolean`): Component will attach to DOM when rendered. This can be used with [`hasStyle`](wrapper/hasStyle.md) to check multi element CSS selectors
 
 `options.attrs` (`Object`): Attrs object to pass to component.
 
@@ -34,7 +34,7 @@ Vue options are passed to the component when a new instance is created. , e.g. `
 
 `options.intercept` (`Object`): Add globals to Vue instance.
 
-`options.localVue` (`Object`): vue class to use in `mount`. See [createLocalVue](/docs/en/api/createLocalVue.md)
+`options.localVue` (`Object`): vue class to use in `mount`. See [createLocalVue](createLocalVue.md)
 
 `options.propsData` (`Object`): Data for props in component
 

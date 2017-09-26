@@ -1,15 +1,17 @@
 # contains(selector)
 
+- **Usage:**
+
+Assert every wrapper in `WrapperArray` contains selector. 
+
+Use any valid [selector](../selectors.md).
+
 - **Arguments:**
   - `{string|Component} selector`
 
 - **Returns:** `{boolean}`
 
-- **Usage:**
-
-Assert every wrapper in `WrapperArray` contains selector. 
-
-Use any valid [selector](/docs/en/api/selectors.md).
+- **Example:**
 
 ```js
 import { shallow } from 'vue-test-utils'

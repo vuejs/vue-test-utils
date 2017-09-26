@@ -1,14 +1,16 @@
 
 # setMethods(methods)
 
-- **Arguments:**
-  - `{Object} methods`
-
 - **Usage:**
 
 Sets `Wrapper` `vm` methods and forces update on each `Wrapper` in `WrapperArray`.
 
 **Note every `Wrapper` must contain a Vue instance.**
+
+- **Arguments:**
+  - `{Object} methods`
+
+- **Example:**
 
 ```js
 import { mount } from 'vue-test-utils'
