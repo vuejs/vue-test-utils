@@ -5,15 +5,27 @@ import cloneDeep from 'lodash/cloneDeep'
 
 function createLocalVue (): Component {
   const instance = Vue.extend()
-  instance.version = Vue.version
-  instance._installedPlugins = []
+
+  // clone global APIs
+  Object.keys(Vue).forEach(key => {
+    if (!instance.hasOwnProperty(key)) {
+      instance[key] = cloneDeep(Vue[key])
+    }
+  })
+
+  // config is not enumerable
   instance.config = cloneDeep(Vue.config)
-  instance.util = cloneDeep(Vue.util)
-  instance._use = instance.use
+
+  // option merge strategies need to be exposed by reference
+  // so that merge strats registered by plguins can work properly
+  instance.config.optionMergeStrategies = Vue.config.optionMergeStrategies
+
+  const use = instance.use
   instance.use = (plugin) => {
+    // compat for vue-router < 2.7.1
     plugin.installed = false
     plugin.install.installed = false
-    instance._use(plugin)
+    use.call(instance, plugin)
   }
   return instance
 }
