@@ -77,8 +77,7 @@ export default class Wrapper implements BaseWrapper {
       throwError('wrapper.hasClass() must be passed a string')
     }
 
-    return !!(this.element &&
-    this.element.className.split(' ').indexOf(className) !== -1)
+    return !!(this.element && this.element.classList.contains(className))
   }
 
   /**
