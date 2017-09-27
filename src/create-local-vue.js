@@ -9,7 +9,10 @@ function createLocalVue (): Component {
   // clone global APIs
   Object.keys(Vue).forEach(key => {
     if (!instance.hasOwnProperty(key)) {
-      instance[key] = cloneDeep(Vue[key])
+      const original = Vue[key]
+      instance[key] = typeof original === 'object'
+        ? cloneDeep(original)
+        : original
     }
   })
 

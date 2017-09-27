@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import VueRouter from 'vue-router'
 import mount from '~src/mount'
 import Component from '~resources/components/component.vue'
+import ComponentWithVuex from '~resources/components/component-with-vuex.vue'
 
 describe('createLocalVue', () => {
   it('installs Vuex without polluting global Vue', () => {
@@ -20,6 +21,31 @@ describe('createLocalVue', () => {
     expect(wrapper.vm.$store).to.be.an('object')
     const freshWrapper = mount(Component)
     expect(typeof freshWrapper.vm.$store).to.equal('undefined')
+  })
+
+  it('Vuex should work properly with local Vue', () => {
+    const localVue = createLocalVue()
+    localVue.use(Vuex)
+    const store = new Vuex.Store({
+      state: {
+        count: 0
+      },
+      mutations: {
+        increment (state) {
+          state.count++
+        }
+      },
+      modules: {
+        foo: {
+          state: () => ({ bar: 1 })
+        }
+      }
+    })
+    const wrapper = mount(ComponentWithVuex, { localVue, store })
+    expect(wrapper.vm.$store).to.be.an('object')
+    expect(wrapper.text()).to.equal('0 1')
+    wrapper.trigger('click')
+    expect(wrapper.text()).to.equal('1 1')
   })
 
   it('installs Router without polluting global Vue', () => {
