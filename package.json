@@ -80,12 +80,12 @@
     "sinon": "^2.3.2",
     "sinon-chai": "^2.10.0",
     "typescript": "^2.4.1",
-    "vue": "^2.4.3",
-    "vue-loader": "^12.2.1",
-    "vue-router": "^2.6.0",
-    "vue-template-compiler": "^2.4.3",
+    "vue": "^2.4.4",
+    "vue-loader": "^13.0.5",
+    "vue-router": "^2.7.0",
+    "vue-template-compiler": "^2.4.4",
     "vuex": "^2.3.1",
-    "webpack": "^2.7.0",
+    "webpack": "^3.6.0",
     "webpack-node-externals": "^1.6.0"
   },
   "peerDependencies": {
