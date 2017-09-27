@@ -20,9 +20,9 @@ function createLocalVue (): Component {
   // so that merge strats registered by plguins can work properly
   instance.config.optionMergeStrategies = Vue.config.optionMergeStrategies
 
+  // compat for vue-router < 2.7.1 where it does not allow multiple installs
   const use = instance.use
   instance.use = (plugin) => {
-    // compat for vue-router < 2.7.1
     plugin.installed = false
     plugin.install.installed = false
     use.call(instance, plugin)
