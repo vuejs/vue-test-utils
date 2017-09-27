@@ -1,8 +1,8 @@
-# Testing single file components with Mocha
+# Testing single file components with Mocha + webpack
 
 We need to compile single file components (SFCs) to run them in Mocha.
 
-We can make use of a package called mocha-webpack, that does exactly that. It compiles source files in webpack before running Mocha.
+We can make use of a package called `mocha-webpack`, that does exactly that. It compiles source files in webpack before running Mocha.
 
 ## Setting up mocha-webpack
 
@@ -27,7 +27,7 @@ This script tells mocha-webpack to get the webpack config from build/webpack.con
 
 Let's create the setup.js script first.
 
-Vue Test Utils requires a browser environment to run. We can set one up using browser-env (a wrapper around JSDOM).
+`vue-test-utils` requires a browser environment to run. We can set one up using browser-env (a wrapper around JSDOM).
 
 Let's install that:
 
@@ -41,7 +41,7 @@ Create a test/setup.js file and paste the following code in:
 require('browser-env')();
 ```
 
-This adds a browser environment to node, so that Vue Test Utils can run correctly.
+This adds a browser environment to node, so that `vue-test-utils` can run correctly.
 
 Next, we need to install babel and configure it so we can use ES6 features in our JavaScript:
 

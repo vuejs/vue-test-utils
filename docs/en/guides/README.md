@@ -1,13 +1,7 @@
 # Guides
 
-## Getting started
-
-- [Using with Jest](using-with-jest.md)
-
-## Tesing single file components (SFCs)
-
-- [Testing SFCs with Jest](testing-SFCs-with-jest.md)
-
-## Using with plugins
-
-- [Using with Vuex](using-with-vuex.md)
+* [Choosing a test runner](./choosing-a-test-runner.md)
+* [Using with Jest](./using-with-jest.md)
+* [Testing SFCs with Jest](./testing-SFCs-with-jest.md)
+* [Testing SFCs with Mocha + webpack](./testing-SFCs-with-mocha-webpack.md)
+* [Using with Vuex](./using-with-vuex.md)

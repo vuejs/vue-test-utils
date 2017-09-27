@@ -2,31 +2,17 @@
 
 A test runner is a program that runs tests.
 
-There are many popular JavaScript test runners, and Vue Test Utils works in all of them. It's test runner agnostic.
+There are many popular JavaScript test runners, and `vue-test-utils` works with all of them. It's test runner agnostic.
 
-However, some popular test runners do not have good support for compiling single file components (SFCs).
+There are a few things to consider when choosing a test runner though: feature set, performance, and support for single-file component (SFC) pre-compilation. After carefully comparing existing libraries, here are two test runners that we recommend:
 
-## Performance
+- [Jest](https://facebook.github.io/jest/docs/en/getting-started.html#content) is the most fully featured test runner. It requires the least configuration, sets up JSDOM by default, and has a great command line user experience. However, you will need a preprocessor to be able to import SFC components in your tests. We have created the `jest-vue` preprocessor which can handle most common SFC features, but it currently does not have 100% feature parity with `vue-loader`.
 
-The fastest test runners are:
-
-- Jest
-- Mocha Webpack
-- tape
-
-You can see a performance comparisson of popular test runners [here](https://github.com/eddyerburgh/vue-unit-test-perf-comparison).
-
-## Features
-
-Jest is the most fully featured test runner. It requires the leat configuration, as it sets up JSDOM by default.
-
-tape is very minimal. If you choose tape, you will need to do a lot of set up yourself.
-
-To run SFCs in Jest, you need to use jest-vue—a transformer for Jest. jest-vue does not support styles or custom blocks. If you need to use those features, you'll need to use webpack. Mocha works well with webpack, you can read the guide on [testing SFCs with mocha](testing-SFCs-with-mocha-webpack.md) to get started.
+- [mocha-webpack](https://github.com/zinserjan/mocha-webpack) is a wrapper around webpack + Mocha, but with a more streamlined interface and watch mode. The benefits of this setup is that we can get complete SFC support via webpack + `vue-loader`, but it requires more configuration upfront.
 
 ## Getting started
 
-You can use our guides to get started with a test runner:
+You can read the following guides to get started with either test runner:
 
 - [Testing SFCs with Jest](testing-SFCs-with-jest.md)
 - [Testing SFCs with Mocha and webpack](testing-SFCs-with-mocha-webpack.md)

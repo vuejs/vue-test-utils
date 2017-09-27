@@ -1,10 +1,10 @@
-# options
+# Mounting Options
 
-Options for mount and shallow. The options object can contain vue-test-utils options and Vue options together.
+Options for `mount` and `shallow`. The options object can contain both `vue-test-utils` mounting options and raw Vue options.
 
-Vue options are passed to the component when a new instance is created. , e.g. `store`, `propsData`. For full list, see the [Vue API](https://vuejs.org/v2/api/). Also takes vue-test-utils options:
+Vue options are passed to the component when a new instance is created. , e.g. `store`, `propsData`. For full list, see the [Vue API](https://vuejs.org/v2/api/).
 
-- **Options:**
+## `vue-test-utils` Specific Mounting Options
 
 - `{Object} options`
   - `{boolean} attachToDocument`
@@ -14,9 +14,9 @@ Vue options are passed to the component when a new instance is created. , e.g. `
   - `{Object} context`
   - `{Object} intercept`
   - `{Vue} localVue`
-  - `{Object} slots`  
-      - `{Array<Componet|Object>|Component|String} default`  
-      - `{Array<Componet|Object>|Component|String} named`  
+  - `{Object} slots`
+      - `{Array<Componet|Object>|Component|String} default`
+      - `{Array<Componet|Object>|Component|String} named`
       - `{Object|Array<string>} stubs`
   - `{Object|Function} provide`
 

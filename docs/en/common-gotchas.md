@@ -2,9 +2,9 @@
 
 ## browser environment
 
-Vue Test Utils must be run in a browser environment. This means you can run it in a browser (not recommended), or you can run it in node using a virtual browser, like [JSDOM](https://github.com/tmpvar/jsdom).
+`vue-test-utils` must be run in a browser environment. This means you can run it in a browser (not recommended), or you can run it in node using a virtual browser, like [JSDOM](https://github.com/tmpvar/jsdom).
 
-[Jest](https://facebook.github.io/jest/docs/en/cli.html) sets up JSDOM automatically, so it is the easiest way for you to run Vue Test Utils in node.
+[Jest](https://facebook.github.io/jest/docs/en/cli.html) sets up JSDOM automatically, so it is the easiest way for you to run `vue-test-utils` in node.
 
 ## createLocalVue
 
