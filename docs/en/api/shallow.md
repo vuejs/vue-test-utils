@@ -9,7 +9,7 @@
     - `{Object} slots`
         - `{Array<Componet|Object>|Component|String} default`
         - `{Array<Componet|Object>|Component|String} named`
-    - `{Object} intercept`
+    - `{Object} mocks`
     - `{Object|Array<string>} stubs`
     - `{boolean} clone`
     - `{Object} children`
@@ -114,7 +114,7 @@ describe('Foo', () => {
   it('renders a div', () => {
     const $route = { path: 'http://www.example-path.com' }
     const wrapper = shallow(Foo, {
-      intercept: {
+      mocks: {
         $route
       }
     })

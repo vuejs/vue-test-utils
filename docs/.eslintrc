@@ -9,6 +9,10 @@
   "globals": {
     "mount": true,
     "shallow": true,
-    "Component": true
+    "Component": true,
+    "MyPlugin": true
+  },
+  "rules": {
+    "no-unused-vars": 0
   }
 }

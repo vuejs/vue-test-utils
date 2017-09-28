@@ -84,7 +84,7 @@ interface MountOptions<V extends Vue> extends ComponentOptions<V> {
   clone?: boolean
   context?: VNodeData
   localVue?: typeof Vue
-  intercept?: object
+  mocks?: object
   slots?: Slots
   stubs?: Stubs,
   attrs?: object

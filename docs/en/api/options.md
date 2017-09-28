@@ -9,7 +9,7 @@ Vue options are passed to the component when a new instance is created. , e.g. `
 - [context](#context)
 - [slots](#slots)
 - [stubs](#stubs)
-- [intercept](#intercept)
+- [mocks](#mocks)
 - [localVue](#localvue)
 - [attachToDocument](#attachtodocument)
 - [attrs](#attrs)
@@ -82,7 +82,7 @@ shallow(Component, {
 })
 ```
 
-### `intercept`
+### `mocks`
 
 - type: `Object`
 
@@ -95,7 +95,7 @@ import { expect } from 'chai'
 
 const $route = { path: 'http://www.example-path.com' }
 const wrapper = shallow(Component, {
-  intercept: {
+  mocks: {
     $route
   }
 })
@@ -160,6 +160,6 @@ Set the component instance's `$listeners` object.
 
 Clones component before mounting if `true`, which avoids mutating the original component definition.
 
-`options.intercept` (`Object`): Add globals to Vue instance.
+`options.mocks` (`Object`): Add globals to Vue instance.
 
 `options.localVue` (`Object`): vue class to use in `mount`. See [createLocalVue](createLocalVue.md)

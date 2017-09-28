@@ -2,7 +2,7 @@
 
 import Vue from 'vue'
 import addSlots from './add-slots'
-import addIntercepts from './add-intercepts'
+import addMocks from './add-mocks'
 import addAttrs from './add-attrs'
 import addListeners from './add-listeners'
 import addProvide from './add-provide'
@@ -44,8 +44,8 @@ export default function createConstructor (component: Component, options: Option
 
   const Constructor = vue.extend(component)
 
-  if (options.intercept) {
-    addIntercepts(options.intercept, Constructor)
+  if (options.mocks) {
+    addMocks(options.mocks, Constructor)
   }
 
   const vm = new Constructor(options)

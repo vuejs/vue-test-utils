@@ -17,7 +17,7 @@ import Foo from './Foo.vue'
 const localVue = createLocalVue()
 const wrapper = shallow(Foo, {
   localVue,
-  intercept: { foo: true }
+  mocks: { foo: true }
 })
 expect(wrapper.vm.foo).to.equal(true)
 

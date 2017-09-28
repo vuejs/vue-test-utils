@@ -6,7 +6,7 @@
   - [context](./options.md#context)
   - [slots](./options.md#slots)
   - [stubs](./options.md#stubs)
-  - [intercept](./options.md#intercept)
+  - [mocks](./options.md#mocks)
   - [localVue](./options.md#localvue)
   - [attachToDocument](./options.md#attachtodocument)
   - [attrs](./options.md#attrs)

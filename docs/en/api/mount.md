@@ -100,7 +100,7 @@ describe('Foo', () => {
   it('renders a div', () => {
     const $route = { path: 'http://www.example-path.com' }
     const wrapper = mount(Foo, {
-      intercept: {
+      mocks: {
         $route
       }
     })

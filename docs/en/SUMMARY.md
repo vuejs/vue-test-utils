@@ -14,7 +14,7 @@
     - [context](api/options.md#context)
     - [slots](api/options.md#slots)
     - [stubs](api/options.md#stubs)
-    - [intercept](api/options.md#intercept)
+    - [mocks](api/options.md#mocks)
     - [localVue](api/options.md#localvue)
     - [attachToDocument](api/options.md#attachtodocument)
     - [attrs](api/options.md#attrs)
