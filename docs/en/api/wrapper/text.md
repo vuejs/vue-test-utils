@@ -1,7 +1,5 @@
 # text()
 
-- **Usage:**
-
 Returns text content of `Wrapper`.
 
 - **Returns:** `{string}`

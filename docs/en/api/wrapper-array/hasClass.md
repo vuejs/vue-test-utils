@@ -1,8 +1,6 @@
 # hasClass(className)
 
-- **Usage:**
-
-Assert every `Wrapper` in `WrapperArray` DOM node has class containing `className`. 
+Assert every `Wrapper` in `WrapperArray` DOM node has class containing `className`.
 
 - **Arguments:**
   - `{string} className`

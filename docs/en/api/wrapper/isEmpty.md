@@ -1,7 +1,5 @@
 # isEmpty()
 
-- **Usage:**
-
 Assert `Wrapper` does not contain child node.
 
 - **Returns:** `{boolean}`

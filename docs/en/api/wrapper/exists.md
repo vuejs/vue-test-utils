@@ -1,7 +1,5 @@
 # exists()
 
-- **Usage:**
-
 Assert `Wrapper` or `WrapperArray` exists.
 
 Returns false if called on an empty `Wrapper` or `WrapperArray`.

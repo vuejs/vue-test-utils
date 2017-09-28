@@ -1,7 +1,5 @@
 # hasProp(prop, value)
 
-- **Usage:**
-
 Assert `Wrapper` `vm` has `prop` matching `value`.
 
 Returns `true` if `Wrapper` `vm` has `prop` matching `value`.

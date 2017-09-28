@@ -1,8 +1,6 @@
 # hasAttribute(attribute, value)
 
-- **Usage:**
-
-Assert every `Wrapper` in `WrapperArray` DOM node has `attribute` matching `value`. 
+Assert every `Wrapper` in `WrapperArray` DOM node has `attribute` matching `value`.
 
 - **Arguments:**
   - `{string} attribute`

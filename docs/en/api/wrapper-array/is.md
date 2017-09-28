@@ -1,7 +1,5 @@
 # is(selector)
 
-- **Usage:**
-
 Assert every `Wrapper` in `WrapperArray` DOM node or `vm` matches [selector](../selectors.md).
 
 - **Arguments:**

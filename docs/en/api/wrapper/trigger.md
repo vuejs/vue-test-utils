@@ -1,7 +1,5 @@
 # trigger(eventName)
 
-- **Usage:**
-
 Triggers an event on the `Wrapper` DOM node.
 
 Trigger takes an optional `options` object. The properties in the `options` object are added to the Event.
@@ -10,7 +8,7 @@ You can run preventDefault on the event by passing `preventDefault: true` in `op
 
 - **Arguments:**
   - `{string} eventName`
-  - `{Object} options` 
+  - `{Object} options`
     - `{boolean} preventDefault`
 
 - **Example:**

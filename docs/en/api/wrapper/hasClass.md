@@ -1,7 +1,5 @@
 # hasClass(className)
 
-- **Usage:**
-
 Assert `Wrapper` DOM node has class contains `className`.
 
 Returns `true` if `Wrapper` DOM node contains class.

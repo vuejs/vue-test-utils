@@ -1,7 +1,5 @@
 # hasProp(prop, value)
 
-- **Usage:**
-
 Assert every `Wrapper` in `WrapperArray`  `vm` has `prop` matching `value`.
 
 **Note the Wrapper must contain a Vue instance.**

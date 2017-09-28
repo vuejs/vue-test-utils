@@ -1,8 +1,6 @@
 # findAll(selector)
 
-- **Usage:**
-
-Returns a [`WrapperArray`](../wrapper-array/README.md) of [Wrappers](README.md). 
+Returns a [`WrapperArray`](../wrapper-array/README.md) of [Wrappers](README.md).
 
 Use any valid [selector](../selectors.md).
 

@@ -1,7 +1,5 @@
 # html()
 
-- **Usage:**
-
 Returns HTML of `Wrapper` DOM node as a string.
 
 - **Returns:** `{string}`

@@ -3469,25 +3469,23 @@ function createInterceptPlugin (interceptedProperties) {
 }
 
 function addAttrs (vm, attrs) {
-  var consoleWarnSave = console.error;
-  console.error = function () {};
+  Vue.config.silent = true;
   if (attrs) {
     vm.$attrs = attrs;
   } else {
     vm.$attrs = {};
   }
-  console.error = consoleWarnSave;
+  Vue.config.silent = false;
 }
 
 function addListeners (vm, listeners) {
-  var consoleWarnSave = console.error;
-  console.error = function () {};
+  Vue.config.silent = true;
   if (listeners) {
     vm.$listeners = listeners;
   } else {
     vm.$listeners = {};
   }
-  console.error = consoleWarnSave;
+  Vue.config.silent = false;
 }
 
 function addProvide (component, options) {
@@ -3502,6 +3500,12 @@ function addProvide (component, options) {
       ? provide.call(this)
       : provide;
   };
+}
+
+// 
+
+function compileTemplate (component) {
+  Object.assign(component, vueTemplateCompiler.compileToFunctions(component.template));
 }
 
 // 
@@ -3531,6 +3535,10 @@ function createConstructor (component, options) {
 
   if (options.stubs) {
     stubComponents(component, options.stubs);
+  }
+
+  if (!component.render && component.template && !component.functional) {
+    compileTemplate(component);
   }
 
   var Constructor = vue.extend(component);
@@ -3590,7 +3598,11 @@ function mount (component, options) {
   if ( options === void 0 ) options = {};
 
   if (!window) {
-    throwError('window is undefined, vue-test-utils needs to be run in a browser environment.\n You can run the tests in node using JSDOM');
+    throwError(
+      'window is undefined, vue-test-utils needs to be run in a browser environment.\n' +
+      'You can run the tests in node using jsdom + jsdom-global.\n' +
+      'See https://vue-test-utils.vuejs.org/en/guides/general-tips.html for more details.'
+    );
   }
 
   var componentToMount = options.clone === false ? component : cloneDeep_1(component);
@@ -3646,6 +3658,11 @@ function createLocalVue () {
   // option merge strategies need to be exposed by reference
   // so that merge strats registered by plguins can work properly
   instance.config.optionMergeStrategies = Vue.config.optionMergeStrategies;
+
+  // make sure all extends are based on this instance.
+  // this is important so that global components registered by plugins,
+  // e.g. router-link are created using the correct base constructor
+  instance.options._base = instance;
 
   // compat for vue-router < 2.7.1 where it does not allow multiple installs
   var use = instance.use;

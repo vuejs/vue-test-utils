@@ -1,7 +1,5 @@
 # is(selector)
 
-- **Usage:**
-
 Assert `Wrapper` DOM node or `vm` matches [selector](../selectors.md).
 
 - **Arguments:**

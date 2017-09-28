@@ -1,6 +1,4 @@
 # isVueInstance()
- 
-- **Usage:**
 
 Assert `Wrapper` is Vue instance.
 

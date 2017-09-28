@@ -1,8 +1,6 @@
 
 # setMethods(methods)
 
-- **Usage:**
-
 Sets `Wrapper` `vm` methods and forces update on each `Wrapper` in `WrapperArray`.
 
 **Note every `Wrapper` must contain a Vue instance.**

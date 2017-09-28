@@ -1,7 +1,5 @@
 # hasAttribute(attribute, value)
 
-- **Usage:**
-
 Assert `Wrapper` DOM node has attribute matching value.
 
 Returns `true` if `Wrapper` DOM node contains attribute with matching value.

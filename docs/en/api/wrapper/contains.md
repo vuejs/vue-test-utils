@@ -1,7 +1,5 @@
 # contains(selector)
 
-- **Usage:**
-
 Assert `Wrapper` contains an element or component matching [selector](../selectors.md).
 
 - **Arguments:**
