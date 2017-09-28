@@ -10,12 +10,31 @@ There are a few things to consider when choosing a test runner though: feature s
 
 - [mocha-webpack](https://github.com/zinserjan/mocha-webpack) is a wrapper around webpack + Mocha, but with a more streamlined interface and watch mode. The benefits of this setup is that we can get complete SFC support via webpack + `vue-loader`, but it requires more configuration upfront.
 
-## Getting started
+## Browser Environment
 
-You can read the following guides to get started with either test runner:
+`vue-test-utils` relies on a browser environment. Technically you can run it in a real browser, but it's not recommended due to the complexity of launching real browsers on different platforms. Instead, we recommend running the tests in Node.js with a virtual browser environment using [JSDOM](https://github.com/tmpvar/jsdom).
 
-- [Testing SFCs with Jest](testing-SFCs-with-jest.md)
-- [Testing SFCs with Mocha and webpack](testing-SFCs-with-mocha-webpack.md)
+The Jest test runner sets up JSDOM automatically. For other test runners, you can manually set up JSDOM for the tests using [jsdom-global](https://github.com/rstacruz/jsdom-global) in the entry for your tests:
+
+``` bash
+npm install --save-dev jsdom jsdom-global
+```
+---
+``` js
+// in test setup / entry
+require('jsdom-global')()
+```
+
+## Testing Single-File Components
+
+Single-file Vue components (SFCs) require pre-compilation before they can be run in Node or in the browser. There are two recommended ways to perform the compilation: with a Jest preprocessor, or directly use webpack.
+
+The `jest-vue` preprocessor supports basic SFC functionalities, but currently does not handle style blocks or custom blocks, which are only supported in `vue-loader`. If you rely on these features or other webpack-specific configurations, you will need to use a webpack + `vue-loader` based setup.
+
+Read the following guides for different setups:
+
+- [Testing SFCs with Jest](./guides/testing-SFCs-with-jest.md)
+- [Testing SFCs with Mocha + webpack](./guides/testing-SFCs-with-mocha-webpack.md)
 
 ## Resources
 

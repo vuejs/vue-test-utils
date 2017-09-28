@@ -1,12 +1,12 @@
 ## Table of Contents
 
 * [Guides](guides/README.md)
+  * [Getting Started](guides/getting-started.md)
+  * [Common Tips](guides/common-tips.md)
   * [Choosing a test runner](guides/choosing-a-test-runner.md)
-  * [Using with Jest](guides/using-with-jest.md)
   * [Testing SFCs with Jest](guides/testing-SFCs-with-jest.md)
   * [Testing SFCs with Mocha + webpack](guides/testing-SFCs-with-mocha-webpack.md)
   * [Using with Vuex](guides/using-with-vuex.md)
-  * [General Tips](guides/general-tips.md)
 * [API](api/README.md)
   * [createLocalVue](api/createLocalVue.md)
   * [mount](api/mount.md)
