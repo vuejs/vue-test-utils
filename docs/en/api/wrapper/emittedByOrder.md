@@ -10,7 +10,7 @@ Return an Array containing custom events emitted by the `Wrapper` `vm`.
 import { mount } from 'vue-test-utils'
 import { expect } from 'chai'
 
-const wrapper = mount(Foo)
+const wrapper = mount(Component)
 
 wrapper.vm.$emit('foo')
 wrapper.vm.$emit('bar', 123)

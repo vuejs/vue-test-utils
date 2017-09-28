@@ -32,8 +32,6 @@ wrapper.vm // the mounted Vue instance
 Each mounted wrapper automatically records all events emitted by the underlying Vue instance. You can retrieve the recorded events using the `wrapper.emitted()` method:
 
 ``` js
-const wrapper = mount(Foo)
-
 wrapper.vm.$emit('foo')
 wrapper.vm.$emit('foo', 123)
 
