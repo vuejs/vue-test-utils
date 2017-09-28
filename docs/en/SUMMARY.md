@@ -22,6 +22,8 @@
     - [clone](api/options.md#clone)
   * [Wrapper](api/wrapper/README.md)
     * [contains](api/wrapper/contains.md)
+    * [emitted](api/wrapper/emitted.md)
+    * [emittedByOrder](api/wrapper/emittedByOrder.md)
     * [find](api/wrapper/find.md)
     * [hasAttribute](api/wrapper/hasAttribute.md)
     * [hasClass](api/wrapper/hasClass.md)

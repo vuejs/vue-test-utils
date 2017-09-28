@@ -27,6 +27,41 @@ const wrapper = shallow(Component) // returns a Wrapper containing a mounted Com
 wrapper.vm // the mounted Vue instance
 ```
 
+## Asserting Emitted Events
+
+Each mounted wrapper automatically records all events emitted by the underlying Vue instance. You can retrieve the recorded events using the `wrapper.emitted()` method:
+
+``` js
+const wrapper = mount(Foo)
+
+wrapper.vm.$emit('foo')
+wrapper.vm.$emit('foo', 123)
+
+/*
+wrapper.emitted() returns the following object:
+{
+  foo: [[], [123]]
+}
+*/
+```
+
+You can then make assertions based on these data:
+
+``` js
+import { expect } from 'chai'
+
+// assert event has been emitted
+expect(wrapper.emitted().foo).to.exist
+
+// assert event count
+expect(wrapper.emitted().foo.length).to.equal(2)
+
+// assert event payload
+expect(wrapper.emitted().foo[1]).to.eql([123])
+```
+
+You can also get an Array of the events in their emit order by calling [wrapper.emittedByOrder()](../api/emittedByOrder.md).
+
 ## Manipulating Component State
 
 You can directly manipulate the state of the component using the `setData` or `setProps` method on the wrapper:
@@ -51,7 +86,7 @@ mount(Component, {
 })
 ```
 
-You can also update the props of an already-mounted component with the `wrapper.setProps` method.
+You can also update the props of an already-mounted component with the `wrapper.setProps({})` method.
 
 *For a full list of options, please see the [mount options section](./api/options.md) of the docs.*
 

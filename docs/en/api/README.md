@@ -14,6 +14,8 @@
   - [clone](./options.md#clone)
 * [Wrapper](./wrapper/README.md)
   * [contains](./wrapper/contains.md)
+  * [emitted](./wrapper/emitted.md)
+  * [emittedByOrder](./wrapper/emittedByOrder.md)
   * [find](./wrapper/find.md)
   * [hasAttribute](./wrapper/hasAttribute.md)
   * [hasClass](./wrapper/hasClass.md)
