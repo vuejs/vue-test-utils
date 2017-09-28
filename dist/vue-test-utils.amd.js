@@ -2592,6 +2592,9 @@ function getCoreProperties (component) {
   }
 }
 function createStubFromString (templateString, originalComponent) {
+  if (!vueTemplateCompiler.compileToFunctions) {
+    throwError('vueTemplateCompiler is undefined, you must pass components explicitly if vue-template-compiler is undefined');
+  }
   return Object.assign({}, getCoreProperties(originalComponent),
     vueTemplateCompiler.compileToFunctions(templateString))
 }
@@ -2634,6 +2637,9 @@ function stubComponents (component, stubs) {
         }
       } else {
         if (typeof stubs[stub] === 'string') {
+          if (!vueTemplateCompiler.compileToFunctions) {
+            throwError('vueTemplateCompiler is undefined, you must pass components explicitly if vue-template-compiler is undefined');
+          }
           component.components[stub] = Object.assign({}, vueTemplateCompiler.compileToFunctions(stubs[stub]));
           stubLifeCycleEvents(component.components[stub]);
         } else {
@@ -3067,7 +3073,7 @@ Wrapper.prototype.hasAttribute = function hasAttribute (attribute, value) {
     throwError('wrapper.hasAttribute() must be passed value as a string');
   }
 
-  return this.element && this.element.getAttribute(attribute) === value
+  return !!(this.element && this.element.getAttribute(attribute) === value)
 };
 
 /**
@@ -3078,7 +3084,7 @@ Wrapper.prototype.hasClass = function hasClass (className) {
     throwError('wrapper.hasClass() must be passed a string');
   }
 
-  return this.element.className.split(' ').indexOf(className) !== -1
+  return !!(this.element && this.element.classList.contains(className))
 };
 
 /**
@@ -3219,7 +3225,10 @@ Wrapper.prototype.is = function is (selector) {
     }
     return vmCtorMatchesName(this.vm, selector.name)
   }
-  return this.element.getAttribute && this.element.matches(selector)
+
+  return !!(this.element &&
+  this.element.getAttribute &&
+  this.element.matches(selector))
 };
 
 /**
@@ -3317,6 +3326,10 @@ Wrapper.prototype.setProps = function setProps (data) {
  * Return text of wrapper element
  */
 Wrapper.prototype.text = function text () {
+  if (!this.element) {
+    throwError('cannot call wrapper.text() on a wrapper without an element');
+  }
+
   return this.element.textContent
 };
 
@@ -3328,6 +3341,10 @@ Wrapper.prototype.trigger = function trigger (type, options) {
 
   if (typeof type !== 'string') {
     throwError('wrapper.trigger() must be passed a string');
+  }
+
+  if (!this.element) {
+    throwError('cannot call wrapper.trigger() on a wrapper without an element');
   }
 
   var modifiers = {
@@ -3403,12 +3420,18 @@ function isValidSlot (slot) {
 function addSlotToVm (vm, slotName, slotValue) {
   if (Array.isArray(vm.$slots[slotName])) {
     if (typeof slotValue === 'string') {
+      if (!vueTemplateCompiler.compileToFunctions) {
+        throwError('vueTemplateCompiler is undefined, you must pass components explicitly if vue-template-compiler is undefined');
+      }
       vm.$slots[slotName].push(vm.$createElement(vueTemplateCompiler.compileToFunctions(slotValue)));
     } else {
       vm.$slots[slotName].push(vm.$createElement(slotValue));
     }
   } else {
     if (typeof slotValue === 'string') {
+      if (!vueTemplateCompiler.compileToFunctions) {
+        throwError('vueTemplateCompiler is undefined, you must pass components explicitly if vue-template-compiler is undefined');
+      }
       vm.$slots[slotName] = [vm.$createElement(vueTemplateCompiler.compileToFunctions(slotValue))];
     } else {
       vm.$slots[slotName] = [vm.$createElement(slotValue)]; // eslint-disable-line no-param-reassign
@@ -3442,6 +3465,28 @@ function createInterceptPlugin (interceptedProperties) {
       });
     }
   }
+}
+
+function addAttrs (vm, attrs) {
+  var consoleWarnSave = console.error;
+  console.error = function () {};
+  if (attrs) {
+    vm.$attrs = attrs;
+  } else {
+    vm.$attrs = {};
+  }
+  console.error = consoleWarnSave;
+}
+
+function addListeners (vm, listeners) {
+  var consoleWarnSave = console.error;
+  console.error = function () {};
+  if (listeners) {
+    vm.$listeners = listeners;
+  } else {
+    vm.$listeners = {};
+  }
+  console.error = consoleWarnSave;
 }
 
 function addProvide (component, options) {
@@ -3497,6 +3542,9 @@ function createConstructor (component, options) {
   }
 
   var vm = new Constructor(options);
+
+  addAttrs(vm, options.attrs);
+  addListeners(vm, options.listeners);
 
   if (options.slots) {
     addSlots(vm, options.slots);
@@ -3580,15 +3628,30 @@ function shallow (component, options) {
 
 function createLocalVue () {
   var instance = Vue.extend();
-  instance.version = Vue.version;
-  instance._installedPlugins = [];
+
+  // clone global APIs
+  Object.keys(Vue).forEach(function (key) {
+    if (!instance.hasOwnProperty(key)) {
+      var original = Vue[key];
+      instance[key] = typeof original === 'object'
+        ? cloneDeep_1(original)
+        : original;
+    }
+  });
+
+  // config is not enumerable
   instance.config = cloneDeep_1(Vue.config);
-  instance.util = cloneDeep_1(Vue.util);
-  instance._use = instance.use;
+
+  // option merge strategies need to be exposed by reference
+  // so that merge strats registered by plguins can work properly
+  instance.config.optionMergeStrategies = Vue.config.optionMergeStrategies;
+
+  // compat for vue-router < 2.7.1 where it does not allow multiple installs
+  var use = instance.use;
   instance.use = function (plugin) {
     plugin.installed = false;
     plugin.install.installed = false;
-    instance._use(plugin);
+    use.call(instance, plugin);
   };
   return instance
 }
