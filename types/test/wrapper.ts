@@ -21,6 +21,14 @@ bool = wrapper.is(normalOptions)
 bool = wrapper.isEmpty()
 bool = wrapper.isVueInstance()
 
+wrapper.vm.$emit('hello')
+
+const emitted = wrapper.emitted()
+const arr: Array<any> = emitted.hello
+
+const emittedByOrder = wrapper.emittedByOrder()
+const name: string = emittedByOrder[0].name
+
 wrapper.update()
 wrapper.setData({ foo: 'bar' })
 wrapper.setMethods({checked: true})

@@ -67,6 +67,9 @@ interface Wrapper<V extends Vue> extends BaseWrapper {
   html (): string
   text (): string
   name (): string
+
+  emitted (): { [name: string]: Array<Array<any>> }
+  emittedByOrder (): Array<{ name: string, args: Array<any> }>
 }
 
 interface WrapperArray<V extends Vue> extends BaseWrapper {
