@@ -78,7 +78,7 @@ mount(Component, {
 
 ## Mocking Injections
 
-Another strategy for injected properties is simply mocking them. You can do that with the `intercept` option:
+Another strategy for injected properties is simply mocking them. You can do that with the `mocks` option:
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -91,7 +91,7 @@ const $route = {
 }
 
 mount(Component, {
-  intercept: {
+  mocks: {
     $route // adds the mocked $route object to the Vue instance before mounting component
   }
 })

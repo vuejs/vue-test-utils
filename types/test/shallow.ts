@@ -26,7 +26,7 @@ shallow<ClassComponent>(ClassComponent, {
   attachToDocument: true,
   clone: true,
   localVue,
-  intercept: {
+  mocks: {
     $store: store
   },
   slots: {
