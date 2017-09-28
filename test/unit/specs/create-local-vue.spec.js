@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 import mount from '~src/mount'
 import Component from '~resources/components/component.vue'
 import ComponentWithVuex from '~resources/components/component-with-vuex.vue'
+import ComponentWithRouter from '~resources/components/component-with-router.vue'
 
 describe('createLocalVue', () => {
   it('installs Vuex without polluting global Vue', () => {
@@ -63,17 +64,34 @@ describe('createLocalVue', () => {
     expect(typeof freshWrapper.vm.$route).to.equal('undefined')
   })
 
-  it('installs Router after a previous installed', () => {
+  it('Router should work properly with local Vue', () => {
     const localVue = createLocalVue()
     localVue.use(VueRouter)
     const routes = [
-      { path: '/foo', component: Component }
+      {
+        path: '/',
+        component: {
+          render: h => h('div', 'home')
+        }
+      },
+      {
+        path: '/foo',
+        component: {
+          render: h => h('div', 'foo')
+        }
+      }
     ]
     const router = new VueRouter({
       routes
     })
-    const wrapper = mount(Component, { localVue, router })
+    const wrapper = mount(ComponentWithRouter, { localVue, router })
     expect(wrapper.vm.$route).to.be.an('object')
+
+    expect(wrapper.text()).to.contain('home')
+
+    wrapper.find('a').trigger('click')
+    expect(wrapper.text()).to.contain('foo')
+
     const freshWrapper = mount(Component)
     expect(typeof freshWrapper.vm.$route).to.equal('undefined')
   })
