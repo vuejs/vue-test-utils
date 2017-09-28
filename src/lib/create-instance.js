@@ -9,6 +9,7 @@ import addProvide from './add-provide'
 import { stubComponents } from './stub-components'
 import { throwError } from './util'
 import cloneDeep from 'lodash/cloneDeep'
+import { compileTemplate } from './compile-template'
 
 export default function createConstructor (component: Component, options: Options): Component {
   const vue = options.localVue || Vue
@@ -35,6 +36,10 @@ export default function createConstructor (component: Component, options: Option
 
   if (options.stubs) {
     stubComponents(component, options.stubs)
+  }
+
+  if (!component.render && component.template && !component.functional) {
+    compileTemplate(component)
   }
 
   const Constructor = vue.extend(component)
