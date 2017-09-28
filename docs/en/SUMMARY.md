@@ -1,12 +1,13 @@
 ## Table of Contents
 
-* Guides
+* [Guides](guides/README.md)
   * [Choosing a test runner](guides/choosing-a-test-runner.md)
   * [Using with Jest](guides/using-with-jest.md)
   * [Testing SFCs with Jest](guides/testing-SFCs-with-jest.md)
   * [Testing SFCs with Mocha + webpack](guides/testing-SFCs-with-mocha-webpack.md)
   * [Using with Vuex](guides/using-with-vuex.md)
-* API
+  * [General Tips](guides/general-tips.md)
+* [API](api/README.md)
   * [createLocalVue](api/createLocalVue.md)
   * [mount](api/mount.md)
   * [shallow](api/shallow.md)
@@ -43,4 +44,3 @@
     * [setProps](api/wrapper-array/setProps.md)
     * [trigger](api/wrapper-array/trigger.md)
   * [Selectors](api/selectors.md)
-  * [Common gotchas](common-gotchas.md)

@@ -23,44 +23,35 @@ Next we need to define a unit script in our `package.json`.
 }
 ```
 
-This script tells mocha-webpack to get the webpack config from build/webpack.conf.js, run all test files in the test directory and run test/setup.js before the tests.
+This script tells `mocha-webpack` to get the webpack config from `build/webpack.conf.js`, run all test files in the test directory and run `test/setup.js` before the tests.
+
+### Setting Up Browser Environment
 
 Let's create the setup.js script first.
 
-`vue-test-utils` requires a browser environment to run. We can set one up using browser-env (a wrapper around JSDOM).
+`vue-test-utils` requires a browser environment to run. We can set one up using `jsdom-global`, which setups a JSDOM instance and attaches necessary globals to the Node process.
 
-Let's install that:
+Let's install the dependencies:
 
+```bash
+npm install --save-dev jsdom jsdom-global
 ```
-npm install --save-dev browser-env
-```
 
-Create a test/setup.js file and paste the following code in:
+Create a `test/setup.js` file and paste the following code in:
 
-```
-require('browser-env')();
+``` js
+require('jsdom-global')()
 ```
 
 This adds a browser environment to node, so that `vue-test-utils` can run correctly.
 
-Next, we need to install babel and configure it so we can use ES6 features in our JavaScript:
+### Configuring webpack
 
-```bash
-npm install --save-dev babel-core babel-preset-env
-```
+Now we need to create a webpack config file. In most cases your test config should use the same `module` rules with your projects existing webpack config. We recommend extracting the common config options into a base file and extend it separately for build and testing.
 
-and create a .babelrc file in the root of the project, that tells babel to use the env preset:
+One specific tweak needed for the test config is that we should externalize Node dependencies with `webpack-node-externals`. This significantly speeds up the bundling process.
 
-```json
-// .babelrc
-{
-  "presets": ["env"]
-}
-```
-
-*babel-preset-env allows compiling the JS based on the browsers you plan to support. Get more info here: [babel-preset-env](https://github.com/babel/babel-preset-env)*
-
-Now we need to create a webpack config file. Create a build/webpack.conf.js file, and add the following code:
+For our example project, the config looks like this:
 
 ```js
 const nodeExternals = require('webpack-node-externals')
@@ -84,17 +75,17 @@ module.exports = {
 }
 ```
 
-That's the setup done. Now to add a test.
+### Configuring Babel
 
+Notice that we are using `babel-loader` to handle JavaScript. You should already have Babel configured if you are using it in your app, e.g. via a `.babelrc` file. Here `babel-loader` will automatically use the same config file.
 
-## Adding a test
+One thing to note is that if you are using Node 6+, which already supports the majority of ES2015 features, you can configure a separate Babel [env option](https://babeljs.io/docs/usage/babelrc/#env-option) that only transpiles features that are not already supported in the Node version you are using (e.g. `stage-2` or flow syntax support, etc.)
 
-Create a file in src named Counter.vue.
+### Adding a test
 
-Paste the following code in src/Counter.vue:
+Create a file in `src` named `Counter.vue`:
 
-
-```vue
+``` html
 <template>
 	<div>
 	  {{ count }}
@@ -119,7 +110,7 @@ export default {
 </script>
 ```
 
-And create a test file—`test/Counter.spec.js`. Paste the code below into the file:
+And create a test file named `test/Counter.spec.js` with the following code:
 
 ```js
 import { shallow } from 'vue-test-utils'
@@ -135,7 +126,7 @@ describe('Counter.vue', () => {
 })
 ```
 
-Notice we're using expect from chai to make our assertion. We need to install chai before running the tests:
+Notice we're using `expect` from `chai` to make our assertion. We need to install chai before running the tests:
 
 ```
 npm install --save-dev chai
@@ -147,7 +138,7 @@ And now we can run the test:
 npm run unit
 ```
 
-Great, the tests are running!
+Woohoo, we got our tests running!
 
 ### Resources
 

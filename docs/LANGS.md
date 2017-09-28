@@ -1,1 +1,1 @@
-* [0.0.1 - English](en/)
+* [English](en/)

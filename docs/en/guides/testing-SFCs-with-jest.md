@@ -42,13 +42,14 @@ We need to add a `.babelrc` file, to tell babel to use the env preset:
 }
 ```
 
-By default, Jest doesn't recognize .vue files. So we need to tell Jest how to handle them. To do that we need to install jest-vue, which preprocesses .vue files:
+By default, Jest doesn't recognize `.vue` files. So we need to tell Jest how to handle them. To do that we need to install jest-vue, which preprocesses `.vue` files:
 
 ```
 npm install --sav-dev jest-vue
 ```
 
 In our `package.json`, we need to add a field to tell Jest how to treat .vue files:
+
 ```json
 // package.json
 {

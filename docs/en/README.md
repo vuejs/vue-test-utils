@@ -88,17 +88,14 @@ Read the following guides for different setups:
 - [Testing SFCs with Jest](./guides/testing-SFCs-with-jest.md)
 - [Testing SFCs with Mocha + webpack](./guides/testing-SFCs-with-mocha-webpack.md)
 
-## Knowing what to test
+### Knowing What to Test
 
-It's difficult to generalize what you should test and what you shouldn't, because it's a trade-off that has to do with your development requirements and time constraints. However, there are some general rules you can follow.
+For UI components, we don't recommend aiming for complete line-based coverage, because it leads to too much focus on the internal implementation details of the components and could result in brittle tests.
 
-You should write tests to assert your component's logic, not implementation details. The best way to test the logic of component is to make sure an input (user interaction or change of props) creates the expected output.
+Instead, we recommend writing tests that assert your component's public interface, and treat its internals as a black box. A single test case would assert that some input (user interaction or change of props) provided to the component results in the expected output (render result or emitted custom events).
 
-For example, imagine we have a `Counter` component that increments a display counter by 1 each time a button is clicked. The test should perform the click and assert that the counter increased by 1. This ensures that your test is not implementation specific. You can rewrite the logic of the test, and as long as clicking a button still updates the counter text, the test will pass.
+For example, imagine we have a `Counter` component that increments a display counter by 1 each time a button is clicked. Its test case would simulate the click and assert that the rendered output has increased by 1. The test doesn't care about how the Counter increments the value, it only cares about the input and the output.
 
-## Example projects
+The benefit of this approach is that as long as your component's public interface remains the same, your tests will pass no matter how the component's internal implementation changes over time.
 
-- [example with Jest](https://github.com/eddyerburgh/vue-test-utils-jest-example)
-- [example with Mocha](https://github.com/eddyerburgh/vue-test-utils-mocha-example)
-- [example with tape](https://github.com/eddyerburgh/vue-test-utils-tape-example)
-- [example with AVA](https://github.com/eddyerburgh/vue-test-utils-ava-example)
+This topic is discussed with more details in a [great presentation by Matt O'Connell](http://slides.com/mattoconnell/deck#/).
