@@ -3384,6 +3384,18 @@ Wrapper.prototype.trigger = function trigger (type, options) {
   this.update();
 };
 
+function logEvents (vm, emitted, emittedByOrder) {
+  var emit = vm.$emit;
+  vm.$emit = function (name) {
+    var args = [], len = arguments.length - 1;
+    while ( len-- > 0 ) args[ len ] = arguments[ len + 1 ];
+
+    (emitted[name] || (emitted[name] = [])).push(args);
+    emittedByOrder.push({ name: name, args: args });
+    return emit.call.apply(emit, [ vm, name ].concat( args ))
+  };
+}
+
 // 
 
 function update () {
@@ -3402,11 +3414,23 @@ var VueWrapper = (function (Wrapper$$1) {
 
     this.vm = vm;
     this.isVueComponent = true;
+    this._emitted = Object.create(null);
+    this._emittedByOrder = [];
+
+    logEvents(vm, this._emitted, this._emittedByOrder);
   }
 
   if ( Wrapper$$1 ) VueWrapper.__proto__ = Wrapper$$1;
   VueWrapper.prototype = Object.create( Wrapper$$1 && Wrapper$$1.prototype );
   VueWrapper.prototype.constructor = VueWrapper;
+
+  VueWrapper.prototype.emitted = function emitted () {
+    return this._emitted
+  };
+
+  VueWrapper.prototype.emittedByOrder = function emittedByOrder () {
+    return this._emittedByOrder
+  };
 
   return VueWrapper;
 }(Wrapper));
@@ -3457,14 +3481,10 @@ function addSlots (vm, slots) {
 
 // 
 
-function createInterceptPlugin (interceptedProperties) {
-  return {
-    install: function (Vue$$1) {
-      Object.keys(interceptedProperties).forEach(function (key) {
-        Vue$$1.prototype[key] = interceptedProperties[key];
-      });
-    }
-  }
+function addMocks (mockedProperties, Vue$$1) {
+  Object.keys(mockedProperties).forEach(function (key) {
+    Vue$$1.prototype[key] = mockedProperties[key];
+  });
 }
 
 function addAttrs (vm, attrs) {
@@ -3542,11 +3562,8 @@ function createConstructor (component, options) {
 
   var Constructor = vue.extend(component);
 
-  if (options.intercept) {
-    // creates a plugin that adds properties, and then install on local Constructor
-    // this does not affect the base Vue class
-    var interceptPlugin = createInterceptPlugin(options.intercept);
-    Constructor.use(interceptPlugin);
+  if (options.mocks) {
+    addMocks(options.mocks, Constructor);
   }
 
   var vm = new Constructor(options);
