@@ -132,7 +132,7 @@ export default class Wrapper implements BaseWrapper {
 
     const elStyle = window.getComputedStyle(this.element)[style]
     const mockNodeStyle = window.getComputedStyle(mockNode)[style]
-    return elStyle === mockNodeStyle
+    return !!(elStyle && mockNodeStyle && elStyle === mockNodeStyle)
   }
 
   /**
