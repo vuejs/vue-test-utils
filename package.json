@@ -41,7 +41,7 @@
     "babel-loader": "^7.0.0",
     "babel-plugin-istanbul": "^4.1.4",
     "babel-polyfill": "^6.23.0",
-    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-env": "^1.6.0",
     "babel-preset-flow-vue": "^1.0.0",
     "babel-preset-stage-2": "^6.24.1",
     "chai": "^4.0.0",
