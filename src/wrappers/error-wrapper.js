@@ -16,6 +16,14 @@ export default class ErrorWrapper implements BaseWrapper {
     throwError(`find did not return ${this.selector}, cannot call contains() on empty Wrapper`)
   }
 
+  emitted (): void {
+    throwError(`find did not return ${this.selector}, cannot call emitted() on empty Wrapper`)
+  }
+
+  emittedByOrder (): void {
+    throwError(`find did not return ${this.selector}, cannot call emittedByOrder() on empty Wrapper`)
+  }
+
   exists (): boolean {
     return false
   }

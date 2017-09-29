@@ -15,6 +15,20 @@ describe('ErrorWrapper', () => {
     expect(() => error.contains()).to.throw().with.property('message', message)
   })
 
+  it('emitted throws error when called', () => {
+    const selector = 'div'
+    const message = `[vue-test-utils]: find did not return ${selector}, cannot call emitted() on empty Wrapper`
+    const error = new ErrorWrapper(selector)
+    expect(() => error.emitted()).to.throw().with.property('message', message)
+  })
+
+  it('emittedByOrder throws error when called', () => {
+    const selector = 'div'
+    const message = `[vue-test-utils]: find did not return ${selector}, cannot call emittedByOrder() on empty Wrapper`
+    const error = new ErrorWrapper(selector)
+    expect(() => error.emittedByOrder()).to.throw().with.property('message', message)
+  })
+
   it('hasAttribute throws error when called', () => {
     const selector = 'div'
     const message = `[vue-test-utils]: find did not return ${selector}, cannot call hasAttribute() on empty Wrapper`

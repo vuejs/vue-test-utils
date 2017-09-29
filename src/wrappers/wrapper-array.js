@@ -25,9 +25,20 @@ export default class WrapperArray implements BaseWrapper {
 
     return this.wrappers.every(wrapper => wrapper.contains(selector))
   }
-
   exists (): boolean {
     return this.wrappers.length > 0
+  }
+
+  emitted (): void {
+    this.throwErrorIfWrappersIsEmpty('emitted')
+
+    throwError('emitted must be called on a single wrapper, use at(i) to access a wrapper')
+  }
+
+  emittedByOrder (): void {
+    this.throwErrorIfWrappersIsEmpty('emittedByOrder')
+
+    throwError('emittedByOrder must be called on a single wrapper, use at(i) to access a wrapper')
   }
 
   hasAttribute (attribute: string, value: string): boolean {

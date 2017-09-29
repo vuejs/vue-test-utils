@@ -23,13 +23,37 @@ describe('WrapperArray', () => {
     expect(() => wrapperArray.find()).to.throw().with.property('message', message)
   })
 
-  it('findAll throws error if wrapper is not empty', () => {
+  it('emitted throws error if wrapper is not empty', () => {
+    const wrapperArray = new WrapperArray([])
+    const message = '[vue-test-utils]: emitted cannot be called on 0 items'
+    expect(() => wrapperArray.emitted()).to.throw().with.property('message', message)
+  })
+
+  it('emitted throws error if wrapper is empty', () => {
+    const wrapperArray = new WrapperArray([1, 2, 3])
+    const message = '[vue-test-utils]: emitted must be called on a single wrapper, use at(i) to access a wrapper'
+    expect(() => wrapperArray.emitted()).to.throw().with.property('message', message)
+  })
+
+  it('emittedByOrder throws error if wrapper is not empty', () => {
+    const wrapperArray = new WrapperArray([])
+    const message = '[vue-test-utils]: emittedByOrder cannot be called on 0 items'
+    expect(() => wrapperArray.emittedByOrder()).to.throw().with.property('message', message)
+  })
+
+  it('emittedByOrder throws error if wrapper is empty', () => {
+    const wrapperArray = new WrapperArray([1, 2, 3])
+    const message = '[vue-test-utils]: emittedByOrder must be called on a single wrapper, use at(i) to access a wrapper'
+    expect(() => wrapperArray.emittedByOrder()).to.throw().with.property('message', message)
+  })
+
+  it('findAll throws error if wrapper is  empty', () => {
     const wrapperArray = new WrapperArray([])
     const message = '[vue-test-utils]: findAll cannot be called on 0 items'
     expect(() => wrapperArray.findAll()).to.throw().with.property('message', message)
   })
 
-  it('findAll throws error if wrapper is empty', () => {
+  it('findAll throws error if wrapper is not empty', () => {
     const wrapperArray = new WrapperArray([1, 2, 3])
     const message = '[vue-test-utils]: findAll must be called on a single wrapper, use at(i) to access a wrapper'
     expect(() => wrapperArray.findAll()).to.throw().with.property('message', message)

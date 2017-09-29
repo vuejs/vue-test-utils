@@ -11,6 +11,8 @@ import { throwError } from '../lib/util'
 export default class Wrapper implements BaseWrapper {
   vnode: VNode;
   vm: Component | null;
+  _emitted: { [name: string]: Array<Array<any>> };
+  _emittedByOrder: Array<{ name: string; args: Array<any> }>;
   isVueComponent: boolean;
   element: HTMLElement;
   update: Function;
@@ -45,6 +47,26 @@ export default class Wrapper implements BaseWrapper {
     }
 
     return false
+  }
+
+  /**
+   * Returns an object containing custom events emitted by the Wrapper vm
+   */
+  emitted () {
+    if (!this._emitted && !this.vm) {
+      throwError('wrapper.emitted() can only be called on a Vue instance')
+    }
+    return this._emitted
+  }
+
+  /**
+   * Returns an Array containing custom events emitted by the Wrapper vm
+   */
+  emittedByOrder () {
+    if (!this._emittedByOrder && !this.vm) {
+      throwError('wrapper.emittedByOrder() can only be called on a Vue instance')
+    }
+    return this._emittedByOrder
   }
 
   /**

@@ -21,11 +21,15 @@ describe('emitted', () => {
     expect(wrapper.emitted().foo).to.exist
     expect(wrapper.emitted().foo.length).to.equal(2)
     expect(wrapper.emitted().foo[1]).to.eql([2, 3, 4])
+  })
 
-    expect(wrapper.emittedByOrder()).to.eql([
-      { name: 'foo', args: [] },
-      { name: 'bar', args: [1, 2, 3] },
-      { name: 'foo', args: [2, 3, 4] }
-    ])
+  it('throws error when called on non VueWrapper', () => {
+    const wrapper = mount({
+      template: '<div><p /></div>'
+    })
+    const message = '[vue-test-utils]: wrapper.emitted() can only be called on a Vue instance'
+
+    const fn = () => wrapper.find('p').emitted()
+    expect(fn).to.throw().with.property('message', message)
   })
 })

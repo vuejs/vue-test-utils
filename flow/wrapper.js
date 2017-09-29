@@ -8,6 +8,8 @@ declare type Selector = string | Component
 declare interface BaseWrapper { // eslint-disable-line no-undef
     at(index: number): Wrapper | void,
     contains(selector: Selector): boolean | void,
+    emitted(): { [name: string]: Array<Array<any>> } | void,
+    emittedByOrder(): Array<{ name: string; args: Array<any> }> | void,
     exists(): boolean,
     hasAttribute(attribute: string, value: string): boolean | void,
     hasClass(className: string): boolean | void,
