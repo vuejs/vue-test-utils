@@ -1,9 +1,9 @@
 # vue-test-utils
 
-## Currently not published on npm 
-To use vue-test-utils pre-release:
+## Currently in beta
+To use vue-test-utils beta:
 ```
-npm install --save-dev https://github.com/vuejs/vue-test-utils/
+npm install --save-dev vue-test-utils@1.0.0-beta
 ```
 
 ## Intro
@@ -12,7 +12,7 @@ npm install --save-dev https://github.com/vuejs/vue-test-utils/
 
 ## Documentation
 
-Refer to [documentation](https://vuejs.github.io/vue-test-utils/)
+Refer to [documentation](https://vue-test-utils.vuejs.org/)
 
 ## Examples
 
