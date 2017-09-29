@@ -53,4 +53,12 @@ describe('hasStyle', () => {
     const fn = () => wrapper.hasStyle('color', undefined)
     expect(fn).to.throw().with.property('message', message)
   })
+
+  it('return false when the style is a invalid prop name ', () => {
+    if (navigator.userAgent.includes && navigator.userAgent.includes('jsdom')) {
+      return
+    }
+    const wrapper = mount(ComponentWithStyle)
+    expect(wrapper.find('p').hasStyle('margin-top333', '10px')).to.equal(false)
+  })
 })
