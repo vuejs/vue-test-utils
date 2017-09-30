@@ -8,9 +8,9 @@
 
 - **使い方:**
 
-`Wrapper`,`vm`は`value`と一致する`prop`を持っているかアサートします。
+`Wrapper`、`vm`が`value`と一致する`prop`を持っているかアサートします。
 
-`Wrapper`,`vm`が`value`と一致する `prop`を持つ場合は`true`を返します。
+`Wrapper`、`vm`が`value`と一致する `prop`を持つ場合は`true`を返します。
 
 **ラッパーにはVueインスタンスが含まれている必要があることに注意してください。**
 
