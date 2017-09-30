@@ -1,15 +1,15 @@
 # findAll(selector)
 
-- **Arguments:**
+- **引数:**
   - `{string|Component} selector`
 
-- **Returns:** `{WrapperArray}`
+- **戻り値:** `{WrapperArray}`
 
-- **Usage:**
+- **使い方:**
 
-Returns a [`WrapperArray`](/docs/en/api/wrapper-array/README.md) of [Wrappers](/docs/en/api/wrapper/README.md). 
+[Wrappers](/docs/en/api/wrapper/README.md)の[`WrapperArray`](/docs/en/api/wrapper-array/README.md)を返します。
 
-Use any valid [selector](/docs/en/api/selectors.md).
+有効な[selector](/docs/ja/api/selectors.md)を使用してください。
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -24,4 +24,4 @@ const bar = wrapper.findAll(Bar).at(0)
 expect(bar.is(Bar)).to.equal(true)
 ```
 
-- **See also:** [Wrapper](/docs/en/api/wrapper/README.md)
+- **参照:** [Wrapper](/docs/ja/api/wrapper/README.md)
