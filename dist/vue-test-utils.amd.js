@@ -2823,9 +2823,20 @@ WrapperArray.prototype.contains = function contains (selector) {
 
   return this.wrappers.every(function (wrapper) { return wrapper.contains(selector); })
 };
-
 WrapperArray.prototype.exists = function exists () {
   return this.wrappers.length > 0
+};
+
+WrapperArray.prototype.emitted = function emitted () {
+  this.throwErrorIfWrappersIsEmpty('emitted');
+
+  throwError('emitted must be called on a single wrapper, use at(i) to access a wrapper');
+};
+
+WrapperArray.prototype.emittedByOrder = function emittedByOrder () {
+  this.throwErrorIfWrappersIsEmpty('emittedByOrder');
+
+  throwError('emittedByOrder must be called on a single wrapper, use at(i) to access a wrapper');
 };
 
 WrapperArray.prototype.hasAttribute = function hasAttribute (attribute, value) {
@@ -2949,6 +2960,14 @@ ErrorWrapper.prototype.contains = function contains () {
   throwError(("find did not return " + (this.selector) + ", cannot call contains() on empty Wrapper"));
 };
 
+ErrorWrapper.prototype.emitted = function emitted () {
+  throwError(("find did not return " + (this.selector) + ", cannot call emitted() on empty Wrapper"));
+};
+
+ErrorWrapper.prototype.emittedByOrder = function emittedByOrder () {
+  throwError(("find did not return " + (this.selector) + ", cannot call emittedByOrder() on empty Wrapper"));
+};
+
 ErrorWrapper.prototype.exists = function exists () {
   return false
 };
@@ -3055,6 +3074,26 @@ Wrapper.prototype.contains = function contains (selector) {
 };
 
 /**
+ * Returns an object containing custom events emitted by the Wrapper vm
+ */
+Wrapper.prototype.emitted = function emitted () {
+  if (!this._emitted && !this.vm) {
+    throwError('wrapper.emitted() can only be called on a Vue instance');
+  }
+  return this._emitted
+};
+
+/**
+ * Returns an Array containing custom events emitted by the Wrapper vm
+ */
+Wrapper.prototype.emittedByOrder = function emittedByOrder () {
+  if (!this._emittedByOrder && !this.vm) {
+    throwError('wrapper.emittedByOrder() can only be called on a Vue instance');
+  }
+  return this._emittedByOrder
+};
+
+/**
  * Utility to check wrapper exists. Returns true as Wrapper always exists
  */
 Wrapper.prototype.exists = function exists () {
@@ -3139,7 +3178,7 @@ Wrapper.prototype.hasStyle = function hasStyle (style, value) {
 
   var elStyle = window.getComputedStyle(this.element)[style];
   var mockNodeStyle = window.getComputedStyle(mockNode)[style];
-  return elStyle === mockNodeStyle
+  return !!(elStyle && mockNodeStyle && elStyle === mockNodeStyle)
 };
 
 /**
@@ -3423,14 +3462,6 @@ var VueWrapper = (function (Wrapper$$1) {
   if ( Wrapper$$1 ) VueWrapper.__proto__ = Wrapper$$1;
   VueWrapper.prototype = Object.create( Wrapper$$1 && Wrapper$$1.prototype );
   VueWrapper.prototype.constructor = VueWrapper;
-
-  VueWrapper.prototype.emitted = function emitted () {
-    return this._emitted
-  };
-
-  VueWrapper.prototype.emittedByOrder = function emittedByOrder () {
-    return this._emittedByOrder
-  };
 
   return VueWrapper;
 }(Wrapper));
