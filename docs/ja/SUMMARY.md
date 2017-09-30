@@ -1,4 +1,4 @@
-## Table of Contents
+## 目次
 
 * [API](api/README.md)
   * [createLocalVue](api/createLocalVue.md)
