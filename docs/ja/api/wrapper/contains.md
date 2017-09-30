@@ -1,13 +1,13 @@
 # contains(selector)
 
-- **Arguments:**
-  - `{string|Component} selector`
+- **引数:**
+  - `{string|Component} セレクタ(selector)`
 
-- **Returns:** `{boolean}`
+- **戻り値:** `{boolean}`
 
-- **Usage:**
+- **使い方:**
 
-Assert `Wrapper` contains an element or component matching [selector](/docs/en/api/selectors.md).
+`Wrapper`に要素、もしくは[セレクタ](/docs/ja/api/selectors.md)で指定したコンポーネントを含んでいるかアサートします。
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -20,4 +20,4 @@ expect(wrapper.contains('p')).to.equal(true)
 expect(wrapper.contains(Bar)).to.equal(true)
 ```
 
-- **See also:** [selectors](/docs/en/api/selectors.md)
+- **参照:** [セレクタ](/docs/ja/api/selectors.md)
