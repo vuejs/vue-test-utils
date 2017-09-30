@@ -1,4 +1,4 @@
-# Getting Started
+# 入門
 
 公式の`vue-test-utils`の取得と実行は簡単です。
 `npm` または `yarn` を使ってパッケージをインストールします。
@@ -11,7 +11,7 @@ $ npm install --save vue-test-utils
 $ yarn add vue-test-utils
 ```
 
-**Notice:** `vue-test-utils`を利用してVueコンポーネントをテストするには [Karma](https://karma-runner.github.io/1.0/index.html) のようなテストランナー、`jsDOM`(例:[jest](https://facebook.github.io/jest/), [ava](https://github.com/avajs/ava))などの仮想DOMをサポートするnodeの実行環境を使用してください
+**注意:** `vue-test-utils`を利用してVueコンポーネントをテストするには [Karma](https://karma-runner.github.io/1.0/index.html) のようなテストランナー、`jsDOM`(例:[jest](https://facebook.github.io/jest/), [ava](https://github.com/avajs/ava))などの仮想DOMをサポートするnodeの実行環境を使用してください
 
 counterのようなシンプルなVueコンポーネントをテストしてこれらのutilsの使い方を感じてみましょう。
 
@@ -49,17 +49,17 @@ export default {
 上に書いたように、ラッパーはコンポーネントと効率よくやり取りをする核となる要素です。手順は以下のようになります。
 
 ```js
-// Import the mount() method from the test utils
-// and the component you want to test
+// test utilsからmount（）メソッドをインポートします
+// コンポーネントをテストします
 
 import { mount } from 'vue-test-utils'
 import Counter from './counter'
 
-// Now mount the component and you have the wrapper
+// コンポーネントをマウントすることでラッパーを取得します
 const wrapper = mount(Counter)
 
-// To inspect the wrapper deeper just log it to the console
-// and your adventure with the vue-test-utils begins
+// ラッパーをより深く調べるためにconsole.logを実行してみましょう
+// あなたのvue-test-utilsはここから始まります
 console.log(wrapper)
 ```
 
@@ -70,15 +70,13 @@ console.log(wrapper)
 はじめに、レンダリングされたHTML出力が期待通りに見えることを確認するとよいでしょう。
 
 ```js
-// For getting the html output, the wrapper provides
-// a html() method for you.
-
+// html出力を取得するために、ラッパーはhtml（）メソッドを提供します。
 describe('Counter', () => {
   it('renders the correct markup', () => {
     expect(wrapper.html()).to.equal('<div>0<button>Increment</button></div>')
   })
 
-  // it's also easy to check for the existence of elements
+  // 要素の存在を調べるのも簡単です。
   it('has a button', () => {
     expect(wrapper.contains('button')).to.equal(true)
   })
