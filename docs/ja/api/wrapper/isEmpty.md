@@ -1,10 +1,10 @@
 # isEmpty()
 
-- **Returns:** `{boolean}`
+- **戻り値:** `{boolean}`
 
-- **Usage:**
+- **使い方:**
 
-Assert `Wrapper` does not contain child node.
+`Wrapper`に子ノードを含んでいないかアサートします。
 
 ```js
 import { mount } from 'vue-test-utils'
