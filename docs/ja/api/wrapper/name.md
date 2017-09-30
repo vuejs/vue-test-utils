@@ -1,10 +1,10 @@
 # name()
 
-- **Returns:** `{string}`
+- **戻り値:** `{string}`
 
-- **Usage:**
+- **使い方:**
 
-Returns component name if `Wrapper` contains a Vue instance, or the tag name of `Wrapper` DOM node if `Wrapper` does not contain a Vue instance.
+`Wrapper`にVueインスタンスが含まれている場合はコンポーネント名を返し、そうでない場合は`Wrapper`のDOMノードのタグ名を返します。
 
 ```js
 import { mount } from 'vue-test-utils'
