@@ -1,12 +1,12 @@
 # exists()
 
-- **Returns:** `{boolean}`
+- **戻り値:** `{boolean}`
 
-- **Usage:**
+- **使い方:**
 
-Assert `Wrapper` or `WrapperArray` exists.
+`Wrapper`か`WrapperArray`が存在したときにアサートします。
 
-Returns false if called on an empty `Wrapper` or `WrapperArray`.
+`Wrapper`か`WrapperArray`が空だった場合はfalseを返します。
 
 ```js
 import { mount } from 'vue-test-utils'
