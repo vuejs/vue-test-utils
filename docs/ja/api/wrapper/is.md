@@ -1,13 +1,13 @@
 # is(selector)
 
-- **Arguments:**
-  - `{string|Component} selector`
+- **引数:**
+  - `{string|Component} セレクタ(selector)`
 
-- **Returns:** `{boolean}`
+- **戻り値:** `{boolean}`
 
-- **Usage:**
+- **使い方:**
 
-Assert `Wrapper` DOM node or `vm` matches [selector](/docs/en/api/selectors.md).
+`Wrapper`のDOMノードか`vm`がセレクタと一致しているかアサートします。
 
 ```js
 import { mount } from 'vue-test-utils'
