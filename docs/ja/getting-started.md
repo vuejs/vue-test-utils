@@ -1,7 +1,7 @@
 # Getting Started
 
-Getting up and running with the official `vue-test-utils` package is straight forward.
-Use either `npm` or `yarn` to install the package:
+公式の`vue-test-utils`の取得と実行は簡単です。
+`npm` または `yarn` を使ってパッケージをインストールします。
 
 ```shell
 # npm
@@ -11,9 +11,9 @@ $ npm install --save vue-test-utils
 $ yarn add vue-test-utils
 ```
 
-**Notice:** To test Vue components and to make use of the `vue-test-utils` run the specs in a browser with a testrunner like [Karma](https://karma-runner.github.io/1.0/index.html) or node based runners that support virtual DOMs like `jsDOM` (e.g.: [jest](https://facebook.github.io/jest/), [ava](https://github.com/avajs/ava))
+**Notice:** `vue-test-utils`を利用してVueコンポーネントをテストするには [Karma](https://karma-runner.github.io/1.0/index.html) のようなテストランナー、`jsDOM`(例:[jest](https://facebook.github.io/jest/), [ava](https://github.com/avajs/ava))などの仮想DOMをサポートするnodeの実行環境を使用してください
 
-Let's test a simple Vue component like a counter to get a feeling for how to use these utils.
+counterのようなシンプルなVueコンポーネントをテストしてこれらのutilsの使い方を感じてみましょう。
 
 
 ```js
@@ -42,12 +42,11 @@ export default {
 
 ```
 
-This component is very basic in it's capabilities and scope,
-but never the less it allows for things we could test here. The general concept of interacting with a Vue component through the `vue-test-utils` is using a wrapper. This wrapper comes with a lot of useful helpers under its belt that should make writing even complex specs a breeze. But let's start simple:
+このコンポーネントはとても基本的な機能のコンポーネントです、とは言ってもここでテストはできません。`vue-test-utils`というラッパーを使うことでVueコンポーネントとやり取りをします。このラッパーには便利なヘルパーがたくさんあり、複雑な仕様も簡単に書くことができるはずです。さっそく始めましょう。
 
-### How to wrap a component
+### コンポーネントをラップする方法
 
-As mentioned above, the wrapper is the core element that allows for efficient interaction with a component. The flow goes as following:
+上に書いたように、ラッパーはコンポーネントと効率よくやり取りをする核となる要素です。手順は以下のようになります。
 
 ```js
 // Import the mount() method from the test utils
@@ -64,12 +63,11 @@ const wrapper = mount(Counter)
 console.log(wrapper)
 ```
 
-We already took the first hurdle, and luckily it was an easy one. So, let's put the wrapper to good use.
+既に最初のハードルを越えました。とても簡単にできましたね。このように、ラッパーを上手に使いましょう。
 
+### コンポーネントのレンダリングされたHTML出力をテストする
 
-### Test rendered HTML output of the component
-
-As a first spec it would be nice to verify that the rendered HTML output of the component looks like expected.
+はじめに、レンダリングされたHTML出力が期待通りに見えることを確認するとよいでしょう。
 
 ```js
 // For getting the html output, the wrapper provides
@@ -87,12 +85,12 @@ describe('Counter', () => {
 })
 ```
 
-That was easy as well, so let's step up the game.
+簡単だったので、次に行きましょう。
 
 ### Component data
 
-Changing the data of the component can be quite useful for efficient testing. The method `setData({...})` is meant for changing the data on the instance. You can interact with the instance directly using the `vm` key. As Vue automatically sets all data values and computed properties as getters on the root instance, we can access those values straight away.
-It may be useful to change the data accordingly for a whole group of specs, so `beforeEach()` could be a good place for that:
+効率のいいテストをするにはコンポーネントのデータを変更することがとても便利です。`setData({...})`メソッドはインスタンス上のデータを変更するためのものです。`vm`を使うことでやり取りすることができます。全てのvalueとcomputed propertyを自動的にgetterとしてルートインスタンスに設定をするため、直接アクセスすることができます。
+仕様に応じてデータを変更することが良い場合もある際は、`beforeEach()`を使うと良いでしょう。
 
 ```js
 
@@ -108,10 +106,10 @@ describe('Data interactions', () => {
 
 ```
 
-### Interactions
+### インタラクション
 
-This section will introduce two important methods of the wrapper object.
-`find()` to find an HTML element inside your component's HTML output and `trigger()` will allow for firing general events.
+このセクションではラッパーオブジェクトの2つの重要なメソッドを紹介します。
+コンポーネントのHTML要素の中でHTML要素を見つけるために`find()`を呼び出し、`trigger()`でイベントを発生させます。
 
 ```js
 
@@ -126,9 +124,9 @@ describe('Trigger an event', () => {
 
 ```
 
-### Handle async DOM updates
+### 非同期DOMの更新処理
 
-Vue updates the DOM based on an internal `tick` to prevent unnecessary rerenders if a bunch of data gets changed. That's why `Vue.nextTick(...)` allows you to verify that DOM changes have been applied correctly and to pass in a callback to run right after that. Luckily `vue-test-utils` got you covered here as well. The `update()` method will enforce a rerender. Using `html()` afterwards will return the updated DOM.
+Vueは、内部の `tick` 'に基づいてDOMを更新し、たくさんのデータが変更された場合に不要な再レンダリングを防止します。そのため、`Vue.nextTick（...）`はDOMの変更が正しく適用されたことを確認し、その直後にコールバックを渡すことができます。幸いにも、`vue-test-utils`はここでもカバーされています。`update（）`メソッドは強制的に再レンダリングし、その後で `html（）`を使うと更新されたDOMがreturnされます。
 
 ```js
 
@@ -143,8 +141,8 @@ describe('DOM updates', () => {
 
 ```
 
-## What Next
+## 驚き
 
-Of course there is a lot more  to discover for you in `vue-test-utils` and it's recommended to go through the list of the [provided API](SUMMARY.md) to get a good oversight.
+もちろん`vue-test-utils`はこれだけではありません。[提供されているAPI](SUMMARY.md)の一覧で探すことをおすすめします。
 
-The `vue-test-utils` aim to play nice with various testrunners, should you run into any issues though, the official repository can be found here: [vue-test-utils](https://github.com/vuejs/vue-test-utils)
+`vue-test-utils`と様々なテストランナーにて問題が起こった場合、公式のリポジトリを見てください。[vue-test-utils](https://github.com/vuejs/vue-test-utils)
