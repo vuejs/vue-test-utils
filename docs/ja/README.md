@@ -1,5 +1,5 @@
 # vue-test-utils
 
-vue-test-utils is the official test library for Vue.js. It provides methods for unit testing Vue components.
+vue-test-utilsはVue.jsの公式テストライブラリです。 Vueコンポーネントの単体テスト方法を提供します。
 
-[Documentation Summary](SUMMARY.md)
+[概要](SUMMARY.md)
