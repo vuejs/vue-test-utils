@@ -1,10 +1,10 @@
 # isVueInstance()
  
-- **Returns:** `{boolean}`
+- **戻り値:** `{boolean}`
 
-- **Usage:**
+- **使い方:**
 
-Assert `Wrapper` is Vue instance.
+`Wrapper`がVueのinstanceかアサートします
 
  ```js
 import { mount } from 'vue-test-utils'
