@@ -1,14 +1,14 @@
-# Common gotchas
+# よくある問題
 
 ## createLocalVue
 
-`createLocalVue` returns an extended Vue class so you can add mixins, directives, components and plugins without affecting the global Vue class.
+`createLocalVue`は拡張Vueクラスを返すため、グローバルVueクラスに影響を与えることなく、ミックスイン、ディレクティブ、コンポーネント、プラグインを追加することができます。
 
-Unfortunately, many plugins have internal checks that stop them from being installed more than once.
+残念ながら、多くのプラグインは内部チェックがあるため複数のプラグインをインストールすることができません。
 
-Currently, **Vuex cannot be installed on more than once instance**. However, you can change the store. So one install should be fine. See the guide on [using with Vuex](guides/using-with-vuex.md)
+現在、 **Vuexは複数回インスタンスにインストールができません。** しかし、 ストアを変更することができます。そのため、1回インストールすれば大丈夫です。[Vuexとの使い方](guides/using-with-vuex.md)を参照してください。
 
-Also, **Vue Router needs two options set to false to be installed more than once**:
+また、**Vue Routerは2回以上インストールする際は2つのオプションをfalseに設定する必要があります。**
 
 ```js
 import createLocalVue from 'vue-test-utils'
@@ -20,9 +20,9 @@ VueRouter.install.installed = false
 localVue.use(VueRouter)
 ```
 
-The alternative is to stub the properties you want to test, instead of installing the plugin.
+プラグインをインストールする代わりにテストするプロパティをスタブする方法もあります。
 
-For example, if your test relies on `this.$route.params.id`, stub `$route` using [intercept](mount.md):
+たとえば、テストが`this.$route.params.id`に依存している場合、[intercept](mount.md)を使って`$route`をスタブします。
 
 ```js
 mount(Component, {
