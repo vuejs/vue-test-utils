@@ -1,15 +1,15 @@
 # find(selector)
 
-- **Arguments:**
+- **引数:**
   - `{string|Component} selector`
 
-- **Returns:** `{Wrapper}`
+- **戻り値:** `{Wrapper}`
 
-- **Usage:**
+- **使い方:**
 
-Returns [`Wrapper`](/docs/en/api/wrapper/README.md) of first DOM node or Vue component matching selector. 
+selectorで指定し最初のDOMノードかコンポーネントと一致した[ラッパー](/docs/ja/api/wrapper/README.md)を返します。
 
-Use any valid [selector](/docs/en/api/selectors.md).
+有効な[selector](/docs/ja/api/selectors.md)を使用してください。
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -24,4 +24,4 @@ const bar = wrapper.find(Bar)
 expect(bar.is(Bar)).to.equal(true)
 ```
 
-- **See also:** [Wrapper](/docs/en/api/wrapper/README.md)
+- **参照:** [Wrapper](/docs/ja/api/wrapper/README.md)
