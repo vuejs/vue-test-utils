@@ -1,18 +1,17 @@
 # hasStyle(style, value)
 
-- **Arguments:**
-  - `{string} style`
-  - `{string} value`
+- **引数:**
+  - `{string} style属性(style)`
+  - `{string} 値(value)`
 
-- **Returns:** `{boolean}`
+- **戻り値:** `{boolean}`
 
-- **Usage:**
+- **使い方:**
 
-Assert `Wrapper` DOM node has style matching value
+`ラッパー`DOMノードにstyle属性と値があることをアサートします。
 
-Returns `true` if `Wrapper` DOM node has `style` matching `string`.
-
-**Note will only detect inline styles when running in `jsdom`.**
+`ラッパー`DOMノードにstyle属性と一致した文字列があればtrueを返します。
+**`jsdom`で実行しているときのみ、インラインスタイルを検出します。**
 
 ```js
 import { mount } from 'vue-test-utils'
