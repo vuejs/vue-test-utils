@@ -1,10 +1,10 @@
 # update()
 
-- **Usage:**
+- **使い方:**
 
-Force root Vue component to re-render. 
+Vueコンポーネントを強制的に再レン​​ダリングします。
 
-If called on a `Wrapper` containing a `vm`, it will force the `Wrapper` `vm` to re-render.
+`vm`を含む`Wrapper`で呼び出された場合、`Wrapper`、`vm`を強制的に再レン​​ダリングします。
 
 ```js
 import { mount } from 'vue-test-utils'
