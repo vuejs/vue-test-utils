@@ -1,10 +1,10 @@
 # text()
 
-- **Returns:** `{string}`
+- **戻り値:** `{string}`
 
-- **Usage:**
+- **使い方:**
 
-Returns text content of `Wrapper`.
+`Wrapper`のテキスト内容を返します。
 
 ```js
 import { mount } from 'vue-test-utils'
