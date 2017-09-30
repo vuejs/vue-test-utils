@@ -1,16 +1,16 @@
 # hasAttribute(attribute, value)
 
-- **Arguments:**
-  - `{string} attribute`
-  - `{string} value`
+- **引数:**
+  - `{string} 属性(attribute)`
+  - `{string} 値(value)`
 
-- **Returns:** `{boolean}`
+- **戻り値:** `{boolean}`
 
-- **Usage:**
+- **使い方:**
 
-Assert `Wrapper` DOM node has attribute matching value.
+`Wrapper`DOMノードに属性とその値が一致したかアサートします。
 
-Returns `true` if `Wrapper` DOM node contains attribute with matching value.
+`Wrapper`DOMノードに値が一致する属性が含まれている場合は` true`を返します。
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -21,9 +21,9 @@ const wrapper = mount(Foo)
 expect(wrapper.hasAttribute('id', 'foo')).to.equal(true)
 ```
 
-- **Alternative:**
+- **その他:**
 
-You could get the attribute from the `Wrapper.element` to have a value based assertion:
+`Wrapper.element`から属性を取得して、値に基づくアサーションを得ることができます。
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -34,4 +34,4 @@ const wrapper = mount(Foo)
 expect(wrapper.element.getAttribute('id')).to.equal('foo')
 ```
 
-This makes for a more informative assertion error.
+これにより、更に有益なアサーションエラーを生み出せます。
