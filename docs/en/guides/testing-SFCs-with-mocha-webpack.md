@@ -10,7 +10,7 @@ We will assume you are starting with a setup that already has webpack, vue-loade
 
 The first thing to do is installing test dependencies:
 
-```bash
+``` bash
 npm install --save-dev vue-test-utils mocha mocha-webpack
 ```
 
@@ -56,7 +56,7 @@ Source maps need to be inlined to be picked up by `mocha-webpack`. The recommend
 ``` js
 module.exports = {
   // ...
-  devtool: "inline-cheap-module-source-map"
+  devtool: 'inline-cheap-module-source-map'
 }
 ```
 

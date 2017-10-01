@@ -35,7 +35,7 @@ npm install --save-dev jest-vue
 
 Next, create a `jest` block in `package.json`:
 
-``` js
+``` json
 {
   // ...
   "jest": {
@@ -60,7 +60,7 @@ Next, create a `jest` block in `package.json`:
 
 If you use a resolve alias in the webpack config, e.g. aliasing `@` to `/src`, you need to add a matching config for Jest as well, using the `moduleNameMapper` option:
 
-``` js
+``` json
 {
   // ...
   "jest": {
@@ -83,7 +83,7 @@ npm install --save-dev babel-jest
 
 Next, we need to tell Jest to process JavaScript test files with `babel-jest` by adding an entry under `jest.transform` in `package.json`:
 
-``` js
+``` json
 {
   // ...
   "jest": {
@@ -129,13 +129,13 @@ You can use [`vue-server-renderer`](https://github.com/vuejs/vue/tree/dev/packag
 
 The render result of `vue-server-renderer` includes a few SSR-specific attributes, and it ignores whitespaces, making it harder to scan a diff. We can improve the saved snapshot with a custom serializer:
 
-``` js
+``` bash
 npm install --save-dev jest-serializer-vue
 ```
 
 Then configure it in `package.json`:
 
-``` js
+``` json
 {
   // ...
   "jest": {
