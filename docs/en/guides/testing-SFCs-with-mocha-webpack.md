@@ -1,43 +1,88 @@
-# Testing single file components with Mocha + webpack
+# Testing Single File Components with Mocha + webpack
 
-We need to compile single file components (SFCs) to run them in Mocha.
+Another strategy for testing SFCs is compiling all our tests via webpack and then run it in a test runner. The advantage of this approach is that it gives us full support for all webpack and `vue-loader` features, so we don't have to make compromises in our source code.
 
-We can make use of a package called `mocha-webpack`, that does exactly that. It compiles source files in webpack before running Mocha.
+You can technically use any test runner you like and manually wire things together, but we've found [`mocha-webpack`](https://github.com/zinserjan/mocha-webpack) to provide a very streamlined experience for this particular task.
 
-## Setting up mocha-webpack
+## Setting Up `mocha-webpack`
 
-The first thing to do is install Mocha, mocha webpack, webpack and webpack loaders:
+We will assume you are starting with a setup that already has webpack, vue-loader and Babel properly configured - e.g. the `webpack-simple` template scaffolded by `vue-cli`.
+
+The first thing to do is installing test dependencies:
 
 ```bash
-npm install --save-dev vue-test-utils mocha mocha-webpack webpack webpack-node-externals vue vue-loader css-loader babel-loader
+npm install --save-dev vue-test-utils mocha mocha-webpack
 ```
 
-Next we need to define a unit script in our `package.json`.
+Next we need to define a test script in our `package.json`.
 
 ```json
 // package.json
 {
   "scripts": {
-    "unit": "mocha-webpack --webpack-config build/webpack.conf.js test --recursive --require test/setup.js"
+    "test": "mocha-webpack --webpack-config webpack.config.js --require test/setup.js test/**/*.spec.js"
   }
 }
 ```
 
-This script tells `mocha-webpack` to get the webpack config from `build/webpack.conf.js`, run all test files in the test directory and run `test/setup.js` before the tests.
+A few things to note here:
+
+- The `--webpack-config` flag specifies the webpack config file to use for the tests. In most cases, this would be identical to the config you use for the actual project with one small tweak. We will talk about this later.
+
+- The `--require` flag ensures the file `test/setup.js` is run before any tests, in which we can setup the global environment for our tests to be run in.
+
+- The final argument is a glob for the test files to be included in the test bundle.
+
+### Extra webpack Configuration
+
+#### Externalizing NPM Dependencies
+
+In our tests we will likely import a number of NPM dependencies - some of these modules may be written without browser usage in mind and simply cannot be bundled properly by webpack. Another consideration is externalizing dependencies greatly improves test boot up speed. We can externalize all NPM dependencies with `webpack-node-externals`:
+
+```js
+// webpack.config.js
+const nodeExternals = require('webpack-node-externals')
+
+module.exports = {
+  // ...
+  externals: [nodeExternals()]
+}
+```
+
+#### Source Maps
+
+Source maps need to be inlined to be picked up by `mocha-webpack`. The recommended config is:
+
+``` js
+module.exports = {
+  // ...
+  devtool: "inline-cheap-module-source-map"
+}
+```
+
+If debugging via IDE, it's also recommended to add the following:
+
+``` js
+module.exports = {
+  // ...
+  output: {
+    // ...
+    // use absolute paths in sourcemaps (important for debugging via IDE)
+    devtoolModuleFilenameTemplate: '[absolute-resource-path]',
+    devtoolFallbackModuleFilenameTemplate: '[absolute-resource-path]?[hash]'
+  }
+}
+```
 
 ### Setting Up Browser Environment
 
-Let's create the setup.js script first.
-
-`vue-test-utils` requires a browser environment to run. We can set one up using `jsdom-global`, which setups a JSDOM instance and attaches necessary globals to the Node process.
-
-Let's install the dependencies:
+`vue-test-utils` requires a browser environment to run. We can simulate it in Node.js using `jsdom-global`:
 
 ```bash
 npm install --save-dev jsdom jsdom-global
 ```
 
-Create a `test/setup.js` file and paste the following code in:
+Then in `test/setup.js`:
 
 ``` js
 require('jsdom-global')()
@@ -45,39 +90,29 @@ require('jsdom-global')()
 
 This adds a browser environment to node, so that `vue-test-utils` can run correctly.
 
-### Configuring webpack
+### Picking an Assertion Library
 
-Now we need to create a webpack config file. In most cases your test config should use the same `module` rules with your projects existing webpack config. We recommend extracting the common config options into a base file and extend it separately for build and testing.
+[Chai](http://chaijs.com/) is a popular assertion library that is commonly used alongside Mocha. You may also want to check out [Sinon](http://sinonjs.org/) for creating spies and stubs.
 
-One specific tweak needed for the test config is that we should externalize Node dependencies with `webpack-node-externals`. This significantly speeds up the bundling process.
+Alternatively you can use `expect` which is now part of Jest, and exposes [the exact same API](http://facebook.github.io/jest/docs/en/expect.html#content) in Jest docs.
 
-For our example project, the config looks like this:
+We will be using `expect` here and make it globally available so that we don't have to import it in every test:
 
-```js
-const nodeExternals = require('webpack-node-externals')
-
-module.exports = {
-  module: {
-    rules: [
-      {
-        test: /\.vue$/,
-        loader: 'vue-loader'
-      },
-      {
-        test: /\.js$/,
-        loader: 'babel-loader',
-        exclude: /node_modules/
-      }
-    ]
-  },
-  externals: [nodeExternals()],
-  devtool: '#eval-source-map'
-}
+``` bash
+npm install --save-dev expect
 ```
 
-### Configuring Babel
+Then in `test/setup.js`:
 
-Notice that we are using `babel-loader` to handle JavaScript. You should already have Babel configured if you are using it in your app, e.g. via a `.babelrc` file. Here `babel-loader` will automatically use the same config file.
+``` js
+require('jsdom-global')()
+
+global.expect = require('expect')
+```
+
+### Optimizing Babel for Tests
+
+Notice that we are using `babel-loader` to handle JavaScript. You should already have Babel configured if you are using it in your app via a `.babelrc` file. Here `babel-loader` will automatically use the same config file.
 
 One thing to note is that if you are using Node 6+, which already supports the majority of ES2015 features, you can configure a separate Babel [env option](https://babeljs.io/docs/usage/babelrc/#env-option) that only transpiles features that are not already supported in the Node version you are using (e.g. `stage-2` or flow syntax support, etc.)
 
@@ -114,22 +149,15 @@ And create a test file named `test/Counter.spec.js` with the following code:
 
 ```js
 import { shallow } from 'vue-test-utils'
-import { expect } from 'chai'
 import Counter from '../src/Counter.vue'
 
 describe('Counter.vue', () => {
   it('increments count when button is clicked', () => {
     const wrapper = shallow(Counter)
     wrapper.find('button').trigger('click')
-    expect(wrapper.find('div').text()).to.contain('1')
+    expect(wrapper.find('div').text()).toMatch('1')
   })
 })
-```
-
-Notice we're using `expect` from `chai` to make our assertion. We need to install chai before running the tests:
-
-```
-npm install --save-dev chai
 ```
 
 And now we can run the test:
@@ -142,4 +170,9 @@ Woohoo, we got our tests running!
 
 ### Resources
 
-- [Example project using mocha-webpack](https://github.com/eddyerburgh/vue-test-utils-mocha-example)
+- [Example project for this setup](https://github.com/vuejs/vue-test-utils-mocha-webpack-example)
+- [Mocha](https://mochajs.org/)
+- [mocha-webpack](http://zinserjan.github.io/mocha-webpack/)
+- [Chai](http://chaijs.com/)
+- [Sinon](http://sinonjs.org/)
+- [jest/expect](http://facebook.github.io/jest/docs/en/expect.html#content)

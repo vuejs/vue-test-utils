@@ -1,4 +1,4 @@
-# Testing single file components with Jest
+# Testing Single File Components with Jest
 
 > An example project for this setup is available on [GitHub](https://github.com/vuejs/vue-test-utils-jest-example).
 
@@ -54,7 +54,7 @@ Next, create a `jest` block in `package.json`:
 }
 ```
 
-> **Note:** `jest-vue` currently does not support all the features of `vue-loader`, for example custom block support and style loading. To use them, read the guide on [testing SFCs with Mocha + webpack](./testing-SFCs-with-mocha-webpack.md).
+> **Note:** `jest-vue` currently does not support all the features of `vue-loader`, for example custom block support and style loading. In addition, some webpack-specific features such as code-splitting are not supported either. To use them, read the guide on [testing SFCs with Mocha + webpack](./testing-SFCs-with-mocha-webpack.md).
 
 ## Handling webpack Aliases
 
