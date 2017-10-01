@@ -20,5 +20,5 @@ import { expect } from 'chai'
 import Foo from './Foo.vue'
 
 const wrapper = mount(Foo)
-expect(wrapper.hasStyle('color', 'red')).to.equal(true)
+expect(wrapper.hasStyle('color', 'red')).toBe(true)
 ```

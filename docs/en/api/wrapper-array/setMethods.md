@@ -23,5 +23,5 @@ const clickMethodStub = sinon.stub()
 
 barArray.setMethods({ clickMethod: clickMethodStub })
 barArray.at(0).trigger('click')
-expect(clickMethodStub.called).to.equal(true)
+expect(clickMethodStub.called).toBe(true)
 ```

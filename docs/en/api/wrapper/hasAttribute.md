@@ -18,7 +18,7 @@ import { expect } from 'chai'
 import Foo from './Foo.vue'
 
 const wrapper = mount(Foo)
-expect(wrapper.hasAttribute('id', 'foo')).to.equal(true)
+expect(wrapper.hasAttribute('id', 'foo')).toBe(true)
 ```
 
 - **Alternative:**
@@ -31,7 +31,7 @@ import { expect } from 'chai'
 import Foo from './Foo.vue'
 
 const wrapper = mount(Foo)
-expect(wrapper.element.getAttribute('id')).to.equal('foo')
+expect(wrapper.element.getAttribute('id')).toBe('foo')
 ```
 
 This makes for a more informative assertion error.

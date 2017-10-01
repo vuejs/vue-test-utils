@@ -19,6 +19,6 @@ import Bar from './Bar.vue'
 
 const wrapper = shallow(Foo)
 const divArray = wrapper.findAll('div')
-expect(divArray.contains('p')).to.equal(true)
-expect(divArray.contains(Bar)).to.equal(true)
+expect(divArray.contains('p')).toBe(true)
+expect(divArray.contains(Bar)).toBe(true)
 ```

@@ -16,5 +16,5 @@ import Foo from './Foo.vue'
 
 const wrapper = mount(Foo)
 wrapper.setProps({ foo: 'bar' })
-expect(wrapper.props().foo).to.equal('bar')
+expect(wrapper.props().foo).toBe('bar')
 ```

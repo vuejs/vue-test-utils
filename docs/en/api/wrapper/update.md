@@ -12,8 +12,8 @@ import { expect } from 'chai'
 import Foo from './Foo.vue'
 
 const wrapper = mount(Foo)
-expect(wrapper.vm.bar).to.equal('bar')
+expect(wrapper.vm.bar).toBe('bar')
 wrapper.vm.bar = 'new value'
 wrapper.update()
-expect(wrapper.vm.bar).to.equal('new value')
+expect(wrapper.vm.bar).toBe('new value')
 ```

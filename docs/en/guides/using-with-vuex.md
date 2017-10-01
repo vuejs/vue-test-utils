@@ -70,7 +70,7 @@ describe('Actions.vue', () => {
     const input = wrapper.find('input')[0]
     input.element.value = 'input'
     input.trigger('input')
-    expect(actions.actionInput.calledOnce).to.equal(true)
+    expect(actions.actionInput.calledOnce).toBe(true)
   })
 
   it('does not call store action actionInput when input value is not input and an input even is fired', () => {
@@ -78,13 +78,13 @@ describe('Actions.vue', () => {
     const input = wrapper.find('input')[0]
     input.element.value = 'not input'
     input.trigger('input')
-    expect(actions.actionInput.calledOnce).to.equal(false)
+    expect(actions.actionInput.calledOnce).toBe(false)
   })
 
   it('calls store action actionClick when button is clicked', () => {
     const wrapper = mount(Actions, { store })
     wrapper.find('button')[0].trigger('click')
-    expect(actions.actionClick.calledOnce).to.equal(true)
+    expect(actions.actionClick.calledOnce).toBe(true)
   })
 })
 ```
@@ -160,13 +160,13 @@ describe('Getters.vue', () => {
   it('Renders state.inputValue in first p tag', () => {
     const wrapper = mount(Actions, { store })
     const p = wrapper.find('p')[0]
-    expect(p.text()).to.equal(getters.inputValue())
+    expect(p.text()).toBe(getters.inputValue())
   })
 
   it('Renders state.clicks in second p tag', () => {
     const wrapper = mount(Actions, { store })
     const p = wrapper.find('p')[1]
-    expect(p.text()).to.equal(getters.clicks().toString())
+    expect(p.text()).toBe(getters.clicks().toString())
   })
 })
 ```
@@ -247,13 +247,13 @@ describe('Modules.vue', () => {
     const wrapper = mount(Modules, { store })
     const button = wrapper.find('button')[0]
     button.trigger('click')
-    expect(actions.moduleActionClick.calledOnce).to.equal(true)
+    expect(actions.moduleActionClick.calledOnce).toBe(true)
   })
 
   it('Renders state.inputValue in first p tag', () => {
     const wrapper = mount(Modules, { store })
     const p = wrapper.find('p')[0]
-    expect(p.text()).to.equal(state.module.clicks.toString())
+    expect(p.text()).toBe(state.module.clicks.toString())
   })
 })
 ```

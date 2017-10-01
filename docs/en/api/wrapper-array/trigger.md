@@ -22,5 +22,5 @@ const wrapper = mount(Foo, {
 
 const divArray = wrapper.findAll('div')
 divArray.trigger('click')
-expect(clickHandler.called).to.equal(true)
+expect(clickHandler.called).toBe(true)
 ```

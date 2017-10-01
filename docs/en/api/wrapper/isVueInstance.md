@@ -12,5 +12,5 @@ import { expect } from 'chai'
 import Foo from './Foo.vue'
 
 const wrapper = mount(Foo)
-expect(wrapper.isVueInstance()).to.equal(true)
+expect(wrapper.isVueInstance()).toBe(true)
  ```

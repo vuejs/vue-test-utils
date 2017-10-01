@@ -14,5 +14,5 @@ import Bar from './Bar.vue'
 
 const wrapper = mount(Foo)
 const barArray = wrapper.findAll(Bar)
-expect(barArray.isVueInstance()).to.equal(true)
+expect(barArray.isVueInstance()).toBe(true)
 ```

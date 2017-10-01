@@ -18,5 +18,5 @@ import Bar from './Bar.vue'
 const wrapper = mount(Foo)
 const barArray = wrapper.findAll(Bar)
 barArray.setProps({ foo: 'bar' })
-expect(barArray.at(0).vm.foo).to.equal('bar')
+expect(barArray.at(0).vm.foo).toBe('bar')
 ```

@@ -12,7 +12,7 @@ import { expect } from 'chai'
 import Foo from './Foo.vue'
 
 const wrapper = mount(Foo)
-expect(wrapper.name()).to.equal('Foo')
+expect(wrapper.name()).toBe('Foo')
 const p = wrapper.find('p')
-expect(p.name()).to.equal('p')
+expect(p.name()).toBe('p')
 ```

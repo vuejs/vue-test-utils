@@ -23,11 +23,11 @@ wrapper.emitted() returns the following object:
 */
 
 // assert event has been emitted
-expect(wrapper.emitted().foo).to.exist
+expect(wrapper.emitted().foo).toBeTruthy()
 
 // assert event count
-expect(wrapper.emitted().foo.length).to.equal(2)
+expect(wrapper.emitted().foo.length).toBe(2)
 
 // assert event payload
-expect(wrapper.emitted().foo[1]).to.eql([123])
+expect(wrapper.emitted().foo[1]).toEqual([123])
 ```

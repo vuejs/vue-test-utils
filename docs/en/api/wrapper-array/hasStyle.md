@@ -20,5 +20,5 @@ import Foo from './Foo.vue'
 
 const wrapper = mount(Foo)
 const divArray = wrapper.findAll('div')
-expect(divArray.hasStyle('color', 'red')).to.equal(true)
+expect(divArray.hasStyle('color', 'red')).toBe(true)
 ```

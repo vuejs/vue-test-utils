@@ -54,7 +54,7 @@ const wrapper = shallow(Component, {
     foo: '<div />'
   }
 })
-expect(wrapper.find('div')).to.equal(true)
+expect(wrapper.find('div')).toBe(true)
 ```
 
 ### `stubs`
@@ -99,7 +99,7 @@ const wrapper = shallow(Component, {
     $route
   }
 })
-expect(wrapper.vm.$route.path).to.equal($route.path)
+expect(wrapper.vm.$route.path).toBe($route.path)
 ```
 
 ### `localVue`
@@ -131,7 +131,7 @@ const wrapper = mount(Component, {
   localVue,
   router
 })
-expect(wrapper.vm.$route).to.be.an('object')
+expect(wrapper.vm.$route).toBeInstanceOf(Object)
 ```
 
 ### `attachToDocument`

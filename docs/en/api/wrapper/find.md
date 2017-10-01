@@ -19,9 +19,9 @@ import Bar from './Bar.vue'
 
 const wrapper = mount(Foo)
 const div = wrapper.find('div')
-expect(div.is('div')).to.equal(true)
+expect(div.is('div')).toBe(true)
 const bar = wrapper.find(Bar)
-expect(bar.is(Bar)).to.equal(true)
+expect(bar.is(Bar)).toBe(true)
 ```
 
 - **See also:** [Wrapper](/docs/en/api/wrapper/README.md)

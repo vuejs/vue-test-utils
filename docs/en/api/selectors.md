@@ -39,5 +39,5 @@ import { expect } from 'chai'
 import Foo from './Foo.vue'
 
 const wrapper = shallow(Foo)
-expect(wrapper.is(Foo)).to.equal(true)
+expect(wrapper.is(Foo)).toBe(true)
 ```

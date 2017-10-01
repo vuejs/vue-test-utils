@@ -16,8 +16,8 @@ import Foo from './Foo.vue'
 import Bar from './Bar.vue'
 
 const wrapper = mount(Foo)
-expect(wrapper.contains('p')).to.equal(true)
-expect(wrapper.contains(Bar)).to.equal(true)
+expect(wrapper.contains('p')).toBe(true)
+expect(wrapper.contains(Bar)).toBe(true)
 ```
 
 - **See also:** [selectors](../selectors.md)

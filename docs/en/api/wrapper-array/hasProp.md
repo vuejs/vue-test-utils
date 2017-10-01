@@ -20,5 +20,5 @@ import Bar from './Bar.vue'
 
 const wrapper = mount(Foo)
 const barArray = wrapper.findAll(Bar)
-expect(barArray.hasProp('bar', 10)).to.equal(true)
+expect(barArray.hasProp('bar', 10)).toBe(true)
 ```

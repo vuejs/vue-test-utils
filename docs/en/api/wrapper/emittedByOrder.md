@@ -24,5 +24,5 @@ wrapper.emittedByOrder() returns the following Array:
 */
 
 // assert event emit order
-expect(wrapper.emittedByOrder().map(e => e.name)).to.eql(['foo', 'bar'])
+expect(wrapper.emittedByOrder().map(e => e.name)).toEqual(['foo', 'bar'])
 ```

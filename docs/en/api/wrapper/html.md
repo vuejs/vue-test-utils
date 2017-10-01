@@ -12,5 +12,5 @@ import { expect } from 'chai'
 import Foo from './Foo.vue'
 
 const wrapper = mount(Foo)
-expect(wrapper.html()).to.equal('<div><p>Foo</p></div>')
+expect(wrapper.html()).toBe('<div><p>Foo</p></div>')
 ```

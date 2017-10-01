@@ -17,5 +17,5 @@ import Foo from './Foo.vue'
 const wrapper = shallow(Foo)
 const divArray = wrapper.findAll('div')
 const secondDiv = divArray.at(1)
-expect(secondDiv.is('p')).to.equal(true)
+expect(secondDiv.is('p')).toBe(true)
 ```

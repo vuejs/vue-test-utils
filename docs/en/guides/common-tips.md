@@ -49,13 +49,13 @@ You can then make assertions based on these data:
 import { expect } from 'chai'
 
 // assert event has been emitted
-expect(wrapper.emitted().foo).to.exist
+expect(wrapper.emitted().foo).toBeTruthy()
 
 // assert event count
-expect(wrapper.emitted().foo.length).to.equal(2)
+expect(wrapper.emitted().foo.length).toBe(2)
 
 // assert event payload
-expect(wrapper.emitted().foo[1]).to.eql([123])
+expect(wrapper.emitted().foo[1]).toEqual([123])
 ```
 
 You can also get an Array of the events in their emit order by calling [wrapper.emittedByOrder()](../api/emittedByOrder.md).

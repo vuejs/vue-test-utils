@@ -13,5 +13,5 @@ import Foo from './Foo.vue'
 
 const wrapper = mount(Foo)
 const divArray = wrapper.findAll('div')
-expect(divArray.isEmpty()).to.equal(true)
+expect(divArray.isEmpty()).toBe(true)
 ```

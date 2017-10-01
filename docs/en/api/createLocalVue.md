@@ -19,10 +19,10 @@ const wrapper = shallow(Foo, {
   localVue,
   mocks: { foo: true }
 })
-expect(wrapper.vm.foo).to.equal(true)
+expect(wrapper.vm.foo).toBe(true)
 
 const freshWrapper = shallow(Foo)
-expect(freshWrapper.vm.foo).to.equal(false)
+expect(freshWrapper.vm.foo).toBe(false)
 ```
 
 - **See also:** [General Tips](../guides/general-tips.md)

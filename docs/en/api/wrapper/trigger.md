@@ -34,5 +34,5 @@ wrapper.trigger('click', {
   preventDefault: true
 })
 
-expect(clickHandler.called).to.equal(true)
+expect(clickHandler.called).toBe(true)
 ```

@@ -17,5 +17,5 @@ import Foo from './Foo.vue'
 
 const wrapper = mount(Foo)
 const divArray = wrapper.findAll('div')
-expect(divArray.hasAttribute('id', 'foo')).to.equal(true)
+expect(divArray.hasAttribute('id', 'foo')).toBe(true)
 ```
