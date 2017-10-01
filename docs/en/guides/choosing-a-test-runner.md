@@ -39,7 +39,7 @@ Read the following guides for different setups:
 ## Resources
 
 - [Test runner performance comparison](https://github.com/eddyerburgh/vue-unit-test-perf-comparison)
-- [Example project with Jest](https://github.com/eddyerburgh/vue-test-utils-jest-example)
-- [Example project with Mocha](https://github.com/eddyerburgh/vue-test-utils-mocha-example)
+- [Example project with Jest](https://github.com/vuejs/vue-test-utils-jest-example)
+- [Example project with Mocha](https://github.com/vuejs/vue-test-utils-mocha-webpack-example)
 - [Example project with tape](https://github.com/eddyerburgh/vue-test-utils-tape-example)
 - [Example project with AVA](https://github.com/eddyerburgh/vue-test-utils-ava-example)

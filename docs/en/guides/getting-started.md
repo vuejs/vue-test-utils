@@ -111,4 +111,4 @@ To simplify usage, `vue-test-utils` applies all updates synchronously so you don
 ## What's Next
 
 - Integrate `vue-test-utils` into your project by [choosing a test runner](./choosing-a-test-runner.md)
-- Learn about more common techniques when [writing tests](./writing-tests.md)
+- Learn more about [common techniques when writing tests](./common-tips.md)
