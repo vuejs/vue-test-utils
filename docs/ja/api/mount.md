@@ -1,23 +1,24 @@
 # mount(component,{,options}])
 
-- **Arguments:**
+- **引数:**
 
-  - `{Component} component`
-  - `{Object} options`
+  - `{Component} コンポーネント(component)`
+  - `{Object} オプション(options)`
 
-- **Returns:** `{Wrapper}`
+- **戻り値:** `{Wrapper}`
 
-- **Options:**
+- **オプション:**
 
-See [options](/docs/en/api/options.md)
+[オプション](/docs/ja/api/options.md)を見る
 
-- **Usage:**
+- **使い方:**
 
-Returns [`Wrapper`](/docs/en/api/wrapper/README.md) of first DOM node or Vue component matching selector.
 
-Use any valid [selector](/docs/en/api/selectors.md).
+最初のDOMノードまたはVueコンポーネント一致セレクタの[`ラッパー`](/docs/ja/api/wrapper/README.md)を返します。
 
-**Without options:**
+有効な[セレクタ](/docs/ja/api/selectors.md)を使用してください。
+
+**オプションなし:**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -31,7 +32,7 @@ describe('Foo', () => {
   })
 })
 ```
-**With Vue options:**
+**Vueオプションを使用:**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -50,7 +51,7 @@ describe('Foo', () => {
 })
 ```
 
-**Attach to DOM:**
+**DOMへのアタッチ:**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -66,7 +67,7 @@ describe('Foo', () => {
   })
 })
 ```
-**Default and named slots:**
+**デフォルトおよび名前付きスロット:**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -89,7 +90,7 @@ describe('Foo', () => {
 })
 ```
 
-**Stubbing global properties:**
+**グローバルプロパティのスタブ:**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -109,7 +110,7 @@ describe('Foo', () => {
 })
 ```
 
-**Stubbing components:**
+**コンポーネントのスタブ:**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -133,4 +134,4 @@ describe('Foo', () => {
 })
 ```
 
-- **See also:** [Wrapper](/docs/en/api/wrapper/README.md)
+- **参照:** [`ラッパー`](/docs/ja/api/wrapper/README.md)
