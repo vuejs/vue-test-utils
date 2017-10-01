@@ -1,4 +1,4 @@
-# よくある問題
+# よくある落とし穴
 
 ## createLocalVue
 
@@ -8,7 +8,7 @@
 
 現在、 **Vuexは複数回インスタンスにインストールができません。** しかし、 ストアを変更することができます。そのため、1回インストールすれば大丈夫です。[Vuexとの使い方](guides/using-with-vuex.md)を参照してください。
 
-また、**Vue Routerは2回以上インストールする際は2つのオプションをfalseに設定する必要があります。**
+また、**Vue Routerを複数回インストールする際は2つのオプションをfalseに設定する必要があります。**
 
 ```js
 import createLocalVue from 'vue-test-utils'
