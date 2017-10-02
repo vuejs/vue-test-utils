@@ -1,22 +1,24 @@
 # hasProp(prop, value)
 
-Check if every wrapper vm in wrapper array has prop matching value 
+Wrapper配列内の各Wrappervmにプロパティとマッチしているかアサートします。
 
-Can only be called on a Vue instance.
+Vueインスタンスのみ呼び出せます。
 
 # hasProp(prop, value)
 
-- **Arguments:**
+- **引数:**
   - `{string} prop`
   - `{any} value`
 
-- **Returns:** `{boolean}`
+- **戻り値:** `{boolean}`
 
-- **Usage:**
+- **使い方:**
 
-Assert every `Wrapper` in `WrapperArray`  `vm` has `prop` matching `value`.
+`WrappersArray`の`Wrapper`と`vm`にプロパティを持っているかアサートします。
 
 **Note the Wrapper must contain a Vue instance.**
+**WrapperにはVueインスタンスを含む必要があることに注意してください。**
+
 
 ```js
 import { mount } from 'vue-test-utils'

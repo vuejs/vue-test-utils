@@ -1,13 +1,13 @@
 # is(selector)
 
-- **Arguments:**
+- **引数:**
   - `{string|Component} selector`
 
-- **Returns:** `{boolean}`
+- **戻り値:** `{boolean}`
 
-- **Usage:**
+- **使い方:**
 
-Assert every `Wrapper` in `WrapperArray` DOM node or `vm` matches [selector](/docs/en/api/selectors.md).
+`WrapperArray`の全ての`Wrapper`のDOMノード、もしくは[セレクタ](/docs/ja/api/selectors.md)が`vm`とマッチするかアサートします。
 
 ```js
 import { mount } from 'vue-test-utils'

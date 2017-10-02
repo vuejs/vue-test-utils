@@ -1,14 +1,14 @@
 # hasAttribute(attribute, value)
 
-- **Arguments:**
+- **引数:**
   - `{string} attribute`
   - `{string} value`
 
-- **Returns:** `{boolean}`
+- **戻り値:** `{boolean}`
 
-- **Usage:**
+- **使い方:**
 
-Assert every `Wrapper` in `WrapperArray` DOM node has `attribute` matching `value`. 
+`WrapperArray`の全ての`Wrapper`が`value`と一致する属性を持っているかアサートします。
 
 ```js
 import { mount } from 'vue-test-utils'

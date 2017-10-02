@@ -1,12 +1,12 @@
 # update()
 
-- **Usage:**
+- **使い方:**
 
-Force root Vue component of each `Wrapper` in `WrapperArray` to re-render. 
+`WrapperArray`の各`Wrapper`のルートVueコンポーネントを強制的に再レン​​ダリングします。
 
-If called on a Vue component wrapper array, it will force each Vue component to re-render.
+VueコンポーネントをWrapperArrayで呼び出した場合、各Vueコンポーネントは強制的に再レン​​ダリングされます。
 
-### Example
+### 例
 
 ```js
 import { mount } from 'vue-test-utils'

@@ -1,10 +1,10 @@
 # isEmpty()
 
-- **Returns:** `{boolean}`
+- **戻り値:** `{boolean}`
 
-- **Usage:**
+- **使い方:**
 
-Assert every `Wrapper` in `WrapperArray` does not contain child node.
+`WrapperArray`のすべての`Wrapper`に子ノードを含んでいないかアサートします。
 
 ```js
 import { mount } from 'vue-test-utils'
