@@ -1,5 +1,7 @@
 # Testing Single File Components with Mocha + webpack
 
+> An example project for this setup is available on [GitHub](https://github.com/vuejs/vue-test-utils-mocha-webpack-example).
+
 Another strategy for testing SFCs is compiling all our tests via webpack and then run it in a test runner. The advantage of this approach is that it gives us full support for all webpack and `vue-loader` features, so we don't have to make compromises in our source code.
 
 You can technically use any test runner you like and manually wire things together, but we've found [`mocha-webpack`](https://github.com/zinserjan/mocha-webpack) to provide a very streamlined experience for this particular task.
