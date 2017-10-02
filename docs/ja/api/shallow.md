@@ -1,6 +1,6 @@
 # shallow(component,{,options}])
 
-- **Arguments:**
+- **引数:**
 
   - `{Component} component`
   - `{Object} options`
@@ -15,21 +15,21 @@
     - `{Object} children`
     - `{Vue} localVue`
 
-- **Returns:** `{Wrapper}`
+- **戻り値:** `{Wrapper}`
 
-- **Options:**
+- **オプション:**
 
-See [options](/docs/en/api/options.md)
+[オプション](/docs/ja/api/options.md)を参照してください。
 
-- **Usage:**
+- **使い方:**
 
-Returns [`Wrapper`](/docs/en/api/wrapper/README.md) of first DOM node or Vue component matching selector.
+最初のDOMノードまたはVueコンポーネント一致セレクタの[`Wrapper`](/docs/ja/api/wrapper/README.md)を返します。
 
-Stubs all child components.
+全ての子コンポーネントをスタブします。
 
-Use any valid [selector](/docs/en/api/selectors.md).
+有効な[セレクタ](/docs/ja/api/selectors.md)を使用してください。
 
-**Without options:**
+**オプションなし:**
 
 ```js
 import { shallow } from 'vue-test-utils'
@@ -44,7 +44,7 @@ describe('Foo', () => {
 })
 ```
 
-**With Vue options:**
+**Vueオプションを使用:**
 
 ```js
 import { shallow } from 'vue-test-utils'
@@ -63,7 +63,7 @@ describe('Foo', () => {
 })
 ```
 
-**Attach to DOM:**
+**DOMへのアタッチ:**
 
 ```js
 import { shallow } from 'vue-test-utils'
@@ -80,7 +80,7 @@ describe('Foo', () => {
 })
 ```
 
-**Default and named slots:**
+**デフォルトおよび名前付きスロット:**
 
 ```js
 import { shallow } from 'vue-test-utils'
@@ -94,7 +94,7 @@ describe('Foo', () => {
     const wrapper = shallow(Foo, {
       slots: {
         default: [Bar, FooBar],
-        fooBar: FooBar, // Will match <slot name="FooBar" />,
+        fooBar: FooBar, // <slot name="FooBar" /> と一致する,
         foo: '<div />'
       }
     })
@@ -103,7 +103,7 @@ describe('Foo', () => {
 })
 ```
 
-**Stubbing global properties:**
+**グローバルプロパティのスタブ:**
 
 ```js
 import { shallow } from 'vue-test-utils'
