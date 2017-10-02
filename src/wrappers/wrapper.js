@@ -248,7 +248,7 @@ export default class Wrapper implements BaseWrapper {
    * Checks if node is empty
    */
   isEmpty (): boolean {
-    return this.vnode.children === undefined
+    return this.vnode.children === undefined || this.vnode.children.length === 0
   }
 
   /**
