@@ -11,6 +11,33 @@ describe('update', () => {
     expect(wrapper.findAll('.child.ready').length).to.equal(1)
   })
 
+  it('updates slot components', () => {
+    const SlotComponent = compileToFunctions('<div><slot></slot></div>')
+    const Parent = {
+      template: `
+        <SlotComponent>
+        <div :class="[{ 'is-on': on }, 'inner']"></div>
+      </SlotComponent>
+      `,
+      props: {
+        on: {
+          default: false,
+          type: Boolean
+        }
+      },
+      components: {
+        SlotComponent
+      }
+    }
+    const parentWrapper = mount(Parent)
+    const innerEl = parentWrapper.find('.inner')
+    expect(innerEl.hasClass('is-on')).to.equal(false)
+    parentWrapper.setProps({
+      on: true
+    })
+    expect(innerEl.hasClass('is-on')).to.equal(true)
+  })
+
   it('causes vm to re render, and retain slots', () => {
     const compiled = compileToFunctions('<div><slot></slot></div>')
     const wrapper = mount(compiled, { slots: { default: [compileToFunctions('<div class="test-div" />')] }})

@@ -5,6 +5,7 @@ import { logEvents } from '../lib/log-events'
 
 function update () {
   this._update(this._render())
+  this.$children.forEach(child => update.call(child))
 }
 
 export default class VueWrapper extends Wrapper implements BaseWrapper {
