@@ -74,10 +74,11 @@ describe('trigger', () => {
     expect(info.calledWith(true)).to.equal(true)
   })
 
-  it('throws error if wrapper does not contain eleemnt', () => {
-    const wrapper = mount({ render: () => {} })
-    wrapper.element = null
-    const fn = () => wrapper.trigger('click')
+  it('throws error if wrapper does not contain element', () => {
+    const wrapper = mount({ render: (h) => h('div') })
+    const div = wrapper.find('div')
+    div.element = null
+    const fn = () => div.trigger('click')
     const message = '[vue-test-utils]: cannot call wrapper.trigger() on a wrapper without an element'
     expect(fn).to.throw().with.property('message', message)
   })
