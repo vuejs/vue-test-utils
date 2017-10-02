@@ -7,7 +7,7 @@
 
 - **使い方:**
 
-[Wrappers](/docs/en/api/wrapper/README.md)の[`WrapperArray`](/docs/en/api/wrapper-array/README.md)を返します。
+[Wrappers](/docs/ja/api/wrapper/README.md)の[`WrapperArray`](/docs/ja/api/wrapper-array/README.md)を返します。
 
 有効な[selector](/docs/ja/api/selectors.md)を使用してください。
 

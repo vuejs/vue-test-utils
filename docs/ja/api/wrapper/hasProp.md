@@ -12,7 +12,7 @@
 
 `Wrapper`、`vm`が`value`と一致する `prop`を持つ場合は`true`を返します。
 
-**ラッパーにはVueインスタンスが含まれている必要があることに注意してください。**
+**WrapperにはVueインスタンスが含まれている必要があることに注意してください。**
 
 ```js
 import { mount } from 'vue-test-utils'

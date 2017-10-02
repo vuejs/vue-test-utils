@@ -7,7 +7,7 @@
 
 - **使い方:**
 
-selectorで指定し最初のDOMノードかコンポーネントと一致した[ラッパー](/docs/ja/api/wrapper/README.md)を返します。
+selectorで指定し最初のDOMノードかコンポーネントと一致した[Wrapper](/docs/ja/api/wrapper/README.md)を返します。
 
 有効な[selector](/docs/ja/api/selectors.md)を使用してください。
 

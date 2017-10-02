@@ -14,7 +14,7 @@
 - **使い方:**
 
 
-最初のDOMノードまたはVueコンポーネント一致セレクタの[`ラッパー`](/docs/ja/api/wrapper/README.md)を返します。
+最初のDOMノードまたはVueコンポーネント一致セレクタの[`Wrapper`](/docs/ja/api/wrapper/README.md)を返します。
 
 有効な[セレクタ](/docs/ja/api/selectors.md)を使用してください。
 
@@ -134,4 +134,4 @@ describe('Foo', () => {
 })
 ```
 
-- **参照:** [`ラッパー`](/docs/ja/api/wrapper/README.md)
+- **参照:** [`Wrapper`](/docs/ja/api/wrapper/README.md)
