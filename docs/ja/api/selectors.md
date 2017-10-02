@@ -1,29 +1,29 @@
-# Selectors
+# セレクタ
 
-A lot of methods take a selector as an argument. A selector can either be a CSS selector, or a Vue component.
+多くのメソッドがセレクタを引数とします。セレクタは、CSSセレクタまたはVueコンポーネントのいずれかです。
 
-## CSS Selectors
+## CSSセレクタ
 
-mount handles any valid CSS selector:
+マウントは有効なCSSセレクタを処理します。
 
-- tag selectors (div, foo, bar)
-- class selectors (.foo, .bar)
-- attribute selectors ([foo], [foo="bar"])
-- id selectors (#foo, #bar)
-- pseudo selectors (div:first-of-type)
+- タグセレクタ (div, foo, bar)
+- クラスセレクタ (.foo, .bar)
+- 属性セレクタ ([foo], [foo="bar"])
+- idセレクタ (#foo, #bar)
+- 疑似セレクタ (div:first-of-type)
 
-You can also use combinators:
+これらを組み合わせることも可能です:
 
-- direct descendant combinator (div > #bar > .foo)
-- general descendant combinator (div #bar .foo)
-- adjacent sibling selector (div + .foo)
-- general sibling selector (div ~ .foo)
+- 直接子孫を組み合わせる (div > #bar > .foo)
+- 一般子孫セレクタを組み合わせる (div #bar .foo)
+- 隣接する兄弟のセレクタ (div + .foo)
+- 一般兄弟セレクタ (div ~ .foo)
 
-## Vue Components
+## Vueコンポーネント
 
-Vue components are also valid selectors.
+Vueコンポーネントもセレクターとして有効です。
 
-vue-test-utils uses the `name` property to search the instance tree for matching Vue components.
+vue-test-utilsは `name`プロパティを使用して、一致するVueコンポーネントのインスタンスツリーを検索します。
 
 ```js
 // Foo.vue
