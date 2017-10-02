@@ -1,11 +1,11 @@
 # WrapperArray
 
-A `WrapperArray` is an object that contains an array of [Wrappers](/docs/en/api/wrapper/README.md), and methods to test the `Wrappers`.
+`WrapperArray`は、[Wrapper](/docs/ja/api/wrapper/README.md)の配列と`Wrapper`をテストするメソッドを含むオブジェクトです。
 
-- **Properties:**
+- **プロパティ:**
 
-`length` `number`: the number of `Wrappers` contained in the `WrapperArray`
+`length` `number`: `WrapperArray`に含まれる`Wrappers`の数
 
- - **Methods:**
+ - **メソッド:**
 
-There is a detailed list of methods in the WrapperArray section of the docs.
+ドキュメントのWrapperArrayセクションには、メソッドの詳細なリストがあります。
