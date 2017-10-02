@@ -1,13 +1,13 @@
 # at(index)
 
-- **Arguments:**
+- **引数:**
   - `{number} index`
 
-- **Returns:** `{Wrapper}`
+- **戻り値:** `{Wrapper}`
 
-- **Usage:**
+- **使い方:**
 
-Returns `Wrapper` at `index` passed. Uses zero based numbering (i.e. first item is at index 0).
+渡された`index`の`Wrapper`を返します。ゼロベースの番号付けを使用します(つまり、最初のアイテムはインデックス0になります)。
 
 ```js
 import { shallow } from 'vue-test-utils'
