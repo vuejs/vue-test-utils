@@ -81,7 +81,7 @@ describe('Foo', () => {
     const wrapper = mount(Foo, {
       slots: {
         default: [Bar, FooBar],
-        fooBar: FooBar, // Will match <slot name="FooBar" />,
+        fooBar: FooBar, // <slot name="FooBar" /> と一致する,
         foo: '<div />'
       }
     })

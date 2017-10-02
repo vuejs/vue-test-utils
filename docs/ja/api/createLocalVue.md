@@ -7,7 +7,7 @@
 
 createLocalVueは、グローバルVueクラスを汚染することなくコンポーネント、ミックスイン、プラグインを追加するためのVueクラスを返します。
 
-`options.localVue`と一緒に使用してください
+`options.localVue`と一緒に使用してください。
 
 ```js
 import { createLocalVue, shallow } from 'vue-test-utils'
