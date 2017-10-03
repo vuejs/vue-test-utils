@@ -3,7 +3,11 @@
 ## Currently in beta
 To use vue-test-utils beta:
 ```
-npm install --save-dev vue-test-utils@1.0.0-beta
+// npm
+npm install --save-dev vue-test-utils@1.0.0-beta.1
+
+// yarn
+yarn add --dev vue-test-utils@1.0.0-beta.1
 ```
 
 ## Intro
