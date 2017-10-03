@@ -216,9 +216,7 @@ export default class Wrapper implements BaseWrapper {
    * Returns HTML of element as a string
    */
   html (): string {
-    const tmp = document.createElement('div')
-    tmp.appendChild(this.element)
-    return tmp.innerHTML
+    return this.element.outerHTML
   }
 
   /**
