@@ -1,130 +1,114 @@
-# options
+# マウンティングオプション
 
-Options for mount and shallow. The options object can contain vue-test-utils options and Vue options together.
+`mount`と`shallow`オプション。optionsオブジェクトには、`vue-test-utils`のマウントオプションと生のVueオプションの両方を含めることができます。
 
-Vue options are passed to the component when a new instance is created. , e.g. `store`, `propsData`. For full list, see the [Vue API](https://vuejs.org/v2/api/). Also takes vue-test-utils options:
+新しくインスタンスが作成されると、Vueオプションがコンポーネントに渡されます。例：`store`、`propsData`など。完全なリストについては[Vue API docs](https://vuejs.org/v2/api/)を参照してください。
 
-- **Options:**
+## `vue-test-utils`の詳細なマウンティングオプション
 
-- `{Object} options`
-  - `{boolean} attachToDocument`
-  - `{Object} attrs`
-  - `{Object} children`
-  - `{boolean} clone`
-  - `{Object} context`
-  - `{Object} intercept`
-  - `{Vue} localVue`
-  - `{Object} slots`  
-      - `{Array<Componet|Object>|Component|String} default`  
-      - `{Array<Componet|Object>|Component|String} named`  
-      - `{Object|Array<string>} stubs`
-  - `{Object|Function} provide`
+- [context](#context)
+- [slots](#slots)
+- [stubs](#stubs)
+- [mocks](#mocks)
+- [localVue](#localvue)
+- [attachToDocument](#attachtodocument)
+- [attrs](#attrs)
+- [listeners](#listeners)
+- [clone](#clone)
 
-`options` (`Object`): a Vue options object. Vue options are passed to the component when a new instance is created. , e.g. `store`, `propsData`. For full list, see the [Vue API](https://vuejs.org/v2/api/). Also takes vue-test-utils options:
+### `context`
 
-`options.attachToDocument` (`boolean`): Component will attach to DOM when rendered. This can be used with [`hasStyle`](/docs/en/api/wrapper/hasStyle.md) to check multi element CSS selectors
+- 型: `Object`
 
-`options.attrs` (`Object`): Attrs object to pass to component.
+コンテキストを機能コンポーネントに渡します。 機能コンポーネントのみで使用できます。
 
-`options.children` (`Array<string|Component|Function>`): Passes children to be rendered by functional components
-
-`options.clone` (`boolean`): Clones component before editing if `true`, does not if `false`. Defaults to `true`
-
-`options.context` (`Object`): Passes context to functional component. Can only be used with functional components
-
-`options.intercept` (`Object`): Add globals to Vue instance.
-
-`options.localVue` (`Object`): vue class to use in `mount`. See [createLocalVue](/docs/en/api/createLocalVue.md)
-
-`options.propsData` (`Object`): Data for props in component
-
-`options.slots` (`Object`): Render component with slots.
-
-`options.slots.default` (`Array[Component]|Component|String`): Default slot object to render, can be a Vue component or array of Vue components
-
-`options.slots.name` (`Array[Component]|Component`): Named slots. i.e. slots.name will match a <slot name="name" />, can be a Vue component or array of Vue components
-
-`options.stubs` (`Object|Array<string>`): Stubs components matching the name. Takes object or array of strings
-
-`options.provide` (`Object`): Provides value to component
-
-- **Usage:**
-
-**With Vue options:**
+例:
 
 ```js
-import { expect } from 'chai'
-
-const wrapper = shallow(Component, {
-  propsData: {
-    color: 'red'
-  }
-})
-expect(wrapper.hasProp('color', 'red')).to.equal(true)
-```
-
-**Do not clone component**
-
-```js
-import { expect } from 'chai'
-
-const wrapper = mount(Component, {
-  clone: false
-})
-
-expect(wrapper.hasProp('color', 'red')).to.equal(true)
-```
-
-**Attach to DOM:**
-
-```js
-import { expect } from 'chai'
-
-const wrapper = shallow(Component, {
-  attachToDocument: true
-})
-expect(wrapper.contains('div')).to.equal(true)
-```
-
-**Pass attrs:**
-
-```js
-shallow(Component, {
-  attrs: {
-    attribute: 'value'
-  }
-})
-```
-
-**Mount a functional component:**
-
-```js
-import { expect } from 'chai'
-
 const wrapper = mount(Component, {
   context: {
     props: { show: true }
   }
 })
 
-expect(wrapper.is(Component)).to.equal(true)
+expect(wrapper.is(Component)).toBe(true)
 ```
 
-**Stub global properties:**
+### `slots`
+
+- 型: `{ [name: string]: Array<Component>|Component|string }`
+
+コンポーネントにスロットコンテンツのオブジェクトを渡します。keyはスロット名に対応します。値は、コンポーネント、コンポーネントの配列、またはテンプレート文字列のいずれかです。
+
+例:
+
+```js
+import { expect } from 'chai'
+import Foo from './Foo.vue'
+import Bar from './Bar.vue'
+
+const wrapper = shallow(Component, {
+  slots: {
+    default: [Foo, Bar],
+    fooBar: Foo, // Will match <slot name="FooBar" />,
+    foo: '<div />'
+  }
+})
+expect(wrapper.find('div')).toBe(true)
+```
+
+### `stubs`
+
+- type: `{ [name: string]: Component | boolean } | Array<string>`
+
+子のコンポーネントをスタブします。スタブまたはオブジェクトに対するコンポーネント名の配列になります。
+
+例:
+
+```js
+import Foo from './Foo.vue'
+
+mount(Component, {
+  stubs: ['registered-component']
+})
+
+shallow(Component, {
+  stubs: {
+    // 特定の実装によるスタブ
+    'registered-component': Foo,
+    // デフォルトのスタブを作成します
+    'another-component': true
+  }
+})
+```
+
+### `mocks`
+
+- 型: `Object`
+
+インスタンスに追加のプロパティを追加します。グローバル注入をモックするのに便利です。
+
+例:
 
 ```js
 import { expect } from 'chai'
 
 const $route = { path: 'http://www.example-path.com' }
 const wrapper = shallow(Component, {
-  intercept: {
+  mocks: {
     $route
   }
 })
-expect(wrapper.vm.$route.path).to.equal($route.path)
+expect(wrapper.vm.$route.path).toBe($route.path)
 ```
 
-**Install Vue Router with a local Vue:**
+### `localVue`
+
+- 型: `Vue`
+
+コンポーネントのマウント時に使用する[createLocalVue](./createLocalVue.md)によって作成されたVueのローカルコピーです。
+
+例:
 
 ```js
 import { createLocalVue, mount } from 'vue-test-utils'
@@ -147,64 +131,35 @@ const wrapper = mount(Component, {
   localVue,
   router
 })
-expect(wrapper.vm.$route).to.be.an('object')
+expect(wrapper.vm.$route).toBeInstanceOf(Object)
 ```
 
-**Default and named slots:**
+### `attachToDocument`
 
-```js
-import { expect } from 'chai'
-import Foo from './Foo.vue'
-import Bar from './Bar.vue'
+- 型: `boolean`
+- デフォルト: `false`
 
-const wrapper = shallow(Component, {
-  slots: {
-    default: [Foo, Bar],
-    fooBar: Foo, // Will match <slot name="FooBar" />,
-    foo: '<div />'
-  }
-})
-expect(wrapper.find('div')).to.equal(true)
-```
+`true`に設定されている場合、レンダリング時にコンポーネントはDOMにアタッチされます。これは複数の要素やCSSセレクタをチェックするための[`hasStyle`](wrapper/hasStyle.md)とも使用できます。
 
-**Stub components:**
+### `attrs`
 
-```js
-import Foo from './Foo.vue'
+- 型: `Object`
 
-mount(Component, {
-  stubs: ['registered-component']
-})
+コンポーネントインスタンスの`$attrs`オブジェクトを設定します。
 
-shallow(Component, {
-  stubs: {
-    'registered-component': Foo,
-    'another-component': true
-  }
-})
-```
+### `listeners`
 
-**Provide data to components:**
+- 型: `Object`
 
-```js
-import { expect } from 'chai'
+コンポーネントインスタンスの`$listeners`オブジェクトを設定します。
 
-const wrapper = mount(Component, {
-  provide: { fromMount: 'functionValue' }
-})
-expect(wrapper.text()).to.contain('functionValue')
-```
+### `clone`
 
-**Provide data to components:**
+- 型: `boolean`
+- デフォルト: `true`
 
-```js
-const wrapper = shallow(Component, {
-  provide () {
-    return {
-      fromMount: 'functionValue'
-    }
-  }
-})
+`true`に設定されている場合、マウント前にコンポーネントを複製し、元のコンポーネントの定義を変更することはありません。
 
-expect(wrapper.text()).to.contain('functionValue')
-```
+`options.mocks` (`Object`): Vueインスタンスにグローバルを追加します。
+
+`options.localVue` (`Object`): `mount`で使うVueクラスです。[createLocalVue](createLocalVue.md)を参照してください。
