@@ -65,4 +65,12 @@ describe('mount', () => {
 
     expect(() => mount(compileToFunctions('<div />'))).to.throw().with.property('message', message)
   })
+
+  it('compiles inline templates', () => {
+    const wrapper = mount({
+      template: `<div>foo</div>`
+    })
+    expect(wrapper.vm).to.be.an('object')
+    expect(wrapper.html()).to.equal(`<div>foo</div>`)
+  })
 })

@@ -2,13 +2,14 @@
 
 import Vue from 'vue'
 import addSlots from './add-slots'
-import createInterceptPlugin from './create-intercept-plugin'
+import addMocks from './add-mocks'
 import addAttrs from './add-attrs'
 import addListeners from './add-listeners'
 import addProvide from './add-provide'
 import { stubComponents } from './stub-components'
 import { throwError } from './util'
 import cloneDeep from 'lodash/cloneDeep'
+import { compileTemplate } from './compile-template'
 
 export default function createConstructor (component: Component, options: Options): Component {
   const vue = options.localVue || Vue
@@ -37,13 +38,14 @@ export default function createConstructor (component: Component, options: Option
     stubComponents(component, options.stubs)
   }
 
+  if (!component.render && component.template && !component.functional) {
+    compileTemplate(component)
+  }
+
   const Constructor = vue.extend(component)
 
-  if (options.intercept) {
-    // creates a plugin that adds properties, and then install on local Constructor
-    // this does not affect the base Vue class
-    const interceptPlugin = createInterceptPlugin(options.intercept)
-    Constructor.use(interceptPlugin)
+  if (options.mocks) {
+    addMocks(options.mocks, Constructor)
   }
 
   const vm = new Constructor(options)

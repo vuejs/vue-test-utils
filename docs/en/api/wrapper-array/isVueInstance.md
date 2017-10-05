@@ -1,10 +1,10 @@
 # isVueInstance()
 
+Assert every `Wrapper` in `WrapperArray` is Vue instance.
+
 - **Returns:** `{boolean}`
 
-- **Usage:**
-
-Assert every `Wrapper` in `WrapperArray` is Vue instance.
+- **Example:**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -14,5 +14,5 @@ import Bar from './Bar.vue'
 
 const wrapper = mount(Foo)
 const barArray = wrapper.findAll(Bar)
-expect(barArray.isVueInstance()).to.equal(true)
+expect(barArray.isVueInstance()).toBe(true)
 ```

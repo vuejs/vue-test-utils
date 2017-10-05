@@ -20,3 +20,5 @@ dist
 _book
 .tmp
 tmp*
+
+yarn.lock

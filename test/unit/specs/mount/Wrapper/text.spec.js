@@ -9,4 +9,13 @@ describe('text', () => {
 
     expect(wrapper.text()).to.equal(text)
   })
+
+  it('throws error if wrapper does not contain element', () => {
+    const wrapper = mount({ render: (h) => h('div') })
+    const div = wrapper.find('div')
+    div.element = null
+    const fn = () => div.text()
+    const message = '[vue-test-utils]: cannot call wrapper.text() on a wrapper without an element'
+    expect(fn).to.throw().with.property('message', message)
+  })
 })

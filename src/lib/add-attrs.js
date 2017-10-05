@@ -1,10 +1,11 @@
+import Vue from 'vue'
+
 export default function addAttrs (vm, attrs) {
-  const consoleWarnSave = console.error
-  console.error = () => {}
+  Vue.config.silent = true
   if (attrs) {
     vm.$attrs = attrs
   } else {
     vm.$attrs = {}
   }
-  console.error = consoleWarnSave
+  Vue.config.silent = false
 }

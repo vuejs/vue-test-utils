@@ -9,6 +9,13 @@ describe('isEmpty', () => {
     expect(wrapper.isEmpty()).to.equal(true)
   })
 
+  it('returns true contains empty slot', () => {
+    const compiled = compileToFunctions('<div><slot></slot></div>')
+    const wrapper = mount(compiled)
+
+    expect(wrapper.isEmpty()).to.equal(true)
+  })
+
   it('returns false if node contains other nodes', () => {
     const compiled = compileToFunctions('<div><p /></div>')
     const wrapper = mount(compiled)

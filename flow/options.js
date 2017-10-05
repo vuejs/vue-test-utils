@@ -1,6 +1,6 @@
 declare type Options = { // eslint-disable-line no-undef
     attachToDocument?: boolean,
-    intercept?: Object,
+    mocks?: Object,
     slots?: Object,
     localVue?: Component,
     stubs?: Object,

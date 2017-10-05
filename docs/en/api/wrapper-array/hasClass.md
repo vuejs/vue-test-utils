@@ -1,13 +1,13 @@
 # hasClass(className)
 
+Assert every `Wrapper` in `WrapperArray` DOM node has class containing `className`.
+
 - **Arguments:**
   - `{string} className`
 
 - **Returns:** `{boolean}`
 
-- **Usage:**
-
-Assert every `Wrapper` in `WrapperArray` DOM node has class containing `className`. 
+- **Example:**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -16,5 +16,5 @@ import Foo from './Foo.vue'
 
 const wrapper = mount(Foo)
 const divArray = wrapper.findAll('div')
-expect(divArray.hasClass('bar')).to.equal(true)
+expect(divArray.hasClass('bar')).toBe(true)
 ```

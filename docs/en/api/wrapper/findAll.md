@@ -1,15 +1,15 @@
 # findAll(selector)
 
+Returns a [`WrapperArray`](../wrapper-array/README.md) of [Wrappers](README.md).
+
+Use any valid [selector](../selectors.md).
+
 - **Arguments:**
   - `{string|Component} selector`
 
 - **Returns:** `{WrapperArray}`
 
-- **Usage:**
-
-Returns a [`WrapperArray`](/docs/en/api/wrapper-array/README.md) of [Wrappers](/docs/en/api/wrapper/README.md). 
-
-Use any valid [selector](/docs/en/api/selectors.md).
+- **Example:**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -19,9 +19,9 @@ import Bar from './Bar.vue'
 
 const wrapper = mount(Foo)
 const div = wrapper.findAll('div').at(0)
-expect(div.is('div')).to.equal(true)
+expect(div.is('div')).toBe(true)
 const bar = wrapper.findAll(Bar).at(0)
-expect(bar.is(Bar)).to.equal(true)
+expect(bar.is(Bar)).toBe(true)
 ```
 
-- **See also:** [Wrapper](/docs/en/api/wrapper/README.md)
+- **See also:** [Wrapper](README.md)

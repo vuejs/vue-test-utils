@@ -1,13 +1,13 @@
 # trigger(eventName)
 
-- **Arguments:**
-  - `{string} eventName
-
-- **Usage:**
-
 Triggers an event on every `Wrapper` in the `WrapperArray` DOM node.
 
 **Note every `Wrapper` must contain a Vue instance.**
+
+- **Arguments:**
+  - `{string} eventName`
+
+- **Example:**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -22,5 +22,5 @@ const wrapper = mount(Foo, {
 
 const divArray = wrapper.findAll('div')
 divArray.trigger('click')
-expect(clickHandler.called).to.equal(true)
+expect(clickHandler.called).toBe(true)
 ```

@@ -9,13 +9,13 @@
 
 - **Options:**
 
-See [options](/docs/en/api/options.md)
+See [options](options.md)
 
 - **Usage:**
 
-Returns [`Wrapper`](/docs/en/api/wrapper/README.md) of first DOM node or Vue component matching selector.
+Returns [`Wrapper`](wrapper/README.md) of first DOM node or Vue component matching selector.
 
-Use any valid [selector](/docs/en/api/selectors.md).
+Use any valid [selector](selectors.md).
 
 **Without options:**
 
@@ -27,7 +27,7 @@ import Foo from './Foo.vue'
 describe('Foo', () => {
   it('renders a div', () => {
     const wrapper = mount(Foo)
-    expect(wrapper.contains('div')).to.equal(true)
+    expect(wrapper.contains('div')).toBe(true)
   })
 })
 ```
@@ -45,7 +45,7 @@ describe('Foo', () => {
         color: 'red'
       }
     })
-    expect(wrapper.hasProp('color', 'red')).to.equal(true)
+    expect(wrapper.hasProp('color', 'red')).toBe(true)
   })
 })
 ```
@@ -62,7 +62,7 @@ describe('Foo', () => {
     const wrapper = mount(Foo, {
       attachToDocument: true
     })
-    expect(wrapper.contains('div')).to.equal(true)
+    expect(wrapper.contains('div')).toBe(true)
   })
 })
 ```
@@ -84,7 +84,7 @@ describe('Foo', () => {
         foo: '<div />'
       }
     })
-    expect(wrapper.contains('div')).to.equal(true)
+    expect(wrapper.contains('div')).toBe(true)
   })
 })
 ```
@@ -100,11 +100,11 @@ describe('Foo', () => {
   it('renders a div', () => {
     const $route = { path: 'http://www.example-path.com' }
     const wrapper = mount(Foo, {
-      intercept: {
+      mocks: {
         $route
       }
     })
-    expect(wrapper.vm.$route.path).to.equal($route.path)
+    expect(wrapper.vm.$route.path).toBe($route.path)
   })
 })
 ```
@@ -127,10 +127,10 @@ describe('Foo', () => {
         FooBar: Faz
       }
     })
-    expect(wrapper.contains('.stubbed')).to.equal(true)
-    expect(wrapper.contains(Bar)).to.equal(true)
+    expect(wrapper.contains('.stubbed')).toBe(true)
+    expect(wrapper.contains(Bar)).toBe(true)
   })
 })
 ```
 
-- **See also:** [Wrapper](/docs/en/api/wrapper/README.md)
+- **See also:** [Wrapper](wrapper/README.md)

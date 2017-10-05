@@ -1,9 +1,13 @@
 # vue-test-utils
 
-## Currently not published on npm 
-To use vue-test-utils pre-release:
+## Currently in beta
+To use vue-test-utils beta:
 ```
-npm install --save-dev https://github.com/vuejs/vue-test-utils/
+// npm
+npm install --save-dev vue-test-utils@1.0.0-beta.1
+
+// yarn
+yarn add --dev vue-test-utils@1.0.0-beta.1
 ```
 
 ## Intro
@@ -12,13 +16,14 @@ npm install --save-dev https://github.com/vuejs/vue-test-utils/
 
 ## Documentation
 
-Refer to [documentation](https://vuejs.github.io/vue-test-utils/)
+Refer to [documentation](https://vue-test-utils.vuejs.org/)
 
 ## Examples
 
 - [example with Jest](https://github.com/eddyerburgh/vue-test-utils-jest-example)
-- [example with AVA](https://github.com/eddyerburgh/vue-test-utils-ava-example)
+- [example with Mocha](https://github.com/eddyerburgh/vue-test-utils-mocha-example)
 - [example with tape](https://github.com/eddyerburgh/vue-test-utils-tape-example)
+- [example with AVA](https://github.com/eddyerburgh/vue-test-utils-ava-example)
 
 ## Questions
 

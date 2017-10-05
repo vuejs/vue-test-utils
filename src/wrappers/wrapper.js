@@ -11,6 +11,8 @@ import { throwError } from '../lib/util'
 export default class Wrapper implements BaseWrapper {
   vnode: VNode;
   vm: Component | null;
+  _emitted: { [name: string]: Array<Array<any>> };
+  _emittedByOrder: Array<{ name: string; args: Array<any> }>;
   isVueComponent: boolean;
   element: HTMLElement;
   update: Function;
@@ -48,6 +50,26 @@ export default class Wrapper implements BaseWrapper {
   }
 
   /**
+   * Returns an object containing custom events emitted by the Wrapper vm
+   */
+  emitted () {
+    if (!this._emitted && !this.vm) {
+      throwError('wrapper.emitted() can only be called on a Vue instance')
+    }
+    return this._emitted
+  }
+
+  /**
+   * Returns an Array containing custom events emitted by the Wrapper vm
+   */
+  emittedByOrder () {
+    if (!this._emittedByOrder && !this.vm) {
+      throwError('wrapper.emittedByOrder() can only be called on a Vue instance')
+    }
+    return this._emittedByOrder
+  }
+
+  /**
    * Utility to check wrapper exists. Returns true as Wrapper always exists
    */
   exists (): boolean {
@@ -66,7 +88,7 @@ export default class Wrapper implements BaseWrapper {
       throwError('wrapper.hasAttribute() must be passed value as a string')
     }
 
-    return this.element && this.element.getAttribute(attribute) === value
+    return !!(this.element && this.element.getAttribute(attribute) === value)
   }
 
   /**
@@ -77,7 +99,7 @@ export default class Wrapper implements BaseWrapper {
       throwError('wrapper.hasClass() must be passed a string')
     }
 
-    return this.element.className.split(' ').indexOf(className) !== -1
+    return !!(this.element && this.element.classList.contains(className))
   }
 
   /**
@@ -132,7 +154,7 @@ export default class Wrapper implements BaseWrapper {
 
     const elStyle = window.getComputedStyle(this.element)[style]
     const mockNodeStyle = window.getComputedStyle(mockNode)[style]
-    return elStyle === mockNodeStyle
+    return !!(elStyle && mockNodeStyle && elStyle === mockNodeStyle)
   }
 
   /**
@@ -194,9 +216,7 @@ export default class Wrapper implements BaseWrapper {
    * Returns HTML of element as a string
    */
   html (): string {
-    const tmp = document.createElement('div')
-    tmp.appendChild(this.element)
-    return tmp.innerHTML
+    return this.element.outerHTML
   }
 
   /**
@@ -216,14 +236,17 @@ export default class Wrapper implements BaseWrapper {
       }
       return vmCtorMatchesName(this.vm, selector.name)
     }
-    return this.element.getAttribute && this.element.matches(selector)
+
+    return !!(this.element &&
+    this.element.getAttribute &&
+    this.element.matches(selector))
   }
 
   /**
    * Checks if node is empty
    */
   isEmpty (): boolean {
-    return this.vnode.children === undefined
+    return this.vnode.children === undefined || this.vnode.children.length === 0
   }
 
   /**
@@ -308,6 +331,10 @@ export default class Wrapper implements BaseWrapper {
    * Return text of wrapper element
    */
   text (): string {
+    if (!this.element) {
+      throwError('cannot call wrapper.text() on a wrapper without an element')
+    }
+
     return this.element.textContent
   }
 
@@ -317,6 +344,10 @@ export default class Wrapper implements BaseWrapper {
   trigger (type: string, options: Object = {}) {
     if (typeof type !== 'string') {
       throwError('wrapper.trigger() must be passed a string')
+    }
+
+    if (!this.element) {
+      throwError('cannot call wrapper.trigger() on a wrapper without an element')
     }
 
     const modifiers = {

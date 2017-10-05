@@ -9,7 +9,7 @@
     - `{Object} slots`
         - `{Array<Componet|Object>|Component|String} default`
         - `{Array<Componet|Object>|Component|String} named`
-    - `{Object} intercept`
+    - `{Object} mocks`
     - `{Object|Array<string>} stubs`
     - `{boolean} clone`
     - `{Object} children`
@@ -39,7 +39,7 @@ import Foo from './Foo.vue'
 describe('Foo', () => {
   it('renders a div', () => {
     const wrapper = shallow(Foo)
-    expect(wrapper.contains('div')).to.equal(true)
+    expect(wrapper.contains('div')).toBe(true)
   })
 })
 ```
@@ -58,7 +58,7 @@ describe('Foo', () => {
         color: 'red'
       }
     })
-    expect(wrapper.hasProp('color', 'red')).to.equal(true)
+    expect(wrapper.hasProp('color', 'red')).toBe(true)
   })
 })
 ```
@@ -75,7 +75,7 @@ describe('Foo', () => {
     const wrapper = shallow(Foo, {
       attachToDocument: true
     })
-    expect(wrapper.contains('div')).to.equal(true)
+    expect(wrapper.contains('div')).toBe(true)
   })
 })
 ```
@@ -98,7 +98,7 @@ describe('Foo', () => {
         foo: '<div />'
       }
     })
-    expect(wrapper.find('div')).to.equal(true)
+    expect(wrapper.find('div')).toBe(true)
   })
 })
 ```
@@ -114,11 +114,11 @@ describe('Foo', () => {
   it('renders a div', () => {
     const $route = { path: 'http://www.example-path.com' }
     const wrapper = shallow(Foo, {
-      intercept: {
+      mocks: {
         $route
       }
     })
-    expect(wrapper.vm.$route.path).to.equal($route.path)
+    expect(wrapper.vm.$route.path).toBe($route.path)
   })
 })
 ```

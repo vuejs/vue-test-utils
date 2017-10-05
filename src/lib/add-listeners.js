@@ -1,10 +1,11 @@
+import Vue from 'vue'
+
 export default function addListeners (vm, listeners) {
-  const consoleWarnSave = console.error
-  console.error = () => {}
+  Vue.config.silent = true
   if (listeners) {
     vm.$listeners = listeners
   } else {
     vm.$listeners = {}
   }
-  console.error = consoleWarnSave
+  Vue.config.silent = false
 }

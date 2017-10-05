@@ -16,6 +16,13 @@ describe('hasAttribute', () => {
     expect(wrapper.hasAttribute('attribute', 'value')).to.equal(false)
   })
 
+  it('returns false if wrapper element is null', () => {
+    const compiled = compileToFunctions('<div />')
+    const wrapper = mount(compiled)
+    wrapper.element = null
+    expect(wrapper.hasAttribute('attribute', 'value')).to.equal(false)
+  })
+
   it('throws an error if attribute is not a string', () => {
     const compiled = compileToFunctions('<div />')
     const wrapper = mount(compiled)
