@@ -9,7 +9,7 @@
 
 - **オプション:**
 
-[オプション](/docs/ja/api/options.md)を見る
+[オプション](/docs/ja/api/options.md)を参照してください。
 
 - **使い方:**
 
