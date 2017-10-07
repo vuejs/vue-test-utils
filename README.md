@@ -20,8 +20,8 @@ Refer to [documentation](https://vue-test-utils.vuejs.org/)
 
 ## Examples
 
-- [example with Jest](https://github.com/eddyerburgh/vue-test-utils-jest-example)
-- [example with Mocha](https://github.com/eddyerburgh/vue-test-utils-mocha-example)
+- [example with Jest](https://github.com/vuejs/vue-test-utils-jest-example)
+- [example with Mocha](https://github.com/vuejs/vue-test-utils-mocha-webpack-example)
 - [example with tape](https://github.com/eddyerburgh/vue-test-utils-tape-example)
 - [example with AVA](https://github.com/eddyerburgh/vue-test-utils-ava-example)
 
