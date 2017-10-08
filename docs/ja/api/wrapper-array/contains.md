@@ -1,6 +1,6 @@
 # contains(selector)
 
-`WrapperArray`のすべてのWrapperにセレクターが含まれているか検証します。
+`WrapperArray`のすべてのWrapperにセレクタが含まれているか検証します。
 
 有効な[セレクタ](/docs/ja/api/selectors.md)を使用してください。
 

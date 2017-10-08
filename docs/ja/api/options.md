@@ -1,6 +1,6 @@
 # マウンティングオプション
 
-`mount`と`shallow`オプション。optionsオブジェクトには、`vue-test-utils`のマウントオプションと生のVueオプションの両方を含めることができます。
+`mount`と`shallow`に対するオプション。optionsオブジェクトには、`vue-test-utils`のマウントオプションと生のVueオプションの両方を含めることができます。
 
 新しくインスタンスが作成されると、Vueオプションがコンポーネントに渡されます。例：`store`、`propsData`など。完全なリストについては[Vue API docs](https://vuejs.org/v2/api/)を参照してください。
 
