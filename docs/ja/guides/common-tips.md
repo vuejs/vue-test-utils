@@ -1,68 +1,68 @@
-# Common Tips
+# よくあるヒント
 
-## Knowing What to Test
+## なにをテストするかを知る
 
-For UI components, we don't recommend aiming for complete line-based coverage, because it leads to too much focus on the internal implementation details of the components and could result in brittle tests.
+UIコンポーネントでは、コンポーネントの内部実装の詳細に集中しすぎて脆弱なテストが発生する可能性があるため、完全なラインベースのカバレッジを目指すことはお勧めしません。
 
-Instead, we recommend writing tests that assert your component's public interface, and treat its internals as a black box. A single test case would assert that some input (user interaction or change of props) provided to the component results in the expected output (render result or emitted custom events).
+代わりに、コンポーネントのパブリックインターフェイスを検証するテストを作成し、内部をブラックボックスとして扱うことをお勧めします。単一のテストケースでは、コンポーネントに提供された入力（ユーザーのやり取りやpropsの変更）によって、期待される出力（結果のレンダリングまたはカスタムイベントの出力）が行われることが示されます。
 
-For example, for the `Counter` component which increments a display counter by 1 each time a button is clicked, its test case would simulate the click and assert that the rendered output has increased by 1. The test doesn't care about how the Counter increments the value, it only cares about the input and the output.
+たとえば、ボタンがクリックされるたびに表示カウンタを1ずつインクリメントする `Counter`コンポーネントの場合、そのテストケースはクリックをシミュレートし、レンダリングされた出力が1つ増加したのか検証します。カウンタは値をインクリメントし、入力と出力のみを扱います。
 
-The benefit of this approach is that as long as your component's public interface remains the same, your tests will pass no matter how the component's internal implementation changes over time.
+このアプローチの利点は、コンポーネントのパブリックインターフェイスが同じままである限り、コンポーネントの内部実装が時間の経過とともにどのように変化してもテストは合格になります。
 
-This topic is discussed with more details in a [great presentation by Matt O'Connell](http://slides.com/mattoconnell/deck#/).
+このトピックは、[Matt O'Connellによる偉大なプレゼンテーション](http://slides.com/mattoconnell/deck#/)で詳細に説明されています。
 
-## Shallow Rendering
+## Shallowレンダリング
 
-In unit tests, we typically want to focus on the component being tested as an isolated unit and avoid indirectly asserting the behavior of its child components.
+単体テストでは、通常、単体テストとしてテスト対象のコンポーネントに焦点を当て、子コンポーネントの動作を間接的に検証することを避けたいと考えています。
 
-In addition, for components that contain many child components, the entire rendered tree can get really big. Repeatedly rendering all child components could slow down our tests.
+さらに、多くの子コンポーネントを含むコンポーネントの場合、レンダリングされたツリー全体が非常に大きくなる可能性があります。すべての子コンポーネントを繰り返しレンダリングすると、テストが遅くなる可能性があります。
 
-`vue-test-utils` allows you to mount a component without rendering its child components (by stubbing them) with the `shallow` method:
+`vue-test-utils`を使うと、`shallow`メソッドを使って子コンポーネントを（スタブによって）レンダリングせずにコンポーネントをマウントすることができます：
 
 ```js
 import { shallow } from 'vue-test-utils'
 
-const wrapper = shallow(Component) // returns a Wrapper containing a mounted Component instance
-wrapper.vm // the mounted Vue instance
+const wrapper = shallow(Component) // Componentインスタンスを含むWrapperを返します。
+wrapper.vm // マウントされたVueインスタンス
 ```
 
-## Asserting Emitted Events
+## イベントの発行を検証する
 
-Each mounted wrapper automatically records all events emitted by the underlying Vue instance. You can retrieve the recorded events using the `wrapper.emitted()` method:
+マウントされた各ラッパは、基になるVueインスタンスによって発行されたすべてのイベントを自動的に記録します。`wrapper.emitted()`を使って、記録されたイベントを取り出すことができます:
 
 ``` js
 wrapper.vm.$emit('foo')
 wrapper.vm.$emit('foo', 123)
 
 /*
-wrapper.emitted() returns the following object:
+wrapper.emitted()は次のオブジェクトを返します:
 {
   foo: [[], [123]]
 }
 */
 ```
 
-You can then make assertions based on these data:
+次に、これらのデータに基づいて検証することもできます。
 
 ``` js
 import { expect } from 'chai'
 
-// assert event has been emitted
+// イベントが発行されたか検証する
 expect(wrapper.emitted().foo).toBeTruthy()
 
-// assert event count
+// イベント数を検証する
 expect(wrapper.emitted().foo.length).toBe(2)
 
-// assert event payload
+// イベントを含んでいるか検証する
 expect(wrapper.emitted().foo[1]).toEqual([123])
 ```
 
-You can also get an Array of the events in their emit order by calling [wrapper.emittedByOrder()](../api/emittedByOrder.md).
+また、[wrapper.emittedByOrder()](../api/emittedByOrder.md)を呼び出すことで、イベントの配列をエミット順に取得することもできます。
 
-## Manipulating Component State
+## コンポーネントの状態を操作する
 
-You can directly manipulate the state of the component using the `setData` or `setProps` method on the wrapper:
+ラッパの `setData`メソッドまたは`setProps`メソッドを使って、コンポーネントの状態を直接操作することができます。:
 
 ```js
 wrapper.setData({ count: 10 })
@@ -70,9 +70,9 @@ wrapper.setData({ count: 10 })
 wrapper.setProps({ foo: 'bar' })
 ```
 
-## Mocking Props
+## Propsをモックする
 
-You can pass props to the component using Vue's built-in `propsData` option:
+Vueに組み込まれた`propsData`オプションを使用してコンポーネントにpropsを渡すことができます。:
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -84,34 +84,34 @@ mount(Component, {
 })
 ```
 
-You can also update the props of an already-mounted component with the `wrapper.setProps({})` method.
+`wrapper.setProps({})`メソッドを使用して、すでにマウントされているコンポーネントのpropsを更新することもできます。
 
-*For a full list of options, please see the [mount options section](./api/options.md) of the docs.*
+*オプションの完全なリストについては、ドキュメントの [マウントオプションのセクション](./api/options.md)を参照してください。*
 
-## Applying Global Plugins and Mixins
+## グローバルプラグインとミックスインの適用
 
-Some of the components may rely on features injected by a global plugin or mixin, for example `vuex` and `vue-router`.
+コンポーネントの中には、グローバルプラグインやmixinによって注入された機能 (例:`vuex`、`vue-router`など)に依存するものもあります。
 
-If you are writing tests for components in a specific app, you can setup the same global plugins and mixins once in the entry of your tests. But in some cases, for example testing a generic component suite that may get shared across different apps, it's better to test your components in a more isolated setup, without polluting the global `Vue` constructor. We can use the [createLocalVue](../api/createLocalVue.md) method to achieve that:
+特定のアプリケーションでコンポーネントのテストを作成している場合は、同じグローバルプラグインとミックスインをテストのエントリに設定できます。しかし、異なるアプリケーション間で共有される可能性のあるジェネリックコンポーネントスイートをテストする場合など、グローバルな `Vue`コンストラクタを汚染することなく、より孤立した設定でコンポーネントをテストする方が良い場合もあります。[createLocalVue](../api/createLocalVue.md)メソッドを使用すると、次のことができます。:
 
 ``` js
 import createLocalVue from 'vue-test-utils'
 
-// create an extended Vue constructor
+// 拡張されたVueコンストラクタを作成する
 const localVue = createLocalVue()
 
-// install plugins as normal
+// プラグインをインストールする
 localVue.use(MyPlugin)
 
-// pass the localVue to the mount options
+// localVueをマウントオプションに渡す
 mount(Component, {
   localVue
 })
 ```
 
-## Mocking Injections
+## モックの注入
 
-Another strategy for injected properties is simply mocking them. You can do that with the `mocks` option:
+単純なモックを注入するための別の戦略として`mocks`オプションで行うことができます:
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -125,11 +125,12 @@ const $route = {
 
 mount(Component, {
   mocks: {
-    $route // adds the mocked $route object to the Vue instance before mounting component
+    $route // コンポーネントをマウントする前に、モックした$routeオブジェクトをVueインスタンスに追加します。
   }
 })
 ```
 
-## Dealing with Routing
+## ルーティングの扱い
 
-Since routing by definition has to do with the overall structure of the application and involves multiple components, it is best tested via integration or end-to-end tests. For individual components that rely on `vue-router` features, you can mock them using the techniques mentioned above.
+定義によるルーティングは、アプリケーションの全体的な構造と関連し、複数のコンポーネントが関係するため、統合テストまたはエンドツーエンドテストによってよくテストされます。
+`vue-router`機能に依存する個々のコンポーネントについては、上記の手法を使ってモックすることができます。

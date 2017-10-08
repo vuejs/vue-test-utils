@@ -1,20 +1,20 @@
-# Testing Single File Components with Jest
+# Jestを使用した単一ファイルコンポーネントのテスト
 
-> An example project for this setup is available on [GitHub](https://github.com/vuejs/vue-test-utils-jest-example).
+> このセットアップのサンプルプロジェクトは、 [GitHub](https://github.com/vuejs/vue-test-utils-jest-example)にあります。
 
-Jest is a test runner developed by Facebook, aiming to deliver a battery-included unit testing solution. You can learn more about Jest on its [official documentation](https://facebook.github.io/jest/).
+JestはFacebookが開発したテストランナーであり、ユニットテストソリューションの提供を目指しています。 Jestの詳細については、[公式ドキュメント](https://facebook.github.io/jest/)を参照してください。
 
-## Setting up Jest
+## Jestのセットアップ
 
-We will assume you are starting with a setup that already has webpack, vue-loader and Babel properly configured - e.g. the `webpack-simple` template scaffolded by `vue-cli`.
+既に、webpack、vue-loader、およびBabelが正しく設定されている設定から始めると仮定します。例:`vue-cli`によってscaffoldされた`webpack-simple`テンプレートです。
 
-The first thing to do is install Jest and `vue-test-utils`:
+まずJestと `vue-test-utils`をインストールします。:
 
 ```bash
 $ npm install --save-dev jest vue-test-utils
 ```
 
-Next we need to define a unit script in our `package.json`.
+次に、`package.json`にスクリプトを定義する必要があります。
 
 ```json
 // package.json
@@ -25,15 +25,15 @@ Next we need to define a unit script in our `package.json`.
 }
 ```
 
-## Processing SFCs in Jest
+## Jestにおける単一ファイルコンポーネントの処理
 
-To teach Jest how to process `*.vue` files, we will need to install and configure the `jest-vue` preprocessor:
+Jestに `*.vue`ファイルの処理方法を教えるために、`jest-vue`プリプロセッサをインストールして設定する必要があります。：
 
 ``` bash
 npm install --save-dev jest-vue
 ```
 
-Next, create a `jest` block in `package.json`:
+次に、`package.json`に`jest`ブロックを作成します:
 
 ``` json
 {
@@ -42,11 +42,11 @@ Next, create a `jest` block in `package.json`:
     "moduleFileExtensions": [
       "js",
       "json",
-      // tell Jest to handle *.vue files
+      // *.vueファイルを処理するようにJestに指示する
       "vue"
     ],
     "transform": {
-      // process *.vue files with jest-vue
+      // jest-vueで*.vueファイルを処理する
       ".*\\.(vue)$": "<rootDir>/node_modules/jest-vue"
     },
     "mapCoverage": true
@@ -54,18 +54,18 @@ Next, create a `jest` block in `package.json`:
 }
 ```
 
-> **Note:** `jest-vue` currently does not support all the features of `vue-loader`, for example custom block support and style loading. In addition, some webpack-specific features such as code-splitting are not supported either. To use them, read the guide on [testing SFCs with Mocha + webpack](./testing-SFCs-with-mocha-webpack.md).
+> **注意:** `jest-vue`は現在、カスタムブロックのサポートやスタイルのロードなど、`vue-loader`のすべての機能をサポートしていません。さらに、コード分割などのWebpack固有の機能はサポートされていません。それらを使用するには、[Mocha + webpackによる単一ファイルコンポーネントのテスト](./testing-SFCs-with-mocha-webpack.md)のガイドをお読みください。
 
-## Handling webpack Aliases
+## Webpackエイリアスの処理
 
-If you use a resolve alias in the webpack config, e.g. aliasing `@` to `/src`, you need to add a matching config for Jest as well, using the `moduleNameMapper` option:
+webpack設定で、`@`を`/src`のエイリアスにしたいといった場合、`moduleNameMapper`オプションを使ってJestの設定を追加する必要があります
 
 ``` json
 {
   // ...
   "jest": {
     // ...
-    // support the same @ -> src alias mapping in source code
+    // ソースコードにある@ を src へと割当てる
     "moduleNameMapper": {
       "^@/(.*)$": "<rootDir>/src/$1"
     }
@@ -73,15 +73,15 @@ If you use a resolve alias in the webpack config, e.g. aliasing `@` to `/src`, y
 }
 ```
 
-## Configuring Babel for Jest
+## JestのためのBabelの設定
 
-Although latest versions of Node already supports most ES2015 features, you may still want to use ES modules syntax and stage-x features in your tests. For that we need to install `babel-jest`:
+nodeの最新バージョンではすでにほとんどのES2015機能がサポートされていますが、テストではESモジュール構文とstage-x機能を使用することができます。そのために、`babel-jest`をインストールする必要があります。
 
 ``` bash
 npm install --save-dev babel-jest
 ```
 
-Next, we need to tell Jest to process JavaScript test files with `babel-jest` by adding an entry under `jest.transform` in `package.json`:
+次に、Jestに`babel-jest`でJavaScriptテストファイルを処理するよう、`package.json`の`jest.transform`の中にエントリを追加する必要があります。:
 
 ``` json
 {
@@ -90,7 +90,7 @@ Next, we need to tell Jest to process JavaScript test files with `babel-jest` by
     // ...
     "transform": {
       // ...
-      // process js with babel-jest
+      // babel-jestでjsを処理する
       "^.+\\.js$": "<rootDir>/node_modules/babel-jest"
     },
     // ...
@@ -98,15 +98,15 @@ Next, we need to tell Jest to process JavaScript test files with `babel-jest` by
 }
 ```
 
-> By default, `babel-jest` automatically configures itself as long as it's installed. However, because we have explicitly added a transform for `*.vue` files, we now need to explicitly configure `babel-jest` as well.
+> デフォルトでは、`babel-jest`はインストールされている間自動的に設定します。しかし、`*.vue`ファイルのための変換を明示的に追加したため、`babel-jest`も明示的に設定する必要があります。
 
-Assuming using `babel-preset-env` with webpack, the default Babel config disables ES modules transpilation because webpack already knows how to handle ES modules. However, we do need to enable it for our tests because Jest tests run directly in Node.
+webpackで `babel-preset-env`を使用するとした場合、webpackはESモジュールの処理方法を既に知っているので、デフォルトのBabel configはESモジュールのトランスパイルを無効にします。ただし、JestテストはNodeで直接実行されるため、テスト用に有効にする必要があります。
 
-Also, we can tell `babel-preset-env` to target the Node version we are using. This skips transpiling unnecessary features and makes our tests boot faster.
+また、`babel-preset-env`に、使用しているNodeのバージョンを指定するように指示することもできます。これにより不要な機能をスキップし、テストがより速く起動します。
 
-To apply these options only for tests, put them in a separate config under `env.test` (this will be automatically picked up by `babel-jest`).
+これらのオプションをテストのためだけに適用するには、 `env.test`の下に別の設定をします（これは`babel-jest`によって自動的に選択されます）。
 
-Example `.babelrc`:
+例 `.babelrc`:
 
 ``` json
 {
@@ -123,24 +123,24 @@ Example `.babelrc`:
 }
 ```
 
-### Snapshot Testing
+### スナップショットテスト
 
-You can use [`vue-server-renderer`](https://github.com/vuejs/vue/tree/dev/packages/vue-server-renderer) to render a component into a string so that it can be saved as a snapshot for [Jest snapshot testing](https://facebook.github.io/jest/docs/en/snapshot-testing.html).
+[`vue-server-renderer`](https://github.com/vuejs/vue/tree/dev/packages/vue-server-renderer) を使ってコンポーネントを文字列にレンダリングして保存することができます。[Jestのスナップショットテスト](https://facebook.github.io/jest/docs/en/snapshot-testing.html) のスナップショットとして表示されます。 
 
-The render result of `vue-server-renderer` includes a few SSR-specific attributes, and it ignores whitespaces, making it harder to scan a diff. We can improve the saved snapshot with a custom serializer:
+`vue-server-renderer`のレンダリング結果には、いくつかのSSR固有の属性が含まれており、空白を無視するため、diffをスキャンするのが難しくなります。カスタムシリアライザを使用して、保存されたスナップショットを改善することができます。
 
 ``` bash
 npm install --save-dev jest-serializer-vue
 ```
 
-Then configure it in `package.json`:
+次に`package.json`で設定します:
 
 ``` json
 {
   // ...
   "jest": {
     // ...
-    // serializer for snapshots
+    // スナップショットのシリアライザ
     "snapshotSerializers": [
       "<rootDir>/node_modules/jest-serializer-vue"
     ]
@@ -148,15 +148,15 @@ Then configure it in `package.json`:
 }
 ```
 
-### Placing Test Files
+### テストファイルの配置
 
-By default, jest will recursively pick up all files that have a `.spec.js` or `.test.js` extension in the entire project. If this does not fit your needs, it's possible [to change the testRegex](https://facebook.github.io/jest/docs/en/configuration.html#testregex-string) in the config section in the `package.json` file.
+デフォルトでは、jestはプロジェクト全体で `.spec.js`または`.test.js`拡張子を持つすべてのファイルを再帰的に取得します。これがあなたのニーズに合わない場合は、`package.json`ファイルのconfigセクションで[testRegexを変更する](https://facebook.github.io/jest/docs/en/configuration.html#testregex-string)ことが可能です。
 
-Jest recommends creating a `__tests__` directory right next to the code being tested, but feel free to structure your tests as you see fit. Just beware that Jest would create a `__snapshots__` directory next to test files that performs snapshot testing.
+Jestは、テスト対象のコードのすぐ隣に`__tests__`ディレクトリを作成することを推奨していますが、適切にテストを構造化することは自由です。 Jestがスナップショットテストを実行するテストファイルの隣に`__snapshots__`ディレクトリを作成することに注意してください。
 
-### Example Spec
+### 仕様例
 
-If you are familiar with Jasmine, you should feel right at home with Jest's [assertion API](https://facebook.github.io/jest/docs/en/expect.html#content):
+あなたがJasmineをよく知っているなら、Jestの[assertion API](https://facebook.github.io/jest/docs/en/expect.html#content)は自宅のように感じるはずです。
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -172,7 +172,7 @@ describe('Component', () => {
 
 ### Resources
 
-- [Example project for this setup](https://github.com/vuejs/vue-test-utils-jest-example)
-- [Examples and slides from Vue Conf 2017](https://github.com/codebryo/vue-testing-with-jest-conf17)
+- [このセットアップのプロジェクト例](https://github.com/vuejs/vue-test-utils-jest-example)
+- [Vue Conf 2017のスライド](https://github.com/codebryo/vue-testing-with-jest-conf17)
 - [Jest](https://facebook.github.io/jest/)
 - [Babel preset env](https://github.com/babel/babel-preset-env)

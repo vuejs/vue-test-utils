@@ -1,10 +1,10 @@
-# Using with Vuex
+# Vuexで使う
 
-## Mocking Actions
+## Actionsをモックする
 
-Let’s look at some code.
+いくつかのコードを見てみましょう。
 
-This is the component we want to test. It calls Vuex actions.
+これはテストしたいコンポーネントです。これはVuexの動作を呼び出します。
 
 ``` html
 <template>
@@ -33,11 +33,11 @@ export default{
 </script>
 ```
 
-For the purposes of this test, we don’t care what the actions do, or what the store looks like. We just need to know that these actions are being fired when they should, and that they are fired with the expected value.
+このテストの目的のために、私たちはそのアクションが何をしているのか、あるいはストアがどのように見えるのか気にしません。我々は、これらのアクションが必要なときに発火していること、そして期待された値と発火されたことを知るだけでよいでしょう。
 
-To test this, we need to pass a mock store to Vue when we mount our component.
+これをテストするには、コンポーネントをマウントするときにモックストアをVueに渡す必要があります。
 
-Let’s see what this looks like:
+これがどのように見えるか見てみましょう。:
 
 ``` js
 import Vue from 'vue'
@@ -89,23 +89,23 @@ describe('Actions.vue', () => {
 })
 ```
 
-What’s happening here? First we tell Vue to use Vuex with the Vue.use method. This is just a wrapper around Vue.use.
+ここで何が起こっていますか？まず、VueにVue.useメソッドを使用するように指示します。これは単なるVue.useのラッパです。
 
-We then make a mock store by calling new Vuex.store with our mock values. We only pass it the actions, since that’s all we care about.
+次に、新しいVuex.storeをモック値で呼び出すことによってモックストアを作成します。それは私たちが気にかけていることなので、アクションだけを渡します。
 
-The actions are [sinon stubs](http://sinonjs.org/). The stubs give us methods to assert whether the actions were called or not.
+アクションは[sinon stubs](http://sinonjs.org/)です。スタブは、アクションが呼び出されたかどうかをアサートするメソッドを提供します。
 
-We can then assert in our tests that the action stub was called when expected.
+私たちはテストで、アクションスタブが期待どおりに呼び出されたことを検証することができます。
 
-Now the way we define the store might look a bit foreign to you.
+今私たちがstoreを定義する方法はあなたには少し不明に見えるかもしれません。
 
-We’re using beforeEach to ensure we have a clean store before each test. beforeEach is a mocha hook that’s called before each test. In our test, we are reassigning the store variables value. If we didn’t do this, the sinon stubs would need to be automatically reset. It also lets us change the state in our tests, without it affecting later tests.
+beforeEachを使用して、各テストの前にstoreを確実に清潔にしています。beforeEachは各テストの前に呼び出されるmocha hookです。テストでは、ストア変数の値を再割り当てしています。これをやっていなければ、sinonスタブを自動的にリセットする必要があります。また、後のテストに影響を与えることなく、テストの状態を変更することもできます。
 
-The most important thing to note in this test is that **we create a mock Vuex store and then pass it to vue-test-utils**.
+このテストで最も重要なのは**Vuexストアのモックを作成し、それをvue-test-utilsに渡すことです**。
 
-Great, so now we can mock actions, let’s look at mocking getters.
+素晴らしい、偉大なので、我々はアクションを模擬することができます、ゲッターをモックで見てみましょう。
 
-## Mocking Getters
+## Getter をモックする
 
 
 ``` html
@@ -128,9 +128,9 @@ export default{
 </script>
 ```
 
-This is a fairly simple component. It renders the result of the getters clicks and inputValue. Again, we don’t really care about what those getters returns – just that the result of them is being rendered correctly.
+これはかなり単純な要素です。 getterのクリックとinputValueの結果をレンダリングします。ここでも、ゲッターが返すものについては実際には気にしません。その結果が正しく表示されているだけです。
 
-Let’s see the test:
+テストを見てみましょう:
 
 ``` js
 import 'babel-polyfill'
@@ -170,15 +170,15 @@ describe('Getters.vue', () => {
   })
 })
 ```
-This test is similar to our actions test. We create a mock store before each test, pass it as an option when we call mount, and assert that the value returned by our mock getters is being rendered.
+このテストは、私たちのアクションテストに似ています。各テストの前にモックストアを作成し、マウントを呼び出すときにオプションとして渡し、モックゲッターから返された値がレンダリングされていることを検証します。
 
-This is great, but what if we want to check our getters are returning the correct part of our state?
+これは素晴らしいことですが、getterが私たちの状態を正しく返していることを確認したいのですが？
 
-## Mocking with Modules
+## モジュールによるモッキング
 
-[Modules](https://vuex.vuejs.org/en/modules.html) are useful for separating out our store into manageable chunks. They also export getters. We can use these in our tests.
+[モジュール](https://vuex.vuejs.org/ja/modules.html) は、私たちのストアを管理しやすい塊に分けるのに便利です。彼らはゲッターもエクスポートします。テストではこれらを使用できます。
 
-Let’s look at our component:
+コンポーネントを見てみましょう:
 
 ``` html
 <template>
@@ -204,9 +204,9 @@ export default{
 }
 </script>
 ```
-Simple component that includes one action and one getter.
+1つのアクションと1つのゲッターを含むシンプルなコンポーネント。
 
-And the test:
+そしてテスト:
 
 ``` js
 import Vue from 'vue'
@@ -258,4 +258,4 @@ describe('Modules.vue', () => {
 })
 ```
 
-To have a look at what the module file looks like, [check out the repo](https://github.com/eddyerburgh/mock-vuex-in-vue-unit-tests-tutorial).
+モジュールファイルの外観を見るには [リポジトリ](https://github.com/eddyerburgh/mock-vuex-in-vue-unit-tests-tutorial)を参照してください。

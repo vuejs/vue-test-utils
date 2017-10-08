@@ -1,45 +1,44 @@
-# Choosing a test runner
+# テストランナーを選ぶ
 
-A test runner is a program that runs tests.
+テストランナーは、テストを実行するプログラムです。
 
-There are many popular JavaScript test runners, and `vue-test-utils` works with all of them. It's test runner agnostic.
+多くの一般的なJavaScriptテストランナーがあり、`vue-test-utils`はそれらすべてで動作します。テストランナーにとらわれません。
 
-There are a few things to consider when choosing a test runner though: feature set, performance, and support for single-file component (SFC) pre-compilation. After carefully comparing existing libraries, here are two test runners that we recommend:
+テストランナーを選択する際には、フィーチャセット、パフォーマンス、およびシングルファイルコンポーネント（SFC）の事前コンパイルのサポートが考慮されます。既存のライブラリを慎重に比較した上で、以下の2つのテストランナーをお勧めします。:
 
-- [Jest](https://facebook.github.io/jest/docs/en/getting-started.html#content) is the most fully featured test runner. It requires the least configuration, sets up JSDOM by default, provides built-in assertions, and has a great command line user experience. However, you will need a preprocessor to be able to import SFC components in your tests. We have created the `jest-vue` preprocessor which can handle most common SFC features, but it currently does not have 100% feature parity with `vue-loader`.
+- [Jest](https://facebook.github.io/jest/docs/en/getting-started.html#content) は最も充実したテストランナーです。最小の設定が必要で、デフォルトでJSDOMを設定し、組み込みのアサーションを提供し、コマンドラインのユーザーエクスペリエンスが優れています。ただし、テストでSFCコンポーネントをインポートできるようにするには、プリプロセッサが必要です。最も一般的なSFC機能を処理できる `jest-vue`プリプロセッサを作成しましたが、現在`vue-loader`に100％の機能パリティを持っていません。
 
-- [mocha-webpack](https://github.com/zinserjan/mocha-webpack) is a wrapper around webpack + Mocha, but with a more streamlined interface and watch mode. The benefits of this setup is that we can get complete SFC support via webpack + `vue-loader`, but it requires more configuration upfront.
+- [mocha-webpack](https://github.com/zinserjan/mocha-webpack) はwebpack + Mochaのラッパですが、より合理的なインターフェースとwatchモードを備えています。この設定のメリットは、webpack + `vue-loader`を使用して完全なSFCサポートを得ることができるということですが、より多くの設定を行う必要があります。
 
-## Browser Environment
+## ブラウザ環境
 
-`vue-test-utils` relies on a browser environment. Technically you can run it in a real browser, but it's not recommended due to the complexity of launching real browsers on different platforms. Instead, we recommend running the tests in Node.js with a virtual browser environment using [JSDOM](https://github.com/tmpvar/jsdom).
+`vue-test-utils`はブラウザ環境に依存します。技術的には、実際のブラウザで実行することはできますが、異なるプラットフォーム上で実際のブラウザを起動するという複雑さのため、お勧めできません。代わりに、[JSDOM](https://github.com/tmpvar/jsdom)を使用して仮想ブラウザ環境でNode.jsでテストを実行することをお勧めします。
 
-The Jest test runner sets up JSDOM automatically. For other test runners, you can manually set up JSDOM for the tests using [jsdom-global](https://github.com/rstacruz/jsdom-global) in the entry for your tests:
+JestテストランナーはJSDOMを自動的に設定します。他のテストランナーの場合は、[jsdom-global](https://github.com/rstacruz/jsdom-global) を使用してテスト用のJSDOMを手動で設定できます。:
 
 ``` bash
 npm install --save-dev jsdom jsdom-global
 ```
 ---
 ``` js
-// in test setup / entry
+// テストのセットアップと登録
 require('jsdom-global')()
 ```
 
-## Testing Single-File Components
+## 単一ファイルコンポーネントをテストする
 
-Single-file Vue components (SFCs) require pre-compilation before they can be run in Node or in the browser. There are two recommended ways to perform the compilation: with a Jest preprocessor, or directly use webpack.
+単一ファイルコンポーネントは、ノードまたはブラウザで実行する前に事前コンパイルが必要です。コンパイルを実行するには、Jestプリプロセッサを使用する方法とwebpackを直接使用する方法が推奨されます。
 
-The `jest-vue` preprocessor supports basic SFC functionalities, but currently does not handle style blocks or custom blocks, which are only supported in `vue-loader`. If you rely on these features or other webpack-specific configurations, you will need to use a webpack + `vue-loader` based setup.
+The `jest-vue`プリプロセッサは基本的なSFC機能をサポートしていますが、現在`vue-loader`でのみサポートされているスタイルブロックやカスタムブロックは扱いません。これらの機能やその他のWebpack固有の設定に依存する場合は、webpack + `vue-loader`ベースの設定を使用する必要があります。
 
-Read the following guides for different setups:
+さまざまな設定については、次のガイドをお読みください。:
+- [Jestによる単一ファイルコンポーネントのテスト](./testing-SFCs-with-jest.md)
+- [Mocha + webpackによる単一ファイルコンポーネントのテスト](./testing-SFCs-with-mocha-webpack.md)
 
-- [Testing SFCs with Jest](./testing-SFCs-with-jest.md)
-- [Testing SFCs with Mocha + webpack](./testing-SFCs-with-mocha-webpack.md)
+## リソース
 
-## Resources
-
-- [Test runner performance comparison](https://github.com/eddyerburgh/vue-unit-test-perf-comparison)
-- [Example project with Jest](https://github.com/vuejs/vue-test-utils-jest-example)
-- [Example project with Mocha](https://github.com/vuejs/vue-test-utils-mocha-webpack-example)
-- [Example project with tape](https://github.com/eddyerburgh/vue-test-utils-tape-example)
-- [Example project with AVA](https://github.com/eddyerburgh/vue-test-utils-ava-example)
+- [テストランナーの性能比較](https://github.com/eddyerburgh/vue-unit-test-perf-comparison)
+- [Jestのプロジェクト例](https://github.com/vuejs/vue-test-utils-jest-example)
+- [Mochaのプロジェクト例](https://github.com/vuejs/vue-test-utils-mocha-webpack-example)
+- [tapeのプロジェクト例](https://github.com/eddyerburgh/vue-test-utils-tape-example)
+- [AVAのプロジェクト例](https://github.com/eddyerburgh/vue-test-utils-ava-example)

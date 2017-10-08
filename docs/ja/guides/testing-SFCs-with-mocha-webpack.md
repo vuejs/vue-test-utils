@@ -1,22 +1,22 @@
-# Testing Single File Components with Mocha + webpack
+# Mocha + webpackによる単一ファイルコンポーネントのテスト
 
-> An example project for this setup is available on [GitHub](https://github.com/vuejs/vue-test-utils-mocha-webpack-example).
+> このセットアップのサンプルプロジェクトは、 [GitHub](https://github.com/vuejs/vue-test-utils-mocha-webpack-example)にあります。
 
-Another strategy for testing SFCs is compiling all our tests via webpack and then run it in a test runner. The advantage of this approach is that it gives us full support for all webpack and `vue-loader` features, so we don't have to make compromises in our source code.
+単一ファイルコンポーネントをテストするためのもう一つの戦略は、webpackを使用してすべてのテストをコンパイルし、それをテストランナーで実行することです。このアプローチの利点は、すべてのwebpackと`vue-loader`機能を完全にサポートしていることです。ソースコードに妥協する必要はありません。
 
-You can technically use any test runner you like and manually wire things together, but we've found [`mocha-webpack`](https://github.com/zinserjan/mocha-webpack) to provide a very streamlined experience for this particular task.
+技術的に好きなテストランナーを使用して結びつけることができますが、この特定の作業に非常に合理的な経験を提供するために[`mocha-webpack`](https://github.com/zinserjan/mocha-webpack)を見つけました。
 
-## Setting Up `mocha-webpack`
+## `mocha-webpack`の設定
 
-We will assume you are starting with a setup that already has webpack, vue-loader and Babel properly configured - e.g. the `webpack-simple` template scaffolded by `vue-cli`.
+既に、webpack、vue-loader、およびBabelが正しく設定されている設定から始めると仮定します。例:`vue-cli`によってscaffoldされた`webpack-simple`テンプレートです。
 
-The first thing to do is installing test dependencies:
+最初に行うことは、テストの依存関係をインストールすることです。:
 
 ``` bash
 npm install --save-dev vue-test-utils mocha mocha-webpack
 ```
 
-Next we need to define a test script in our `package.json`.
+次に、`package.json`にスクリプトを定義する必要があります。
 
 ```json
 // package.json
@@ -27,19 +27,19 @@ Next we need to define a test script in our `package.json`.
 }
 ```
 
-A few things to note here:
+ここで注意すべき点がいくつかあります。:
 
-- The `--webpack-config` flag specifies the webpack config file to use for the tests. In most cases, this would be identical to the config you use for the actual project with one small tweak. We will talk about this later.
+- `--webpack-config`フラグはテストに使うwebpack設定ファイルを指定します。ほとんどの場合、これは実際のプロジェクトで使用する設定と同じですが、小さな調整が1つあります。これについては後で話します。
 
-- The `--require` flag ensures the file `test/setup.js` is run before any tests, in which we can setup the global environment for our tests to be run in.
+- `--require`フラグは、テストの前に`test/setup.js`ファイルが実行されることを保証します。このテストでは、テストを実行するためのグローバル環境を設定できます。
 
-- The final argument is a glob for the test files to be included in the test bundle.
+- 最後の引数は、テストバンドルに含まれるテストファイルのグロブです。
 
-### Extra webpack Configuration
+### 別のwebpackの設定
 
-#### Externalizing NPM Dependencies
+#### NPM依存関係の外部化
 
-In our tests we will likely import a number of NPM dependencies - some of these modules may be written without browser usage in mind and simply cannot be bundled properly by webpack. Another consideration is externalizing dependencies greatly improves test boot up speed. We can externalize all NPM dependencies with `webpack-node-externals`:
+私たちのテストでは、いくつかのNPM依存関係をインポートする可能性があります。これらのモジュールの中には、ブラウザの使用を念頭に置いて記述されているものもあれば、webpackによって適切にバンドルされていないものもあります。依存関係を外部化することにより、テストの起動速度が大幅に向上するというもう一つの考慮すべき点としてあります。`webpack-node-externals`を使ってNPMの依存関係をすべて外部化することができます。:
 
 ```js
 // webpack.config.js
@@ -51,9 +51,9 @@ module.exports = {
 }
 ```
 
-#### Source Maps
+#### ソースマップ
 
-Source maps need to be inlined to be picked up by `mocha-webpack`. The recommended config is:
+ソースマップは、`mocha-webpack`によってピックアップされるようにインライン化する必要があります。推奨設定は次のとおりです。:
 
 ``` js
 module.exports = {
@@ -62,49 +62,49 @@ module.exports = {
 }
 ```
 
-If debugging via IDE, it's also recommended to add the following:
+IDE経由でデバッグする場合は、以下を追加することをお勧めします。:
 
 ``` js
 module.exports = {
   // ...
   output: {
     // ...
-    // use absolute paths in sourcemaps (important for debugging via IDE)
+    // ソースマップで絶対パスを使用する（IDE経由のデバッグで重要）
     devtoolModuleFilenameTemplate: '[absolute-resource-path]',
     devtoolFallbackModuleFilenameTemplate: '[absolute-resource-path]?[hash]'
   }
 }
 ```
 
-### Setting Up Browser Environment
+### ブラウザ環境の設定
 
-`vue-test-utils` requires a browser environment to run. We can simulate it in Node.js using `jsdom-global`:
+`vue-test-utils`はブラウザ環境を必要とします。 `jsdom-global`を使ってNode.jsでシミュレーションすることができます。:
 
 ```bash
 npm install --save-dev jsdom jsdom-global
 ```
 
-Then in `test/setup.js`:
+次に、`test/setup.js`の中で:
 
 ``` js
 require('jsdom-global')()
 ```
 
-This adds a browser environment to node, so that `vue-test-utils` can run correctly.
+これにより、nodeにブラウザ環境が追加され、 `vue-test-utils`が正しく動作するようになります。
 
-### Picking an Assertion Library
+### 検証ライブラリのピッキング
 
-[Chai](http://chaijs.com/) is a popular assertion library that is commonly used alongside Mocha. You may also want to check out [Sinon](http://sinonjs.org/) for creating spies and stubs.
+[Chai](http://chaijs.com/) is Mochaと並行して一般的に使用される一般的なアサーションライブラリです。また、スパイとスタブを作成するための[Sinon](http://sinonjs.org/) をチェックしてみてください。
 
-Alternatively you can use `expect` which is now part of Jest, and exposes [the exact same API](http://facebook.github.io/jest/docs/en/expect.html#content) in Jest docs.
+あるいは、Jestの一部である `expect`を使うことができ、Jest docsにある[まったく同じAPI](http://facebook.github.io/jest/docs/en/expect.html#content)を公開しています。
 
-We will be using `expect` here and make it globally available so that we don't have to import it in every test:
+ここで`expect`を使用してグローバルに利用できるようにして、すべてのテストでインポートする必要はありません。
 
 ``` bash
 npm install --save-dev expect
 ```
 
-Then in `test/setup.js`:
+次に、`test/setup.js`の中で:
 
 ``` js
 require('jsdom-global')()
@@ -112,15 +112,15 @@ require('jsdom-global')()
 global.expect = require('expect')
 ```
 
-### Optimizing Babel for Tests
+### テストのためのBabelの最適化
 
-Notice that we are using `babel-loader` to handle JavaScript. You should already have Babel configured if you are using it in your app via a `.babelrc` file. Here `babel-loader` will automatically use the same config file.
+JavaScriptを処理するには `babel-loader`を使用しています。あなたが`.babelrc`ファイルを使ってあなたのアプリでそれを使用しているならば、Babelを設定しておくべきです。`babel-loader`は自動的に同じ設定ファイルを使います。
 
-One thing to note is that if you are using Node 6+, which already supports the majority of ES2015 features, you can configure a separate Babel [env option](https://babeljs.io/docs/usage/babelrc/#env-option) that only transpiles features that are not already supported in the Node version you are using (e.g. `stage-2` or flow syntax support, etc.)
+注意すべき点の1つは、ノード6+を使用している場合、ES2015の大部分の機能を既にサポートしているため、使用しているノードのバージョンではサポートされていない機能のみをトランスパイルするBabelの[envオプション](https://babeljs.io/docs/usage/babelrc/#env-option)を設定できます。(例えば`stage-2`やflow syntax supportなど)
 
-### Adding a test
+### テストを追加する
 
-Create a file in `src` named `Counter.vue`:
+`Counter.vue`という名前の`src`ファイルを作成します。
 
 ``` html
 <template>
@@ -147,7 +147,7 @@ export default {
 </script>
 ```
 
-And create a test file named `test/Counter.spec.js` with the following code:
+次のコードを使って`test/Counter.spec.js`という名前のテストファイルを作成します。
 
 ```js
 import { shallow } from 'vue-test-utils'
@@ -162,17 +162,17 @@ describe('Counter.vue', () => {
 })
 ```
 
-And now we can run the test:
+これでテストを実行できます:
 
 ```
 npm run unit
 ```
 
-Woohoo, we got our tests running!
+やったー！,テストを実行している!
 
-### Resources
+### リソース
 
-- [Example project for this setup](https://github.com/vuejs/vue-test-utils-mocha-webpack-example)
+- [この設定のプロジェクトの例](https://github.com/vuejs/vue-test-utils-mocha-webpack-example)
 - [Mocha](https://mochajs.org/)
 - [mocha-webpack](http://zinserjan.github.io/mocha-webpack/)
 - [Chai](http://chaijs.com/)

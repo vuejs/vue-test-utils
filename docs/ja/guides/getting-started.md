@@ -1,8 +1,8 @@
-# Getting Started
+# 入門
 
-## Setup
+## セットアップ
 
-To get a quick taste of using `vue-test-utils`, clone our demo repository with basic setup and install the dependencies:
+`vue-test-utils`の使い方を体験したい場合は、基本設定としてデモリポジトリをクローンし、依存関係をインストールしてください。
 
 ``` bash
 git clone https://github.com/vuejs/vue-test-utils-getting-started
@@ -10,7 +10,7 @@ cd vue-test-utils-getting-started
 npm install
 ```
 
-You will see that the project includes a simple component, `counter.js`:
+プロジェクトには単純なコンポーネント、`counter.js`が含まれています。
 
 ```js
 // counter.js
@@ -37,61 +37,61 @@ export default {
 }
 ```
 
-### Mounting Components
+### マウンティングコンポーネント
 
-`vue-test-utils` tests Vue components by mounting them in isolation, mocking the necessary inputs (props, injections and user events) and asserting the outputs (render result, emitted custom events).
+`vue-test-utils`はVueコンポーネントを隔離してマウントし、必要な入力(props,注入、ユーザイベント)をモックにし出力されたものを検証することで結果を出力します。
 
-Mounted components are returned inside a [Wrapper](./api/wrapper.md), which exposes many convenience methods for manipulating, traversing and querying the underlying Vue component instance.
+マウントされたコンポーネントは[Wrapper](./api/wrapper.md)の内部に返されます。これは、基のVueコンポーネントインスタンスを操作、トラバース、クエリングするための多くの便利なメソッドを公開しています。
 
-You can create wrappers using the `mount` method. Let's create a file called `test.js`:
+`mount`メソッドを使ってラッパを作成することができます。 `test.js`というファイルを作りましょう。：
 
 ```js
 // test.js
 
-// Import the mount() method from the test utils
-// and the component you want to test
+// test utilsからmount()メソッドをインポート
+// テストするコンポーネント
 import { mount } from 'vue-test-utils'
 import Counter from './counter'
 
-// Now mount the component and you have the wrapper
+//コンポーネントがマウントされ、ラッパが作成されます。
 const wrapper = mount(Counter)
 
-// You can access the actual Vue instance via wrapper.vm
+// wrapper.vmを介して実際のVueインスタンスにアクセスできます
 const vm = wrapper.vm
 
-// To inspect the wrapper deeper just log it to the console
-// and your adventure with the vue-test-utils begins
+// ラッパをより深く調べるためにコンソールに記録してみましょう。
+// vue-test-utilsでのあなたの冒険はここから始まります。
 console.log(wrapper)
 ```
 
-### Test rendered HTML output of the component
+### コンポーネントのレンダリングされたHTML出力をテストする
 
-Now that we have the wrapper, the first thing we can do is to verify that the rendered HTML output of the component matches what is expected.
+ラッパが完成したので、コンポーネントのレンダリングされたHTML出力が、期待されるものと一致することを確認します。
 
 ```js
 import { mount } from 'vue-test-utils'
 import Counter from './counter'
 
 describe('Counter', () => {
-  // Now mount the component and you have the wrapper
+  // コンポーネントがマウントされ、ラッパが作成されます。
   const wrapper = mount(Counter)
 
   it('renders the correct markup', () => {
     expect(wrapper.html()).toContain('<span class="count">0</span>')
   })
 
-  // it's also easy to check for the existence of elements
+  // 要素の存在を確認することも簡単です
   it('has a button', () => {
     expect(wrapper.contains('button')).toBe(true)
   })
 })
 ```
 
-Now run the tests with `npm test`. You should see the tests passing.
+次に、`npm test`でテストを実行します。テストが合格になるはずです。
 
-### Simulating User Interaction
+### ユーザのインタラクションをシミュレーションする
 
-Our counter should increment the count when the user clicks the button. To simulate the behavior, we need to first locate the button with `wrapper.find()`, which returns a **wrapper for the button element**. We can then simulate the click by calling `.trigger()` on the button wrapper:
+ユーザがボタンをクリックすると、カウンターがカウントをインクリメントする必要があります。この振る舞いをシミュレートするには、まず**button要素のラッパ**を返す`wrapper.find()`を使ってボタンを見つける必要があります。ボタンのラッパで`.trigger()`を呼び出すことでクリックをシミュレートできます。:
 
 ```js
 it('button click should increment the count', () => {
@@ -102,13 +102,13 @@ it('button click should increment the count', () => {
 })
 ```
 
-### What about `nextTick`?
+### `nextTick`はどうですか?
 
-Vue batches pending DOM updates and applies them asynchronously to prevent unnecessary re-renders caused by multiple data mutations. This is why in practice we often have to use `Vue.nextTick` to wait until Vue has performed the actual DOM update after we trigger some state change.
+VueバッチはDOM更新を保留し、非同期的に適用して、複数のデータのミューテーションに起因する不要な再レンダリングを防ぎます。実際には、Vueが何らかの状態変更をトリガーした後にVueが実際のDOM更新を実行するまで待つために、`Vue.nextTick`を使用しなければならないからです。
 
-To simplify usage, `vue-test-utils` applies all updates synchronously so you don't need to use `Vue.nextTick` in your tests.
+使い方を簡単にするため、 `vue-test-utils`はすべての更新を同期的に適用するので、テストで`Vue.nextTick`を使う必要はありません。
 
-## What's Next
+## 次はなにをするのか
 
-- Integrate `vue-test-utils` into your project by [choosing a test runner](./choosing-a-test-runner.md)
-- Learn more about [common techniques when writing tests](./common-tips.md)
+- [テストランナーを選ぶ](./choosing-a-test-runner.md)で`vue-test-utils`をプロジェクトに組み込みます。
+- [テストを書くときの一般的なテクニック](./common-tips.md)についてもっと知る。
