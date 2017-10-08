@@ -1,13 +1,13 @@
 # setData(data)
 
-- **引数:**
-  - `{Object} データ(data)`
-
-- **使い方:**
-
 `Wrapper` `vm` データを設定し、更新を強制します。
 
 **WrapperにはVueインスタンスを含む必要があることに注意してください**
+
+- **引数:**
+  - `{Object} data`
+
+- **例:**
 
 ```js
 import { mount } from 'vue-test-utils'

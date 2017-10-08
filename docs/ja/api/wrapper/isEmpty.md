@@ -1,10 +1,10 @@
 # isEmpty()
 
+`Wrapper`に子ノードを含んでいないか検証します。
+
 - **戻り値:** `{boolean}`
 
-- **使い方:**
-
-`Wrapper`に子ノードを含んでいないかアサートします。
+- **例:**
 
 ```js
 import { mount } from 'vue-test-utils'

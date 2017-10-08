@@ -1,10 +1,10 @@
 # isVueInstance()
 
+`WrapperArray`の全ての`Wrapper`がVueインスタンスであるか検証します。
+
 - **戻り値:** `{boolean}`
 
-- **使い方:**
-
-`WrapperArray`の全ての`Wrapper`がVueインスタンスであるかアサートします。
+- **例:**
 
 ```js
 import { mount } from 'vue-test-utils'

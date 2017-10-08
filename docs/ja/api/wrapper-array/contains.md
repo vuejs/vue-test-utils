@@ -1,15 +1,15 @@
 # contains(selector)
 
+`WrapperArray`のすべてのWrapperにセレクターが含まれているか検証します。
+
+有効な[セレクタ](/docs/ja/api/selectors.md)を使用してください。
+
 - **引数:**
   - `{string|Component} selector`
 
 - **戻り値:** `{boolean}`
 
-- **使い方:**
-
-`WrapperArray`のすべてのWrapperにセレクターが含まれているかアサートします。
-
-有効な[セレクタ](/docs/ja/api/selectors.md)を使用してください。
+- **例:**
 
 ```js
 import { shallow } from 'vue-test-utils'

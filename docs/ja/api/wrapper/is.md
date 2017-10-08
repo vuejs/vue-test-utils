@@ -1,13 +1,13 @@
 # is(selector)
 
+`Wrapper`のDOMノードか`vm`がセレクタと一致しているか検証します。
+
 - **引数:**
-  - `{string|Component} セレクタ(selector)`
+  - `{string|Component} selector`
 
 - **戻り値:** `{boolean}`
 
-- **使い方:**
-
-`Wrapper`のDOMノードか`vm`がセレクタと一致しているかアサートします。
+- **例:**
 
 ```js
 import { mount } from 'vue-test-utils'

@@ -1,10 +1,8 @@
 # hasProp(prop, value)
 
-Wrapper配列内の各Wrappervmにプロパティとマッチしているかアサートします。
+`WrappersArray`の`Wrapper`と`vm`にプロパティを持っているか検証します。
 
-Vueインスタンスのみ呼び出せます。
-
-# hasProp(prop, value)
+**WrapperにはVueインスタンスを含む必要があることに注意してください。**
 
 - **引数:**
   - `{string} prop`
@@ -12,13 +10,7 @@ Vueインスタンスのみ呼び出せます。
 
 - **戻り値:** `{boolean}`
 
-- **使い方:**
-
-`WrappersArray`の`Wrapper`と`vm`にプロパティを持っているかアサートします。
-
-**Note the Wrapper must contain a Vue instance.**
-**WrapperにはVueインスタンスを含む必要があることに注意してください。**
-
+- **例:**
 
 ```js
 import { mount } from 'vue-test-utils'

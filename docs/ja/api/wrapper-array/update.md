@@ -1,12 +1,10 @@
 # update()
 
-- **使い方:**
-
 `WrapperArray`の各`Wrapper`のルートVueコンポーネントを強制的に再レン​​ダリングします。
 
 VueコンポーネントをWrapperArrayで呼び出した場合、各Vueコンポーネントは強制的に再レン​​ダリングされます。
 
-### 例
+- **例:**
 
 ```js
 import { mount } from 'vue-test-utils'

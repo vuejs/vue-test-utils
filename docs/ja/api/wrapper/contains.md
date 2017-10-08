@@ -1,13 +1,13 @@
 # contains(selector)
 
+`Wrapper`に要素、もしくは[セレクタ](/docs/ja/api/selectors.md)で指定したコンポーネントを含んでいるか検証します。
+
 - **引数:**
-  - `{string|Component} セレクタ(selector)`
+  - `{string|Component} selector`
 
 - **戻り値:** `{boolean}`
 
-- **使い方:**
-
-`Wrapper`に要素、もしくは[セレクタ](/docs/ja/api/selectors.md)で指定したコンポーネントを含んでいるかアサートします。
+- **例:**
 
 ```js
 import { mount } from 'vue-test-utils'

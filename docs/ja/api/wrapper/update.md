@@ -1,10 +1,10 @@
 # update()
 
-- **使い方:**
-
 Vueコンポーネントを強制的に再レン​​ダリングします。
 
 `vm`を含む`Wrapper`で呼び出された場合、`Wrapper`、`vm`を強制的に再レン​​ダリングします。
+
+- **例:**
 
 ```js
 import { mount } from 'vue-test-utils'

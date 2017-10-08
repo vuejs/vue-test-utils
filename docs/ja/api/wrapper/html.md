@@ -1,10 +1,10 @@
 # html()
 
+`Wrapper`のDOMノードのHTMLを文字列として返します。
+
 - **戻り値:** `{string}`
 
-- **使い方:**
-
-`Wrapper`のDOMノードのHTMLを文字列として返します。
+- **例:**
 
 ```js
 import { mount } from 'vue-test-utils'

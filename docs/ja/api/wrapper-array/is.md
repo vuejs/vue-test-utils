@@ -1,13 +1,13 @@
 # is(selector)
 
+`WrapperArray`の全ての`Wrapper`のDOMノード、もしくは[セレクタ](/docs/ja/api/selectors.md)が`vm`とマッチするか検証します。
+
 - **引数:**
   - `{string|Component} selector`
 
 - **戻り値:** `{boolean}`
 
-- **使い方:**
-
-`WrapperArray`の全ての`Wrapper`のDOMノード、もしくは[セレクタ](/docs/ja/api/selectors.md)が`vm`とマッチするかアサートします。
+- **例:**
 
 ```js
 import { mount } from 'vue-test-utils'

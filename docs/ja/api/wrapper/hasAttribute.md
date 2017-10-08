@@ -1,16 +1,16 @@
 # hasAttribute(attribute, value)
 
+`Wrapper`DOMノードに属性とその値が一致したか検証します。
+
+`Wrapper`DOMノードに値が一致する属性が含まれている場合は` true`を返します。
+
 - **引数:**
-  - `{string} 属性(attribute)`
-  - `{string} 値(value)`
+  - `{string} attribute`
+  - `{string} value`
 
 - **戻り値:** `{boolean}`
 
-- **使い方:**
-
-`Wrapper`DOMノードに属性とその値が一致したかアサートします。
-
-`Wrapper`DOMノードに値が一致する属性が含まれている場合は` true`を返します。
+- **例:**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -21,7 +21,7 @@ const wrapper = mount(Foo)
 expect(wrapper.hasAttribute('id', 'foo')).to.equal(true)
 ```
 
-- **その他:**
+- **代替:**
 
 `Wrapper.element`から属性を取得して、値に基づくアサーションを得ることができます。
 

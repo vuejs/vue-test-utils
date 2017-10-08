@@ -1,10 +1,10 @@
 # name()
 
+`Wrapper`にVueインスタンスが含まれている場合はコンポーネント名を返し、そうでない場合は`Wrapper`のDOMノードのタグ名を返します。
+
 - **戻り値:** `{string}`
 
-- **使い方:**
-
-`Wrapper`にVueインスタンスが含まれている場合はコンポーネント名を返し、そうでない場合は`Wrapper`のDOMノードのタグ名を返します。
+- **例:**
 
 ```js
 import { mount } from 'vue-test-utils'

@@ -1,13 +1,13 @@
 # setProps(props)
 
-- **引数:**
-  - `{Object} プロパティ(props)`
-
-- **使い方:**
-
 `Wrapper` `vm`のプロパティを設定し更新を強制します。
 
 **WrapperにはVueインスタンスを含む必要があることに注意してください**
+
+- **引数:**
+  - `{Object} props`
+
+- **例:**
 
 ```js
 import { mount } from 'vue-test-utils'

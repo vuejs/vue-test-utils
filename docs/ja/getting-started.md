@@ -1,14 +1,13 @@
 # 入門
 
-公式の`vue-test-utils`の取得と実行は簡単です。
-`npm` または `yarn` を使ってパッケージをインストールします。
+## セットアップ
 
-```shell
-# npm
-$ npm install --save vue-test-utils
+`vue-test-utils`の使い方を体験したい場合は、基本設定としてデモリポジトリをクローンし、依存関係をインストールしてください。
 
-# yarn
-$ yarn add vue-test-utils
+``` bash
+git clone https://github.com/vuejs/vue-test-utils-getting-started
+cd vue-test-utils-getting-started
+npm install
 ```
 
 **注意:** `vue-test-utils`を利用してVueコンポーネントをテストするには [Karma](https://karma-runner.github.io/1.0/index.html) のようなテストランナー、`jsDOM`(例:[jest](https://facebook.github.io/jest/), [ava](https://github.com/avajs/ava))などの仮想DOMをサポートするnodeの実行環境を使用してください

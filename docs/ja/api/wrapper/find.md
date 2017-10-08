@@ -1,15 +1,15 @@
 # find(selector)
 
+selectorで指定し最初のDOMノードかコンポーネントと一致した[Wrapper](/docs/ja/api/wrapper/README.md)を返します。
+
+有効な[selector](/docs/ja/api/selectors.md)を使用してください。
+
 - **引数:**
   - `{string|Component} selector`
 
 - **戻り値:** `{Wrapper}`
 
-- **使い方:**
-
-selectorで指定し最初のDOMノードかコンポーネントと一致した[Wrapper](/docs/ja/api/wrapper/README.md)を返します。
-
-有効な[selector](/docs/ja/api/selectors.md)を使用してください。
+- **例:**
 
 ```js
 import { mount } from 'vue-test-utils'

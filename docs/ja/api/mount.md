@@ -2,8 +2,8 @@
 
 - **引数:**
 
-  - `{Component} コンポーネント(component)`
-  - `{Object} オプション(options)`
+  - `{Component} component`
+  - `{Object} options`
 
 - **戻り値:** `{Wrapper}`
 
@@ -12,7 +12,6 @@
 [オプション](/docs/ja/api/options.md)を参照してください。
 
 - **使い方:**
-
 
 最初のDOMノードまたはVueコンポーネント一致セレクタの[`Wrapper`](/docs/ja/api/wrapper/README.md)を返します。
 

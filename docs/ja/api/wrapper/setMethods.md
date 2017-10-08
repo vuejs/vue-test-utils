@@ -1,13 +1,13 @@
 # setMethods(methods)
 
-- **引数:**
-  - `{Object} methods`
-
-- **使い方:**
-
 `Wrapper``vm`メソッドを設定し、更新を強制します。
 
 **WrapperにはVueインスタンスを含む必要があることに注意してください**
+
+- **引数:**
+  - `{Object} methods`
+
+- **例:**
 
 ```js
 import { mount } from 'vue-test-utils'

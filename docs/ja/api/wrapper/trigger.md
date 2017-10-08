@@ -1,17 +1,17 @@
 # trigger(eventName)
 
-- **引数:**
-  - `{string} イベント名(eventName)`
-  - `{Object} オプション(options)` 
-    - `{boolean} preventDefault`
-
-- **Usage:**
-
 `Wrapper`のDOMノードのイベントを発火します。
 
 Triggerは`options`オブジェクト形式で行います。`options`オブジェクトのプロパティがイベントに追加されます。
 
 オプションで` preventDefault：true`とすることで、イベントに対してpreventDefaultを実行することができます。
+
+- **引数:**
+  - `{string} eventName`
+  - `{Object} options` 
+    - `{boolean} preventDefault`
+
+- **例:**
 
 ```js
 import { mount } from 'vue-test-utils'

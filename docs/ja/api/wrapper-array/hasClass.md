@@ -1,13 +1,13 @@
 # hasClass(className)
 
+`WrapperArray`のすべての`Wrapper`にDOMノードが`className`を含むクラスを持っているか検証します。
+
 - **引数:**
-  - `{string} クラス名(className)`
+  - `{string} className`
 
 - **戻り値:** `{boolean}`
 
-- **使い方:**
-
-`WrapperArray`のすべての`Wrapper`にDOMノードが`className`を含むクラスを持っているかアサートします。
+- **例:**
 
 ```js
 import { mount } from 'vue-test-utils'
