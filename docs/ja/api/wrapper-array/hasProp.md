@@ -1,6 +1,6 @@
 # hasProp(prop, value)
 
-`WrappersArray`の`Wrapper`と`vm`にプロパティを持っているか検証します。
+`vm` が `value` に一致する `prop` を持つ `WrapperArray` において全て `Wrapper` か検証します。
 
 **WrapperにはVueインスタンスを含む必要があることに注意してください。**
 
@@ -20,5 +20,5 @@ import Bar from './Bar.vue'
 
 const wrapper = mount(Foo)
 const barArray = wrapper.findAll(Bar)
-expect(barArray.hasProp('bar', 10)).to.equal(true)
+expect(barArray.hasProp('bar', 10)).toBe(true)
 ```

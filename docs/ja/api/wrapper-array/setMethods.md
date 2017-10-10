@@ -1,9 +1,9 @@
 
 # setMethods(methods)
 
-`WrapperArray`の`Wrapper`ごとに`Wrapper` `vm` メソッドをセットし、強制的に更新します。
+`WrapperArray` の `Wrapper` ごとに `Wrapper` に `vm` メソッドをセットし、強制的に更新します。
 
-**すべての`Wrapper`はVueインスタンスを含んでいなければならないことに注意してください。**
+**すべての `Wrapper` は Vue インスタンスを含んでいなければならないことに注意してください。**
 
 - **引数:**
   - `{Object} methods`
@@ -23,5 +23,5 @@ const clickMethodStub = sinon.stub()
 
 barArray.setMethods({ clickMethod: clickMethodStub })
 barArray.at(0).trigger('click')
-expect(clickMethodStub.called).to.equal(true)
+expect(clickMethodStub.called).toBe(true)
 ```

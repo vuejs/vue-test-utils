@@ -1,6 +1,6 @@
 # hasAttribute(attribute, value)
 
-`WrapperArray`の全ての`Wrapper`が`value`と一致する属性を持っているか検証します。
+`WrapperArray` の全ての `Wrapper` が `value` と一致する属性を持っているか検証します。
 
 - **引数:**
   - `{string} attribute`
@@ -17,5 +17,5 @@ import Foo from './Foo.vue'
 
 const wrapper = mount(Foo)
 const divArray = wrapper.findAll('div')
-expect(divArray.hasAttribute('id', 'foo')).to.equal(true)
+expect(divArray.hasAttribute('id', 'foo')).toBe(true)
 ```

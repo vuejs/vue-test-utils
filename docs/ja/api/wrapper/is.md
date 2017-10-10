@@ -1,6 +1,6 @@
 # is(selector)
 
-`Wrapper`のDOMノードか`vm`がセレクタと一致しているか検証します。
+`Wrapper` DOM ノード、または `vm` が[セレクタ](../selectors.md)と一致しているか検証します。
 
 - **引数:**
   - `{string|Component} selector`
@@ -15,5 +15,5 @@ import { expect } from 'chai'
 import Foo from './Foo.vue'
 
 const wrapper = mount(Foo)
-expect(wrapper.is('div')).to.equal(true)
+expect(wrapper.is('div')).toBe(true)
 ```

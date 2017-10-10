@@ -1,8 +1,8 @@
 # find(selector)
 
-selectorで指定し最初のDOMノードかコンポーネントと一致した[Wrapper](/docs/ja/api/wrapper/README.md)を返します。
+最初の DOM ノードの [Wrapper](/docs/ja/api/wrapper/README.md)、またはセレクタで一致した Vue コンポーネントを返します。
 
-有効な[selector](/docs/ja/api/selectors.md)を使用してください。
+有効な[セレクタ](/docs/ja/api/selectors.md)を使用してください。
 
 - **引数:**
   - `{string|Component} selector`
@@ -19,9 +19,9 @@ import Bar from './Bar.vue'
 
 const wrapper = mount(Foo)
 const div = wrapper.find('div')
-expect(div.is('div')).to.equal(true)
+expect(div.is('div')).toBe(true)
 const bar = wrapper.find(Bar)
-expect(bar.is(Bar)).to.equal(true)
+expect(bar.is(Bar)).toBe(true)
 ```
 
 - **参照:** [Wrapper](/docs/ja/api/wrapper/README.md)

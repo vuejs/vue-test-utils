@@ -1,6 +1,6 @@
 # emitted()
 
-`Wrapper``vm`によって生成されたカスタムイベントを含むオブジェクトを返します。
+`Wrapper` `vm` によって生成されたカスタムイベントを含むオブジェクトを返します。
 
 - **戻り値:** `{ [name: string]: Array<Array<any>> }`
 

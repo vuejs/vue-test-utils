@@ -23,7 +23,7 @@
 
 - **使い方:**
 
-最初のDOMノードまたはVueコンポーネント一致セレクタの[`Wrapper`](/docs/ja/api/wrapper/README.md)を返します。
+最初の DOM ノードまたは Vue コンポーネント一致セレクタの [`Wrapper`](/docs/ja/api/wrapper/README.md) を返します。
 
 全ての子コンポーネントをスタブします。
 
@@ -39,7 +39,7 @@ import Foo from './Foo.vue'
 describe('Foo', () => {
   it('renders a div', () => {
     const wrapper = shallow(Foo)
-    expect(wrapper.contains('div')).to.equal(true)
+    expect(wrapper.contains('div')).toBe(true)
   })
 })
 ```
@@ -58,7 +58,7 @@ describe('Foo', () => {
         color: 'red'
       }
     })
-    expect(wrapper.hasProp('color', 'red')).to.equal(true)
+    expect(wrapper.hasProp('color', 'red')).toBe(true)
   })
 })
 ```
@@ -75,7 +75,7 @@ describe('Foo', () => {
     const wrapper = shallow(Foo, {
       attachToDocument: true
     })
-    expect(wrapper.contains('div')).to.equal(true)
+    expect(wrapper.contains('div')).toBe(true)
   })
 })
 ```
@@ -98,7 +98,7 @@ describe('Foo', () => {
         foo: '<div />'
       }
     })
-    expect(wrapper.find('div')).to.equal(true)
+    expect(wrapper.find('div')).toBe(true)
   })
 })
 ```
@@ -118,7 +118,7 @@ describe('Foo', () => {
         $route
       }
     })
-    expect(wrapper.vm.$route.path).to.equal($route.path)
+    expect(wrapper.vm.$route.path).toBe($route.path)
   })
 })
 ```

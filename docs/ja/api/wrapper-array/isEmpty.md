@@ -1,6 +1,6 @@
 # isEmpty()
 
-`WrapperArray`のすべての`Wrapper`に子ノードを含んでいないか検証します。
+`WrapperArray` のすべての `Wrapper` に子ノードを含んでいないか検証します。
 
 - **戻り値:** `{boolean}`
 
@@ -13,5 +13,5 @@ import Foo from './Foo.vue'
 
 const wrapper = mount(Foo)
 const divArray = wrapper.findAll('div')
-expect(divArray.isEmpty()).to.equal(true)
+expect(divArray.isEmpty()).toBe(true)
 ```

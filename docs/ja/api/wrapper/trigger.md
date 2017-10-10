@@ -1,10 +1,10 @@
 # trigger(eventName)
 
-`Wrapper`のDOMノードのイベントを発火します。
+`Wrapper` DOM ノードのイベントを発火します。
 
-Triggerは`options`オブジェクト形式で行います。`options`オブジェクトのプロパティがイベントに追加されます。
+Triggerは `options` オブジェクト形式で行います。`options` オブジェクトのプロパティがイベントに追加されます。
 
-オプションで` preventDefault：true`とすることで、イベントに対してpreventDefaultを実行することができます。
+`options` で `preventDefault: true` とすることで、イベントに対して preventDefault を実行することができます。
 
 - **引数:**
   - `{string} eventName`
@@ -34,5 +34,5 @@ wrapper.trigger('click', {
   preventDefault: true
 })
 
-expect(clickHandler.called).to.equal(true)
+expect(clickHandler.called).toBe(true)
 ```

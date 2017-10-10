@@ -1,10 +1,10 @@
 # セレクタ
 
-多くのメソッドがセレクタを引数とします。セレクタは、CSSセレクタまたはVueコンポーネントのいずれかです。
+多くのメソッドがセレクタを引数とします。セレクタは、CSS セレクタまたは Vue コンポーネントのいずれかです。
 
-## CSSセレクタ
+## CSS セレクタ
 
-マウントは有効なCSSセレクタを処理します。
+マウントは有効な CSS セレクタを処理します。
 
 - タグセレクタ (div, foo, bar)
 - クラスセレクタ (.foo, .bar)
@@ -19,11 +19,11 @@
 - 隣接する兄弟のセレクタ (div + .foo)
 - 一般兄弟セレクタ (div ~ .foo)
 
-## Vueコンポーネント
+## Vue コンポーネント
 
-Vueコンポーネントもセレクタとして有効です。
+Vue コンポーネントもセレクタとして有効です。
 
-vue-test-utilsは `name`プロパティを使用して、一致するVueコンポーネントのインスタンスツリーを検索します。
+vue-test-utils は `name` プロパティを使用して、一致する Vue コンポーネントのインスタンスツリーを検索します。
 
 ```js
 // Foo.vue
@@ -39,5 +39,5 @@ import { expect } from 'chai'
 import Foo from './Foo.vue'
 
 const wrapper = shallow(Foo)
-expect(wrapper.is(Foo)).to.equal(true)
+expect(wrapper.is(Foo)).toBe(true)
 ```

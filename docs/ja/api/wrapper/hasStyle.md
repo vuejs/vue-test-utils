@@ -1,10 +1,10 @@
 # hasStyle(style, value)
 
-`Wrapper`DOMノードにstyle属性と値があることを検証します。
+`Wrapper` DOM ノードが値に一致するにスタイルを持つか検証します。
 
-`Wrapper`DOMノードにstyle属性と一致した文字列があればtrueを返します。
+`Wrapper` DOM ノードが `string` に一致する `stuyle` を持つ場合は、`true` を返します。
 
-**`jsdom`で実行しているときのみ、インラインスタイルを検出します。**
+**`jsdom` で実行しているときのみ、インラインスタイルを検出します。**
 
 - **引数:**
   - `{string} style`
@@ -20,5 +20,5 @@ import { expect } from 'chai'
 import Foo from './Foo.vue'
 
 const wrapper = mount(Foo)
-expect(wrapper.hasStyle('color', 'red')).to.equal(true)
+expect(wrapper.hasStyle('color', 'red')).toBe(true)
 ```

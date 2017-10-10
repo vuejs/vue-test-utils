@@ -5,9 +5,9 @@
 
 - **使い方:**
 
-`createLocalVue`は、グローバルVueクラスを汚染することなくコンポーネント、ミックスイン、プラグインを追加するためのVueクラスを返します。
+`createLocalVue` は、グローバル Vue クラスを汚染することなくコンポーネント、ミックスイン、プラグインを追加するための Vue クラスを返します。
 
-`options.localVue`と一緒に使用してください。
+`options.localVue` と一緒に使用してください。
 
 ```js
 import { createLocalVue, shallow } from 'vue-test-utils'
@@ -19,10 +19,10 @@ const wrapper = shallow(Foo, {
   localVue,
   intercept: { foo: true }
 })
-expect(wrapper.vm.foo).to.equal(true)
+expect(wrapper.vm.foo).toBe(true)
 
 const freshWrapper = shallow(Foo)
-expect(freshWrapper.vm.foo).to.equal(false)
+expect(freshWrapper.vm.foo).toBe(false)
 ```
 
-- **参照:** [よくある落とし穴](/ja/common-gotchas.md)
+- **参照:** [よくある落とし穴](/ja/guides/common-tips.md#グローバルプラグインとミックスインの適用)

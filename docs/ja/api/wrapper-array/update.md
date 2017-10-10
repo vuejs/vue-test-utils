@@ -1,8 +1,8 @@
 # update()
 
-`WrapperArray`の各`Wrapper`のルートVueコンポーネントを強制的に再レン​​ダリングします。
+`WrapperArray` の各 `Wrapper` のルート Vue コンポーネントを強制的に再描画します。
 
-ラップされたVueコンポーネント配列において呼び出された場合、各Vueコンポーネントは強制的に再レン​​ダリングされます。
+ラップされた Vue コンポーネント配列において呼び出された場合、各 Vue コンポーネントは強制的に再描画します。
 
 - **例:**
 
@@ -13,8 +13,8 @@ import Foo from './Foo.vue'
 
 const wrapper = mount(Foo)
 const divArray = wrapper.findAll('div')
-expect(divArray.at(0).vm.bar).to.equal('bar')
+expect(divArray.at(0).vm.bar).toBe('bar')
 divArray.at(0).vm.bar = 'new value'
 divArray.update()
-expect(divArray.at(0).vm.bar).to.equal('new value')
+expect(divArray.at(0).vm.bar).toBe('new value')
 ```

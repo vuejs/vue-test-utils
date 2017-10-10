@@ -1,9 +1,9 @@
 # ガイド
 
-* [はじめに](./getting-started.md)
-* [共通のヒント](./common-tips.md)
-* [テストランナーを選ぶ](./choosing-a-test-runner.md)
-* [Jestと一緒に使う](./using-with-jest.md)
-* [Jestによる単一ファイルコンポーネントのテスト](./testing-SFCs-with-jest.md)
-* [Mocha + webpackによる単一ファイルコンポーネントのテスト](./testing-SFCs-with-mocha-webpack.md)
-* [Vuexと一緒に使う](./using-with-vuex.md)
+* [はじめる](./getting-started.md)
+* [よくある落とし穴](./common-tips.md)
+* [テストランナを選ぶ](./choosing-a-test-runner.md)
+* [Jest と一緒に使う](./using-with-jest.md)
+* [Jest による単一ファイルコンポーネントのテスト](./testing-SFCs-with-jest.md)
+* [Mocha + webpack による単一ファイルコンポーネントのテスト](./testing-SFCs-with-mocha-webpack.md)
+* [Vuex と一緒に使う](./using-with-vuex.md)

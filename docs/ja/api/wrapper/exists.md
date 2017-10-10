@@ -1,8 +1,8 @@
 # exists()
 
-`Wrapper`か`WrapperArray`が存在したときに検証します。
+`Wrapper` か `WrapperArray` が存在するか検証します。
 
-`Wrapper`か`WrapperArray`が空だった場合はfalseを返します。
+`Wrapper` か `WrapperArray` が空だった場合は false を返します。
 
 - **戻り値:** `{boolean}`
 
@@ -14,8 +14,8 @@ import { expect } from 'chai'
 import Foo from './Foo.vue'
 
 const wrapper = mount(Foo)
-expect(wrapper.exists()).to.equal(true)
-expect(wrapper.find('does-not-exist').exists()).to.equal(false)
-expect(wrapper.findAll('div').exists()).to.equal(true)
-expect(wrapper.findAll('does-not-exist').exists()).to.equal(false)
+expect(wrapper.exists()).toBe(true)
+expect(wrapper.find('does-not-exist').exists()).toBe(false)
+expect(wrapper.findAll('div').exists()).toBe(true)
+expect(wrapper.findAll('does-not-exist').exists()).toBe(false)
 ```

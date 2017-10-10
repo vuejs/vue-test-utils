@@ -1,19 +1,19 @@
 # vue-test-utils
 
-`vue-test-utils`はVue.jsの公式テストライブラリです。 Vueコンポーネントの単体テスト方法を提供します。
+`vue-test-utils`は Vue.js 向けの公式単体テストライブラリです。 
 
-* [Guides](guides/README.md)
-  * [Getting Started](guides/getting-started.md)
-  * [Common Tips](guides/common-tips.md)
-  * [Choosing a test runner](guides/choosing-a-test-runner.md)
-  * [Testing SFCs with Jest](guides/testing-SFCs-with-jest.md)
-  * [Testing SFCs with Mocha + webpack](guides/testing-SFCs-with-mocha-webpack.md)
-  * [Using with Vuex](guides/using-with-vuex.md)
+* [ガイド](guides/README.md)
+  * [はじめる](guides/getting-started.md)
+  * [よくある落とし穴](guides/common-tips.md)
+  * [テストランナを選ぶ](guides/choosing-a-test-runner.md)
+  * [Jest による単一ファイルコンポーネントのテスト](guides/testing-SFCs-with-jest.md)
+  * [Mocha + webpack による単一ファイルコンポーネントのテスト](guides/testing-SFCs-with-mocha-webpack.md)
+  * [Vuex と一緒に使う](guides/using-with-vuex.md)
 * [API](api/README.md)
   * [createLocalVue](api/createLocalVue.md)
   * [mount](api/mount.md)
   * [shallow](api/shallow.md)
-  * [Mounting Options](api/options.md)
+  * [マウンティングオプション](api/options.md)
   * [Wrapper](api/wrapper/README.md)
     * [contains](api/wrapper/contains.md)
     * [find](api/wrapper/find.md)
@@ -45,4 +45,4 @@
     * [setData](api/wrapper-array/setData.md)
     * [setProps](api/wrapper-array/setProps.md)
     * [trigger](api/wrapper-array/trigger.md)
-  * [Selectors](api/selectors.md)
+  * [セレクタ](api/selectors.md)

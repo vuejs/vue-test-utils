@@ -1,6 +1,6 @@
 # isEmpty()
 
-`Wrapper`に子ノードを含んでいないか検証します。
+`Wrapper` が子ノードを含んでいないか検証します。
 
 - **戻り値:** `{boolean}`
 
@@ -12,5 +12,5 @@ import { expect } from 'chai'
 import Foo from './Foo.vue'
 
 const wrapper = mount(Foo)
-expect(wrapper.isEmpty()).to.equal(true)
+expect(wrapper.isEmpty()).toBe(true)
 ```

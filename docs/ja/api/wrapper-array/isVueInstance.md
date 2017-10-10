@@ -1,6 +1,6 @@
 # isVueInstance()
 
-`WrapperArray`の全ての`Wrapper`がVueインスタンスであるか検証します。
+`WrapperArray` の全ての `Wrapper` が Vue インスタンスであるか検証します。
 
 - **戻り値:** `{boolean}`
 
@@ -14,5 +14,5 @@ import Bar from './Bar.vue'
 
 const wrapper = mount(Foo)
 const barArray = wrapper.findAll(Bar)
-expect(barArray.isVueInstance()).to.equal(true)
+expect(barArray.isVueInstance()).toBe(true)
 ```

@@ -1,8 +1,8 @@
 # setProps(props)
 
-`Wrapper` `vm`のプロパティを設定し更新を強制します。
+`Wrapper` `vm` プロパティを設定し更新を強制します。
 
-**WrapperにはVueインスタンスを含む必要があることに注意してください**
+**Wrapper には Vue インスタンスを含む必要があることに注意してください**
 
 - **引数:**
   - `{Object} props`
@@ -16,5 +16,5 @@ import Foo from './Foo.vue'
 
 const wrapper = mount(Foo)
 wrapper.setProps({ foo: 'bar' })
-expect(wrapper.props().foo).to.equal('bar')
+expect(wrapper.props().foo).toBe('bar')
 ```

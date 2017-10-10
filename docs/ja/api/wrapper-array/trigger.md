@@ -1,8 +1,8 @@
 # trigger(eventName)
 
-`WrapperArray` のDOMノードのすべての `Wrapper` でイベントを発火します。
+`WrapperArray` の DOM ノードのすべての `Wrapper` でイベントを発火します。
 
-**すべての`Wrapper`はVueインスタンスを含んでいなければならないことに注意してください。**
+**すべての `Wrapper` は Vue インスタンスを含んでいなければならないことに注意してください。**
 
 - **引数:**
   - `{string} eventName
@@ -22,5 +22,5 @@ const wrapper = mount(Foo, {
 
 const divArray = wrapper.findAll('div')
 divArray.trigger('click')
-expect(clickHandler.called).to.equal(true)
+expect(clickHandler.called).toBe(true)
 ```

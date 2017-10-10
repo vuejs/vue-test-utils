@@ -1,6 +1,6 @@
 # contains(selector)
 
-`Wrapper`に要素、もしくは[セレクタ](/docs/ja/api/selectors.md)で指定したコンポーネントを含んでいるか検証します。
+`Wrapper` に要素、もしくは[セレクタ](/docs/ja/api/selectors.md)で指定したコンポーネントを含んでいるか検証します。
 
 - **引数:**
   - `{string|Component} selector`
@@ -16,8 +16,8 @@ import Foo from './Foo.vue'
 import Bar from './Bar.vue'
 
 const wrapper = mount(Foo)
-expect(wrapper.contains('p')).to.equal(true)
-expect(wrapper.contains(Bar)).to.equal(true)
+expect(wrapper.contains('p')).toBe(true)
+expect(wrapper.contains(Bar)).toBe(true)
 ```
 
 - **参照:** [セレクタ](/docs/ja/api/selectors.md)

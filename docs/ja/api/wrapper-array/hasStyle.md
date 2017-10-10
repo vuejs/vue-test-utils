@@ -1,8 +1,8 @@
 # hasStyle(style, value)
 
-`WrapperArray`の全ての`Wrapper`のDOMノードにstyle属性とマッチする値を持っているか検証します。
+`WrapperArray` の全ての `Wrapper` の DOM ノードに style 属性とマッチする値を持っているか検証します。
 
-`Wrapper`DOM nodeに`string`にマッチする`style`値がある場合`true`を返します。 
+`Wrapper` DOM ノードに `string` にマッチする `style` 値がある場合 `true` を返します。 
 
 **`jsdom`で実行しているときにのみインラインスタイルを検出しますので注意してください。**
 - **引数:**
@@ -20,5 +20,5 @@ import Foo from './Foo.vue'
 
 const wrapper = mount(Foo)
 const divArray = wrapper.findAll('div')
-expect(divArray.hasStyle('color', 'red')).to.equal(true)
+expect(divArray.hasStyle('color', 'red')).toBe(true)
 ```

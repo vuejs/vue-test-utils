@@ -1,10 +1,10 @@
 # マウンティングオプション
 
-`mount`と`shallow`に対するオプション。optionsオブジェクトには、`vue-test-utils`のマウントオプションと生のVueオプションの両方を含めることができます。
+`mount` と `shallow` に対するオプション。オプションオブジェクトには、`vue-test-utils` のマウントオプションと生の Vue オプションの両方を含めることができます。
 
-新しくインスタンスが作成されると、Vueオプションがコンポーネントに渡されます。例：`store`、`propsData`など。完全なリストについては[Vue API docs](https://vuejs.org/v2/api/)を参照してください。
+新しくインスタンスが作成されると、Vue オプションがコンポーネントに渡されます。例: `store`、 `propsData` など。完全なリストについては [Vue API ドキュメント](https://jp.vuejs.org/v2/api/)を参照してください。
 
-## `vue-test-utils`の詳細なマウンティングオプション
+## `vue-test-utils` の詳細なマウンティングオプション
 
 - [context](#context)
 - [slots](#slots)
@@ -38,7 +38,7 @@ expect(wrapper.is(Component)).toBe(true)
 
 - 型: `{ [name: string]: Array<Component>|Component|string }`
 
-コンポーネントにスロットコンテンツのオブジェクトを渡します。keyはスロット名に対応します。値は、コンポーネント、コンポーネントの配列、またはテンプレート文字列のいずれかになります。
+コンポーネントにスロットコンテンツのオブジェクトを渡します。key はスロット名に対応します。値は、コンポーネント、コンポーネントの配列、またはテンプレート文字列のいずれかになります。
 
 例:
 
@@ -106,7 +106,7 @@ expect(wrapper.vm.$route.path).toBe($route.path)
 
 - 型: `Vue`
 
-コンポーネントのマウント時に使用する[createLocalVue](./createLocalVue.md)によって作成されたVueのローカルコピーです。このVueのコピーにプラグインをインストールすると、元の`Vue`コピーが汚染されなくなります。
+コンポーネントのマウント時に使用する [createLocalVue](./createLocalVue.md) によって作成された Vue のローカルコピーです。この Vue のコピーにプラグインをインストールすると、元の `Vue` コピーが汚染されなくなります。
 
 例:
 
@@ -139,27 +139,27 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 - 型: `boolean`
 - デフォルト: `false`
 
-`true`に設定されている場合、レンダリング時にコンポーネントはDOMにアタッチされます。これは複数の要素やCSSセレクタをチェックするための[`hasStyle`](wrapper/hasStyle.md)とも使用できます。
+`true` に設定されている場合、描画時にコンポーネントは DOM にアタッチされます。これは複数の要素や CSS セレクタをチェックするための [`hasStyle`](wrapper/hasStyle.md) とも使用できます。
 
 ### `attrs`
 
 - 型: `Object`
 
-コンポーネントインスタンスの`$attrs`オブジェクトを設定します。
+コンポーネントインスタンスの `$attrs` オブジェクトを設定します。
 
 ### `listeners`
 
 - 型: `Object`
 
-コンポーネントインスタンスの`$listeners`オブジェクトを設定します。
+コンポーネントインスタンスの `$listeners` オブジェクトを設定します。
 
 ### `clone`
 
 - 型: `boolean`
 - デフォルト: `true`
 
-`true`に設定されている場合、マウント前にコンポーネントを複製し、元のコンポーネントの定義を変更することはありません。
+`true` に設定されている場合、マウント前にコンポーネントを複製し、元のコンポーネントの定義を変更することはありません。
 
-`options.mocks` (`Object`): Vueインスタンスにグローバルを追加します。
+`options.mocks` (`Object`): Vue インスタンスにグローバルを追加します。
 
-`options.localVue` (`Object`): `mount`で使うVueクラスです。[createLocalVue](createLocalVue.md)を参照してください。
+`options.localVue` (`Object`): `mount` で使う Vue クラスです。[createLocalVue](createLocalVue.md)を参照してください。

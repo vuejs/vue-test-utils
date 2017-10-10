@@ -1,8 +1,8 @@
 # setData(data)
 
-`WrapperArray`の`Wrapper`ごとに`Wrapper` `vm` データをセットし、強制的に更新します。
+`WrapperArray` の `Wrapper` ごとに `Wrapper` に `vm` データをセットし、強制的に更新します。
 
-**すべての`Wrapper`はVueインスタンスを含んでいなければならないことに注意してください。**
+**すべての `Wrapper` は Vue インスタンスを含んでいなければならないことに注意してください。**
 
 - **引数:**
   - `{Object} data`
@@ -18,5 +18,5 @@ import Bar from './Bar.vue'
 const wrapper = mount(Foo)
 const barArray = wrapper.findAll(Bar)
 barArray.setData({ foo: 'bar' })
-expect(barArray.at(0).vm.foo).to.equal('bar')
+expect(barArray.at(0).vm.foo).toBe('bar')
 ```

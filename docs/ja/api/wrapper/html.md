@@ -1,6 +1,6 @@
 # html()
 
-`Wrapper`のDOMノードのHTMLを文字列として返します。
+`Wrapper` DOM ノードの HTML を文字列として返します。
 
 - **戻り値:** `{string}`
 
@@ -12,5 +12,5 @@ import { expect } from 'chai'
 import Foo from './Foo.vue'
 
 const wrapper = mount(Foo)
-expect(wrapper.html()).to.equal('<div><p>Foo</p></div>')
+expect(wrapper.html()).toBe('<div><p>Foo</p></div>')
 ```

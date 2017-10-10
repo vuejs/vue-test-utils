@@ -1,6 +1,6 @@
 # emittedByOrder()
 
-`Wrapper``vm`によって生成されたカスタムイベントを含む配列を返します。
+`Wrapper` `vm` によって生成されたカスタムイベントを含む配列を返します。
 
 - **戻り値:** `Array<{ name: string, args: Array<any> }>`
 
@@ -23,6 +23,6 @@ wrapper.emittedByOrder() は次の配列を返します
 ]
 */
 
-// イベントが発行したことを検証します
+// イベントの発行順序を検証します
 expect(wrapper.emittedByOrder().map(e => e.name)).toEqual(['foo', 'bar'])
 ```

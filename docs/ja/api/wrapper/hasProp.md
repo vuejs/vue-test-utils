@@ -1,11 +1,11 @@
 # hasProp(prop, value)
 
-`Wrapper`、`vm`が`value`と一致する`prop`を持っているか検証します。
+`Wrapper` `vm`が `value` と一致する `prop` を持っているか検証します。
 
-`Wrapper`、`vm`が`value`と一致する `prop`を持つ場合は`true`を返します。
+`Wrapper` `vm`が `value` と一致する `prop` を持つ場合は `true` を返します。
 
 
-**WrapperにはVueインスタンスが含まれている必要があることに注意してください。**
+**Wrapper には Vue インスタンスが含まれている必要があることに注意してください。**
 
 - **引数:**
   - `{string} prop`
@@ -21,5 +21,5 @@ import { expect } from 'chai'
 import Foo from './Foo.vue'
 
 const wrapper = mount(Foo)
-expect(wrapper.hasProp('bar', 10)).to.equal(true)
+expect(wrapper.hasProp('bar', 10)).toBe(true)
 ```

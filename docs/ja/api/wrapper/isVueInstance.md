@@ -1,6 +1,6 @@
 # isVueInstance()
 
-`Wrapper`がVueのinstanceか検証します。
+`Wrapper` が Vue インスタンスか検証します。
  
 - **戻り値:** `{boolean}`
 
@@ -12,6 +12,6 @@ import { expect } from 'chai'
 import Foo from './Foo.vue'
 
 const wrapper = mount(Foo)
-expect(wrapper.isVueInstance()).to.equal(true)
+expect(wrapper.isVueInstance()).toBe(true)
  ```
  
