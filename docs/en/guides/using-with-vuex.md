@@ -67,7 +67,7 @@ describe('Actions.vue', () => {
 
   it('calls store action actionInput when input value is input and an input even is fired', () => {
     const wrapper = mount(Actions, { store })
-    const input = wrapper.find('input')[0]
+    const input = wrapper.find('input')
     input.element.value = 'input'
     input.trigger('input')
     expect(actions.actionInput.calledOnce).toBe(true)
@@ -75,15 +75,15 @@ describe('Actions.vue', () => {
 
   it('does not call store action actionInput when input value is not input and an input even is fired', () => {
     const wrapper = mount(Actions, { store })
-    const input = wrapper.find('input')[0]
+    const input = wrapper.find('input')
     input.element.value = 'not input'
     input.trigger('input')
     expect(actions.actionInput.calledOnce).toBe(false)
   })
 
   it('calls store action actionClick when button is clicked', () => {
-    const wrapper = mount(Actions, { store })
-    wrapper.find('button')[0].trigger('click')
+    const wrapper = mount(Actions, { store  })
+    let el = wrapper.find('button').trigger('click')
     expect(actions.actionClick.calledOnce).toBe(true)
   })
 })
@@ -159,13 +159,13 @@ describe('Getters.vue', () => {
 
   it('Renders state.inputValue in first p tag', () => {
     const wrapper = mount(Actions, { store })
-    const p = wrapper.find('p')[0]
+    const p = wrapper.find('p')
     expect(p.text()).toBe(getters.inputValue())
   })
 
   it('Renders state.clicks in second p tag', () => {
     const wrapper = mount(Actions, { store })
-    const p = wrapper.find('p')[1]
+    const p = wrapper.findAll('p').at(1)
     expect(p.text()).toBe(getters.clicks().toString())
   })
 })
@@ -245,14 +245,14 @@ describe('Modules.vue', () => {
 
   it('calls store action moduleActionClick when button is clicked', () => {
     const wrapper = mount(Modules, { store })
-    const button = wrapper.find('button')[0]
+    const button = wrapper.find('button')
     button.trigger('click')
     expect(actions.moduleActionClick.calledOnce).toBe(true)
   })
 
   it('Renders state.inputValue in first p tag', () => {
     const wrapper = mount(Modules, { store })
-    const p = wrapper.find('p')[0]
+    const p = wrapper.find('p')
     expect(p.text()).toBe(state.module.clicks.toString())
   })
 })
