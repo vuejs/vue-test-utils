@@ -82,7 +82,7 @@ describe('Actions.vue', () => {
   })
 
   it('calls store action actionClick when button is clicked', () => {
-    const wrapper = mount(Actions, { store  })
+    const wrapper = mount(Actions, { store })
     let el = wrapper.find('button').trigger('click')
     expect(actions.actionClick.calledOnce).toBe(true)
   })
