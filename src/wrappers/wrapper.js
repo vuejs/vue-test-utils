@@ -283,7 +283,26 @@ export default class Wrapper implements BaseWrapper {
   }
 
   /**
-   * Sets vm data
+   * Sets vm computed
+   */
+  setComputed (computed: Object) {
+    if (!this.isVueComponent) {
+      throwError('wrapper.setComputed() can only be called on a Vue instance')
+    }
+
+    Object.keys(computed).forEach((key) => {
+      // $FlowIgnore : Problem with possibly null this.vm
+      if (!this.vm._computedWatchers[key]) {
+        throwError(`wrapper.setComputed() was passed a value that does not exist as a computed property on the Vue instance. Property ${key} does not exist on the Vue instance`)
+      }
+      // $FlowIgnore : Problem with possibly null this.vm
+      this.vm._computedWatchers[key].value = computed[key]
+    })
+    this.update()
+  }
+
+  /**
+   * Sets vm methods
    */
   setMethods (methods: Object) {
     if (!this.isVueComponent) {

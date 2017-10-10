@@ -206,7 +206,16 @@ describe('WrapperArray', () => {
     expect(() => wrapperArray.text()).to.throw().with.property('message', message)
   })
 
-  it('setData calls setMethods on each wrapper', () => {
+  it('setComputed calls setMethods on each wrapper', () => {
+    const setComputed = sinon.stub()
+    const computed = {}
+    const wrapperArray = new WrapperArray([{ setComputed }, { setComputed }])
+    wrapperArray.setComputed(computed)
+    expect(setComputed.calledTwice).to.equal(true)
+    expect(setComputed.calledWith(computed)).to.equal(true)
+  })
+
+  it('setMethods calls setMethods on each wrapper', () => {
     const setMethods = sinon.stub()
     const methods = {}
     const wrapperArray = new WrapperArray([{ setMethods }, { setMethods }])

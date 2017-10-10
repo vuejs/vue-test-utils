@@ -119,6 +119,12 @@ export default class WrapperArray implements BaseWrapper {
     }
   }
 
+  setComputed (computed: Object): void {
+    this.throwErrorIfWrappersIsEmpty('setComputed')
+
+    this.wrappers.forEach(wrapper => wrapper.setComputed(computed))
+  }
+
   setData (data: Object): void {
     this.throwErrorIfWrappersIsEmpty('setData')
 
