@@ -43,6 +43,7 @@ interface BaseWrapper {
   isVueInstance (): boolean
 
   update (): void
+  setComputed (computed: object): void
   setData (data: object): void
   setMethods (data: object): void
   setProps (props: object): void
