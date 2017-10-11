@@ -106,7 +106,9 @@ it('button click should increment the count', () => {
 
 Vue batches pending DOM updates and applies them asynchronously to prevent unnecessary re-renders caused by multiple data mutations. This is why in practice we often have to use `Vue.nextTick` to wait until Vue has performed the actual DOM update after we trigger some state change.
 
-To simplify usage, `vue-test-utils` applies all updates synchronously so you don't need to use `Vue.nextTick` in your tests.
+To simplify usage, `vue-test-utils` applies all updates synchronously so you don't need to use `Vue.nextTick` to wait for DOM updates in your tests.
+
+*Note: `nextTick` is still necessary when you need to explictly advance the event loop, for operations such as asynchronous callbacks or promise resolution.*
 
 ## What's Next
 
