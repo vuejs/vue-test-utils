@@ -1,8 +1,9 @@
-/* eslint-disable */
+// @flow
+
 import { warn } from '../lib/util'
 
 function getRealChild (vnode: ?VNode): ?VNode {
-  const compOptions: ?VNodeComponentOptions = vnode && vnode.componentOptions
+  const compOptions = vnode && vnode.componentOptions
   if (compOptions && compOptions.Ctor.options.abstract) {
     return getRealChild(getFirstComponentChild(compOptions.children))
   } else {
@@ -31,7 +32,7 @@ export const camelize = (str: string): string => {
 
 function extractTransitionData (comp: Component): Object {
   const data = {}
-  const options: ComponentOptions = comp.$options
+  const options = comp.$options
   // props
   for (const key in options.propsData) {
     data[key] = comp[key]
@@ -71,8 +72,7 @@ export default {
     if (children.length > 1) {
       warn(
          '<transition> can only be used on a single element. Use ' +
-         '<transition-group> for lists.',
-         this.$parent
+         '<transition-group> for lists.'
        )
     }
 
@@ -82,8 +82,7 @@ export default {
     if (mode && mode !== 'in-out' && mode !== 'out-in'
      ) {
       warn(
-         'invalid <transition> mode: ' + mode,
-         this.$parent
+         'invalid <transition> mode: ' + mode
        )
     }
 
