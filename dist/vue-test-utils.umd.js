@@ -2545,6 +2545,10 @@ function throwError (msg) {
   throw new Error(("[vue-test-utils]: " + msg))
 }
 
+function warn (msg) {
+  console.error(("[vue-test-utils]: " + msg));
+}
+
 // 
 
 var LIFECYCLE_HOOKS = [
@@ -2921,6 +2925,12 @@ WrapperArray.prototype.throwErrorIfWrappersIsEmpty = function throwErrorIfWrappe
   }
 };
 
+WrapperArray.prototype.setComputed = function setComputed (computed) {
+  this.throwErrorIfWrappersIsEmpty('setComputed');
+
+  this.wrappers.forEach(function (wrapper) { return wrapper.setComputed(computed); });
+};
+
 WrapperArray.prototype.setData = function setData (data) {
   this.throwErrorIfWrappersIsEmpty('setData');
 
@@ -3024,6 +3034,10 @@ ErrorWrapper.prototype.text = function text () {
   throwError(("find did not return " + (this.selector) + ", cannot call text() on empty Wrapper"));
 };
 
+ErrorWrapper.prototype.setComputed = function setComputed () {
+  throwError(("find did not return " + (this.selector) + ", cannot call setComputed() on empty Wrapper"));
+};
+
 ErrorWrapper.prototype.setData = function setData () {
   throwError(("find did not return " + (this.selector) + ", cannot call setData() on empty Wrapper"));
 };
@@ -3051,6 +3065,7 @@ var Wrapper = function Wrapper (vnode, update, options) {
   this.element = vnode.elm;
   this.update = update;
   this.options = options;
+  this.version = Number(((Vue.version.split('.')[0]) + "." + (Vue.version.split('.')[1])));
 };
 
 Wrapper.prototype.at = function at () {
@@ -3246,9 +3261,7 @@ Wrapper.prototype.findAll = function findAll (selector) {
  * Returns HTML of element as a string
  */
 Wrapper.prototype.html = function html () {
-  var tmp = document.createElement('div');
-  tmp.appendChild(this.element);
-  return tmp.innerHTML
+  return this.element.outerHTML
 };
 
 /**
@@ -3278,7 +3291,7 @@ Wrapper.prototype.is = function is (selector) {
  * Checks if node is empty
  */
 Wrapper.prototype.isEmpty = function isEmpty () {
-  return this.vnode.children === undefined
+  return this.vnode.children === undefined || this.vnode.children.length === 0
 };
 
 /**
@@ -3317,7 +3330,41 @@ Wrapper.prototype.setData = function setData (data) {
 };
 
 /**
- * Sets vm data
+ * Sets vm computed
+ */
+Wrapper.prototype.setComputed = function setComputed (computed) {
+    var this$1 = this;
+
+  if (!this.isVueComponent) {
+    throwError('wrapper.setComputed() can only be called on a Vue instance');
+  }
+
+  Object.keys(computed).forEach(function (key) {
+    if (this$1.version > 2.1) {
+      // $FlowIgnore : Problem with possibly null this.vm
+      if (!this$1.vm._computedWatchers[key]) {
+        throwError(("wrapper.setComputed() was passed a value that does not exist as a computed property on the Vue instance. Property " + key + " does not exist on the Vue instance"));
+      }
+      // $FlowIgnore : Problem with possibly null this.vm
+      this$1.vm._computedWatchers[key].value = computed[key];
+    } else {
+      // $FlowIgnore : Problem with possibly null this.vm
+      if (!this$1.vm._watchers.some(function (w) { return w.getter.name === key; })) {
+        throwError(("wrapper.setComputed() was passed a value that does not exist as a computed property on the Vue instance. Property " + key + " does not exist on the Vue instance"));
+      }
+      // $FlowIgnore : Problem with possibly null this.vm
+      this$1.vm._watchers.forEach(function (watcher) {
+        if (watcher.getter.name === key) {
+          watcher.value = computed[key];
+        }
+      });
+    }
+  });
+  this.update();
+};
+
+/**
+ * Sets vm methods
  */
 Wrapper.prototype.setMethods = function setMethods (methods) {
     var this$1 = this;
@@ -3443,6 +3490,7 @@ function logEvents (vm, emitted, emittedByOrder) {
 
 function update () {
   this._update(this._render());
+  this.$children.forEach(function (child) { return update.call(child); });
 }
 
 var VueWrapper = (function (Wrapper$$1) {
@@ -3454,7 +3502,11 @@ var VueWrapper = (function (Wrapper$$1) {
       get: function () { return vm._vnode; },
       set: function () {}
     }));
-
+    // $FlowIgnore
+    Object.defineProperty(this, 'element', ({
+      get: function () { return vm.$el; },
+      set: function () {}
+    }));
     this.vm = vm;
     this.isVueComponent = true;
     this._emitted = Object.create(null);
@@ -3523,23 +3575,25 @@ function addMocks (mockedProperties, Vue$$1) {
 }
 
 function addAttrs (vm, attrs) {
+  var originalVueConfig = Vue.config;
   Vue.config.silent = true;
   if (attrs) {
     vm.$attrs = attrs;
   } else {
     vm.$attrs = {};
   }
-  Vue.config.silent = false;
+  Vue.config.silent = originalVueConfig.silent;
 }
 
 function addListeners (vm, listeners) {
+  var originalVueConfig = Vue.config;
   Vue.config.silent = true;
   if (listeners) {
     vm.$listeners = listeners;
   } else {
     vm.$listeners = {};
   }
-  Vue.config.silent = false;
+  Vue.config.silent = originalVueConfig.silent;
 }
 
 function addProvide (component, options) {
@@ -3652,7 +3706,7 @@ function mount (component, options) {
     throwError(
       'window is undefined, vue-test-utils needs to be run in a browser environment.\n' +
       'You can run the tests in node using jsdom + jsdom-global.\n' +
-      'See https://vue-test-utils.vuejs.org/en/guides/general-tips.html for more details.'
+      'See https://vue-test-utils.vuejs.org/en/guides/common-tips.html for more details.'
     );
   }
 
@@ -3725,10 +3779,137 @@ function createLocalVue () {
   return instance
 }
 
+// 
+
+function getRealChild (vnode) {
+  var compOptions = vnode && vnode.componentOptions;
+  if (compOptions && compOptions.Ctor.options.abstract) {
+    return getRealChild(getFirstComponentChild(compOptions.children))
+  } else {
+    return vnode
+  }
+}
+
+function getFirstComponentChild (children) {
+  if (Array.isArray(children)) {
+    for (var i = 0; i < children.length; i++) {
+      var c = children[i];
+      if (c && (c.componentOptions || isAsyncPlaceholder(c))) {
+        return c
+      }
+    }
+  }
+}
+
+function isAsyncPlaceholder (node) {
+  return node.isComment && node.asyncFactory
+}
+var camelizeRE = /-(\w)/g;
+var camelize = function (str) {
+  return str.replace(camelizeRE, function (_, c) { return c ? c.toUpperCase() : ''; })
+};
+
+function extractTransitionData (comp) {
+  var data = {};
+  var options = comp.$options;
+  // props
+  for (var key in options.propsData) {
+    data[key] = comp[key];
+  }
+  // events.
+  // extract listeners and pass them directly to the transition methods
+  var listeners = options._parentListeners;
+  for (var key$1 in listeners) {
+    data[camelize(key$1)] = listeners[key$1];
+  }
+  return data
+}
+
+function hasParentTransition (vnode) {
+  while ((vnode = vnode.parent)) {
+    if (vnode.data.transition) {
+      return true
+    }
+  }
+}
+
+var TransitionStub = {
+  render: function render (h) {
+    var children = this.$options._renderChildren;
+    if (!children) {
+      return
+    }
+
+     // filter out text nodes (possible whitespaces)
+    children = children.filter(function (c) { return c.tag || isAsyncPlaceholder(c); });
+     /* istanbul ignore if */
+    if (!children.length) {
+      return
+    }
+
+     // warn multiple elements
+    if (children.length > 1) {
+      warn(
+         '<transition> can only be used on a single element. Use ' +
+         '<transition-group> for lists.'
+       );
+    }
+
+    var mode = this.mode;
+
+     // warn invalid mode
+    if (mode && mode !== 'in-out' && mode !== 'out-in'
+     ) {
+      warn(
+         'invalid <transition> mode: ' + mode
+       );
+    }
+
+    var rawChild = children[0];
+
+     // if this is a component root node and the component's
+     // parent container node also has transition, skip.
+    if (hasParentTransition(this.$vnode)) {
+      return rawChild
+    }
+
+     // apply transition data to child
+     // use getRealChild() to ignore abstract components e.g. keep-alive
+    var child = getRealChild(rawChild);
+
+    if (!child) {
+      return rawChild
+    }
+
+    (child.data || (child.data = {})).transition = extractTransitionData(this);
+
+     // mark v-show
+     // so that the transition module can hand over the control to the directive
+    if (child.data.directives && child.data.directives.some(function (d) { return d.name === 'show'; })) {
+      child.data.show = true;
+    }
+
+    return rawChild
+  }
+};
+
+// 
+
+var TransitionGroupStub = {
+  render: function render (h) {
+    var tag = this.tag || this.$vnode.data.tag || 'span';
+    var children = this.$slots.default || [];
+
+    return h(tag, null, children)
+  }
+};
+
 var index = {
   createLocalVue: createLocalVue,
   mount: mount,
-  shallow: shallow
+  shallow: shallow,
+  TransitionStub: TransitionStub,
+  TransitionGroupStub: TransitionGroupStub
 };
 
 return index;
