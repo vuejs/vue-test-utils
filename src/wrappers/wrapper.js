@@ -1,5 +1,6 @@
 // @flow
 
+import Vue from 'vue'
 import { isValidSelector } from '../lib/validators'
 import findVueComponents, { vmCtorMatchesName } from '../lib/find-vue-components'
 import findMatchingVNodes from '../lib/find-matching-vnodes'
@@ -17,12 +18,14 @@ export default class Wrapper implements BaseWrapper {
   element: HTMLElement;
   update: Function;
   options: WrapperOptions;
+  version: number
 
   constructor (vnode: VNode, update: Function, options: WrapperOptions) {
     this.vnode = vnode
     this.element = vnode.elm
     this.update = update
     this.options = options
+    this.version = Number(`${Vue.version.split('.')[0]}.${Vue.version.split('.')[1]}`)
   }
 
   at () {
@@ -291,12 +294,25 @@ export default class Wrapper implements BaseWrapper {
     }
 
     Object.keys(computed).forEach((key) => {
-      // $FlowIgnore : Problem with possibly null this.vm
-      if (!this.vm._computedWatchers[key]) {
-        throwError(`wrapper.setComputed() was passed a value that does not exist as a computed property on the Vue instance. Property ${key} does not exist on the Vue instance`)
+      if (this.version > 2.1) {
+        // $FlowIgnore : Problem with possibly null this.vm
+        if (!this.vm._computedWatchers[key]) {
+          throwError(`wrapper.setComputed() was passed a value that does not exist as a computed property on the Vue instance. Property ${key} does not exist on the Vue instance`)
+        }
+        // $FlowIgnore : Problem with possibly null this.vm
+        this.vm._computedWatchers[key].value = computed[key]
+      } else {
+        // $FlowIgnore : Problem with possibly null this.vm
+        if (!this.vm._watchers.some(w => w.getter.name === key)) {
+          throwError(`wrapper.setComputed() was passed a value that does not exist as a computed property on the Vue instance. Property ${key} does not exist on the Vue instance`)
+        }
+        // $FlowIgnore : Problem with possibly null this.vm
+        this.vm._watchers.forEach((watcher) => {
+          if (watcher.getter.name === key) {
+            watcher.value = computed[key]
+          }
+        })
       }
-      // $FlowIgnore : Problem with possibly null this.vm
-      this.vm._computedWatchers[key].value = computed[key]
     })
     this.update()
   }
