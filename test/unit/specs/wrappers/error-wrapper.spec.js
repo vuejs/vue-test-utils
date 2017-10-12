@@ -113,6 +113,13 @@ describe('ErrorWrapper', () => {
     expect(() => error.text()).to.throw().with.property('message', message)
   })
 
+  it('setComputed throws error when called', () => {
+    const selector = 'div'
+    const message = `[vue-test-utils]: find did not return ${selector}, cannot call setComputed() on empty Wrapper`
+    const error = new ErrorWrapper(selector)
+    expect(() => error.setComputed()).to.throw().with.property('message', message)
+  })
+
   it('setData throws error when called', () => {
     const selector = 'div'
     const message = `[vue-test-utils]: find did not return ${selector}, cannot call setData() on empty Wrapper`

@@ -76,6 +76,10 @@ export default class ErrorWrapper implements BaseWrapper {
     throwError(`find did not return ${this.selector}, cannot call text() on empty Wrapper`)
   }
 
+  setComputed (): void {
+    throwError(`find did not return ${this.selector}, cannot call setComputed() on empty Wrapper`)
+  }
+
   setData (): void {
     throwError(`find did not return ${this.selector}, cannot call setData() on empty Wrapper`)
   }
