@@ -2,7 +2,7 @@ import ComponentWithTransition from '~resources/components/component-with-transi
 import TransitionStub from '~src/components/TransitionStub'
 import mount from '~src/mount'
 
-describe.only('TransitionStub', () => {
+describe('TransitionStub', () => {
   it('update synchronously when used as stubs for Transition', () => {
     const wrapper = mount(ComponentWithTransition, {
       stubs: {

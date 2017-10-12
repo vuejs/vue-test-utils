@@ -7,7 +7,8 @@ test_version_number(){
   echo "running unit tests with Vue $1"
   yarn install
   yarn add vue@$1 vue-template-compiler@$1
-  yarn test
+  yarn test:unit
+  yarn test:unit:karma
 }
 
 test_version_number "2.0.8"
