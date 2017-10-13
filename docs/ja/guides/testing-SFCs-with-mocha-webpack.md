@@ -94,7 +94,7 @@ require('jsdom-global')()
 
 ### 検証ライブラリのピッキング
 
-[Chai](http://chaijs.com/) は Mocha と並んで一般的に使用される一般的なアサーションライブラリです。また、スパイとスタブを作成するための [Sinon](http://sinonjs.org/)  をチェックしてみてください。
+[Chai](http://chaijs.com/) は Mocha と並んで一般的に使用される一般的な検証ライブラリです。また、スパイとスタブを作成するための [Sinon](http://sinonjs.org/)  をチェックしてみてください。
 
 あるいは、Jest の一部である `expect` を使うことができ、Jest のドキュメントにある[まったく同じAPI](http://facebook.github.io/jest/docs/en/expect.html#content)を公開しています。
 
@@ -116,7 +116,7 @@ global.expect = require('expect')
 
 JavaScript を処理するには `babel-loader` を使用しています。`.babelrc` ファイルを使ってあなたのアプリでそれを使用しているならば、Babel を設定しておくべきです。`babel-loader` は自動的に同じ設定ファイルを使います。
 
-注意すべき点の 1 つは、Node バージョン 6 以降を使用している場合、ES2015 の大部分の機能を既にサポートしているため、使用しているノードのバージョンではサポートされていない機能のみをトランスパイルする Babel の [env オプション](https://babeljs.io/docs/usage/babelrc/#env-option)を設定できます。(例えば`stage-2`や flow syntax support など)
+注意すべき点の 1 つは、Node バージョン 6 以降を使用している場合、ES2015 の大部分の機能を既にサポートしているため、使用している Node のバージョンではサポートされていない機能のみをトランスパイルする Babel の [env オプション](https://babeljs.io/docs/usage/babelrc/#env-option)を設定できます。(例えば`stage-2`や flow 構文のサポートなど)
 
 ### テストを追加する
 

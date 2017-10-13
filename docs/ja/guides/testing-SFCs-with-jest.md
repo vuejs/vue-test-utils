@@ -75,7 +75,7 @@ webpack 設定で、`@` を `/src` のエイリアスにしたいといった場
 
 ## Jest のための Babel の設定
 
-Node の最新バージョンではすでにほとんどの ES2015 機能がサポートされていますが、テストでは ES Module 構文と stage-x 機能を使用することができます。そのために、`babel-jest` をインストールする必要があります。
+Node の最新バージョンではすでにほとんどの ES2015 機能がサポートされていますが、テストでは ES Modules 構文と stage-x 機能を使用することができます。そのために、`babel-jest` をインストールする必要があります。
 
 ``` bash
 npm install --save-dev babel-jest
@@ -100,7 +100,7 @@ npm install --save-dev babel-jest
 
 > デフォルトでは、`babel-jest` はインストールされている間自動的に設定します。しかし、`*.vue` ファイルのための変換を明示的に追加したため、`babel-jest` も明示的に設定する必要があります。
 
-webpack で `babel-preset-env` を使用するとした場合、webpack は ES Module 処理方法を既に知っているので、デフォルトの Babel 設定は ES Module のトランスパイルを無効にします。ただし、Jest テストは Node で直接実行されるため、テスト用に有効にする必要があります。
+webpack で `babel-preset-env` を使用するとした場合、webpack は ES Modules 処理方法を既に知っているので、デフォルトの Babel 設定は ES Modules のトランスパイルを無効にします。ただし、Jest テストは Node で直接実行されるため、テスト用に有効にする必要があります。
 
 また、`babel-preset-env` に、使用している Node のバージョンを指定するように指示することもできます。これにより不要な機能をスキップし、テストがより速く起動します。
 
@@ -127,7 +127,7 @@ webpack で `babel-preset-env` を使用するとした場合、webpack は ES M
 
 [`vue-server-renderer`](https://github.com/vuejs/vue/tree/dev/packages/vue-server-renderer) を使ってコンポーネントを文字列に描画して保存することができます。[Jest のスナップショットテスト](https://facebook.github.io/jest/docs/en/snapshot-testing.html) のスナップショットとして表示されます。 
 
-`vue-server-renderer` の描画結果には、いくつかの SSR (Server-Side Rendering) 固有の属性が含まれており、空白を無視するため、diff をスキャンするのが難しくなります。カスタムシリアライザを使用して、保存されたスナップショットを改善することができます。
+`vue-server-renderer` の描画結果には、いくつかの SSR (Server-Side Rendering: サーバサイドレンダリング) 固有の属性が含まれており、空白を無視するため、diff をスキャンするのが難しくなります。カスタムシリアライザを使用して、保存されたスナップショットを改善することができます。
 
 ``` bash
 npm install --save-dev jest-serializer-vue
@@ -150,7 +150,7 @@ npm install --save-dev jest-serializer-vue
 
 ### テストファイルの配置
 
-デフォルトでは、jest はプロジェクト全体で `.spec.js` または `.test.js` 拡張子を持つすべてのファイルを再帰的に取得します。これがあなたのニーズに合わない場合は、`package.json` ファイルの config セクションで[testRegex を変更する](https://facebook.github.io/jest/docs/en/configuration.html#testregex-string)ことが可能です。
+デフォルトでは、Jest はプロジェクト全体で `.spec.js` または `.test.js` 拡張子を持つすべてのファイルを再帰的に取得します。これがあなたのニーズに合わない場合は、`package.json` ファイルの config セクションで[testRegex を変更する](https://facebook.github.io/jest/docs/en/configuration.html#testregex-string)ことが可能です。
 
 Jestは、テスト対象のコードのすぐ隣に`__tests__`ディレクトリを作成することを推奨していますが、適切にテストを構造化することは自由です。 Jestがスナップショットテストを実行するテストファイルの隣に`__snapshots__`ディレクトリを作成することに注意してください。
 
