@@ -139,7 +139,7 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 - 型: `boolean`
 - デフォルト: `false`
 
-`true` に設定されている場合、描画時にコンポーネントは DOM にアタッチされます。これは複数の要素や CSS セレクタをチェックするための [`hasStyle`](wrapper/hasStyle.md) とも使用できます。
+`true` に設定されている場合、描画時にコンポーネントは DOM にアタッチされます。これは複数の要素や CSS セレクタをチェックするための [`hasStyle`](./wrapper/hasStyle.md) とも使用できます。
 
 ### `attrs`
 
@@ -162,4 +162,4 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 
 `options.mocks` (`Object`): Vue インスタンスにグローバルを追加します。
 
-`options.localVue` (`Object`): `mount` で使う Vue クラスです。[createLocalVue](createLocalVue.md)を参照してください。
+`options.localVue` (`Object`): `mount` で使う Vue クラスです。[createLocalVue](./createLocalVue.md)を参照してください。

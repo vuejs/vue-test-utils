@@ -1,6 +1,6 @@
 # is(selector)
 
-`WrapperArray` の全ての `Wrapper` のDOMノード、もしくは[セレクタ](/docs/ja/api/selectors.md)が `vm` とマッチするか検証します。
+`WrapperArray` の全ての `Wrapper` のDOMノード、もしくは[セレクタ](../selectors.md)が `vm` とマッチするか検証します。
 
 - **引数:**
   - `{string|Component} selector`

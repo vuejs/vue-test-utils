@@ -25,4 +25,4 @@ const freshWrapper = shallow(Foo)
 expect(freshWrapper.vm.foo).toBe(false)
 ```
 
-- **参照:** [よくある落とし穴](/ja/guides/common-tips.md#グローバルプラグインとミックスインの適用)
+- **参照:** [一般的なヒント](../guides/common-tips.md#グローバルプラグインとミックスインの適用)

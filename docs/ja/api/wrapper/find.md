@@ -1,8 +1,8 @@
 # find(selector)
 
-最初の DOM ノードの [Wrapper](/docs/ja/api/wrapper/README.md)、またはセレクタで一致した Vue コンポーネントを返します。
+最初の DOM ノードの [Wrapper](./README.md)、またはセレクタで一致した Vue コンポーネントを返します。
 
-有効な[セレクタ](/docs/ja/api/selectors.md)を使用してください。
+有効な[セレクタ](../selectors.md)を使用してください。
 
 - **引数:**
   - `{string|Component} selector`
@@ -24,4 +24,4 @@ const bar = wrapper.find(Bar)
 expect(bar.is(Bar)).toBe(true)
 ```
 
-- **参照:** [Wrapper](/docs/ja/api/wrapper/README.md)
+- **参照:** [Wrapper](./README.md)

@@ -2,7 +2,7 @@
 
 `WrapperArray` のすべての Wrapper にセレクタが含まれているか検証します。
 
-有効な[セレクタ](/docs/ja/api/selectors.md)を使用してください。
+有効な[セレクタ](../selectors.md)を使用してください。
 
 - **引数:**
   - `{string|Component} selector`

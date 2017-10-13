@@ -1,4 +1,4 @@
-# mount(component,{,options}])
+# mount(component {, options}])
 
 - **引数:**
 
@@ -9,13 +9,13 @@
 
 - **オプション:**
 
-[オプション](/docs/ja/api/options.md)を参照してください。
+[オプション](./options.md)を参照してください。
 
 - **使い方:**
 
-最初の DOM ノードまたは Vue コンポーネント一致セレクタの [`Wrapper`](/docs/ja/api/wrapper/README.md) を返します。
+最初の DOM ノードまたは Vue コンポーネント一致セレクタの [`Wrapper`](./wrapper/README.md) を返します。
 
-有効な[セレクタ](/docs/ja/api/selectors.md)を使用してください。
+有効な[セレクタ](./selectors.md)を使用してください。
 
 **オプションなし:**
 
@@ -133,4 +133,4 @@ describe('Foo', () => {
 })
 ```
 
-- **参照:** [`Wrapper`](/docs/ja/api/wrapper/README.md)
+- **参照:** [`Wrapper`](./wrapper/README.md)

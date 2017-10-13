@@ -1,6 +1,6 @@
 # contains(selector)
 
-`Wrapper` に要素、もしくは[セレクタ](/docs/ja/api/selectors.md)で指定したコンポーネントを含んでいるか検証します。
+`Wrapper` に要素、もしくは[セレクタ](../selectors.md)で指定したコンポーネントを含んでいるか検証します。
 
 - **引数:**
   - `{string|Component} selector`
@@ -20,4 +20,4 @@ expect(wrapper.contains('p')).toBe(true)
 expect(wrapper.contains(Bar)).toBe(true)
 ```
 
-- **参照:** [セレクタ](/docs/ja/api/selectors.md)
+- **参照:** [セレクタ](../selectors.md)

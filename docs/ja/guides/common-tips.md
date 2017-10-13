@@ -58,7 +58,7 @@ expect(wrapper.emitted().foo.length).toBe(2)
 expect(wrapper.emitted().foo[1]).toEqual([123])
 ```
 
-また、[wrapper.emittedByOrder()](../api/emittedByOrder.md) を呼び出すことで、発行順序のイベントの配列を取得することもできます。
+また、[wrapper.emittedByOrder()](../api/wrapper/emittedByOrder.md) を呼び出すことで、発行順序のイベントの配列を取得することもできます。
 
 ## コンポーネントの状態を操作する
 
@@ -86,7 +86,7 @@ mount(Component, {
 
 `wrapper.setProps({})` メソッドを使用して、すでにマウントされているコンポーネントのプロパティを更新することもできます。
 
-*オプションの完全なリストについては、ドキュメントの[マウントオプションのセクション](./api/options.md)を参照してください。*
+*オプションの完全なリストについては、ドキュメントの[マウントオプションのセクション](../api/options.md)を参照してください。*
 
 ## グローバルプラグインとミックスインの適用
 

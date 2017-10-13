@@ -1,6 +1,6 @@
 # WrapperArray
 
-`WrapperArray` は、[Wrapper](/docs/ja/api/wrapper/README.md) の配列と `Wrapper` をテストするメソッドを含むオブジェクトです。
+`WrapperArray` は、[Wrapper](../wrapper/README.md) の配列と `Wrapper` をテストするメソッドを含むオブジェクトです。
 
 - **プロパティ:**
 

@@ -1,8 +1,8 @@
 # findAll(selector)
 
-[ラッパ (Wrapper)](/docs/ja/api/wrapper/README.md) の[`WrapperArray`](/docs/ja/api/wrapper-array/README.md)を返します。
+[ラッパ (Wrapper)](./README.md) の[`WrapperArray`](../wrapper-array/README.md)を返します。
 
-有効な[セレクタ](/docs/ja/api/selectors.md)を使用してください。
+有効な[セレクタ](../selectors.md)を使用してください。
 
 - **引数:**
   - `{string|Component} selector`
@@ -24,4 +24,4 @@ const bar = wrapper.findAll(Bar).at(0)
 expect(bar.is(Bar)).toBe(true)
 ```
 
-- **参照:** [Wrapper](/docs/ja/api/wrapper/README.md)
+- **参照:** [Wrapper](./README.md)
