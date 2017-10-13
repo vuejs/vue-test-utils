@@ -1,13 +1,13 @@
-# vue-test-utils
+# vue-test-utils [![Build Status](https://circleci.com/gh/vuejs/vue-test-utils/tree/dev.png?style=shield)](https://circleci.com/gh/vuejs/vue-test-utils)
 
 ## Currently in beta
 To use vue-test-utils beta:
 ```
 // npm
-npm install --save-dev vue-test-utils@1.0.0-beta.1
+npm install --save-dev vue-test-utils@latest
 
 // yarn
-yarn add --dev vue-test-utils@1.0.0-beta.1
+yarn add --dev vue-test-utils@latest
 ```
 
 ## Intro
