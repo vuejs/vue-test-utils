@@ -1,10 +1,10 @@
-# Using with vue-router
+# Vue Router と一緒に使用する
 
-## Installing vue-router in tests
+## テストへ Vue Router のインストール
 
-You should never install vue-router on the Vue base constructor in tests. Installing vue-router adds `$route` and `$router` as read-only properties on Vue prototype.
+テストで Vue のコンストラクタベースの Vue Router をインストールしないでください。Vue Router をインストールすると Vue のプロトタイプの読み取り専用プロパティとして `$route` と `$router` が追加されます。
 
-To avoid this, we can create a localVue, and install vue-router on that.
+これを回避するために、localeVue を作成し、その上に Vue Router をインストールすることができます。
 
 ```js
 import VueRouter from 'vue-router'
@@ -17,13 +17,13 @@ shallow(Component, {
 })
 ```
 
-## Testing components that use router-link or router-view
+## router-link または router-view を使用するコンポーネントテスト
 
-When you install vue-router, the router-link and router-view components are registered. This means we can use them anywhere in our application without needing to import them.
+Vue Router をインストールする時、router-link と router-view コンポーネントが登録されます。これは、それらをアプリケーションにインポートする必要がなく、アプリケーションのどこでも使用することができます。
 
-When we run tests, we need to make these vue-router components available to the component we're mounting. There are two methods to do this.
+テストを実行する際には、マウントしているコンポーネントにこれら Vue Router のコンポーネントを使用できるようにする必要があります。これらを行うには 2 つの方法があります。
 
-### Using stubs
+### スタブを使用する
 
 ```js
 shallow(Component, {
@@ -31,7 +31,7 @@ shallow(Component, {
 })
 ```
 
-### Installing vue-router with localVue
+### localVue による Vue Router のインストール
 
 ```js
 import VueRouter from 'vue-router'
@@ -44,9 +44,9 @@ shallow(Component, {
 })
 ```
 
-## Mocking $route and $router
+## $route と $router のモック
 
-Sometimes you want to test that a component does something with parameters from the `$route` and `$router` objects. To do that, you can pass custom mocks to the Vue instance.
+時々、コンポーネントが `$route` と `$router` オブジェクトから引数によって何かをするテストをしたいときがあります。これをするためには、Vue インスタンスにカスタムモックを渡すことができます。
 
 ```js
 const $route = {
@@ -62,10 +62,10 @@ const wrapper = shallow(Component, {
 wrapper.vm.$router // /some/path
 ```
 
-## Common gotchas
+## よくある落とし穴
 
-Installing vue-router adds `$route` and `$router` as read-only properties on Vue prototype.
+Vue Router をインストールすると Vue のプロトタイプに読み取り専用プロパティとして `$route` と `$router` が追加されます。
 
-This means any future tests that try to mock $route or `$router` will fail.
+これは、`$route` または `$router` をモックを試みるテストが将来失敗することを意味します。
 
-To avoid this, never install vue-router when you're running tests.
+これを回避するために、テストを実行するときに、Vue Router をインストールしないでください。
