@@ -6,7 +6,7 @@
   * [テストランナを選ぶ](guides/choosing-a-test-runner.md)
   * [Jest による単一ファイルコンポーネントのテスト](guides/testing-SFCs-with-jest.md)
   * [Mocha + webpack による単一ファイルコンポーネントのテスト](guides/testing-SFCs-with-mocha-webpack.md)
-  * [Using with vue-router](guides/using-with-vuex.md)
+  * [Vue Router と一緒に使う](guides/using-with-vue-router.md)
   * [Vuex と一緒に使う](guides/using-with-vuex.md)
 * [API](api/README.md)
   * [mount](api/mount.md)
