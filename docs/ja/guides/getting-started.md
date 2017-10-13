@@ -108,7 +108,7 @@ Vue バッチは DOM 更新を保留し、非同期的に適用して、複数�
 
 使い方を簡単にするため、 `vue-test-utils` はすべての更新を同期的に適用するので、テストで DOM を更新するために `Vue.nextTick` を使う必要はありません。
 
-*Note: `nextTick` is still necessary when you need to explictly advance the event loop, for operations such as asynchronous callbacks or promise resolution.*
+*注意: 非同期コールバックやプロミスの解決などの操作のために、イベントループを明示的に進める必要がある場合は、まだ `nextTick` が必要です。*
 
 ## 次は何をするのか
 
