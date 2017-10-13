@@ -1,6 +1,6 @@
 # Using with Vuex
 
-In this guide, we'll see how to test Vuex in components with vue-test-utils.
+In this guide, we'll see how to test Vuex in components with `vue-test-utils`.
 
 ## Mocking Actions
 
@@ -91,9 +91,9 @@ describe('Actions.vue', () => {
 })
 ```
 
-What’s happening here? First we tell Vue to use Vuex with the Vue.use method. This is just a wrapper around Vue.use.
+What’s happening here? First we tell Vue to use Vuex with the `Vue.use` method. This is just a wrapper around `Vue.use`.
 
-We then make a mock store by calling new Vuex.store with our mock values. We only pass it the actions, since that’s all we care about.
+We then make a mock store by calling new `Vuex.store` with our mock values. We only pass it the actions, since that’s all we care about.
 
 The actions are [jest mock functions](https://facebook.github.io/jest/docs/en/mock-functions.html). These mock functions give us methods to assert whether the actions were called or not.
 
@@ -101,7 +101,7 @@ We can then assert in our tests that the action stub was called when expected.
 
 Now the way we define the store might look a bit foreign to you.
 
-We’re using beforeEach to ensure we have a clean store before each test. beforeEach is a mocha hook that’s called before each test. In our test, we are reassigning the store variables value. If we didn’t do this, the mock functions would need to be automatically reset. It also lets us change the state in our tests, without it affecting later tests.
+We’re using `beforeEach` to ensure we have a clean store before each test. `beforeEach` is a mocha hook that’s called before each test. In our test, we are reassigning the store variables value. If we didn’t do this, the mock functions would need to be automatically reset. It also lets us change the state in our tests, without it affecting later tests.
 
 The most important thing to note in this test is that **we create a mock Vuex store and then pass it to vue-test-utils**.
 
@@ -130,7 +130,7 @@ export default{
 </script>
 ```
 
-This is a fairly simple component. It renders the result of the getters clicks and inputValue. Again, we don’t really care about what those getters returns – just that the result of them is being rendered correctly.
+This is a fairly simple component. It renders the result of the getters `clicks` and `inputValue`. Again, we don’t really care about what those getters returns – just that the result of them is being rendered correctly.
 
 Let’s see the test:
 
@@ -171,7 +171,7 @@ describe('Getters.vue', () => {
   })
 })
 ```
-This test is similar to our actions test. We create a mock store before each test, pass it as an option when we call shallow, and assert that the value returned by our mock getters is being rendered.
+This test is similar to our actions test. We create a mock store before each test, pass it as an option when we call `shallow`, and assert that the value returned by our mock getters is being rendered.
 
 This is great, but what if we want to check our getters are returning the correct part of our state?
 
