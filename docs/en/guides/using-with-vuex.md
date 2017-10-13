@@ -67,7 +67,7 @@ describe('Actions.vue', () => {
     })
   })
 
-  it('calls store action actionInput when input value is input and an input even is fired', () => {
+  it('calls store action actionInput when input value is input and an input event is fired', () => {
     const wrapper = shallow(Actions, { store, localVue })
     const input = wrapper.find('input')
     input.element.value = 'input'
@@ -75,7 +75,7 @@ describe('Actions.vue', () => {
     expect(actions.actionInput).toHaveBeenCalled()
   })
 
-  it('does not call store action actionInput when input value is not input and an input even is fired', () => {
+  it('does not call store action actionInput when input value is not input and an input event is fired', () => {
     const wrapper = shallow(Actions, { store, localVue })
     const input = wrapper.find('input')
     input.element.value = 'not input'
