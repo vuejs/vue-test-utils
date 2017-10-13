@@ -106,7 +106,9 @@ it('button click should increment the count', () => {
 
 Vue バッチは DOM 更新を保留し、非同期的に適用して、複数のデータのミューテーションに起因する不要な再描画を防ぎます。実際には、Vue が何らかの状態変更をトリガーした後にVue が実際の DOM 更新を実行するまで待つために、`Vue.nextTick` を使用しなければならないからです。
 
-使い方を簡単にするため、 `vue-test-utils` はすべての更新を同期的に適用するので、テストで `Vue.nextTick` を使う必要はありません。
+使い方を簡単にするため、 `vue-test-utils` はすべての更新を同期的に適用するので、テストで DOM を更新するために `Vue.nextTick` を使う必要はありません。
+
+*Note: `nextTick` is still necessary when you need to explictly advance the event loop, for operations such as asynchronous callbacks or promise resolution.*
 
 ## 次は何をするのか
 
