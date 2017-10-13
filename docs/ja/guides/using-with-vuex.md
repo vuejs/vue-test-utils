@@ -1,12 +1,12 @@
-# Using with Vuex
+# Vuex と一緒に使用する
 
-In this guide, we'll see how to test Vuex in components with vue-test-utils.
+このガイドでは、vue-test-utils でコンポーネントで Vuex をテストする方法について、見ていきます。
 
-## Mocking Actions
+## アクションのモック
 
-Let’s look at some code.
+それではいくつかのコードを見ていきましょう。
 
-This is the component we want to test. It calls Vuex actions.
+これはテストしたいコンポーネントです。これは Vuex のアクションを呼び出します。
 
 ``` html
 <template>
@@ -35,13 +35,13 @@ export default{
 </script>
 ```
 
-For the purposes of this test, we don’t care what the actions do, or what the store looks like. We just need to know that these actions are being fired when they should, and that they are fired with the expected value.
+このテストの目的のために、アクションが何をしているのか、またはストアがどのように見えるかは気にしません。これらのアクションが必要なときに発行されていること、そして期待された値によって発行されていることを知ることが必要です。
 
-To test this, we need to pass a mock store to Vue when we shallow our component.
+これをテストするためには、私たちのコンポーネントを shallow するときに Vue にモックストアを渡す必要があります。
 
-Instead of passing the store to the base Vue constructor, we can pass it to a - [localVue](../api/options.md#localvue). A localVue is a scoped Vue constructor that we can make changes to without affecting the global Vue constructor.
+ストアを Vue コンストラクタベースに渡す代わりに、[localVue](../api/options.md#localvue) に渡すことができます。localeVue はグローバルな Vue コンストラクタに影響を与えずに、変更を加えることができるスコープ付き Vue コンストラクタです。
 
-Let’s see what this looks like:
+これがどのように見えるか見ていきましょう:
 
 ``` js
 import { shallow, createLocalVue } from 'vue-test-utils'
@@ -91,23 +91,23 @@ describe('Actions.vue', () => {
 })
 ```
 
-What’s happening here? First we tell Vue to use Vuex with the Vue.use method. This is just a wrapper around Vue.use.
+ここでは何が起こっているでしょうか？まず、Vue に Vue.use メソッドを使用して Vuex を使用するように支持しています。これは、単なる Vue.use のラッパです。
 
-We then make a mock store by calling new Vuex.store with our mock values. We only pass it the actions, since that’s all we care about.
+次に、新しい Vuex.store をモックされた値で呼び出すことによってモックストアを呼び出します。それは全て気にすることであるので、それをアクションに渡すだけです。
 
-The actions are [jest mock functions](https://facebook.github.io/jest/docs/en/mock-functions.html). These mock functions give us methods to assert whether the actions were called or not.
+アクションは、[jest のモック関数](https://facebook.github.io/jest/docs/en/mock-functions.html)です。これらモック関数は、アクションが呼び出された、または呼び出されていない、かどうかを検証するメソッドを提供します。
 
-We can then assert in our tests that the action stub was called when expected.
+アクションのスタブが期待どおりに呼び出されたことを検討することができます。
 
-Now the way we define the store might look a bit foreign to you.
+今、ストアを定義する方法が、あなたには少し外に見えるかもしれません。
 
-We’re using beforeEach to ensure we have a clean store before each test. beforeEach is a mocha hook that’s called before each test. In our test, we are reassigning the store variables value. If we didn’t do this, the mock functions would need to be automatically reset. It also lets us change the state in our tests, without it affecting later tests.
+各テストより前にストアをクリーンに保証するために、beofreEach を使用しています。beforeEach は各テストより前に呼び出される mocha のフックです。このテストでは、ストア変数に値を再度割り当てています。これをしていない場合は、モック関数は自動的にリセットされる必要があります。また、テストにおいて状態を変更することもできますが、この方法は、後のテストで影響を与えることはないです。
 
-The most important thing to note in this test is that **we create a mock Vuex store and then pass it to vue-test-utils**.
+このテストで最も重要なことは、**モック Vuex ストアを作成し、それを vue-test-utils に渡す** ことです。
 
-Great, so now we can mock actions, let’s look at mocking getters.
+素晴らしい！今、アクションをモック化できるので、ゲッタのモックについて見ていきましょう。
 
-## Mocking Getters
+## ゲッタのモック
 
 
 ``` html
@@ -130,9 +130,9 @@ export default{
 </script>
 ```
 
-This is a fairly simple component. It renders the result of the getters clicks and inputValue. Again, we don’t really care about what those getters returns – just that the result of them is being rendered correctly.
+これは、かなり単純なコンポーネントです。ゲッタによる clicks の結果と inputValue を描画します。また、これらゲッタが返す値については実際に気にしません。それらの結果が正しく描画されているかだけです。
 
-Let’s see the test:
+テストを見てみましょう:
 
 ``` js
 import { shallow, createLocalVue } from 'vue-test-utils'
@@ -171,15 +171,16 @@ describe('Getters.vue', () => {
   })
 })
 ```
-This test is similar to our actions test. We create a mock store before each test, pass it as an option when we call shallow, and assert that the value returned by our mock getters is being rendered.
 
-This is great, but what if we want to check our getters are returning the correct part of our state?
+このテストはアクションのテストに似ています。各テストの前にモックストアを作成し、shallow を呼び出すときにオプションを渡し、そしてモックゲッタから返された値を描画されているのを検証します。
 
-## Mocking with Modules
+これは素晴らしいですが、もしゲッタが状態の正しい部分を返しているのを確認したい場合はどうしますか？
 
-[Modules](https://vuex.vuejs.org/en/modules.html) are useful for separating out our store into manageable chunks. They also export getters. We can use these in our tests.
+## モジュールによるモック
 
-Let’s look at our component:
+[モジュール](https://vuex.vuejs.org/en/modules.html)はストアを管理しやすい塊に分けるために便利です。それらはゲッタもエクスポートします。テストではこれらを使用することができます。
+
+コンポーネントを見てみましょう:
 
 ``` html
 <template>
@@ -205,9 +206,10 @@ export default{
 }
 </script>
 ```
-Simple component that includes one action and one getter.
 
-And the test:
+1 つのアクションと 1 つのゲッタを含む単純なコンポーネントです。
+
+そしてテストは以下のようになります:
 
 ``` js
 import { shallow, createLocalVue } from 'vue-test-utils'
@@ -257,8 +259,8 @@ describe('Modules.vue', () => {
 })
 ```
 
-### Resources
+### リソース
 
-- [Example project for this guide](https://github.com/eddyerburgh/vue-test-utils-vuex-example)
+- [このガイド向けの例](https://github.com/eddyerburgh/vue-test-utils-vuex-example)
 - [localVue](../api/options.md#localvue)
 - [createLocalVue](../api/createLocalVue.md)
