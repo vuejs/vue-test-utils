@@ -58,7 +58,7 @@ expect(wrapper.emitted().foo.length).toBe(2)
 expect(wrapper.emitted().foo[1]).toEqual([123])
 ```
 
-You can also get an Array of the events in their emit order by calling [wrapper.emittedByOrder()](../api/emittedByOrder.md).
+You can also get an Array of the events in their emit order by calling [wrapper.emittedByOrder()](../api/wrapper/emittedByOrder.md).
 
 ## Manipulating Component State
 
@@ -86,7 +86,7 @@ mount(Component, {
 
 You can also update the props of an already-mounted component with the `wrapper.setProps({})` method.
 
-*For a full list of options, please see the [mount options section](./api/options.md) of the docs.*
+*For a full list of options, please see the [mount options section](../api/options.md) of the docs.*
 
 ## Applying Global Plugins and Mixins
 

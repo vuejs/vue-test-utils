@@ -1,4 +1,4 @@
-# shallow(component,{,options}])
+# shallow(component {, options}])
 
 - **Arguments:**
 
@@ -19,15 +19,15 @@
 
 - **Options:**
 
-See [options](/docs/en/api/options.md)
+See [options](./options.md)
 
 - **Usage:**
 
-Returns [`Wrapper`](/docs/en/api/wrapper/README.md) of first DOM node or Vue component matching selector.
+Returns [`Wrapper`](./wrapper/README.md) of first DOM node or Vue component matching selector.
 
 Stubs all child components.
 
-Use any valid [selector](/docs/en/api/selectors.md).
+Use any valid [selector](./selectors.md).
 
 **Without options:**
 

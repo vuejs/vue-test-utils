@@ -24,4 +24,4 @@ const bar = wrapper.find(Bar)
 expect(bar.is(Bar)).toBe(true)
 ```
 
-- **See also:** [Wrapper](/docs/en/api/wrapper/README.md)
+- **See also:** [Wrapper](README.md)
