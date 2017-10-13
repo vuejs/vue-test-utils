@@ -8,6 +8,7 @@
   * [Choosing a test runner](guides/choosing-a-test-runner.md)
   * [Testing SFCs with Jest](guides/testing-SFCs-with-jest.md)
   * [Testing SFCs with Mocha + webpack](guides/testing-SFCs-with-mocha-webpack.md)
+  * [Using with vue-router](guides/using-with-router.md)
   * [Using with Vuex](guides/using-with-vuex.md)
 * [API](api/README.md)
   * [createLocalVue](api/createLocalVue.md)
