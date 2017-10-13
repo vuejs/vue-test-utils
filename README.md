@@ -1,8 +1,4 @@
-# vue-test-utils
-
-[![downloads](https://img.shields.io/npm/dt/vue-test-utils.svg)](https://www.npmjs.com/package/vue-test-utils)
-[![npm-version](https://img.shields.io/npm/v/vue-test-utils.svg)](https://www.npmjs.com/package/vue-test-utils)
-[![license](https://img.shields.io/github/license/vuejs/vue-test-utils.svg?maxAge=1800)](https://www.npmjs.com/package/vue-test-utils)
+# vue-test-utils [![Build Status](https://circleci.com/gh/vuejs/vue-test-utils/tree/dev.png?style=shield)](https://circleci.com/gh/vuejs/vue-test-utils)
 
 ## Currently in beta
 To use vue-test-utils beta:
