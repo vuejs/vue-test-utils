@@ -1,15 +1,15 @@
 # vue-test-utils
 
-`vue-test-utils` is the official unit testing utility library for Vue.js.
+`vue-test-utils` — официальная библиотека модульного тестирования для Vue.js.
 
-* [Guides](guides/README.md)
-  * [Getting Started](guides/getting-started.md)
-  * [Common Tips](guides/common-tips.md)
-  * [Choosing a test runner](guides/choosing-a-test-runner.md)
-  * [Testing SFCs with Jest](guides/testing-SFCs-with-jest.md)
-  * [Testing SFCs with Mocha + webpack](guides/testing-SFCs-with-mocha-webpack.md)
-  * [Using with Vue Router](guides/using-with-vue-router.md)
-  * [Using with Vuex](guides/using-with-vuex.md)
+* [Руководства](guides/README.md)
+  * [Введение](guides/getting-started.md)
+  * [Общие советы](guides/common-tips.md)
+  * [Выбор test-runner'а](guides/choosing-a-test-runner.md)
+  * [Тестирование однофайловых компонентов с Jest](guides/testing-SFCs-with-jest.md)
+  * [Тестирование однофайловых компонентов с Mocha + webpack](guides/testing-SFCs-with-mocha-webpack.md)
+  * [Использование с Vue Router](guides/using-with-vue-router.md)
+  * [Использование с Vuex](guides/using-with-vuex.md)
 * [API](api/README.md)
   * [createLocalVue](api/createLocalVue.md)
   * [mount](api/mount.md)

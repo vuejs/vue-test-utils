@@ -1,9 +1,10 @@
-# Guides
+# Руководства
 
-* [Getting Started](./getting-started.md)
-* [Common Tips](./common-tips.md)
-* [Choosing a test runner](./choosing-a-test-runner.md)
-* [Using with Jest](./using-with-jest.md)
-* [Testing SFCs with Jest](./testing-SFCs-with-jest.md)
-* [Testing SFCs with Mocha + webpack](./testing-SFCs-with-mocha-webpack.md)
-* [Using with Vuex](./using-with-vuex.md)
+* [Введение](./getting-started.md)
+* [Общие советы](./common-tips.md)
+* [Выбор test-runner'а](./choosing-a-test-runner.md)
+* [Использование с Jest](./using-with-jest.md)
+* [Тестирование однофайловых компонентов с Jest](./testing-SFCs-with-jest.md)
+* [Тестирование однофайловых компонентов с Mocha + webpack](./testing-SFCs-with-mocha-webpack.md)
+* [Использование с Vue Router](./using-with-vue-router.md)
+* [Использование с Vuex](./using-with-vuex.md)
