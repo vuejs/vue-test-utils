@@ -95,4 +95,16 @@ describe('createLocalVue', () => {
     const freshWrapper = mount(Component)
     expect(typeof freshWrapper.vm.$route).to.equal('undefined')
   })
+
+  it('use can take additional arguments', () => {
+    const localVue = createLocalVue()
+    const pluginOptions = { foo: 'bar' }
+    const plugin = {
+      install: function (_Vue, options) {
+        expect(options).to.equal(pluginOptions)
+      }
+    }
+
+    localVue.use(plugin, pluginOptions)
+  })
 })
