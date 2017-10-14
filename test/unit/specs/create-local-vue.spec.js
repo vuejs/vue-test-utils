@@ -104,7 +104,6 @@ describe('createLocalVue', () => {
         expect(options).to.equal(pluginOptions)
       }
     }
-
     localVue.use(plugin, pluginOptions)
   })
 })

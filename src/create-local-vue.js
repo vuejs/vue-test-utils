@@ -33,7 +33,6 @@ function createLocalVue (): Component {
   instance.use = (plugin, ...rest) => {
     plugin.installed = false
     plugin.install.installed = false
-
     use.call(instance, plugin, ...rest)
   }
   return instance
