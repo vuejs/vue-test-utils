@@ -1,45 +1,45 @@
-# Choosing a test runner
+# Choisir un lanceur de tests
 
-A test runner is a program that runs tests.
+Un lanceur de tests est un programme qui lance des tests (et oui !).
 
-There are many popular JavaScript test runners, and `vue-test-utils` works with all of them. It's test runner agnostic.
+Il y a un nombre conséquent de lanceurs de tests JavaScript et `vue-test-utils` marche avec tous ceux d'entre eux. `vue-test-utils` est agnostique de lanceurs de tests. 
 
-There are a few things to consider when choosing a test runner though: feature set, performance, and support for single-file component (SFC) pre-compilation. After carefully comparing existing libraries, here are two test runners that we recommend:
+Il y a tout de même plusieurs choses à considérer afin de choisir un lanceur de tests : variété des fonctionnalités, performance et support de la pré-compilation des composants monofichiers (SFC). Après avoir cautionnement analysé et comparé les bibliothèques, il y a deux lanceurs de tests que nous recommandons :
 
-- [Jest](https://facebook.github.io/jest/docs/en/getting-started.html#content) is the most fully featured test runner. It requires the least configuration, sets up JSDOM by default, provides built-in assertions, and has a great command line user experience. However, you will need a preprocessor to be able to import SFC components in your tests. We have created the `jest-vue` preprocessor which can handle most common SFC features, but it currently does not have 100% feature parity with `vue-loader`.
+- [Jest](https://facebook.github.io/jest/docs/en/getting-started.html#content) est le lanceur de test le plus complet en terme de fonctionnalités. Il requiert une configuration minimale, installe JSDOM par défaut, fournit des assertions prêtes à l'usage et a une très bonne interface en ligne de commandes. Cependant, vous allez avoir besoin d'un pré-processeur afin d'être capable d'importer les composants monofichiers dans nos tests. On a créé le préprocesseur `jest-vue` qui peut gérer les fonctionnalités communes des composants monofichiers. Il n'y a cependant pas encore autant de fonctionnalités que vue-loader.
 
-- [mocha-webpack](https://github.com/zinserjan/mocha-webpack) is a wrapper around webpack + Mocha, but with a more streamlined interface and watch mode. The benefits of this setup is that we can get complete SFC support via webpack + `vue-loader`, but it requires more configuration upfront.
+- [mocha-webpack](https://github.com/zinserjan/mocha-webpack) est une surcouche de webpack + Mocha avec une expérience simplifiée et un mode de surveillance. Les bénéfices de cette installation sont que l'on peut avoir le support complet des composants monofichiers via webpack + `vue-loader`. Il y a cependant plus de configurations à réaliser.
 
-## Browser Environment
+## Environnement du navigateur
 
-`vue-test-utils` relies on a browser environment. Technically you can run it in a real browser, but it's not recommended due to the complexity of launching real browsers on different platforms. Instead, we recommend running the tests in Node.js with a virtual browser environment using [JSDOM](https://github.com/tmpvar/jsdom).
+`vue-test-utils` se fie à un environnement de navigateur. Techniquement, vous pouvez le lancer dans un vrai navigateur, mais cela n'est pas recommandé dû à la complexité de lancer de réels navigateur sur différentes plateformes. Au lieu de cela, nous recommandons de lancer les tests sous Node.js avec un environnement virtuel de navigateur en utilisant le [JSDOM](https://github.com/tmpvar/jsdom).
 
-The Jest test runner sets up JSDOM automatically. For other test runners, you can manually set up JSDOM for the tests using [jsdom-global](https://github.com/rstacruz/jsdom-global) in the entry for your tests:
+Le lanceur de tests Jest installe automatiquement JSDOM. Pour d'autres lanceurs de tests, il faut le faire manuellement en utilisant [jsdom-global](https://github.com/rstacruz/jsdom-global) dans la déclaration de vos tests :
 
 ``` bash
 npm install --save-dev jsdom jsdom-global
 ```
 ---
 ``` js
-// in test setup / entry
+// dans test setup / entry
 require('jsdom-global')()
 ```
 
-## Testing Single-File Components
+## Tester des composants monofichiers
 
-Single-file Vue components (SFCs) require pre-compilation before they can be run in Node or in the browser. There are two recommended ways to perform the compilation: with a Jest preprocessor, or directly use webpack.
+Les composants Vue monofichiers (SFC) nécessites une étape de pré-compilation avant qu'ils soient lancés dans Node ou sur un navigateur. Il y a deux manières de faire qui sont recommandées pour réaliser la compilation : avec un préprocesseur Jest ou directement en utilisant webpack.
 
-The `jest-vue` preprocessor supports basic SFC functionalities, but currently does not handle style blocks or custom blocks, which are only supported in `vue-loader`. If you rely on these features or other webpack-specific configurations, you will need to use a webpack + `vue-loader` based setup.
+Le préprocesseur `jest-vue` supporte les fonctionnalités basiques des composants monofichiers. Il ne gère pas actuellement les blocs de style et les blocs personnalisés, qui sont eux uniquement supportés par `vue-loader`. Si vous utilisez ces fonctionnalités ou d'autres configurations liées à webpack, vous aurez besoin d'utiliser l'installation basée sur webpack + `vue-loader`
 
-Read the following guides for different setups:
+Lisez les guides suivants pour différentes installations :
 
-- [Testing SFCs with Jest](./testing-SFCs-with-jest.md)
-- [Testing SFCs with Mocha + webpack](./testing-SFCs-with-mocha-webpack.md)
+- [Tester des composants monofichiers avec Jest](./testing-SFCs-with-jest.md)
+- [Tester des composants monofichiers avec Mocha + webpack](./testing-SFCs-with-mocha-webpack.md)
 
-## Resources
+## Ressources
 
-- [Test runner performance comparison](https://github.com/eddyerburgh/vue-unit-test-perf-comparison)
-- [Example project with Jest](https://github.com/vuejs/vue-test-utils-jest-example)
-- [Example project with Mocha](https://github.com/vuejs/vue-test-utils-mocha-webpack-example)
-- [Example project with tape](https://github.com/eddyerburgh/vue-test-utils-tape-example)
-- [Example project with AVA](https://github.com/eddyerburgh/vue-test-utils-ava-example)
+- [Comparaison de lanceurs de tests](https://github.com/eddyerburgh/vue-unit-test-perf-comparison)
+- [Projet exemple avec Jest](https://github.com/vuejs/vue-test-utils-jest-example)
+- [Projet exemple avec Mocha](https://github.com/vuejs/vue-test-utils-mocha-webpack-example)
+- [Projet exemple avec tape](https://github.com/eddyerburgh/vue-test-utils-tape-example)
+- [Projet exemple avec AVA](https://github.com/eddyerburgh/vue-test-utils-ava-example)
