@@ -6,4 +6,5 @@
 * [Using with Jest](./using-with-jest.md)
 * [Testing SFCs with Jest](./testing-SFCs-with-jest.md)
 * [Testing SFCs with Mocha + webpack](./testing-SFCs-with-mocha-webpack.md)
+* [Using with Vue Router](./using-with-vue-router.md)
 * [Using with Vuex](./using-with-vuex.md)
