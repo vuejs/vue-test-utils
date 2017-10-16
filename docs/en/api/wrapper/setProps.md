@@ -19,7 +19,7 @@ wrapper.setProps({ foo: 'bar' })
 expect(wrapper.vm.foo).to.equal('bar')
 ```
 
-You can also pass a `propsData` object, which will initialize the Vue instance with passed values. This is useful if you have a component or instance that has props which are `required`.
+You can also pass a `propsData` object, which will initialize the Vue instance with passed values.
 
 ``` js
 // Foo.vue
