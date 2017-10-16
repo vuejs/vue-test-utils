@@ -102,6 +102,11 @@ export default class Wrapper implements BaseWrapper {
       throwError('wrapper.hasClass() must be passed a string')
     }
 
+    // if $style is available and has a matching className, use that instead. 
+    if (this.vm && this.vm.$style && this.vm.$style[className]) { 
+      className = this.vm.$style[className] 
+    }
+
     return !!(this.element && this.element.classList.contains(className))
   }
 
