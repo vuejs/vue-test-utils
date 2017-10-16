@@ -54,7 +54,7 @@ expect(wrapper.emitted().foo).toBeTruthy()
 // イベント数を検証する
 expect(wrapper.emitted().foo.length).toBe(2)
 
-// イベントを含んでいるか検証する
+// イベントのペイロードを検証する
 expect(wrapper.emitted().foo[1]).toEqual([123])
 ```
 

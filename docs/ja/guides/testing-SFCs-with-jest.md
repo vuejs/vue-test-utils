@@ -98,7 +98,7 @@ npm install --save-dev babel-jest
 }
 ```
 
-> デフォルトでは、`babel-jest` はインストールされている間自動的に設定します。しかし、`*.vue` ファイルのための変換を明示的に追加したため、`babel-jest` も明示的に設定する必要があります。
+> デフォルトでは、`babel-jest` はインストールしさえすれば自動的に設定します。しかし、`*.vue` ファイルのための変換を明示的に追加したため、`babel-jest` も明示的に設定する必要があります。
 
 webpack で `babel-preset-env` を使用するとした場合、webpack は ES Modules 処理方法を既に知っているので、デフォルトの Babel 設定は ES Modules のトランスパイルを無効にします。ただし、Jest テストは Node で直接実行されるため、テスト用に有効にする必要があります。
 
