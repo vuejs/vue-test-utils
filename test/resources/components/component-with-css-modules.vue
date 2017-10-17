@@ -1,5 +1,5 @@
 <template>
-    <div class="color-red"></div>
+    <div :class="$style['color-red']"></div>
 </template>
 
 <style module>
