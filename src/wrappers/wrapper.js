@@ -98,11 +98,18 @@ export default class Wrapper implements BaseWrapper {
    * Asserts wrapper has a class name
    */
   hasClass (className: string) {
-    if (typeof className !== 'string') {
+    let targetClass = className
+
+    if (typeof targetClass !== 'string') {
       throwError('wrapper.hasClass() must be passed a string')
     }
 
-    return !!(this.element && this.element.classList.contains(className))
+    // if $style is available and has a matching target, use that instead.
+    if (this.vm && this.vm.$style && this.vm.$style[targetClass]) {
+      targetClass = this.vm.$style[targetClass]
+    }
+
+    return !!(this.element && this.element.classList.contains(targetClass))
   }
 
   /**

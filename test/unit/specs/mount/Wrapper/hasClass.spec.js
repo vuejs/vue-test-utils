@@ -1,3 +1,4 @@
+import ComponentWithCssModules from '~resources/components/component-with-css-modules.vue'
 import { compileToFunctions } from 'vue-template-compiler'
 import mount from '~src/mount'
 
@@ -38,5 +39,11 @@ describe('hasClass', () => {
       const fn = () => wrapper.hasClass(invalidSelector)
       expect(fn).to.throw().with.property('message', message)
     })
+  })
+
+  it('returns true when element contains class name mapped in css modules', () => {
+    const wrapper = mount(ComponentWithCssModules)
+
+    expect(wrapper.hasClass('color-red')).to.equal(true)
   })
 })
