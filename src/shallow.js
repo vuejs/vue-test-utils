@@ -1,5 +1,6 @@
 // @flow
 
+import './lib/warn-if-no-window'
 import Vue from 'vue'
 import cloneDeep from 'lodash/cloneDeep'
 import {
