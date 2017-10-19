@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import { compileToFunctions } from 'vue-template-compiler'
 import mount from '~src/mount'
 import ComponentWithProps from '~resources/components/component-with-props.vue'
@@ -39,6 +40,13 @@ describe('mount', () => {
     } else {
       expect(wrapper.vm.$options.propsData.prop1).to.equal(prop1)
     }
+  })
+
+  it('returns new VueWrapper with mounted Vue instance initialized with Vue.extend with props, if passed as propsData', () => {
+    const prop1 = { test: 'TEST' }
+    const wrapper = mount(Vue.extend(ComponentWithProps), { propsData: { prop1 }})
+    expect(wrapper.vm).to.be.an('object')
+    expect(wrapper.vm.$props.prop1).to.equal(prop1)
   })
 
   it('does not use cached component', () => {

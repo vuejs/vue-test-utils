@@ -42,7 +42,7 @@ export default function createConstructor (component: Component, options: Option
     compileTemplate(component)
   }
 
-  const Constructor = vue.extend(component)
+  const Constructor = vue.extend(component.extend ? component.options : component)
 
   if (options.mocks) {
     addMocks(options.mocks, Constructor)
