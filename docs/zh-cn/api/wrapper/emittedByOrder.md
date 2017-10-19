@@ -1,5 +1,7 @@
 # emittedByOrder()
 
+(翻译中……)
+
 Return an Array containing custom events emitted by the `Wrapper` `vm`.
 
 - **Returns:** `Array<{ name: string, args: Array<any> }>`

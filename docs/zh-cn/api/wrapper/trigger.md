@@ -1,5 +1,7 @@
 # trigger(eventName)
 
+(翻译中……)
+
 Triggers an event on the `Wrapper` DOM node.
 
 Trigger takes an optional `options` object. The properties in the `options` object are added to the Event.

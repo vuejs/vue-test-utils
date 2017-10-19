@@ -1,5 +1,7 @@
 # hasProp(prop, value)
 
+(翻译中……)
+
 Assert `Wrapper` `vm` has `prop` matching `value`.
 
 Returns `true` if `Wrapper` `vm` has `prop` matching `value`.

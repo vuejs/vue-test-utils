@@ -1,4 +1,6 @@
-# Using with Vuex
+# 配合 Vuex 实用
+
+(翻译中……)
 
 In this guide, we'll see how to test Vuex in components with `vue-test-utils`.
 

@@ -1,4 +1,6 @@
-# Using with Vue Router
+# 配合 Vue Router 使用
+
+(翻译中……)
 
 ## Installing Vue Router in tests
 

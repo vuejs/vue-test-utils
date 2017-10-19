@@ -1,4 +1,6 @@
-# Testing Single File Components with Mocha + webpack
+# 用 Mocha 和 webpack 测试单文件组件
+
+(翻译中……)
 
 > An example project for this setup is available on [GitHub](https://github.com/vuejs/vue-test-utils-mocha-webpack-example).
 

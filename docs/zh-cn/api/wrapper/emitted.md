@@ -1,5 +1,7 @@
 # emitted()
 
+(翻译中……)
+
 Return an object containing custom events emitted by the `Wrapper` `vm`.
 
 - **Returns:** `{ [name: string]: Array<Array<any>> }`

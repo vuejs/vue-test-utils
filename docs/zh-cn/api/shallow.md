@@ -1,5 +1,7 @@
 # shallow(component {, options}])
 
+(翻译中……)
+
 - **Arguments:**
 
   - `{Component} component`

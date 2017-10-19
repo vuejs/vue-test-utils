@@ -1,4 +1,6 @@
-# Common Tips
+# 常用技巧
+
+(翻译中……)
 
 ## Knowing What to Test
 

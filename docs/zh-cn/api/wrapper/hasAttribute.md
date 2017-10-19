@@ -1,5 +1,7 @@
 # hasAttribute(attribute, value)
 
+(翻译中……)
+
 Assert `Wrapper` DOM node has attribute matching value.
 
 Returns `true` if `Wrapper` DOM node contains attribute with matching value.

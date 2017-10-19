@@ -1,4 +1,6 @@
-# Testing Single File Components with Jest
+# 用 Jest 测试单文件组件
+
+(翻译中……)
 
 > An example project for this setup is available on [GitHub](https://github.com/vuejs/vue-test-utils-jest-example).
 

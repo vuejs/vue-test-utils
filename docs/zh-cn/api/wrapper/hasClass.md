@@ -1,5 +1,7 @@
 # hasClass(className)
 
+(翻译中……)
+
 Assert `Wrapper` DOM node has class contains `className`.
 
 Returns `true` if `Wrapper` DOM node contains class.

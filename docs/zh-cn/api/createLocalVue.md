@@ -1,5 +1,7 @@
 # createLocalVue()
 
+(翻译中……)
+
 - **Returns:**
   - `{Component}`
 

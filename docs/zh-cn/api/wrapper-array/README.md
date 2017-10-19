@@ -1,5 +1,7 @@
 # WrapperArray
 
+(翻译中……)
+
 A `WrapperArray` is an object that contains an array of [Wrappers](../wrapper/README.md), and methods to test the `Wrappers`.
 
 - **Properties:**

@@ -1,5 +1,7 @@
 # hasClass(className)
 
+(翻译中……)
+
 Assert every `Wrapper` in `WrapperArray` DOM node has class containing `className`.
 
 - **Arguments:**

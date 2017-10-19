@@ -1,5 +1,7 @@
 # find(selector)
 
+(翻译中……)
+
 Returns [`Wrapper`](README.md) of first DOM node or Vue component matching selector.
 
 Use any valid [selector](../selectors.md).

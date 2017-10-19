@@ -1,5 +1,7 @@
 # trigger(eventName)
 
+(翻译中……)
+
 Triggers an event on every `Wrapper` in the `WrapperArray` DOM node.
 
 **Note every `Wrapper` must contain a Vue instance.**

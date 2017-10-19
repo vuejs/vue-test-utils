@@ -1,5 +1,7 @@
 # text()
 
+(翻译中……)
+
 Returns text content of `Wrapper`.
 
 - **Returns:** `{string}`

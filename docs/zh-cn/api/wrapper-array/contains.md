@@ -1,5 +1,7 @@
 # contains(selector)
 
+(翻译中……)
+
 Assert every wrapper in `WrapperArray` contains selector.
 
 Use any valid [selector](../selectors.md).

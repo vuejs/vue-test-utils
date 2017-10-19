@@ -1,5 +1,7 @@
 # setProps(props)
 
+(翻译中……)
+
 - **Arguments:**
   - `{Object} props`
 

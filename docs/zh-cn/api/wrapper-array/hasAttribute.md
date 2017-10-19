@@ -1,5 +1,7 @@
 # hasAttribute(attribute, value)
 
+(翻译中……)
+
 Assert every `Wrapper` in `WrapperArray` DOM node has `attribute` matching `value`.
 
 - **Arguments:**

@@ -1,19 +1,19 @@
 # vue-test-utils
 
-`vue-test-utils` is the official unit testing utility library for Vue.js.
+`vue-test-utils` 是 Vue.js 官方的单元测试实用工具库。
 
-* [Guides](guides/README.md)
-  * [Getting Started](guides/getting-started.md)
-  * [Common Tips](guides/common-tips.md)
-  * [Choosing a test runner](guides/choosing-a-test-runner.md)
-  * [Testing SFCs with Jest](guides/testing-SFCs-with-jest.md)
-  * [Testing SFCs with Mocha + webpack](guides/testing-SFCs-with-mocha-webpack.md)
-  * [Using with Vue Router](guides/using-with-vue-router.md)
-  * [Using with Vuex](guides/using-with-vuex.md)
+* [教程](guides/README.md)
+  * [起步](guides/getting-started.md)
+  * [常用技巧](guides/common-tips.md)
+  * [选择一个测试运行器](guides/choosing-a-test-runner.md)
+  * [用 Jest 测试单文件组件](guides/testing-SFCs-with-jest.md)
+  * [用 Mocha 和 webpack 测试单文件组件](guides/testing-SFCs-with-mocha-webpack.md)
+  * [配合 Vue Router 使用](guides/using-with-vue-router.md)
+  * [配合 Vuex 实用](guides/using-with-vuex.md)
 * [API](api/README.md)
   * [mount](api/mount.md)
   * [shallow](api/shallow.md)
-  * [Mounting Options](api/options.md)
+  * [挂载选项](api/options.md)
     - [context](api/options.md#context)
     - [slots](api/options.md#slots)
     - [stubs](api/options.md#stubs)
@@ -59,5 +59,5 @@
     * [setProps](api/wrapper-array/setProps.md)
     * [trigger](api/wrapper-array/trigger.md)
     * [update](api/wrapper-array/update.md)
-  * [Selectors](api/selectors.md)
+  * [选择器](api/selectors.md)
   * [createLocalVue](api/createLocalVue.md)

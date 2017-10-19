@@ -1,5 +1,7 @@
 # findAll(selector)
 
+(翻译中……)
+
 Returns a [`WrapperArray`](../wrapper-array/README.md) of [Wrappers](README.md).
 
 Use any valid [selector](../selectors.md).

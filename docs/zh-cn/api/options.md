@@ -1,5 +1,7 @@
 # Mounting Options
 
+(翻译中……)
+
 Options for `mount` and `shallow`. The options object can contain both `vue-test-utils` mounting options and raw Vue options.
 
 Vue options are passed to the component when a new instance is created. , e.g. `store`, `propsData`. For a full list, see the [Vue API docs](https://vuejs.org/v2/api/).

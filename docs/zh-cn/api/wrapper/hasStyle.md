@@ -1,5 +1,7 @@
 # hasStyle(style, value)
 
+(翻译中……)
+
 Assert `Wrapper` DOM node has style matching value
 
 Returns `true` if `Wrapper` DOM node has `style` matching `string`.

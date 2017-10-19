@@ -1,5 +1,7 @@
 # isVueInstance()
 
+(翻译中……)
+
 Assert `Wrapper` is Vue instance.
 
 - **Returns:** `{boolean}`
