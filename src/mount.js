@@ -11,7 +11,7 @@ import './lib/matches-polyfill'
 Vue.config.productionTip = false
 
 export default function mount (component: Component, options: Options = {}): VueWrapper {
-  const componentToMount = options.clone === false ? component : cloneDeep(component)
+  const componentToMount = options.clone === false ? component : cloneDeep(component.extend ? component.options : component)
   // Remove cached constructor
   delete componentToMount._Ctor
 

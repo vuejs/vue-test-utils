@@ -12,7 +12,7 @@ import type VueWrapper from './wrappers/vue-wrapper'
 
 export default function shallow (component: Component, options: Options = {}): VueWrapper {
   const vue = options.localVue || Vue
-  const clonedComponent = cloneDeep(component)
+  const clonedComponent = cloneDeep(component.extend ? component.options : component)
 
   if (clonedComponent.components) {
     stubAllComponents(clonedComponent)
