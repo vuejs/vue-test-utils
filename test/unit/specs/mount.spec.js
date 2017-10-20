@@ -46,7 +46,11 @@ describe('mount', () => {
     const prop1 = { test: 'TEST' }
     const wrapper = mount(Vue.extend(ComponentWithProps), { propsData: { prop1 }})
     expect(wrapper.vm).to.be.an('object')
-    expect(wrapper.vm.$props.prop1).to.equal(prop1)
+    if (wrapper.vm.$props) {
+      expect(wrapper.vm.$props.prop1).to.equal(prop1)
+    } else {
+      expect(wrapper.vm.$options.propsData.prop1).to.equal(prop1)
+    }
   })
 
   it('does not use cached component', () => {
