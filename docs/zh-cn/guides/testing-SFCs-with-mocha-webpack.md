@@ -80,7 +80,7 @@ module.exports = {
 
 ### Setting Up Browser Environment
 
-`vue-test-utils` requires a browser environment to run. We can simulate it in Node.js using `jsdom-global`:
+`vue-test-utils` requires a browser environment to run. We can simulate it in Node using `jsdom-global`:
 
 ```bash
 npm install --save-dev jsdom jsdom-global
