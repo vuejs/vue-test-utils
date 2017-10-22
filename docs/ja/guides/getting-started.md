@@ -53,7 +53,7 @@ export default {
 import { mount } from 'vue-test-utils'
 import Counter from './counter'
 
-//コンポーネントがマウントされ、ラッパが作成されます。
+// コンポーネントがマウントされ、ラッパが作成されます。
 const wrapper = mount(Counter)
 
 // wrapper.vmを 介して実際の Vue インスタンスにアクセスできます
