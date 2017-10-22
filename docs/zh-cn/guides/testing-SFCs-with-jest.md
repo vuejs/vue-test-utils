@@ -6,7 +6,7 @@ Jest 是一个由 Facebook 开发的测试运行器，致力于提供一个“be
 
 ## 安装 Jest
 
-我们假定你在一开始已经安装并配置好了 webpack、vue-loader 和 Babel——就像通过 `vue-cli` 创建的 `webpack-simple` 模板脚手架一样。
+我们假定你在一开始已经安装并配置好了 webpack、vue-loader 和 Babel——例如通过 `vue-cli` 创建了 `webpack-simple` 模板脚手架。
 
 我们要做的第一件事就是安装 Jest 和 `vue-test-utils`：
 

@@ -1,24 +1,22 @@
 # 用 Mocha 和 webpack 测试单文件组件
 
-(翻译中……)
+> 我们在 [GitHub](https://github.com/https://github.com/vuejs/vue-test-utils-mocha-webpack-example) 上放有一个关于这些设置的示例工程。
 
-> An example project for this setup is available on [GitHub](https://github.com/vuejs/vue-test-utils-mocha-webpack-example).
+另一个测试单文件组件的策略是通过 webpack 编译所有的测试文件然后在测试运行器中运行。这样做的好处是可以完全支持所有 webpack 和 `vue-loader` 的功能，所以我们不必对我们的源代码做任何妥协。
 
-Another strategy for testing SFCs is compiling all our tests via webpack and then run it in a test runner. The advantage of this approach is that it gives us full support for all webpack and `vue-loader` features, so we don't have to make compromises in our source code.
+从技术的角度讲，你可以使用任何喜欢的测试运行器并把所有的东西都手动串联起来，但是我们已经找到了 [`mocha-webpack`](https://github.com/zinserjan/mocha-webpack) 能够为这项特殊任务提供非常流畅的体验。
 
-You can technically use any test runner you like and manually wire things together, but we've found [`mocha-webpack`](https://github.com/zinserjan/mocha-webpack) to provide a very streamlined experience for this particular task.
+## 设置 `mocha-webpack`
 
-## Setting Up `mocha-webpack`
+我们假定你在一开始已经安装并配置好了 webpack、vue-loader 和 Babel——例如通过 `vue-cli` 创建了 `webpack-simple` 模板脚手架。
 
-We will assume you are starting with a setup that already has webpack, vue-loader and Babel properly configured - e.g. the `webpack-simple` template scaffolded by `vue-cli`.
-
-The first thing to do is installing test dependencies:
+首先要做的是安装测试依赖：
 
 ``` bash
 npm install --save-dev vue-test-utils mocha mocha-webpack
 ```
 
-Next we need to define a test script in our `package.json`.
+接下来我们需要在 `package.json` 中定义一个测试脚本。
 
 ```json
 // package.json
@@ -29,19 +27,19 @@ Next we need to define a test script in our `package.json`.
 }
 ```
 
-A few things to note here:
+这里有一些注意事项：
 
-- The `--webpack-config` flag specifies the webpack config file to use for the tests. In most cases, this would be identical to the config you use for the actual project with one small tweak. We will talk about this later.
+- `--webpack-config` 标识指定了该测试使用的 webpack 配置文件。在大多数情况下该配置会在其实际项目的配置文件基础上做一些小的调整。我们晚些时候会再聊到这一点。
 
-- The `--require` flag ensures the file `test/setup.js` is run before any tests, in which we can setup the global environment for our tests to be run in.
+- `--require` 标识确保了文件 `test/setup.js` 会在任何测试之前运行，这样我们可以在该文件中设置测试所需的全局环境。
 
-- The final argument is a glob for the test files to be included in the test bundle.
+- 最后一个参数是该测试包所涵盖的所有测试文件的聚合。
 
-### Extra webpack Configuration
+### 提取 webpack 配置
 
-#### Externalizing NPM Dependencies
+#### 暴露 NPM 依赖
 
-In our tests we will likely import a number of NPM dependencies - some of these modules may be written without browser usage in mind and simply cannot be bundled properly by webpack. Another consideration is externalizing dependencies greatly improves test boot up speed. We can externalize all NPM dependencies with `webpack-node-externals`:
+在测试中我们很可能会导入一些 NPM 依赖——这里面的有些模块可能没有针对浏览器的场景编写，也不适合被 webpack 打包。另一个考虑是为了尽可能的将依赖外置以提升测试的启动速度。我们可以通过 `webpack-node-externals` 外置所有的 NPM 依赖：
 
 ```js
 // webpack.config.js
@@ -53,9 +51,9 @@ module.exports = {
 }
 ```
 
-#### Source Maps
+#### 源码表
 
-Source maps need to be inlined to be picked up by `mocha-webpack`. The recommended config is:
+源码表在 `mocha-webpack` 中需要通过内联的方式获取。推荐配置为：
 
 ``` js
 module.exports = {
@@ -64,49 +62,49 @@ module.exports = {
 }
 ```
 
-If debugging via IDE, it's also recommended to add the following:
+如果是在 IDE 中调试，我们推荐添加以下配置：
 
 ``` js
 module.exports = {
   // ...
   output: {
     // ...
-    // use absolute paths in sourcemaps (important for debugging via IDE)
+    // 在源码表中使用绝对路径 (对于在 IDE 中调试时很重要)
     devtoolModuleFilenameTemplate: '[absolute-resource-path]',
     devtoolFallbackModuleFilenameTemplate: '[absolute-resource-path]?[hash]'
   }
 }
 ```
 
-### Setting Up Browser Environment
+### 设置浏览器环境
 
-`vue-test-utils` requires a browser environment to run. We can simulate it in Node using `jsdom-global`:
+`vue-test-utils` 需要在浏览器环境中运行。我们可以在 Node 中使用 `jsdom-global` 进行模拟：
 
 ```bash
 npm install --save-dev jsdom jsdom-global
 ```
 
-Then in `test/setup.js`:
+然后在 `test/setup.js` 中写入：
 
 ``` js
 require('jsdom-global')()
 ```
 
-This adds a browser environment to node, so that `vue-test-utils` can run correctly.
+这行代码会在 Node 中添加一个浏览器环境，这样 `vue-test-utils` 就可以正确运行了。
 
-### Picking an Assertion Library
+### 选用一个断言库
 
-[Chai](http://chaijs.com/) is a popular assertion library that is commonly used alongside Mocha. You may also want to check out [Sinon](http://sinonjs.org/) for creating spies and stubs.
+[Chai](http://chaijs.com/) 是一个流行的断言库，经常和 Mocha 配合使用。你可能也想把 [Sinon](http://sinonjs.org/) 用于创建间谍和存根。
 
-Alternatively you can use `expect` which is now part of Jest, and exposes [the exact same API](http://facebook.github.io/jest/docs/en/expect.html#content) in Jest docs.
+另外你也可以使用 `expect`，它现在是 Jest 的一部分，且在 Jest 文档里暴露了[完全相同的 API](http://facebook.github.io/jest/docs/en/expect.html#content)。
 
-We will be using `expect` here and make it globally available so that we don't have to import it in every test:
+这里我们将使用 `expect` 且令其全局可用，这样我们就不需要在每个测试文件里导入它了：
 
 ``` bash
 npm install --save-dev expect
 ```
 
-Then in `test/setup.js`:
+然后在 `test/setup.js` 中编写：
 
 ``` js
 require('jsdom-global')()
@@ -114,21 +112,21 @@ require('jsdom-global')()
 global.expect = require('expect')
 ```
 
-### Optimizing Babel for Tests
+### 为测试优化 Babel
 
-Notice that we are using `babel-loader` to handle JavaScript. You should already have Babel configured if you are using it in your app via a `.babelrc` file. Here `babel-loader` will automatically use the same config file.
+注意我们使用了 `babel-loader` 来处理 JavaScript。如果你在你的应用中通过 `.babelrc` 文件使用了 Babel，那么你就已经算是把它配置好了。这里 `babel-loader` 将会自动使用相同的配置文件。
 
-One thing to note is that if you are using Node 6+, which already supports the majority of ES2015 features, you can configure a separate Babel [env option](https://babeljs.io/docs/usage/babelrc/#env-option) that only transpiles features that are not already supported in the Node version you are using (e.g. `stage-2` or flow syntax support, etc.)
+有一件事值得注意，如果你使用了 Node 6+，它已经支持了主要的 ES2015 特性，那么你可以配置一个独立的 Babel [环境选项](https://babeljs.io/docs/usage/babelrc/#env-option)，只转译该 Node 版本中不支持的特性 (比如 `stage-2` 或 flow 语法支持等)。
 
-### Adding a test
+### 添加一个测试
 
-Create a file in `src` named `Counter.vue`:
+在 `src` 目录中创建一个名为 `Counter.vue` 的文件：
 
 ``` html
 <template>
 	<div>
 	  {{ count }}
-	  <button @click="increment">Increment</button>
+	  <button @click="increment">自增</button>
 	</div>
 </template>
 
@@ -149,14 +147,14 @@ export default {
 </script>
 ```
 
-And create a test file named `test/Counter.spec.js` with the following code:
+然后创建一个名为 `test/Counter.spec.js` 的测试文件并写入如下代码：
 
 ```js
 import { shallow } from 'vue-test-utils'
 import Counter from '../src/Counter.vue'
 
 describe('Counter.vue', () => {
-  it('increments count when button is clicked', () => {
+  it('计数器在点击按钮时自增', () => {
     const wrapper = shallow(Counter)
     wrapper.find('button').trigger('click')
     expect(wrapper.find('div').text()).toMatch('1')
@@ -164,17 +162,17 @@ describe('Counter.vue', () => {
 })
 ```
 
-And now we can run the test:
+现在我们运行测试：
 
 ```
 npm run unit
 ```
 
-Woohoo, we got our tests running!
+喔，我们的测试运行起来了！
 
-### Resources
+### 相关资料
 
-- [Example project for this setup](https://github.com/vuejs/vue-test-utils-mocha-webpack-example)
+- [该设置的示例工程](https://github.com/vuejs/vue-test-utils-mocha-webpack-example)
 - [Mocha](https://mochajs.org/)
 - [mocha-webpack](http://zinserjan.github.io/mocha-webpack/)
 - [Chai](http://chaijs.com/)
