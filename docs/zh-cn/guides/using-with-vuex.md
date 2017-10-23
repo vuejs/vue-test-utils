@@ -1,21 +1,19 @@
 # 配合 Vuex 实用
 
-(翻译中……)
+在本教程中，我们将会看到如何用 `vue-test-utils` 测试组件中的 Vuex。
 
-In this guide, we'll see how to test Vuex in components with `vue-test-utils`.
+## 伪造 Action
 
-## Mocking Actions
+我们来看一些代码。
 
-Let’s look at some code.
-
-This is the component we want to test. It calls Vuex actions.
+这是我们想要测试的组件。它会调用 Vuex action。
 
 ``` html
 <template>
-    <div class="text-align-center">
-      <input type="text" @input="actionInputIfTrue" />
-      <button @click="actionClick()">Click</button>
-    </div>
+  <div class="text-align-center">
+    <input type="text" @input="actionInputIfTrue" />
+    <button @click="actionClick()">Click</button>
+  </div>
 </template>
 
 <script>
@@ -37,13 +35,13 @@ export default{
 </script>
 ```
 
-For the purposes of this test, we don’t care what the actions do, or what the store looks like. We just need to know that these actions are being fired when they should, and that they are fired with the expected value.
+站在测试的角度，我们不关心这个 action 做了什么或者这个 store 是什么样子的。我们只需要知道这些 action 将会在适当的时机触发，已经它们触发时的预期值。
 
-To test this, we need to pass a mock store to Vue when we shallow our component.
+为了完成这个测试，我们需要在浅渲染组件时给 Vue 传递一个伪造的 store。
 
-Instead of passing the store to the base Vue constructor, we can pass it to a - [localVue](../api/options.md#localvue). A localVue is a scoped Vue constructor that we can make changes to without affecting the global Vue constructor.
+我们可以把 store 传递给一个 [`localVue`](../api/options.md#localvue)，而不是传递给基础的 Vue 构造函数。`localVue` 是一个独立作用域的 Vue 构造函数，我们可以对其进行改动而不会影响到全局的 Vue 构造函数。
 
-Let’s see what this looks like:
+我们来看看它的样子：
 
 ``` js
 import { shallow, createLocalVue } from 'vue-test-utils'
@@ -69,7 +67,7 @@ describe('Actions.vue', () => {
     })
   })
 
-  it('calls store action actionInput when input value is input and an input event is fired', () => {
+  it('当输入框的值是“input”且一个“input”事件被触发时会调用“actionInput”的 action', () => {
     const wrapper = shallow(Actions, { store, localVue })
     const input = wrapper.find('input')
     input.element.value = 'input'
@@ -77,7 +75,7 @@ describe('Actions.vue', () => {
     expect(actions.actionInput).toHaveBeenCalled()
   })
 
-  it('does not call store action actionInput when input value is not input and an input event is fired', () => {
+  it('当输入框的值不是“input”但有“input”事件触发时不会掉用“actionInput”的 action', () => {
     const wrapper = shallow(Actions, { store, localVue })
     const input = wrapper.find('input')
     input.element.value = 'not input'
@@ -85,7 +83,7 @@ describe('Actions.vue', () => {
     expect(actions.actionInput).not.toHaveBeenCalled()
   })
 
-  it('calls store action actionClick when button is clicked', () => {
+  it('当按钮被点击时候调用“actionClick”的 action', () => {
     const wrapper = shallow(Actions, { store, localVue })
     wrapper.find('button').trigger('click')
     expect(actions.actionClick).toHaveBeenCalled()
@@ -93,31 +91,31 @@ describe('Actions.vue', () => {
 })
 ```
 
-What’s happening here? First we tell Vue to use Vuex with the `Vue.use` method. This is just a wrapper around `Vue.use`.
+这里发生了什么？首先我们用 `Vue.use` 方法告诉 Vue 使用 Vuex。这只是 `Vue.use` 的一个包裹器。
 
-We then make a mock store by calling new `Vuex.store` with our mock values. We only pass it the actions, since that’s all we care about.
+然后我们用 `new Vuex.store` 伪造了一个 store 并填入假数据。我们只把它传递给 action，因为我们只关心这个。
 
-The actions are [jest mock functions](https://facebook.github.io/jest/docs/en/mock-functions.html). These mock functions give us methods to assert whether the actions were called or not.
+该 action 是 [Jest 伪造函数](https://facebook.github.io/jest/docs/en/mock-functions.html)。这些伪造函数让我们去断言该 action 是否被调用。
 
-We can then assert in our tests that the action stub was called when expected.
+然后我们可以在我们的测试中断言 action 存根是否如预期般被调用。
 
-Now the way we define the store might look a bit foreign to you.
+现在我们定义 store 的方式在你看来可能有点特别。
 
-We’re using `beforeEach` to ensure we have a clean store before each test. `beforeEach` is a mocha hook that’s called before each test. In our test, we are reassigning the store variables value. If we didn’t do this, the mock functions would need to be automatically reset. It also lets us change the state in our tests, without it affecting later tests.
+我们使用 `beforeEach` 来确认我们在每项测试之前已经拥有一个干净的 store。`beforeEach` 是一个 mocha 的钩子，会在每项测试之前被调用。我们在测试中会重新为 store 的变量赋值。如果我们没有这样做，伪造函数就需要被自动重置。它还需要我们改变测试中的 state，而不会影响后面的其它测试。
 
-The most important thing to note in this test is that **we create a mock Vuex store and then pass it to vue-test-utils**.
+该测试中最重要的注意事项是：**我们创建了一个伪造的 Vuex store 并将其传递给 `vue-test-utils`**。
 
-Great, so now we can mock actions, let’s look at mocking getters.
+好的，现在我们可以伪造 action 了，我们再来看看伪造 getter。
 
-## Mocking Getters
+## 伪造 Getter
 
 
 ``` html
 <template>
-    <div>
-      <p v-if="inputValue">{{inputValue}}</p>
-      <p v-if="clicks">{{clicks}}</p>
-    </div>
+  <div>
+    <p v-if="inputValue">{{inputValue}}</p>
+    <p v-if="clicks">{{clicks}}</p>
+  </div>
 </template>
 
 <script>
@@ -132,9 +130,9 @@ export default{
 </script>
 ```
 
-This is a fairly simple component. It renders the result of the getters `clicks` and `inputValue`. Again, we don’t really care about what those getters returns – just that the result of them is being rendered correctly.
+这是一个非常简单的组件。它根据 getter `clicks` 和 `inputValue` 渲染结果。还是那句话，我们并不关注这些 getter 返回什么——只关注它们被正确的渲染。
 
-Let’s see the test:
+让我们看看这个测试：
 
 ``` js
 import { shallow, createLocalVue } from 'vue-test-utils'
@@ -160,28 +158,29 @@ describe('Getters.vue', () => {
     })
   })
 
-  it('Renders state.inputValue in first p tag', () => {
+  it('在第一个 p 标签中渲染“state.inputValue”', () => {
     const wrapper = shallow(Actions, { store, localVue })
     const p = wrapper.find('p')
     expect(p.text()).toBe(getters.inputValue())
   })
 
-  it('Renders state.clicks in second p tag', () => {
+  it('在第二个 p 标签中渲染“state.clicks”', () => {
     const wrapper = shallow(Actions, { store, localVue })
     const p = wrapper.findAll('p').at(1)
     expect(p.text()).toBe(getters.clicks().toString())
   })
 })
 ```
-This test is similar to our actions test. We create a mock store before each test, pass it as an option when we call `shallow`, and assert that the value returned by our mock getters is being rendered.
 
-This is great, but what if we want to check our getters are returning the correct part of our state?
+这个测试和我们的 action 测试很相似。我们在每个测试运行之前创建了一个伪造的 store，在我们调用 `shallow` 的时候将其以一个选项传递进去，并断言我们伪造的 getter 的返回值被渲染。
 
-## Mocking with Modules
+这非常好，但是如果我们想要检查我们的 getter 是否返回了正确的 state 的部分该怎么办呢？
 
-[Modules](https://vuex.vuejs.org/en/modules.html) are useful for separating out our store into manageable chunks. They also export getters. We can use these in our tests.
+## 伪造 Module
 
-Let’s look at our component:
+[Module](https://vuex.vuejs.org/zh-cn/modules.html) 对于将我们的 store 分隔成多个可管理的块来说非常有用。它们也暴露 getter。我们可以在测试中使用它们。
+
+看看这个组件：
 
 ``` html
 <template>
@@ -207,9 +206,10 @@ export default{
 }
 </script>
 ```
-Simple component that includes one action and one getter.
 
-And the test:
+简单的包含一个 action 和一个 getter 的组件。
+
+其测试：
 
 ``` js
 import { shallow, createLocalVue } from 'vue-test-utils'
@@ -244,14 +244,14 @@ describe('Modules.vue', () => {
     })
   })
 
-  it('calls store action moduleActionClick when button is clicked', () => {
+  it('在点击按钮时调用 action“moduleActionClick”', () => {
     const wrapper = shallow(Modules, { store, localVue })
     const button = wrapper.find('button')
     button.trigger('click')
     expect(actions.moduleActionClick).toHaveBeenCalled()
   })
 
-  it('Renders state.inputValue in first p tag', () => {
+  it('在第一个 p 标签内渲染“state.inputValue”', () => {
     const wrapper = shallow(Modules, { store, localVue })
     const p = wrapper.find('p')
     expect(p.text()).toBe(state.module.clicks.toString())
@@ -259,8 +259,9 @@ describe('Modules.vue', () => {
 })
 ```
 
-### Resources
+### 相关资料
 
-- [Example project for this guide](https://github.com/eddyerburgh/vue-test-utils-vuex-example)
-- [localVue](../api/options.md#localvue)
-- [createLocalVue](../api/createLocalVue.md)
+- [该设置的示例工程](https://github.com/eddyerburgh/vue-test-utils-vuex-example)
+- [`localVue`](../api/options.md#localvue)
+- [`createLocalVue`](../api/createLocalVue.md)
+
