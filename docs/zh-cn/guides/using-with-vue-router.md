@@ -1,12 +1,10 @@
 # 配合 Vue Router 使用
 
-(翻译中……)
+## 在测试中安装 Vue Router
 
-## Installing Vue Router in tests
+在测试中，你应该杜绝在基本的 Vue 构造函数中安装 Vue Router。安装 Vue Router 之后 Vue 的原型上会增加 `$route` 和 `$router` 这两个只读属性。
 
-You should never install Vue Router on the Vue base constructor in tests. Installing Vue Router adds `$route` and `$router` as read-only properties on Vue prototype.
-
-To avoid this, we can create a localVue, and install Vue Router on that.
+为了避免这样的事情发生，我们创建了一个 `localVue` 并对其安装 Vue Router。
 
 ```js
 import VueRouter from 'vue-router'
@@ -19,13 +17,13 @@ shallow(Component, {
 })
 ```
 
-## Testing components that use `router-link` or `router-view`
+## 测试使用了 `router-link` 或 `router-view` 的组件
 
-When you install Vue Router, the `router-link` and `router-view` components are registered. This means we can use them anywhere in our application without needing to import them.
+当你安装 Vue Router 的时候，`router-link` 和 `router-view` 组件就被注册了。这意味着我们无需再导入可以在应用的任意地方使用它们。
 
-When we run tests, we need to make these vue-router components available to the component we're mounting. There are two methods to do this.
+当我们运行测试的时候，需要令 vue-router 相关组件在我们挂载的组件中可用。有以下两种做法：
 
-### Using stubs
+### 使用存根
 
 ```js
 shallow(Component, {
@@ -33,7 +31,7 @@ shallow(Component, {
 })
 ```
 
-### Installing Vue Router with localVue
+### 为 localVue 安装 Vue Router
 
 ```js
 import VueRouter from 'vue-router'
@@ -46,9 +44,9 @@ shallow(Component, {
 })
 ```
 
-## Mocking `$route` and `$router`
+## 伪造 `$route` 和 `$router`
 
-Sometimes you want to test that a component does something with parameters from the `$route` and `$router` objects. To do that, you can pass custom mocks to the Vue instance.
+有的时候你想要测试一个组件在配合 `$route` 和 `$router` 对象的参数时的行为。这时候你可以传递自定义假数据给 Vue 实例。
 
 ```js
 const $route = {
@@ -64,10 +62,10 @@ const wrapper = shallow(Component, {
 wrapper.vm.$router // /some/path
 ```
 
-## Common gotchas
+## 常识
 
-Installing Vue Router adds `$route` and `$router` as read-only properties on Vue prototype.
+安装 Vue Router 会在 Vue 的原型上添加 `$route` 和 `$router` 只读属性。
 
-This means any future tests that try to mock `$route` or `$router` will fail.
+这意味着在未来的任何测试中，伪造 `$route` 或 `$router` 都会失效。
 
-To avoid this, never install Vue Router when you're running tests.
+要想回避这个问题，就不要在运行测试的时候安装 Vue Router。
