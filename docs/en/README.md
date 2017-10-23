@@ -5,6 +5,7 @@
 * [Guides](guides/README.md)
   * [Getting Started](guides/getting-started.md)
   * [Common Tips](guides/common-tips.md)
+  * [Mouse, Key and other DOM Events](guides/dom-events.md)  
   * [Choosing a test runner](guides/choosing-a-test-runner.md)
   * [Testing SFCs with Jest](guides/testing-SFCs-with-jest.md)
   * [Testing SFCs with Mocha + webpack](guides/testing-SFCs-with-mocha-webpack.md)
