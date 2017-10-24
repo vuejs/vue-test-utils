@@ -114,7 +114,6 @@ export default class Wrapper implements BaseWrapper {
       .every(target => this.element.classList.contains(target))
 
     return !!(this.element && containsAllClasses)
-    // return !!(this.element && this.element.classList.contains(targetClass))
   }
 
   /**
