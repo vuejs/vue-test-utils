@@ -104,12 +104,19 @@ export default class Wrapper implements BaseWrapper {
       throwError('wrapper.hasClass() must be passed a string')
     }
 
+
     // if $style is available and has a matching target, use that instead.
     if (this.vm && this.vm.$style && this.vm.$style[targetClass]) {
       targetClass = this.vm.$style[targetClass]
     }
 
-    return !!(this.element && this.element.classList.contains(targetClass))
+    let targetClasses = targetClass.split(' ')
+
+    let containsAllClasses = targetClasses
+      .map(target => this.element.classList.contains(target))
+      .reduce((a, b) => a === b ? a : NaN)
+      
+    return !!(this.element && containsAllClasses)
   }
 
   /**

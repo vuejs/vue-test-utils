@@ -46,4 +46,10 @@ describe('hasClass', () => {
 
     expect(wrapper.hasClass('color-red')).to.equal(true)
   })
+
+  it('returns true when the element contains multiple classes', () => {
+    const compiled = compileToFunctions('<div class="a-class b-class" />')
+    const wrapper = mount(compiled)
+    expect(wrapper.hasClass('a-class b-class')).to.equal(true)
+  })
 })
