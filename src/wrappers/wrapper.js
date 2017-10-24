@@ -109,7 +109,11 @@ export default class Wrapper implements BaseWrapper {
       targetClass = this.vm.$style[targetClass]
     }
 
-    return !!(this.element && this.element.classList.contains(targetClass))
+    const containsAllClasses = targetClass
+      .split(' ')
+      .every(target => this.element.classList.contains(target))
+
+    return !!(this.element && containsAllClasses)
   }
 
   /**
