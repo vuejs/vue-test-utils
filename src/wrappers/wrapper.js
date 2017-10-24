@@ -111,8 +111,7 @@ export default class Wrapper implements BaseWrapper {
 
     const containsAllClasses = targetClass
       .split(' ')
-      .map(target => this.element.classList.contains(target))
-      .reduce((a, b) => a === b ? a : NaN)
+      .every(target => this.element.classList.contains(target))
 
     return !!(this.element && containsAllClasses)
   }
