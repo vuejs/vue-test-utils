@@ -21,13 +21,6 @@ describe('hasClass', () => {
     expect(wrapper.hasClass('class-name')).to.equal(false)
   })
 
-  it('returns false if wrapper does not have an element', () => {
-    const compiled = compileToFunctions('<div />')
-    const wrapper = mount(compiled)
-    wrapper.element = null
-    expect(wrapper.hasClass('not-class-name')).to.equal(false)
-  })
-
   it('throws an error if selector is not a string', () => {
     const compiled = compileToFunctions('<div />')
     const wrapper = mount(compiled)
@@ -47,10 +40,10 @@ describe('hasClass', () => {
     expect(wrapper.hasClass('color-red')).to.equal(true)
   })
 
-  it('returns false when the element is undefined', () => {
-    const compiled = compileToFunctions('<div class="a-class b-class" />')
-    const wrapper = mount(compiled)
-    wrapper.element = undefined
+  it('returns false if wrapper does not contain element', () => {
+    const wrapper = mount({ render: (h) => h('div.a-class.b-class') })
+    const div = wrapper.find('div')
+    div.element = null
     expect(wrapper.hasClass('a-class b-class')).to.equal(false)
   })
 
