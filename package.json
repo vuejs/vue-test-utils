@@ -1,6 +1,6 @@
 {
   "name": "vue-test-utils",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.3",
   "description": "Utilities for testing Vue components.",
   "main": "dist/vue-test-utils.js",
   "types": "types/index.d.ts",
@@ -83,7 +83,7 @@
     "sinon": "^2.3.2",
     "sinon-chai": "^2.10.0",
     "typescript": "^2.4.1",
-    "vue": "^2.4.4",
+    "vue": "^2.5.2",
     "vue-loader": "^13.0.5",
     "vue-router": "^2.7.0",
     "vue-template-compiler": "^2.4.4",
