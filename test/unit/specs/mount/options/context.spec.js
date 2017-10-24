@@ -49,4 +49,20 @@ describe('context', () => {
     const fn = () => mount(Component, { context })
     expect(fn).to.throw().with.property('message', message)
   })
+
+  it('mounts functional component with a defined context when no context object passed in options', () => {
+    const defaultValue = '[vue-test-utils]: testProp default value'
+    const Component = {
+      functional: true,
+      props: {
+        testProp: {
+          type: String,
+          default: defaultValue
+        }
+      },
+      render: (h, { props }) => h('div', props.testProp)
+    }
+    const wrapper = mount(Component)
+    expect(wrapper.element.textContent).to.equal(defaultValue)
+  })
 })
