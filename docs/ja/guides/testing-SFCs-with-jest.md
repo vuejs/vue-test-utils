@@ -27,10 +27,10 @@ $ npm install --save-dev jest vue-test-utils
 
 ## Jest における単一ファイルコンポーネントの処理
 
-Jest に `*.vue` ファイルの処理方法を教えるために、`jest-vue` プリプロセッサをインストールして設定する必要があります。：
+Jest に `*.vue` ファイルの処理方法を教えるために、`vue-jest` プリプロセッサをインストールして設定する必要があります。：
 
 ``` bash
-npm install --save-dev jest-vue
+npm install --save-dev vue-jest
 ```
 
 次に、`package.json` に `jest` ブロックを作成します:
@@ -46,15 +46,15 @@ npm install --save-dev jest-vue
       "vue"
     ],
     "transform": {
-      // jest-vue で *.vue ファイルを処理する
-      ".*\\.(vue)$": "<rootDir>/node_modules/jest-vue"
+      // vue-jest で *.vue ファイルを処理する
+      ".*\\.(vue)$": "<rootDir>/node_modules/vue-jest"
     },
     "mapCoverage": true
   }
 }
 ```
 
-> **注意:** `jest-vue` は現在、カスタムブロックのサポートやスタイルのロードなど、`vue-loader` のすべての機能をサポートしていません。さらに、コード分割などのWebpack固有の機能はサポートされていません。それらを使用するには、[Mocha + webpackによる単一ファイルコンポーネントのテスト](./testing-SFCs-with-mocha-webpack.md)のガイドをお読みください。
+> **注意:** `vue-jest` は現在、カスタムブロックのサポートやスタイルのロードなど、`vue-loader` のすべての機能をサポートしていません。さらに、コード分割などのWebpack固有の機能はサポートされていません。それらを使用するには、[Mocha + webpackによる単一ファイルコンポーネントのテスト](./testing-SFCs-with-mocha-webpack.md)のガイドをお読みください。
 
 ## Webpack エイリアスの処理
 
