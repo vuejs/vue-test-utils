@@ -11,21 +11,29 @@ import { throwError } from './util'
 import cloneDeep from 'lodash/cloneDeep'
 import { compileTemplate } from './compile-template'
 
-export default function createConstructor (component: Component, options: Options): Component {
+export default function createConstructor (
+  component: Component,
+  options: Options
+): Component {
   const vue = options.localVue || Vue
 
   if (component.functional) {
-    if (options.context && (typeof options.context !== 'object')) {
+    if (options.context && typeof options.context !== 'object') {
       throwError('mount.context must be an object')
     }
     const clonedComponent = cloneDeep(component)
     component = {
       render (h) {
-        return h(clonedComponent, options.context || component.FunctionalRenderContext)
+        return h(
+          clonedComponent,
+          options.context || component.FunctionalRenderContext
+        )
       }
     }
   } else if (options.context) {
-    throwError('mount.context can only be used when mounting a functional component')
+    throwError(
+      'mount.context can only be used when mounting a functional component'
+    )
   }
 
   if (options.provide) {
