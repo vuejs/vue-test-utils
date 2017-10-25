@@ -1,30 +1,28 @@
-# Mounting Options
+# 挂载选项
 
-(翻译中……)
+即 `mount` 和 `shallow` 的选项。该对象同时包含了 `vue-test-utils` 挂载选项和原始的 Vue 选项。
 
-Options for `mount` and `shallow`. The options object can contain both `vue-test-utils` mounting options and raw Vue options.
+Vue 选项会在一个新的实例被创建的时候传递给组件。比如 `store`、`propsData`。想查阅完整的列表，请移步 [Vue API 文档](https://cn.vuejs.org/v2/api/)。
 
-Vue options are passed to the component when a new instance is created. , e.g. `store`, `propsData`. For a full list, see the [Vue API docs](https://vuejs.org/v2/api/).
+## `vue-test-utils` 特定的挂载选项
 
-## `vue-test-utils` Specific Mounting Options
-
-- [context](#context)
-- [slots](#slots)
-- [stubs](#stubs)
-- [mocks](#mocks)
-- [localVue](#localvue)
-- [attachToDocument](#attachtodocument)
-- [attrs](#attrs)
-- [listeners](#listeners)
-- [clone](#clone)
+- [`context`](#context)
+- [`slots`](#slots)
+- [`stubs`](#stubs)
+- [`mocks`](#mocks)
+- [`localVue`](#localvue)
+- [`attachToDocument`](#attachtodocument)
+- [`attrs`](#attrs)
+- [`listeners`](#listeners)
+- [`clone`](#clone)
 
 ### `context`
 
-- type: `Object`
+- 类型：`Object`
 
-Passes context to functional component. Can only be used with functional components.
+将上下文传递给函数式组件。该选项只能用于函数式组件。
 
-Example:
+示例：
 
 ```js
 const wrapper = mount(Component, {
@@ -38,11 +36,11 @@ expect(wrapper.is(Component)).toBe(true)
 
 ### `slots`
 
-- type: `{ [name: string]: Array<Component>|Component|string }`
+- 类型：`{ [name: string]: Array<Component>|Component|string }`
 
-Provide an object of slot contents to the component. The key corresponds to the slot name. The value can be either a component, an array of components, or a template string.
+为组件提供一个 slot 内容的对象。该对象中的键名就是相应的 slot 名，键值可以是一个组件、一个组件数组或一个字符串模板。
 
-Example:
+示例：
 
 ```js
 import { expect } from 'chai'
@@ -52,7 +50,7 @@ import Bar from './Bar.vue'
 const wrapper = shallow(Component, {
   slots: {
     default: [Foo, Bar],
-    fooBar: Foo, // Will match <slot name="FooBar" />,
+    fooBar: Foo, // 将会匹配 `<slot name="FooBar" />`。
     foo: '<div />'
   }
 })
@@ -61,11 +59,11 @@ expect(wrapper.find('div')).toBe(true)
 
 ### `stubs`
 
-- type: `{ [name: string]: Component | boolean } | Array<string>`
+- 类型：`{ [name: string]: Component | boolean } | Array<string>`
 
-Stubs child components. Can be an Array of component names to stub, or an object.
+将子组件存根。可以是一个要存根的组件名的数组或对象。
 
-Example:
+示例：
 
 ```js
 import Foo from './Foo.vue'
@@ -76,9 +74,9 @@ mount(Component, {
 
 shallow(Component, {
   stubs: {
-    // stub with a specific implementation
+    // 使用一个特定的实现作为存根
     'registered-component': Foo,
-    // create default stub
+    // 使用创建默认的实现作为存根
     'another-component': true
   }
 })
@@ -86,11 +84,11 @@ shallow(Component, {
 
 ### `mocks`
 
-- type: `Object`
+- 类型：`Object`
 
-Add additional properties to the instance. Useful for mocking global injections.
+为示例添加额外的属性。在伪造全局注入的时候有用。
 
-Example:
+示例：
 
 ```js
 import { expect } from 'chai'
@@ -106,11 +104,11 @@ expect(wrapper.vm.$route.path).toBe($route.path)
 
 ### `localVue`
 
-- type: `Vue`
+- 类型：`Vue`
 
-A local copy of Vue created by [createLocalVue](./createLocalVue.md) to use when mounting the component. Installing plugins on this copy of Vue prevents polluting the original `Vue` copy.
+通过 [`./createLocalVue.md`] 创建的一个 `Vue` 的本地拷贝，用于挂载该组件的时候。在这份拷贝上安装插件可以防止原始的 `Vue` 被污染。
 
-Example:
+示例：
 
 ```js
 import { createLocalVue, mount } from 'vue-test-utils'
@@ -138,30 +136,30 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 
 ### `attachToDocument`
 
-- type: `boolean`
-- default: `false`
+- 类型：`boolean`
+- 默认值：`false`
 
-Component will be attach to DOM when rendered if set to `true`. This can be used with [`hasStyle`](wrapper/hasStyle.md) to check multi element CSS selectors.
+当设为 `true` 时，组件在渲染时将会挂载到 DOM 上。可以配合 [`hasStyle`](wrapper/hasStyle.md) 检查 CSS 的多元素选择器。
 
 ### `attrs`
 
-- type: `Object`
+- 类型：`Object`
 
-Set the component instance's `$attrs` object.
+设置组件实例的 `$attrs` 对象。
 
 ### `listeners`
 
-- type: `Object`
+- 类型：`Object`
 
-Set the component instance's `$listeners` object.
+设置组件实例的 `$listeners` 对象。
 
 ### `clone`
 
-- type: `boolean`
-- default: `true`
+- 类型：`boolean`
+- 默认值：`true`
 
-Clones component before mounting if `true`, which avoids mutating the original component definition.
+如果为 `true` 则会在挂载之前克隆组件。这样做会回避原始组件定义的突变。
 
-`options.mocks` (`Object`): Add globals to Vue instance.
+`options.mocks` (`Object`)：向 Vue 实例添加全局属性。
 
-`options.localVue` (`Object`): vue class to use in `mount`. See [createLocalVue](createLocalVue.md)
+`options.localVue` (`Object`)：在 `mount` 中使用的 `Vue` 类。请移步 [`createLocalVue`](createLocalVue.md)。
