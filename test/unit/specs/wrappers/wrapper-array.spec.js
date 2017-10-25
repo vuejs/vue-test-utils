@@ -259,7 +259,7 @@ describe('WrapperArray', () => {
     expect(update.calledTwice).to.equal(true)
   })
 
-  it('update calls destroy on each wrapper', () => {
+  it('destroy calls destroy on each wrapper', () => {
     const destroy = sinon.stub()
     const wrapperArray = new WrapperArray([{ destroy }, { destroy }])
     wrapperArray.destroy()
