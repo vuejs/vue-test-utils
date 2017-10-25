@@ -5,6 +5,7 @@
 * [Руководства](guides/README.md)
   * [Введение](guides/getting-started.md)
   * [Общие советы](guides/common-tips.md)
+  * [Мышь, клавиши и другие события DOM](guides/dom-events.md)
   * [Выбор test-runner'а](guides/choosing-a-test-runner.md)
   * [Тестирование однофайловых компонентов с Jest](guides/testing-SFCs-with-jest.md)
   * [Тестирование однофайловых компонентов с Mocha + webpack](guides/testing-SFCs-with-mocha-webpack.md)
