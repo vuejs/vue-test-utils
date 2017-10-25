@@ -101,6 +101,6 @@ export default class ErrorWrapper implements BaseWrapper {
   }
 
   destroy (): void {
-    throwError(`find did not return ${this.selector}, cannot call update() on empty Wrapper`)
+    throwError(`find did not return ${this.selector}, cannot call destroy() on empty Wrapper`)
   }
 }
