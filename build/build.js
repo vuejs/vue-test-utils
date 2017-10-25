@@ -49,7 +49,11 @@ rollup({
     name: 'globals',
     dest: resolve('dist/vue-test-utils.iife.js'),
     moduleName: 'vueTestUtils',
-    format: 'iife'
+    format: 'iife',
+    globals: {
+      'vue': 'Vue',
+      'vue-template-compiler': 'VueTemplateCompiler'
+    }
   })
 })
   .then(() => success('IIFE build successful'))
@@ -71,7 +75,11 @@ rollup({
 }).then((bundle) => {
   bundle.write({
     dest: resolve('dist/vue-test-utils.amd.js'),
-    format: 'amd'
+    format: 'amd',
+    globals: {
+      'vue': 'Vue',
+      'vue-template-compiler': 'VueTemplateCompiler'
+    }
   })
 })
   .then(() => success('AMD build successful'))
@@ -94,6 +102,10 @@ rollup({
   bundle.write({
     dest: resolve('dist/vue-test-utils.umd.js'),
     format: 'umd',
+    globals: {
+      'vue': 'Vue',
+      'vue-template-compiler': 'VueTemplateCompiler'
+    },
     moduleName: 'vueTestUtils'
   })
 })

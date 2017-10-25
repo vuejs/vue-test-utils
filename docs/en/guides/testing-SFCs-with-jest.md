@@ -27,10 +27,10 @@ Next we need to define a unit script in our `package.json`.
 
 ## Processing SFCs in Jest
 
-To teach Jest how to process `*.vue` files, we will need to install and configure the `jest-vue` preprocessor:
+To teach Jest how to process `*.vue` files, we will need to install and configure the `vue-jest` preprocessor:
 
 ``` bash
-npm install --save-dev jest-vue
+npm install --save-dev vue-jest
 ```
 
 Next, create a `jest` block in `package.json`:
@@ -46,15 +46,15 @@ Next, create a `jest` block in `package.json`:
       "vue"
     ],
     "transform": {
-      // process *.vue files with jest-vue
-      ".*\\.(vue)$": "<rootDir>/node_modules/jest-vue"
+      // process *.vue files with vue-jest
+      ".*\\.(vue)$": "<rootDir>/node_modules/vue-jest"
     },
     "mapCoverage": true
   }
 }
 ```
 
-> **Note:** `jest-vue` currently does not support all the features of `vue-loader`, for example custom block support and style loading. In addition, some webpack-specific features such as code-splitting are not supported either. To use them, read the guide on [testing SFCs with Mocha + webpack](./testing-SFCs-with-mocha-webpack.md).
+> **Note:** `vue-jest` currently does not support all the features of `vue-loader`, for example custom block support and style loading. In addition, some webpack-specific features such as code-splitting are not supported either. To use them, read the guide on [testing SFCs with Mocha + webpack](./testing-SFCs-with-mocha-webpack.md).
 
 ## Handling webpack Aliases
 

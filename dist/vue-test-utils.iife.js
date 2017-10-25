@@ -3,6 +3,24 @@ var vueTestUtils = (function (Vue,vueTemplateCompiler) {
 
 Vue = Vue && 'default' in Vue ? Vue['default'] : Vue;
 
+// 
+
+function throwError (msg) {
+  throw new Error(("[vue-test-utils]: " + msg))
+}
+
+function warn (msg) {
+  console.error(("[vue-test-utils]: " + msg));
+}
+
+if (typeof window === 'undefined') {
+  throwError(
+    'window is undefined, vue-test-utils needs to be run in a browser environment.\n' +
+    'You can run the tests in node using jsdom + jsdom-global.\n' +
+    'See https://vue-test-utils.vuejs.org/en/guides/common-tips.html for more details.'
+  );
+}
+
 /**
  * Removes all key-value entries from the list cache.
  *
@@ -2538,16 +2556,6 @@ var cloneDeep_1 = cloneDeep;
 
 // 
 
-function throwError (msg) {
-  throw new Error(("[vue-test-utils]: " + msg))
-}
-
-function warn (msg) {
-  console.error(("[vue-test-utils]: " + msg));
-}
-
-// 
-
 var LIFECYCLE_HOOKS = [
   'beforeCreate',
   'created',
@@ -3135,11 +3143,18 @@ Wrapper.prototype.hasAttribute = function hasAttribute (attribute, value) {
  * Asserts wrapper has a class name
  */
 Wrapper.prototype.hasClass = function hasClass (className) {
-  if (typeof className !== 'string') {
+  var targetClass = className;
+
+  if (typeof targetClass !== 'string') {
     throwError('wrapper.hasClass() must be passed a string');
   }
 
-  return !!(this.element && this.element.classList.contains(className))
+  // if $style is available and has a matching target, use that instead.
+  if (this.vm && this.vm.$style && this.vm.$style[targetClass]) {
+    targetClass = this.vm.$style[targetClass];
+  }
+
+  return !!(this.element && this.element.classList.contains(targetClass))
 };
 
 /**
@@ -3699,15 +3714,7 @@ Vue.config.productionTip = false;
 function mount (component, options) {
   if ( options === void 0 ) options = {};
 
-  if (!window) {
-    throwError(
-      'window is undefined, vue-test-utils needs to be run in a browser environment.\n' +
-      'You can run the tests in node using jsdom + jsdom-global.\n' +
-      'See https://vue-test-utils.vuejs.org/en/guides/common-tips.html for more details.'
-    );
-  }
-
-  var componentToMount = options.clone === false ? component : cloneDeep_1(component);
+  var componentToMount = options.clone === false ? component : cloneDeep_1(component.extend ? component.options : component);
   // Remove cached constructor
   delete componentToMount._Ctor;
 
@@ -3728,7 +3735,7 @@ function shallow (component, options) {
   if ( options === void 0 ) options = {};
 
   var vue = options.localVue || Vue;
-  var clonedComponent = cloneDeep_1(component);
+  var clonedComponent = cloneDeep_1(component.extend ? component.options : component);
 
   if (clonedComponent.components) {
     stubAllComponents(clonedComponent);
@@ -3769,9 +3776,12 @@ function createLocalVue () {
   // compat for vue-router < 2.7.1 where it does not allow multiple installs
   var use = instance.use;
   instance.use = function (plugin) {
+    var rest = [], len = arguments.length - 1;
+    while ( len-- > 0 ) rest[ len ] = arguments[ len + 1 ];
+
     plugin.installed = false;
     plugin.install.installed = false;
-    use.call(instance, plugin);
+    use.call.apply(use, [ instance, plugin ].concat( rest ));
   };
   return instance
 }
@@ -3911,4 +3921,4 @@ var index = {
 
 return index;
 
-}(Vue,vueTemplateCompiler));
+}(Vue,VueTemplateCompiler));
