@@ -1,6 +1,6 @@
 # destroy()
 
-Destroys a Vue component
+Destroys a Vue component instance.
 
 - **Example:**
 
