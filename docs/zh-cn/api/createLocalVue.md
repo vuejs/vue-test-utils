@@ -1,15 +1,13 @@
-# createLocalVue()
+# `createLocalVue()`
 
-(翻译中……)
-
-- **Returns:**
+- **返回值：**
   - `{Component}`
 
-- **Usage:**
+- **用法：**
 
-`createLocalVue` returns a Vue class for you to add components, mixins and install plugins without polluting the global Vue class.
+`createLocalVue` 返回一个 Vue 的类供你添加组件、混入和安装插件而不会污染全局的 Vue 类。
 
-Use it with `options.localVue`
+可通过 `options.localVue` 来使用：
 
 ```js
 import { createLocalVue, shallow } from 'vue-test-utils'
@@ -27,4 +25,4 @@ const freshWrapper = shallow(Foo)
 expect(freshWrapper.vm.foo).toBe(false)
 ```
 
-- **See also:** [Common Tips](../guides/common-tips.md#applying-global-plugins-and-mixins)
+- **延伸阅读：**[常用技巧](../guides/common-tips.md#applying-global-plugins-and-mixins)

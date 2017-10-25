@@ -1,36 +1,34 @@
-# Selectors
+# 选择器
 
-(翻译中……)
+很多方法的参数中都包含选择器。一个选择器可以是一个 CSS 选择器或是一个 Vue 组件。
 
-A lot of methods take a selector as an argument. A selector can either be a CSS selector, or a Vue component.
+## CSS 选择器
 
-## CSS Selectors
+挂载处理任何有效的 CSS 选择器：
 
-mount handles any valid CSS selector:
+- 标签选择器 (`div`、`foo`、`bar`)
+- 类选择器 (`.foo`、`.bar`)
+- 特性选择器 (`[foo]`、`[foo="bar"]`)
+- id 选择器 (`#foo`、`#bar`)
+- 伪选择器 (`div:first-of-type`)
 
-- tag selectors (div, foo, bar)
-- class selectors (.foo, .bar)
-- attribute selectors ([foo], [foo="bar"])
-- id selectors (#foo, #bar)
-- pseudo selectors (div:first-of-type)
+你也可以结合使用：
 
-You can also use combinators:
+- 直接从属结合 (`div > #bar > .foo`)
+- 一般从属结合 (`div #bar .foo`)
+- 近邻兄弟选择器 (`div + .foo`)
+- 一般兄弟选择器 (`div ~ .foo`)
 
-- direct descendant combinator (div > #bar > .foo)
-- general descendant combinator (div #bar .foo)
-- adjacent sibling selector (div + .foo)
-- general sibling selector (div ~ .foo)
+## Vue 组件
 
-## Vue Components
+Vue 组件也是有效的选择器。
 
-Vue components are also valid selectors.
-
-vue-test-utils uses the `name` property to search the instance tree for matching Vue components.
+`vue-test-utils` 使用 `name` 属性搜索匹配 Vue 组件的实例树。
 
 ```js
 // Foo.vue
 
-export default{
+export default {
   name: 'FooComponent'
 }
 ```

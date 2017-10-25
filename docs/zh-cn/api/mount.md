@@ -1,23 +1,21 @@
-# mount(component {, options}])
+# `mount(component {, options}])`
 
-(翻译中……)
-
-- **Arguments:**
+- **参数：**
 
   - `{Component} component`
   - `{Object} options`
 
-- **Returns:** `{Wrapper}`
+- **返回值：** `{Wrapper}`
 
-- **Options:**
+- **选项：**
 
-See [options](options.md)
+移步[选项](options.md)
 
-- **Usage:**
+- **用法：**
 
-Returns [`Wrapper`](wrapper/README.md) of first DOM node or Vue component matching selector.
+返回第一个 DOM 节点或匹配选择器的 Vue 组件的 [`Wrapper`](wrapper/README.md)。
 
-Use any valid [selector](selectors.md).
+可使用任何有效的[选择器](selectors.md)。
 
 **Without options:**
 
@@ -33,7 +31,8 @@ describe('Foo', () => {
   })
 })
 ```
-**With Vue options:**
+
+**使用 Vue 选项：**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -52,7 +51,7 @@ describe('Foo', () => {
 })
 ```
 
-**Attach to DOM:**
+**固定在 DOM 上：**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -68,7 +67,7 @@ describe('Foo', () => {
   })
 })
 ```
-**Default and named slots:**
+**默认的和具名的插槽：**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -82,7 +81,7 @@ describe('Foo', () => {
     const wrapper = mount(Foo, {
       slots: {
         default: [Bar, FooBar],
-        fooBar: FooBar, // Will match <slot name="FooBar" />,
+        fooBar: FooBar, // 将匹配 `<slot name="FooBar" />`。
         foo: '<div />'
       }
     })
@@ -91,7 +90,7 @@ describe('Foo', () => {
 })
 ```
 
-**Stubbing global properties:**
+**将全局属性存根：**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -111,7 +110,7 @@ describe('Foo', () => {
 })
 ```
 
-**Stubbing components:**
+**将组件存根：**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -135,4 +134,4 @@ describe('Foo', () => {
 })
 ```
 
-- **See also:** [Wrapper](wrapper/README.md)
+- **延伸阅读：**[`Wrapper`](wrapper/README.md)
