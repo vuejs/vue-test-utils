@@ -154,4 +154,10 @@ export default class WrapperArray implements BaseWrapper {
 
     this.wrappers.forEach(wrapper => wrapper.update())
   }
+
+  destroy (): void {
+    this.throwErrorIfWrappersIsEmpty('destroy')
+
+    this.wrappers.forEach(wrapper => wrapper.destroy())
+  }
 }

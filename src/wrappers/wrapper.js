@@ -385,6 +385,21 @@ export default class Wrapper implements BaseWrapper {
   }
 
   /**
+   * Calls destroy on vm
+   */
+  destroy () {
+    if (!this.isVueComponent) {
+      throwError('wrapper.destroy() can only be called on a Vue instance')
+    }
+
+    if (this.vm.$el.parentNode) {
+      this.vm.$el.parentNode.removeChild(this.vm.$el)
+    }
+
+    this.vm.$destroy()
+  }
+
+  /**
    * Dispatches a DOM event on wrapper
    */
   trigger (type: string, options: Object = {}) {

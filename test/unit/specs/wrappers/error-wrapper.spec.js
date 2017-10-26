@@ -154,4 +154,11 @@ describe('ErrorWrapper', () => {
     const error = new ErrorWrapper(selector)
     expect(() => error.update()).to.throw().with.property('message', message)
   })
+
+  it('destroy throws error when called', () => {
+    const selector = 'div'
+    const message = `[vue-test-utils]: find did not return ${selector}, cannot call destroy() on empty Wrapper`
+    const error = new ErrorWrapper(selector)
+    expect(() => error.destroy()).to.throw().with.property('message', message)
+  })
 })

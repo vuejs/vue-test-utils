@@ -48,6 +48,7 @@ interface BaseWrapper {
   setMethods (data: object): void
   setProps (props: object): void
   trigger (eventName: string, options?: object): void
+  destroy (): void
 }
 
 interface Wrapper<V extends Vue> extends BaseWrapper {
