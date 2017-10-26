@@ -1,17 +1,15 @@
-# find(selector)
+# `find(selector)`
 
-(翻译中……)
+返回匹配选择器的第一个 DOM 节点或 Vue 组件的 [`Wrapper`](README.md)。
 
-Returns [`Wrapper`](README.md) of first DOM node or Vue component matching selector.
+可以使用任何有效的[选择器](../selectors.md)。
 
-Use any valid [selector](../selectors.md).
-
-- **Arguments:**
+- **参数：**
   - `{string|Component} selector`
 
-- **Returns:** `{Wrapper}`
+- **返回值：**`{Wrapper}`
 
-- **Example:**
+- **示例：**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -26,4 +24,4 @@ const bar = wrapper.find(Bar)
 expect(bar.is(Bar)).toBe(true)
 ```
 
-- **See also:** [Wrapper](README.md)
+- **延伸阅读：**[Wrapper](README.md)

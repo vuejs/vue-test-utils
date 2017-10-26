@@ -1,21 +1,18 @@
-# hasProp(prop, value)
+# `hasProp(prop, value)`
 
-(翻译中……)
+断言 `Wrapper` `vm` 有匹配的属性值。
 
-Assert `Wrapper` `vm` has `prop` matching `value`.
+如果 `Wrapper` `vm` 有属性 `prop` 并且其属性值匹配 `value` 则返回 `true`。
 
-Returns `true` if `Wrapper` `vm` has `prop` matching `value`.
+**注意：该包裹器必须包含一个 Vue 示例。**
 
-
-**Note: the Wrapper must contain a Vue instance.**
-
-- **Arguments:**
+- **参数：**
   - `{string} prop`
   - `{any} value`
 
-- **Returns:** `{boolean}`
+- **返回值：**`{boolean}`
 
-- **Example:**
+- **示例：**
 
 ```js
 import { mount } from 'vue-test-utils'

@@ -1,17 +1,15 @@
-# hasClass(className)
+# `hasClass(className)`
 
-(翻译中……)
+断言 `Wrapper` DOM 节点包含一个 class 名。
 
-Assert `Wrapper` DOM node has class contains `className`.
+如果 `Wrapper` DOM 节点包含名为 `className` 的 class 则返回 `true`。
 
-Returns `true` if `Wrapper` DOM node contains class.
-
-- **Arguments:**
+- **参数：**
   - `{string} className`
 
-- **Returns:** `{boolean}`
+- **返回值：**`{boolean}`
 
-- **Example:**
+- **示例：**
 
 ```js
 import { mount } from 'vue-test-utils'

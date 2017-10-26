@@ -1,12 +1,10 @@
-# update()
+# `update()`
 
-(翻译中……)
+强制根 Vue 组件重渲染。
 
-Force root Vue component to re-render.
+如果在包含一个 `vm` 的 `Wrapper` 上调用，则会强制 `Wrapper` `vm` 重渲染。
 
-If called on a `Wrapper` containing a `vm`, it will force the `Wrapper` `vm` to re-render.
-
-- **Example:**
+- **示例：**
 
 ```js
 import { mount } from 'vue-test-utils'

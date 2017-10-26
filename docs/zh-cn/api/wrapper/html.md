@@ -1,12 +1,10 @@
-# html()
+# `html()`
 
-(翻译中……)
+返回 `Wrapper` DOM 节点的 HTML 字符串。
 
-Returns HTML of `Wrapper` DOM node as a string.
+- **返回值：**`{string}`
 
-- **Returns:** `{string}`
-
-- **Example:**
+- **示例：**
 
 ```js
 import { mount } from 'vue-test-utils'

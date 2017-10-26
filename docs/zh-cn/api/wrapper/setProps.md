@@ -1,15 +1,13 @@
-# setProps(props)
+# `setProps(props)`
 
-(翻译中……)
-
-- **Arguments:**
+- **参数：**
   - `{Object} props`
 
-- **Usage:**
+- **用法：**
 
-Sets `Wrapper` `vm` props and forces update.
+设置 `Wrapper` `vm` 的 prop 并强制更新。
 
-**Note the Wrapper must contain a Vue instance.**
+**注意：该包裹器必须包含一个 Vue 示例。**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -21,7 +19,7 @@ wrapper.setProps({ foo: 'bar' })
 expect(wrapper.vm.foo).to.equal('bar')
 ```
 
-You can also pass a `propsData` object, which will initialize the Vue instance with passed values.
+你也可以传递一个 `propsData` 对象，这会用该对象来初始化 Vue 示例。
 
 ``` js
 // Foo.vue

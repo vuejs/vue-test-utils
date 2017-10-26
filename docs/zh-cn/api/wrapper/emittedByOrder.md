@@ -1,12 +1,10 @@
-# emittedByOrder()
+# `emittedByOrder()`
 
-(翻译中……)
+返回一个包含由 `Wrapper` `vm` 触发的自定义事件的数组。
 
-Return an Array containing custom events emitted by the `Wrapper` `vm`.
+- **返回值：**`Array<{ name: string, args: Array<any> }>`
 
-- **Returns:** `Array<{ name: string, args: Array<any> }>`
-
-- **Example:**
+- **示例：**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -18,13 +16,13 @@ wrapper.vm.$emit('foo')
 wrapper.vm.$emit('bar', 123)
 
 /*
-wrapper.emittedByOrder() returns the following Array:
+`wrapper.emittedByOrder()` 返回如下数组：
 [
   { name: 'foo', args: [] },
   { name: 'bar', args: [123] }
 ]
 */
 
-// assert event emit order
+// 断言事件的触发顺序
 expect(wrapper.emittedByOrder().map(e => e.name)).toEqual(['foo', 'bar'])
 ```

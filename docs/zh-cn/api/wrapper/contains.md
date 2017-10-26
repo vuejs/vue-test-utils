@@ -1,15 +1,13 @@
-# contains(selector)
+# `contains(selector)`
 
-(翻译中……)
+判断 `Wrapper` 是否包含了一个匹配[选择器](../selectors.md)的元素或组件。
 
-Assert `Wrapper` contains an element or component matching [selector](../selectors.md).
-
-- **Arguments:**
+- **参数：**
   - `{string|Component} selector`
 
-- **Returns:** `{boolean}`
+- **返回值：** `{boolean}`
 
-- **Example:**
+- **示例：**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -22,4 +20,4 @@ expect(wrapper.contains('p')).toBe(true)
 expect(wrapper.contains(Bar)).toBe(true)
 ```
 
-- **See also:** [selectors](../selectors.md)
+- **延伸阅读：**[选择器](../selectors.md)
