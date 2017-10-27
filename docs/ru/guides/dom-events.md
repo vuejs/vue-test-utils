@@ -27,7 +27,7 @@ You can run preventDefault on the event by passing `preventDefault: true` in `op
 ```js
 const wrapper = mount(MyButton)
 
-wrapper.trigger('click', {preventDefault: true})
+wrapper.trigger('click', { preventDefault: true })
 ```
 
 
@@ -35,7 +35,7 @@ wrapper.trigger('click', {preventDefault: true})
 
 **Component under test**
 
-```js
+```html
 <template>
 <div>
   <button class="yes" @click="callYes">Yes</button>
@@ -91,7 +91,7 @@ describe('Click event', () => {
 
 This component allows to increment/decrement the quantity using various keys.
 
-```js
+```html
 <template>
 <input type="text" @keydown.prevent="onKeydown" v-model="quantity" />
 </template>
