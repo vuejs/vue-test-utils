@@ -4,7 +4,7 @@ Assert `Wrapper` DOM node has style matching value
 
 Returns `true` if `Wrapper` DOM node has `style` matching `string`.
 
-**Note will only detect inline styles when running in `jsdom`.**
+**Обратите внимание, что определяются только inline-стили при запуске в `jsdom`.**
 
 - **Принимает:**
   - `{string} style`

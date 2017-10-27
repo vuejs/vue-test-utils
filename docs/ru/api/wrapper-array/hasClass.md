@@ -1,6 +1,6 @@
 # hasClass(className)
 
-Assert every `Wrapper` in `WrapperArray` DOM node has class containing `className`.
+Проверка, что каждый `Wrapper` в `WrapperArray` DOM node has class containing `className`.
 
 - **Принимает:**
   - `{string} className`

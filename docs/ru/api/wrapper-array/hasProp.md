@@ -1,6 +1,6 @@
 # hasProp(prop, value)
 
-Assert every `Wrapper` in `WrapperArray`  `vm` has `prop` matching `value`.
+Проверка, что каждый `Wrapper` в `WrapperArray`  `vm` has `prop` matching `value`.
 
 **Обратите внимание, что `Wrapper` должен содержать экземпляр Vue.**
 

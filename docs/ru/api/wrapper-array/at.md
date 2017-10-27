@@ -1,6 +1,6 @@
 # at(index)
 
-Returns `Wrapper` at `index` passed. Uses zero based numbering (i.e. first item is at index 0).
+Возвращает `Wrapper` по указанному индексу в `index`. Используется нумерация с нуля (т.е. первый элемент имеет будет по индексу 0).
 
 - **Принимает:**
   - `{number} index`

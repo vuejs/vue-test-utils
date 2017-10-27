@@ -1,6 +1,6 @@
 # hasAttribute(attribute, value)
 
-Assert every `Wrapper` in `WrapperArray` DOM node has `attribute` matching `value`.
+Проверка, что каждый `Wrapper` в `WrapperArray` DOM нод имеет атрибут `attribute` с значением `value`.
 
 - **Принимает:**
   - `{string} attribute`

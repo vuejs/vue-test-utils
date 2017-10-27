@@ -1,6 +1,6 @@
 # isEmpty()
 
-Assert every `Wrapper` in `WrapperArray` does not contain child node.
+Проверка, что каждый `Wrapper` в `WrapperArray` does not contain child node.
 
 - **Возвращает:** `{boolean}`
 

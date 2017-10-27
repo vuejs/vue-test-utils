@@ -1,6 +1,6 @@
 # contains(selector)
 
-Assert every wrapper in `WrapperArray` contains selector.
+Проверка, что каждый `Wrapper` в `WrapperArray` содержит селектор.
 
 Используйте любой валидный [селектор](../selectors.md).
 

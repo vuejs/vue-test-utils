@@ -1,6 +1,6 @@
 # is(selector)
 
-Assert every `Wrapper` in `WrapperArray` DOM node or `vm` matches [selector](../selectors.md).
+Проверка, что каждый `Wrapper` в `WrapperArray` DOM node or `vm` matches [selector](../selectors.md).
 
 - **Принимает:**
   - `{string|Component} selector`
