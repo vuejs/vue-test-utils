@@ -1,6 +1,6 @@
 # isEmpty()
 
-Assert `Wrapper` does not contain child node.
+Проверяет, что `Wrapper` не содержит дочерних узлов.
 
 - **Returns:** `{boolean}`
 

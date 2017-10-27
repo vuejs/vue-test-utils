@@ -1,8 +1,8 @@
 # destroy()
 
-Destroys a Vue component instance.
+Уничтожает экземпляр компонента Vue.
 
-- **Example:**
+- **Пример:**
 
 ```js
 import { mount } from 'vue-test-utils'

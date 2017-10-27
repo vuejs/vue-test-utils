@@ -1,16 +1,16 @@
 # Wrapper
 
-vue-test-utils is a wrapper based API.
+vue-test-utils — это API использующее обёртки (wrapper).
 
-A `Wrapper` is an object that contains a mounted component or vnode and methods to test the component or vnode.
+`Wrapper` — это объект, который содержит примонтированный компонент или VNode и методы для тестирования компонента или VNnode.
 
-- **Properties:**
+- **Свойства:**
 
-`vm` `Component`: this is the vue instance. You can access all the [instance methods and properties of a vm](https://vuejs.org/v2/api/#Instance-Properties) with `wrapper.vm`. This only exists on Vue component wrappers
-`element` `HTMLElement`: the root DOM node of the wrapper
-`options` `Object`: Object containing vue-test-utils options passed to `mount` or `shallow`
-`options.attachedToDom` `Boolean`: True if attachToDom was passed to `mount` or `shallow`
+`vm` `Component`: это экземпляр Vue. Вы можете получить доступ ко всем [методам и свойствам экземпляра](https://ru.vuejs.org/v2/api/index.html#%D0%9E%D0%BF%D1%86%D0%B8%D0%B8-%E2%80%94-%D0%B4%D0%B0%D0%BD%D0%BD%D1%8B%D0%B5) через `wrapper.vm`. Это существует только в обёртках для компонентов Vue
+`element` `HTMLElement`: корневая DOM-нода обёртки
+`options` `Object`: Объект содержащий опции vue-test-utils, передаваемые в `mount` или `shallow`
+`options.attachedToDom` `Boolean`: `true` если был передан attachToDom в `mount` или `shallow`
 
-- **Methods:**
+- **Методы:**
 
-There is a detailed list of methods in the wrapper section of the docs.
+Подробный список методов можно изучить в разделе документации про wrapper.
