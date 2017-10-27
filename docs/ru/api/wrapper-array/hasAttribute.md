@@ -2,13 +2,13 @@
 
 Assert every `Wrapper` in `WrapperArray` DOM node has `attribute` matching `value`.
 
-- **Arguments:**
+- **Принимает:**
   - `{string} attribute`
   - `{string} value`
 
-- **Returns:** `{boolean}`
+- **Возвращает:** `{boolean}`
 
-- **Example:**
+- **Пример:**
 
 ```js
 import { mount } from 'vue-test-utils'

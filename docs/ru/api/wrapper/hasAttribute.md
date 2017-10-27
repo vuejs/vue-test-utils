@@ -4,13 +4,13 @@ Assert `Wrapper` DOM node has attribute matching value.
 
 Returns `true` if `Wrapper` DOM node contains attribute with matching value.
 
-- **Arguments:**
+- **Принимает:**
   - `{string} attribute`
   - `{string} value`
 
-- **Returns:** `{boolean}`
+- **Возвращает:** `{boolean}`
 
-- **Example:**
+- **Пример:**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -21,7 +21,7 @@ const wrapper = mount(Foo)
 expect(wrapper.hasAttribute('id', 'foo')).toBe(true)
 ```
 
-- **Alternative:**
+- **Альтернатива:**
 
 You could get the attribute from the `Wrapper.element` to have a value based assertion:
 

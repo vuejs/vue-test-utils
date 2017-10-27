@@ -2,9 +2,9 @@
 
 Return an object containing custom events emitted by the `Wrapper` `vm`.
 
-- **Returns:** `{ [name: string]: Array<Array<any>> }`
+- **Возвращает:** `{ [name: string]: Array<Array<any>> }`
 
-- **Example:**
+- **Пример:**
 
 ```js
 import { mount } from 'vue-test-utils'

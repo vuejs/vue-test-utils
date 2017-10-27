@@ -1,6 +1,6 @@
 # shallow(component {, options}])
 
-- **Arguments:**
+- **Принимает:**
 
   - `{Component} component`
   - `{Object} options`
@@ -15,13 +15,13 @@
     - `{Object} children`
     - `{Vue} localVue`
 
-- **Returns:** `{Wrapper}`
+- **Возвращает:** `{Wrapper}`
 
-- **Options:**
+- **Опции:**
 
 See [options](./options.md)
 
-- **Usage:**
+- **Использование:**
 
 Returns [`Wrapper`](./wrapper/README.md) of first DOM node or Vue component matching selector.
 
@@ -29,7 +29,7 @@ Stubs all child components.
 
 Use any valid [selector](./selectors.md).
 
-**Without options:**
+**Без опций:**
 
 ```js
 import { shallow } from 'vue-test-utils'
@@ -44,7 +44,7 @@ describe('Foo', () => {
 })
 ```
 
-**With Vue options:**
+**С опциями Vue:**
 
 ```js
 import { shallow } from 'vue-test-utils'

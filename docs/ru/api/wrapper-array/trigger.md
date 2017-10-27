@@ -2,12 +2,12 @@
 
 Triggers an event on every `Wrapper` in the `WrapperArray` DOM node.
 
-**Note every `Wrapper` must contain a Vue instance.**
+**Обратите внимание, что каждый `Wrapper` должен содержать экземпляр Vue.**
 
-- **Arguments:**
+- **Принимает:**
   - `{string} eventName`
 
-- **Example:**
+- **Пример:**
 
 ```js
 import { mount } from 'vue-test-utils'

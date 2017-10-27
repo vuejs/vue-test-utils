@@ -2,12 +2,12 @@
 
 Assert every `Wrapper` in `WrapperArray` DOM node or `vm` matches [selector](../selectors.md).
 
-- **Arguments:**
+- **Принимает:**
   - `{string|Component} selector`
 
-- **Returns:** `{boolean}`
+- **Возвращает:** `{boolean}`
 
-- **Example:**
+- **Пример:**
 
 ```js
 import { mount } from 'vue-test-utils'

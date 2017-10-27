@@ -6,12 +6,12 @@ Trigger takes an optional `options` object. The properties in the `options` obje
 
 You can run preventDefault on the event by passing `preventDefault: true` in `options`.
 
-- **Arguments:**
+- **Принимает:**
   - `{string} eventName`
   - `{Object} options`
     - `{boolean} preventDefault`
 
-- **Example:**
+- **Пример:**
 
 ```js
 import { mount } from 'vue-test-utils'

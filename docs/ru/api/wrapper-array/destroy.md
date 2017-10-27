@@ -1,8 +1,8 @@
 # destroy()
 
-Destroys each Vue `Wrapper` in `WrapperArray`.
+Уничтожает каждый `Wrapper` Vue в `WrapperArray`.
 
-- **Example:**
+- **Пример:**
 
 ```js
 import { mount } from 'vue-test-utils'

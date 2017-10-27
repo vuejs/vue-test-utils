@@ -4,9 +4,9 @@ Assert `Wrapper` or `WrapperArray` exists.
 
 Returns false if called on an empty `Wrapper` or `WrapperArray`.
 
-- **Returns:** `{boolean}`
+- **Возвращает:** `{boolean}`
 
-- **Example:**
+- **Пример:**
 
 ```js
 import { mount } from 'vue-test-utils'

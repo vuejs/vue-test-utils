@@ -4,12 +4,12 @@ Assert every wrapper in `WrapperArray` contains selector.
 
 Use any valid [selector](../selectors.md).
 
-- **Arguments:**
+- **Принимает:**
   - `{string|Component} selector`
 
-- **Returns:** `{boolean}`
+- **Возвращает:** `{boolean}`
 
-- **Example:**
+- **Пример:**
 
 ```js
 import { shallow } from 'vue-test-utils'

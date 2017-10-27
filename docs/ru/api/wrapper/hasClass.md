@@ -4,12 +4,12 @@ Assert `Wrapper` DOM node has class contains `className`.
 
 Returns `true` if `Wrapper` DOM node contains class.
 
-- **Arguments:**
+- **Принимает:**
   - `{string} className`
 
-- **Returns:** `{boolean}`
+- **Возвращает:** `{boolean}`
 
-- **Example:**
+- **Пример:**
 
 ```js
 import { mount } from 'vue-test-utils'

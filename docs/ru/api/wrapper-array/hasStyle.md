@@ -5,13 +5,14 @@ Assert every `Wrapper` in `WrapperArray` DOM node has style matching value.
 Returns `true` if `Wrapper` DOM node has `style` matching `string`.
 
 **Note will only detect inline styles when running in `jsdom`.**
-- **Arguments:**
+
+- **Принимает:**
   - `{string} style`
   - `{string} value`
 
-- **Returns:** `{boolean}`
+- **Возвращает:** `{boolean}`
 
-- **Example:**
+- **Пример:**
 
 ```js
 import { mount } from 'vue-test-utils'

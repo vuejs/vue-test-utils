@@ -4,12 +4,12 @@ Returns [`Wrapper`](README.md) of first DOM node or Vue component matching selec
 
 Use any valid [selector](../selectors.md).
 
-- **Arguments:**
+- **Принимает:**
   - `{string|Component} selector`
 
-- **Returns:** `{Wrapper}`
+- **Возвращает:** `{Wrapper}`
 
-- **Example:**
+- **Пример:**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -24,4 +24,4 @@ const bar = wrapper.find(Bar)
 expect(bar.is(Bar)).toBe(true)
 ```
 
-- **See also:** [Wrapper](README.md)
+- **См. также:** [Wrapper](README.md)

@@ -4,16 +4,15 @@ Assert `Wrapper` `vm` has `prop` matching `value`.
 
 Returns `true` if `Wrapper` `vm` has `prop` matching `value`.
 
+**Обратите внимание, что `Wrapper` должен содержать экземпляр Vue.**
 
-**Note: the Wrapper must contain a Vue instance.**
-
-- **Arguments:**
+- **Принимает:**
   - `{string} prop`
   - `{any} value`
 
-- **Returns:** `{boolean}`
+- **Возвращает:** `{boolean}`
 
-- **Example:**
+- **Пример:**
 
 ```js
 import { mount } from 'vue-test-utils'

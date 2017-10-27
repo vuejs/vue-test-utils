@@ -4,12 +4,12 @@ Returns a [`WrapperArray`](../wrapper-array/README.md) of [Wrappers](README.md).
 
 Use any valid [selector](../selectors.md).
 
-- **Arguments:**
+- **Принимает:**
   - `{string|Component} selector`
 
-- **Returns:** `{WrapperArray}`
+- **Возвращает:** `{WrapperArray}`
 
-- **Example:**
+- **Пример:**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -24,4 +24,4 @@ const bar = wrapper.findAll(Bar).at(0)
 expect(bar.is(Bar)).toBe(true)
 ```
 
-- **See also:** [Wrapper](README.md)
+- **См. также:** [Wrapper](README.md)

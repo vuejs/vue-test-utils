@@ -2,9 +2,9 @@
 
 Returns text content of `Wrapper`.
 
-- **Returns:** `{string}`
+- **Возвращает:** `{string}`
 
-- **Example:**
+- **Пример:**
 
 ```js
 import { mount } from 'vue-test-utils'

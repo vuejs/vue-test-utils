@@ -2,12 +2,12 @@
 
 Assert every `Wrapper` in `WrapperArray` DOM node has class containing `className`.
 
-- **Arguments:**
+- **Принимает:**
   - `{string} className`
 
-- **Returns:** `{boolean}`
+- **Возвращает:** `{boolean}`
 
-- **Example:**
+- **Пример:**
 
 ```js
 import { mount } from 'vue-test-utils'

@@ -2,9 +2,9 @@
 
 Assert every `Wrapper` in `WrapperArray` is Vue instance.
 
-- **Returns:** `{boolean}`
+- **Возвращает:** `{boolean}`
 
-- **Example:**
+- **Пример:**
 
 ```js
 import { mount } from 'vue-test-utils'

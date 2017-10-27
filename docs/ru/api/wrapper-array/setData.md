@@ -2,12 +2,12 @@
 
 Sets `Wrapper` `vm` data and forces update on each `Wrapper` in `WrapperArray`.
 
-**Note every `Wrapper` must contain a Vue instance.**
+**Обратите внимание, что каждый `Wrapper` должен содержать экземпляр Vue.**
 
-- **Arguments:**
+- **Принимает:**
   - `{Object} data`
 
-- **Example:**
+- **Пример:**
 
 ```js
 import { mount } from 'vue-test-utils'

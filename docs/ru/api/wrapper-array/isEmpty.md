@@ -2,9 +2,9 @@
 
 Assert every `Wrapper` in `WrapperArray` does not contain child node.
 
-- **Returns:** `{boolean}`
+- **Возвращает:** `{boolean}`
 
-- **Example:**
+- **Пример:**
 
 ```js
 import { mount } from 'vue-test-utils'

@@ -2,15 +2,15 @@
 
 Assert every `Wrapper` in `WrapperArray`  `vm` has `prop` matching `value`.
 
-**Note the Wrapper must contain a Vue instance.**
+**Обратите внимание, что `Wrapper` должен содержать экземпляр Vue.**
 
-- **Arguments:**
+- **Принимает:**
   - `{string} prop`
   - `{any} value`
 
-- **Returns:** `{boolean}`
+- **Возвращает:** `{boolean}`
 
-- **Example:**
+- **Пример:**
 
 ```js
 import { mount } from 'vue-test-utils'

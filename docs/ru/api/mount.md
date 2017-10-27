@@ -1,23 +1,23 @@
 # mount(component {, options}])
 
-- **Arguments:**
+- **Принимает:**
 
   - `{Component} component`
   - `{Object} options`
 
-- **Returns:** `{Wrapper}`
+- **Возвращает:** `{Wrapper}`
 
-- **Options:**
+- **Опции:**
 
 See [options](options.md)
 
-- **Usage:**
+- **Использование:**
 
 Returns [`Wrapper`](wrapper/README.md) of first DOM node or Vue component matching selector.
 
 Use any valid [selector](selectors.md).
 
-**Without options:**
+**Без опций:**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -31,7 +31,7 @@ describe('Foo', () => {
   })
 })
 ```
-**With Vue options:**
+**С опциями Vue:**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -133,4 +133,4 @@ describe('Foo', () => {
 })
 ```
 
-- **See also:** [Wrapper](wrapper/README.md)
+- **См. также:** [Wrapper](wrapper/README.md)

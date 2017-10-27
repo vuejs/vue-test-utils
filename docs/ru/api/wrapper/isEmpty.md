@@ -2,9 +2,9 @@
 
 Проверяет, что `Wrapper` не содержит дочерних узлов.
 
-- **Returns:** `{boolean}`
+- **Возвращает:** `{boolean}`
 
-- **Example:**
+- **Пример:**
 
 ```js
 import { mount } from 'vue-test-utils'

@@ -2,12 +2,12 @@
 
 Returns `Wrapper` at `index` passed. Uses zero based numbering (i.e. first item is at index 0).
 
-- **Arguments:**
+- **Принимает:**
   - `{number} index`
 
-- **Returns:** `{Wrapper}`
+- **Возвращает:** `{Wrapper}`
 
-- **Example:**
+- **Пример:**
 
 ```js
 import { shallow } from 'vue-test-utils'
