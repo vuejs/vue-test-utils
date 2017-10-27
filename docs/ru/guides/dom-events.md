@@ -1,8 +1,8 @@
-# Testing Key, Mouse and other DOM events
+# Тестирование нажатий клавиш, мыши и других событий DOM
 
-## Trigger events
+## Генерация событий
 
-The `Wrapper` expose a `trigger` method. It can be used to trigger DOM events.
+`Wrapper` предоставляет метод `trigger`. Его можно использовать для генерации событий DOM.
 
 ```js
 const wrapper = mount(MyButton)
@@ -10,7 +10,7 @@ const wrapper = mount(MyButton)
 wrapper.trigger('click')
 ```
 
-You should be aware, that find returns a wrapper as well. Assuming `MyComponent` contains a button, the following code clicks the button.
+Вы должны помнить, что поиск возвращает также и wrapper. Предполагается, что `MyComponent` содержит кнопку, а следующий код нажимает эту кнопку.
 
 ```js
 const wrapper = mount(MyComponent)
@@ -18,11 +18,11 @@ const wrapper = mount(MyComponent)
 wrapper.find('button').trigger('click')
 ```
 
-## Options
+## Опции
 
-The trigger method takes an optional `options` object. The properties in the `options` object are added to the Event.
+Метод `trigger` также может опционально принимать объект `options`. Свойства объекта `options` добавятся к Event.
 
-You can run preventDefault on the event by passing `preventDefault: true` in `options`.
+Вы можете запустить preventDefault для события, передав `preventDefault: true` в `options`.
 
 ```js
 const wrapper = mount(MyButton)
@@ -31,9 +31,9 @@ wrapper.trigger('click', { preventDefault: true })
 ```
 
 
-## Mouse Click Example
+## Пример тестирования кнопки мыши
 
-**Component under test**
+**Тестируемый компонент**
 
 ```html
 <template>
@@ -63,7 +63,7 @@ export default {
 
 ```
 
-**Test**
+**Тест**
 
 ```js
 import YesNoComponent from '@/components/YesNoComponent'
@@ -85,11 +85,11 @@ describe('Click event', () => {
 })
 ```
 
-## Keyboard Example
+## Пример тестирования клавиши
 
-**Component under test**
+**Тестируемый компонент**
 
-This component allows to increment/decrement the quantity using various keys.
+Этот компонент позволяет увеличивать/уменьшать количество с помощью различных клавиш.
 
 ```html
 <template>
@@ -142,7 +142,7 @@ export default {
 
 ```
 
-**Test**
+**Тест**
 
 ```js
 import QuantityComponent from '@/components/QuantityComponent'
@@ -185,12 +185,12 @@ describe('Key event tests', () => {
 
 ```
 
-**Limitations**
+**Ограничения**
 
-A key name after the dot `keydown.up` is translated to a `keyCode`. This is supported for the following names:
+Имя модификатора после точки `keydown.up` преобразуется в `keyCode`. Это поддерживается для следующих имён:
 
 * enter, tab, delete, esc, space, up, down, left, right
 
-## Important
+## Важно
 
-vue-test-utils triggers event synchronously. Consequently, `vue.nextTick` is not required.
+vue-test-utils генерирует событие синхронно. Следовательно, `vue.nextTick` не требуется.
