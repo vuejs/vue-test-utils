@@ -1,7 +1,7 @@
 
 # setMethods(methods)
 
-Sets `Wrapper` `vm` methods and forces update on each `Wrapper` in `WrapperArray`.
+Устанавливает методы `Wrapper` `vm` и выполняет принудительное обновление каждого `Wrapper` в `WrapperArray`.
 
 **Обратите внимание, что каждый `Wrapper` должен содержать экземпляр Vue.**
 

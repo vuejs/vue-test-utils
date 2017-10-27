@@ -1,6 +1,6 @@
 # setData(data)
 
-Sets `Wrapper` `vm` data and forces update on each `Wrapper` in `WrapperArray`.
+Устанавливает данные `Wrapper` `vm` и выполняет принудительное обновление каждого `Wrapper` в `WrapperArray`.
 
 **Обратите внимание, что каждый `Wrapper` должен содержать экземпляр Vue.**
 

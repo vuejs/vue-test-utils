@@ -1,6 +1,6 @@
 # html()
 
-Returns HTML of `Wrapper` DOM node as a string.
+Возвращает HTML `Wrapper` DOM ноды в виде строки.
 
 - **Возвращает:** `{string}`
 

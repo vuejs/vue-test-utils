@@ -31,6 +31,7 @@ describe('Foo', () => {
   })
 })
 ```
+
 **С опциями Vue:**
 
 ```js
@@ -66,6 +67,7 @@ describe('Foo', () => {
   })
 })
 ```
+
 **Default and named slots:**
 
 ```js

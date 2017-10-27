@@ -5,7 +5,7 @@
 
 - **Использование:**
 
-Sets `Wrapper` `vm` props and forces update.
+Устанавливает входные параметры `Wrapper` `vm` и выполняет принудительное обновление.
 
 **Обратите внимание, что `Wrapper` должен содержать экземпляр Vue.**
 
@@ -19,7 +19,7 @@ wrapper.setProps({ foo: 'bar' })
 expect(wrapper.vm.foo).to.equal('bar')
 ```
 
-You can also pass a `propsData` object, which will initialize the Vue instance with passed values.
+Вы также можете передать объект `propsData`, который инициализирует экземпляр Vue с переданными значениями.
 
 ``` js
 // Foo.vue

@@ -1,6 +1,6 @@
 # trigger(eventName)
 
-Triggers an event on every `Wrapper` in the `WrapperArray` DOM node.
+Генерирует событие на каждом `Wrapper` в `WrapperArray` DOM узле.
 
 **Обратите внимание, что каждый `Wrapper` должен содержать экземпляр Vue.**
 

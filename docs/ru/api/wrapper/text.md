@@ -1,6 +1,6 @@
 # text()
 
-Returns text content of `Wrapper`.
+Возвращает текстовое содержимое `Wrapper`.
 
 - **Возвращает:** `{string}`
 

@@ -1,6 +1,6 @@
 # isEmpty()
 
-Проверка, что каждый `Wrapper` в `WrapperArray` does not contain child node.
+Проверка, что каждый `Wrapper` в `WrapperArray` не содержит дочерних узлов.
 
 - **Возвращает:** `{boolean}`
 
