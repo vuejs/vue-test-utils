@@ -1,8 +1,8 @@
 # exists()
 
-Assert `Wrapper` or `WrapperArray` exists.
+Проверка, что `Wrapper` или `WrapperArray` существует.
 
-Returns false if called on an empty `Wrapper` or `WrapperArray`.
+Возвращает `false` если вызывается на пустом `Wrapper` или `WrapperArray`.
 
 - **Возвращает:** `{boolean}`
 

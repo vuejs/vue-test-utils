@@ -2,7 +2,7 @@
 
 Assert every wrapper in `WrapperArray` contains selector.
 
-Use any valid [selector](../selectors.md).
+Используйте любой валидный [селектор](../selectors.md).
 
 - **Принимает:**
   - `{string|Component} selector`

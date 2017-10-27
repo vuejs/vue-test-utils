@@ -1,8 +1,8 @@
 # hasClass(className)
 
-Assert `Wrapper` DOM node has class contains `className`.
+Проверка, что `Wrapper` DOM нода имеет класс, содержащий `className`.
 
-Returns `true` if `Wrapper` DOM node contains class.
+Возвращает `true` если `Wrapper` DOM нода содержит класс.
 
 - **Принимает:**
   - `{string} className`

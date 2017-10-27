@@ -1,8 +1,8 @@
 # hasProp(prop, value)
 
-Assert `Wrapper` `vm` has `prop` matching `value`.
+Проверка, что `Wrapper` `vm` имеет `prop` с значением `value`.
 
-Returns `true` if `Wrapper` `vm` has `prop` matching `value`.
+Возвращает `true` если `Wrapper` `vm` имеет `prop` с значением `value`.
 
 **Обратите внимание, что `Wrapper` должен содержать экземпляр Vue.**
 

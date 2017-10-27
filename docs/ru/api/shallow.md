@@ -27,7 +27,7 @@ Returns [`Wrapper`](./wrapper/README.md) of first DOM node or Vue component matc
 
 Stubs all child components.
 
-Use any valid [selector](./selectors.md).
+Используйте любой валидный [селектор](./selectors.md).
 
 **Без опций:**
 

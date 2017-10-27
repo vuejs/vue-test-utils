@@ -1,8 +1,8 @@
 # findAll(selector)
 
-Returns a [`WrapperArray`](../wrapper-array/README.md) of [Wrappers](README.md).
+Возвращает [`WrapperArray`](../wrapper-array/README.md) из [Wrappers](README.md).
 
-Use any valid [selector](../selectors.md).
+Используйте любой валидный [селектор](../selectors.md).
 
 - **Принимает:**
   - `{string|Component} selector`

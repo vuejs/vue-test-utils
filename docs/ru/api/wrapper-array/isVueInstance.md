@@ -1,6 +1,6 @@
 # isVueInstance()
 
-Assert every `Wrapper` in `WrapperArray` is Vue instance.
+Проверка, что каждый `Wrapper` в `WrapperArray` является экземпляром Vue.
 
 - **Возвращает:** `{boolean}`
 

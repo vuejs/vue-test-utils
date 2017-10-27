@@ -1,8 +1,8 @@
 # find(selector)
 
-Returns [`Wrapper`](README.md) of first DOM node or Vue component matching selector.
+Возвращает [`Wrapper`](README.md) первой DOM ноды или компонента Vue, совпадающего по селектору.
 
-Use any valid [selector](../selectors.md).
+Используйте любой валидный [селектор](../selectors.md).
 
 - **Принимает:**
   - `{string|Component} selector`

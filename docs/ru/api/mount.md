@@ -15,7 +15,7 @@ See [options](options.md)
 
 Returns [`Wrapper`](wrapper/README.md) of first DOM node or Vue component matching selector.
 
-Use any valid [selector](selectors.md).
+Используйте любой валидный [селектор](selectors.md).
 
 **Без опций:**
 
