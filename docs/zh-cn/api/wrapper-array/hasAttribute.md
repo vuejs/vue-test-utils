@@ -1,16 +1,14 @@
-# hasAttribute(attribute, value)
+# `hasAttribute(attribute, value)`
 
-(翻译中……)
+断言 `WrapperArray` 中的每个 `Wrapper` 的 DOM 节点都有 `attribute` 特性的值匹配 `value`。
 
-Assert every `Wrapper` in `WrapperArray` DOM node has `attribute` matching `value`.
-
-- **Arguments:**
+- **参数：**
   - `{string} attribute`
   - `{string} value`
 
-- **Returns:** `{boolean}`
+- **返回值：**`{boolean}`
 
-- **Example:**
+- **示例：**
 
 ```js
 import { mount } from 'vue-test-utils'

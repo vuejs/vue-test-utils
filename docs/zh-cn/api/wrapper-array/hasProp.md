@@ -1,18 +1,16 @@
-# hasProp(prop, value)
+# `hasProp(prop, value)`
 
-(翻译中……)
+断言 `WrapperArray` 中的每个 `Wrapper` `vm` 都有 `prop` 属性值匹配 `value`。
 
-Assert every `Wrapper` in `WrapperArray`  `vm` has `prop` matching `value`.
+**注意：该包裹器必须包含一个 Vue 示例。**
 
-**Note the Wrapper must contain a Vue instance.**
-
-- **Arguments:**
+- **参数：**
   - `{string} prop`
   - `{any} value`
 
-- **Returns:** `{boolean}`
+- **返回值：**`{boolean}`
 
-- **Example:**
+- **示例：**
 
 ```js
 import { mount } from 'vue-test-utils'

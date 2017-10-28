@@ -1,15 +1,13 @@
-# trigger(eventName)
+# `trigger(eventName)`
 
-(翻译中……)
+为 `WrapperArray` 的每个 `Wrapper` DOM 节点都触发一个事件。
 
-Triggers an event on every `Wrapper` in the `WrapperArray` DOM node.
+**注意：该包裹器必须包含一个 Vue 示例。**
 
-**Note every `Wrapper` must contain a Vue instance.**
-
-- **Arguments:**
+- **参数：**
   - `{string} eventName`
 
-- **Example:**
+- **示例：**
 
 ```js
 import { mount } from 'vue-test-utils'

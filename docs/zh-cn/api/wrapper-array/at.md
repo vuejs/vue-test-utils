@@ -1,15 +1,13 @@
-# at(index)
+# `at(index)`
 
-(翻译中……)
+返回第 `index` 个传入的 `Wrapper` 。数字从 0 开始计数 (比如第一个项目的索引值是 0)。
 
-Returns `Wrapper` at `index` passed. Uses zero based numbering (i.e. first item is at index 0).
-
-- **Arguments:**
+- **参数：**
   - `{number} index`
 
-- **Returns:** `{Wrapper}`
+- **返回值：**`{Wrapper}`
 
-- **Example:**
+- **示例：**
 
 ```js
 import { shallow } from 'vue-test-utils'

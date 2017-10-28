@@ -1,19 +1,18 @@
-# hasStyle(style, value)
+# `hasStyle(style, value)`
 
-(翻译中……)
+断言 `WrapperArray` 中的每一个 `Wrapper` 的 DOM 节点都有样式的匹配值。
 
-Assert every `Wrapper` in `WrapperArray` DOM node has style matching value.
+如果 `Wrapper` 的 DOM 节点有 `style` 样式值匹配 `string` 则返回 `true`。
 
-Returns `true` if `Wrapper` DOM node has `style` matching `string`.
+**注意：当运行在 `jsdom` 中的时候只会匹配内联样式。**
 
-**Note will only detect inline styles when running in `jsdom`.**
-- **Arguments:**
+- **参数：**
   - `{string} style`
   - `{string} value`
 
-- **Returns:** `{boolean}`
+- **返回值：**`{boolean}`
 
-- **Example:**
+- **示例：**
 
 ```js
 import { mount } from 'vue-test-utils'
