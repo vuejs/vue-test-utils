@@ -86,7 +86,7 @@
     "vue": "^2.5.2",
     "vue-loader": "^13.0.5",
     "vue-router": "^2.7.0",
-    "vue-template-compiler": "^2.4.4",
+    "vue-template-compiler": "^2.5.2",
     "vuex": "^2.4.1",
     "webpack": "^3.6.0",
     "webpack-node-externals": "^1.6.0"
