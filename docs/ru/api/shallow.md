@@ -19,13 +19,13 @@
 
 - **Опции:**
 
-See [options](./options.md)
+См. [опции монтирования](./options.md)
 
 - **Использование:**
 
-Returns [`Wrapper`](./wrapper/README.md) of first DOM node or Vue component matching selector.
+Возвращает [`Wrapper`](./wrapper/README.md) первого DOM-узла или компонента Vue, соответствующего селектору.
 
-Stubs all child components.
+Создаёт заглушки для всех дочерних компонентов.
 
 Используйте любой валидный [селектор](./selectors.md).
 
@@ -63,7 +63,7 @@ describe('Foo', () => {
 })
 ```
 
-**Attach to DOM:**
+**Прикрепление к DOM:**
 
 ```js
 import { shallow } from 'vue-test-utils'
@@ -80,7 +80,7 @@ describe('Foo', () => {
 })
 ```
 
-**Default and named slots:**
+**Слот по умолчанию и именованные слоты:**
 
 ```js
 import { shallow } from 'vue-test-utils'
@@ -94,7 +94,7 @@ describe('Foo', () => {
     const wrapper = shallow(Foo, {
       slots: {
         default: [Bar, FooBar],
-        fooBar: FooBar, // Will match <slot name="FooBar" />,
+        fooBar: FooBar, // будет соответствовать <slot name="FooBar" />,
         foo: '<div />'
       }
     })
@@ -103,7 +103,7 @@ describe('Foo', () => {
 })
 ```
 
-**Stubbing global properties:**
+**Заглушки глобальных свойств:**
 
 ```js
 import { shallow } from 'vue-test-utils'
