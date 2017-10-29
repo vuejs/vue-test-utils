@@ -15,6 +15,34 @@ describe('mount.mocks', () => {
     expect(wrapper.vm.$route).to.equal($route)
   })
 
+  it('adds variables to vm when passed as mocks object', () => {
+    const stub = sinon.stub()
+    const $reactiveMock = { value: 'value' }
+    const wrapper = mount({
+      template: `
+        <div>
+          {{value}}
+        </div>
+      `,
+      computed: {
+        value () {
+          return this.$reactiveMock.value
+        }
+      },
+      watch: {
+        value () {
+          stub()
+        }
+      }
+    }, {
+      mocks: { $reactiveMock }
+    })
+    expect(wrapper.text()).to.contain('value')
+    $reactiveMock.value = 'changed value'
+    wrapper.update()
+    expect(wrapper.text()).to.contain('changed value')
+  })
+
   it('does not affect global vue class when passed as mocks object', () => {
     const $store = { store: true }
     const wrapper = mount(Component, {

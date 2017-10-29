@@ -1,5 +1,6 @@
 import createLocalVue from '~src/create-local-vue'
 import Vuex from 'vuex'
+import Vuetify from 'vuetify'
 import VueRouter from 'vue-router'
 import mount from '~src/mount'
 import Component from '~resources/components/component.vue'
@@ -105,5 +106,10 @@ describe('createLocalVue', () => {
       }
     }
     localVue.use(plugin, pluginOptions)
+  })
+
+  it('installs Vutify successfuly', () => {
+    const localVue = createLocalVue()
+    localVue.use(Vuetify)
   })
 })
