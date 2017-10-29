@@ -392,10 +392,10 @@ export default class Wrapper implements BaseWrapper {
       throwError('wrapper.destroy() can only be called on a Vue instance')
     }
 
-    if (this.vm.$el.parentNode) {
-      this.vm.$el.parentNode.removeChild(this.vm.$el)
+    if (this.element.parentNode) {
+      this.element.parentNode.removeChild(this.element)
     }
-
+    // $FlowIgnore
     this.vm.$destroy()
   }
 
