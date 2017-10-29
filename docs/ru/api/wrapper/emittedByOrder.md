@@ -1,6 +1,6 @@
 # emittedByOrder()
 
-Return an Array containing custom events emitted by the `Wrapper` `vm`.
+Возвращает массив, содержащий вызванные пользовательские события в `Wrapper` `vm`.
 
 - **Возвращает:** `Array<{ name: string, args: Array<any> }>`
 
@@ -16,13 +16,13 @@ wrapper.vm.$emit('foo')
 wrapper.vm.$emit('bar', 123)
 
 /*
-wrapper.emittedByOrder() returns the following Array:
+wrapper.emittedByOrder() возвращает следующий массив:
 [
   { name: 'foo', args: [] },
   { name: 'bar', args: [123] }
 ]
 */
 
-// assert event emit order
+// проверка, что события были вызваны в определённом порядке
 expect(wrapper.emittedByOrder().map(e => e.name)).toEqual(['foo', 'bar'])
 ```
