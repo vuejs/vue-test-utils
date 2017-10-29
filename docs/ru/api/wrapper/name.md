@@ -1,6 +1,6 @@
 # name()
 
-Returns component name if `Wrapper` contains a Vue instance, or the tag name of `Wrapper` DOM node if `Wrapper` does not contain a Vue instance.
+Возвращает имя компонента, если `Wrapper` содержит экземпляр Vue, или имя тега DOM-узла `Wrapper` если `Wrapper` не содержит экземпляра Vue.
 
 - **Возвращает:** `{string}`
 
