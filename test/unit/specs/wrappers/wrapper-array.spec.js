@@ -59,6 +59,18 @@ describe('WrapperArray', () => {
     expect(() => wrapperArray.findAll()).to.throw().with.property('message', message)
   })
 
+  it('classes throws error if called when there are 0 items in wrapper array', () => {
+    const wrapperArray = new WrapperArray()
+    const message = '[vue-test-utils]: classes cannot be called on 0 items'
+    expect(() => wrapperArray.classes()).to.throw().with.property('message', message)
+  })
+
+  it('classes throws error if called when there are items in wrapper array', () => {
+    const wrapperArray = new WrapperArray([1])
+    const message = '[vue-test-utils]: classes must be called on a single wrapper, use at(i) to access a wrapper'
+    expect(() => wrapperArray.classes()).to.throw().with.property('message', message)
+  })
+
   it('contains returns true if every wrapper.contains() returns true', () => {
     const selector = 'selector'
     const contains = sinon.stub()

@@ -8,6 +8,13 @@ describe('ErrorWrapper', () => {
     expect(() => error.at()).to.throw().with.property('message', message)
   })
 
+  it('classes throws error when called', () => {
+    const selector = 'div'
+    const message = `[vue-test-utils]: find did not return ${selector}, cannot call classes() on empty Wrapper`
+    const error = new ErrorWrapper(selector)
+    expect(() => error.classes()).to.throw().with.property('message', message)
+  })
+
   it('contains throws error when called', () => {
     const selector = 'div'
     const message = `[vue-test-utils]: find did not return ${selector}, cannot call contains() on empty Wrapper`

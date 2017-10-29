@@ -12,6 +12,10 @@ export default class ErrorWrapper implements BaseWrapper {
     throwError(`find did not return ${this.selector}, cannot call at() on empty Wrapper`)
   }
 
+  classes (): void {
+    throwError(`find did not return ${this.selector}, cannot call classes() on empty Wrapper`)
+  }
+
   contains (): void {
     throwError(`find did not return ${this.selector}, cannot call contains() on empty Wrapper`)
   }

@@ -20,6 +20,12 @@ export default class WrapperArray implements BaseWrapper {
     return this.wrappers[index]
   }
 
+  classes (): void {
+    this.throwErrorIfWrappersIsEmpty('classes')
+
+    throwError('classes must be called on a single wrapper, use at(i) to access a wrapper')
+  }
+
   contains (selector: Selector): boolean {
     this.throwErrorIfWrappersIsEmpty('contains')
 

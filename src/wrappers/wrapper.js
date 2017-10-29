@@ -33,6 +33,13 @@ export default class Wrapper implements BaseWrapper {
   }
 
   /**
+   * Returns an Array containing all the classes on the element
+   */
+  classes (): Array<string> {
+    return [...this.element.classList]
+  }
+
+  /**
    * Checks if wrapper contains provided selector.
    */
   contains (selector: Selector) {
