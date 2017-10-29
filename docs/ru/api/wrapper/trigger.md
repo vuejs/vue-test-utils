@@ -1,10 +1,10 @@
 # trigger(eventName)
 
-Triggers an event on the `Wrapper` DOM node.
+Вызывает событие на `Wrapper` DOM узле.
 
-Trigger takes an optional `options` object. The properties in the `options` object are added to the Event.
+Также можно передать опциональный объект `options`. Свойства объекта `options` будут добавлены к Event.
 
-You can run preventDefault on the event by passing `preventDefault: true` in `options`.
+Вы можете вызвать preventDefault на событие передав `preventDefault: true` в `options`.
 
 - **Принимает:**
   - `{string} eventName`
