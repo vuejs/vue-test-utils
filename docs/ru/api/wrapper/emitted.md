@@ -1,6 +1,6 @@
 # emitted()
 
-Return an object containing custom events emitted by the `Wrapper` `vm`.
+Возвращает объект, содержащий вызванные пользовательские события в `Wrapper` `vm`.
 
 - **Возвращает:** `{ [name: string]: Array<Array<any>> }`
 
@@ -16,18 +16,18 @@ wrapper.vm.$emit('foo')
 wrapper.vm.$emit('foo', 123)
 
 /*
-wrapper.emitted() returns the following object:
+wrapper.emitted() возвращает следующий объект:
 {
   foo: [[], [123]]
 }
 */
 
-// assert event has been emitted
+// проверка, что событие было вызвано
 expect(wrapper.emitted().foo).toBeTruthy()
 
-// assert event count
+// проверка, что событие вызывалось определённое число раз
 expect(wrapper.emitted().foo.length).toBe(2)
 
-// assert event payload
+// проверка, что с событием были переданы определённые данные
 expect(wrapper.emitted().foo[1]).toEqual([123])
 ```
