@@ -31,8 +31,12 @@ function createLocalVue (): Component {
   // compat for vue-router < 2.7.1 where it does not allow multiple installs
   const use = instance.use
   instance.use = (plugin, ...rest) => {
-    plugin.installed = false
-    plugin.install.installed = false
+    if (plugin.installed === true) {
+      plugin.installed = false
+    }
+    if (plugin.install && plugin.install.installed === true) {
+      plugin.install.installed = false
+    }
     use.call(instance, plugin, ...rest)
   }
   return instance
