@@ -1,8 +1,8 @@
 # update()
 
-Force root Vue component to re-render.
+Принудительный перерендеринг корневого компонента Vue.
 
-If called on a `Wrapper` containing a `vm`, it will force the `Wrapper` `vm` to re-render.
+Если вызывается на `Wrapper` содержащем `vm`, то будет вызван принудительный перерендеринг `Wrapper` `vm`.
 
 - **Пример:**
 
