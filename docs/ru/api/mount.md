@@ -9,11 +9,11 @@
 
 - **Опции:**
 
-See [options](options.md)
+См. [опции монтирования](options.md)
 
 - **Использование:**
 
-Returns [`Wrapper`](wrapper/README.md) of first DOM node or Vue component matching selector.
+Возвращает [`Wrapper`](wrapper/README.md) первого DOM-узла или компонента Vue, соответствующего селектору.
 
 Используйте любой валидный [селектор](selectors.md).
 
@@ -51,7 +51,7 @@ describe('Foo', () => {
 })
 ```
 
-**Attach to DOM:**
+**Прикрепление к DOM:**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -68,7 +68,7 @@ describe('Foo', () => {
 })
 ```
 
-**Default and named slots:**
+**Слот по умолчанию и именованные слоты:**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -82,7 +82,7 @@ describe('Foo', () => {
     const wrapper = mount(Foo, {
       slots: {
         default: [Bar, FooBar],
-        fooBar: FooBar, // Will match <slot name="FooBar" />,
+        fooBar: FooBar, // будет соответствовать <slot name="FooBar" />,
         foo: '<div />'
       }
     })
@@ -91,7 +91,7 @@ describe('Foo', () => {
 })
 ```
 
-**Stubbing global properties:**
+**Заглушки глобальных свойств:**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -111,7 +111,7 @@ describe('Foo', () => {
 })
 ```
 
-**Stubbing components:**
+**Заглушки компонентов:**
 
 ```js
 import { mount } from 'vue-test-utils'
