@@ -1,10 +1,10 @@
-# Mounting Options
+# Опции монтирования
 
-Options for `mount` and `shallow`. The options object can contain both `vue-test-utils` mounting options and raw Vue options.
+Опции для `mount` и `shallow`. Объект опций может содержать как настройки монтирования `vue-test-utils`, так и сырые опции Vue.
 
-Vue options are passed to the component when a new instance is created. , e.g. `store`, `propsData`. For a full list, see the [Vue API docs](https://vuejs.org/v2/api/).
+Опции Vue передаются в компонент при создании нового экземпляра , например `store`, `propsData`. Полный список можно изучить в [документаици API Vue](https://ru.vuejs.org/v2/api/).
 
-## `vue-test-utils` Specific Mounting Options
+## Специальные опции монтирования `vue-test-utils`
 
 - [context](#context)
 - [slots](#slots)
@@ -18,11 +18,11 @@ Vue options are passed to the component when a new instance is created. , e.g. `
 
 ### `context`
 
-- type: `Object`
+- Тип: `Object`
 
-Passes context to functional component. Can only be used with functional components.
+Передаёт контекст в функциональный компонент. Может использоваться только с функциональными компонентами.
 
-Example:
+Пример:
 
 ```js
 const wrapper = mount(Component, {
@@ -36,11 +36,11 @@ expect(wrapper.is(Component)).toBe(true)
 
 ### `slots`
 
-- type: `{ [name: string]: Array<Component>|Component|string }`
+- Тип: `{ [name: string]: Array<Component>|Component|string }`
 
-Provide an object of slot contents to the component. The key corresponds to the slot name. The value can be either a component, an array of components, or a template string.
+Предоставляет объект с содержимым слотов компоненту. Ключ соответствует имени слота. Значение может быть компонентом, массивом компонентов или строковым шаблоном.
 
-Example:
+Пример:
 
 ```js
 import { expect } from 'chai'
@@ -50,7 +50,7 @@ import Bar from './Bar.vue'
 const wrapper = shallow(Component, {
   slots: {
     default: [Foo, Bar],
-    fooBar: Foo, // Will match <slot name="FooBar" />,
+    fooBar: Foo, // будет соответствовать <slot name="FooBar" />,
     foo: '<div />'
   }
 })
@@ -59,11 +59,11 @@ expect(wrapper.find('div')).toBe(true)
 
 ### `stubs`
 
-- type: `{ [name: string]: Component | boolean } | Array<string>`
+- Тип: `{ [name: string]: Component | boolean } | Array<string>`
 
-Stubs child components. Can be an Array of component names to stub, or an object.
+Заглушки дочерних компонентов. Может быть массивом имен компонентов заменяемых заглушкой, или объектом.
 
-Example:
+Пример:
 
 ```js
 import Foo from './Foo.vue'
@@ -74,9 +74,9 @@ mount(Component, {
 
 shallow(Component, {
   stubs: {
-    // stub with a specific implementation
+    // заглушка со специальной реализацией
     'registered-component': Foo,
-    // create default stub
+    // создание обычной заглушки
     'another-component': true
   }
 })
@@ -84,11 +84,11 @@ shallow(Component, {
 
 ### `mocks`
 
-- type: `Object`
+- Тип: `Object`
 
-Add additional properties to the instance. Useful for mocking global injections.
+Дополнительные свойства для экземпляра. Полезно при создании моков глобальных инъекций.
 
-Example:
+Пример:
 
 ```js
 import { expect } from 'chai'
@@ -104,11 +104,11 @@ expect(wrapper.vm.$route.path).toBe($route.path)
 
 ### `localVue`
 
-- type: `Vue`
+- Тип: `Vue`
 
-A local copy of Vue created by [createLocalVue](./createLocalVue.md) to use when mounting the component. Installing plugins on this copy of Vue prevents polluting the original `Vue` copy.
+Локальная копия Vue, созданная с помощью [createLocalVue](./createLocalVue.md) для использования при монтировании компонента. Установка плагинов на этой копии Vue предотвращает загрязнение оригинальной копии `Vue`.
 
-Example:
+Пример:
 
 ```js
 import { createLocalVue, mount } from 'vue-test-utils'
@@ -136,30 +136,30 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 
 ### `attachToDocument`
 
-- type: `boolean`
-- default: `false`
+- Тип: `boolean`
+- По умолчанию: `false`
 
-Component will be attach to DOM when rendered if set to `true`. This can be used with [`hasStyle`](wrapper/hasStyle.md) to check multi element CSS selectors.
+Компонент будет прикрепляться к DOM при рендеринге, если установлено в `true`. Это может использоваться с [`hasStyle`](wrapper/hasStyle.md) для проверки селекторов CSS на нескольких элементах.
 
 ### `attrs`
 
-- type: `Object`
+- Тип: `Object`
 
-Set the component instance's `$attrs` object.
+Устанавливает объект `$attrs` на экземпляре компонента.
 
 ### `listeners`
 
-- type: `Object`
+- Тип: `Object`
 
-Set the component instance's `$listeners` object.
+Устанавливает объект `$listeners` на экземпляре компонента.
 
 ### `clone`
 
-- type: `boolean`
-- default: `true`
+- Тип: `boolean`
+- По умолчанию: `true`
 
-Clones component before mounting if `true`, which avoids mutating the original component definition.
+Клонирует компонент перед монтированием, если установлено в `true`, что позволяет избежать мутаций оригинального определения компонента.
 
-`options.mocks` (`Object`): Add globals to Vue instance.
+`options.mocks` (`Object`): Добавляет глобальные свойства в экземпляр Vue.
 
-`options.localVue` (`Object`): vue class to use in `mount`. See [createLocalVue](createLocalVue.md)
+`options.localVue` (`Object`): vue класс для использования в `mount`. См. также [createLocalVue](createLocalVue.md)
