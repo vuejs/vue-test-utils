@@ -1,4 +1,4 @@
-# Testing Single File Components with Jest
+# Тестирование однофайловых компонентов с Jest
 
 > An example project for this setup is available on [GitHub](https://github.com/vuejs/vue-test-utils-jest-example).
 
@@ -170,9 +170,9 @@ describe('Component', () => {
 })
 ```
 
-### Resources
+### Ресурсы
 
-- [Example project for this setup](https://github.com/vuejs/vue-test-utils-jest-example)
-- [Examples and slides from Vue Conf 2017](https://github.com/codebryo/vue-testing-with-jest-conf17)
+- [Пример проекта для этой конфигурации](https://github.com/vuejs/vue-test-utils-jest-example)
+- [Примеры и слайды с Vue Conf 2017](https://github.com/codebryo/vue-testing-with-jest-conf17)
 - [Jest](https://facebook.github.io/jest/)
 - [Babel preset env](https://github.com/babel/babel-preset-env)

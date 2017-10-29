@@ -1,8 +1,8 @@
-# Getting Started
+# Введение
 
-## Setup
+## Настройка
 
-To get a quick taste of using `vue-test-utils`, clone our demo repository with basic setup and install the dependencies:
+Для быстрого старта работы с `vue-test-utils`, клонируйте наш демонстрационный репозиторий с базовыми настройками и установите зависимости:
 
 ``` bash
 git clone https://github.com/vuejs/vue-test-utils-getting-started
@@ -10,7 +10,7 @@ cd vue-test-utils-getting-started
 npm install
 ```
 
-You will see that the project includes a simple component, `counter.js`:
+Вы увидите, что проект содержит простой компонент `counter.js`:
 
 ```js
 // counter.js
@@ -37,61 +37,61 @@ export default {
 }
 ```
 
-### Mounting Components
+### Монтирование компонентов
 
-`vue-test-utils` tests Vue components by mounting them in isolation, mocking the necessary inputs (props, injections and user events) and asserting the outputs (render result, emitted custom events).
+`vue-test-utils` тестирует компоненты Vue монтируя их изолированно, создавая моки необходимых входных данных (входные параметры, инъекции и пользовательские события) и выполняя проверки над результатом (результат рендеринга, вызванные пользовательские события).
 
-Mounted components are returned inside a [Wrapper](./api/wrapper.md), which exposes many convenience methods for manipulating, traversing and querying the underlying Vue component instance.
+Примонтированные компоненты возвращаются внутри [Wrapper](./api/wrapper.md), который предоставляет множество  удобных методов для манипулирования, перемещения и различных запросов для экземпляра компонента Vue.
 
-You can create wrappers using the `mount` method. Let's create a file called `test.js`:
+Вы можете создавать wrapper с помощью метода `mount`. Давайте создадим файл `test.js`:
 
 ```js
 // test.js
 
-// Import the mount() method from the test utils
-// and the component you want to test
+// Импортируем метод mount() из vue-test-utils
+// и компонент, который хотим протестировать
 import { mount } from 'vue-test-utils'
 import Counter from './counter'
 
-// Now mount the component and you have the wrapper
+// Теперь монтируем компонент и у нас появляется wrapper
 const wrapper = mount(Counter)
 
-// You can access the actual Vue instance via wrapper.vm
+// Вы можете получить доступ к экземпляру Vue через wrapper.vm
 const vm = wrapper.vm
 
-// To inspect the wrapper deeper just log it to the console
-// and your adventure with the vue-test-utils begins
+// Чтобы изучить wrapper подробнее, просто выведите его в консоль
+// и ваши приключения с vue-test-utils начнутся
 console.log(wrapper)
 ```
 
-### Test rendered HTML output of the component
+### Тестирование отрендеренного HTML компонента
 
-Now that we have the wrapper, the first thing we can do is to verify that the rendered HTML output of the component matches what is expected.
+Теперь, когда у нас есть wrapper, первой вещью, которую мы можем захотеть проверить что отрендеренный HTML компонента соответствует нашим ожиданиям.
 
 ```js
 import { mount } from 'vue-test-utils'
 import Counter from './counter'
 
 describe('Counter', () => {
-  // Now mount the component and you have the wrapper
+  // Теперь монтируем компонент и получаем wrapper
   const wrapper = mount(Counter)
 
   it('renders the correct markup', () => {
     expect(wrapper.html()).toContain('<span class="count">0</span>')
   })
 
-  // it's also easy to check for the existence of elements
+  // также легко проверить наличие других элементов
   it('has a button', () => {
     expect(wrapper.contains('button')).toBe(true)
   })
 })
 ```
 
-Now run the tests with `npm test`. You should see the tests passing.
+Теперь запустите тесты командой `npm test`. Вы должны увидеть, что все тесты проходят успешно.
 
-### Simulating User Interaction
+### Симуляция пользовательских действий
 
-Our counter should increment the count when the user clicks the button. To simulate the behavior, we need to first locate the button with `wrapper.find()`, which returns a **wrapper for the button element**. We can then simulate the click by calling `.trigger()` on the button wrapper:
+Наш счётчик должен увеличивать значение, когда пользователь нажимает кнопку. Чтобы симулировать это поведение, нам необходимо сначала получить кнопку с помощью `wrapper.find()`, который возвращает **wrapper для элемента кнопки**. Мы можем симулировать клик с помощью вызова `.trigger()` на wrapper кнопки:
 
 ```js
 it('button click should increment the count', () => {
@@ -110,7 +110,7 @@ To simplify usage, `vue-test-utils` applies all updates synchronously so you don
 
 *Note: `nextTick` is still necessary when you need to explictly advance the event loop, for operations such as asynchronous callbacks or promise resolution.*
 
-## What's Next
+## Что дальше
 
-- Integrate `vue-test-utils` into your project by [choosing a test runner](./choosing-a-test-runner.md)
-- Learn more about [common techniques when writing tests](./common-tips.md)
+- Интегрируйте `vue-test-utils` в ваш проект выбрав [программу для запуска тестов](./choosing-a-test-runner.md)
+- Прочитайте больше об [общих техниках и советах при написании тестов](./common-tips.md)

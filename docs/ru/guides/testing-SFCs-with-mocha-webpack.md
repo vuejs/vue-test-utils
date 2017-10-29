@@ -1,4 +1,4 @@
-# Testing Single File Components with Mocha + webpack
+# Тестирование однофайловых компонентов с Mocha + webpack
 
 > An example project for this setup is available on [GitHub](https://github.com/vuejs/vue-test-utils-mocha-webpack-example).
 
@@ -170,9 +170,9 @@ npm run unit
 
 Woohoo, we got our tests running!
 
-### Resources
+### Ресурсы
 
-- [Example project for this setup](https://github.com/vuejs/vue-test-utils-mocha-webpack-example)
+- [Пример проекта для этой конфигурации](https://github.com/vuejs/vue-test-utils-mocha-webpack-example)
 - [Mocha](https://mochajs.org/)
 - [mocha-webpack](http://zinserjan.github.io/mocha-webpack/)
 - [Chai](http://chaijs.com/)

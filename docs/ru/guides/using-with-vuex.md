@@ -1,4 +1,4 @@
-# Using with Vuex
+# Использование с Vuex
 
 In this guide, we'll see how to test Vuex in components with `vue-test-utils`.
 
@@ -257,8 +257,8 @@ describe('Modules.vue', () => {
 })
 ```
 
-### Resources
+### Ресурсы
 
-- [Example project for this guide](https://github.com/eddyerburgh/vue-test-utils-vuex-example)
+- [Пример проекта для этого руководства](https://github.com/eddyerburgh/vue-test-utils-vuex-example)
 - [localVue](../api/options.md#localvue)
 - [createLocalVue](../api/createLocalVue.md)
