@@ -1,8 +1,8 @@
 # hasStyle(style, value)
 
-Assert `Wrapper` DOM node has style matching value
+Проверка, что `Wrapper` DOM узел имеет стиль, соответствующий указанном значению
 
-Returns `true` if `Wrapper` DOM node has `style` matching `string`.
+Возвращает `true` если `Wrapper` DOM узел имеет стиль `style` совпадающий с `value`.
 
 **Обратите внимание, что определяются только inline-стили при запуске в `jsdom`.**
 

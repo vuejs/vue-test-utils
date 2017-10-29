@@ -1,6 +1,6 @@
 # is(selector)
 
-Проверка, что каждый `Wrapper` в `WrapperArray` DOM ноде или `vm` соответствует [селектору](../selectors.md).
+Проверка, что каждый `Wrapper` в `WrapperArray` DOM узле или `vm` соответствует [селектору](../selectors.md).
 
 - **Принимает:**
   - `{string|Component} selector`
