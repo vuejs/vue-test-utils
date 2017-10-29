@@ -1,8 +1,8 @@
 # update()
 
-Force root Vue component of each `Wrapper` in `WrapperArray` to re-render.
+Вызывает принудительный перерендеринг корневого компонента Vue у каждого `Wrapper` в `WrapperArray`.
 
-If called on a Vue component wrapper array, it will force each Vue component to re-render.
+Если вызывается на массиве wrapper, содержащем компоненты Vue, то будет вызван принудительный перерендеринг каждого компонента Vue.
 
 - **Пример:**
 
