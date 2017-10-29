@@ -2,7 +2,7 @@
 
 * [mount](./mount.md)
 * [shallow](./shallow.md)
-* [Mounting Options](./options.md)
+* [Опции монтирования](./options.md)
   - [context](./options.md#context)
   - [slots](./options.md#slots)
   - [stubs](./options.md#stubs)
@@ -50,5 +50,5 @@
   * [trigger](./wrapper-array/trigger.md)
   * [update](./wrapper-array/update.md)
   * [destroy](./wrapper-array/destroy.md)
-* [Selectors](./selectors.md)
+* [Селекторы](./selectors.md)
 * [createLocalVue](./createLocalVue.md)
