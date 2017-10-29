@@ -2,7 +2,7 @@
 
 Assert every `Wrapper` in `WrapperArray` DOM node has style matching value.
 
-Returns `true` if `Wrapper` DOM node has `style` matching `string`.
+Returns `true` if `Wrapper` DOM node has `style` matching `value`.
 
 **Note will only detect inline styles when running in `jsdom`.**
 - **Arguments:**
