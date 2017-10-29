@@ -1,29 +1,29 @@
-# Selectors
+# Селекторы
 
-A lot of methods take a selector as an argument. A selector can either be a CSS selector, or a Vue component.
+Многие методы принимают селектор в качестве аргумента. Селектором может быть CSS селектор или компонент Vue.
 
-## CSS Selectors
+## CSS селекторы
 
-mount handles any valid CSS selector:
+обрабатывают любой допустимый CSS селектор:
 
-- tag selectors (div, foo, bar)
-- class selectors (.foo, .bar)
-- attribute selectors ([foo], [foo="bar"])
-- id selectors (#foo, #bar)
-- pseudo selectors (div:first-of-type)
+- селекторы тегов (div, foo, bar)
+- селекторы классов (.foo, .bar)
+- селекторы атрибутов ([foo], [foo="bar"])
+- селекторы id (#foo, #bar)
+- селекторы псевдо-элементов (div:first-of-type)
 
-You can also use combinators:
+Вы также можете использовать комбинации:
 
 - direct descendant combinator (div > #bar > .foo)
 - general descendant combinator (div #bar .foo)
 - adjacent sibling selector (div + .foo)
 - general sibling selector (div ~ .foo)
 
-## Vue Components
+## Компоненты Vue
 
-Vue components are also valid selectors.
+Компоненты Vue также являются допустимыми селекторами.
 
-vue-test-utils uses the `name` property to search the instance tree for matching Vue components.
+vue-test-utils использует свойство `name` для поиска экземпляра в дереве компонентов, соответствующих компоненту Vue.
 
 ```js
 // Foo.vue
