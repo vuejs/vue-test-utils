@@ -1,12 +1,10 @@
-# name()
+# `name()`
 
-(翻译中……)
+如果 `Wrapper` 包含一个 Vue 示例则返回组件名，否则返回 `Wrapper` DOM 节点的标签名。
 
-Returns component name if `Wrapper` contains a Vue instance, or the tag name of `Wrapper` DOM node if `Wrapper` does not contain a Vue instance.
+- **返回值：**`{string}`
 
-- **Returns:** `{string}`
-
-- **Example:**
+- **示例：**
 
 ```js
 import { mount } from 'vue-test-utils'

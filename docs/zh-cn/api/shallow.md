@@ -1,8 +1,6 @@
-# shallow(component {, options}])
+# `shallow(component {, options}])`
 
-(翻译中……)
-
-- **Arguments:**
+- **参数：**
 
   - `{Component} component`
   - `{Object} options`
@@ -17,21 +15,21 @@
     - `{Object} children`
     - `{Vue} localVue`
 
-- **Returns:** `{Wrapper}`
+- **返回值：**`{Wrapper}`
 
-- **Options:**
+- **选项：**
 
-See [options](./options.md)
+移步[选项](./options.md)
 
-- **Usage:**
+- **用法：**
 
-Returns [`Wrapper`](./wrapper/README.md) of first DOM node or Vue component matching selector.
+返回第一个 DOM 节点或匹配选择器的 Vue 组件的 [`Wrapper`](wrapper/README.md)。
 
-Stubs all child components.
+将存根所有的自组件。
 
-Use any valid [selector](./selectors.md).
+可使用任何有效的[选择器](./selectors.md)。
 
-**Without options:**
+**无选项：**
 
 ```js
 import { shallow } from 'vue-test-utils'
@@ -39,14 +37,14 @@ import { expect } from 'chai'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {
-  it('renders a div', () => {
+  it('返回一个 div', () => {
     const wrapper = shallow(Foo)
     expect(wrapper.contains('div')).toBe(true)
   })
 })
 ```
 
-**With Vue options:**
+**使用 Vue 选项：**
 
 ```js
 import { shallow } from 'vue-test-utils'
@@ -54,7 +52,7 @@ import { expect } from 'chai'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {
-  it('renders a div', () => {
+  it('渲染一个 div', () => {
     const wrapper = shallow(Foo, {
       propsData: {
         color: 'red'
@@ -65,7 +63,7 @@ describe('Foo', () => {
 })
 ```
 
-**Attach to DOM:**
+**固定在 DOM 上：**
 
 ```js
 import { shallow } from 'vue-test-utils'
@@ -73,7 +71,7 @@ import { expect } from 'chai'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {
-  it('renders a div', () => {
+  it('渲染一个 div', () => {
     const wrapper = shallow(Foo, {
       attachToDocument: true
     })
@@ -82,7 +80,7 @@ describe('Foo', () => {
 })
 ```
 
-**Default and named slots:**
+**默认的和具名的插槽：**
 
 ```js
 import { shallow } from 'vue-test-utils'
@@ -105,7 +103,7 @@ describe('Foo', () => {
 })
 ```
 
-**Stubbing global properties:**
+**将全局属性存根：**
 
 ```js
 import { shallow } from 'vue-test-utils'

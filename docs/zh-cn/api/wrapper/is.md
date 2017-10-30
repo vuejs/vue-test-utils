@@ -1,15 +1,13 @@
-# is(selector)
+# `is(selector)`
 
-(翻译中……)
+断言 `Wrapper` DOM 节点或 `vm` 匹配[选择器](../selectors.md)。
 
-Assert `Wrapper` DOM node or `vm` matches [selector](../selectors.md).
-
-- **Arguments:**
+- **参数：**
   - `{string|Component} selector`
 
-- **Returns:** `{boolean}`
+- **返回值：**`{boolean}`
 
-- **Example:**
+- **示例：**
 
 ```js
 import { mount } from 'vue-test-utils'

@@ -1,12 +1,10 @@
-# isEmpty()
+# `isEmpty()`
 
-(翻译中……)
+断言 `Wrapper` 并不包含子节点。
 
-Assert `Wrapper` does not contain child node.
+- **返回值：**`{boolean}`
 
-- **Returns:** `{boolean}`
-
-- **Example:**
+- **示例：**
 
 ```js
 import { mount } from 'vue-test-utils'

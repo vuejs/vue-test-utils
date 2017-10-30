@@ -1,12 +1,10 @@
-# emitted()
+# `emitted()`
 
-(翻译中……)
+返回一个包含由 `Wrapper` `vm` 触发的自定义事件的对象。
 
-Return an object containing custom events emitted by the `Wrapper` `vm`.
+- **返回值：**`{ [name: string]: Array<Array<any>> }`
 
-- **Returns:** `{ [name: string]: Array<Array<any>> }`
-
-- **Example:**
+- **示例：**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -18,18 +16,18 @@ wrapper.vm.$emit('foo')
 wrapper.vm.$emit('foo', 123)
 
 /*
-wrapper.emitted() returns the following object:
+`wrapper.emitted()` 返回如下对象：
 {
   foo: [[], [123]]
 }
 */
 
-// assert event has been emitted
+// 断言事件已经被触发
 expect(wrapper.emitted().foo).toBeTruthy()
 
-// assert event count
+// 断言事件的数量
 expect(wrapper.emitted().foo.length).toBe(2)
 
-// assert event payload
+// 断言事件的有效数据
 expect(wrapper.emitted().foo[1]).toEqual([123])
 ```

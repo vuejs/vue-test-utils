@@ -1,18 +1,16 @@
-# Wrapper
+# `Wrapper`
 
-(翻译中……)
+`vue-test-utils` 是一个基于包裹器的 API。
 
-vue-test-utils is a wrapper based API.
+一个 `Wrapper` 是一个包括了一个挂载组件或 vnode，以及测试该组件或 vnode 的方法。
 
-A `Wrapper` is an object that contains a mounted component or vnode and methods to test the component or vnode.
+- **属性：**
 
-- **Properties:**
+`vm` `Component`：这是该 Vue 实例。你可以通过 `wrapper.vm` 访问一个实例所有的[方法和属性](https://vuejs.org/v2/api/#Instance-Properties)。这只存在于 Vue 组件包裹器中
+`element` `HTMLElement`：包裹器的根 DOM 节点
+`options` `Object`：一个对象，包含传递给 `mount` 或 `shallow` 的 `vue-test-utils` 选项
+`options.attachedToDom` `Boolean`：如果 `attachToDom` 传递给了 `mount` 或 `shallow` 则为真
 
-`vm` `Component`: this is the vue instance. You can access all the [instance methods and properties of a vm](https://vuejs.org/v2/api/#Instance-Properties) with `wrapper.vm`. This only exists on Vue component wrappers
-`element` `HTMLElement`: the root DOM node of the wrapper
-`options` `Object`: Object containing vue-test-utils options passed to `mount` or `shallow`
-`options.attachedToDom` `Boolean`: True if attachToDom was passed to `mount` or `shallow`
+- **方法：**
 
-- **Methods:**
-
-There is a detailed list of methods in the wrapper section of the docs.
+在文档的 `Wrapper` 章节有详细的方法列表。

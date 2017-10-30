@@ -1,12 +1,10 @@
-# update()
+# `update()`
 
-(翻译中……)
+强制 `WrapperArray` 的每个 `Wrapper` 都根 Vue 组件重渲染。
 
-Force root Vue component of each `Wrapper` in `WrapperArray` to re-render.
+如果调用在 Vue 组件的包裹器数组上，则会强制每个 Vue 组件都重渲染。
 
-If called on a Vue component wrapper array, it will force each Vue component to re-render.
-
-- **Example:**
+- **示例：**
 
 ```js
 import { mount } from 'vue-test-utils'

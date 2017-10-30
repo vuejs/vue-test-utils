@@ -1,15 +1,13 @@
-# setData(data)
+# `setData(data)`
 
-(翻译中……)
+为 `WrapperArray` 的每个 `Wrapper` `vm` 都设置数据并强行更新。
 
-Sets `Wrapper` `vm` data and forces update on each `Wrapper` in `WrapperArray`.
+**注意：该包裹器必须包含一个 Vue 示例。**
 
-**Note every `Wrapper` must contain a Vue instance.**
-
-- **Arguments:**
+- **参数：**
   - `{Object} data`
 
-- **Example:**
+- **示例：**
 
 ```js
 import { mount } from 'vue-test-utils'

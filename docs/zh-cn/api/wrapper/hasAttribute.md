@@ -1,18 +1,16 @@
-# hasAttribute(attribute, value)
+# `hasAttribute(attribute, value)`
 
-(翻译中……)
+断言 `Wrapper` DOM 节点有匹配的特性值。
 
-Assert `Wrapper` DOM node has attribute matching value.
+如果 `Wrapper` DOM 节点包含有值匹配的特性则返回 `true`。
 
-Returns `true` if `Wrapper` DOM node contains attribute with matching value.
-
-- **Arguments:**
+- **参数：**
   - `{string} attribute`
   - `{string} value`
 
-- **Returns:** `{boolean}`
+- **返回值：**`{boolean}`
 
-- **Example:**
+- **示例：**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -23,9 +21,9 @@ const wrapper = mount(Foo)
 expect(wrapper.hasAttribute('id', 'foo')).toBe(true)
 ```
 
-- **Alternative:**
+- **替代方案：**
 
-You could get the attribute from the `Wrapper.element` to have a value based assertion:
+你可以从 `Wrapper.element` 获取特性并对其值做断言：
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -36,4 +34,4 @@ const wrapper = mount(Foo)
 expect(wrapper.element.getAttribute('id')).toBe('foo')
 ```
 
-This makes for a more informative assertion error.
+这使得断言的错误诊断信息更丰富。

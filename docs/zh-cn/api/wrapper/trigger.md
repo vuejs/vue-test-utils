@@ -1,19 +1,17 @@
-# trigger(eventName)
+# `trigger(eventName)`
 
-(翻译中……)
+在该 `Wrapper` DOM 节点上触发一个事件。
 
-Triggers an event on the `Wrapper` DOM node.
+`trigger` 带有一个可选的 `options` 对象。`options` 对象内的属性会被添加到事件上。
 
-Trigger takes an optional `options` object. The properties in the `options` object are added to the Event.
+你可以通过在 `options` 里传入 `preventDefault: true` 来运行事件上的 `preventDefault`。
 
-You can run preventDefault on the event by passing `preventDefault: true` in `options`.
-
-- **Arguments:**
+- **参数：**
   - `{string} eventName`
   - `{Object} options`
     - `{boolean} preventDefault`
 
-- **Example:**
+- **示例：**
 
 ```js
 import { mount } from 'vue-test-utils'

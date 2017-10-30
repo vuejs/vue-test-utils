@@ -1,12 +1,10 @@
-# text()
+# `text()`
 
-(翻译中……)
+返回 `Wrapper` 的文本内容。
 
-Returns text content of `Wrapper`.
+- **返回值：**`{string}`
 
-- **Returns:** `{string}`
-
-- **Example:**
+- **示例：**
 
 ```js
 import { mount } from 'vue-test-utils'

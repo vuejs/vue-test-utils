@@ -1,14 +1,12 @@
-# exists()
+# `exists()`
 
-(翻译中……)
+断言 `Wrapper` 或 `WrapperArray` 是否存在。
 
-Assert `Wrapper` or `WrapperArray` exists.
+如果被一个空 `Wrapper` 或 `WrapperArray` 调用则返回 `false`。
 
-Returns false if called on an empty `Wrapper` or `WrapperArray`.
+- **返回值：**`{boolean}`
 
-- **Returns:** `{boolean}`
-
-- **Example:**
+- **示例：**
 
 ```js
 import { mount } from 'vue-test-utils'

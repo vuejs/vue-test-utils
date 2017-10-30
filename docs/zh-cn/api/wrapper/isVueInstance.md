@@ -1,12 +1,10 @@
-# isVueInstance()
+# `isVueInstance()`
 
-(翻译中……)
+断言 `Wrapper` 是 Vue 示例。
 
-Assert `Wrapper` is Vue instance.
+- **返回值：**`{boolean}`
 
-- **Returns:** `{boolean}`
-
-- **Example:**
+- **示例：**
 
 ```js
 import { mount } from 'vue-test-utils'
