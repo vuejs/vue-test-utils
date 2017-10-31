@@ -36,7 +36,20 @@ export default class Wrapper implements BaseWrapper {
    * Returns an Array containing all the classes on the element
    */
   classes (): Array<string> {
-    return [...this.element.classList]
+    let classes = [...this.element.classList]
+    // Handle converting cssmodules identifiers back to the original class name
+    if (this.vm && this.vm.$style) {
+      const cssModuleIdentifiers = {}
+      let moduleIdent
+      Object.keys(this.vm.$style).forEach((key) => {
+        moduleIdent = this.vm.$style[key]
+        // CSS Modules may be multi-class if they extend others. Extended classes should be already present in $style.
+        moduleIdent = moduleIdent.split(' ')[0]
+        cssModuleIdentifiers[moduleIdent] = key
+      })
+      classes = classes.map(className => cssModuleIdentifiers[className] || className)
+    }
+    return classes
   }
 
   /**
