@@ -1,6 +1,5 @@
 // @flow
 
-import Vue from 'vue'
 import addSlots from './add-slots'
 import addMocks from './add-mocks'
 import addAttrs from './add-attrs'
@@ -10,12 +9,17 @@ import { stubComponents } from './stub-components'
 import { throwError } from './util'
 import cloneDeep from 'lodash/cloneDeep'
 import { compileTemplate } from './compile-template'
+import createLocalVue from '../create-local-vue'
 
 export default function createConstructor (
   component: Component,
   options: Options
 ): Component {
-  const vue = options.localVue || Vue
+  const vue = options.localVue || createLocalVue()
+
+  if (options.mocks) {
+    addMocks(options.mocks, vue)
+  }
 
   if (component.functional) {
     if (options.context && typeof options.context !== 'object') {
@@ -49,10 +53,6 @@ export default function createConstructor (
   }
 
   const Constructor = vue.extend(component)
-
-  if (options.mocks) {
-    addMocks(options.mocks, Constructor)
-  }
 
   const vm = new Constructor(options)
 

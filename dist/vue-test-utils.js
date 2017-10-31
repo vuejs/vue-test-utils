@@ -436,6 +436,12 @@ WrapperArray.prototype.update = function update () {
   this.wrappers.forEach(function (wrapper) { return wrapper.update(); });
 };
 
+WrapperArray.prototype.destroy = function destroy () {
+  this.throwErrorIfWrappersIsEmpty('destroy');
+
+  this.wrappers.forEach(function (wrapper) { return wrapper.destroy(); });
+};
+
 // 
 var ErrorWrapper = function ErrorWrapper (selector) {
   this.selector = selector;
@@ -533,6 +539,10 @@ ErrorWrapper.prototype.update = function update () {
   throwError(("find did not return " + (this.selector) + ", cannot call update() on empty Wrapper"));
 };
 
+ErrorWrapper.prototype.destroy = function destroy () {
+  throwError(("find did not return " + (this.selector) + ", cannot call destroy() on empty Wrapper"));
+};
+
 // 
 
 var Wrapper = function Wrapper (vnode, update, options) {
@@ -613,6 +623,8 @@ Wrapper.prototype.hasAttribute = function hasAttribute (attribute, value) {
  * Asserts wrapper has a class name
  */
 Wrapper.prototype.hasClass = function hasClass (className) {
+    var this$1 = this;
+
   var targetClass = className;
 
   if (typeof targetClass !== 'string') {
@@ -624,7 +636,11 @@ Wrapper.prototype.hasClass = function hasClass (className) {
     targetClass = this.vm.$style[targetClass];
   }
 
-  return !!(this.element && this.element.classList.contains(targetClass))
+  var containsAllClasses = targetClass
+    .split(' ')
+    .every(function (target) { return this$1.element.classList.contains(target); });
+
+  return !!(this.element && containsAllClasses)
 };
 
 /**
@@ -906,6 +922,21 @@ Wrapper.prototype.text = function text () {
 };
 
 /**
+ * Calls destroy on vm
+ */
+Wrapper.prototype.destroy = function destroy () {
+  if (!this.isVueComponent) {
+    throwError('wrapper.destroy() can only be called on a Vue instance');
+  }
+
+  if (this.element.parentNode) {
+    this.element.parentNode.removeChild(this.element);
+  }
+  // $FlowIgnore
+  this.vm.$destroy();
+};
+
+/**
  * Dispatches a DOM event on wrapper
  */
 Wrapper.prototype.trigger = function trigger (type, options) {
@@ -1049,10 +1080,10 @@ function addSlots (vm, slots) {
 }
 
 // 
-
 function addMocks (mockedProperties, Vue$$1) {
   Object.keys(mockedProperties).forEach(function (key) {
     Vue$$1.prototype[key] = mockedProperties[key];
+    Vue.util.defineReactive(Vue$$1, key, mockedProperties[key]);
   });
 }
 
@@ -1100,23 +1131,77 @@ function compileTemplate (component) {
 
 // 
 
-function createConstructor (component, options) {
-  var vue = options.localVue || Vue;
+function createLocalVue () {
+  var instance = Vue.extend();
 
-  if (options.context) {
-    if (!component.functional) {
-      throwError('mount.context can only be used when mounting a functional component');
+  // clone global APIs
+  Object.keys(Vue).forEach(function (key) {
+    if (!instance.hasOwnProperty(key)) {
+      var original = Vue[key];
+      instance[key] = typeof original === 'object'
+        ? cloneDeep(original)
+        : original;
     }
+  });
 
-    if (typeof options.context !== 'object') {
+  // config is not enumerable
+  instance.config = cloneDeep(Vue.config);
+
+  // option merge strategies need to be exposed by reference
+  // so that merge strats registered by plguins can work properly
+  instance.config.optionMergeStrategies = Vue.config.optionMergeStrategies;
+
+  // make sure all extends are based on this instance.
+  // this is important so that global components registered by plugins,
+  // e.g. router-link are created using the correct base constructor
+  instance.options._base = instance;
+
+  // compat for vue-router < 2.7.1 where it does not allow multiple installs
+  var use = instance.use;
+  instance.use = function (plugin) {
+    var rest = [], len = arguments.length - 1;
+    while ( len-- > 0 ) rest[ len ] = arguments[ len + 1 ];
+
+    if (plugin.installed === true) {
+      plugin.installed = false;
+    }
+    if (plugin.install && plugin.install.installed === true) {
+      plugin.install.installed = false;
+    }
+    use.call.apply(use, [ instance, plugin ].concat( rest ));
+  };
+  return instance
+}
+
+// 
+
+function createConstructor (
+  component,
+  options
+) {
+  var vue = options.localVue || createLocalVue();
+
+  if (options.mocks) {
+    addMocks(options.mocks, vue);
+  }
+
+  if (component.functional) {
+    if (options.context && typeof options.context !== 'object') {
       throwError('mount.context must be an object');
     }
     var clonedComponent = cloneDeep(component);
     component = {
       render: function render (h) {
-        return h(clonedComponent, options.context)
+        return h(
+          clonedComponent,
+          options.context || component.FunctionalRenderContext
+        )
       }
     };
+  } else if (options.context) {
+    throwError(
+      'mount.context can only be used when mounting a functional component'
+    );
   }
 
   if (options.provide) {
@@ -1132,10 +1217,6 @@ function createConstructor (component, options) {
   }
 
   var Constructor = vue.extend(component);
-
-  if (options.mocks) {
-    addMocks(options.mocks, Constructor);
-  }
 
   var vm = new Constructor(options);
 
@@ -1214,46 +1295,6 @@ function shallow (component, options) {
   stubGlobalComponents(clonedComponent, vue);
 
   return mount(clonedComponent, options)
-}
-
-// 
-
-function createLocalVue () {
-  var instance = Vue.extend();
-
-  // clone global APIs
-  Object.keys(Vue).forEach(function (key) {
-    if (!instance.hasOwnProperty(key)) {
-      var original = Vue[key];
-      instance[key] = typeof original === 'object'
-        ? cloneDeep(original)
-        : original;
-    }
-  });
-
-  // config is not enumerable
-  instance.config = cloneDeep(Vue.config);
-
-  // option merge strategies need to be exposed by reference
-  // so that merge strats registered by plguins can work properly
-  instance.config.optionMergeStrategies = Vue.config.optionMergeStrategies;
-
-  // make sure all extends are based on this instance.
-  // this is important so that global components registered by plugins,
-  // e.g. router-link are created using the correct base constructor
-  instance.options._base = instance;
-
-  // compat for vue-router < 2.7.1 where it does not allow multiple installs
-  var use = instance.use;
-  instance.use = function (plugin) {
-    var rest = [], len = arguments.length - 1;
-    while ( len-- > 0 ) rest[ len ] = arguments[ len + 1 ];
-
-    plugin.installed = false;
-    plugin.install.installed = false;
-    use.call.apply(use, [ instance, plugin ].concat( rest ));
-  };
-  return instance
 }
 
 // 

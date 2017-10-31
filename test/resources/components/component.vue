@@ -1,9 +1,9 @@
 <template>
-    <div />
+  <div />
 </template>
 
 <script>
-    export default {
-      name: 'component'
-    }
+  export default {
+    name: 'component'
+  }
 </script>
