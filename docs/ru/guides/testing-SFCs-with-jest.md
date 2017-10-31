@@ -1,20 +1,20 @@
 # Тестирование однофайловых компонентов с Jest
 
-> An example project for this setup is available on [GitHub](https://github.com/vuejs/vue-test-utils-jest-example).
+> Пример проекта для этой конфигурации доступен на [GitHub](https://github.com/vuejs/vue-test-utils-jest-example).
 
-Jest is a test runner developed by Facebook, aiming to deliver a battery-included unit testing solution. You can learn more about Jest on its [official documentation](https://facebook.github.io/jest/).
+Jest — это программа для запуска тестов, разработанная Facebook, направленная на предоставление функционального решения для модульного тестирования. Вы можете узнать больше о Jest в [официальной документации](https://facebook.github.io/jest/).
 
-## Setting up Jest
+## Установка Jest
 
-We will assume you are starting with a setup that already has webpack, vue-loader and Babel properly configured - e.g. the `webpack-simple` template scaffolded by `vue-cli`.
+Предположим, что вы начинаете с конфигурации, где правильно настроены webpack, vue-loader и Babel — например, развёрнутый шаблон `webpack-simple` с помощью `vue-cli`.
 
-The first thing to do is install Jest and `vue-test-utils`:
+Первым делом нам необходимо установить Jest и `vue-test-utils`:
 
 ```bash
 $ npm install --save-dev jest vue-test-utils
 ```
 
-Next we need to define a unit script in our `package.json`.
+Затем, необходимо указать псевдоним для запуска тестов в нашем `package.json`.
 
 ```json
 // package.json
@@ -25,15 +25,15 @@ Next we need to define a unit script in our `package.json`.
 }
 ```
 
-## Processing SFCs in Jest
+## Обработка однофайловых компонентов с Jest
 
-To teach Jest how to process `*.vue` files, we will need to install and configure the `vue-jest` preprocessor:
+Чтобы научить Jest как обрабатывать `*.vue` файлы, нам необходимо установить и настроить пре-процессор `vue-jest`:
 
 ``` bash
 npm install --save-dev vue-jest
 ```
 
-Next, create a `jest` block in `package.json`:
+Теперь, создадим секцию `jest` в файле `package.json`:
 
 ``` json
 {
@@ -42,11 +42,11 @@ Next, create a `jest` block in `package.json`:
     "moduleFileExtensions": [
       "js",
       "json",
-      // tell Jest to handle *.vue files
+      // сообщаем Jest что необходимо обрабатывать *.vue файлы
       "vue"
     ],
     "transform": {
-      // process *.vue files with vue-jest
+      // обрабатываем *.vue файлы с помощью vue-jest
       ".*\\.(vue)$": "<rootDir>/node_modules/vue-jest"
     },
     "mapCoverage": true
@@ -54,18 +54,18 @@ Next, create a `jest` block in `package.json`:
 }
 ```
 
-> **Note:** `vue-jest` currently does not support all the features of `vue-loader`, for example custom block support and style loading. In addition, some webpack-specific features such as code-splitting are not supported either. To use them, read the guide on [testing SFCs with Mocha + webpack](./testing-SFCs-with-mocha-webpack.md).
+> **Примечание:** `vue-jest` в настоящее время не поддерживает все возможности `vue-loader`, например пользовательские блоки и загрузку стилей. Кроме того, некоторые функции, специфичные для webpack, такие как code-splitting, также не поддерживаются. Чтобы использовать их прочитайте руководство по [тестированию однофайловых компонентов с Mocha + webpack](./testing-SFCs-with-mocha-webpack.md).
 
-## Handling webpack Aliases
+## Обработка псевдонимов webpack
 
-If you use a resolve alias in the webpack config, e.g. aliasing `@` to `/src`, you need to add a matching config for Jest as well, using the `moduleNameMapper` option:
+Если вы используете псевдонимы в конфигурации webpack, например когда `@` ссылается на путь `/src`, вам также нужно добавить соответствующую конфигурацию для Jest, используя опцию `moduleNameMapper`:
 
 ``` json
 {
   // ...
   "jest": {
     // ...
-    // support the same @ -> src alias mapping in source code
+    // добавление поддержки псевдонима @ -> src в исходном коде
     "moduleNameMapper": {
       "^@/(.*)$": "<rootDir>/src/$1"
     }
@@ -73,15 +73,15 @@ If you use a resolve alias in the webpack config, e.g. aliasing `@` to `/src`, y
 }
 ```
 
-## Configuring Babel for Jest
+## Конфигурация Babel для Jest
 
-Although latest versions of Node already supports most ES2015 features, you may still want to use ES modules syntax and stage-x features in your tests. For that we need to install `babel-jest`:
+Хотя последние версии Node уже поддерживают большинство функций ES2015, вы всё равно можете использовать синтаксис ES-модулей и stage-x функции в ваших тестах. Для этого нужно установить `babel-jest`:
 
 ``` bash
 npm install --save-dev babel-jest
 ```
 
-Next, we need to tell Jest to process JavaScript test files with `babel-jest` by adding an entry under `jest.transform` in `package.json`:
+Затем мы должны сообщить Jest обрабатывать файлы тестов с JavaScript с помощью `babel-jest`, добавив запись `jest.transform` в `package.json`:
 
 ``` json
 {
@@ -90,7 +90,7 @@ Next, we need to tell Jest to process JavaScript test files with `babel-jest` by
     // ...
     "transform": {
       // ...
-      // process js with babel-jest
+      // обрабатывать js с помощью babel-jest
       "^.+\\.js$": "<rootDir>/node_modules/babel-jest"
     },
     // ...
