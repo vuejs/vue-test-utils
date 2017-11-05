@@ -85,4 +85,14 @@ describe('mount', () => {
     expect(wrapper.vm).to.be.an('object')
     expect(wrapper.html()).to.equal(`<div>foo</div>`)
   })
+
+  it('throws an error when it fails to mount', () => {
+    expect(() => mount({
+        template: '<div></div>',
+        mounted: function() {
+          throw(new Error('Error'))
+        }
+      })).to.throw();
+
+    })
 })
