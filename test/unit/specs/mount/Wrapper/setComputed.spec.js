@@ -6,7 +6,6 @@ describe('setComputed', () => {
   it('sets component computed props and updates when called on Vue instance', () => {
     const wrapper = mount(ComponentWithComputed)
     expect(wrapper.text()).to.contain('message')
-    debugger
     wrapper.setComputed({ reversedMessage: 'custom' })
     expect(wrapper.text()).to.contain('custom')
   })
