@@ -7,6 +7,12 @@
 
 <script>
   export default {
+    data: function () {
+      return {
+        data1: 'default data1',
+        data2: 'default data2'
+      }
+    },
     props: {
       prop1: { default: 'default prop1' },
       prop2: { default: 'default prop2' }
@@ -17,6 +23,12 @@
       },
       prop2 () {
         console.info(this.prop1)
+      },
+      data1 (val) {
+        this.data2 = val
+      },
+      data2 () {
+        console.info(this.data1)
       }
     }
   }
