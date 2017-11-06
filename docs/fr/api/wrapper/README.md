@@ -1,6 +1,6 @@
 # Wrapper
 
-vue-test-utils is a wrapper based API.
+<p><strong>⚠Cette page est actuellement en cours de traduction française. Vous pouvez repasser plus tard ou <a href="https://github.com/vuejs-fr/vue-test-utils" target="_blank">participer à la traduction</a> de celle-ci dès maintenant !</strong></p><p>vue-test-utils is a wrapper based API.</p>
 
 A `Wrapper` is an object that contains a mounted component or vnode and methods to test the component or vnode.
 

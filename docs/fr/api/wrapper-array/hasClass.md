@@ -1,6 +1,6 @@
 # hasClass(className)
 
-Assert every `Wrapper` in `WrapperArray` DOM node has class containing `className`.
+<p><strong>⚠Cette page est actuellement en cours de traduction française. Vous pouvez repasser plus tard ou <a href="https://github.com/vuejs-fr/vue-test-utils" target="_blank">participer à la traduction</a> de celle-ci dès maintenant !</strong></p><p>Assert every `Wrapper` in `WrapperArray` DOM node has class containing `className`.</p>
 
 - **Arguments:**
   - `{string} className`

@@ -1,6 +1,6 @@
 # Selectors
 
-A lot of methods take a selector as an argument. A selector can either be a CSS selector, or a Vue component.
+<p><strong>⚠Cette page est actuellement en cours de traduction française. Vous pouvez repasser plus tard ou <a href="https://github.com/vuejs-fr/vue-test-utils" target="_blank">participer à la traduction</a> de celle-ci dès maintenant !</strong></p><p>A lot of methods take a selector as an argument. A selector can either be a CSS selector, or a Vue component.</p>
 
 ## CSS Selectors
 
