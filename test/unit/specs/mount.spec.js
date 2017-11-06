@@ -86,13 +86,12 @@ describe('mount', () => {
     expect(wrapper.html()).to.equal(`<div>foo</div>`)
   })
 
-  it('throws an error when it fails to mount', () => {
+  it('throws an error when the component fails to mount', () => {
     expect(() => mount({
-        template: '<div></div>',
-        mounted: function() {
-          throw(new Error('Error'))
-        }
-      })).to.throw();
-
-    })
+      template: '<div></div>',
+      mounted: function () {
+        throw (new Error('Error'))
+      }
+    })).to.throw()
+  })
 })

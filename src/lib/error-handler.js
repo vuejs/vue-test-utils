@@ -1,28 +1,19 @@
-function errorMessage(msg, info) {
+function errorMessage (msg, info) {
   if (info) {
     return `${msg} : additional info ${info}`
   }
 
-  return msg;
+  return msg
 }
 
-function setVueErrorHandler(vue) {
-  vue.config.errorHandler = errorHandler
-}
-
-function errorHandler(err, _vm, info) {
+export default function errorHandler (err, _vm, info) {
   if ((typeof err === 'object') && err.message) {
     if (info) {
-      err.message = errorMessage(err.message, info);
+      err.message = errorMessage(err.message, info)
     }
 
-    throw err;
+    throw err
   }
 
-  throw new Error(errorMessage(err, info));
-}
-
-export {
-  errorHandler,
-  setVueErrorHandler
+  throw new Error(errorMessage(err, info))
 }

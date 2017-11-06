@@ -7,10 +7,10 @@ import createInstance from './lib/create-instance'
 import cloneDeep from 'lodash/cloneDeep'
 import createElement from './lib/create-element'
 import './lib/matches-polyfill'
-import { setVueErrorHandler } from './lib/error-handler'
+import errorHandler from './lib/error-handler'
 
 Vue.config.productionTip = false
-setVueErrorHandler(Vue)
+Vue.config.errorHandler = errorHandler
 
 export default function mount (component: Component, options: Options = {}): VueWrapper {
   const componentToMount = options.clone === false ? component : cloneDeep(component.extend ? component.options : component)
