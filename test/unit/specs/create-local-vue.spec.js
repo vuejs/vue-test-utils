@@ -113,12 +113,9 @@ describe('createLocalVue', () => {
     localVue.use(Vuetify)
   })
 
-  it('throws an error when the component fails to mount', () => {
-    expect(() => mount({
-      template: '<div></div>',
-      mounted: function () {
-        throw (new Error('Error'))
-      }
-    })).to.throw()
+  it('has an errorHandler', () => {
+    const localVue = createLocalVue()
+
+    expect(localVue.config.errorHandler).to.be.an('function')
   })
 })
