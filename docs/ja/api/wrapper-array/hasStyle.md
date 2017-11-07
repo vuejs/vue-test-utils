@@ -1,8 +1,8 @@
 # hasStyle(style, value)
 
-`WrapperArray` の全ての `Wrapper` の DOM ノードに style 属性とマッチする値を持っているか検証します。
+`WrapperArray` の全ての `Wrapper` の DOM ノードが style 属性とマッチする値を持っているか検証します。
 
-`Wrapper` DOM ノードに `string` にマッチする `style` 値がある場合 `true` を返します。 
+`Wrapper` DOM ノードが `value` にマッチする `style` 値がある場合 `true` を返します。 
 
 **`jsdom`で実行しているときにのみインラインスタイルを検出しますので注意してください。**
 - **引数:**
