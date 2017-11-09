@@ -76,6 +76,7 @@ interface Wrapper<V extends Vue> extends BaseWrapper {
 
 interface WrapperArray<V extends Vue> extends BaseWrapper {
   readonly length: number
+  readonly wrappers: Array<Wrapper<V>>
 
   at (index: number): Wrapper<V>
 }
