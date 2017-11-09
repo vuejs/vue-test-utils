@@ -112,4 +112,10 @@ describe('createLocalVue', () => {
     const localVue = createLocalVue()
     localVue.use(Vuetify)
   })
+
+  it('has an errorHandler', () => {
+    const localVue = createLocalVue()
+
+    expect(localVue.config.errorHandler).to.be.an('function')
+  })
 })
