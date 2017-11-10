@@ -389,7 +389,7 @@ export default class Wrapper implements BaseWrapper {
       throwError('cannot call wrapper.text() on a wrapper without an element')
     }
 
-    return this.element.textContent
+    return this.element.textContent.trim()
   }
 
   /**
