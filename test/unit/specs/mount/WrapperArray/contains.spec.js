@@ -30,7 +30,7 @@ describe('contains', () => {
       undefined, null, NaN, 0, 2, true, false, () => {}, {}, { name: undefined }, []
     ]
     invalidSelectors.forEach((invalidSelector) => {
-      const message = '[vue-test-utils]: wrapper.contains() must be passed a valid CSS selector or a Vue constructor'
+      const message = '[vue-test-utils]: wrapper.contains() must be passed a valid CSS selector, Vue constructor, or valid find option object'
       expect(() => pArr.contains(invalidSelector)).to.throw().with.property('message', message)
     })
   })

@@ -1,7 +1,7 @@
 <template>
   <div>
     <span>
-      <child-component />
+      <child-component ref="child"/>
     </span>
   </div>
 </template>
