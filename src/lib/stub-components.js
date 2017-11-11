@@ -76,13 +76,20 @@ export function stubComponents (component: Component, stubs: Object): void {
 
   if (Array.isArray(stubs)) {
     stubs.forEach(stub => {
+      if (stub === false) {
+        return
+      }
+
       if (typeof stub !== 'string') {
-        throwError('each item in options.stub must be a string')
+        throwError('each item in an options.stubs array must be a string')
       }
       component.components[stub] = createBlankStub({})
     })
   } else {
     Object.keys(stubs).forEach(stub => {
+      if (stubs[stub] === false) {
+        return
+      }
       if (!isValidStub(stubs[stub])) {
         throwError('options.stub values must be passed a string or component')
       }

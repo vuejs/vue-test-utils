@@ -10,6 +10,7 @@ import { throwError } from './util'
 import cloneDeep from 'lodash/cloneDeep'
 import { compileTemplate } from './compile-template'
 import createLocalVue from '../create-local-vue'
+import config from '../config'
 
 export default function createConstructor (
   component: Component,
@@ -44,8 +45,15 @@ export default function createConstructor (
     addProvide(component, options)
   }
 
-  if (options.stubs) {
-    stubComponents(component, options.stubs)
+  if (options.stubs || Object.keys(config.stubs).length > 0) {
+    if (Array.isArray(options.stubs)) {
+      stubComponents(component, options.stubs)
+    } else {
+      stubComponents(component, {
+        ...config.stubs,
+        ...options.stubs
+      })
+    }
   }
 
   if (!component.render && component.template && !component.functional) {
