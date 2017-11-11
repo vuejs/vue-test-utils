@@ -314,6 +314,23 @@ export default class Wrapper implements BaseWrapper {
   }
 
   /**
+   * Returns an Object containing the prop name/value pairs on the element
+   */
+  props (): { [name: string]: any } {
+    if (!this.isVueComponent) {
+      throwError('wrapper.props() must be called on a Vue instance')
+    }
+    // $props object does not exist in Vue 2.1.x, so use $options.propsData instead
+    let _props
+    if (this.vm && this.vm.$options && this.vm.$options.propsData) {
+      _props = this.vm.$options.propsData
+    } else {
+      _props = this.vm.$props
+    }
+    return _props || {} // Return an empty object if no props exist
+  }
+
+  /**
    * Sets vm data
    */
   setData (data: Object) {

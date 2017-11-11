@@ -80,6 +80,10 @@ export default class ErrorWrapper implements BaseWrapper {
     throwError(`find did not return ${this.selector}, cannot call name() on empty Wrapper`)
   }
 
+  props (): void {
+    throwError(`find did not return ${this.selector}, cannot call props() on empty Wrapper`)
+  }
+
   text (): void {
     throwError(`find did not return ${this.selector}, cannot call text() on empty Wrapper`)
   }

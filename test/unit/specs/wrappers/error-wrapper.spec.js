@@ -120,6 +120,13 @@ describe('ErrorWrapper', () => {
     expect(() => error.name()).to.throw().with.property('message', message)
   })
 
+  it('props throws error when called', () => {
+    const selector = 'div'
+    const message = `[vue-test-utils]: find did not return ${selector}, cannot call props() on empty Wrapper`
+    const error = new ErrorWrapper(selector)
+    expect(() => error.props()).to.throw().with.property('message', message)
+  })
+
   it('text throws error when called', () => {
     const selector = 'div'
     const message = `[vue-test-utils]: find did not return ${selector}, cannot call text() on empty Wrapper`

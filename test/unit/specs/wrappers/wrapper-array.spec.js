@@ -218,6 +218,18 @@ describe('WrapperArray', () => {
     expect(() => wrapperArray.name()).to.throw().with.property('message', message)
   })
 
+  it('props throws error if called when there are 0 items in wrapper array', () => {
+    const wrapperArray = new WrapperArray()
+    const message = '[vue-test-utils]: props cannot be called on 0 items'
+    expect(() => wrapperArray.props()).to.throw().with.property('message', message)
+  })
+
+  it('props throws error if called when there are items in wrapper array', () => {
+    const wrapperArray = new WrapperArray([1])
+    const message = '[vue-test-utils]: props must be called on a single wrapper, use at(i) to access a wrapper'
+    expect(() => wrapperArray.props()).to.throw().with.property('message', message)
+  })
+
   it('text throws error if called when there are 0 items in wrapper array', () => {
     const wrapperArray = new WrapperArray()
     const message = '[vue-test-utils]: text cannot be called on 0 items'
