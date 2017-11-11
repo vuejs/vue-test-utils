@@ -84,4 +84,48 @@ describe('mount.mocks', () => {
     const freshWrapper = mount(Component)
     expect(typeof freshWrapper.vm.$store).to.equal('undefined')
   })
+
+  it('replaces lifecycle hooks with mocks', () => {
+    const LIFECYCLE_HOOKS = [
+      'beforeCreate',
+      'created',
+      'beforeMount',
+      'mounted',
+      'beforeUpdate',
+      'updated',
+      'beforeDestroy',
+      'destroyed',
+      'activated',
+      'deactivated'
+    ]
+
+    const originalHooks = {}
+    const mockedHooks = {}
+    LIFECYCLE_HOOKS.forEach(hook => {
+      originalHooks[hook] = sinon.spy()
+      mockedHooks[hook] = sinon.spy()
+    })
+
+    const wrapper = mount({
+      ...originalHooks
+    }, {
+      mocks: mockedHooks
+    })
+
+    wrapper.setData({})
+
+    // call methods that will not be triggered by mount, setData and destroy manually
+    wrapper.vm.updated()
+    wrapper.vm.deactivated()
+    wrapper.vm.activated()
+
+    wrapper.destroy()
+
+    Object.keys(originalHooks).forEach(hook => {
+      expect(originalHooks[hook].notCalled).to.be.true
+    })
+    Object.keys(mockedHooks).forEach(hook => {
+      expect(mockedHooks[hook].calledOnce).to.be.true
+    })
+  })
 })
