@@ -25,5 +25,9 @@ export default function mount (component: Component, options: Options = {}): Vue
     vm.$mount()
   }
 
+  if (vm._error) {
+    throw (vm._error)
+  }
+
   return new VueWrapper(vm, { attachedToDocument: !!options.attachToDocument })
 }
