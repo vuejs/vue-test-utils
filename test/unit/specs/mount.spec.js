@@ -5,6 +5,13 @@ import ComponentWithProps from '~resources/components/component-with-props.vue'
 import ComponentWithMixin from '~resources/components/component-with-mixin.vue'
 import createLocalVue from '~src/create-local-vue'
 
+function injectSupported () {
+  console.log(Vue.version)
+  const version = Number(`${Vue.version.split('.')[0]}.${Vue.version.split('.')[1]}`)
+  console.log(version)
+  return version > 2.2
+}
+
 describe('mount', () => {
   it('returns new VueWrapper with mounted Vue instance if no options are passed', () => {
     const compiled = compileToFunctions('<div><input /></div>')
@@ -89,7 +96,7 @@ describe('mount', () => {
 
   it('deletes mounting options before passing options to component', () => {
     const wrapper = mount({
-      template: `<div>foo</div>`
+      render: h => h('div')
     }, {
       provide: {
         'prop': 'val'
@@ -114,9 +121,16 @@ describe('mount', () => {
         'prop': 'val'
       }
     })
-    debugger
-    // provide is always a function on an the $options object
-    expect(typeof wrapper.vm.$options.provide).to.equal('function')
+    const version = Number(`${Vue.version.split('.')[0]}.${Vue.version.split('.')[1]}`)
+    if (injectSupported()) {
+      // provide is added by Vue, it's a function in Vue > 2.3
+      if (version > 2.3) {
+        expect(typeof wrapper.vm.$options.provide).to.equal('function')
+      } else {
+        expect(typeof wrapper.vm.$options.provide).to.equal('object')
+      }
+    }
+
     expect(wrapper.vm.$options.custom).to.equal(undefined)
     expect(wrapper.vm.$options.attachToDocument).to.equal(undefined)
     expect(wrapper.vm.$options.mocks).to.equal(undefined)
