@@ -10,20 +10,22 @@ import { throwError } from './util'
 import cloneDeep from 'lodash/cloneDeep'
 import { compileTemplate } from './compile-template'
 import createLocalVue from '../create-local-vue'
-import config from '../config'
+import extractOptions from '../options/extract-options'
 
 export default function createConstructor (
   component: Component,
   options: Options
 ): Component {
-  const vue = options.localVue || createLocalVue()
+  const mountingOptions = extractOptions(options)
 
-  if (options.mocks) {
-    addMocks(options.mocks, vue)
+  const vue = mountingOptions.localVue || createLocalVue()
+
+  if (mountingOptions.mocks) {
+    addMocks(mountingOptions.mocks, vue)
   }
 
   if (component.functional) {
-    if (options.context && typeof options.context !== 'object') {
+    if (mountingOptions.context && typeof mountingOptions.context !== 'object') {
       throwError('mount.context must be an object')
     }
     const clonedComponent = cloneDeep(component)
@@ -31,29 +33,22 @@ export default function createConstructor (
       render (h) {
         return h(
           clonedComponent,
-          options.context || component.FunctionalRenderContext
+          mountingOptions.context || component.FunctionalRenderContext
         )
       }
     }
-  } else if (options.context) {
+  } else if (mountingOptions.context) {
     throwError(
       'mount.context can only be used when mounting a functional component'
     )
   }
 
-  if (options.provide) {
-    addProvide(component, options)
+  if (mountingOptions.provide) {
+    addProvide(component, mountingOptions.provide, options)
   }
 
-  if (options.stubs || Object.keys(config.stubs).length > 0) {
-    if (Array.isArray(options.stubs)) {
-      stubComponents(component, options.stubs)
-    } else {
-      stubComponents(component, {
-        ...config.stubs,
-        ...options.stubs
-      })
-    }
+  if (mountingOptions.stubs) {
+    stubComponents(component, mountingOptions.stubs)
   }
 
   if (!component.render && component.template && !component.functional) {
@@ -64,11 +59,11 @@ export default function createConstructor (
 
   const vm = new Constructor(options)
 
-  addAttrs(vm, options.attrs)
-  addListeners(vm, options.listeners)
+  addAttrs(vm, mountingOptions.attrs)
+  addListeners(vm, mountingOptions.listeners)
 
-  if (options.slots) {
-    addSlots(vm, options.slots)
+  if (mountingOptions.slots) {
+    addSlots(vm, mountingOptions.slots)
   }
 
   return vm

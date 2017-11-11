@@ -13,6 +13,7 @@ describe('config', () => {
     TransitionGroupStub.name = 'transition-group'
     TransitionStub.name = 'transition'
   })
+
   it('stubs transition and transition-group by default', () => {
     const testComponent = {
       template: `
@@ -51,5 +52,37 @@ describe('config', () => {
     config.stubs['transition-group'] = false
     const wrapper = mount(testComponent)
     expect(wrapper.contains(TransitionGroupStub)).to.equal(false)
+  })
+
+  it('doesn\'t stub transition when config.stubs is set to false', () => {
+    const configStubsSave = config.stubs
+    config.stubs = false
+    const testComponent = {
+      template: `
+        <div>
+          <transition-group><p /><p /></transition-group>
+        </div>
+      `
+    }
+    const wrapper = mount(testComponent)
+    expect(wrapper.contains(TransitionGroupStub)).to.equal(false)
+    expect(wrapper.contains(TransitionStub)).to.equal(false)
+    config.stubs = configStubsSave
+  })
+
+  it('doesn\'t stub transition when config.stubs is set to a string', () => {
+    const configStubsSave = config.stubs
+    config.stubs = 'a string'
+    const testComponent = {
+      template: `
+        <div>
+          <transition-group><p /><p /></transition-group>
+        </div>
+      `
+    }
+    const wrapper = mount(testComponent)
+    expect(wrapper.contains(TransitionGroupStub)).to.equal(false)
+    expect(wrapper.contains(TransitionStub)).to.equal(false)
+    config.stubs = configStubsSave
   })
 })
