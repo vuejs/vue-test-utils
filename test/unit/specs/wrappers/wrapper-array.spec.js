@@ -59,6 +59,18 @@ describe('WrapperArray', () => {
     expect(() => wrapperArray.findAll()).to.throw().with.property('message', message)
   })
 
+  it('attributes throws error if called when there are 0 items in wrapper array', () => {
+    const wrapperArray = new WrapperArray()
+    const message = '[vue-test-utils]: attributes cannot be called on 0 items'
+    expect(() => wrapperArray.attributes()).to.throw().with.property('message', message)
+  })
+
+  it('attributes throws error if called when there are items in wrapper array', () => {
+    const wrapperArray = new WrapperArray([1])
+    const message = '[vue-test-utils]: attributes must be called on a single wrapper, use at(i) to access a wrapper'
+    expect(() => wrapperArray.attributes()).to.throw().with.property('message', message)
+  })
+
   it('classes throws error if called when there are 0 items in wrapper array', () => {
     const wrapperArray = new WrapperArray()
     const message = '[vue-test-utils]: classes cannot be called on 0 items'

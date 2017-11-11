@@ -33,6 +33,18 @@ export default class Wrapper implements BaseWrapper {
   }
 
   /**
+   * Returns an Object containing all the attribute/value pairs on the element.
+   */
+  attributes (): { [name: string]: string } {
+    const attributes = [...this.element.attributes] // NameNodeMap is not iterable
+    const attributeMap = {}
+    attributes.forEach((att) => {
+      attributeMap[att.localName] = att.value
+    })
+    return attributeMap
+  }
+
+  /**
    * Returns an Array containing all the classes on the element
    */
   classes (): Array<string> {
