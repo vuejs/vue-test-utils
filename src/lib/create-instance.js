@@ -11,6 +11,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import { compileTemplate } from './compile-template'
 import createLocalVue from '../create-local-vue'
 import extractOptions from '../options/extract-options'
+import deleteMountingOptions from '../options/delete-mounting-options'
 
 export default function createConstructor (
   component: Component,
@@ -57,7 +58,10 @@ export default function createConstructor (
 
   const Constructor = vue.extend(component)
 
-  const vm = new Constructor(options)
+  const instanceOptions = { ...options }
+  deleteMountingOptions(instanceOptions)
+
+  const vm = new Constructor(instanceOptions)
 
   addAttrs(vm, mountingOptions.attrs)
   addListeners(vm, mountingOptions.listeners)

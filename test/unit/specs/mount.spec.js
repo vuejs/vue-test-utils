@@ -3,6 +3,7 @@ import { compileToFunctions } from 'vue-template-compiler'
 import mount from '~src/mount'
 import ComponentWithProps from '~resources/components/component-with-props.vue'
 import ComponentWithMixin from '~resources/components/component-with-mixin.vue'
+import createLocalVue from '~src/create-local-vue'
 
 describe('mount', () => {
   it('returns new VueWrapper with mounted Vue instance if no options are passed', () => {
@@ -84,6 +85,48 @@ describe('mount', () => {
     })
     expect(wrapper.vm).to.be.an('object')
     expect(wrapper.html()).to.equal(`<div>foo</div>`)
+  })
+
+  it('deletes mounting options before passing options to component', () => {
+    const wrapper = mount({
+      template: `<div>foo</div>`
+    }, {
+      provide: {
+        'prop': 'val'
+      },
+      custom: 'custom',
+      attachToDocument: 'attachToDocument',
+      mocks: {
+        'prop': 'val'
+      },
+      slots: {
+        'prop': 'val'
+      },
+      localVue: createLocalVue(),
+      stubs: {
+        'prop': 'val'
+      },
+      clone: 'clone',
+      attrs: {
+        'prop': 'val'
+      },
+      listeners: {
+        'prop': 'val'
+      }
+    })
+    debugger
+    // provide is always a function on an the $options object
+    expect(typeof wrapper.vm.$options.provide).to.equal('function')
+    expect(wrapper.vm.$options.custom).to.equal(undefined)
+    expect(wrapper.vm.$options.attachToDocument).to.equal(undefined)
+    expect(wrapper.vm.$options.mocks).to.equal(undefined)
+    expect(wrapper.vm.$options.slots).to.equal(undefined)
+    expect(wrapper.vm.$options.localVue).to.equal(undefined)
+    expect(wrapper.vm.$options.stubs).to.equal(undefined)
+    expect(wrapper.vm.$options.context).to.equal(undefined)
+    expect(wrapper.vm.$options.clone).to.equal(undefined)
+    expect(wrapper.vm.$options.attrs).to.equal(undefined)
+    expect(wrapper.vm.$options.listeners).to.equal(undefined)
   })
 
   it.skip('throws an error when the component fails to mount', () => {
