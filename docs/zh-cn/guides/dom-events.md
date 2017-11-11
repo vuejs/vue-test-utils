@@ -1,8 +1,8 @@
-# Testing Key, Mouse and other DOM events
+# 测试键盘、鼠标等其它 DOM 事件
 
-## Trigger events
+## 触发事件
 
-The `Wrapper` expose a `trigger` method. It can be used to trigger DOM events.
+`Wrapper` 暴露了一个 `trigger` 方法。它可以用来触发 DOM 事件。
 
 ```js
 const wrapper = mount(MyButton)
@@ -10,7 +10,7 @@ const wrapper = mount(MyButton)
 wrapper.trigger('click')
 ```
 
-You should be aware, that find returns a wrapper as well. Assuming `MyComponent` contains a button, the following code clicks the button.
+你应该注意到了，`find` 也会返回一个包裹器。假设 `MyComponent` 包含一个按钮，下面的代码会点击这个按钮。
 
 ```js
 const wrapper = mount(MyComponent)
@@ -18,11 +18,11 @@ const wrapper = mount(MyComponent)
 wrapper.find('button').trigger('click')
 ```
 
-## Options
+## 选项
 
-The trigger method takes an optional `options` object. The properties in the `options` object are added to the Event.
+该触发方法接受一个可选的 `options` 对象。这个 `options` 对象里的属性会被添加到事件中。
 
-You can run preventDefault on the event by passing `preventDefault: true` in `options`.
+你可以通过在 `options` 里传入 `preventDefault: true` 来运行事件上的 `preventDefault`。
 
 ```js
 const wrapper = mount(MyButton)
@@ -31,9 +31,9 @@ wrapper.trigger('click', { preventDefault: true })
 ```
 
 
-## Mouse Click Example
+## 鼠标点击示例
 
-**Component under test**
+**待测试的组件**
 
 ```html
 <template>
@@ -63,15 +63,15 @@ export default {
 
 ```
 
-**Test**
+**测试**
 
 ```js
 import YesNoComponent from '@/components/YesNoComponent'
 import { mount } from 'vue-test-utils'
 import sinon from 'sinon'
 
-describe('Click event', () => {
-  it('Click on yes button calls our method with argument "yes"', () => {
+describe('点击事件', () => {
+  it('在 yes 按钮上点击会调用我们的方法并附带参数 "yes"', () => {
     const spy = sinon.spy()
     const wrapper = mount(YesNoComponent, {
       propsData: {
@@ -85,11 +85,11 @@ describe('Click event', () => {
 })
 ```
 
-## Keyboard Example
+## 键盘示例
 
-**Component under test**
+**待测试的组件**
 
-This component allows to increment/decrement the quantity using various keys.
+这个组件允许使用不同的按键将数量递增/递减。
 
 ```html
 <template>
@@ -148,33 +148,33 @@ export default {
 import QuantityComponent from '@/components/QuantityComponent'
 import { mount } from 'vue-test-utils'
 
-describe('Key event tests', () => {
-  it('Quantity is zero by default', () => {
+describe('键盘事件测试', () => {
+  it('默认的数量是零', () => {
     const wrapper = mount(QuantityComponent)
     expect(wrapper.vm.quantity).to.equal(0)
   })
 
-  it('Cursor up sets quantity to 1', () => {
+  it('上按键将数量设置为 1', () => {
     const wrapper = mount(QuantityComponent)
     wrapper.trigger('keydown.up')
     expect(wrapper.vm.quantity).to.equal(1)
   })
 
-  it('Cursor down reduce quantity by 1', () => {
+  it('下按键将数量减 1', () => {
     const wrapper = mount(QuantityComponent)
     wrapper.vm.quantity = 5
     wrapper.trigger('keydown.down')
     expect(wrapper.vm.quantity).to.equal(4)
   })
 
-  it('Escape sets quantity to 0', () => {
+  it('ESC 键将数量设置为 0', () => {
     const wrapper = mount(QuantityComponent)
     wrapper.vm.quantity = 5
     wrapper.trigger('keydown.esc')
     expect(wrapper.vm.quantity).to.equal(0)
   })
 
-  it('Magic character "a" sets quantity to 13', () => {
+  it('魔术字符 "a" 键将数量设置为 13', () => {
     const wrapper = mount(QuantityComponent)
     wrapper.trigger('keydown', {
       which: 65
@@ -185,12 +185,12 @@ describe('Key event tests', () => {
 
 ```
 
-**Limitations**
+**限制**
 
-A key name after the dot `keydown.up` is translated to a `keyCode`. This is supported for the following names:
+点后面的按键名 `keydown.up` 会被翻译成一个 `keyCode`。这些被支持的按键名有：
 
-* enter, tab, delete, esc, space, up, down, left, right
+* `enter`, `tab`, `delete`, `esc`, `space`, `up`, `down`, `left`, `right`
 
-## Important
+## 重要事项
 
-vue-test-utils triggers event synchronously. Consequently, `vue.nextTick` is not required.
+`vue-test-utils` 是同步触发事件。因此 `vue.nextTick` 不是必须的。
