@@ -75,7 +75,7 @@ describe('shallow', () => {
     expect(info.called).to.equal(false)
   })
 
-  it.skip('throws an error when the component fails to mount', () => {
+  it('throws an error when the component fails to mount', () => {
     expect(() => shallow({
       template: '<div></div>',
       mounted: function () {

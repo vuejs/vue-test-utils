@@ -1,19 +1,18 @@
-function errorMessage (msg, info) {
+function errorMessage (message, info) {
   if (info) {
-    return `${msg} : additional info ${info}`
+    return `${message} : additional info ${info}`
   }
 
-  return msg
+  return message
 }
 
-export default function errorHandler (err, _vm, info) {
-  if ((typeof err === 'object') && err.message) {
-    if (info) {
-      err.message = errorMessage(err.message, info)
-    }
+export default function errorHandler (errorOrString, vm, info) {
+  const error = (typeof errorOrString === 'object')
+    ? errorOrString
+    : new Error(errorOrString)
 
-    throw err
-  }
+  error.message = errorMessage(error.message, info)
+  vm._error = error
 
-  throw new Error(errorMessage(err, info))
+  throw error
 }

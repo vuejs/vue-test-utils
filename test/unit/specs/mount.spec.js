@@ -143,13 +143,14 @@ describe('mount', () => {
     expect(wrapper.vm.$options.listeners).to.equal(undefined)
   })
 
-  it.skip('throws an error when the component fails to mount', () => {
+  it('propagates errors when they are thrown', () => {
     const TestComponent = {
       template: '<div></div>',
       mounted: function () {
         throw new Error('Error in mounted')
       }
     }
+
     const fn = () => mount(TestComponent)
     expect(fn).to.throw()
   })
