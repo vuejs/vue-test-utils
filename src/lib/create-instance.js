@@ -22,6 +22,23 @@ function createFunctionalSlots (slots = {}, h) {
   if (typeof slots.default === 'string') {
     return [h(compileToFunctions(slots.default))]
   }
+  const children = []
+  Object.keys(slots).forEach(slotType => {
+    if (Array.isArray(slots[slotType])) {
+      slots[slotType].forEach(slot => {
+        const component = typeof slot === 'string' ? compileToFunctions(slot) : slot
+        const newSlot = h(component)
+        newSlot.data.slot = slotType
+        children.push(newSlot)
+      })
+    } else {
+      const component = typeof slots[slotType] === 'string' ? compileToFunctions(slots[slotType]) : slots[slotType]
+      const slot = h(component)
+      slot.data.slot = slotType
+      children.push(slot)
+    }
+  })
+  return children
 }
 
 export default function createConstructor (

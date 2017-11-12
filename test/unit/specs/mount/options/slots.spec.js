@@ -83,24 +83,68 @@ describe('mount.slots', () => {
     expect(Array.isArray(wrapper.vm.$slots.header)).to.equal(true)
   })
 
-  it.only('mounts functional component with default slot if passed component in slot object', () => {
+  it('mounts functional component with default slot if passed component in slot object', () => {
+    const wrapper = mount(FunctionalComponentWithSlots, { slots: { default: Component }})
+    expect(wrapper.contains(Component)).to.equal(true)
+  })
+
+  it('mounts component with default slot if passed component in slot object', () => {
     const wrapper = mount(FunctionalComponentWithSlots, { slots: { default: [Component] }})
     expect(wrapper.contains(Component)).to.equal(true)
   })
 
-  it.only('mounts component with default slot if passed component in slot object', () => {
-    const wrapper = mount(FunctionalComponentWithSlots, { slots: { default: [Component] }})
-    expect(wrapper.contains(Component)).to.equal(true)
-  })
-
-  it.only('mounts component with default slot if passed object with template prop in slot object', () => {
+  it('mounts component with default slot if passed object with template prop in slot object', () => {
     const compiled = compileToFunctions('<div id="div" />')
     const wrapper = mount(FunctionalComponentWithSlots, { slots: { default: [compiled] }})
     expect(wrapper.contains('#div')).to.equal(true)
   })
 
-  it.only('mounts component with default slot if passed string in slot object', () => {
+  it('mounts component with default slot if passed string in slot object', () => {
     const wrapper = mount(FunctionalComponentWithSlots, { slots: { default: '<span />' }})
+    expect(wrapper.contains('span')).to.equal(true)
+  })
+
+  it('mounts component with named slot if passed string in slot object', () => {
+    const TestComponent = {
+      functional: true,
+      render (h, ctx) {
+        return h('div', {}, ctx.slots().named)
+      }
+    }
+    const wrapper = mount(TestComponent, { slots: { named: Component }})
+    expect(wrapper.contains(Component)).to.equal(true)
+  })
+
+  it('mounts component with named slot if passed string in slot object in array', () => {
+    const TestComponent = {
+      functional: true,
+      render (h, ctx) {
+        return h('div', {}, ctx.slots().named)
+      }
+    }
+    const wrapper = mount(TestComponent, { slots: { named: [Component] }})
+    expect(wrapper.contains(Component)).to.equal(true)
+  })
+
+  it('mounts component with named slot if passed string in slot object in array', () => {
+    const TestComponent = {
+      functional: true,
+      render (h, ctx) {
+        return h('div', {}, ctx.slots().named)
+      }
+    }
+    const wrapper = mount(TestComponent, { slots: { named: '<span />' }})
+    expect(wrapper.contains('span')).to.equal(true)
+  })
+
+  it('mounts component with named slot if passed string in slot object in array', () => {
+    const TestComponent = {
+      functional: true,
+      render (h, ctx) {
+        return h('div', {}, ctx.slots().named)
+      }
+    }
+    const wrapper = mount(TestComponent, { slots: { named: ['<span />'] }})
     expect(wrapper.contains('span')).to.equal(true)
   })
 })
