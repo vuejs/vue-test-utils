@@ -3,6 +3,7 @@ import ComponentWithChild from '~resources/components/component-with-child.vue'
 import ComponentWithNestedChildren from '~resources/components/component-with-nested-children.vue'
 import Component from '~resources/components/component.vue'
 import config from '~src/config'
+import createLocalVue from '~src/create-local-vue'
 
 describe('mount.stub', () => {
   let info
@@ -134,12 +135,83 @@ describe('mount.stub', () => {
     }
     require.cache[require.resolve('vue-template-compiler')].exports.compileToFunctions = compilerSave
   })
+
   it('does not stub component when set to false', () => {
     const wrapper = mount(ComponentWithChild, {
       stubs: {
         ChildComponent: false
       }})
     expect(wrapper.find('span').contains('div')).to.equal(true)
+  })
+
+  it('combines with stubs from config', () => {
+    const localVue = createLocalVue()
+    config.stubs['time-component'] = '<p />'
+    const SpanComponent = {
+      render: h => h('span')
+    }
+    const TimeComponent = {
+      render: h => h('time')
+    }
+    localVue.component('span-component', SpanComponent)
+    localVue.component('time-component', TimeComponent)
+    const TestComponent = {
+      render: h => h('div', [
+        h('span-component'),
+        h('time-component')
+      ])
+    }
+
+    const wrapper = mount(TestComponent, {
+      stubs: {
+        'span-component': '<p />'
+      },
+      localVue
+    })
+    expect(wrapper.findAll('p').length).to.equal(2)
+  })
+
+  it('prioritize mounting options over config', () => {
+    const localVue = createLocalVue()
+    config.stubs['time-component'] = '<p />'
+    const TimeComponent = {
+      render: h => h('time')
+    }
+    localVue.component('time-component', TimeComponent)
+    const TestComponent = {
+      render: h => h('div', [
+        h('time-component')
+      ])
+    }
+
+    const wrapper = mount(TestComponent, {
+      stubs: {
+        'time-component': '<span />'
+      },
+      localVue
+    })
+    expect(wrapper.contains('span')).to.equal(true)
+  })
+
+  it('converts config to array if stubs is an array', () => {
+    const localVue = createLocalVue()
+    config.stubs['time-component'] = '<p />'
+    const TimeComponent = {
+      render: h => h('time')
+    }
+    localVue.component('time-component', TimeComponent)
+    const TestComponent = {
+      render: h => h('div', [
+        h('time-component')
+      ])
+    }
+
+    const wrapper = mount(TestComponent, {
+      stubs: ['a-component'],
+      localVue
+    })
+    expect(wrapper.contains('time')).to.equal(false)
+    expect(wrapper.contains('p')).to.equal(false)
   })
 
   it('throws an error when passed an invalid value as stub', () => {

@@ -67,17 +67,17 @@ describe('context', () => {
   })
 
   it('mounts functional component with a defined context.children', () => {
-  const Component = {
-    functional: true,
-    render: (h, {children}) => {
-      return h('div', children)
+    const Component = {
+      functional: true,
+      render: (h, { children }) => {
+        return h('div', children)
+      }
     }
-  }
-  const wrapper = mount(Component, {
-    context: {
-      children: ['hello']
-    }
+    const wrapper = mount(Component, {
+      context: {
+        children: ['hello']
+      }
+    })
+    expect(wrapper.text()).to.equal('hello')
   })
-  expect(wrapper.text()).to.equal('hello')
-})
 })
