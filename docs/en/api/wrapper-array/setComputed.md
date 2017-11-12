@@ -19,8 +19,8 @@ import Bar from './Bar.vue'
 const wrapper = mount(Foo)
 const barArray = wrapper.findAll(Bar)
 
-barArray.setComputed({ 
-  computed1: 'new-computed1', 
+barArray.setComputed({
+  computed1: 'new-computed1',
   computed2: 'new-computed2'
 })
 ```
