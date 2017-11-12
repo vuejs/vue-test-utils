@@ -2,6 +2,7 @@ import { compileToFunctions } from 'vue-template-compiler'
 import mount from '~src/mount'
 import Component from '~resources/components/component.vue'
 import ComponentWithSlots from '~resources/components/component-with-slots.vue'
+import FunctionalComponentWithSlots from '~resources/components/functional-component-with-slots.vue'
 
 describe('mount.slots', () => {
   it('mounts component with default slot if passed component in slot object', () => {
@@ -85,5 +86,10 @@ describe('mount.slots', () => {
     })
     expect(wrapper.findAll(Component).length).to.equal(1)
     expect(Array.isArray(wrapper.vm.$slots.header)).to.equal(true)
+  })
+
+  it('mounts functional component with default slot if passed component in slot object', () => {
+    const wrapper = mount(FunctionalComponentWithSlots, { slots: { default: [Component] }})
+    expect(wrapper.contains(Component)).to.equal(true)
   })
 })
