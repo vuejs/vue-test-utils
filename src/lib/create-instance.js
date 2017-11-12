@@ -12,6 +12,17 @@ import { compileTemplate } from './compile-template'
 import createLocalVue from '../create-local-vue'
 import extractOptions from '../options/extract-options'
 import deleteMountingOptions from '../options/delete-mounting-options'
+import { compileToFunctions } from 'vue-template-compiler'
+
+function createFunctionalSlots (slots = {}, h) {
+  if (Array.isArray(slots.default)) {
+    return slots.default.map(h)
+  }
+
+  if (typeof slots.default === 'string') {
+    return [h(compileToFunctions(slots.default))]
+  }
+}
 
 export default function createConstructor (
   component: Component,
@@ -29,13 +40,14 @@ export default function createConstructor (
     if (mountingOptions.context && typeof mountingOptions.context !== 'object') {
       throwError('mount.context must be an object')
     }
+
     const clonedComponent = cloneDeep(component)
     component = {
       render (h) {
         return h(
           clonedComponent,
           mountingOptions.context || component.FunctionalRenderContext,
-          mountingOptions.context && mountingOptions.context.children
+          (mountingOptions.context && mountingOptions.context.children) || createFunctionalSlots(mountingOptions.slots, h)
         )
       }
     }
