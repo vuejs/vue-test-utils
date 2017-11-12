@@ -2,10 +2,12 @@
 
 `vue-test-utils` is the official unit testing utility library for Vue.js.
 
+## Table of Contents
+
 * [Guides](guides/README.md)
   * [Getting Started](guides/getting-started.md)
   * [Common Tips](guides/common-tips.md)
-  * [Mouse, Key and other DOM Events](guides/dom-events.md)  
+  * [Mouse, Key and other DOM Events](guides/dom-events.md)
   * [Choosing a test runner](guides/choosing-a-test-runner.md)
   * [Testing SFCs with Jest](guides/testing-SFCs-with-jest.md)
   * [Testing SFCs with Mocha + webpack](guides/testing-SFCs-with-mocha-webpack.md)
@@ -46,6 +48,7 @@
     * [text](api/wrapper/text.md)
     * [trigger](api/wrapper/trigger.md)
     * [update](api/wrapper/update.md)
+    * [destroy](api/wrapper/destroy.md)
   * [WrapperArray](api/wrapper-array/README.md)
     * [at](api/wrapper-array/at.md)
     * [contains](api/wrapper-array/contains.md)
@@ -62,5 +65,9 @@
     * [setProps](api/wrapper-array/setProps.md)
     * [trigger](api/wrapper-array/trigger.md)
     * [update](api/wrapper-array/update.md)
+    * [destroy](api/wrapper-array/destroy.md)
+  * [components](api/components/README.md)
+    * [TransitionStub](api/components/TransitionStub.md)
+    * [TransitionGroupStub](api/components/TransitionGroupStub.md)
   * [Selectors](api/selectors.md)
   * [createLocalVue](api/createLocalVue.md)
