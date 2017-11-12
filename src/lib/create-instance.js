@@ -34,7 +34,8 @@ export default function createConstructor (
       render (h) {
         return h(
           clonedComponent,
-          mountingOptions.context || component.FunctionalRenderContext
+          mountingOptions.context || component.FunctionalRenderContext,
+          mountingOptions.context && mountingOptions.context.children
         )
       }
     }
