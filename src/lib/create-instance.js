@@ -14,6 +14,10 @@ import extractOptions from '../options/extract-options'
 import deleteMountingOptions from '../options/delete-mounting-options'
 import { compileToFunctions } from 'vue-template-compiler'
 
+function isValidSlot (slot: any): boolean {
+  return Array.isArray(slot) || (slot !== null && typeof slot === 'object') || typeof slot === 'string'
+}
+
 function createFunctionalSlots (slots = {}, h) {
   if (Array.isArray(slots.default)) {
     return slots.default.map(h)
@@ -26,12 +30,18 @@ function createFunctionalSlots (slots = {}, h) {
   Object.keys(slots).forEach(slotType => {
     if (Array.isArray(slots[slotType])) {
       slots[slotType].forEach(slot => {
+        if (!isValidSlot(slot)) {
+          throwError('slots[key] must be a Component, string or an array of Components')
+        }
         const component = typeof slot === 'string' ? compileToFunctions(slot) : slot
         const newSlot = h(component)
         newSlot.data.slot = slotType
         children.push(newSlot)
       })
     } else {
+      if (!isValidSlot(slots[slotType])) {
+        throwError('slots[key] must be a Component, string or an array of Components')
+      }
       const component = typeof slots[slotType] === 'string' ? compileToFunctions(slots[slotType]) : slots[slotType]
       const slot = h(component)
       slot.data.slot = slotType
