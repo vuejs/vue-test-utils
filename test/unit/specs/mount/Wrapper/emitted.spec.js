@@ -1,17 +1,15 @@
 import mount from '~src/mount'
 
 describe('emitted', () => {
-  it.only('captures emitted events', () => {
+  it.only('captures emitted events with a different api', () => {
     const wrapper = mount({
       render: h => h('div')
     })
 
     wrapper.vm.$emit('foo')
-    console.log('2' ,wrapper.emitted('foo'))
-    console.log('1',wrapper.emitted('foo')['foo'])
-    expect(wrapper.emitted('foo')).to.exist
-    expect(wrapper.emitted('foo').length).to.equal(1)
-    expect(wrapper.emitted('foo')[0]).to.eql([])
+    expect(wrapper.emitted().foo).to.exist
+    expect(wrapper.emitted().foo.length).to.equal(1)
+    expect(wrapper.emitted().foo[0]).to.eql([])
   })
 
   it('captures emitted events', () => {

@@ -59,6 +59,7 @@ export default class Wrapper implements BaseWrapper {
     if (!this._emitted && !this.vm) {
       throwError('wrapper.emitted() can only be called on a Vue instance')
     }
+    console.log('here', this._emitted)
     return this._emitted
   }
 
