@@ -6,7 +6,10 @@ describe('emitted', () => {
       render: h => h('div')
     })
 
-    wrapper.vm.$emit('foo')
+    wrapper.vm.$emit('foo', 1, 2, 3)
+    const evt = wrapper.emitted('foo')
+
+    console.log('evt', evt)
     expect(wrapper.emitted().foo).to.exist
     expect(wrapper.emitted().foo.length).to.equal(1)
     expect(wrapper.emitted().foo[0]).to.eql([])
