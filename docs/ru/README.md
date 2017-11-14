@@ -2,6 +2,8 @@
 
 `vue-test-utils` — официальная библиотека модульного тестирования для Vue.js.
 
+## Содержание
+
 * [Руководства](guides/README.md)
   * [Введение](guides/getting-started.md)
   * [Общие советы](guides/common-tips.md)
@@ -64,5 +66,8 @@
     * [trigger](api/wrapper-array/trigger.md)
     * [update](api/wrapper-array/update.md)
     * [destroy](api/wrapper-array/destroy.md)
+  * [Компоненты](api/components/README.md)
+    * [TransitionStub](api/components/TransitionStub.md)
+    * [TransitionGroupStub](api/components/TransitionGroupStub.md)
   * [Селекторы](api/selectors.md)
   * [createLocalVue](api/createLocalVue.md)

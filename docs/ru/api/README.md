@@ -52,5 +52,8 @@
   * [trigger](./wrapper-array/trigger.md)
   * [update](./wrapper-array/update.md)
   * [destroy](./wrapper-array/destroy.md)
+* [Компоненты](./components/README.md)
+  * [TransitionStub](./components/TransitionStub.md)
+  * [TransitionGroupStub](./components/TransitionGroupStub.md)
 * [Селекторы](./selectors.md)
 * [createLocalVue](./createLocalVue.md)
