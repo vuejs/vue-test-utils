@@ -67,4 +67,4 @@
     * [TransitionGroupStub](api/components/TransitionGroupStub.md)
   * [Селекторы](api/selectors.md)
   * [createLocalVue](api/createLocalVue.md)
-  * [config](api/config.md)
+  * [Конфигурация](api/config.md)
