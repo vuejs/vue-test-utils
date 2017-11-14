@@ -1,4 +1,5 @@
 {
+  "title": "vue-test-utils",
   "gitbook": ">3.0.0",
   "plugins": ["edit-link", "theme-vuejs", "-fontsettings", "github"],
   "pluginsConfig": {
