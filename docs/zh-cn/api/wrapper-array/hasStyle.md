@@ -2,7 +2,7 @@
 
 断言 `WrapperArray` 中的每一个 `Wrapper` 的 DOM 节点都有样式的匹配值。
 
-如果 `Wrapper` 的 DOM 节点有 `style` 样式值匹配 `string` 则返回 `true`。
+如果 `Wrapper` 的 DOM 节点有 `style` 样式值匹配 `value` 则返回 `true`。
 
 **注意：当运行在 `jsdom` 中的时候只会匹配内联样式。**
 

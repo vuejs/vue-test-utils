@@ -10,6 +10,17 @@ describe('text', () => {
     expect(wrapper.text()).to.equal(text)
   })
 
+  it('returns trimmed text content of wrapper node', () => {
+    const text = 'test text prop'
+    const compiled = compileToFunctions(`
+      <div>
+      ${text}
+    </div>`)
+    const wrapper = mount(compiled)
+
+    expect(wrapper.text()).to.equal(text)
+  })
+  152
   it('throws error if wrapper does not contain element', () => {
     const wrapper = mount({ render: (h) => h('div') })
     const div = wrapper.find('div')

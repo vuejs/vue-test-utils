@@ -2,6 +2,7 @@
 
 import Vue from 'vue'
 import cloneDeep from 'lodash/cloneDeep'
+import errorHandler from './lib/error-handler'
 
 function createLocalVue (): Component {
   const instance = Vue.extend()
@@ -18,6 +19,8 @@ function createLocalVue (): Component {
 
   // config is not enumerable
   instance.config = cloneDeep(Vue.config)
+
+  instance.config.errorHandler = errorHandler
 
   // option merge strategies need to be exposed by reference
   // so that merge strats registered by plguins can work properly

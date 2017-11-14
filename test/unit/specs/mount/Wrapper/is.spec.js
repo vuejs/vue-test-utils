@@ -63,6 +63,15 @@ describe('is', () => {
     expect(wrapper.is('#p')).to.equal(false)
   })
 
+  it('throws error if ref options object is passed', () => {
+    const compiled = compileToFunctions('<div />')
+    const wrapper = mount(compiled)
+
+    const message = '[vue-test-utils]: $ref selectors can not be used with wrapper.is()'
+    const fn = () => wrapper.is({ ref: 'foo' })
+    expect(fn).to.throw().with.property('message', message)
+  })
+
   it('throws error if component passed to use as identifier does not have a name', () => {
     const compiled = compileToFunctions('<div />')
     const wrapper = mount(compiled)
@@ -76,10 +85,10 @@ describe('is', () => {
     const compiled = compileToFunctions('<div />')
     const wrapper = mount(compiled)
     const invalidSelectors = [
-      undefined, null, NaN, 0, 2, true, false, () => {}, {}, { name: undefined }, []
+      undefined, null, NaN, 0, 2, true, false, () => {}, {}, { name: undefined }, { ref: 'foo', nope: true }, []
     ]
     invalidSelectors.forEach((invalidSelector) => {
-      const message = '[vue-test-utils]: wrapper.is() must be passed a valid CSS selector or a Vue constructor'
+      const message = '[vue-test-utils]: wrapper.is() must be passed a valid CSS selector, Vue constructor, or valid find option object'
       const fn = () => wrapper.is(invalidSelector)
       expect(fn).to.throw().with.property('message', message)
     })

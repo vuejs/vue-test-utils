@@ -2,7 +2,7 @@
 
 `Wrapper` DOM ノードが値に一致するにスタイルを持つか検証します。
 
-`Wrapper` DOM ノードが `string` に一致する `stuyle` を持つ場合は、`true` を返します。
+`Wrapper` DOM ノードが `value` に一致する `style` を持つ場合は、`true` を返します。
 
 **`jsdom` で実行しているときのみ、インラインスタイルを検出します。**
 
