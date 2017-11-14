@@ -17,16 +17,16 @@ import { expect } from 'chai'
 
 const wrapper = mount({
   template: '<div>{{ computed1 }} {{ computed2 }}</div>',
-  data() {
+  data () {
     return {
-      initial: 'initial',
+      initial: 'initial'
     };
   },
   computed: {
-    computed1() { 
+    computed1 () { 
       return this.initial 
     },
-    computed2() { 
+    computed2 () { 
       return this.initial 
     },
   }
@@ -34,7 +34,7 @@ const wrapper = mount({
 
 expect(wrapper.html()).toBe('<div>initial initial</div>')
 
-wrapper.setComputed({ 
+wrapper.setComputed({
   computed1: 'new-computed1',
   computed2: 'new-computed2'
 })
