@@ -1,117 +1,118 @@
-# Common Tips
+# Dicas comuns
 
-## Knowing What to Test
+## Sabendo o que testar
 
-For UI components, we don't recommend aiming for complete line-based coverage, because it leads to too much focus on the internal implementation details of the components and could result in brittle tests.
+Para componentes com interface não recomendamos o foco na cobertura completa baseada em linha, porque ela leva muito o foco para detalhes internos da implementação dos componentes, podendo resultar em testes frágeis.
 
-Instead, we recommend writing tests that assert your component's public interface, and treat its internals as a black box. A single test case would assert that some input (user interaction or change of props) provided to the component results in the expected output (render result or emitted custom events).
+Em vez disso, nós recomendamos escrever testes que verifiquem seus componentes com interface pública e trate os internos como uma caixa preta. Um caso de teste único irá verificar se a entrada (interações do usuário ou troca de props) forneceu o resultado (renderização ou emissão de eventos) esperado para o componente.
 
-For example, for the `Counter` component which increments a display counter by 1 each time a button is clicked, its test case would simulate the click and assert that the rendered output has increased by 1. The test doesn't care about how the Counter increments the value, it only cares about the input and the output.
+Por exemplo, para o componente `Counter` que incrementa um contador em cada vez que um botão é clicado, seu caso de teste teria que silumar o clique e verificar se a saída renderizada se incrementou. O teste não se importa sobre como `Counter` incrementou o valor, ele apenas se preocupa com a entrada e a saída dos dados.
 
-The benefit of this approach is that as long as your component's public interface remains the same, your tests will pass no matter how the component's internal implementation changes over time.
+O benefício desta abordagem é que enquanto a interface pública do seu componente permanece a mesma, seus testes irão passar sem se importar de como o componente faz a implementação do código interno e se houve ou não mudanças por lá.
 
-This topic is discussed with more details in a [great presentation by Matt O'Connell](http://slides.com/mattoconnell/deck#/).
+Esse tópico é discutido com mais detalhes em uma [excelente apresentação de Matt O'Connell](http://slides.com/mattoconnell/deck#/).
 
-## Shallow Rendering
+## Renderização superficial
 
-In unit tests, we typically want to focus on the component being tested as an isolated unit and avoid indirectly asserting the behavior of its child components.
+Em testes de unidade, normalmente queremos nos focar no componente a ser testeado, isolando-o como uma unidade e evitando verificações indiretas em comportamentos dos seus filhos.
 
-In addition, for components that contain many child components, the entire rendered tree can get really big. Repeatedly rendering all child components could slow down our tests.
+Além disso, para componentes que possuem muitos componentes filhos, toda a árvore de renderização pode ficar realmente grande. A repetição de renderização de todos componentes filhos vão deixar seus testes lentos.
 
-`vue-test-utils` allows you to mount a component without rendering its child components (by stubbing them) with the `shallow` method:
+O `vue-test-utils` permite que você monte um componente sem renderizar seus componentes filhos, para isso, use o método `shallow`:
 
 ```js
 import { shallow } from 'vue-test-utils'
 
-const wrapper = shallow(Component) // returns a Wrapper containing a mounted Component instance
-wrapper.vm // the mounted Vue instance
+// obtém o embrulho contendo a instância montada de Componente
+const wrapper = shallow(Componente)
+wrapper.vm // instância do Vue já montada
 ```
 
-## Asserting Emitted Events
+## Verificando os eventos emitidos
 
-Each mounted wrapper automatically records all events emitted by the underlying Vue instance. You can retrieve the recorded events using the `wrapper.emitted()` method:
+Cada embrulho montado grava automaticamente todos os eventos emitidos pela instância Vue contida. Você pode recuperar os eventos registrados usando o método `emitted`:
 
 ``` js
 wrapper.vm.$emit('foo')
 wrapper.vm.$emit('foo', 123)
 
 /*
-wrapper.emitted() returns the following object:
+wrapper.emitted() retorna o objeto a seguir:
 {
-  foo: [[], [123]]
+  foo: [ [], [123] ]
 }
 */
 ```
 
-You can then make assertions based on these data:
+Então você pode criar asserções baseadas nesses dados:
 
 ``` js
 import { expect } from 'chai'
 
-// assert event has been emitted
-expect(wrapper.emitted().foo).toBeTruthy()
+// verifica se o evento 'foo' foi emitido
+expect( wrapper.emitted().foo ).toBeTruthy()
 
-// assert event count
-expect(wrapper.emitted().foo.length).toBe(2)
+// verifica as vezes que o evento 'foo' doi emitido
+expect( wrapper.emitted().foo.length ).toBe(2)
 
-// assert event payload
-expect(wrapper.emitted().foo[1]).toEqual([123])
+// verifica a carga do segundo evento 'foo' emitido
+expect( wrapper.emitted().foo[1] ).toEqual([123])
 ```
 
-You can also get an Array of the events in their emit order by calling [wrapper.emittedByOrder()](../api/wrapper/emittedByOrder.md).
+Além disso, você pode pegar um Array dos eventos emitidos em ordem de chamada com o método [wrapper.emittedByOrder()](../api/wrapper/emittedByOrder.md).
 
-## Manipulating Component State
+## Manupulando o estado do componente
 
-You can directly manipulate the state of the component using the `setData` or `setProps` method on the wrapper:
+Você pode manipular diretamente o estado do componente usando os métodos `setData` ou `setProps` no embrulho:
 
 ```js
-wrapper.setData({ count: 10 })
+wrapper.setData({ contador: 10 })
 
 wrapper.setProps({ foo: 'bar' })
 ```
 
-## Mocking Props
+## Mockando propriedades
 
-You can pass props to the component using Vue's built-in `propsData` option:
+Você pode passar propriedades para o componente usando a opção `propsData` integrada no Vue:
 
 ```js
 import { mount } from 'vue-test-utils'
 
 mount(Component, {
   propsData: {
-    aProp: 'some value'
+    umaProp: 'qualquer valor'
   }
 })
 ```
 
-You can also update the props of an already-mounted component with the `wrapper.setProps({})` method.
+Você também pode atualizar as propriedades mesmo com o componente já montado, para isso use o método `wrapper.setProps({})`.
 
-*For a full list of options, please see the [mount options section](../api/options.md) of the docs.*
+*Para ver a lista completa de opções, por favor veja a seção [opções de montagem](../api/options.md) nessa documentação.*
 
-## Applying Global Plugins and Mixins
+## Aplicando plugins e mixins globais
 
-Some of the components may rely on features injected by a global plugin or mixin, for example `vuex` and `vue-router`.
+Alguns dos seus componentes podem ter características injetadas por um plugin ou mixin global, por exemplo o `vuex`, `vue-router` e `vue-multilanguage`.
 
-If you are writing tests for components in a specific app, you can setup the same global plugins and mixins once in the entry of your tests. But in some cases, for example testing a generic component suite that may get shared across different apps, it's better to test your components in a more isolated setup, without polluting the global `Vue` constructor. We can use the [createLocalVue](../api/createLocalVue.md) method to achieve that:
+Se você está escrevendo testes para componentes de uma aplicação específica, você pode configurar os plugins e mixins globais uma vez na entrada dos seus testes. Mas, em alguns casos, por exemplo, testando um pacote de componentes genéricos que podem ser compartilhados em diferentes aplicações, será melhor testar seus componentes com uma configuração mais isolada, sem popular o construtor global do Vue. Nós podemos usar o método [createLocalVue](../api/createLocalVue.md) para conseguir isso:
 
 ``` js
 import createLocalVue from 'vue-test-utils'
 
-// create an extended Vue constructor
+// criando um construtor ampliado do Vue
 const localVue = createLocalVue()
 
-// install plugins as normal
-localVue.use(MyPlugin)
+// Instalando normalmente os seus plugins
+localVue.use(MeuPlugin)
 
-// pass the localVue to the mount options
-mount(Component, {
+// Passe o localVue para o embrulho do componente
+mount(Componente, {
   localVue
 })
 ```
 
-## Mocking Injections
+## Mockando injeções
 
-Another strategy for injected properties is simply mocking them. You can do that with the `mocks` option:
+Outra estratégia para injetar propriedades é simplismente mockar ela. Você pode fazer isso com a opção `mocks`:
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -125,11 +126,13 @@ const $route = {
 
 mount(Component, {
   mocks: {
-    $route // adds the mocked $route object to the Vue instance before mounting component
+    // adiciona o objeto $route mockado na instância Vue
+    // antes da montagem do componente
+    $route
   }
 })
 ```
 
-## Dealing with Routing
+## Lidando com o roteamento
 
-Since routing by definition has to do with the overall structure of the application and involves multiple components, it is best tested via integration or end-to-end tests. For individual components that rely on `vue-router` features, you can mock them using the techniques mentioned above.
+Uma vez que o roteamento, por definição, tem a ver com a estrutura geral da aplicação e envolve muitos componentes, é melhor testado atráves de testes de integração ou de ponta a ponta. Para componentes individuais que dependem dos recursos do `vue-router`, você pode mocka-lo usando as técnicas mencionadas acima.
