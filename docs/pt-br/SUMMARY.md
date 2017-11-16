@@ -1,4 +1,4 @@
-## Tabela de conteúdo
+## Índice
 
 * [Guia](guides/README.md)
   * [Iniciando](guides/getting-started.md)

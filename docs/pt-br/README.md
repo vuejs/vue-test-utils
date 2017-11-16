@@ -2,7 +2,7 @@
 
 `vue-test-utils` é a biblioteca oficial de testes de unidade para o Vue.js.
 
-## Tabela de conteúdo
+## Índice
 
 * [Guia](guides/README.md)
   * [Iniciando](guides/getting-started.md)
