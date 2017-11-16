@@ -1,20 +1,20 @@
-# Testing Single File Components with Jest
+# Testando componentes de arquivo único com Jest
 
-> An example project for this setup is available on [GitHub](https://github.com/vuejs/vue-test-utils-jest-example).
+> Um projeto de exemplo para esta configuração está disponível no [GitHub](https://github.com/vuejs/vue-test-utils-jest-example).
 
-Jest is a test runner developed by Facebook, aiming to deliver a battery-included unit testing solution. You can learn more about Jest on its [official documentation](https://facebook.github.io/jest/).
+Jest é um executador de teste desenvolvido pelo Facebook, visa entregar uma bateria de testes de unidade. Você pode aprender mais sobre o Jets na sua [documentanção oficial](https://facebook.github.io/jest/).
 
-## Setting up Jest
+## Configurando o Jest
 
-We will assume you are starting with a setup that already has webpack, vue-loader and Babel properly configured - e.g. the `webpack-simple` template scaffolded by `vue-cli`.
+Nós vamos assumir que você está iniciando com a configuração que já possui o webpack, vue-loader e Babel configurados corretamente - por exemplo o template `webpack-simple` fornecido pelo `vue-cli`.
 
-The first thing to do is install Jest and `vue-test-utils`:
+A primeira coisa para se fazer é instalar o Jest e o `vue-test-utils`:
 
 ```bash
 $ npm install --save-dev jest vue-test-utils
 ```
 
-Next we need to define a unit script in our `package.json`.
+Posteriormente, devemos definir um script novo no `package.json`:
 
 ```json
 // package.json
@@ -25,15 +25,15 @@ Next we need to define a unit script in our `package.json`.
 }
 ```
 
-## Processing SFCs in Jest
+## Processando SFCs com o Jest
 
-To teach Jest how to process `*.vue` files, we will need to install and configure the `vue-jest` preprocessor:
+Para ensinar o Jest cmo processar arquivos `*.vue`, precisamos instalar e configurar o pré-processador `vue-jest`:
 
 ``` bash
 npm install --save-dev vue-jest
 ```
 
-Next, create a `jest` block in `package.json`:
+Agora, crie um bloco chamado `jest` no `package.json`:
 
 ``` json
 {
@@ -42,11 +42,11 @@ Next, create a `jest` block in `package.json`:
     "moduleFileExtensions": [
       "js",
       "json",
-      // tell Jest to handle *.vue files
+      // diga que o Jest irá reconhecer arquivos vue
       "vue"
     ],
     "transform": {
-      // process *.vue files with vue-jest
+      // processa arquivos vue com o vue-jest
       ".*\\.(vue)$": "<rootDir>/node_modules/vue-jest"
     },
     "mapCoverage": true
@@ -54,18 +54,18 @@ Next, create a `jest` block in `package.json`:
 }
 ```
 
-> **Note:** `vue-jest` currently does not support all the features of `vue-loader`, for example custom block support and style loading. In addition, some webpack-specific features such as code-splitting are not supported either. To use them, read the guide on [testing SFCs with Mocha + webpack](./testing-SFCs-with-mocha-webpack.md).
+> **Nota:** o `vue-jest` atualmente não suporta todos os recursos do `vue-loader`, por exemplo, blocos personalizados e estilo de carregamento. Além disso, alguns recursos específicos do webpack, como o [code-splitting](http://www.vuejs-brasil.com.br/separando-codigo-vue), também não são suportados. Para usá-los, leia o guia [testando SFCs com Mocha + webpack](./testing-SFCs-with-mocha-webpack.md).
 
-## Handling webpack Aliases
+## Manipulação de alias do webpack
 
-If you use a resolve alias in the webpack config, e.g. aliasing `@` to `/src`, you need to add a matching config for Jest as well, using the `moduleNameMapper` option:
+Se você usa um alias de resolução na configuração do webpack, por exemplo usar `@` como atalho para `/src`, você precisará adicionar uma configuração correspondente para o Jest, usando a opção `moduleNameMapper`:
 
 ``` json
 {
   // ...
   "jest": {
     // ...
-    // support the same @ -> src alias mapping in source code
+    // suporta o mapeamento @ para /src do código fonte
     "moduleNameMapper": {
       "^@/(.*)$": "<rootDir>/src/$1"
     }
@@ -73,15 +73,15 @@ If you use a resolve alias in the webpack config, e.g. aliasing `@` to `/src`, y
 }
 ```
 
-## Configuring Babel for Jest
+## Configurando o Babel no Jest
 
-Although latest versions of Node already supports most ES2015 features, you may still want to use ES modules syntax and stage-x features in your tests. For that we need to install `babel-jest`:
+Apesar das últimas versões do Node já suportar muitos recursos do ES2015, você ainda pode querer usar a síntaxe e stage-x nos módulos ES em seus testes. Para isso, precisamos instalar o `babel-jest`:
 
 ``` bash
 npm install --save-dev babel-jest
 ```
 
-Next, we need to tell Jest to process JavaScript test files with `babel-jest` by adding an entry under `jest.transform` in `package.json`:
+Agora, nos precisamos dizer ao Jest para processar o arquivos de teste em Javascript com o `babel-jest`. Para isso, adicionamos uma entrada `jest.transform` no `package.json`:
 
 ``` json
 {
@@ -90,7 +90,7 @@ Next, we need to tell Jest to process JavaScript test files with `babel-jest` by
     // ...
     "transform": {
       // ...
-      // process js with babel-jest
+      // processar arquivos .js com o babel-jest
       "^.+\\.js$": "<rootDir>/node_modules/babel-jest"
     },
     // ...
@@ -98,15 +98,15 @@ Next, we need to tell Jest to process JavaScript test files with `babel-jest` by
 }
 ```
 
-> By default, `babel-jest` automatically configures itself as long as it's installed. However, because we have explicitly added a transform for `*.vue` files, we now need to explicitly configure `babel-jest` as well.
+> Por padrão, o `babel-jest` configura-se automaticamente enquanto estiver instalado. Contudo, adicionamos explicitamente uma transformação para arquivos `*.vue`, então agora precisamos configurar isso no `babel-jest` também.
 
-Assuming using `babel-preset-env` with webpack, the default Babel config disables ES modules transpilation because webpack already knows how to handle ES modules. However, we do need to enable it for our tests because Jest tests run directly in Node.
+Assumindo que você usa o `babel-preset-env` com o webpack, a configuração padrão do Babel desabilitará a transpilação dos módulos ES porque o webpack já sabe como lidar com módulos ES. Entretanto, precisamos habilitar isso para nossos testes, porque o Jest executa seus testes diretamente no Node.
 
-Also, we can tell `babel-preset-env` to target the Node version we are using. This skips transpiling unnecessary features and makes our tests boot faster.
+Além disso, podemos dizer ao `babel-preset-env` para segmentar a versão do Node que estamos usando. Isso ignora a transposição de recursos desnecessários e faz com que nossos testes sejam mais rápidos.
 
-To apply these options only for tests, put them in a separate config under `env.test` (this will be automatically picked up by `babel-jest`).
+Para aplicar todas essas opções apenas para os testes, coloque-as em uma configuração separada em `env.test` (isso será automaticamente pego pelo `babel-jest`).
 
-Example `.babelrc`:
+Exemplo do novo `.babelrc`:
 
 ``` json
 {
@@ -123,24 +123,24 @@ Example `.babelrc`:
 }
 ```
 
-### Snapshot Testing
+### Teste instantâneo
 
-You can use [`vue-server-renderer`](https://github.com/vuejs/vue/tree/dev/packages/vue-server-renderer) to render a component into a string so that it can be saved as a snapshot for [Jest snapshot testing](https://facebook.github.io/jest/docs/en/snapshot-testing.html).
+Você pode usar o [`vue-server-renderer`](https://github.com/vuejs/vue/tree/dev/packages/vue-server-renderer) para transformar um componente em uma string para que ele possa ser salvo como instântaneo para o [teste instântaneo com Jest](https://facebook.github.io/jest/docs/en/snapshot-testing.html).
 
-The render result of `vue-server-renderer` includes a few SSR-specific attributes, and it ignores whitespaces, making it harder to scan a diff. We can improve the saved snapshot with a custom serializer:
+O resultado do `vue-server-renderer` inclui alguns atributos específicos de SSR e ignora espaços em branco, dificultando a detecção de um diff. Podemos melhorar o instantâneo salvo com um serializador personalizado:
 
 ``` bash
 npm install --save-dev jest-serializer-vue
 ```
 
-Then configure it in `package.json`:
+Em seguida, configure-o no `package.json`:
 
 ``` json
 {
   // ...
   "jest": {
     // ...
-    // serializer for snapshots
+    // serializador para o instantâneo
     "snapshotSerializers": [
       "<rootDir>/node_modules/jest-serializer-vue"
     ]
@@ -148,31 +148,31 @@ Then configure it in `package.json`:
 }
 ```
 
-### Placing Test Files
+### Colocando arquivos de teste
 
-By default, jest will recursively pick up all files that have a `.spec.js` or `.test.js` extension in the entire project. If this does not fit your needs, it's possible [to change the testRegex](https://facebook.github.io/jest/docs/en/configuration.html#testregex-string) in the config section in the `package.json` file.
+Por padrão, o Jest irá recursivamente pegar todos os arquivosque tenham uma extensão `.spec.js` ou `.test.js` em todo o seu projeto. Se isso não for de acordo com o seu esperado, é possível [alterar o testRegex](https://facebook.github.io/jest/docs/en/configuration.html#testregex-string) na seção `config` no arquivo `package.json`.
 
-Jest recommends creating a `__tests__` directory right next to the code being tested, but feel free to structure your tests as you see fit. Just beware that Jest would create a `__snapshots__` directory next to test files that performs snapshot testing.
+O Jest recomenda a criação de um diretório `__tests__` logo ao lado do código que está sendo testado, mas sinta-se livre para estruturar seus testes conforme entender. Apenas tenha cuidado com o fato de o Jest criar um diretório `__snapshots__` ao lado dos arquivos de teste que executam testes instantâneos. 
 
-### Example Spec
+### Exemplo de spec
 
-If you are familiar with Jasmine, you should feel right at home with Jest's [assertion API](https://facebook.github.io/jest/docs/en/expect.html#content):
+Se você está familiarizado com o Jasmine, você deve se sentir em casa com a [API de asserção](https://facebook.github.io/jest/docs/en/expect.html#content) do Jest:
 
 ```js
 import { mount } from 'vue-test-utils'
-import Component from './component'
+import Componente from './componente'
 
-describe('Component', () => {
-  test('is a Vue instance', () => {
-    const wrapper = mount(Component)
-    expect(wrapper.isVueInstance()).toBeTruthy()
+describe('Componente', () => {
+  test('é uma instância do Vue', () => {
+    const wrapper = mount(Componente)
+    expect(wrapper.ehInstanciaVue()).toBeTruthy()
   })
 })
 ```
 
-### Resources
+### Recursos
 
-- [Example project for this setup](https://github.com/vuejs/vue-test-utils-jest-example)
-- [Examples and slides from Vue Conf 2017](https://github.com/codebryo/vue-testing-with-jest-conf17)
+- [Exemplo de projeto para esta configuração](https://github.com/vuejs/vue-test-utils-jest-example)
+- [Exemplos e slides do Vue Conf 2017](https://github.com/codebryo/vue-testing-with-jest-conf17)
 - [Jest](https://facebook.github.io/jest/)
 - [Babel preset env](https://github.com/babel/babel-preset-env)
