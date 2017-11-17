@@ -1,15 +1,14 @@
+# setComputed(propriedadesComputadas)
 
-# setComputed(computedObjects)
+Define as propriedades computadas e força a atualização de cada um dos embrulhos no array.
 
-Sets `Wrapper` `vm` computed and forces update on each `Wrapper` in `WrapperArray`.
+**Nota: cada embrulho deve ser uma instância do Vue.**
+**Nota2: cada instância de cada embrulho deve ter as propriedades computadas já declaradas, pois esse método apenas mocka o seu valor.**
 
-**Note every `Wrapper` must contain a Vue instance.**
-**Note every Vue instance must already have the computed properties passed to setComputed.**
+- **Argumentos:**
+  - `{Object} propriedadesComputadass`
 
-- **Arguments:**
-  - `{Object} computed properties`
-
-- **Example:**
+- **Exemplo:**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -20,7 +19,7 @@ const wrapper = mount(Foo)
 const barArray = wrapper.findAll(Bar)
 
 barArray.setComputed({
-  computed1: 'new-computed1',
-  computed2: 'new-computed2'
+  propriedade1: 'nova-propriedade1',
+  propriedade2: 'nova-propriedade2'
 })
 ```
