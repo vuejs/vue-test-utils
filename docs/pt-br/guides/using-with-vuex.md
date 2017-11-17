@@ -96,26 +96,25 @@ O que está acontecendo aqui? Primeiro contamos ao localVue que ele usará o Vue
 
 Em seguida, fazemos uma store mockada chamando o método `Vuex.Store` com os valores do mock. Nós apenas passamos as ações, já que é o que nos importa no momento.
 
-The actions are [jest mock functions](https://facebook.github.io/jest/docs/en/mock-functions.html). These mock functions give us methods to assert whether the actions were called or not.
+As ações são [funções de mock do Jest](https://facebook.github.io/jest/docs/en/mock-functions.html). Essas funções simuladas nos dão alguns métodos para verificar se as determinadas ações foram ou não chamadas.
 
-We can then assert in our tests that the action stub was called when expected.
+Então, podemos fazer a asserção nos nossos testes esperando que essas ações do Vuex foram chamadas no momento esperado.
 
-Now the way we define the store might look a bit foreign to you.
+A forma como definimos a store pode parecer um pouco estranha para você.
 
-We’re using `beforeEach` to ensure we have a clean store before each test. `beforeEach` is a mocha hook that’s called before each test. In our test, we are reassigning the store variables value. If we didn’t do this, the mock functions would need to be automatically reset. It also lets us change the state in our tests, without it affecting later tests.
+Nós usamos o `beforeEach` para garantir que teremos uma store limpa antes de cada teste. O `beforeEach` é um método gancho do Mocha que é chamado antes de cada teste. Em nosso teste, reatribuímos os valores da store. Se nós não fizessemos isso, as funções mockadas deveriam ser reiniciadas automaticamente. Esse método também permite que alteremos o estado nos testes sem que afete os testes posteriores, pois ele será redefinido entre esses testes.
 
-The most important thing to note in this test is that **we create a mock Vuex store and then pass it to vue-test-utils**.
+A coisa mais impotante a ser notada neste teste é que **criamos um mock da store e depois passamos ela para o vue-test-utils**.
 
-Great, so now we can mock actions, let’s look at mocking getters.
+Ótimo, agora que nós já conseguimos mockar as actions, vamos ver como mockars o getters.
 
-## Mocking Getters
-
+## Mockando os getters
 
 ``` html
 <template>
     <div>
-      <p v-if="inputValue">{{inputValue}}</p>
-      <p v-if="clicks">{{clicks}}</p>
+      <p v-if="valorDoInput">{{valorDoInput}}</p>
+      <p v-if="cliques">{{cliques}}</p>
     </div>
 </template>
 
@@ -124,34 +123,34 @@ import { mapGetters } from 'vuex'
 
 export default{
   computed: mapGetters([
-    'clicks',
-    'inputValue'
+    'cliques',
+    'valorDoInput'
   ])
 }
 </script>
 ```
 
-This is a fairly simple component. It renders the result of the getters `clicks` and `inputValue`. Again, we don’t really care about what those getters returns – just that the result of them is being rendered correctly.
+Esse é um componente bastante simples, Ele mostra os resultados capturados pelos getters `cliques` e `valorDoInput`. Mais um vez, nós não importamos com o que esses getters retornam e o que fazem no seu interior, mas sim com o resultado que ele acarretará no componente a ser testado.
 
-Let’s see the test:
+Valos ver o teste do componente:
 
 ``` js
 import { shallow, createLocalVue } from 'vue-test-utils'
 import Vuex from 'vuex'
-import Actions from '../../../src/components/Getters'
+import GettersComponente from '../../../src/componentes/GettersComponente'
 
 const localVue = createLocalVue()
 
 localVue.use(Vuex)
 
-describe('Getters.vue', () => {
+describe('GettersComponente.vue', () => {
   let getters
   let store
 
   beforeEach(() => {
     getters = {
-      clicks: () => 2,
-      inputValue: () => 'input'
+      cliques: () => 2,
+      valorDoInput: () => 'input'
     }
 
     store = new Vuex.Store({
@@ -159,34 +158,35 @@ describe('Getters.vue', () => {
     })
   })
 
-  it('Renders state.inputValue in first p tag', () => {
-    const wrapper = shallow(Actions, { store, localVue })
+  it('Renderiza o valor do input na primeira tag P', () => {
+    const wrapper = shallow(GettersComponente, { store, localVue })
     const p = wrapper.find('p')
-    expect(p.text()).toBe(getters.inputValue())
+    expect(p.text()).toBe(getters.valorDoInput())
   })
 
-  it('Renders state.clicks in second p tag', () => {
-    const wrapper = shallow(Actions, { store, localVue })
+  it('Renderiza o valor de cliques na segunda tag P', () => {
+    const wrapper = shallow(GettersComponente, { store, localVue })
     const p = wrapper.findAll('p').at(1)
-    expect(p.text()).toBe(getters.clicks().toString())
+    expect(p.text()).toBe(getters.cliques().toString())
   })
 })
 ```
-This test is similar to our actions test. We create a mock store before each test, pass it as an option when we call `shallow`, and assert that the value returned by our mock getters is being rendered.
 
-This is great, but what if we want to check our getters are returning the correct part of our state?
+Esse teste é bastante similar com nosso teste de actions. Criamos um mock da store antes de cada teste, passamos ele como uma opção do método `shallow`, e verificamos o valor retornado pelo getter, verificando se o mesmo foi renderizado no template do componente.
 
-## Mocking with Modules
+Isso é ótimo, mas se quisermos garantir que nossos getters estão retornando a parte correta do nosso state?
 
-[Modules](https://vuex.vuejs.org/en/modules.html) are useful for separating out our store into manageable chunks. They also export getters. We can use these in our tests.
+## Criando mocks com módulos
 
-Let’s look at our component:
+Os [módulos](https://vuex.vuejs.org/en/modules.html) são úteis para separar nossa store em partes gerenciáveis. Podemos usa-los em nossos testes.
+
+Dê uma olhada nesse nosso componente:
 
 ``` html
 <template>
   <div>
-    <button @click="moduleActionClick()">Click</button>
-    <p>{{moduleClicks}}</p>
+    <button @click="cliqueEmModulo()">Clique</button>
+    <p>{{cliquesModulo}}</p>
   </div>
 </template>
 
@@ -196,70 +196,71 @@ import { mapActions, mapGetters } from 'vuex'
 export default{
   methods: {
     ...mapActions([
-      'moduleActionClick'
+      'cliqueEmModulo'
     ])
   },
 
   computed: mapGetters([
-    'moduleClicks'
+    'cliquesModulo'
   ])
 }
 </script>
 ```
-Simple component that includes one action and one getter.
 
-And the test:
+Esse simples componente incluí uma ação e um getter.
+
+E seu teste fica assim:
 
 ``` js
 import { shallow, createLocalVue } from 'vue-test-utils'
 import Vuex from 'vuex'
-import Modules from '../../../src/components/Modules'
-import module from '../../../src/store/module'
+import ModuloComponente from '../../../src/componentes/ModuloComponente'
+import modulo from '../../../src/store/modulo'
 
 const localVue = createLocalVue()
 
 localVue.use(Vuex)
 
-describe('Modules.vue', () => {
+describe('ModuloComponente.vue', () => {
   let actions
   let state
   let store
 
   beforeEach(() => {
     state = {
-      module: {
-        clicks: 2
+      modulo: {
+        cliques: 2
       }
     }
 
     actions = {
-      moduleActionClick: jest.fn()
+      cliqueEmModulo: jest.fn()
     }
 
     store = new Vuex.Store({
       state,
       actions,
-      getters: module.getters
+      getters: modulo.getters
     })
   })
 
-  it('calls store action moduleActionClick when button is clicked', () => {
-    const wrapper = shallow(Modules, { store, localVue })
+  it('chama a ação cliqueEmModulo quand o botão é clicado', () => {
+    const wrapper = shallow(ModuloComponente, { store, localVue })
     const button = wrapper.find('button')
     button.trigger('click')
-    expect(actions.moduleActionClick).toHaveBeenCalled()
+    expect(actions.cliqueEmModulo).toHaveBeenCalled()
   })
 
-  it('Renders state.inputValue in first p tag', () => {
-    const wrapper = shallow(Modules, { store, localVue })
+  it('Renderiza os cliques do state do módulo no primeiro P', () => {
+    const wrapper = shallow(ModuloComponente, { store, localVue })
     const p = wrapper.find('p')
-    expect(p.text()).toBe(state.module.clicks.toString())
+    expect(p.text()).toBe(state.modulo.cliques.toString())
   })
 })
 ```
 
-### Resources
+### Recursos
 
-- [Example project for this guide](https://github.com/eddyerburgh/vue-test-utils-vuex-example)
+- [Projeto de exemplo com essa configuração](https://github.com/eddyerburgh/vue-test-utils-vuex-example)
 - [localVue](../api/options.md#localvue)
 - [createLocalVue](../api/createLocalVue.md)
