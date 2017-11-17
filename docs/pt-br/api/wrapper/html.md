@@ -1,10 +1,10 @@
 # html()
 
-Returns HTML of `Wrapper` DOM node as a string.
+Retorna o HTML do elemento do embrulho como uma string.
 
-- **Returns:** `{string}`
+- **Retorna:** `{string}`
 
-- **Example:**
+- **Exemplo:**
 
 ```js
 import { mount } from 'vue-test-utils'
