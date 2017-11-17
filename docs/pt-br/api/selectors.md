@@ -1,35 +1,35 @@
-# Selectors
+# Seletores
 
-A lot of methods take a selector as an argument. A selector can either be a CSS selector, or a Vue component.
+Muitos métodos desse wrapper leval um seletor como argumento. Um seletor pode ser um seletor CSS ou um componente do Vue.
 
-## CSS Selectors
+## Seletores CSS
 
-mount handles any valid CSS selector:
+O método `mount` controla e suporta qualquer seletor válido:
 
-- tag selectors (div, foo, bar)
-- class selectors (.foo, .bar)
-- attribute selectors ([foo], [foo="bar"])
-- id selectors (#foo, #bar)
-- pseudo selectors (div:first-of-type)
+- seletores de tag (div, foo, bar)
+- seletores de classes (.foo, .bar)
+- seletores de atributos ([foo], [foo="bar"])
+- seletores de ids (#foo, #bar)
+- pseudo seletores (div:first-of-type)
 
-You can also use combinators:
+Você também pode usar qualquer combinação:
 
-- direct descendant combinator (div > #bar > .foo)
-- general descendant combinator (div #bar .foo)
-- adjacent sibling selector (div + .foo)
-- general sibling selector (div ~ .foo)
+- combinador de descendente direto (div > #bar > .foo)
+- combinador de descendente geral (div #bar .foo)
+- seletor de irmão adjacente (div + .foo)
+- seletor geral de irmãos (div ~ .foo)
 
-## Vue Components
+## Componentes do Vue
 
-Vue components are also valid selectors.
+Os componentes do Vue também são seletores válidos.
 
-vue-test-utils uses the `name` property to search the instance tree for matching Vue components.
+O vue-test-utils usa a propriedade `name` para buscar a instância na árvore de componentes do Vue.
 
 ```js
 // Foo.vue
 
 export default{
-  name: 'FooComponent'
+  name: 'FooComponente'
 }
 ```
 
