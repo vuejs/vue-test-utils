@@ -1,33 +1,33 @@
 # emitted()
 
-Return an object containing custom events emitted by the `Wrapper` `vm`.
+Retorna um objeto contendo os eventos cutomizados emitidos pelo `vm` do embrulho wrapper.
 
-- **Returns:** `{ [name: string]: Array<Array<any>> }`
+- **Retorna:** `{ [name: string]: Array<Array<any>> }`
 
-- **Example:**
+- **Exemplo:**
 
 ```js
 import { mount } from 'vue-test-utils'
 import { expect } from 'chai'
 
-const wrapper = mount(Component)
+const wrapper = mount(Componente)
 
 wrapper.vm.$emit('foo')
 wrapper.vm.$emit('foo', 123)
 
 /*
-wrapper.emitted() returns the following object:
+wrapper.emitted() retorna o seguinte objeto:
 {
   foo: [[], [123]]
 }
 */
 
-// assert event has been emitted
+// Verifica se o evento foi emitido
 expect(wrapper.emitted().foo).toBeTruthy()
 
-// assert event count
+// Verifica aquantidade de emissões do evento
 expect(wrapper.emitted().foo.length).toBe(2)
 
-// assert event payload
+// Verifica a carga do segundo evento foo emitido
 expect(wrapper.emitted().foo[1]).toEqual([123])
 ```
