@@ -1,23 +1,23 @@
-# mount(component {, options}])
+# mount(componente {, opcoes}])
 
-- **Arguments:**
+- **Argumentos:**
 
-  - `{Component} component`
-  - `{Object} options`
+  - `{Component} componente`
+  - `{Object} opcoes`
 
-- **Returns:** `{Wrapper}`
+- **Retorna:** `{Wrapper}`
 
-- **Options:**
+- **Opções:**
 
-See [options](options.md)
+Veja [opções](options.md)
 
-- **Usage:**
+- **Uso:**
 
-Returns [`Wrapper`](wrapper/README.md) of first DOM node or Vue component matching selector.
+Retorna um [`Wrapper`](wrapper/README.md) do primeiro elemento do DOM ou o componente Vue correspondente ao seletor.
 
-Use any valid [selector](selectors.md).
+Use qualquer [seletor](selectors.md) válido.
 
-**Without options:**
+**Sem opções:**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -25,13 +25,14 @@ import { expect } from 'chai'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {
-  it('renders a div', () => {
+  it('renderiza uma div', () => {
     const wrapper = mount(Foo)
     expect(wrapper.contains('div')).toBe(true)
   })
 })
 ```
-**With Vue options:**
+
+**Com opções do Vue:**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -39,18 +40,18 @@ import { expect } from 'chai'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {
-  it('renders a div', () => {
+  it('verifica valor padrão da cor', () => {
     const wrapper = mount(Foo, {
       propsData: {
-        color: 'red'
+        cor: 'vermelha'
       }
     })
-    expect(wrapper.hasProp('color', 'red')).toBe(true)
+    expect(wrapper.hasProp('cor', 'vermelha')).toBe(true)
   })
 })
 ```
 
-**Attach to DOM:**
+**Anexar ao DOM:**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -58,7 +59,7 @@ import { expect } from 'chai'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {
-  it('renders a div', () => {
+  it('adiciona variável ao DOM', () => {
     const wrapper = mount(Foo, {
       attachToDocument: true
     })
@@ -66,7 +67,8 @@ describe('Foo', () => {
   })
 })
 ```
-**Default and named slots:**
+
+**Com slots padrões ou nomeados:**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -76,11 +78,11 @@ import Bar from './Bar.vue'
 import FooBar from './FooBar.vue'
 
 describe('Foo', () => {
-  it('renders a div', () => {
+  it('registra slots padrões e nomeados', () => {
     const wrapper = mount(Foo, {
       slots: {
         default: [Bar, FooBar],
-        fooBar: FooBar, // Will match <slot name="FooBar" />,
+        fooBar: FooBar, // Corresponde a <slot name="FooBar" />,
         foo: '<div />'
       }
     })
@@ -89,7 +91,7 @@ describe('Foo', () => {
 })
 ```
 
-**Stubbing global properties:**
+**Adicionando propriedades globais:**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -97,8 +99,8 @@ import { expect } from 'chai'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {
-  it('renders a div', () => {
-    const $route = { path: 'http://www.example-path.com' }
+  it('adicionando mock global do $route', () => {
+    const $route = { path: 'http://www.meusite.com.br' }
     const wrapper = mount(Foo, {
       mocks: {
         $route
@@ -109,7 +111,7 @@ describe('Foo', () => {
 })
 ```
 
-**Stubbing components:**
+**Esboçando componentes filhos:**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -119,7 +121,7 @@ import Bar from './Bar.vue'
 import Faz from './Faz.vue'
 
 describe('Foo', () => {
-  it('renders a div', () => {
+  it('verifica componentes filhos de Foo', () => {
     const wrapper = mount(Foo, {
       stub: {
         Bar: '<div class="stubbed />',
@@ -133,4 +135,4 @@ describe('Foo', () => {
 })
 ```
 
-- **See also:** [Wrapper](wrapper/README.md)
+- **Veja também:** [Wrapper](wrapper/README.md)
