@@ -1,15 +1,15 @@
-# contains(selector)
+# contains(seletor)
 
-Assert every wrapper in `WrapperArray` contains selector.
+Verifica se cada embrulho do array contém correspondência do seletor informado.
 
-Use any valid [selector](../selectors.md).
+Use qualquer [seletor](../selectors.md) válido.
 
-- **Arguments:**
-  - `{string|Component} selector`
+- **Argumentos:**
+  - `{string|Component} seletor`
 
-- **Returns:** `{boolean}`
+- **Retorna:** `{boolean}`
 
-- **Example:**
+- **Exemplo:**
 
 ```js
 import { shallow } from 'vue-test-utils'
@@ -19,6 +19,7 @@ import Bar from './Bar.vue'
 
 const wrapper = shallow(Foo)
 const divArray = wrapper.findAll('div')
+
 expect(divArray.contains('p')).toBe(true)
 expect(divArray.contains(Bar)).toBe(true)
 ```
