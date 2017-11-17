@@ -1,10 +1,10 @@
-# Mounting Options
+# Opções de mongatem
 
-Options for `mount` and `shallow`. The options object can contain both `vue-test-utils` mounting options and raw Vue options.
+As opções são usadas nos métodos `mount` e `shallow`. O objeto de opções pode conter as opções de montagem do `vue-test-utils` e também as opções do Vue.
 
-Vue options are passed to the component when a new instance is created. , e.g. `store`, `propsData`. For a full list, see the [Vue API docs](https://vuejs.org/v2/api/).
+As opções do Vue são passadas para o componente quando uma nova instância é criada, por exemplo `store`, `propsData`. Para ver a lista completa de opções veja a [API do Vue](https://vuejs.org/v2/api/).
 
-## `vue-test-utils` Specific Mounting Options
+## Opções de montagem específicas do `vue-test-utils`
 
 - [context](#context)
 - [slots](#slots)
@@ -18,29 +18,29 @@ Vue options are passed to the component when a new instance is created. , e.g. `
 
 ### `context`
 
-- type: `Object`
+- tipo: `Object`
 
-Passes context to functional component. Can only be used with functional components.
+Passa o contexto ao componente funcional. Só pode ser usado com componentes funcionais.
 
-Example:
+Exemplo:
 
 ```js
-const wrapper = mount(Component, {
+const wrapper = mount(Componente, {
   context: {
     props: { show: true }
   }
 })
 
-expect(wrapper.is(Component)).toBe(true)
+expect(wrapper.is(Componente)).toBe(true)
 ```
 
 ### `slots`
 
-- type: `{ [name: string]: Array<Component>|Component|string }`
+- tipo: `{ [name: string]: Array<Component>|Component|string }`
 
-Provide an object of slot contents to the component. The key corresponds to the slot name. The value can be either a component, an array of components, or a template string.
+Forneça um objeto do slot para o componente. A chave corresponde ao nome do slot. O valor pode ser um componentem um array de componentes ou uma template string.
 
-Example:
+Exemplo:
 
 ```js
 import { expect } from 'chai'
@@ -50,7 +50,7 @@ import Bar from './Bar.vue'
 const wrapper = shallow(Component, {
   slots: {
     default: [Foo, Bar],
-    fooBar: Foo, // Will match <slot name="FooBar" />,
+    fooBar: Foo, // Corresponde a <slot name="FooBar" />,
     foo: '<div />'
   }
 })
@@ -59,41 +59,41 @@ expect(wrapper.find('div')).toBe(true)
 
 ### `stubs`
 
-- type: `{ [name: string]: Component | boolean } | Array<string>`
+- tipo: `{ [name: string]: Component | boolean } | Array<string>`
 
-Stubs child components. Can be an Array of component names to stub, or an object.
+Esboça os componentes filhos. Pode ser um array com os nomes dos componentes  ou um objeto.
 
-Example:
+Exemplo:
 
 ```js
 import Foo from './Foo.vue'
 
 mount(Component, {
-  stubs: ['registered-component']
+  stubs: ['componente-registrado']
 })
 
 shallow(Component, {
   stubs: {
-    // stub with a specific implementation
-    'registered-component': Foo,
-    // create default stub
-    'another-component': true
+    // esboço com uma implementação específica
+    'componente-registrado': Foo,
+    // criar um esboço padrão (mockado)
+    'outro componente': true
   }
 })
 ```
 
 ### `mocks`
 
-- type: `Object`
+- tipo: `Object`
 
-Add additional properties to the instance. Useful for mocking global injections.
+Adiciona uma propriedade adicional à instância. Ótimo para mockar injeções globais.
 
-Example:
+Exemplo:
 
 ```js
 import { expect } from 'chai'
 
-const $route = { path: 'http://www.example-path.com' }
+const $route = { path: 'http://www.meusite.com.br' }
 const wrapper = shallow(Component, {
   mocks: {
     $route
@@ -104,11 +104,11 @@ expect(wrapper.vm.$route.path).toBe($route.path)
 
 ### `localVue`
 
-- type: `Vue`
+- tipo: `Vue`
 
-A local copy of Vue created by [createLocalVue](./createLocalVue.md) to use when mounting the component. Installing plugins on this copy of Vue prevents polluting the original `Vue` copy.
+Uma cópia local do Vue é criada pelo [createLocalVue](./createLocalVue.md) para usar quando for montar um componente. A instalação de plugins e outros nessa cópia previne que seu Vue original seja poluído.
 
-Example:
+Exemplo:
 
 ```js
 import { createLocalVue, mount } from 'vue-test-utils'
@@ -136,30 +136,30 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 
 ### `attachToDocument`
 
-- type: `boolean`
-- default: `false`
+- tipo: `boolean`
+- padrão: `false`
 
-Component will be attach to DOM when rendered if set to `true`. This can be used with [`hasStyle`](wrapper/hasStyle.md) to check multi element CSS selectors.
+O componente será anexado ao DOM quando  configurado como `true`. Isso pode ser usado com o [`hasStyle`](wrapper/hasStyle.md) para verificar os seletores do CSS de vários elementos.
 
 ### `attrs`
 
-- type: `Object`
+- tipo: `Object`
 
-Set the component instance's `$attrs` object.
+Define o objeto `$attrs` da instância do componente.
 
 ### `listeners`
 
-- type: `Object`
+- tipo: `Object`
 
-Set the component instance's `$listeners` object.
+Define o objeto `$listeners` da instância do componente.
 
 ### `clone`
 
-- type: `boolean`
-- default: `true`
+- tipo: `boolean`
+- padrão: `true`
 
-Clones component before mounting if `true`, which avoids mutating the original component definition.
+Clona o componente antes de monta-lo se o valor for `true`, evitando qualquer mutação no componente original.
 
-`options.mocks` (`Object`): Add globals to Vue instance.
+`options.mocks` (`Object`): Adiciona variáveis global à instância do Vue.
 
-`options.localVue` (`Object`): vue class to use in `mount`. See [createLocalVue](createLocalVue.md)
+`options.localVue` (`Object`): classe do Vue usada no método `mount`. Veja [createLocalVue](createLocalVue.md)
