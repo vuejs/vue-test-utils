@@ -1,18 +1,18 @@
-# Using with Vuex
+# Usando com o Vuex
 
-In this guide, we'll see how to test Vuex in components with `vue-test-utils`.
+Nesse guia verems como testar o Vuex nos componentes com o `vue-test-utils`.
 
-## Mocking Actions
+## Mockando ações
 
-Let’s look at some code.
+Vejamos algum código...
 
-This is the component we want to test. It calls Vuex actions.
+Esse é o componente que queremos testar. Ele chama ações do Vuex.
 
 ``` html
 <template>
     <div class="text-align-center">
-      <input type="text" @input="actionInputIfTrue" />
-      <button @click="actionClick()">Click</button>
+      <input type="text" @input="acaoSeVerdade" />
+      <button @click="acaoDeClique()">Clique</button>
     </div>
 </template>
 
@@ -22,12 +22,12 @@ import { mapActions } from 'vuex'
 export default{
   methods: {
     ...mapActions([
-      'actionClick'
+      'acaoDeClique'
     ]),
-    actionInputIfTrue: function actionInputIfTrue (event) {
-      const inputValue = event.target.value
-      if (inputValue === 'input') {
-        this.$store.dispatch('actionInput', { inputValue })
+    acaoSeVerdade: function (event) {
+      const valorInput = event.target.value
+      if (valorInput === 'input') {
+        this.$store.dispatch('acaoInput', { valorInput })
       }
     }
   }
@@ -35,52 +35,53 @@ export default{
 </script>
 ```
 
-For the purposes of this test, we don’t care what the actions do, or what the store looks like. We just need to know that these actions are being fired when they should, and that they are fired with the expected value.
+Para os fins desse teste, não nos importa o que cada ação do Vuex faz ou como a store é criada. Nos precisamos apenas saber que essas ações estão sendo disparadas quando deveriam, e que elas são disparadas com os valores esperados.
 
-To test this, we need to pass a mock store to Vue when we shallow our component.
+Para testar isso, precisamos passar um mock da store para o Vue quando envelopamos nosso componente.
 
-Instead of passing the store to the base Vue constructor, we can pass it to a - [localVue](../api/options.md#localvue). A localVue is a scoped Vue constructor that we can make changes to without affecting the global Vue constructor.
+Em vez de passar a store para o construtor do Vue, nós passamos um [localVue](../api/options.md#localvue). Um localVue é um construtor local do Vue com escopo que permite alterações sem afetar o construtor global.
 
-Let’s see what this looks like:
+Vamos ver como isso se apreenta no código:
 
 ``` js
 import { shallow, createLocalVue } from 'vue-test-utils'
 import Vuex from 'vuex'
-import Actions from '../../../src/components/Actions'
+import Acoes from '../../../src/componentes/Acoes'
 
 const localVue = createLocalVue()
 
 localVue.use(Vuex)
 
-describe('Actions.vue', () => {
-  let actions
+describe('Acoes.vue', () => {
+  let acoes
   let store
 
   beforeEach(() => {
-    actions = {
-      actionClick: jest.fn(),
-      actionInput: jest.fn()
+    acoes = {
+      acaoDeClique: jest.fn(),
+      acaoInput: jest.fn()
     }
+
     store = new Vuex.Store({
       state: {},
-      actions
+      acoes
     })
   })
 
-  it('calls store action actionInput when input value is input and an input event is fired', () => {
-    const wrapper = shallow(Actions, { store, localVue })
+  it('chama a ação acaoInput da store quando o valor do input é inserido e um evento do input é disparado', () => {
+    const wrapper = shallow(Acoes, { store, localVue })
     const input = wrapper.find('input')
     input.element.value = 'input'
     input.trigger('input')
-    expect(actions.actionInput).toHaveBeenCalled()
+    expect( acoes.acaoInput ).toHaveBeenCalled()
   })
 
-  it('does not call store action actionInput when input value is not input and an input event is fired', () => {
-    const wrapper = shallow(Actions, { store, localVue })
+  it('não liga a ação acaoInput da store quando o valor do input não é inserido e um evento do input é disparado', () => {
+    const wrapper = shallow(Acoes, { store, localVue })
     const input = wrapper.find('input')
     input.element.value = 'not input'
     input.trigger('input')
-    expect(actions.actionInput).not.toHaveBeenCalled()
+    expect( acoes.acaoInput ).not.toHaveBeenCalled()
   })
 
   it('calls store action actionClick when button is clicked', () => {
@@ -91,9 +92,9 @@ describe('Actions.vue', () => {
 })
 ```
 
-What’s happening here? First we tell Vue to use Vuex with the `Vue.use` method. This is just a wrapper around `Vue.use`.
+O que está acontecendo aqui? Primeiro contamos ao localVue que ele usará o Vuex no método `localVue.use`. Este é apenas um embrulho do `Vue.use`.
 
-We then make a mock store by calling new `Vuex.store` with our mock values. We only pass it the actions, since that’s all we care about.
+Em seguida, fazemos uma store mockada chamando o método `Vuex.Store` com os valores do mock. Nós apenas passamos as ações, já que é o que nos importa no momento.
 
 The actions are [jest mock functions](https://facebook.github.io/jest/docs/en/mock-functions.html). These mock functions give us methods to assert whether the actions were called or not.
 
