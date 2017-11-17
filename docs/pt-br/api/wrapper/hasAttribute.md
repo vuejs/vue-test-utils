@@ -1,29 +1,30 @@
-# hasAttribute(attribute, value)
+# hasAttribute(atributo, valor)
 
-Assert `Wrapper` DOM node has attribute matching value.
+Verifica se o embrulho Wrapper contém o atributo mencionado no seu elemento do DOM.
 
-Returns `true` if `Wrapper` DOM node contains attribute with matching value.
+Retorna `true` se o embrulho contém o atributo.
 
-- **Arguments:**
-  - `{string} attribute`
-  - `{string} value`
+- **Argumentos:**
+  - `{string} atributo`
+  - `{string} valor`
 
-- **Returns:** `{boolean}`
+- **Retorna:** `{boolean}`
 
-- **Example:**
+- **Exemplo:**
 
 ```js
 import { mount } from 'vue-test-utils'
 import { expect } from 'chai'
 import Foo from './Foo.vue'
 
+// Exemplo <div class="foo">...</div>
 const wrapper = mount(Foo)
 expect(wrapper.hasAttribute('id', 'foo')).toBe(true)
 ```
 
-- **Alternative:**
+- **Alternativa:**
 
-You could get the attribute from the `Wrapper.element` to have a value based assertion:
+Você poderia obter o atributo do `Wrapper.element` para então verificar baseado no valor retornado:
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -34,4 +35,4 @@ const wrapper = mount(Foo)
 expect(wrapper.element.getAttribute('id')).toBe('foo')
 ```
 
-This makes for a more informative assertion error.
+Isso faz com que o erro da asserção sejá mais informativo.
