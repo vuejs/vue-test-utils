@@ -1,8 +1,8 @@
-# TransitionStub
+# TransitionStub (esboço de transição)
 
-A component to stub the `transition` wrapper component. Instead of performing transitions asynchronously, it returns the child component synchronously.
+É um componente para substtuir o componente `transition`. Em vez de executar as transições de forma assíncrona, ele retorna o componente filho de forma síncrona.
 
-This is set to stub all `transition` components by default in the vue-test-utils config. To use the built-in `transition` wrapper component set `config.stubs.transition` to false:
+Por padrão é configurado para trocar todos os componentes `transitions` da sua aplicação. Para desativar o componente `transition`, passe `config.stubs.transition` para false:
 
 ```js
 import VueTestUtils from 'vue-test-utils'
@@ -10,14 +10,15 @@ import VueTestUtils from 'vue-test-utils'
 VueTestUtils.config.stubs.transition = false
 ```
 
-To reset it to stub transition components:
+Para redefini-lo como componente de transição, use:
+
 ```js
 import VueTestUtils, { TransitionStub } from 'vue-test-utils'
 
 VueTestUtils.config.stubs.transition = TransitionStub
 ```
 
-To set it as a stub in mounting options:
+Para configura-lo como um stub nas opções de montagem, use:
 
 ```js
 import { mount, TransitionStub } from 'vue-test-utils'
