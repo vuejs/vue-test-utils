@@ -1,15 +1,15 @@
-# find(selector)
+# find(seletor)
 
-Returns [`Wrapper`](README.md) of first DOM node or Vue component matching selector.
+Retorna um embrulho [`Wrapper`](README.md) com o primeiro elmento do DOM ou o componente Vue encontrado a partir do seletor
 
-Use any valid [selector](../selectors.md).
+Use any valiUse qualquer [seletor](../selectors.md) válido.
 
-- **Arguments:**
-  - `{string|Component} selector`
+- **Argumentos:**
+  - `{string|Component} seletor`
 
-- **Returns:** `{Wrapper}`
+- **Retorna:** `{Wrapper}`
 
-- **Example:**
+- **Exemplo:**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -18,10 +18,12 @@ import Foo from './Foo.vue'
 import Bar from './Bar.vue'
 
 const wrapper = mount(Foo)
+
 const div = wrapper.find('div')
 expect(div.is('div')).toBe(true)
+
 const bar = wrapper.find(Bar)
 expect(bar.is(Bar)).toBe(true)
 ```
 
-- **See also:** [Wrapper](README.md)
+- **Veja também:** [Wrapper](README.md)
