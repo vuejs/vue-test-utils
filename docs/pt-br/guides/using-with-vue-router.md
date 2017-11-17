@@ -44,7 +44,7 @@ shallow(Componente, {
 })
 ```
 
-## Mockando o `$route` e o `$router`
+## Simulando o `$route` e o `$router`
 
 Às vezes você quer testar que um componente faz algo com os parâmetros dos objetos `$route` e `$router`. Para fazer isso você pode passar mocks personalizados para a instância do Vue.
 

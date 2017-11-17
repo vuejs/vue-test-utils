@@ -1,4 +1,4 @@
-# Escolhendo um executadror de testes
+# Escolhendo um executador de testes
 
 Um *test runner* é um programa com objetivo de executar seus testes.
 

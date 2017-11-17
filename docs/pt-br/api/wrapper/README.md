@@ -1,4 +1,4 @@
-# Wrapper (wrapper)
+# Wrapper
 
 vue-test-utils é uma API baseada em *wrapper*.
 

@@ -62,7 +62,7 @@ module.exports = {
 }
 ```
 
-Se for debugar pela IDE, também recomendamos adicionar o seguinte:
+Se for depurar pela IDE, também recomendamos adicionar o seguinte:
 
 ``` js
 module.exports = {

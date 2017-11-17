@@ -2,7 +2,7 @@
 
 - **Argumentos:**
 
-  - `{Component} componente`
+  - `{Component} component`
   - `{Object} options`
 
 - **Retorna:** `{Wrapper}`

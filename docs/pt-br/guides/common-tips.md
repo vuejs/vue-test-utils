@@ -71,7 +71,7 @@ wrapper.setData({ contador: 10 })
 wrapper.setProps({ foo: 'bar' })
 ```
 
-## Mockando propriedades
+## Simulando propriedades
 
 Você pode passar propriedades para o componente usando a opção `propsData` integrada no Vue:
 
@@ -110,7 +110,7 @@ mount(Componente, {
 })
 ```
 
-## Mockando injeções
+## Simulando injeções
 
 Outra estratégia para injetar propriedades é simplesmente simular ela. Você pode fazer isso com a opção `mocks`:
 

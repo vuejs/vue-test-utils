@@ -2,7 +2,7 @@
 
 Nesse guia verems como testar o Vuex nos componentes com o `vue-test-utils`.
 
-## Mockando ações
+## Simulando ações
 
 Vejamos algum código...
 
@@ -108,7 +108,7 @@ A coisa mais impotante a ser notada neste teste é que **criamos um mock da stor
 
 Ótimo, agora que nós já conseguimos simular as actions, vamos ver como simular o getters.
 
-## Mockando os getters
+## Simulando os getters
 
 ``` html
 <template>
