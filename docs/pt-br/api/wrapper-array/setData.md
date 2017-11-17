@@ -1,13 +1,13 @@
-# setData(data)
+# setData(dados)
 
-Sets `Wrapper` `vm` data and forces update on each `Wrapper` in `WrapperArray`.
+Define os dados e força a atualização de cada embrulho presente no array.
 
-**Note every `Wrapper` must contain a Vue instance.**
+**Nota: cada embrulho deve ser uma instância do Vue.**
 
-- **Arguments:**
-  - `{Object} data`
+- **Argumentos:**
+  - `{Object} dados`
 
-- **Example:**
+- **Exemplho:**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -17,6 +17,7 @@ import Bar from './Bar.vue'
 
 const wrapper = mount(Foo)
 const barArray = wrapper.findAll(Bar)
+
 barArray.setData({ foo: 'bar' })
 expect(barArray.at(0).vm.foo).toBe('bar')
 ```
