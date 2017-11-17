@@ -60,7 +60,6 @@ export default class Wrapper implements BaseWrapper {
       throwError('wrapper.emitted() can only be called on a Vue instance')
     }
     if (event) {
-      console.log(`event is ${event}`)
       return this._emitted[event]
     }
     return this._emitted
