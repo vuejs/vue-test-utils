@@ -1,18 +1,18 @@
-# hasStyle(style, value)
+# hasStyle(estilo, valor)
 
-Assert `Wrapper` DOM node has style matching value
+Verifica se o elemento do DOM do embrulho possui uma propriedade de estilo com esse valor.
 
-Returns `true` if `Wrapper` DOM node has `style` matching `value`.
+Retorna `true` se o wrapper possui um `estilo` com o `valor`.
 
-**Note will only detect inline styles when running in `jsdom`.**
+**Nota: só iremos detectar os estilos quando executado com o `jsdom`.**
 
-- **Arguments:**
-  - `{string} style`
-  - `{string} value`
+- **Argumentos:**
+  - `{string} estilo`
+  - `{string} valor`
 
-- **Returns:** `{boolean}`
+- **Retorna:** `{boolean}`
 
-- **Example:**
+- **Exemplo:**
 
 ```js
 import { mount } from 'vue-test-utils'
