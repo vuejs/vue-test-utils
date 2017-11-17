@@ -1,17 +1,17 @@
-# trigger(eventName)
+# trigger(nomeDoEvento {, opcoes}])
 
-Triggers an event on the `Wrapper` DOM node.
+Aciona um evento do elemento do embrulho.
 
-Trigger takes an optional `options` object. The properties in the `options` object are added to the Event.
+O método `trigger` usa o objeto opicional `opcoes`, essas opções serão adicionadas ao evento.
 
-You can run preventDefault on the event by passing `preventDefault: true` in `options`.
+Você pode rodar o preventDefault em um evento passando `preventDefault: true` no objeto de `opcoes`.
 
-- **Arguments:**
-  - `{string} eventName`
-  - `{Object} options`
+- **Argumentos:**
+  - `{string} nomeDoEvento`
+  - `{Object} opcoes`
     - `{boolean} preventDefault`
 
-- **Example:**
+- **Exemplo:**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -19,15 +19,15 @@ import { expect } from 'chai'
 import sinon from 'sinon'
 import Foo from './Foo'
 
-const clickHandler = sinon.stub()
+const eventoClique = sinon.stub()
 const wrapper = mount(Foo, {
-  propsData: { clickHandler }
+  propsData: { eventoClique }
 })
 
 wrapper.trigger('click')
 
 wrapper.trigger('click', {
-  button: 0
+  botao: 0
 })
 
 wrapper.trigger('click', {
