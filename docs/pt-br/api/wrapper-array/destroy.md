@@ -1,8 +1,8 @@
 # destroy()
 
-Destroys each Vue `Wrapper` in `WrapperArray`.
+Destroí a instância do Vue da cada um dos embrulhos do array.
 
-- **Example:**
+- **Exemplo:**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -14,5 +14,6 @@ const wrapper = mount(Foo)
 const divArray = wrapper.findAll('div')
 expect(divArray.contains('p')).toBe(true)
 divArray.destroy()
+
 expect(divArray.contains('p')).toBe(false)
 ```
