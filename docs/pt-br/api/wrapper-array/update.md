@@ -1,10 +1,10 @@
 # update()
 
-Force root Vue component of each `Wrapper` in `WrapperArray` to re-render.
+Força a atualização e redesenho do componente Vue de cada embrulho do array.
 
-If called on a Vue component wrapper array, it will force each Vue component to re-render.
+Se for chamado a partir de um componente Vue, força a atualização de cada componente do array.
 
-- **Example:**
+- **Exemplo:**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -13,8 +13,10 @@ import Foo from './Foo.vue'
 
 const wrapper = mount(Foo)
 const divArray = wrapper.findAll('div')
+
 expect(divArray.at(0).vm.bar).toBe('bar')
-divArray.at(0).vm.bar = 'new value'
+divArray.at(0).vm.bar = 'novo valor'
 divArray.update()
-expect(divArray.at(0).vm.bar).toBe('new value')
+
+expect(divArray.at(0).vm.bar).toBe('novo valor')
 ```
