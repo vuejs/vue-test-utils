@@ -59,7 +59,7 @@ import { expect } from 'chai'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {
-  it('adiciona variável ao DOM', () => {
+  it('adiciona anexado ao DOM', () => {
     const wrapper = mount(Foo, {
       attachToDocument: true
     })

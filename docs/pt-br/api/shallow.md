@@ -1,9 +1,9 @@
-# shallow(component {, options}])
+# shallow(componente {, opcoes}])
 
-- **Arguments:**
+- **Argumentos:**
 
-  - `{Component} component`
-  - `{Object} options`
+  - `{Component} componente`
+  - `{Object} opcoes`
     - `{boolean} attachToDocument`
     - `{Object} context`
     - `{Object} slots`
@@ -15,21 +15,21 @@
     - `{Object} children`
     - `{Vue} localVue`
 
-- **Returns:** `{Wrapper}`
+- **Retorna:** `{Wrapper}`
 
-- **Options:**
+- **Opções:**
 
-See [options](./options.md)
+Veja as [opçoes](./options.md)
 
-- **Usage:**
+- **Uso:**
 
-Returns [`Wrapper`](./wrapper/README.md) of first DOM node or Vue component matching selector.
+Retorna um [`Wrapper`](wrapper/README.md) do primeiro elemento do DOM ou o componente Vue correspondente ao seletor.
 
-Stubs all child components.
+Esboça todos os componentes filhos.
 
-Use any valid [selector](./selectors.md).
+Use qualquer [seletor](selectors.md) válido.
 
-**Without options:**
+**Sem opções:**
 
 ```js
 import { shallow } from 'vue-test-utils'
@@ -37,7 +37,7 @@ import { expect } from 'chai'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {
-  it('renders a div', () => {
+  it('Renderiza uma div', () => {
     const wrapper = shallow(Foo)
     expect(wrapper.contains('div')).toBe(true)
   })
@@ -63,7 +63,7 @@ describe('Foo', () => {
 })
 ```
 
-**Attach to DOM:**
+**Anexa ao DOM:**
 
 ```js
 import { shallow } from 'vue-test-utils'
@@ -71,7 +71,7 @@ import { expect } from 'chai'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {
-  it('renders a div', () => {
+  it('adiciona anexado ao DOM', () => {
     const wrapper = shallow(Foo, {
       attachToDocument: true
     })
@@ -80,7 +80,7 @@ describe('Foo', () => {
 })
 ```
 
-**Default and named slots:**
+**Com slots padrões ou nomeados:**
 
 ```js
 import { shallow } from 'vue-test-utils'
@@ -90,11 +90,11 @@ import Bar from './Bar.vue'
 import FooBar from './FooBar.vue'
 
 describe('Foo', () => {
-  it('renders a div', () => {
+  it('adiciona slots ao componente', () => {
     const wrapper = shallow(Foo, {
       slots: {
         default: [Bar, FooBar],
-        fooBar: FooBar, // Will match <slot name="FooBar" />,
+        fooBar: FooBar, // Corresponde a <slot name="FooBar" />,
         foo: '<div />'
       }
     })
@@ -103,7 +103,7 @@ describe('Foo', () => {
 })
 ```
 
-**Stubbing global properties:**
+**Adicionando propriedades globais:**
 
 ```js
 import { shallow } from 'vue-test-utils'
@@ -111,8 +111,8 @@ import { expect } from 'chai'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {
-  it('renders a div', () => {
-    const $route = { path: 'http://www.example-path.com' }
+  it('adicionando mock global do $route', () => {
+    const $route = { path: 'http://www.meusite.com.br' }
     const wrapper = shallow(Foo, {
       mocks: {
         $route
