@@ -1,8 +1,8 @@
-# Testing Key, Mouse and other DOM events
+# T마우스, 키 그리고 기타 DOM 이벤트
 
-## Trigger events
+## 이벤트 트리거
 
-The `Wrapper` expose a `trigger` method. It can be used to trigger DOM events.
+`Wrapper`는 `trigger` 메소드를 노출합니다. 이를 이용해 DOM 이벤트를 트리거합니다.
 
 ```js
 const wrapper = mount(MyButton)
@@ -10,7 +10,7 @@ const wrapper = mount(MyButton)
 wrapper.trigger('click')
 ```
 
-You should be aware, that find returns a wrapper as well. Assuming `MyComponent` contains a button, the following code clicks the button.
+래퍼를 반환하는 것을 알고 있어야합니다. `MyComponent`에 버튼이 포함되어있다고 가정하면 다음 코드가 버튼을 클릭합니다.
 
 ```js
 const wrapper = mount(MyComponent)
@@ -18,11 +18,11 @@ const wrapper = mount(MyComponent)
 wrapper.find('button').trigger('click')
 ```
 
-## Options
+## 옵션
 
-The trigger method takes an optional `options` object. The properties in the `options` object are added to the Event.
+트리거 메소드는 선택적으로 `options` 객체를 취합니다. `options` 객체의 속성이 이벤트에 추가됩니다.
 
-You can run preventDefault on the event by passing `preventDefault: true` in `options`.
+`options`에 `preventDefault: true`를 전달하여 이벤트에서 preventDefault를 실행할 수 있습니다.
 
 ```js
 const wrapper = mount(MyButton)
@@ -31,9 +31,9 @@ wrapper.trigger('click', { preventDefault: true })
 ```
 
 
-## Mouse Click Example
+## 마우스 클릭 예제
 
-**Component under test**
+**테스트할 컴포넌트**
 
 ```html
 <template>
@@ -63,7 +63,7 @@ export default {
 
 ```
 
-**Test**
+**테스트**
 
 ```js
 import YesNoComponent from '@/components/YesNoComponent'
@@ -85,11 +85,11 @@ describe('Click event', () => {
 })
 ```
 
-## Keyboard Example
+## 키보드 예제
 
-**Component under test**
+**테스트할 컴포넌트**
 
-This component allows to increment/decrement the quantity using various keys.
+이 컴포넌트는 다양한 키조작으로 증감을 처리합니다.
 
 ```html
 <template>
@@ -185,12 +185,12 @@ describe('Key event tests', () => {
 
 ```
 
-**Limitations**
+**한계점**
 
-A key name after the dot `keydown.up` is translated to a `keyCode`. This is supported for the following names:
+`keydown.up` 점 뒤에 있는 키 이름은 `keyCode`로 반환됩니다. 다음 이름을 지원합니다.
 
 * enter, tab, delete, esc, space, up, down, left, right
 
-## Important
+## 중요
 
-vue-test-utils triggers event synchronously. Consequently, `vue.nextTick` is not required.
+vue-test-utils는 이벤트를 동기적으로 트리거합니다. 따라서, `Vue.nextTick`은 필요하지 않습니다.
