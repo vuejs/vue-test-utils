@@ -1,16 +1,16 @@
-# hasProp(prop, value)
+# hasProp(propriedade, valor)
 
-Assert every `Wrapper` in `WrapperArray`  `vm` has `prop` matching `value`.
+Verifica se algum embrulho do array possui a `propriedade` com o `valor` no `vm`.
 
-**Note the Wrapper must contain a Vue instance.**
+**Nota: o wrapper deve ser uma intância do Vue.**
 
-- **Arguments:**
-  - `{string} prop`
-  - `{any} value`
+- **Argumentos:**
+  - `{string} propriedade`
+  - `{any} valor`
 
-- **Returns:** `{boolean}`
+- **Retorna:** `{boolean}`
 
-- **Example:**
+- **Exemplo:**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -20,5 +20,6 @@ import Bar from './Bar.vue'
 
 const wrapper = mount(Foo)
 const barArray = wrapper.findAll(Bar)
+
 expect(barArray.hasProp('bar', 10)).toBe(true)
 ```
