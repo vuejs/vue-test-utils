@@ -1,6 +1,6 @@
 # TransitionStub (esboço de transição)
 
-É um componente para substtuir o componente `transition`. Em vez de executar as transições de forma assíncrona, ele retorna o componente filho de forma síncrona.
+É um componente para substituir o componente `transition`. Em vez de executar as transições de forma assíncrona, ele retorna o componente filho de forma síncrona.
 
 Por padrão é configurado para trocar todos os componentes `transitions` da sua aplicação. Para desativar o componente `transition`, passe `config.stubs.transition` para false:
 
