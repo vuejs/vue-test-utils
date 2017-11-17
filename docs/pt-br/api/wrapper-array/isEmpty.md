@@ -1,10 +1,10 @@
 # isEmpty()
 
-Assert every `Wrapper` in `WrapperArray` does not contain child node.
+Verifica se algum embrulho do array não tem um elemento filho.
 
-- **Returns:** `{boolean}`
+- **Retorna:** `{boolean}`
 
-- **Example:**
+- **Exemplo:**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -13,5 +13,6 @@ import Foo from './Foo.vue'
 
 const wrapper = mount(Foo)
 const divArray = wrapper.findAll('div')
+
 expect(divArray.isEmpty()).toBe(true)
 ```
