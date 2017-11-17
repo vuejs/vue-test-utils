@@ -1,19 +1,18 @@
-# hasProp(prop, value)
+# hasProp(propriedade, valor)
 
-Assert `Wrapper` `vm` has `prop` matching `value`.
+Verifica se o `vm` do embrulho possui uma pripriedade com o valor definido.
 
-Returns `true` if `Wrapper` `vm` has `prop` matching `value`.
+Retorna `true` se o `vm` do wrapper tem a `propriedade` com o `valor` passado.
 
+**Nota: o wrapper deve conter uma instância do Vue.**
 
-**Note: the Wrapper must contain a Vue instance.**
+- **Argumentos:**
+  - `{string} propriedade`
+  - `{any} valor`
 
-- **Arguments:**
-  - `{string} prop`
-  - `{any} value`
+- **Retorna:** `{boolean}`
 
-- **Returns:** `{boolean}`
-
-- **Example:**
+- **Exemplo:**
 
 ```js
 import { mount } from 'vue-test-utils'
