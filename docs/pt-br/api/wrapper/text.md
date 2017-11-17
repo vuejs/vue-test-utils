@@ -1,10 +1,10 @@
 # text()
 
-Returns text content of `Wrapper`.
+Retorna o texto contido no embrulho.
 
-- **Returns:** `{string}`
+- **Retorna:** `{string}`
 
-- **Example:**
+- **Exemplo:**
 
 ```js
 import { mount } from 'vue-test-utils'
