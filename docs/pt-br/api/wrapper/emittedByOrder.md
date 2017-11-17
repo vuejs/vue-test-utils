@@ -1,6 +1,6 @@
 # emittedByOrder()
 
-Retorna um array contendo os eventos customizados emitidos pelo `vm` do wrapper.
+Retorna um Array contendo os eventos customizados emitidos pelo `vm` do wrapper.
 
 - **Retorna:** `Array<{ name: string, args: Array<any> }>`
 
@@ -16,7 +16,7 @@ wrapper.vm.$emit('foo')
 wrapper.vm.$emit('bar', 123)
 
 /*
-wrapper.emittedByOrder() retorna o seguinte array:
+wrapper.emittedByOrder() retorna o seguinte Array:
 [
   { name: 'foo', args: [] },
   { name: 'bar', args: [123] }

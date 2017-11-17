@@ -1,6 +1,6 @@
 # setProps(propriedades)
 
-Define as `propriedades` do componente e força sua atualização para cada wrapper no array.
+Define as `propriedades` do componente e força sua atualização para cada wrapper no Array.
 
 **Nota: cada wrapper deve ser uma instância do Vue.**
 

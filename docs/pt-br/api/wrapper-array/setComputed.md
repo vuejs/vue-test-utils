@@ -1,6 +1,6 @@
 # setComputed(propriedadesComputadas)
 
-Define as propriedades computadas e força a atualização de cada um dos wrappers no array.
+Define as propriedades computadas e força a atualização de cada um dos wrappers no Array.
 
 **Nota: cada wrapper deve ser uma instância do Vue.**
 **Nota2: cada instância de cada wrapper deve ter as propriedades computadas já declaradas, pois esse método apenas mocka o seu valor.**

@@ -38,7 +38,7 @@ expect(wrapper.is(Componente)).toBe(true)
 
 - tipo: `{ [name: string]: Array<Component>|Component|string }`
 
-Forneça um objeto do slot para o componente. A chave corresponde ao nome do slot. O valor pode ser um componentem um array de componentes ou uma template string.
+Forneça um objeto do slot para o componente. A chave corresponde ao nome do slot. O valor pode ser um componentem um Array de componentes ou uma template string.
 
 Exemplo:
 
@@ -61,7 +61,7 @@ expect(wrapper.find('div')).toBe(true)
 
 - tipo: `{ [name: string]: Component | boolean } | Array<string>`
 
-Esboça os componentes filhos. Pode ser um array com os nomes dos componentes  ou um objeto.
+Esboça os componentes filhos. Pode ser um Array com os nomes dos componentes  ou um objeto.
 
 Exemplo:
 

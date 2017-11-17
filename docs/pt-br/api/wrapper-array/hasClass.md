@@ -1,6 +1,6 @@
 # hasClass(nomeDaClasse)
 
-Verifica se algum wrapper do array contém uma classe com o nome `nomeDaClasse` no elemento do DOM.
+Verifica se algum wrapper do Array contém uma classe com o nome `nomeDaClasse` no elemento do DOM.
 
 - **Argumentos:**
   - `{string} nomeDaClasse`

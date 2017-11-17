@@ -1,6 +1,6 @@
 # isVueInstance()
 
-Verifica se algum wrapper do array é uma instância do Vue.
+Verifica se algum wrapper do Array é uma instância do Vue.
 
 - **Retorna:** `{boolean}`
 

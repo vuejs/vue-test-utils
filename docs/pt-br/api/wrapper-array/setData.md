@@ -1,6 +1,6 @@
 # setData(dados)
 
-Define os dados e força a atualização de cada wrapper presente no array.
+Define os dados e força a atualização de cada wrapper presente no Array.
 
 **Nota: cada wrapper deve ser uma instância do Vue.**
 
