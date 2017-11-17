@@ -1,13 +1,13 @@
-# trigger(eventName)
+# trigger(nomeDoEvento)
 
-Triggers an event on every `Wrapper` in the `WrapperArray` DOM node.
+Aciona um evento no elemeto do DOM de cada embrulho no array.
 
-**Note every `Wrapper` must contain a Vue instance.**
+**Nota: cada embrulho deve ser uma instância do Vue.**
 
-- **Arguments:**
-  - `{string} eventName`
+- **Argumentos:**
+  - `{string} nomeDoEvento`
 
-- **Example:**
+- **Exemplo:**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -15,12 +15,13 @@ import { expect } from 'chai'
 import sinon from 'sinon'
 import Foo from './Foo.vue'
 
-const clickHandler = sinon.stub()
+const mockDoClique = sinon.stub()
 const wrapper = mount(Foo, {
-  propsData: { clickHandler }
+  propsData: { mockDoClique }
 })
 
 const divArray = wrapper.findAll('div')
 divArray.trigger('click')
-expect(clickHandler.called).toBe(true)
+
+expect(mockDoClique.called).toBe(true)
 ```
