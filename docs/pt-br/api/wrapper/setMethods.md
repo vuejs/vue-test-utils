@@ -1,13 +1,13 @@
-# setMethods(methods)
+# setMethods(metodos)
 
-Sets `Wrapper` `vm` methods and forces update.
+Define os métodos do `vm` do embrulho e força sua atualização.
 
-**Note the Wrapper must contain a Vue instance.**
+**Nota: o wrapper deve ser uma instância do Vue.**
 
-- **Arguments:**
-  - `{Object} methods`
+- **Argumentos:**
+  - `{Object} metodos`
 
-- **Example:**
+- **Exemplo:**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -16,9 +16,9 @@ import sinon from 'sinon'
 import Foo from './Foo.vue'
 
 const wrapper = mount(Foo)
-const clickMethodStub = sinon.stub()
+const mockClique = sinon.stub()
 
-wrapper.setMethods({ clickMethod: clickMethodStub })
+wrapper.setMethods({ metodoClique: mockClique })
 wrapper.find('button').trigger('click')
-expect(clickMethodStub.called).toBe(true)
+expect(mockClique.called).toBe(true)
 ```
