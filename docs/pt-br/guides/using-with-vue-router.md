@@ -66,6 +66,6 @@ wrapper.vm.$router // /rota/qualquer
 
 A instalação do Vue Router adiciona `$route` e `$router` como propriedades de somente leitura do protótipo Vue.
 
-Isso significa que todos os testes futuros que tentam mockar o `$route` ou o `$router` irão falhar.
+Isso significa que todos os testes futuros que tentam simular o `$route` ou o `$router` irão falhar.
 
 Para evitar isso, nunca instale o Vue Router quando estiver executando seus testes.

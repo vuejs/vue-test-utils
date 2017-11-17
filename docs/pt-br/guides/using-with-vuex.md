@@ -94,7 +94,7 @@ describe('Acoes.vue', () => {
 
 O que está acontecendo aqui? Primeiro contamos ao localVue que ele usará o Vuex no método `localVue.use`. Este é apenas um wrapper do `Vue.use`.
 
-Em seguida, fazemos uma store mockada chamando o método `Vuex.Store` com os valores do mock. Nós apenas passamos as ações, já que é o que nos importa no momento.
+Em seguida, fazemos uma store simulada chamando o método `Vuex.Store` com os valores do mock. Nós apenas passamos as ações, já que é o que nos importa no momento.
 
 As ações são [funções de mock do Jest](https://facebook.github.io/jest/docs/en/mock-functions.html). Essas funções simuladas nos dão alguns métodos para verificar se as determinadas ações foram ou não chamadas.
 
@@ -102,11 +102,11 @@ Então, podemos fazer a asserção nos nossos testes esperando que essas ações
 
 A forma como definimos a store pode parecer um pouco estranha para você.
 
-Nós usamos o `beforeEach` para garantir que teremos uma store limpa antes de cada teste. O `beforeEach` é um método gancho do Mocha que é chamado antes de cada teste. Em nosso teste, reatribuímos os valores da store. Se nós não fizessemos isso, as funções mockadas deveriam ser reiniciadas automaticamente. Esse método também permite que alteremos o estado nos testes sem que afete os testes posteriores, pois ele será redefinido entre esses testes.
+Nós usamos o `beforeEach` para garantir que teremos uma store limpa antes de cada teste. O `beforeEach` é um método gancho do Mocha que é chamado antes de cada teste. Em nosso teste, reatribuímos os valores da store. Se nós não fizessemos isso, as funções simuladas deveriam ser reiniciadas automaticamente. Esse método também permite que alteremos o estado nos testes sem que afete os testes posteriores, pois ele será redefinido entre esses testes.
 
 A coisa mais impotante a ser notada neste teste é que **criamos um mock da store e depois passamos ela para o vue-test-utils**.
 
-Ótimo, agora que nós já conseguimos mockar as actions, vamos ver como mockars o getters.
+Ótimo, agora que nós já conseguimos simular as actions, vamos ver como simular o getters.
 
 ## Mockando os getters
 

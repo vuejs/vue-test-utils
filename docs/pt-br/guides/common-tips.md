@@ -112,7 +112,7 @@ mount(Componente, {
 
 ## Mockando injeções
 
-Outra estratégia para injetar propriedades é simplismente mockar ela. Você pode fazer isso com a opção `mocks`:
+Outra estratégia para injetar propriedades é simplesmente simular ela. Você pode fazer isso com a opção `mocks`:
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -126,7 +126,7 @@ const $route = {
 
 mount(Component, {
   mocks: {
-    // adiciona o objeto $route mockado na instância Vue
+    // adiciona o objeto $route simulado na instância Vue
     // antes da montagem do componente
     $route
   }
@@ -135,4 +135,4 @@ mount(Component, {
 
 ## Lidando com o roteamento
 
-Uma vez que o roteamento, por definição, tem a ver com a estrutura geral da aplicação e envolve muitos componentes, é melhor testado atráves de testes de integração ou de ponta a ponta. Para componentes individuais que dependem dos recursos do `vue-router`, você pode mocka-lo usando as técnicas mencionadas acima.
+Uma vez que o roteamento, por definição, tem a ver com a estrutura geral da aplicação e envolve muitos componentes, é melhor testado atráves de testes de integração ou de ponta a ponta. Para componentes individuais que dependem dos recursos do `vue-router`, você pode simula-lo usando as técnicas mencionadas acima.

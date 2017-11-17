@@ -76,7 +76,7 @@ shallow(Component, {
   stubs: {
     // esboço com uma implementação específica
     'componente-registrado': Foo,
-    // criar um esboço padrão (mockado)
+    // criar um esboço padrão (simulado com mock)
     'outro componente': true
   }
 })
@@ -86,7 +86,7 @@ shallow(Component, {
 
 - tipo: `Object`
 
-Adiciona uma propriedade adicional à instância. Ótimo para mockar injeções globais.
+Adiciona uma propriedade adicional à instância. Ótimo para simular injeções globais.
 
 Exemplo:
 

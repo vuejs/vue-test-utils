@@ -4,7 +4,7 @@ Um *test runner* é um programa com objetivo de executar seus testes.
 
 Existem muitos executadores de testes populares no Javascript, o `vue-test-utils` funciona com todos eles.
 
-Há algumas coisas a considerar ao escolher um *test runner*: conjunto de recursos, desempenho e suporte a pré-compilação de componentes arquivos de únicos (SFC). Depois de comparar cuidadosamente as bibliotecas existentes, aqui estão dois *test runner* que recomendamos:
+Há algumas coisas a considerar ao escolher um *test runner*: conjunto de recursos, desempenho e suporte a pré-compilação de componentes de arquivo único (SFC). Depois de comparar cuidadosamente as bibliotecas existentes, aqui estão dois *test runner* que recomendamos:
 
 - [Jest](https://facebook.github.io/jest/docs/en/getting-started.html#content) é o executador de testes mais completo. Ele requer menos configuração, usa JSDOM por padrão, e fornece uma ótima experiência de usuário na linha de comando. Contudo, você vai precisar de um pré-processador para ser possível importar componentes SFC em seus testes. Nos criamos o pré-processador `vue-jest`, para lidar com os recursos SFC mais comuns, mas atualmente não possuímos 100% de compatibilidade com o `vue-loader`.
 

@@ -39,7 +39,7 @@ export default {
 
 ### Montando seus componentes
 
-O `vue-test-utils` testa os componentes do Vue montando-os isoladamente, mockando as entradas necessárias (propriedades, slots e eventos de usuário) e verificando as saídas (renderização, eventos personalizados emitidos).
+O `vue-test-utils` testa os componentes do Vue montando-os isoladamente, simulando as entradas necessárias (propriedades, slots e eventos de usuário) e verificando as saídas (renderização, eventos personalizados emitidos).
 
 Os componentes montados são retornados em um wrapper (wrapper) que expõe muitos métodos para manipular, percorrer e consultar a instância do componente Vue correspondente.
 
