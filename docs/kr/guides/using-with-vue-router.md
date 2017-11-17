@@ -1,6 +1,6 @@
-# Using with Vue Router
+# Vue Router 사용하기
 
-## Installing Vue Router in tests
+## 테스트에 Vue Router 설치
 
 You should never install Vue Router on the Vue base constructor in tests. Installing Vue Router adds `$route` and `$router` as read-only properties on Vue prototype.
 
@@ -17,13 +17,13 @@ shallow(Component, {
 })
 ```
 
-## Testing components that use `router-link` or `router-view`
+## `router-link` 또는`router-view`를 사용하는 테스트 컴포넌트
 
 When you install Vue Router, the `router-link` and `router-view` components are registered. This means we can use them anywhere in our application without needing to import them.
 
 When we run tests, we need to make these vue-router components available to the component we're mounting. There are two methods to do this.
 
-### Using stubs
+### 스텁 사용하기
 
 ```js
 shallow(Component, {
@@ -31,7 +31,7 @@ shallow(Component, {
 })
 ```
 
-### Installing Vue Router with localVue
+### localVue에 Vue Router 설치
 
 ```js
 import VueRouter from 'vue-router'
@@ -44,7 +44,7 @@ shallow(Component, {
 })
 ```
 
-## Mocking `$route` and `$router`
+## `$route`와 `$router` 목킹
 
 Sometimes you want to test that a component does something with parameters from the `$route` and `$router` objects. To do that, you can pass custom mocks to the Vue instance.
 
