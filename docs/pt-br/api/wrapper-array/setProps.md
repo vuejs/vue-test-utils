@@ -1,13 +1,13 @@
-# setProps(props)
+# setProps(propriedades)
 
-Sets `Wrapper` `vm` props and forces update on each `Wrapper` in `WrapperArray`.
+Define as `propriedades` do componente e força sua atualização para cada embrulho no array.
 
-**Note every `Wrapper` must contain a Vue instance.**
+**Nota: cada embrulho deve ser uma instância do Vue.**
 
-- **Arguments:**
-  - `{Object} props`
+- **Argumentos:**
+  - `{Object} propriedades`
 
-- **Example:**
+- **Exemplo:**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -17,6 +17,7 @@ import Bar from './Bar.vue'
 
 const wrapper = mount(Foo)
 const barArray = wrapper.findAll(Bar)
+
 barArray.setProps({ foo: 'bar' })
 expect(barArray.at(0).vm.foo).toBe('bar')
 ```
