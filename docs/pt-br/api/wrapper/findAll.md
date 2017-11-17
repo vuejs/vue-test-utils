@@ -1,15 +1,15 @@
-# findAll(selector)
+# findAll(seletor)
 
-Returns a [`WrapperArray`](../wrapper-array/README.md) of [Wrappers](README.md).
+Retorna um [`WrapperArray`](../wrapper-array/README.md) de [Wrappers](README.md).
 
-Use any valid [selector](../selectors.md).
+Use qualquer [seletor](../selectors.md) válido.
 
-- **Arguments:**
-  - `{string|Component} selector`
+- **Argumentos:**
+  - `{string|Component} seletor`
 
-- **Returns:** `{WrapperArray}`
+- **Retorna:** `{WrapperArray}`
 
-- **Example:**
+- **Exemplo:**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -18,10 +18,12 @@ import Foo from './Foo.vue'
 import Bar from './Bar.vue'
 
 const wrapper = mount(Foo)
+
 const div = wrapper.findAll('div').at(0)
 expect(div.is('div')).toBe(true)
+
 const bar = wrapper.findAll(Bar).at(0)
 expect(bar.is(Bar)).toBe(true)
 ```
 
-- **See also:** [Wrapper](README.md)
+- **Veja também:** [Wrapper](README.md)
