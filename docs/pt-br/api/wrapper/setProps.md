@@ -1,13 +1,13 @@
-# setProps(props)
+# setProps(propriedades)
 
-- **Arguments:**
-  - `{Object} props`
+Define as propriedades do `vm` do embrulho e força sua atualização.
 
-- **Usage:**
+**Nota: o wrapper deve ser uma instância do Vue.**
 
-Sets `Wrapper` `vm` props and forces update.
+- **Argumentos:**
+  - `{Object} propriedades`
 
-**Note the Wrapper must contain a Vue instance.**
+- **Exemplo:**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -19,7 +19,7 @@ wrapper.setProps({ foo: 'bar' })
 expect(wrapper.vm.foo).to.equal('bar')
 ```
 
-You can also pass a `propsData` object, which will initialize the Vue instance with passed values.
+Além disso, você pode passar o objeto `propsData`, que irá inicializar a instância do Vue com os valores passados.
 
 ``` js
 // Foo.vue
