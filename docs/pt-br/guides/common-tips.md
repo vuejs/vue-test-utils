@@ -61,7 +61,7 @@ expect(wrapper.emitted().foo[1]).toEqual([123])
 
 Além disso, você pode pegar um Array dos eventos emitidos em ordem de chamada com o método [wrapper.emittedByOrder()](../api/wrapper/emittedByOrder.md).
 
-## Manupulando o estado do componente
+## Manipulando o estado do componente
 
 Você pode manipular diretamente o estado do componente usando os métodos `setData` ou `setProps` no wrapper:
 

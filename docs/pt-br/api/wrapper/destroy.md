@@ -1,6 +1,6 @@
 # destroy()
 
-Destroí a instância do componente Vue.
+Destrói a instância do componente Vue.
 
 - **Exemplo:**
 

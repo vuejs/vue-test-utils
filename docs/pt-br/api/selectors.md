@@ -1,6 +1,6 @@
 # Seletores
 
-Muitos métodos desse wrapper leval um seletor como argumento. Um seletor pode ser um seletor CSS ou um componente do Vue.
+Muitos métodos desse wrapper leva um seletor como argumento. Um seletor pode ser um seletor CSS ou um componente do Vue.
 
 ## Seletores CSS
 

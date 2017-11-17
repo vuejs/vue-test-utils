@@ -16,7 +16,7 @@ Esboços são usados em todos componentes. Eles são substituídos pelos esboço
 
 Quando você passa os esboços como um Array de String nas opções de montagens, o `config.stubs` é convertido em um Array e os componentes são esboçados com um componente que retorna uma div.
 
-Exemplho:
+Exemplo:
 
 ```js
 import VueTestUtils from 'vue-test-utils'
