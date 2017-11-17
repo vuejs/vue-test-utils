@@ -1,10 +1,10 @@
 # name()
 
-Returns component name if `Wrapper` contains a Vue instance, or the tag name of `Wrapper` DOM node if `Wrapper` does not contain a Vue instance.
+Retorna o nome do componente se o embrulho for uma instância do Vue, ou então o nome da tag se o embrulho for um elemento do DOM e não for uma instância do Vue.
 
-- **Returns:** `{string}`
+- **Retorna:** `{string}`
 
-- **Example:**
+- **Exemplo:**
 
 ```js
 import { mount } from 'vue-test-utils'
