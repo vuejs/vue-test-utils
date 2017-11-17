@@ -1,17 +1,18 @@
-# hasStyle(style, value)
+# hasStyle(estilo, valor)
 
-Assert every `Wrapper` in `WrapperArray` DOM node has style matching value.
+Verifica se algum embrulho do array tem o `estilo` com o `valor` no elemento do DOM.
 
-Returns `true` if `Wrapper` DOM node has `style` matching `value`.
+Retorna `true` se o embrulho contém o `estilo` com o `valor`.
 
-**Note will only detect inline styles when running in `jsdom`.**
-- **Arguments:**
-  - `{string} style`
-  - `{string} value`
+**Nota: para detectarmos os estilos deve-se usar o `jsdom`.**
 
-- **Returns:** `{boolean}`
+- **Argumentos:**
+  - `{string} estilo`
+  - `{string} valor`
 
-- **Example:**
+- **Retorna:** `{boolean}`
+
+- **Exemplo:**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -20,5 +21,6 @@ import Foo from './Foo.vue'
 
 const wrapper = mount(Foo)
 const divArray = wrapper.findAll('div')
-expect(divArray.hasStyle('color', 'red')).toBe(true)
+
+expect(divArray.hasStyle('cor', 'vermelha')).toBe(true)
 ```
