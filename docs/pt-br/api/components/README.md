@@ -1,5 +1,5 @@
-# Components
+# Componentes
 
-vue-test-utils includes utility components you can use to stub components.
+O vue-test-utils apresenta alguns componentes utilitários para que você possa esboçar componentes.
 
-[TransitionStub](./TransitionStub.md) and [TransitionGroupStub](./TransitionGroupStub.md) are used to stub `transition` and `transition-group` components by default. You can edit the stubs by editing the config.
+O [TransitionStub](./TransitionStub.md) e o [TransitionGroupStub](./TransitionGroupStub.md) por padrão são usados para esboçar componentes de transições e grupo de transições. Mas você pode editar esses esboços editando as configurações do mesmo.
