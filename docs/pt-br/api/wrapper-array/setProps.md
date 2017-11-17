@@ -1,4 +1,4 @@
-# setProps(propriedades)
+# setProps(props)
 
 Define as `propriedades` do componente e força sua atualização para cada wrapper no Array.
 

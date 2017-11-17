@@ -1,14 +1,14 @@
-# trigger(nomeDoEvento {, opcoes}])
+# trigger(eventName {, options}])
 
 Aciona um evento do elemento do wrapper.
 
-O método `trigger` usa o objeto opicional `opcoes`, essas opções serão adicionadas ao evento.
+O método `trigger` usa o objeto opicional `options`, essas opções serão adicionadas ao evento.
 
-Você pode rodar o preventDefault em um evento passando `preventDefault: true` no objeto de `opcoes`.
+Você pode rodar o preventDefault em um evento passando `preventDefault: true` no objeto de `options`.
 
 - **Argumentos:**
-  - `{String} nomeDoEvento`
-  - `{Object} opcoes`
+  - `{String} eventName`
+  - `{Object} options`
     - `{Boolean} preventDefault`
 
 - **Exemplo:**

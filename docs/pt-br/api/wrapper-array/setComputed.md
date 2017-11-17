@@ -1,4 +1,4 @@
-# setComputed(propriedadesComputadas)
+# setComputed(computedProperties)
 
 Define as propriedades computadas e força a atualização de cada um dos wrappers no Array.
 
@@ -6,7 +6,7 @@ Define as propriedades computadas e força a atualização de cada um dos wrappe
 **Nota2: cada instância de cada wrapper deve ter as propriedades computadas já declaradas, pois esse método apenas mocka o seu valor.**
 
 - **Argumentos:**
-  - `{Object} propriedadesComputadass`
+  - `{Object} computedPropertiess`
 
 - **Exemplo:**
 

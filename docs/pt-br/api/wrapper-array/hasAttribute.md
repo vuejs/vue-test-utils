@@ -1,10 +1,10 @@
-# hasAttribute(atributo, valor)
+# hasAttribute(attribute, value)
 
-Verifica se algum wrapper do Array tem o `atributo` com `valor` correspondente no elemento do DOM.
+Verifica se algum wrapper do Array tem o `atributo` com `value` correspondente no elemento do DOM.
 
 - **Argumentos:**
-  - `{String} atributo`
-  - `{String} valor`
+  - `{String} attribute`
+  - `{String} value`
 
 - **Retorna:** `{Boolean}`
 

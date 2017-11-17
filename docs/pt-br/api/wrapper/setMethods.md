@@ -1,11 +1,11 @@
-# setMethods(metodos)
+# setMethods(methods)
 
 Define os métodos do `vm` do wrapper e força sua atualização.
 
 **Nota: o wrapper deve ser uma instância do Vue.**
 
 - **Argumentos:**
-  - `{Object} metodos`
+  - `{Object} methods`
 
 - **Exemplo:**
 

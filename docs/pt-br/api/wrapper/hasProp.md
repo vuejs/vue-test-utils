@@ -1,14 +1,14 @@
-# hasProp(propriedade, valor)
+# hasProp(propriedade, value)
 
 Verifica se o `vm` do wrapper possui uma pripriedade com o valor definido.
 
-Retorna `true` se o `vm` do wrapper tem a `propriedade` com o `valor` passado.
+Retorna `true` se o `vm` do wrapper tem a `propriedade` com o `value` passado.
 
 **Nota: o wrapper deve conter uma instância do Vue.**
 
 - **Argumentos:**
   - `{String} propriedade`
-  - `{any} valor`
+  - `{any} value`
 
 - **Retorna:** `{Boolean}`
 

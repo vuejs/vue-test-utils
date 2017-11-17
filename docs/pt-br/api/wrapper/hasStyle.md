@@ -1,14 +1,14 @@
-# hasStyle(estilo, valor)
+# hasStyle(style, value)
 
 Verifica se o elemento do DOM do wrapper possui uma propriedade de estilo com esse valor.
 
-Retorna `true` se o wrapper possui um `estilo` com o `valor`.
+Retorna `true` se o wrapper possui um `style` com o `value`.
 
 **Nota: só iremos detectar os estilos quando executado com o `jsdom`.**
 
 - **Argumentos:**
-  - `{String} estilo`
-  - `{String} valor`
+  - `{String} style`
+  - `{String} value`
 
 - **Retorna:** `{Boolean}`
 

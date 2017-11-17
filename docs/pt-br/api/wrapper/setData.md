@@ -1,11 +1,11 @@
-# setData(dados)
+# setData(data)
 
 Define os dados do `vm` do wrapper e força a sua atualização.
 
 **Nota: o wrapper deve ser uma instância do Vue.**
 
 - **Argumentos:**
-  - `{Object} dados`
+  - `{Object} data`
 
 - **Exemplo:**
 

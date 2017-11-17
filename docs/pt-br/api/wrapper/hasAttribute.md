@@ -1,12 +1,12 @@
-# hasAttribute(atributo, valor)
+# hasAttribute(attribute, value)
 
 Verifica se o wrapper contém o atributo mencionado no seu elemento do DOM.
 
 Retorna `true` se o wrapper contém o atributo.
 
 - **Argumentos:**
-  - `{String} atributo`
-  - `{String} valor`
+  - `{String} attribute`
+  - `{String} value`
 
 - **Retorna:** `{Boolean}`
 

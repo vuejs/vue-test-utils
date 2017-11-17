@@ -1,14 +1,14 @@
-# hasStyle(estilo, valor)
+# hasStyle(style, value)
 
-Verifica se algum wrapper do Array tem o `estilo` com o `valor` no elemento do DOM.
+Verifica se algum wrapper do Array tem o `style` com o `value` no elemento do DOM.
 
-Retorna `true` se o wrapper contém o `estilo` com o `valor`.
+Retorna `true` se o wrapper contém o `style` com o `value`.
 
-**Nota: para detectarmos os estilos deve-se usar o `jsdom`.**
+**Nota: para detectarmos os styles deve-se usar o `jsdom`.**
 
 - **Argumentos:**
-  - `{String} estilo`
-  - `{String} valor`
+  - `{String} style`
+  - `{String} value`
 
 - **Retorna:** `{Boolean}`
 

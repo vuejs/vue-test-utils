@@ -1,4 +1,4 @@
-# setProps(propriedades)
+# setProps(props)
 
 Define as propriedades do `vm` do wrapper e força sua atualização.
 

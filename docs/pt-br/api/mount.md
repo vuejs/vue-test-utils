@@ -1,9 +1,9 @@
-# mount(componente {, opcoes}])
+# mount(component {, options}])
 
 - **Argumentos:**
 
   - `{Component} componente`
-  - `{Object} opcoes`
+  - `{Object} options`
 
 - **Retorna:** `{Wrapper}`
 

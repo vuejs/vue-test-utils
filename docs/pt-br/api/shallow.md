@@ -1,9 +1,9 @@
-# shallow(componente {, opcoes}])
+# shallow(component {, options}])
 
 - **Argumentos:**
 
   - `{Component} componente`
-  - `{Object} opcoes`
+  - `{Object} options`
     - `{Boolean} attachToDocument`
     - `{Object} context`
     - `{Object} slots`

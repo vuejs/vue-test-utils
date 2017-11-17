@@ -1,4 +1,4 @@
-# setComputed(propriedadesComputadas)
+# setComputed(computedProperties)
 
 Define as propriedades computadas do `vm` do wrapper e força a sua atualização.
 
@@ -7,7 +7,7 @@ Define as propriedades computadas do `vm` do wrapper e força a sua atualizaçã
 
 
 - **Argumentos:**
-  - `{Object} propriedadesComputadas`
+  - `{Object} computedProperties`
 
 - **Exemplo:**
 

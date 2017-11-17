@@ -1,11 +1,11 @@
-# hasClass(nomeDaClasse)
+# hasClass(className)
 
-Verifica se o wrapper do elemento do DOM contém uma classe informada pelo `nomeDaClasse`.
+Verifica se o wrapper do elemento do DOM contém uma classe informada pelo `className`.
 
 Retorna `true` se o wrapper contém a classe.
 
 - **Argumentos:**
-  - `{String} nomeDaClasse`
+  - `{String} className`
 
 - **Retorna:** `{Boolean}`
 

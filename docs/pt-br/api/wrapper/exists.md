@@ -1,12 +1,12 @@
 # exists()
 
-Assert `Wrapper` or `WrapperArray` exists.
+Verifica se o `Wrapper` ou o `WrapperArray` existe.
 
-Returns false if called on an empty `Wrapper` or `WrapperArray`.
+Retorna `false` se chamado com um `Wrapper` ou `WrapperArray` vazio.
 
-- **Returns:** `{Boolean}`
+- **Retorna:** `{Boolean}`
 
-- **Example:**
+- **Exemplo:**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -14,8 +14,9 @@ import { expect } from 'chai'
 import Foo from './Foo.vue'
 
 const wrapper = mount(Foo)
+
 expect(wrapper.exists()).toBe(true)
-expect(wrapper.find('does-not-exist').exists()).toBe(false)
+expect(wrapper.find('nao-existe').exists()).toBe(false)
 expect(wrapper.findAll('div').exists()).toBe(true)
-expect(wrapper.findAll('does-not-exist').exists()).toBe(false)
+expect(wrapper.findAll('nao-existe').exists()).toBe(false)
 ```

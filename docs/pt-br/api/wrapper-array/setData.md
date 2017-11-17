@@ -1,11 +1,11 @@
-# setData(dados)
+# setData(data)
 
 Define os dados e força a atualização de cada wrapper presente no Array.
 
 **Nota: cada wrapper deve ser uma instância do Vue.**
 
 - **Argumentos:**
-  - `{Object} dados`
+  - `{Object} data`
 
 - **Exemplho:**
 
