@@ -1,16 +1,17 @@
-# Wrapper
+# Wrapper (embrulho)
 
-vue-test-utils is a wrapper based API.
+vue-test-utils é uma API baseada em *wrapper*.
 
-A `Wrapper` is an object that contains a mounted component or vnode and methods to test the component or vnode.
+Um `Wrapper` é um objeto que contém um componente montado ou um vnode e alguns métodos para testar esse item envelopado.
 
-- **Properties:**
+- **Propriedades:**
 
-`vm` `Component`: this is the vue instance. You can access all the [instance methods and properties of a vm](https://vuejs.org/v2/api/#Instance-Properties) with `wrapper.vm`. This only exists on Vue component wrappers
-`element` `HTMLElement`: the root DOM node of the wrapper
-`options` `Object`: Object containing vue-test-utils options passed to `mount` or `shallow`
-`options.attachedToDom` `Boolean`: True if attachToDom was passed to `mount` or `shallow`
+`vm` `Component`: é uma instância Vue. Você pode acessar todos os [métodos de instância e propriedades de um vm](https://vuejs.org/v2/api/#Instance-Properties) com o `wrapper.vm`. Ela só exite em embrulhos de componentes Vue.
 
-- **Methods:**
+`element` `HTMLElement`: elemento raiz do DOM do embrulho.
 
-There is a detailed list of methods in the wrapper section of the docs.
+`options` `Object`: Objeto que contém as opções do vue-test-utils para ser passado para o `mount` ou `shallow`.
+
+- **Métodos:**
+
+Exite uma lista detalhada de métodos na seção Wrapper dessa documentação.
