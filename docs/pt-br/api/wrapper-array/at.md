@@ -1,13 +1,13 @@
-# at(index)
+# at(indice)
 
-Returns `Wrapper` at `index` passed. Uses zero based numbering (i.e. first item is at index 0).
+Retorna o embrulho correspondente ao `indice` passado. Use números para corresponder ao item do arra, por exemplo o `indice` 0 para o primeiro elemento.
 
-- **Arguments:**
-  - `{number} index`
+- **Argumentos:**
+  - `{number} indice`
 
-- **Returns:** `{Wrapper}`
+- **Retorna:** `{Wrapper}`
 
-- **Example:**
+- **Exemplo:**
 
 ```js
 import { shallow } from 'vue-test-utils'
@@ -16,6 +16,7 @@ import Foo from './Foo.vue'
 
 const wrapper = shallow(Foo)
 const divArray = wrapper.findAll('div')
-const secondDiv = divArray.at(1)
-expect(secondDiv.is('p')).toBe(true)
+
+const segundaDiv = divArray.at(1)
+expect(segundaDiv.is('p')).toBe(true)
 ```
