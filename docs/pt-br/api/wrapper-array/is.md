@@ -1,13 +1,13 @@
-# is(selector)
+# is(seletor)
 
-Assert every `Wrapper` in `WrapperArray` DOM node or `vm` matches [selector](../selectors.md).
+Verifica se algum embrulho do array possui o [seletor](../selectors.md) no seu `vm`.
 
-- **Arguments:**
-  - `{string|Component} selector`
+- **Argumentos:**
+  - `{string|Component} seletor`
 
-- **Returns:** `{boolean}`
+- **Retorna:** `{boolean}`
 
-- **Example:**
+- **Exemplo:**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -16,5 +16,6 @@ import Foo from './Foo.vue'
 
 const wrapper = mount(Foo)
 const divArray = wrapper.find('div')
+
 expect(divArray.is('div')).toBe(true)
 ```
