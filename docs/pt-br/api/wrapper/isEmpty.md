@@ -1,6 +1,6 @@
 # isEmpty()
 
-Verifica se o embrulho não contem elementos filhos.
+Verifica se o wrapper não contem elementos filhos.
 
 - **Retorna:** `{boolean}`
 

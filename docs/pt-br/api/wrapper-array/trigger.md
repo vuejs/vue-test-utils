@@ -1,8 +1,8 @@
 # trigger(nomeDoEvento)
 
-Aciona um evento no elemeto do DOM de cada embrulho no array.
+Aciona um evento no elemeto do DOM de cada wrapper no array.
 
-**Nota: cada embrulho deve ser uma instância do Vue.**
+**Nota: cada wrapper deve ser uma instância do Vue.**
 
 - **Argumentos:**
   - `{string} nomeDoEvento`

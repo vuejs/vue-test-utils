@@ -1,8 +1,8 @@
 # setData(dados)
 
-Define os dados e força a atualização de cada embrulho presente no array.
+Define os dados e força a atualização de cada wrapper presente no array.
 
-**Nota: cada embrulho deve ser uma instância do Vue.**
+**Nota: cada wrapper deve ser uma instância do Vue.**
 
 - **Argumentos:**
   - `{Object} dados`

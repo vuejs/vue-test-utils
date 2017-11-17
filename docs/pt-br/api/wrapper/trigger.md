@@ -1,6 +1,6 @@
 # trigger(nomeDoEvento {, opcoes}])
 
-Aciona um evento do elemento do embrulho.
+Aciona um evento do elemento do wrapper.
 
 O método `trigger` usa o objeto opicional `opcoes`, essas opções serão adicionadas ao evento.
 

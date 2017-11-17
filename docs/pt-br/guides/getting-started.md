@@ -41,9 +41,9 @@ export default {
 
 O `vue-test-utils` testa os componentes do Vue montando-os isoladamente, mockando as entradas necessárias (propriedades, slots e eventos de usuário) e verificando as saídas (renderização, eventos personalizados emitidos).
 
-Os componentes montados são retornados em um embrulho (wrapper) que expõe muitos métodos para manipular, percorrer e consultar a instância do componente Vue correspondente.
+Os componentes montados são retornados em um wrapper (wrapper) que expõe muitos métodos para manipular, percorrer e consultar a instância do componente Vue correspondente.
 
-Você pode criar essses embrulhos usando o método `mount`. Vamos criar um chamado `test.js`:
+Você pode criar essses wrappers usando o método `mount`. Vamos criar um chamado `test.js`:
 
 ```js
 // test.js
@@ -53,27 +53,27 @@ Você pode criar essses embrulhos usando o método `mount`. Vamos criar um chama
 import { mount } from 'vue-test-utils'
 import Counter from './counter'
 
-// Agora montamos o componente e obtermos o embrulho
+// Agora montamos o componente e obtermos o wrapper
 const wrapper = mount(Counter)
 
 // Você pode acessar a instância atual do Vue através de wrapper.vm
 const vm = wrapper.vm
 
-// Para inspecionar a composição do embrulho exiba-o no console
+// Para inspecionar a composição do wrapper exiba-o no console
 // ...Sua aventura com o vue-test-utils começa agora :)
 console.log(wrapper)
 ```
 
 ### Testar a saída HTML do componente
 
-Agora que nós já temos o embrulho, a primeira coisa que podemos fazer é verificar se a saída HTML que componente nos entrega é a esperada.
+Agora que nós já temos o wrapper, a primeira coisa que podemos fazer é verificar se a saída HTML que componente nos entrega é a esperada.
 
 ```js
 import { mount } from 'vue-test-utils'
 import Counter from './counter'
 
 describe('Counter', () => {
-  // Montando o componente e obtendo o embrulho
+  // Montando o componente e obtendo o wrapper
   const wrapper = mount(Counter)
 
   it('renderiza o HTML correto', () => {
@@ -91,7 +91,7 @@ Agora execute os testes com o comando `npm tests`. Você deve ver os testes pass
 
 ### Simulando a interação do usuário
 
-Nosso `Counter` deve incrementar o contador quando o usuário clica no botão. Para simular esse comportamento, primeiro precisamos localizar o botão com `wrapper.find()`, que retorna um embrulho (wrapper) para o elemento do botão. Agora nós podemos simular o evento de clique, chamando o método `trigger()` no embrulho do botão:
+Nosso `Counter` deve incrementar o contador quando o usuário clica no botão. Para simular esse comportamento, primeiro precisamos localizar o botão com `wrapper.find()`, que retorna um wrapper (wrapper) para o elemento do botão. Agora nós podemos simular o evento de clique, chamando o método `trigger()` no wrapper do botão:
 
 ```js
 it('o clique do botão deve incrementar a contagem', () => {

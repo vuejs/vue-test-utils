@@ -1,6 +1,6 @@
 # emittedByOrder()
 
-Retorna um array contendo os eventos customizados emitidos pelo `vm` do embrulho wrapper.
+Retorna um array contendo os eventos customizados emitidos pelo `vm` do wrapper.
 
 - **Retorna:** `Array<{ name: string, args: Array<any> }>`
 

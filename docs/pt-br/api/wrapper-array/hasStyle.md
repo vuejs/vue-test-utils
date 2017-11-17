@@ -1,8 +1,8 @@
 # hasStyle(estilo, valor)
 
-Verifica se algum embrulho do array tem o `estilo` com o `valor` no elemento do DOM.
+Verifica se algum wrapper do array tem o `estilo` com o `valor` no elemento do DOM.
 
-Retorna `true` se o embrulho contém o `estilo` com o `valor`.
+Retorna `true` se o wrapper contém o `estilo` com o `valor`.
 
 **Nota: para detectarmos os estilos deve-se usar o `jsdom`.**
 

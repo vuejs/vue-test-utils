@@ -12,7 +12,7 @@
   - [attrs](./options.md#attrs)
   - [listeners](./options.md#listeners)
   - [clone](./options.md#clone)
-* [Wrapper (embrulho)](./wrapper/README.md)
+* [Wrapper](./wrapper/README.md)
   * [contains](./wrapper/contains.md)
   * [emitted](./wrapper/emitted.md)
   * [emittedByOrder](./wrapper/emittedByOrder.md)

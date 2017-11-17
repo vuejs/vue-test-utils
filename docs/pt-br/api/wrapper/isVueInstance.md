@@ -1,6 +1,6 @@
 # isVueInstance()
 
-Verifica se o embrulho é uma intância do Vue.
+Verifica se o wrapper é uma intância do Vue.
 
 - **Retorna:** `{boolean}`
 

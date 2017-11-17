@@ -1,6 +1,6 @@
 # setComputed(propriedadesComputadas)
 
-Define as propriedades computadas do `vm` do embrulho e força a sua atualização.
+Define as propriedades computadas do `vm` do wrapper e força a sua atualização.
 
 **Nota: o wrapper deve ser uma instância do Vue.**
 **Nota2: a instância já deve ter as propriedades computadas passadas para o setComputed declaradas.**

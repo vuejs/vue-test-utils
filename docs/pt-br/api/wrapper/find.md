@@ -1,6 +1,6 @@
 # find(seletor)
 
-Retorna um embrulho [`Wrapper`](README.md) com o primeiro elmento do DOM ou o componente Vue encontrado a partir do seletor
+Retorna um wrapper [`Wrapper`](README.md) com o primeiro elmento do DOM ou o componente Vue encontrado a partir do seletor
 
 Use any valiUse qualquer [seletor](../selectors.md) válido.
 

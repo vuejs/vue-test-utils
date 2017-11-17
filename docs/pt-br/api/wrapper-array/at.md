@@ -1,6 +1,6 @@
 # at(indice)
 
-Retorna o embrulho correspondente ao `indice` passado. Use números para corresponder ao item do arra, por exemplo o `indice` 0 para o primeiro elemento.
+Retorna o wrapper correspondente ao `indice` passado. Use números para corresponder ao item do arra, por exemplo o `indice` 0 para o primeiro elemento.
 
 - **Argumentos:**
   - `{number} indice`

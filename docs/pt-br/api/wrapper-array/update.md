@@ -1,6 +1,6 @@
 # update()
 
-Força a atualização e redesenho do componente Vue de cada embrulho do array.
+Força a atualização e redesenho do componente Vue de cada wrapper do array.
 
 Se for chamado a partir de um componente Vue, força a atualização de cada componente do array.
 

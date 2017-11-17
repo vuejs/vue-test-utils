@@ -1,6 +1,6 @@
 # is(seletor)
 
-Verifica se algum embrulho do array possui o [seletor](../selectors.md) no seu `vm`.
+Verifica se algum wrapper do array possui o [seletor](../selectors.md) no seu `vm`.
 
 - **Argumentos:**
   - `{string|Component} seletor`

@@ -1,6 +1,6 @@
 # hasProp(propriedade, valor)
 
-Verifica se algum embrulho do array possui a `propriedade` com o `valor` no `vm`.
+Verifica se algum wrapper do array possui a `propriedade` com o `valor` no `vm`.
 
 **Nota: o wrapper deve ser uma intância do Vue.**
 

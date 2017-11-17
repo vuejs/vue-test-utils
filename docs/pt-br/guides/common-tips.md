@@ -23,14 +23,14 @@ O `vue-test-utils` permite que você monte um componente sem renderizar seus com
 ```js
 import { shallow } from 'vue-test-utils'
 
-// obtém o embrulho contendo a instância montada de Componente
+// obtém o wrapper contendo a instância montada de Componente
 const wrapper = shallow(Componente)
 wrapper.vm // instância do Vue já montada
 ```
 
 ## Verificando os eventos emitidos
 
-Cada embrulho montado grava automaticamente todos os eventos emitidos pela instância Vue contida. Você pode recuperar os eventos registrados usando o método `emitted`:
+Cada wrapper montado grava automaticamente todos os eventos emitidos pela instância Vue contida. Você pode recuperar os eventos registrados usando o método `emitted`:
 
 ``` js
 wrapper.vm.$emit('foo')
@@ -63,7 +63,7 @@ Além disso, você pode pegar um Array dos eventos emitidos em ordem de chamada 
 
 ## Manupulando o estado do componente
 
-Você pode manipular diretamente o estado do componente usando os métodos `setData` ou `setProps` no embrulho:
+Você pode manipular diretamente o estado do componente usando os métodos `setData` ou `setProps` no wrapper:
 
 ```js
 wrapper.setData({ contador: 10 })
@@ -104,7 +104,7 @@ const localVue = createLocalVue()
 // Instalando normalmente os seus plugins
 localVue.use(MeuPlugin)
 
-// Passe o localVue para o embrulho do componente
+// Passe o localVue para o wrapper do componente
 mount(Componente, {
   localVue
 })

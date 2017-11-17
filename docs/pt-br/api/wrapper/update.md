@@ -2,7 +2,7 @@
 
 Força o componente Vue a ser redesenhado.
 
-Se você chamar esse método em um embrulho que contém `vm`, ele forçará o `vm` do wrapper a se redesenhar.
+Se você chamar esse método em um wrapper que contém `vm`, ele forçará o `vm` do wrapper a se redesenhar.
 
 - **Exemplo:**
 

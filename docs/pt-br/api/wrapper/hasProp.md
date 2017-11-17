@@ -1,6 +1,6 @@
 # hasProp(propriedade, valor)
 
-Verifica se o `vm` do embrulho possui uma pripriedade com o valor definido.
+Verifica se o `vm` do wrapper possui uma pripriedade com o valor definido.
 
 Retorna `true` se o `vm` do wrapper tem a `propriedade` com o `valor` passado.
 

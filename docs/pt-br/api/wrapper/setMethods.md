@@ -1,6 +1,6 @@
 # setMethods(metodos)
 
-Define os métodos do `vm` do embrulho e força sua atualização.
+Define os métodos do `vm` do wrapper e força sua atualização.
 
 **Nota: o wrapper deve ser uma instância do Vue.**
 

@@ -1,6 +1,6 @@
 # destroy()
 
-Destroí a instância do Vue da cada um dos embrulhos do array.
+Destroí a instância do Vue da cada um dos wrappers do array.
 
 - **Exemplo:**
 

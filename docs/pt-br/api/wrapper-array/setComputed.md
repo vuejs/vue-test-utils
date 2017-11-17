@@ -1,9 +1,9 @@
 # setComputed(propriedadesComputadas)
 
-Define as propriedades computadas e força a atualização de cada um dos embrulhos no array.
+Define as propriedades computadas e força a atualização de cada um dos wrappers no array.
 
-**Nota: cada embrulho deve ser uma instância do Vue.**
-**Nota2: cada instância de cada embrulho deve ter as propriedades computadas já declaradas, pois esse método apenas mocka o seu valor.**
+**Nota: cada wrapper deve ser uma instância do Vue.**
+**Nota2: cada instância de cada wrapper deve ter as propriedades computadas já declaradas, pois esse método apenas mocka o seu valor.**
 
 - **Argumentos:**
   - `{Object} propriedadesComputadass`

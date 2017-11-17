@@ -1,6 +1,6 @@
 # contains(seletor)
 
-Verifica se cada embrulho do array contém correspondência do seletor informado.
+Verifica se cada wrapper do array contém correspondência do seletor informado.
 
 Use qualquer [seletor](../selectors.md) válido.
 

@@ -1,6 +1,6 @@
 # hasAttribute(atributo, valor)
 
-Verifica se algum embrulho do array tem o `atributo` com `valor` correspondente no elemento do DOM.
+Verifica se algum wrapper do array tem o `atributo` com `valor` correspondente no elemento do DOM.
 
 - **Argumentos:**
   - `{string} atributo`

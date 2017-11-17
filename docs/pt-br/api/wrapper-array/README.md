@@ -1,10 +1,10 @@
-# WrapperArray (array de embrulhos)
+# WrapperArray (array de wrappers)
 
-Um array de embrulhos é um objeto que contem uma lista com [Wrappers](../wrapper/README.md), e os alguns métodos para testar esses embrulhos.
+Um array de wrappers é um objeto que contem uma lista com [Wrappers](../wrapper/README.md), e os alguns métodos para testar esses wrappers.
 
 - **Propriedades:**
 
-`length` `number`: O número de embrulhos contidos nesse array.
+`length` `number`: O número de wrappers contidos nesse array.
 
 - **Métodos:**
 

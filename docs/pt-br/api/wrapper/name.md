@@ -1,6 +1,6 @@
 # name()
 
-Retorna o nome do componente se o embrulho for uma instância do Vue, ou então o nome da tag se o embrulho for um elemento do DOM e não for uma instância do Vue.
+Retorna o nome do componente se o wrapper for uma instância do Vue, ou então o nome da tag se o wrapper for um elemento do DOM e não for uma instância do Vue.
 
 - **Retorna:** `{string}`
 

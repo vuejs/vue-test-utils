@@ -1,6 +1,6 @@
 # text()
 
-Retorna o texto contido no embrulho.
+Retorna o texto contido no wrapper.
 
 - **Retorna:** `{string}`
 

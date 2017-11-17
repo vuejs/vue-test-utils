@@ -1,6 +1,6 @@
 # html()
 
-Retorna o HTML do elemento do embrulho como uma string.
+Retorna o HTML do elemento do wrapper como uma string.
 
 - **Retorna:** `{string}`
 

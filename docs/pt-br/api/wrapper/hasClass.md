@@ -1,6 +1,6 @@
 # hasClass(nomeDaClasse)
 
-Verifica se o embrulho do elemento do DOM contém uma classe informada pelo `nomeDaClasse`.
+Verifica se o wrapper do elemento do DOM contém uma classe informada pelo `nomeDaClasse`.
 
 Retorna `true` se o wrapper contém a classe.
 

@@ -1,8 +1,8 @@
 # hasAttribute(atributo, valor)
 
-Verifica se o embrulho Wrapper contém o atributo mencionado no seu elemento do DOM.
+Verifica se o wrapper contém o atributo mencionado no seu elemento do DOM.
 
-Retorna `true` se o embrulho contém o atributo.
+Retorna `true` se o wrapper contém o atributo.
 
 - **Argumentos:**
   - `{string} atributo`

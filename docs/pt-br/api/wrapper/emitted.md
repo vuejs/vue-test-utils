@@ -1,6 +1,6 @@
 # emitted()
 
-Retorna um objeto contendo os eventos cutomizados emitidos pelo `vm` do embrulho wrapper.
+Retorna um objeto contendo os eventos cutomizados emitidos pelo `vm` do wrapper.
 
 - **Retorna:** `{ [name: string]: Array<Array<any>> }`
 

@@ -1,6 +1,6 @@
 # hasStyle(estilo, valor)
 
-Verifica se o elemento do DOM do embrulho possui uma propriedade de estilo com esse valor.
+Verifica se o elemento do DOM do wrapper possui uma propriedade de estilo com esse valor.
 
 Retorna `true` se o wrapper possui um `estilo` com o `valor`.
 

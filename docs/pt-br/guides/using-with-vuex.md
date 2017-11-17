@@ -92,7 +92,7 @@ describe('Acoes.vue', () => {
 })
 ```
 
-O que está acontecendo aqui? Primeiro contamos ao localVue que ele usará o Vuex no método `localVue.use`. Este é apenas um embrulho do `Vue.use`.
+O que está acontecendo aqui? Primeiro contamos ao localVue que ele usará o Vuex no método `localVue.use`. Este é apenas um wrapper do `Vue.use`.
 
 Em seguida, fazemos uma store mockada chamando o método `Vuex.Store` com os valores do mock. Nós apenas passamos as ações, já que é o que nos importa no momento.
 

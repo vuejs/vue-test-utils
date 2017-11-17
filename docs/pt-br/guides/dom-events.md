@@ -2,7 +2,7 @@
 
 ## Desencadear eventos
 
-O embrulho (wrapper) expõe o método `trigger`. Ele pode ser usado para desencadear eventos do DOM.
+O wrapper (wrapper) expõe o método `trigger`. Ele pode ser usado para desencadear eventos do DOM.
 
 ```js
 const wrapper = mount(MeuBotao)
@@ -10,7 +10,7 @@ const wrapper = mount(MeuBotao)
 wrapper.trigger('click')
 ```
 
-Você deve estar ciente que esse método também retorna um embrulho. Assumindo que em `MeuComponente` há um botão, o código a seguir simula o clique no botão.
+Você deve estar ciente que esse método também retorna um wrapper. Assumindo que em `MeuComponente` há um botão, o código a seguir simula o clique no botão.
 
 ```js
 const wrapper = mount(MeuComponente)

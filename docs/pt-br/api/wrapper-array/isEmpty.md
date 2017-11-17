@@ -1,6 +1,6 @@
 # isEmpty()
 
-Verifica se algum embrulho do array não tem um elemento filho.
+Verifica se algum wrapper do array não tem um elemento filho.
 
 - **Retorna:** `{boolean}`
 
