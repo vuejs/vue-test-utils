@@ -1,25 +1,25 @@
-# Config
+# Configurações
 
-vue-test-utils includes a config object to defined options used by vue-test-utils.
+O vue-test-utils apresenta um objeto de configuração para que você possa definir as opções usadas no wrapper.
 
-## `vue-test-utils` Config Options
+## Opções de configurações do `vue-test-utils
 
 ### `stubs`
 
-- type: `Object`
-- default: `{
+- tipo: `Object`
+- padrão: `{
   transition: TransitionStub,
   'transition-group': TransitionGroupStub
 }`
 
-Stubs to use in components. These are overwritten by `stubs` passed in the mounting options.
+Esboços são usados em todos componentes. Eles são substituídos pelos `stubs` passados nas opções da montagem.
 
-When passing `stubs` as an array in the mounting options, `config.stubs` are converted to an array, and will stub components with a basic component that returns a div.
+Quando você passa os `stubs` como um array de string nas opções de montagens, o `config.stubs` é convertido em um array e os componentes são esboçados com um componente que retorna uma div.
 
-Example:
+Exemplho:
 
 ```js
 import VueTestUtils from 'vue-test-utils'
 
-VueTestUtils.config.stubs['my-compomnent'] = '<div />'
+VueTestUtils.config.stubs['meu-componente'] = '<div />'
 ```
