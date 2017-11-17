@@ -1,14 +1,13 @@
+# setMethods(metodos)
 
-# setMethods(methods)
+Define os métodos do componente e força sua atualização para cada embrulho no array.
 
-Sets `Wrapper` `vm` methods and forces update on each `Wrapper` in `WrapperArray`.
+**Nota: cada embrulho deve ser uma instância do Vue.**
 
-**Note every `Wrapper` must contain a Vue instance.**
+- **Argumentos:**
+  - `{Object} metodos`
 
-- **Arguments:**
-  - `{Object} methods`
-
-- **Example:**
+- **Exemplo:**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -19,9 +18,9 @@ import Bar from './Bar.vue'
 
 const wrapper = mount(Foo)
 const barArray = wrapper.findAll(Bar)
-const clickMethodStub = sinon.stub()
+const mockClique = sinon.stub()
 
-barArray.setMethods({ clickMethod: clickMethodStub })
+barArray.setMethods({ methodoClique: mockClique })
 barArray.at(0).trigger('click')
-expect(clickMethodStub.called).toBe(true)
+expect(mockClique.called).toBe(true)
 ```
