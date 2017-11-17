@@ -5,7 +5,7 @@ Aciona um evento no elemeto do DOM de cada wrapper no Array.
 **Nota: cada wrapper deve ser uma instância do Vue.**
 
 - **Argumentos:**
-  - `{string} nomeDoEvento`
+  - `{String} nomeDoEvento`
 
 - **Exemplo:**
 

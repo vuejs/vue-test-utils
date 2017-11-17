@@ -5,7 +5,7 @@ Retorna um wrapper [`Wrapper`](README.md) com o primeiro elmento do DOM ou o com
 Use any valiUse qualquer [seletor](../selectors.md) válido.
 
 - **Argumentos:**
-  - `{string|Component} seletor`
+  - `{String|Component} seletor`
 
 - **Retorna:** `{Wrapper}`
 

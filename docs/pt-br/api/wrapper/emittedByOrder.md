@@ -2,7 +2,7 @@
 
 Retorna um Array contendo os eventos customizados emitidos pelo `vm` do wrapper.
 
-- **Retorna:** `Array<{ name: string, args: Array<any> }>`
+- **Retorna:** `Array<{ name: String, args: Array<any> }>`
 
 - **Exemplo:**
 

@@ -125,7 +125,7 @@ Exemplo do novo `.babelrc`:
 
 ### Teste instantâneo
 
-Você pode usar o [`vue-server-renderer`](https://github.com/vuejs/vue/tree/dev/packages/vue-server-renderer) para transformar um componente em uma string para que ele possa ser salvo como instântaneo para o [teste instântaneo com Jest](https://facebook.github.io/jest/docs/en/snapshot-testing.html).
+Você pode usar o [`vue-server-renderer`](https://github.com/vuejs/vue/tree/dev/packages/vue-server-renderer) para transformar um componente em uma String para que ele possa ser salvo como instântaneo para o [teste instântaneo com Jest](https://facebook.github.io/jest/docs/en/snapshot-testing.html).
 
 O resultado do `vue-server-renderer` inclui alguns atributos específicos de SSR e ignora espaços em branco, dificultando a detecção de um diff. Podemos melhorar o instantâneo salvo com um serializador personalizado:
 
@@ -150,7 +150,7 @@ Em seguida, configure-o no `package.json`:
 
 ### Colocando arquivos de teste
 
-Por padrão, o Jest irá recursivamente pegar todos os arquivosque tenham uma extensão `.spec.js` ou `.test.js` em todo o seu projeto. Se isso não for de acordo com o seu esperado, é possível [alterar o testRegex](https://facebook.github.io/jest/docs/en/configuration.html#testregex-string) na seção `config` no arquivo `package.json`.
+Por padrão, o Jest irá recursivamente pegar todos os arquivosque tenham uma extensão `.spec.js` ou `.test.js` em todo o seu projeto. Se isso não for de acordo com o seu esperado, é possível [alterar o testRegex](https://facebook.github.io/jest/docs/en/configuration.html#testregex-String) na seção `config` no arquivo `package.json`.
 
 O Jest recomenda a criação de um diretório `__tests__` logo ao lado do código que está sendo testado, mas sinta-se livre para estruturar seus testes conforme entender. Apenas tenha cuidado com o fato de o Jest criar um diretório `__snapshots__` ao lado dos arquivos de teste que executam testes instantâneos. 
 

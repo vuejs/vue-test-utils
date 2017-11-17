@@ -5,7 +5,7 @@ Retorna um [`WrapperArray`](../wrapper-Array/README.md) de [Wrappers](README.md)
 Use qualquer [seletor](../selectors.md) válido.
 
 - **Argumentos:**
-  - `{string|Component} seletor`
+  - `{String|Component} seletor`
 
 - **Retorna:** `{WrapperArray}`
 

@@ -3,7 +3,7 @@
 Verifica se o `vm` do wrapper possui o [seletor](../selectors.md) informado.
 
 - **Argumentos:**
-  - `{string|Component} seletor`
+  - `{String|Component} seletor`
 
 - **Retorna:** `{boolean}`
 

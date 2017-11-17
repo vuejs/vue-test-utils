@@ -2,7 +2,7 @@
 
 Retorna o texto contido no wrapper.
 
-- **Retorna:** `{string}`
+- **Retorna:** `{String}`
 
 - **Exemplo:**
 

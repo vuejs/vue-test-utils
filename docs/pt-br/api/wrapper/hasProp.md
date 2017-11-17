@@ -7,7 +7,7 @@ Retorna `true` se o `vm` do wrapper tem a `propriedade` com o `valor` passado.
 **Nota: o wrapper deve conter uma instância do Vue.**
 
 - **Argumentos:**
-  - `{string} propriedade`
+  - `{String} propriedade`
   - `{any} valor`
 
 - **Retorna:** `{boolean}`

@@ -1,8 +1,8 @@
 # html()
 
-Retorna o HTML do elemento do wrapper como uma string.
+Retorna o HTML do elemento do wrapper como uma String.
 
-- **Retorna:** `{string}`
+- **Retorna:** `{String}`
 
 - **Exemplo:**
 

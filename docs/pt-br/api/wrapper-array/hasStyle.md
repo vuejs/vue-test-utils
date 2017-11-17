@@ -7,8 +7,8 @@ Retorna `true` se o wrapper contém o `estilo` com o `valor`.
 **Nota: para detectarmos os estilos deve-se usar o `jsdom`.**
 
 - **Argumentos:**
-  - `{string} estilo`
-  - `{string} valor`
+  - `{String} estilo`
+  - `{String} valor`
 
 - **Retorna:** `{boolean}`
 

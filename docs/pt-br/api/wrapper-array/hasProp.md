@@ -5,7 +5,7 @@ Verifica se algum wrapper do Array possui a `propriedade` com o `valor` no `vm`.
 **Nota: o wrapper deve ser uma intância do Vue.**
 
 - **Argumentos:**
-  - `{string} propriedade`
+  - `{String} propriedade`
   - `{any} valor`
 
 - **Retorna:** `{boolean}`

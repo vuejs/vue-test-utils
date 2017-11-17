@@ -3,7 +3,7 @@
 Verifica se o wrapper contém um elemento ou componente com o [seletor](../selectors.md) informado.
 
 - **Argumentos:**
-  - `{string|Component} seletor`
+  - `{String|Component} seletor`
 
 - **Retorna:** `{boolean}`
 

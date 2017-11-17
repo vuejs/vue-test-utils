@@ -5,7 +5,7 @@ Verifica se o wrapper do elemento do DOM contém uma classe informada pelo `nome
 Retorna `true` se o wrapper contém a classe.
 
 - **Argumentos:**
-  - `{string} nomeDaClasse`
+  - `{String} nomeDaClasse`
 
 - **Retorna:** `{boolean}`
 

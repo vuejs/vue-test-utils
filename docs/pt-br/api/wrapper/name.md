@@ -2,7 +2,7 @@
 
 Retorna o nome do componente se o wrapper for uma instância do Vue, ou então o nome da tag se o wrapper for um elemento do DOM e não for uma instância do Vue.
 
-- **Retorna:** `{string}`
+- **Retorna:** `{String}`
 
 - **Exemplo:**
 

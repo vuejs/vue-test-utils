@@ -3,7 +3,7 @@
 Verifica se algum wrapper do Array possui o [seletor](../selectors.md) no seu `vm`.
 
 - **Argumentos:**
-  - `{string|Component} seletor`
+  - `{String|Component} seletor`
 
 - **Retorna:** `{boolean}`
 

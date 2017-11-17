@@ -10,7 +10,7 @@
         - `{Array<Componet|Object>|Component|String} default`
         - `{Array<Componet|Object>|Component|String} named`
     - `{Object} mocks`
-    - `{Object|Array<string>} stubs`
+    - `{Object|Array<String>} stubs`
     - `{boolean} clone`
     - `{Object} children`
     - `{Vue} localVue`

@@ -3,7 +3,7 @@
 Verifica se algum wrapper do Array contém uma classe com o nome `nomeDaClasse` no elemento do DOM.
 
 - **Argumentos:**
-  - `{string} nomeDaClasse`
+  - `{String} nomeDaClasse`
 
 - **Retorna:** `{boolean}`
 

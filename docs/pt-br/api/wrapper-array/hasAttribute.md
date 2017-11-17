@@ -3,8 +3,8 @@
 Verifica se algum wrapper do Array tem o `atributo` com `valor` correspondente no elemento do DOM.
 
 - **Argumentos:**
-  - `{string} atributo`
-  - `{string} valor`
+  - `{String} atributo`
+  - `{String} valor`
 
 - **Retorna:** `{boolean}`
 

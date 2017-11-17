@@ -7,7 +7,7 @@ O método `trigger` usa o objeto opicional `opcoes`, essas opções serão adici
 Você pode rodar o preventDefault em um evento passando `preventDefault: true` no objeto de `opcoes`.
 
 - **Argumentos:**
-  - `{string} nomeDoEvento`
+  - `{String} nomeDoEvento`
   - `{Object} opcoes`
     - `{boolean} preventDefault`
 

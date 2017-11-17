@@ -5,8 +5,8 @@ Verifica se o wrapper contém o atributo mencionado no seu elemento do DOM.
 Retorna `true` se o wrapper contém o atributo.
 
 - **Argumentos:**
-  - `{string} atributo`
-  - `{string} valor`
+  - `{String} atributo`
+  - `{String} valor`
 
 - **Retorna:** `{boolean}`
 
