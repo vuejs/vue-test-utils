@@ -1,10 +1,10 @@
 # isEmpty()
 
-Assert `Wrapper` does not contain child node.
+Verifica se o embrulho não contem elementos filhos.
 
-- **Returns:** `{boolean}`
+- **Retorna:** `{boolean}`
 
-- **Example:**
+- **Exemplo:**
 
 ```js
 import { mount } from 'vue-test-utils'
