@@ -2,11 +2,11 @@
 
 > 이 설정의 예제는 [GitHub](https://github.com/vuejs/vue-test-utils-jest-example)에 있습니다.
 
-Jest는 페이스북이 개발한 테스트 러너입니다. 잘 갖춰진 유닛 테스팅 솔루션을 목표로 합니다. 자세한 내용은 Jest의 [공식 문서](https://facebook.github.io/jest/)를 살펴보세요
+Jest는 페이스북이 개발한 테스트 러너입니다. 잘 갖춰진 유닛 테스팅 솔루션을 목표로 합니다. 자세한 내용은 Jest의 [공식 문서](https://facebook.github.io/jest/)를 살펴보세요.
 
 ## Jest 설정
 
-이미 webpack, vue-loader 및 Babel이 올바르게 설정했다고 가정합니다. `vue-cli`로 스캐폴딩된 `webpack-simple` 템플릿입니다.
+이미 webpack, vue-loader 및 Babel이 올바르게 설정했다고 가정합니다. `vue-cli`로 스캐폴딩된 `webpack-simple` 템플릿을 사용합니다.
 
 가장 먼저 할 일은 Jest와 `vue-test-utils`를 설치하는 것 입니다.
 
