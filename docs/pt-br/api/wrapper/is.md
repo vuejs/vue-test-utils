@@ -1,13 +1,13 @@
-# is(selector)
+# is(seletor)
 
-Assert `Wrapper` DOM node or `vm` matches [selector](../selectors.md).
+Verifica se o `vm` do wrapper possui o [seletor](../selectors.md) informado.
 
-- **Arguments:**
-  - `{string|Component} selector`
+- **Argumentos:**
+  - `{string|Component} seletor`
 
-- **Returns:** `{boolean}`
+- **Retorna:** `{boolean}`
 
-- **Example:**
+- **Exemplo:**
 
 ```js
 import { mount } from 'vue-test-utils'
