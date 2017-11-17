@@ -1,13 +1,13 @@
-# setData(data)
+# setData(dados)
 
-Sets `Wrapper` `vm` data and forces update.
+Define os dados do `vm` do embrulho e força a sua atualização.
 
-**Note the Wrapper must contain a Vue instance.**
+**Nota: o wrapper deve ser uma instância do Vue.**
 
-- **Arguments:**
-  - `{Object} data`
+- **Argumentos:**
+  - `{Object} dados`
 
-- **Example:**
+- **Exemplo:**
 
 ```js
 import { mount } from 'vue-test-utils'
