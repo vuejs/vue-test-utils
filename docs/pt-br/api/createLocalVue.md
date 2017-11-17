@@ -1,13 +1,13 @@
 # createLocalVue()
 
-- **Returns:**
+- **Retorna:**
   - `{Component}`
 
-- **Usage:**
+- **Uso:**
 
-`createLocalVue` returns a Vue class for you to add components, mixins and install plugins without polluting the global Vue class.
+O `createLocalVue` retorna uma classe do Vue para que você possa adicionar componentes, mixins e plugins sem poluir sua classe global do Vue.
 
-Use it with `options.localVue`
+Usando com o `options.localVue`
 
 ```js
 import { createLocalVue, shallow } from 'vue-test-utils'
@@ -19,10 +19,12 @@ const wrapper = shallow(Foo, {
   localVue,
   mocks: { foo: true }
 })
+
 expect(wrapper.vm.foo).toBe(true)
 
-const freshWrapper = shallow(Foo)
-expect(freshWrapper.vm.foo).toBe(false)
+const wrapperSemMock = shallow(Foo)
+
+expect(wrapperSemMock.vm.foo).toBe(false)
 ```
 
-- **See also:** [Common Tips](../guides/common-tips.md#applying-global-plugins-and-mixins)
+- **Veja também:** [Dicas comuns](../guides/common-tips.md#applying-global-plugins-and-mixins)
