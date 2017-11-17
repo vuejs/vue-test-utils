@@ -1,13 +1,13 @@
-# contains(selector)
+# contains(seletor)
 
-Assert `Wrapper` contains an element or component matching [selector](../selectors.md).
+Verifica se o embrulho contém um elemento ou componente com o [seletor](../selectors.md) informado.
 
-- **Arguments:**
-  - `{string|Component} selector`
+- **Argumentos:**
+  - `{string|Component} seletor`
 
-- **Returns:** `{boolean}`
+- **Retorna:** `{boolean}`
 
-- **Example:**
+- **Exemplo:**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -20,4 +20,4 @@ expect(wrapper.contains('p')).toBe(true)
 expect(wrapper.contains(Bar)).toBe(true)
 ```
 
-- **See also:** [selectors](../selectors.md)
+- **Veja também:** [seletores](../selectors.md)
