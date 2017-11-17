@@ -1,10 +1,10 @@
 # isVueInstance()
 
-Assert `Wrapper` is Vue instance.
+Verifica se o embrulho é uma intância do Vue.
 
-- **Returns:** `{boolean}`
+- **Retorna:** `{boolean}`
 
-- **Example:**
+- **Exemplo:**
 
 ```js
 import { mount } from 'vue-test-utils'
