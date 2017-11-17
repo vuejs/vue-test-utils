@@ -1,43 +1,43 @@
-# setComputed(computedProperties)
+# setComputed(propriedadesComputadas)
 
-Sets `Wrapper` `vm` computed property and forces update.
+Define as propriedades computadas do `vm` do embrulho e força a sua atualização.
 
-**Note the Wrapper must contain a Vue instance.**
-**Note every Vue instance must already have the computed properties passed to setComputed.**
+**Nota: o wrapper deve ser uma instância do Vue.**
+**Nota2: a instância já deve ter as propriedades computadas passadas para o setComputed declaradas.**
 
 
-- **Arguments:**
-  - `{Object} computed properties`
+- **Argumentos:**
+  - `{Object} propriedadesComputadas`
 
-- **Example:**
+- **Exemplo:**
 
 ```js
 import { mount } from 'vue-test-utils'
 import { expect } from 'chai'
 
 const wrapper = mount({
-  template: '<div>{{ computed1 }} {{ computed2 }}</div>',
+  template: '<div>{{ propriedade1 }} {{ propriedade2 }}</div>',
   data () {
     return {
-      initial: 'initial'
+      inicial: 'inicial'
     }
   },
   computed: {
-    computed1 () {
-      return this.initial
+    propriedade1 () {
+      return this.inicial
     },
-    computed2 () {
-      return this.initial
+    propriedade2 () {
+      return this.inicial
     }
   }
 })
 
-expect(wrapper.html()).toBe('<div>initial initial</div>')
+expect(wrapper.html()).toBe('<div>inicial inicial</div>')
 
 wrapper.setComputed({
-  computed1: 'new-computed1',
-  computed2: 'new-computed2'
+  propriedade1: 'nova-propriedade1',
+  propriedade2: 'nova-propriedade2'
 })
 
-expect(wrapper.html()).toBe('<div>new-computed1 new-computed2</div>')
+expect(wrapper.html()).toBe('<div>nova-propriedade1 nova-propriedade2</div>')
 ```
