@@ -1,14 +1,14 @@
-# hasAttribute(attribute, value)
+# hasAttribute(atributo, valor)
 
-Assert every `Wrapper` in `WrapperArray` DOM node has `attribute` matching `value`.
+Verifica se algum embrulho do array tem o `atributo` com `valor` correspondente no elemento do DOM.
 
-- **Arguments:**
-  - `{string} attribute`
-  - `{string} value`
+- **Argumentos:**
+  - `{string} atributo`
+  - `{string} valor`
 
-- **Returns:** `{boolean}`
+- **Retorna:** `{boolean}`
 
-- **Example:**
+- **Exemplo:**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -17,5 +17,6 @@ import Foo from './Foo.vue'
 
 const wrapper = mount(Foo)
 const divArray = wrapper.findAll('div')
+
 expect(divArray.hasAttribute('id', 'foo')).toBe(true)
 ```
