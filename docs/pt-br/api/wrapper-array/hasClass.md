@@ -1,13 +1,13 @@
-# hasClass(className)
+# hasClass(nomeDaClasse)
 
-Assert every `Wrapper` in `WrapperArray` DOM node has class containing `className`.
+Verifica se algum embrulho do array contém uma classe com o nome `nomeDaClasse` no elemento do DOM.
 
-- **Arguments:**
-  - `{string} className`
+- **Argumentos:**
+  - `{string} nomeDaClasse`
 
-- **Returns:** `{boolean}`
+- **Retorna:** `{boolean}`
 
-- **Example:**
+- **Exemplo:**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -16,5 +16,6 @@ import Foo from './Foo.vue'
 
 const wrapper = mount(Foo)
 const divArray = wrapper.findAll('div')
+
 expect(divArray.hasClass('bar')).toBe(true)
 ```
