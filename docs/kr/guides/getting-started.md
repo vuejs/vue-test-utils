@@ -40,7 +40,7 @@ export default {
 
 ### 컴포넌트 마운팅
 
-`vue-test-utils`는 Vue Component를 독립적으로 마운팅하고, 필요한 것들(props, injections, 사용자 이벤트)을 목킹(mocking)할 수 있고 결과(렌더링된 결과, 만든 커스텀 이벤트)를 검증할 수 있습니다.
+`vue-test-utils`는 Vue Component를 독립적으로 마운팅하고, 필요한 것들(props, injections, 사용자 이벤트)을 목킹(mocking)할 수 있고 결과(렌더링된 결과, 방출된 커스텀 이벤트)를 검증할 수 있습니다.
 
 마운트된 컴포넌트는 내부의 [Wrapper](./api/wrapper.md)에 반환됩니다. 래퍼는 유용한 많은 조작을 위한 메소드와 컴포넌트 내부를 순회, 조회할 수 있습니다.
 
