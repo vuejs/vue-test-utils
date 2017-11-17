@@ -10,7 +10,7 @@ Retorna `true` se o `vm` do wrapper tem a `propriedade` com o `valor` passado.
   - `{String} propriedade`
   - `{any} valor`
 
-- **Retorna:** `{boolean}`
+- **Retorna:** `{Boolean}`
 
 - **Exemplo:**
 

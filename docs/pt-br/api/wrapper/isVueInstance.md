@@ -2,7 +2,7 @@
 
 Verifica se o wrapper é uma intância do Vue.
 
-- **Retorna:** `{boolean}`
+- **Retorna:** `{Boolean}`
 
 - **Exemplo:**
 

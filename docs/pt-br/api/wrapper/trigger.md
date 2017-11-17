@@ -9,7 +9,7 @@ Você pode rodar o preventDefault em um evento passando `preventDefault: true` n
 - **Argumentos:**
   - `{String} nomeDoEvento`
   - `{Object} opcoes`
-    - `{boolean} preventDefault`
+    - `{Boolean} preventDefault`
 
 - **Exemplo:**
 

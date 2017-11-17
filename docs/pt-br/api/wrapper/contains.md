@@ -5,7 +5,7 @@ Verifica se o wrapper contém um elemento ou componente com o [seletor](../selec
 - **Argumentos:**
   - `{String|Component} seletor`
 
-- **Retorna:** `{boolean}`
+- **Retorna:** `{Boolean}`
 
 - **Exemplo:**
 

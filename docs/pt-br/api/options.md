@@ -59,7 +59,7 @@ expect(wrapper.find('div')).toBe(true)
 
 ### Esboços
 
-- tipo: `{ [name: String]: Component | boolean } | Array<String>`
+- tipo: `{ [name: String]: Component | Boolean } | Array<String>`
 
 Esboça os componentes filhos. Pode ser um Array com os nomes dos componentes  ou um objeto.
 
@@ -136,7 +136,7 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 
 ### `attachToDocument`
 
-- tipo: `boolean`
+- tipo: `Boolean`
 - padrão: `false`
 
 O componente será anexado ao DOM quando  configurado como `true`. Isso pode ser usado com o [`hasStyle`](wrapper/hasStyle.md) para verificar os seletores do CSS de vários elementos.
@@ -155,7 +155,7 @@ Define o objeto `$listeners` da instância do componente.
 
 ### `clone`
 
-- tipo: `boolean`
+- tipo: `Boolean`
 - padrão: `true`
 
 Clona o componente antes de monta-lo se o valor for `true`, evitando qualquer mutação no componente original.

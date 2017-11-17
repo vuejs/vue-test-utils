@@ -4,7 +4,7 @@ Assert `Wrapper` or `WrapperArray` exists.
 
 Returns false if called on an empty `Wrapper` or `WrapperArray`.
 
-- **Returns:** `{boolean}`
+- **Returns:** `{Boolean}`
 
 - **Example:**
 

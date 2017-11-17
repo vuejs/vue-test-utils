@@ -2,7 +2,7 @@
 
 Verifica se algum wrapper do Array é uma instância do Vue.
 
-- **Retorna:** `{boolean}`
+- **Retorna:** `{Boolean}`
 
 - **Exemplo:**
 

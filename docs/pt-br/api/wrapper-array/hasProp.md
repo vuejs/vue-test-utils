@@ -8,7 +8,7 @@ Verifica se algum wrapper do Array possui a `propriedade` com o `valor` no `vm`.
   - `{String} propriedade`
   - `{any} valor`
 
-- **Retorna:** `{boolean}`
+- **Retorna:** `{Boolean}`
 
 - **Exemplo:**
 

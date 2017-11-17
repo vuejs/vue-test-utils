@@ -6,7 +6,7 @@ Verifica se algum wrapper do Array tem o `atributo` com `valor` correspondente n
   - `{String} atributo`
   - `{String} valor`
 
-- **Retorna:** `{boolean}`
+- **Retorna:** `{Boolean}`
 
 - **Exemplo:**
 

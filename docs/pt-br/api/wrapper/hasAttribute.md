@@ -8,7 +8,7 @@ Retorna `true` se o wrapper contém o atributo.
   - `{String} atributo`
   - `{String} valor`
 
-- **Retorna:** `{boolean}`
+- **Retorna:** `{Boolean}`
 
 - **Exemplo:**
 

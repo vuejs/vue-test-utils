@@ -5,7 +5,7 @@ Verifica se algum wrapper do Array possui o [seletor](../selectors.md) no seu `v
 - **Argumentos:**
   - `{String|Component} seletor`
 
-- **Retorna:** `{boolean}`
+- **Retorna:** `{Boolean}`
 
 - **Exemplo:**
 

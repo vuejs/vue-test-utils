@@ -2,7 +2,7 @@
 
 Verifica se algum wrapper do Array não tem um elemento filho.
 
-- **Retorna:** `{boolean}`
+- **Retorna:** `{Boolean}`
 
 - **Exemplo:**
 

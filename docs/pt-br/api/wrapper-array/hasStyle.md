@@ -10,7 +10,7 @@ Retorna `true` se o wrapper contém o `estilo` com o `valor`.
   - `{String} estilo`
   - `{String} valor`
 
-- **Retorna:** `{boolean}`
+- **Retorna:** `{Boolean}`
 
 - **Exemplo:**
 

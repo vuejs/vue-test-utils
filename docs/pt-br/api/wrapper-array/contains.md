@@ -7,7 +7,7 @@ Use qualquer [seletor](../selectors.md) válido.
 - **Argumentos:**
   - `{String|Component} seletor`
 
-- **Retorna:** `{boolean}`
+- **Retorna:** `{Boolean}`
 
 - **Exemplo:**
 

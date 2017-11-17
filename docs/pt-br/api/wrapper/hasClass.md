@@ -7,7 +7,7 @@ Retorna `true` se o wrapper contém a classe.
 - **Argumentos:**
   - `{String} nomeDaClasse`
 
-- **Retorna:** `{boolean}`
+- **Retorna:** `{Boolean}`
 
 - **Exemplo:**
 

@@ -4,14 +4,14 @@
 
   - `{Component} componente`
   - `{Object} opcoes`
-    - `{boolean} attachToDocument`
+    - `{Boolean} attachToDocument`
     - `{Object} context`
     - `{Object} slots`
         - `{Array<Componet|Object>|Component|String} default`
         - `{Array<Componet|Object>|Component|String} named`
     - `{Object} mocks`
     - `{Object|Array<String>} stubs`
-    - `{boolean} clone`
+    - `{Boolean} clone`
     - `{Object} children`
     - `{Vue} localVue`
 

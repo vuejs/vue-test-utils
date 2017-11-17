@@ -2,7 +2,7 @@
 
 Verifica se o wrapper não contem elementos filhos.
 
-- **Retorna:** `{boolean}`
+- **Retorna:** `{Boolean}`
 
 - **Exemplo:**
 

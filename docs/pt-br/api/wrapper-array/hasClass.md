@@ -5,7 +5,7 @@ Verifica se algum wrapper do Array contém uma classe com o nome `nomeDaClasse` 
 - **Argumentos:**
   - `{String} nomeDaClasse`
 
-- **Retorna:** `{boolean}`
+- **Retorna:** `{Boolean}`
 
 - **Exemplo:**
 
