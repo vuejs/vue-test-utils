@@ -154,7 +154,7 @@ import { shallow } from 'vue-test-utils'
 import Contador from '../src/Contador.vue'
 
 describe('Contador.vue', () => {
-  it('incrementa o contador quando o botão é clicado, () => {
+  it('incrementa o contador quando o botão é clicado', () => {
     const wrapper = shallow(Contador)
     wrapper.find('button').trigger('click')
     expect(wrapper.find('div').text()).toMatch('1')

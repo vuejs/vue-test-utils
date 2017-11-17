@@ -12,6 +12,7 @@
     "build": "node build/build.js",
     "docs": "cd docs && gitbook install && gitbook serve",
     "docs:deploy": "build/update-docs.sh",
+    "docs:serve": "cd docs && gitbook serve",
     "flow": "flow check",
     "lint": "eslint --ext js,vue src test flow build --ignore-path .gitignore",
     "lint:docs": "eslint --ext js,vue,md docs --ignore-path .gitignore",

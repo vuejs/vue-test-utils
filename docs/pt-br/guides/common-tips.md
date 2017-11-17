@@ -50,13 +50,13 @@ Então você pode criar asserções baseadas nesses dados:
 import { expect } from 'chai'
 
 // verifica se o evento 'foo' foi emitido
-expect( wrapper.emitted().foo ).toBeTruthy()
+expect(wrapper.emitted().foo).toBeTruthy()
 
 // verifica as vezes que o evento 'foo' doi emitido
-expect( wrapper.emitted().foo.length ).toBe(2)
+expect(wrapper.emitted().foo.length).toBe(2)
 
 // verifica a carga do segundo evento 'foo' emitido
-expect( wrapper.emitted().foo[1] ).toEqual([123])
+expect(wrapper.emitted().foo[1]).toEqual([123])
 ```
 
 Além disso, você pode pegar um Array dos eventos emitidos em ordem de chamada com o método [wrapper.emittedByOrder()](../api/wrapper/emittedByOrder.md).

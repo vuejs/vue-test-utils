@@ -73,7 +73,7 @@ describe('Acoes.vue', () => {
     const input = wrapper.find('input')
     input.element.value = 'input'
     input.trigger('input')
-    expect( acoes.acaoInput ).toHaveBeenCalled()
+    expect(acoes.acaoInput).toHaveBeenCalled()
   })
 
   it('não liga a ação acaoInput da store quando o valor do input não é inserido e um evento do input é disparado', () => {
@@ -81,7 +81,7 @@ describe('Acoes.vue', () => {
     const input = wrapper.find('input')
     input.element.value = 'not input'
     input.trigger('input')
-    expect( acoes.acaoInput ).not.toHaveBeenCalled()
+    expect(acoes.acaoInput).not.toHaveBeenCalled()
   })
 
   it('calls store action actionClick when button is clicked', () => {

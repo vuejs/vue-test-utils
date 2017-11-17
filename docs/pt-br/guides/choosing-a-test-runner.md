@@ -6,7 +6,7 @@ Existem muitos executadores de testes populares no Javascript, o `vue-test-utils
 
 Há algumas coisas a considerar ao escolher um *test runner*: conjunto de recursos, desempenho e suporte a pré-compilação de componentes arquivos de únicos (SFC). Depois de comparar cuidadosamente as bibliotecas existentes, aqui estão dois *test runner* que recomendamos:
 
-- [Jest](https://facebook.github.io/jest/docs/en/getting-started.html#content) é o executador de testes mais completo. Ele requer menos configuração, usa JSDOM por padrão, e fornece uma ótima experiência de usuário na linha de comando. Contudo, você vai precisar de um pré-processador para ser possível importar componentes SFC em seus testes. Nos criamos o pré-processador `vue-jest`, para lidar com os recursos SFC mais comuns, mas atualmente não possuímos 100% de compatibilidade com o `vue-loader.
+- [Jest](https://facebook.github.io/jest/docs/en/getting-started.html#content) é o executador de testes mais completo. Ele requer menos configuração, usa JSDOM por padrão, e fornece uma ótima experiência de usuário na linha de comando. Contudo, você vai precisar de um pré-processador para ser possível importar componentes SFC em seus testes. Nos criamos o pré-processador `vue-jest`, para lidar com os recursos SFC mais comuns, mas atualmente não possuímos 100% de compatibilidade com o `vue-loader`.
 
 - [mocha-webpack](https://github.com/zinserjan/mocha-webpack) é um 
 embrulho que envolve o webpack e o Mocha, mas com uma interface simplificada e um modo observador. O benefício dessa configuração é o suporte SFC completo via webpack + `vue-loader`, mas isso requer maiores configurações antecipadas.
