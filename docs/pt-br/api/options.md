@@ -57,7 +57,7 @@ const wrapper = shallow(Component, {
 expect(wrapper.find('div')).toBe(true)
 ```
 
-### `stubs`
+### Esboços
 
 - tipo: `{ [name: string]: Component | boolean } | Array<string>`
 

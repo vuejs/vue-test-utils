@@ -10,7 +10,7 @@ import VueTestUtils from 'vue-test-utils'
 VueTestUtils.config.stubs['transition-group'] = false
 ```
 
-Para redefinir os grupos de transições no stub, use:
+Para redefinir os grupos de transições no esboço, use:
 
 ```js
 import VueTestUtils, { TransitionGroupStub } from 'vue-test-utils'

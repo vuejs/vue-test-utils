@@ -23,7 +23,7 @@ Quando você instala o Vue Router, os componentes `router-link` e `router-view` 
 
 Quando executamos os testes, nós precisamos disponibilizar os componentes do Vue Router para os componentes que estamos montando. Existem dois métodos para se fazer isso.
 
-### Usando stubs
+### Usando esboços
 
 ```js
 shallow(Componente, {

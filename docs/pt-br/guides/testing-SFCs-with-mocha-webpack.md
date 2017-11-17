@@ -94,7 +94,7 @@ Isso adiciona um ambiente de navegador ao Node, de modo que o `vue-test-utils` p
 
 ### Escolhendo uma biblioteca de asserção
 
-[Chai](http://chaijs.com/) é uma biblioteca popular que é comumente usada ao lado do Mocha. Você também pode querer usar o [Sinon](http://sinonjs.org/) para criar spies e stubs.
+[Chai](http://chaijs.com/) é uma biblioteca popular que é comumente usada ao lado do Mocha. Você também pode querer usar o [Sinon](http://sinonjs.org/) para criar spies e esboços.
 
 Como alternativa, você pode usar o `expect` que agora é uma parte do Jest e expõe [exatamente a mesma API](http://facebook.github.io/jest/docs/en/expect.html#content) na documentação do Jest.
 

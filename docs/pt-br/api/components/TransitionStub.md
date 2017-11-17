@@ -18,7 +18,7 @@ import VueTestUtils, { TransitionStub } from 'vue-test-utils'
 VueTestUtils.config.stubs.transition = TransitionStub
 ```
 
-Para configura-lo como um stub nas opções de montagem, use:
+Para configura-lo como um esboço nas opções de montagem, use:
 
 ```js
 import { mount, TransitionStub } from 'vue-test-utils'

@@ -124,12 +124,12 @@ describe('Foo', () => {
   it('verifica componentes filhos de Foo', () => {
     const wrapper = mount(Foo, {
       stub: {
-        Bar: '<div class="stubbed />',
+        Bar: '<div class="esbocado />',
         BarFoo: true,
         FooBar: Faz
       }
     })
-    expect(wrapper.contains('.stubbed')).toBe(true)
+    expect(wrapper.contains('.esbocado')).toBe(true)
     expect(wrapper.contains(Bar)).toBe(true)
   })
 })
