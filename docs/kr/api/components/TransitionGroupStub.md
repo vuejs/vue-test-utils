@@ -1,8 +1,9 @@
 # TransitionGroupStub
 
-A component to stub the `transition-group` wrapper component. Instead of performing transitions asynchronously, it returns the child components synchronously.
+`transition-group` 래퍼 컴포넌트를 스텁하는 컴포넌트입니다. 트랜지션을 비동기로 수행하는 대신 동기적으로 자식 컴포넌트를 반환합니다.
 
-This is set to stub all `transition-group` components by default in the vue-test-utils config. To use the built-in `transition-group` wrapper component set `config.stubs[transition-group]` to false:
+이는 vue-test-utils에서 기본적으로 모든 `transition-group` 컴포넌트를 스텁하도록 설정됩니다. 내장된 `transition-group` 래퍼 컴포넌트를 `config.stubs[transition-group]`을 false로 설정하려면:
+
 
 ```js
 import VueTestUtils from 'vue-test-utils'
@@ -10,14 +11,15 @@ import VueTestUtils from 'vue-test-utils'
 VueTestUtils.config.stubs.transition = false
 ```
 
-To reset it to stub transition components:
+트랜지션 컴포넌트를 스텁으로 재설정하려면 다음을 하십시오.
+
 ```js
 import VueTestUtils, { TransitionGroupStub } from 'vue-test-utils'
 
 VueTestUtils.config.stubs['transition-group'] = TransitionGroupStub
 ```
 
-To set it as a stub in mounting options:
+마운트 옵션에서 스텁으로 설정하려면 다음을 하십시오.
 
 ```js
 import { mount, TransitionGroupStub } from 'vue-test-utils'
