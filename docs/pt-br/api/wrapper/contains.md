@@ -1,9 +1,9 @@
-# contains(seletor)
+# contains(selector)
 
 Verifica se o wrapper contém um elemento ou componente com o [seletor](../selectors.md) informado.
 
 - **Argumentos:**
-  - `{String|Component} seletor`
+  - `{String|Component} selector`
 
 - **Retorna:** `{Boolean}`
 

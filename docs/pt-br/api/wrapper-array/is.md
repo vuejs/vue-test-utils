@@ -1,9 +1,9 @@
-# is(seletor)
+# is(selector)
 
 Verifica se algum wrapper do Array possui o [seletor](../selectors.md) no seu `vm`.
 
 - **Argumentos:**
-  - `{String|Component} seletor`
+  - `{String|Component} selector`
 
 - **Retorna:** `{Boolean}`
 

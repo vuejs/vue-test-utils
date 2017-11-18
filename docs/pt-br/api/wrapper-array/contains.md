@@ -1,11 +1,11 @@
-# contains(seletor)
+# contains(selector)
 
 Verifica se cada wrapper do Array contém correspondência do seletor informado.
 
 Use qualquer [seletor](../selectors.md) válido.
 
 - **Argumentos:**
-  - `{String|Component} seletor`
+  - `{String|Component} selector`
 
 - **Retorna:** `{Boolean}`
 

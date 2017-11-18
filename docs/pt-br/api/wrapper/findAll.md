@@ -1,11 +1,11 @@
-# findAll(seletor)
+# findAll(selector)
 
 Retorna um [`WrapperArray`](../wrapper-array/README.md) de [Wrappers](README.md).
 
 Use qualquer [seletor](../selectors.md) válido.
 
 - **Argumentos:**
-  - `{String|Component} seletor`
+  - `{String|Component} selector`
 
 - **Retorna:** `{WrapperArray}`
 
