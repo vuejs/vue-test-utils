@@ -1,15 +1,15 @@
 # find(selector)
 
-Returns [`Wrapper`](README.md) of first DOM node or Vue component matching selector.
+첫번째 DOM 노드 또는 Vue 컴포넌트와 일치하는 셀렉터의 [`Wrapper`](README.md)를 반환합니다.
 
-Use any valid [selector](../selectors.md).
+올바른 [selector](selectors.md)를 사용하세요.
 
-- **Arguments:**
+- **전달인자:**
   - `{string|Component} selector`
 
-- **Returns:** `{Wrapper}`
+- **반환값:** `{Wrapper}`
 
-- **Example:**
+- **예제:**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -24,4 +24,4 @@ const bar = wrapper.find(Bar)
 expect(bar.is(Bar)).toBe(true)
 ```
 
-- **See also:** [Wrapper](README.md)
+- **함께 보기:** [Wrapper](README.md)
