@@ -1,10 +1,10 @@
 # emitted()
 
-Return an object containing custom events emitted by the `Wrapper` `vm`.
+`Wrapper`의 `vm`에 의해 만들어진 사용자 정의 이벤트를 포함하는 객체를 반환합니다.
 
-- **Returns:** `{ [name: string]: Array<Array<any>> }`
+- **반환값:** `{ [name: string]: Array<Array<any>> }`
 
-- **Example:**
+- **예제:**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -16,18 +16,18 @@ wrapper.vm.$emit('foo')
 wrapper.vm.$emit('foo', 123)
 
 /*
-wrapper.emitted() returns the following object:
+wrapper.emitted() 는 아래의 객체를 반환합니다.
 {
   foo: [[], [123]]
 }
 */
 
-// assert event has been emitted
+// 실행된 event를 검증합니다.
 expect(wrapper.emitted().foo).toBeTruthy()
 
-// assert event count
+// 이벤트의 수를 검증합니다.
 expect(wrapper.emitted().foo.length).toBe(2)
 
-// assert event payload
+// 이벤트의 페이로드를 검증합니다.
 expect(wrapper.emitted().foo[1]).toEqual([123])
 ```
