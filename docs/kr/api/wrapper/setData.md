@@ -1,13 +1,13 @@
 # setData(data)
 
-Sets `Wrapper` `vm` data and forces update.
+`Wrapper` `vm`의 데이터를 갱신합니다.
 
-**Note the Wrapper must contain a Vue instance.**
+**참고: Wrapper는 Vue 인스턴스를 반드시 가지고 있어야합니다.**
 
-- **Arguments:**
+- **전달인자:**
   - `{Object} data`
 
-- **Example:**
+- **예제:**
 
 ```js
 import { mount } from 'vue-test-utils'
