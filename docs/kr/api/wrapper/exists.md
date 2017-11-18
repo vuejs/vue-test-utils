@@ -1,12 +1,12 @@
 # exists()
 
-Assert `Wrapper` or `WrapperArray` exists.
+`Wrapper` 또는 `WrapperArray`가 존재하는지 검증합니다.
 
-Returns false if called on an empty `Wrapper` or `WrapperArray`.
+`Wrapper` 또는 `WrapperArray`가 비어있으면 false를 반환합니다.
 
-- **Returns:** `{boolean}`
+- **반환값:** `{boolean}`
 
-- **Example:**
+- **예제:**
 
 ```js
 import { mount } from 'vue-test-utils'
