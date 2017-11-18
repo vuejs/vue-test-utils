@@ -1,10 +1,10 @@
 # emittedByOrder()
 
-Return an Array containing custom events emitted by the `Wrapper` `vm`.
+`Wrapper`의 `vm`에 의해 만들어진 사용자 정의 이벤트를 포함하는 배열을 반환합니다.
 
-- **Returns:** `Array<{ name: string, args: Array<any> }>`
+- **반환값:** `Array<{ name: string, args: Array<any> }>`
 
-- **Example:**
+- **예제:**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -16,7 +16,7 @@ wrapper.vm.$emit('foo')
 wrapper.vm.$emit('bar', 123)
 
 /*
-wrapper.emittedByOrder() returns the following Array:
+wrapper.emittedByOrder()는 아래의 배열을 반환합니다.
 [
   { name: 'foo', args: [] },
   { name: 'bar', args: [123] }
