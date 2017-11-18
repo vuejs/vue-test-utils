@@ -1,10 +1,10 @@
 # isVueInstance()
 
-Assert `Wrapper` is Vue instance.
+`Wrapper`가 Vue 인스턴스인지 검증합니다.
 
-- **Returns:** `{boolean}`
+- **반환값:** `{boolean}`
 
-- **Example:**
+- **예제:**
 
 ```js
 import { mount } from 'vue-test-utils'
