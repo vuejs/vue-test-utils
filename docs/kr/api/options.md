@@ -1,10 +1,10 @@
-# Mounting Options
+# 마운팅 옵션
 
-Options for `mount` and `shallow`. The options object can contain both `vue-test-utils` mounting options and raw Vue options.
+`mount`와 `shallow` 옵션. 옵션 객체는 `vue-test-utils` 마운트 옵션과 Vue의 기본 옵션을 모두 포함할 수 있습니다.
 
-Vue options are passed to the component when a new instance is created. , e.g. `store`, `propsData`. For a full list, see the [Vue API docs](https://vuejs.org/v2/api/).
+새 인스턴스가 만들어지면 Vue 옵션이 컴포넌트에 전달됩니다. 예를 들어 `store`, `propsData`가 있습니다. 전체 목록을 보려면 [Vue API 문서](https://vuejs.org/v2/api/)를 참조하십시오
 
-## `vue-test-utils` Specific Mounting Options
+## `vue-test-utils` 마운팅 옵션
 
 - [context](#context)
 - [slots](#slots)
@@ -18,11 +18,11 @@ Vue options are passed to the component when a new instance is created. , e.g. `
 
 ### `context`
 
-- type: `Object`
+- 타입: `Object`
 
-Passes context to functional component. Can only be used with functional components.
+컨텍스트를 함수형 컴포넌트에 전달합니다. 함수형 컴포넌트에서만 사용할 수 있습니다.
 
-Example:
+예:
 
 ```js
 const wrapper = mount(Component, {
@@ -36,11 +36,11 @@ expect(wrapper.is(Component)).toBe(true)
 
 ### `slots`
 
-- type: `{ [name: string]: Array<Component>|Component|string }`
+- 타입: `{ [name: string]: Array<Component>|Component|string }`
 
-Provide an object of slot contents to the component. The key corresponds to the slot name. The value can be either a component, an array of components, or a template string.
+컴포넌트에 슬롯 객체를 제공합니다. 키는 슬롯 이름입니다. 이 값은 컴포넌트, 컴포넌트 배열 또는 템플릿 문자열일 수 있습니다.
 
-Example:
+예:
 
 ```js
 import { expect } from 'chai'
@@ -50,7 +50,7 @@ import Bar from './Bar.vue'
 const wrapper = shallow(Component, {
   slots: {
     default: [Foo, Bar],
-    fooBar: Foo, // Will match <slot name="FooBar" />,
+    fooBar: Foo, // <slot name="FooBar" /> 과 매치합니다.,
     foo: '<div />'
   }
 })
@@ -59,11 +59,11 @@ expect(wrapper.find('div')).toBe(true)
 
 ### `stubs`
 
-- type: `{ [name: string]: Component | boolean } | Array<string>`
+- 타입: `{ [name: string]: Component | boolean } | Array<string>`
 
-Stubs child components. Can be an Array of component names to stub, or an object.
+자식 컴포넌트를 스텁합니다. 스텁 또는 객체에 대한 컴포넌트 이름의 배열일 수 있습니다.
 
-Example:
+예:
 
 ```js
 import Foo from './Foo.vue'
@@ -84,11 +84,11 @@ shallow(Component, {
 
 ### `mocks`
 
-- type: `Object`
+- 타입: `Object`
 
-Add additional properties to the instance. Useful for mocking global injections.
+인스턴스에 추가 특성을 추가하십시오. 글로벌 인젝션을 목킹하는데 유용합니다.
 
-Example:
+예:
 
 ```js
 import { expect } from 'chai'
@@ -104,11 +104,11 @@ expect(wrapper.vm.$route.path).toBe($route.path)
 
 ### `localVue`
 
-- type: `Vue`
+- 타입: `Vue`
 
-A local copy of Vue created by [createLocalVue](./createLocalVue.md) to use when mounting the component. Installing plugins on this copy of Vue prevents polluting the original `Vue` copy.
+컴포넌트를 마운트할 때 사용할 [createLocalVue](./createLocalVue.md)에 의해 생성된 Vue의 로컬 복사본입니다. 이 Vue 복사본에 플러그인을 설치하면 `Vue` 원본을 오염시키지 않습니다.
 
-Example:
+예:
 
 ```js
 import { createLocalVue, mount } from 'vue-test-utils'
@@ -136,30 +136,30 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 
 ### `attachToDocument`
 
-- type: `boolean`
+- 타입: `boolean`
 - default: `false`
 
-Component will be attach to DOM when rendered if set to `true`. This can be used with [`hasStyle`](wrapper/hasStyle.md) to check multi element CSS selectors.
+`true`로 설정된 경우 렌더링될 떄 컴포넌트는 DOM에 연결됩니다. 이는 여러 엘리먼트를 반환하는 CSS 셀렉터를 검사하기 위해 [`hasStyle`](wrapper/hasStyle.md)와 함께 사용할 수 있습니다.
 
 ### `attrs`
 
-- type: `Object`
+- 타입: `Object`
 
-Set the component instance's `$attrs` object.
+컴포넌트 인스턴스의 `$attrs`를 설정합니다.
 
 ### `listeners`
 
-- type: `Object`
+- 타입: `Object`
 
-Set the component instance's `$listeners` object.
+컴포넌트 인스턴스의 `$listeners`를 설정합니다.
 
 ### `clone`
 
-- type: `boolean`
-- default: `true`
+- 타입: `boolean`
+- 기본값: `true`
 
-Clones component before mounting if `true`, which avoids mutating the original component definition.
+`true`인 경우 마운트 전에 컴포넌트를 복제하면 원래 컴포넌트 정의가 변경되지 않습니다.
 
-`options.mocks` (`Object`): Add globals to Vue instance.
+`options.mocks` (`Object`): Vue 인스턴스에 전역으로 추가합니다.
 
-`options.localVue` (`Object`): vue class to use in `mount`. See [createLocalVue](createLocalVue.md)
+`options.localVue` (`Object`): `mount`에서 사용할 Vue 클래스. [createLocalVue](createLocalVue.md)를 참조하세요.
