@@ -1,17 +1,17 @@
 # trigger(eventName)
 
-Triggers an event on the `Wrapper` DOM node.
+`Wrapper` DOM 노드의 이벤트를 트리거합니다.
 
-Trigger takes an optional `options` object. The properties in the `options` object are added to the Event.
+트리거는 선택적으로 `options` 객체를 취합니다. `options` 객체의 속성 이벤트에 추가됩니다.
 
-You can run preventDefault on the event by passing `preventDefault: true` in `options`.
+`options에 `preventDefault: true`로 설정하면 preventDefault를 실행합니다.
 
-- **Arguments:**
+- **전달인자:**
   - `{string} eventName`
   - `{Object} options`
     - `{boolean} preventDefault`
 
-- **Example:**
+- **예제:**
 
 ```js
 import { mount } from 'vue-test-utils'
