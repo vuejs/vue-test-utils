@@ -32,7 +32,7 @@ expect(wrapper.emitted().foo.length).toBe(2)
 expect(wrapper.emitted().foo[1]).toEqual([123])
 ```
 
-You can also write the as follows:
+You can also write the above as follows:
 
 ```js
 // assert event has been emitted
