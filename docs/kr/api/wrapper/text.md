@@ -1,10 +1,10 @@
 # text()
 
-Returns text content of `Wrapper`.
+`Wrapper`가 가지고 있는 문자열을 반환합니다.
 
-- **Returns:** `{string}`
+- **반환값:** `{string}`
 
-- **Example:**
+- **예제:**
 
 ```js
 import { mount } from 'vue-test-utils'
