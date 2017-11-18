@@ -1,14 +1,14 @@
 # hasAttribute(attribute, value)
 
-Assert every `Wrapper` in `WrapperArray` DOM node has `attribute` matching `value`.
+`WrapperArray`의 모든 `Wrapper` DOM 노드의 `attribute`와 일치하는 `value`를 가지는지 검증합니다.
 
-- **Arguments:**
+- **전달인자:**
   - `{string} attribute`
   - `{string} value`
 
-- **Returns:** `{boolean}`
+- **반환값:** `{boolean}`
 
-- **Example:**
+- **예제:**
 
 ```js
 import { mount } from 'vue-test-utils'

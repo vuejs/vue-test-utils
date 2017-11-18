@@ -1,16 +1,16 @@
 # hasProp(prop, value)
 
-Assert every `Wrapper` in `WrapperArray`  `vm` has `prop` matching `value`.
+`WrapperArray`의 모든 `Wrapper`의 DOM 노드가 `prop`과 일치하는 `value`를 가지는지 검증합니다.
 
-**Note the Wrapper must contain a Vue instance.**
+**참고: Wrapper는 Vue 인스턴스를 반드시 가지고 있어야합니다.**
 
-- **Arguments:**
+- **전달인자:**
   - `{string} prop`
   - `{any} value`
 
-- **Returns:** `{boolean}`
+- **반환값:** `{boolean}`
 
-- **Example:**
+- **예제:**
 
 ```js
 import { mount } from 'vue-test-utils'

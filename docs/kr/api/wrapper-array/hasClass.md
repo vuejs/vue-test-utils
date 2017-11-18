@@ -1,13 +1,13 @@
 # hasClass(className)
 
-Assert every `Wrapper` in `WrapperArray` DOM node has class containing `className`.
+`WrapperArray`의 모든 `Wrapper`의 DOM 노드가 `className` 이름의 클래스를 가지는지 검증합니다.
 
-- **Arguments:**
+- **전달인자:**
   - `{string} className`
 
-- **Returns:** `{boolean}`
+- **반환값:** `{boolean}`
 
-- **Example:**
+- **예제:**
 
 ```js
 import { mount } from 'vue-test-utils'

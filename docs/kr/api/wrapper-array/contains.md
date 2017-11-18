@@ -1,15 +1,15 @@
 # contains(selector)
 
-Assert every wrapper in `WrapperArray` contains selector.
+`WrapperArray`의 모든 래퍼가 셀렉터를 가지고 있는지 검증합니다.
 
-Use any valid [selector](../selectors.md).
+올바른 [selector](selectors.md)를 사용하세요.
 
-- **Arguments:**
+- **전달인자:**
   - `{string|Component} selector`
 
-- **Returns:** `{boolean}`
+- **반환값:** `{boolean}`
 
-- **Example:**
+- **예제:**
 
 ```js
 import { shallow } from 'vue-test-utils'

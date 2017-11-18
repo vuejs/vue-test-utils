@@ -1,8 +1,8 @@
 # destroy()
 
-Destroys each Vue `Wrapper` in `WrapperArray`.
+`WrapperArray`의 Vue `Wrapper` 를 파괴합니다.
 
-- **Example:**
+- **예제:**
 
 ```js
 import { mount } from 'vue-test-utils'

@@ -1,10 +1,11 @@
 # update()
 
-Force root Vue component of each `Wrapper` in `WrapperArray` to re-render.
+`WrapperArray`의 모든 `Wrapper`의 루트 Vue 컴포넌트를 다시 렌더링합니다.
 
-If called on a Vue component wrapper array, it will force each Vue component to re-render.
+Vue 컴포넌트 래퍼 배열에서 호출되면 각 Vue 컴포넌트가 강제로 다시 렌더링됩니다.
 
-- **Example:**
+
+- **예제:**
 
 ```js
 import { mount } from 'vue-test-utils'

@@ -1,13 +1,13 @@
 # is(selector)
 
-Assert every `Wrapper` in `WrapperArray` DOM node or `vm` matches [selector](../selectors.md).
+`WrapperArray`의 모든 `Wrapper`의 DOM 노드 또는 `vm`이 [selector](../selectors.md)와 일치하는지 검증합니다.
 
-- **Arguments:**
+- **전달인자:**
   - `{string|Component} selector`
 
-- **Returns:** `{boolean}`
+- **반환값:** `{boolean}`
 
-- **Example:**
+- **예제:**
 
 ```js
 import { mount } from 'vue-test-utils'

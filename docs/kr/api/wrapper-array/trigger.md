@@ -1,13 +1,13 @@
 # trigger(eventName)
 
-Triggers an event on every `Wrapper` in the `WrapperArray` DOM node.
+`WrapperArray`의 모든 `Wrapper`의 이벤트를 트리거합니다.
 
-**Note every `Wrapper` must contain a Vue instance.**
+**참고: Wrapper는 Vue 인스턴스를 반드시 가지고 있어야합니다.**
 
-- **Arguments:**
+- **전달인자:**
   - `{string} eventName`
 
-- **Example:**
+- **예제:**
 
 ```js
 import { mount } from 'vue-test-utils'

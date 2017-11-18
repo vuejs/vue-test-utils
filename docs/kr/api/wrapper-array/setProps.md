@@ -1,13 +1,13 @@
 # setProps(props)
 
-Sets `Wrapper` `vm` props and forces update on each `Wrapper` in `WrapperArray`.
+`WrapperArray`의 모든 `Wrapper` `vm`의 `props`를 갱신합니다.
 
-**Note every `Wrapper` must contain a Vue instance.**
+**참고: Wrapper는 Vue 인스턴스를 반드시 가지고 있어야합니다.**
 
-- **Arguments:**
+- **전달인자:**
   - `{Object} props`
 
-- **Example:**
+- **예제:**
 
 ```js
 import { mount } from 'vue-test-utils'
