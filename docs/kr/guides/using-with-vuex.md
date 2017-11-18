@@ -1,12 +1,12 @@
-# Using with Vuex
+# Vuex 사용하기
 
-In this guide, we'll see how to test Vuex in components with `vue-test-utils`.
+이번에는 `vue-test-utils`와 함께 컴포넌트에서 Vuex를 테스트하는 방법을 알아봅니다.
 
-## Mocking Actions
+## 액션 목킹하기
 
-Let’s look at some code.
+약간의 코드를 살펴보겠습니다.
 
-This is the component we want to test. It calls Vuex actions.
+이 컴포넌트는 테스트가 필요합니다. Vuex의 액션을 호출하고 있습니다.
 
 ``` html
 <template>
@@ -35,13 +35,13 @@ export default{
 </script>
 ```
 
-For the purposes of this test, we don’t care what the actions do, or what the store looks like. We just need to know that these actions are being fired when they should, and that they are fired with the expected value.
+테스트의 목적을 위해 액션이 무엇인지, 또는 스토어가 어떻게 되어 있는지 신경쓸 필요가 없습니다. 우리는 단지 액션이 필요할 때 호출되고 있으며 기대한 값으로 호출된 것을 확인해야합니다.
 
-To test this, we need to pass a mock store to Vue when we shallow our component.
+이 테스트에서 얕은 스토어에 목킹된 스토어를 전달해야합니다.
 
-Instead of passing the store to the base Vue constructor, we can pass it to a - [localVue](../api/options.md#localvue). A localVue is a scoped Vue constructor that we can make changes to without affecting the global Vue constructor.
+저장소를 베이스 Vue 생성자에 전달하는 대신 [localVue](../api/options.md#localvue)에 전달할 수 있습니다. localVue는 글로벌 Vue 생성자에 영향을 미치지 않고 변경할 수 있는 범위가 지정된 Vue 생성자입니다.
 
-Let’s see what this looks like:
+어떻게 구성되었는지 보겠습니다.
 
 ``` js
 import { shallow, createLocalVue } from 'vue-test-utils'
@@ -91,23 +91,23 @@ describe('Actions.vue', () => {
 })
 ```
 
-What’s happening here? First we tell Vue to use Vuex with the `Vue.use` method. This is just a wrapper around `Vue.use`.
+첫쨰로 Vue에게 `Vue.use` 메소드로 Vuex를 사용합니다. 이는 `Vue.use`에 대한 래퍼일 뿐입니다.
 
-We then make a mock store by calling new `Vuex.store` with our mock values. We only pass it the actions, since that’s all we care about.
+다음 가짜 값과 함께 `Vuex.store`를 호출하여 목킹 스토어를 만듭니다. 우리가 지금 신경써야할 액션만 전달합니다.
 
-The actions are [jest mock functions](https://facebook.github.io/jest/docs/en/mock-functions.html). These mock functions give us methods to assert whether the actions were called or not.
+액션은 [jest 모킹 함수](https://facebook.github.io/jest/docs/en/mock-functions.html)입니다. 모킹 함수는 액션이 호출되었는지 아닌지를 검증하는 메소드를 제공합니다.
 
-We can then assert in our tests that the action stub was called when expected.
+그런 다음 테스트에서 액션 스텁이 예상한 시점에 호출되었는지 검증할 수 있습니다.
 
-Now the way we define the store might look a bit foreign to you.
+이러한 스토어를 정의하는 방식이 조금 어색할 수 있습니다.
 
-We’re using `beforeEach` to ensure we have a clean store before each test. `beforeEach` is a mocha hook that’s called before each test. In our test, we are reassigning the store variables value. If we didn’t do this, the mock functions would need to be automatically reset. It also lets us change the state in our tests, without it affecting later tests.
+`beforeEach`를 사용하여 각 테스트 전에 깨끗한 스토어를 보장합니다. `beforeEach`는 각 테스트 전에 호출되는 모킹 훅입니다. 테스트에서 스토어 변수 값을 다시 지정합니다. 이렇게 하지 않으면 모킹 함수를 자동으로 재설정 해야합니다. 또한 나중에 테스트에 영향을 주지 않고 테스트에서 상태를 변경할 수 있습니다.
 
-The most important thing to note in this test is that **we create a mock Vuex store and then pass it to vue-test-utils**.
+테스에서 가장 주의깊게 봐야할 부분은 **가짜 Vuex 스토어를 만든 다음 이를 vue-test-utils**에 전달하는 것 입니다.
 
-Great, so now we can mock actions, let’s look at mocking getters.
+이제 액션을 목킹할 수 있습니다. getter를 모킹해보겠습니다.
 
-## Mocking Getters
+## 게터 목킹하기
 
 
 ``` html
@@ -130,9 +130,9 @@ export default{
 </script>
 ```
 
-This is a fairly simple component. It renders the result of the getters `clicks` and `inputValue`. Again, we don’t really care about what those getters returns – just that the result of them is being rendered correctly.
+아주 간단한 컴포넌트입니다. 게터는 `clicks`와 `inputValue`의 결과를 렌더링합니다. 다시 말하지만, 우리는 단지 결과가 올바르게 렌더링 되는 것외에 게터가 반환하는 것을 신경쓰지 않습니다.
 
-Let’s see the test:
+테스트를 봅니다.
 
 ``` js
 import { shallow, createLocalVue } from 'vue-test-utils'
@@ -171,15 +171,15 @@ describe('Getters.vue', () => {
   })
 })
 ```
-This test is similar to our actions test. We create a mock store before each test, pass it as an option when we call `shallow`, and assert that the value returned by our mock getters is being rendered.
+이 테스트는 액션 테스트와 비슷합니다. 각 테스트 전에 가짜 스토어를 만들고 `shallow`를 호출 할 때 옵션을 넘겨주고, 목킹 게터에 의해 반환된 값이 렌더링 되는 것을 검증합니다.
 
-This is great, but what if we want to check our getters are returning the correct part of our state?
+이는 훌륭하지만, getter가 상태의 정확한 부분을 반환하는지 확인하려면 어떻게 해야할까요?
 
-## Mocking with Modules
+## 모듈 모킹하기
 
-[Modules](https://vuex.vuejs.org/en/modules.html) are useful for separating out our store into manageable chunks. They also export getters. We can use these in our tests.
+[모듈](https://vuex.vuejs.org/en/modules.html)은 스토어를 관리 가능한 덩어리로 분리하는데 유용합니다. 또한 게터를 내보냅니다. 테스트에서 이 것을 사용할 수 있습니다.
 
-Let’s look at our component:
+컴포넌트를 살펴봅니다.
 
 ``` html
 <template>
@@ -205,9 +205,10 @@ export default{
 }
 </script>
 ```
-Simple component that includes one action and one getter.
 
-And the test:
+하나의 액션과 게터를 포함하는 간단한 컴포넌트입니다.
+
+아래는 테스트입니다.
 
 ``` js
 import { shallow, createLocalVue } from 'vue-test-utils'
@@ -257,8 +258,8 @@ describe('Modules.vue', () => {
 })
 ```
 
-### Resources
+### 리소스
 
-- [Example project for this guide](https://github.com/eddyerburgh/vue-test-utils-vuex-example)
+- [이 가이드의 예제](https://github.com/eddyerburgh/vue-test-utils-vuex-example)
 - [localVue](../api/options.md#localvue)
 - [createLocalVue](../api/createLocalVue.md)
