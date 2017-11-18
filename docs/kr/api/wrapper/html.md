@@ -1,10 +1,10 @@
 # html()
 
-Returns HTML of `Wrapper` DOM node as a string.
+`Wrapper` DOM 노드를 문자열로 반환합니다.
 
-- **Returns:** `{string}`
+- **반환값:** `{string}`
 
-- **Example:**
+- **예제:**
 
 ```js
 import { mount } from 'vue-test-utils'
