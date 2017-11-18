@@ -1,23 +1,23 @@
 # mount(component {, options}])
 
-- **Arguments:**
+- **전달인자:**
 
-  - `{Component} component`
-  - `{Object} options`
+  - `{Component} 컴포넌트`
+  - `{Object} 옵션`
 
-- **Returns:** `{Wrapper}`
+- **반환값:** `{Wrapper}`
 
-- **Options:**
+- **옵션:**
 
 See [options](options.md)
 
-- **Usage:**
+- **사용법:**
 
-Returns [`Wrapper`](wrapper/README.md) of first DOM node or Vue component matching selector.
+첫번째 DOM 노드 또는 Vue 컴포넌트와 일치하는 셀렉터의 [`Wrapper`](wrapper/README.md)를 반환합니다.
 
-Use any valid [selector](selectors.md).
+올바른 [selector](selectors.md)를 사용하세요.
 
-**Without options:**
+**옵션없이 사용**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -31,7 +31,7 @@ describe('Foo', () => {
   })
 })
 ```
-**With Vue options:**
+**Vue 옵션과 사용**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -50,7 +50,7 @@ describe('Foo', () => {
 })
 ```
 
-**Attach to DOM:**
+**DOM에 붙이기**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -66,7 +66,7 @@ describe('Foo', () => {
   })
 })
 ```
-**Default and named slots:**
+**기본, 이름을 가지는 슬록**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -89,7 +89,7 @@ describe('Foo', () => {
 })
 ```
 
-**Stubbing global properties:**
+**글로벌 속성 스텁**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -109,7 +109,7 @@ describe('Foo', () => {
 })
 ```
 
-**Stubbing components:**
+**컴포넌트 스텁**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -133,4 +133,4 @@ describe('Foo', () => {
 })
 ```
 
-- **See also:** [Wrapper](wrapper/README.md)
+- **더보기:** [Wrapper](wrapper/README.md)
