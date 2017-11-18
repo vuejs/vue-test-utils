@@ -1,15 +1,15 @@
 # findAll(selector)
 
-Returns a [`WrapperArray`](../wrapper-array/README.md) of [Wrappers](README.md).
+[Wrappers](README.md)의 [`WrapperArray`](../wrapper-array/README.md)를 반환합니다.
 
-Use any valid [selector](../selectors.md).
+올바른 [selector](selectors.md)를 사용하세요.
 
-- **Arguments:**
+- **전달인자:**
   - `{string|Component} selector`
 
-- **Returns:** `{WrapperArray}`
+- **반환값:** `{WrapperArray}`
 
-- **Example:**
+- **예제:**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -24,4 +24,4 @@ const bar = wrapper.findAll(Bar).at(0)
 expect(bar.is(Bar)).toBe(true)
 ```
 
-- **See also:** [Wrapper](README.md)
+- **함께 보기:** [Wrapper](README.md)
