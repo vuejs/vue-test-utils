@@ -1,10 +1,10 @@
 # name()
 
-Returns component name if `Wrapper` contains a Vue instance, or the tag name of `Wrapper` DOM node if `Wrapper` does not contain a Vue instance.
+`Wrapper`가 Vue 인스턴스를 가지고 있으면 이름을 반환하고, `Wrapper`가 Vue 인스턴스를 포함하지 않으면 DOM 노드의 태그 이름을 반환합니다.
 
-- **Returns:** `{string}`
+- **반환값:** `{string}`
 
-- **Example:**
+- **예제:**
 
 ```js
 import { mount } from 'vue-test-utils'
