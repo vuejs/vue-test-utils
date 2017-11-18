@@ -2,7 +2,7 @@
 
 * [mount](./mount.md)
 * [shallow](./shallow.md)
-* [Mounting Options](./options.md)
+* [마운팅 옵션](./options.md)
   - [context](./options.md#context)
   - [slots](./options.md#slots)
   - [stubs](./options.md#stubs)
