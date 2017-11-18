@@ -1,13 +1,13 @@
 # setProps(props)
 
-- **Arguments:**
+- **전달인자:**
   - `{Object} props`
 
-- **Usage:**
+- **사용법:**
 
-Sets `Wrapper` `vm` props and forces update.
+`Wrapper` `vm` props를 갱신합니다.
 
-**Note the Wrapper must contain a Vue instance.**
+**참고: Wrapper는 Vue 인스턴스를 반드시 가지고 있어야합니다.**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -19,7 +19,7 @@ wrapper.setProps({ foo: 'bar' })
 expect(wrapper.vm.foo).to.equal('bar')
 ```
 
-You can also pass a `propsData` object, which will initialize the Vue instance with passed values.
+전달받은 값으로 Vue 인스턴스를 초기화하는 `propsData` 객체를 전달할 수 있습니다.
 
 ``` js
 // Foo.vue
