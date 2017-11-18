@@ -1,13 +1,13 @@
 # at(index)
 
-Returns `Wrapper` at `index` passed. Uses zero based numbering (i.e. first item is at index 0).
+`index`번째 `Wrapper`를 반환합니다. 0부터 시작합니다. (첫번째 아이템의 인덱스는 0입니다.).
 
-- **Arguments:**
+- **전달인자:**
   - `{number} index`
 
-- **Returns:** `{Wrapper}`
+- **반환값:** `{Wrapper}`
 
-- **Example:**
+- **예제:**
 
 ```js
 import { shallow } from 'vue-test-utils'
