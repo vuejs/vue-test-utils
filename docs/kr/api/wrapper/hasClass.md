@@ -1,15 +1,15 @@
 # hasClass(className)
 
-Assert `Wrapper` DOM node has class contains `className`.
+`Wrapper` DOM 노드가 `className`의 클래스를 가진지 검증합니다.
 
-Returns `true` if `Wrapper` DOM node contains class.
+`Wrapper` DOM 노드가 클래스를 가지고 있으면 `true`를 반환합니다.
 
-- **Arguments:**
+- **전달인자:**
   - `{string} className`
 
-- **Returns:** `{boolean}`
+- **반환값:** `{boolean}`
 
-- **Example:**
+- **예제:**
 
 ```js
 import { mount } from 'vue-test-utils'
