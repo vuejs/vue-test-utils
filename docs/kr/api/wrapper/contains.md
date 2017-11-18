@@ -1,13 +1,13 @@
 # contains(selector)
 
-Assert `Wrapper` contains an element or component matching [selector](../selectors.md).
+`Wrapper` 컴포넌트에 엘리먼트나 컴포넌트에 매칭하는 [selector](../selectors.md)가 있는지 검증합니다.
 
-- **Arguments:**
+- **전달인자:**
   - `{string|Component} selector`
 
-- **Returns:** `{boolean}`
+- **반환값:** `{boolean}`
 
-- **Example:**
+- **예제:**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -20,4 +20,4 @@ expect(wrapper.contains('p')).toBe(true)
 expect(wrapper.contains(Bar)).toBe(true)
 ```
 
-- **See also:** [selectors](../selectors.md)
+- **함께 보기:** [selectors](../selectors.md)
