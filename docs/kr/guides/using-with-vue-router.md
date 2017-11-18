@@ -2,9 +2,9 @@
 
 ## 테스트에 Vue Router 설치
 
-You should never install Vue Router on the Vue base constructor in tests. Installing Vue Router adds `$route` and `$router` as read-only properties on Vue prototype.
+테스트 할때 Vue 기반 생성자에 Vue Router를 설치하면 안됩니다. Vue Router를 설치하면 Vue prototype에 읽기 전용 속성으로 `$route`, `$router`가 추가됩니다.
 
-To avoid this, we can create a localVue, and install Vue Router on that.
+이를 피하기 위해, localVue를 만들고 여기에 Vue Router를 설치합니다.
 
 ```js
 import VueRouter from 'vue-router'
@@ -19,9 +19,9 @@ shallow(Component, {
 
 ## `router-link` 또는`router-view`를 사용하는 테스트 컴포넌트
 
-When you install Vue Router, the `router-link` and `router-view` components are registered. This means we can use them anywhere in our application without needing to import them.
+Vue Router를 설치하면 `router-link`와 `router-view` 컴포넌트가 등록됩니다. 즉, 임포트할 필요 없이 앱 어디서나 사용할 수 있습니다.
 
-When we run tests, we need to make these vue-router components available to the component we're mounting. There are two methods to do this.
+테스트를 실행할 때 컴포넌트에서 vue-router 관련 컴포넌트를 사용할 수 있도록 해야합니다. 이 방법에는 두가지가 있습니다.
 
 ### 스텁 사용하기
 
@@ -46,7 +46,7 @@ shallow(Component, {
 
 ## `$route`와 `$router` 목킹
 
-Sometimes you want to test that a component does something with parameters from the `$route` and `$router` objects. To do that, you can pass custom mocks to the Vue instance.
+때로는 컴포넌트가 `$route`와 `$router` 객체의 매개변수로 무언가를 하는지 테스트할 필요가 있습니다. 이를 위해 사용자 정의 목(mock)을 Vue 인스턴스에 전달해야합니다.
 
 ```js
 const $route = {
@@ -62,10 +62,10 @@ const wrapper = shallow(Component, {
 wrapper.vm.$router // /some/path
 ```
 
-## Common gotchas
+## 공통적으로 확인할 것
 
-Installing Vue Router adds `$route` and `$router` as read-only properties on Vue prototype.
+Vue Router를 설치하면 Vue prototype에 읽기 전용 속성으로 `$route`, `$router`가 추가됩니다.
 
-This means any future tests that try to mock `$route` or `$router` will fail.
+이는 `$route` 또는 `$router`를 모킹하려고 시도하는 모든 테스트가 실패하는 것을 의미합니다.
 
-To avoid this, never install Vue Router when you're running tests.
+이를 피하려면 테스트를 실행할 때 Vue Router를 설치하지 마십시오.
