@@ -1,22 +1,22 @@
 # Config
 
-vue-test-utils includes a config object to defined options used by vue-test-utils.
+vue-test-utils는 내부에서 사용할 설정 객체를 포함합니다.
 
-## `vue-test-utils` Config Options
+## `vue-test-utils` 설정 옵션
 
 ### `stubs`
 
-- type: `Object`
-- default: `{
+- 타입: `Object`
+- 기본값: `{
   transition: TransitionStub,
   'transition-group': TransitionGroupStub
 }`
 
-Stubs to use in components. These are overwritten by `stubs` passed in the mounting options.
+컴포넌트에서 사용할 스텁. 마운트 옵션에 전달된 `stubs`가 있으면 덮어쓰입니다.
 
-When passing `stubs` as an array in the mounting options, `config.stubs` are converted to an array, and will stub components with a basic component that returns a div.
+`stubs`를 마운트 옵션에 배열로 전달하면 `config.stubs`는 배열로 변환되고 div를 반환하는 기본 컴포넌트로 컴포넌트를 스텁합니다.
 
-Example:
+예:
 
 ```js
 import VueTestUtils from 'vue-test-utils'
