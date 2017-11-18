@@ -1,16 +1,16 @@
 # hasAttribute(attribute, value)
 
-Assert `Wrapper` DOM node has attribute matching value.
+`Wrapper` DOM 노드가 속성과 일치하는 값을 가지고 있는지 검증합니다.
 
-Returns `true` if `Wrapper` DOM node contains attribute with matching value.
+`Wrapper` DOM 노드가 일치하는 속성을 가지고 있으면 `true`를 반환합니다.
 
-- **Arguments:**
+- **전달인자:**
   - `{string} attribute`
   - `{string} value`
 
-- **Returns:** `{boolean}`
+- **반환값:** `{boolean}`
 
-- **Example:**
+- **예제:**
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -21,9 +21,9 @@ const wrapper = mount(Foo)
 expect(wrapper.hasAttribute('id', 'foo')).toBe(true)
 ```
 
-- **Alternative:**
+- **다른 방법:**
 
-You could get the attribute from the `Wrapper.element` to have a value based assertion:
+`Wrapper.element`를 이용해 속성을 가져와 값에 기반한 검증을 할 수 있습니다.
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -34,4 +34,4 @@ const wrapper = mount(Foo)
 expect(wrapper.element.getAttribute('id')).toBe('foo')
 ```
 
-This makes for a more informative assertion error.
+이는 보다 좋은 에러 검증을 합니다.
