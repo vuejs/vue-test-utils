@@ -62,9 +62,12 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Returns an object containing custom events emitted by the Wrapper vm
    */
-  emitted () {
+  emitted (event: ?string) {
     if (!this._emitted && !this.vm) {
       throwError('wrapper.emitted() can only be called on a Vue instance')
+    }
+    if (event) {
+      return this._emitted[event]
     }
     return this._emitted
   }

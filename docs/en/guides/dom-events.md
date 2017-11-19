@@ -193,4 +193,4 @@ A key name after the dot `keydown.up` is translated to a `keyCode`. This is supp
 
 ## Important
 
-vue-test-utils triggers event synchronously. Consequently, `vue.nextTick` is not required.
+vue-test-utils triggers event synchronously. Consequently, `Vue.nextTick` is not required.
