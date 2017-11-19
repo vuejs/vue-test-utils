@@ -193,4 +193,4 @@ describe('Key event tests', () => {
 
 ## Важно
 
-vue-test-utils генерирует событие синхронно. Следовательно, `vue.nextTick` не требуется.
+vue-test-utils генерирует событие синхронно. Следовательно, `Vue.nextTick` не требуется.
