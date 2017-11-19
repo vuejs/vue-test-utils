@@ -72,16 +72,16 @@ console.log(wrapper)
 import { mount } from 'vue-test-utils'
 import Counter from './counter'
 
-describe('Counter', () => {
+describe('Компонент Counter', () => {
   // Теперь монтируем компонент и получаем wrapper
   const wrapper = mount(Counter)
 
-  it('renders the correct markup', () => {
+  it('отображает корректную разметку', () => {
     expect(wrapper.html()).toContain('<span class="count">0</span>')
   })
 
   // также легко проверить наличие других элементов
-  it('has a button', () => {
+  it('имеет кнопку', () => {
     expect(wrapper.contains('button')).toBe(true)
   })
 })
@@ -94,7 +94,7 @@ describe('Counter', () => {
 Наш счётчик должен увеличивать значение, когда пользователь нажимает кнопку. Чтобы симулировать это поведение, нам необходимо сначала получить кнопку с помощью `wrapper.find()`, который возвращает **wrapper для элемента кнопки**. Мы можем симулировать клик с помощью вызова `.trigger()` на wrapper кнопки:
 
 ```js
-it('button click should increment the count', () => {
+it('нажатие кнопки должно увеличивать счётчик', () => {
   expect(wrapper.vm.count).toBe(0)
   const button = wrapper.find('button')
   button.trigger('click')
@@ -102,13 +102,13 @@ it('button click should increment the count', () => {
 })
 ```
 
-### What about `nextTick`?
+### Что делать с `nextTick`?
 
-Vue batches pending DOM updates and applies them asynchronously to prevent unnecessary re-renders caused by multiple data mutations. This is why in practice we often have to use `Vue.nextTick` to wait until Vue has performed the actual DOM update after we trigger some state change.
+Vue собирает пачку предстоящих обновлений DOM и применяет их асинхронно для избежания ненужных повторных рендерингов, вызываемых множественными изменениями данных. Вот почему на практике на часто приходится использовать `Vue.nextTick` для ожидания, пока Vue не выполнит фактическое обновление DOM после того, как мы инициируем некоторое изменение состояния.
 
-To simplify usage, `vue-test-utils` applies all updates synchronously so you don't need to use `Vue.nextTick` to wait for DOM updates in your tests.
+Для упрощения работы, `vue-test-utils` применяет все обновления синхронно, поэтому вам не потребуется использовать `Vue.nextTick` для ожидания обновления DOM в ваших тестах.
 
-*Note: `nextTick` is still necessary when you need to explictly advance the event loop, for operations such as asynchronous callbacks or promise resolution.*
+*Примечание: `nextTick` по-прежнему необходим, когда вам нужно явно форсировать цикл событий, для таких операций как асинхронные обратные вызовы или разрешение промисов.*
 
 ## Что дальше
 
