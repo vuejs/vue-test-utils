@@ -1,22 +1,22 @@
 # Тестирование однофайловых компонентов с Mocha + webpack
 
-> An example project for this setup is available on [GitHub](https://github.com/vuejs/vue-test-utils-mocha-webpack-example).
+> Пример проекта для этой конфигурации доступен на [GitHub](https://github.com/vuejs/vue-test-utils-mocha-webpack-example).
 
-Another strategy for testing SFCs is compiling all our tests via webpack and then run it in a test runner. The advantage of this approach is that it gives us full support for all webpack and `vue-loader` features, so we don't have to make compromises in our source code.
+Другая стратегия тестирования однофайловых компонентов заключается в компиляции всех наших тестов с помощью webpack, а затем программой для запуска тестов. Преимущество такого подхода заключается в том, что он даёт нам полную поддержку всех функций webpack и `vue-loader`, поэтому нам не нужно идти на компромиссы в нашем исходном коде.
 
-You can technically use any test runner you like and manually wire things together, but we've found [`mocha-webpack`](https://github.com/zinserjan/mocha-webpack) to provide a very streamlined experience for this particular task.
+Технически, вы можете использовать любую программу для запуска тестов, которая вам нравится, и вручную соединять вещи, но мы нашли [`mocha-webpack`](https://github.com/zinserjan/mocha-webpack) как очень удобный способ для реализации этой задачи.
 
-## Setting Up `mocha-webpack`
+## Настройка `mocha-webpack`
 
-We will assume you are starting with a setup that already has webpack, vue-loader and Babel properly configured - e.g. the `webpack-simple` template scaffolded by `vue-cli`.
+Мы предположим, что вы начинаете с настройки, когда уже есть правильно настроенные webpack, vue-loader и Babel — например используя шаблон `webpack-simple`, развёрнутый с помощью `vue-cli`.
 
-The first thing to do is installing test dependencies:
+Первое, что нужно сделать, это установить тестовые зависимости:
 
 ``` bash
 npm install --save-dev vue-test-utils mocha mocha-webpack
 ```
 
-Next we need to define a test script in our `package.json`.
+Затем мы должны указать скрипт test в нашем `package.json`.
 
 ```json
 // package.json
@@ -27,19 +27,19 @@ Next we need to define a test script in our `package.json`.
 }
 ```
 
-A few things to note here:
+Несколько вещей, о том что мы сделали:
 
-- The `--webpack-config` flag specifies the webpack config file to use for the tests. In most cases, this would be identical to the config you use for the actual project with one small tweak. We will talk about this later.
+- Флаг `--webpack-config` указывает конфигурационный файл webpack для использования в тестах. В большинстве случаев это будут идентичная конфигурация, используемой в проекте, с одной небольшой доработкой. Мы поговорим об этом позднее.
 
-- The `--require` flag ensures the file `test/setup.js` is run before any tests, in which we can setup the global environment for our tests to be run in.
+- Флаг `--require` гарантирует, что файл `test/setup.js` будет запущен перед любыми тестами, в котором мы можем настроить для наших тестов глобальное окружение, в котором они будут запускаться.
 
-- The final argument is a glob for the test files to be included in the test bundle.
+- Последний аргумент — это шаблон для тестовых файлов, которые будут включены в тестовую сборку.
 
-### Extra webpack Configuration
+### Дополнительная конфигурация webpack
 
-#### Externalizing NPM Dependencies
+#### Вынесение внешних NPM-зависимостей
 
-In our tests we will likely import a number of NPM dependencies - some of these modules may be written without browser usage in mind and simply cannot be bundled properly by webpack. Another consideration is externalizing dependencies greatly improves test boot up speed. We can externalize all NPM dependencies with `webpack-node-externals`:
+В наших тестах мы, скорее всего, импортируем ряд NPM-зависимостей — некоторые из этих модулей могут быть написаны не для использования в браузере и просто не смогут быть корректно добавлены в сборку webpack. Другой плюс в том, что извлечение внешних зависимостей значительно улучшит скорость загрузки тестов. Мы можем вынести все NPM-зависимости с помощью `webpack-node-externals`:
 
 ```js
 // webpack.config.js
@@ -53,7 +53,7 @@ module.exports = {
 
 #### Source Maps
 
-Source maps need to be inlined to be picked up by `mocha-webpack`. The recommended config is:
+Source maps должны быть встроены для использования в `mocha-webpack`. Рекомендуемая конфигурация:
 
 ``` js
 module.exports = {
@@ -62,49 +62,49 @@ module.exports = {
 }
 ```
 
-If debugging via IDE, it's also recommended to add the following:
+При отладке через IDE рекомендуется также добавить следующее:
 
 ``` js
 module.exports = {
   // ...
   output: {
     // ...
-    // use absolute paths in sourcemaps (important for debugging via IDE)
+    // использовать абсолютные пути в sourcemaps (важно для отладки через IDE)
     devtoolModuleFilenameTemplate: '[absolute-resource-path]',
     devtoolFallbackModuleFilenameTemplate: '[absolute-resource-path]?[hash]'
   }
 }
 ```
 
-### Setting Up Browser Environment
+### Настройка браузерного окружения
 
-`vue-test-utils` requires a browser environment to run. We can simulate it in Node.js using `jsdom-global`:
+`vue-test-utils` требует браузерного окружения для запуска. Мы можем симулировать его в Node.js используя `jsdom-global`:
 
 ```bash
 npm install --save-dev jsdom jsdom-global
 ```
 
-Then in `test/setup.js`:
+Затем в `test/setup.js`:
 
 ``` js
 require('jsdom-global')()
 ```
 
-This adds a browser environment to node, so that `vue-test-utils` can run correctly.
+Это добавит браузерное окружение в node, таким образом `vue-test-utils` сможет корректно запуститься.
 
-### Picking an Assertion Library
+### Выбор библиотеки утверждений
 
-[Chai](http://chaijs.com/) is a popular assertion library that is commonly used alongside Mocha. You may also want to check out [Sinon](http://sinonjs.org/) for creating spies and stubs.
+[Chai](http://chaijs.com/) — популярная библиотека утверждений, которая обычно используется вместе с Mocha. Вы также можете воспользоваться [Sinon](http://sinonjs.org/) для создания шпионов и заглушек.
 
-Alternatively you can use `expect` which is now part of Jest, and exposes [the exact same API](http://facebook.github.io/jest/docs/en/expect.html#content) in Jest docs.
+В качестве альтернативы вы можете использовать `expect`, который является частью Jest и реализует [точно такой же API](http://facebook.github.io/jest/docs/en/expect.html#content) в документации Jest.
 
-We will be using `expect` here and make it globally available so that we don't have to import it in every test:
+Мы будем использовать `expect` здесь и сделаем его глобально доступным, чтобы нам не приходилось импортировать его в каждом тесте:
 
 ``` bash
 npm install --save-dev expect
 ```
 
-Then in `test/setup.js`:
+Затем в `test/setup.js`:
 
 ``` js
 require('jsdom-global')()
@@ -112,21 +112,21 @@ require('jsdom-global')()
 global.expect = require('expect')
 ```
 
-### Optimizing Babel for Tests
+### Оптимизация Babel для тестов
 
-Notice that we are using `babel-loader` to handle JavaScript. You should already have Babel configured if you are using it in your app via a `.babelrc` file. Here `babel-loader` will automatically use the same config file.
+Обратите внимание, что мы используем `babel-loader` для обработки JavaScript. У вас уже должен быть настроен Babel, если вы используете его в своём приложении, через файл `.babelrc`. Здесь `babel-loader` будет автоматически использовать тот же файл конфигурации.
 
-One thing to note is that if you are using Node 6+, which already supports the majority of ES2015 features, you can configure a separate Babel [env option](https://babeljs.io/docs/usage/babelrc/#env-option) that only transpiles features that are not already supported in the Node version you are using (e.g. `stage-2` or flow syntax support, etc.)
+Следует отметить, что если вы используете Node 6+, которая уже поддерживает большинство функций ES2015, вы можете настроить отдельную [опцию env](https://babeljs.io/docs/usage/babelrc/#env-option) Babel, которая будет транспилировать только те функции, которые ещё не поддерживаются в используемой версии Node (например, `stage-2` или поддержку синтаксиса flow, и т.п.)
 
-### Adding a test
+### Добавление теста
 
-Create a file in `src` named `Counter.vue`:
+Создайте файл в `src` названный `Counter.vue`:
 
 ``` html
 <template>
 	<div>
 	  {{ count }}
-	  <button @click="increment">Increment</button>
+	  <button @click="increment">Увеличить</button>
 	</div>
 </template>
 
@@ -147,14 +147,14 @@ export default {
 </script>
 ```
 
-And create a test file named `test/Counter.spec.js` with the following code:
+И создайте файл теста, названный `test/Counter.spec.js` со следующим кодом:
 
 ```js
 import { shallow } from 'vue-test-utils'
 import Counter from '../src/Counter.vue'
 
 describe('Counter.vue', () => {
-  it('increments count when button is clicked', () => {
+  it('увеличивает счётчик по нажатию кнопки', () => {
     const wrapper = shallow(Counter)
     wrapper.find('button').trigger('click')
     expect(wrapper.find('div').text()).toMatch('1')
@@ -162,13 +162,13 @@ describe('Counter.vue', () => {
 })
 ```
 
-And now we can run the test:
+И теперь мы можем запустить тест:
 
 ```
 npm run unit
 ```
 
-Woohoo, we got our tests running!
+Ура, мы запустили наши тесты!
 
 ### Ресурсы
 
