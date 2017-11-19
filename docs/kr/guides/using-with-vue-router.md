@@ -66,6 +66,6 @@ wrapper.vm.$router // /some/path
 
 Vue Router를 설치하면 Vue prototype에 읽기 전용 속성으로 `$route`, `$router`가 추가됩니다.
 
-이는 `$route` 또는 `$router`를 모킹하려고 시도하는 모든 테스트가 실패하는 것을 의미합니다.
+이는 `$route` 또는 `$router`를 목킹하려고 시도하는 모든 테스트가 실패하는 것을 의미합니다.
 
 이를 피하려면 테스트를 실행할 때 Vue Router를 설치하지 마십시오.
