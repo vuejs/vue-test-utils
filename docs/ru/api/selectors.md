@@ -14,10 +14,10 @@
 
 Вы также можете использовать комбинации:
 
-- direct descendant combinator (div > #bar > .foo)
-- general descendant combinator (div #bar .foo)
-- adjacent sibling selector (div + .foo)
-- general sibling selector (div ~ .foo)
+- выбор только непосредственных потомков (div > #bar > .foo)
+- выбор элементов, являющихся потомками (div #bar .foo)
+- селектор выбора соседа идущего за элементом (div + .foo)
+- селектор выбора соседей идущих после элемента (div ~ .foo)
 
 ## Компоненты Vue
 
