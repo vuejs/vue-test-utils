@@ -43,5 +43,32 @@ export function isValidSelector (selector: any): boolean {
     return true
   }
 
-  return isVueComponent(selector)
+  if (isVueComponent(selector)) {
+    return true
+  }
+
+  return isRefSelector(selector)
+}
+
+export function isRefSelector (refOptionsObject: any) {
+  if (typeof refOptionsObject !== 'object') {
+    return false
+  }
+
+  if (refOptionsObject === null) {
+    return false
+  }
+
+  const validFindKeys = ['ref']
+  const entries = Object.entries(refOptionsObject)
+
+  if (!entries.length) {
+    return false
+  }
+
+  const isValid = entries.every(([key, value]) => {
+    return validFindKeys.includes(key) && typeof value === 'string'
+  })
+
+  return isValid
 }

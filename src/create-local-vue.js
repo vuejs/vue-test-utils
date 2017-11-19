@@ -2,6 +2,7 @@
 
 import Vue from 'vue'
 import cloneDeep from 'lodash/cloneDeep'
+import errorHandler from './lib/error-handler'
 
 function createLocalVue (): Component {
   const instance = Vue.extend()
@@ -19,6 +20,8 @@ function createLocalVue (): Component {
   // config is not enumerable
   instance.config = cloneDeep(Vue.config)
 
+  instance.config.errorHandler = errorHandler
+
   // option merge strategies need to be exposed by reference
   // so that merge strats registered by plguins can work properly
   instance.config.optionMergeStrategies = Vue.config.optionMergeStrategies
@@ -31,8 +34,12 @@ function createLocalVue (): Component {
   // compat for vue-router < 2.7.1 where it does not allow multiple installs
   const use = instance.use
   instance.use = (plugin, ...rest) => {
-    plugin.installed = false
-    plugin.install.installed = false
+    if (plugin.installed === true) {
+      plugin.installed = false
+    }
+    if (plugin.install && plugin.install.installed === true) {
+      plugin.install.installed = false
+    }
     use.call(instance, plugin, ...rest)
   }
   return instance

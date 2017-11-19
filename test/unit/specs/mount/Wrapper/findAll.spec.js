@@ -82,7 +82,7 @@ describe('findAll', () => {
   it('throws an error when passed an invalid DOM selector', () => {
     const compiled = compileToFunctions('<div><a href="/"></a></div>')
     const wrapper = mount(compiled)
-    const message = '[vue-test-utils]: wrapper.findAll() must be passed a valid CSS selector or a Vue constructor'
+    const message = '[vue-test-utils]: wrapper.findAll() must be passed a valid CSS selector, Vue constructor, or valid find option object'
     const fn = () => wrapper.findAll('[href=&6"/"]')
     expect(fn).to.throw().with.property('message', message)
   })
@@ -161,13 +161,53 @@ describe('findAll', () => {
     expect(preArray.wrappers).to.deep.equal([])
   })
 
+  it('returns an array of Wrapper of elements matching the ref in options object', () => {
+    const compiled = compileToFunctions('<div><div ref="foo" /></div>')
+    const wrapper = mount(compiled)
+    const fooArr = wrapper.findAll({ ref: 'foo' })
+    expect(fooArr).to.be.instanceOf(WrapperArray)
+    expect(fooArr.length).to.equal(1)
+  })
+
+  it('throws an error when ref selector is called on a wrapper that is not a Vue component', () => {
+    const compiled = compileToFunctions('<div><a href="/"></a></div>')
+    const wrapper = mount(compiled)
+    const a = wrapper.find('a')
+    const message = '[vue-test-utils]: $ref selectors can only be used on Vue component wrappers'
+    const fn = () => a.findAll({ ref: 'foo' })
+    expect(fn).to.throw().with.property('message', message)
+  })
+
+  it('returns an array of Wrapper of elements matching the ref in options object if they are nested in a transition', () => {
+    const compiled = compileToFunctions('<transition><div ref="foo" /></transition>')
+    const wrapper = mount(compiled)
+    const divArr = wrapper.findAll({ ref: 'foo' })
+    expect(divArr).to.be.instanceOf(WrapperArray)
+    expect(divArr.length).to.equal(1)
+  })
+
+  it('returns correct number of Vue Wrapper when component has a v-for and matches the ref in options object', () => {
+    const items = [{ id: 1 }, { id: 2 }, { id: 3 }]
+    const wrapper = mount(ComponentWithVFor, { propsData: { items }})
+    const componentArray = wrapper.findAll({ ref: 'item' })
+    expect(componentArray).to.be.instanceOf(WrapperArray)
+    expect(componentArray.length).to.equal(items.length)
+  })
+
+  it('returns VueWrapper with length 0 if no nodes matching the ref in options object are found', () => {
+    const wrapper = mount(Component)
+    const preArray = wrapper.findAll({ ref: 'foo' })
+    expect(preArray.length).to.equal(0)
+    expect(preArray.wrappers).to.deep.equal([])
+  })
+
   it('throws an error if selector is not a valid selector', () => {
     const wrapper = mount(Component)
     const invalidSelectors = [
-      undefined, null, NaN, 0, 2, true, false, () => {}, {}, { name: undefined }, []
+      undefined, null, NaN, 0, 2, true, false, () => {}, {}, { name: undefined }, { ref: 'foo', nope: true }, []
     ]
     invalidSelectors.forEach((invalidSelector) => {
-      const message = '[vue-test-utils]: wrapper.findAll() must be passed a valid CSS selector or a Vue constructor'
+      const message = '[vue-test-utils]: wrapper.findAll() must be passed a valid CSS selector, Vue constructor, or valid find option object'
       const fn = () => wrapper.findAll(invalidSelector)
       expect(fn).to.throw().with.property('message', message)
     })

@@ -1,9 +1,10 @@
 // @flow
 
 import Vue from 'vue'
-import { isValidSelector } from '../lib/validators'
+import getSelectorTypeOrThrow, { selectorTypes } from '../lib/get-selector-type'
 import findVueComponents, { vmCtorMatchesName } from '../lib/find-vue-components'
-import findMatchingVNodes from '../lib/find-matching-vnodes'
+import findVNodesBySelector from '../lib/find-vnodes-by-selector'
+import findVNodesByRef from '../lib/find-vnodes-by-ref'
 import VueWrapper from './vue-wrapper'
 import WrapperArray from './wrapper-array'
 import ErrorWrapper from './error-wrapper'
@@ -68,16 +69,22 @@ export default class Wrapper implements BaseWrapper {
    * Checks if wrapper contains provided selector.
    */
   contains (selector: Selector) {
-    if (!isValidSelector(selector)) {
-      throwError('wrapper.contains() must be passed a valid CSS selector or a Vue constructor')
-    }
+    const selectorType = getSelectorTypeOrThrow(selector, 'contains')
 
-    if (typeof selector === 'object') {
+    if (selectorType === selectorTypes.VUE_COMPONENT) {
       const vm = this.vm || this.vnode.context.$root
       return findVueComponents(vm, selector.name).length > 0
     }
 
-    if (typeof selector === 'string' && this.element instanceof HTMLElement) {
+    if (selectorType === selectorTypes.OPTIONS_OBJECT) {
+      if (!this.isVueComponent) {
+        throwError('$ref selectors can only be used on Vue component wrappers')
+      }
+      const nodes = findVNodesByRef(this.vnode, selector.ref)
+      return nodes.length > 0
+    }
+
+    if (selectorType === selectorTypes.DOM_SELECTOR && this.element instanceof HTMLElement) {
       return this.element.querySelectorAll(selector).length > 0
     }
 
@@ -87,9 +94,12 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Returns an object containing custom events emitted by the Wrapper vm
    */
-  emitted () {
+  emitted (event: ?string) {
     if (!this._emitted && !this.vm) {
       throwError('wrapper.emitted() can only be called on a Vue instance')
+    }
+    if (event) {
+      return this._emitted[event]
     }
     return this._emitted
   }
@@ -206,12 +216,10 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Finds first node in tree of the current wrapper that matches the provided selector.
    */
-  find (selector: string): Wrapper | ErrorWrapper | VueWrapper {
-    if (!isValidSelector(selector)) {
-      throwError('wrapper.find() must be passed a valid CSS selector or a Vue constructor')
-    }
+  find (selector: Selector): Wrapper | ErrorWrapper | VueWrapper {
+    const selectorType = getSelectorTypeOrThrow(selector, 'find')
 
-    if (typeof selector === 'object') {
+    if (selectorType === selectorTypes.VUE_COMPONENT) {
       if (!selector.name) {
         throwError('.find() requires component to have a name property')
       }
@@ -223,7 +231,18 @@ export default class Wrapper implements BaseWrapper {
       return new VueWrapper(components[0], this.options)
     }
 
-    const nodes = findMatchingVNodes(this.vnode, selector)
+    if (selectorType === selectorTypes.OPTIONS_OBJECT) {
+      if (!this.isVueComponent) {
+        throwError('$ref selectors can only be used on Vue component wrappers')
+      }
+      const nodes = findVNodesByRef(this.vnode, selector.ref)
+      if (nodes.length === 0) {
+        return new ErrorWrapper(`ref="${selector.ref}"`)
+      }
+      return new Wrapper(nodes[0], this.update, this.options)
+    }
+
+    const nodes = findVNodesBySelector(this.vnode, selector)
 
     if (nodes.length === 0) {
       return new ErrorWrapper(selector)
@@ -235,11 +254,9 @@ export default class Wrapper implements BaseWrapper {
    * Finds node in tree of the current wrapper that matches the provided selector.
    */
   findAll (selector: Selector): WrapperArray {
-    if (!isValidSelector(selector)) {
-      throwError('wrapper.findAll() must be passed a valid CSS selector or a Vue constructor')
-    }
+    const selectorType = getSelectorTypeOrThrow(selector, 'findAll')
 
-    if (typeof selector === 'object') {
+    if (selectorType === selectorTypes.VUE_COMPONENT) {
       if (!selector.name) {
         throwError('.findAll() requires component to have a name property')
       }
@@ -248,11 +265,19 @@ export default class Wrapper implements BaseWrapper {
       return new WrapperArray(components.map(component => new VueWrapper(component, this.options)))
     }
 
+    if (selectorType === selectorTypes.OPTIONS_OBJECT) {
+      if (!this.isVueComponent) {
+        throwError('$ref selectors can only be used on Vue component wrappers')
+      }
+      const nodes = findVNodesByRef(this.vnode, selector.ref)
+      return new WrapperArray(nodes.map(node => new Wrapper(node, this.update, this.options)))
+    }
+
     function nodeMatchesSelector (node, selector) {
       return node.elm && node.elm.getAttribute && node.elm.matches(selector)
     }
 
-    const nodes = findMatchingVNodes(this.vnode, selector)
+    const nodes = findVNodesBySelector(this.vnode, selector)
     const matchingNodes = nodes.filter(node => nodeMatchesSelector(node, selector))
 
     return new WrapperArray(matchingNodes.map(node => new Wrapper(node, this.update, this.options)))
@@ -269,18 +294,21 @@ export default class Wrapper implements BaseWrapper {
    * Checks if node matches selector
    */
   is (selector: Selector): boolean {
-    if (!isValidSelector(selector)) {
-      throwError('wrapper.is() must be passed a valid CSS selector or a Vue constructor')
-    }
+    const selectorType = getSelectorTypeOrThrow(selector, 'is')
 
-    if (typeof selector === 'object') {
-      if (!this.isVueComponent) {
-        return false
-      }
+    if (selectorType === selectorTypes.VUE_COMPONENT && this.isVueComponent) {
       if (typeof selector.name !== 'string') {
         throwError('a Component used as a selector must have a name property')
       }
       return vmCtorMatchesName(this.vm, selector.name)
+    }
+
+    if (selectorType === selectorTypes.OPTIONS_OBJECT) {
+      throwError('$ref selectors can not be used with wrapper.is()')
+    }
+
+    if (typeof selector === 'object') {
+      return false
     }
 
     return !!(this.element &&
@@ -342,6 +370,14 @@ export default class Wrapper implements BaseWrapper {
       // $FlowIgnore : Problem with possibly null this.vm
       this.vm.$set(this.vm, [key], data[key])
     })
+
+    Object.keys(data).forEach((key) => {
+      // $FlowIgnore : Problem with possibly null this.vm
+      this.vm._watchers.forEach((watcher) => {
+        if (watcher.expression === key) { watcher.run() }
+      })
+    })
+
     this.update()
   }
 
@@ -430,7 +466,7 @@ export default class Wrapper implements BaseWrapper {
       throwError('cannot call wrapper.text() on a wrapper without an element')
     }
 
-    return this.element.textContent
+    return this.element.textContent.trim()
   }
 
   /**
@@ -441,10 +477,10 @@ export default class Wrapper implements BaseWrapper {
       throwError('wrapper.destroy() can only be called on a Vue instance')
     }
 
-    if (this.vm.$el.parentNode) {
-      this.vm.$el.parentNode.removeChild(this.vm.$el)
+    if (this.element.parentNode) {
+      this.element.parentNode.removeChild(this.element)
     }
-
+    // $FlowIgnore
     this.vm.$destroy()
   }
 

@@ -6,10 +6,10 @@
 </template>
 
 <script>
-    export default{
-      name: 'component-with-transition',
-      data: () => ({
-        a: 'a'
-      })
-    }
+  export default{
+    name: 'component-with-transition',
+    data: () => ({
+      a: 'a'
+    })
+  }
 </script>
