@@ -98,15 +98,15 @@ npm install --save-dev babel-jest
 }
 ```
 
-> By default, `babel-jest` automatically configures itself as long as it's installed. However, because we have explicitly added a transform for `*.vue` files, we now need to explicitly configure `babel-jest` as well.
+> По умолчанию `babel-jest` автоматически настраивается по установке. Однако, поскольку мы явно добавили преобразование файлов `*.vue`, нам теперь нужно также настроить `babel-jest`.
 
-Assuming using `babel-preset-env` with webpack, the default Babel config disables ES modules transpilation because webpack already knows how to handle ES modules. However, we do need to enable it for our tests because Jest tests run directly in Node.
+Предполагая использование `babel-preset-env` с webpack, конфигурация Babel по умолчанию отключает транспиляцию ES-модулей, потому что webpack уже знает как обрабатывать ES-модули. Однако нам нужно включить его для наших тестов, потому что тесты Jest запускаются непосредственно в Node.
 
-Also, we can tell `babel-preset-env` to target the Node version we are using. This skips transpiling unnecessary features and makes our tests boot faster.
+Кроме того, мы можем указать `babel-preset-env` в качестве цели используемую нами версию Node. Это пропустит транспиляцию ненужных функций и ускорит загрузку тестов.
 
-To apply these options only for tests, put them in a separate config under `env.test` (this will be automatically picked up by `babel-jest`).
+Чтобы применить эти параметры только для тестов, поместите их в отдельную конфигурацию в `env.test` (это будет автоматически обработано `babel-jest`).
 
-Example `.babelrc`:
+Пример `.babelrc`:
 
 ``` json
 {
@@ -123,24 +123,24 @@ Example `.babelrc`:
 }
 ```
 
-### Snapshot Testing
+### Тестирование моментальными снимками
 
-You can use [`vue-server-renderer`](https://github.com/vuejs/vue/tree/dev/packages/vue-server-renderer) to render a component into a string so that it can be saved as a snapshot for [Jest snapshot testing](https://facebook.github.io/jest/docs/en/snapshot-testing.html).
+Вы можете использовать [`vue-server-renderer`](https://github.com/vuejs/vue/tree/dev/packages/vue-server-renderer) для рендеринга компонента в строку, чтобы его можно было сохранить в качестве снимка для [тестирования моментальными снимками в Jest](https://facebook.github.io/jest/docs/en/snapshot-testing.html).
 
-The render result of `vue-server-renderer` includes a few SSR-specific attributes, and it ignores whitespaces, making it harder to scan a diff. We can improve the saved snapshot with a custom serializer:
+Результат рендеринга `vue-server-renderer` включает в себя несколько атрибутов, специфичных для SSR, и игнорирует пробелы, что затрудняет сравнивать diff. Мы можем улучшить сохранённый снимок с помощью специального сериализатора:
 
 ``` bash
 npm install --save-dev jest-serializer-vue
 ```
 
-Then configure it in `package.json`:
+Затем добавьте конфигурацию в `package.json`:
 
 ``` json
 {
   // ...
   "jest": {
     // ...
-    // serializer for snapshots
+    // сериализатор для снимков
     "snapshotSerializers": [
       "<rootDir>/node_modules/jest-serializer-vue"
     ]
@@ -148,22 +148,22 @@ Then configure it in `package.json`:
 }
 ```
 
-### Placing Test Files
+### Расположение файлов тестов
 
-By default, Jest will recursively pick up all files that have a `.spec.js` or `.test.js` extension in the entire project. If this does not fit your needs, it's possible [to change the testRegex](https://facebook.github.io/jest/docs/en/configuration.html#testregex-string) in the config section in the `package.json` file.
+По умолчанию Jest будет рекурсивно выбирать все файлы с расширением `.spec.js` или `.test.js` во всём проекте. Если это поведение не соответствует вашим потребностям, то возможно [изменить testRegex](https://facebook.github.io/jest/docs/en/configuration.html#testregex-string) в секции конфигурации в файле `package.json`.
 
-Jest recommends creating a `__tests__` directory right next to the code being tested, but feel free to structure your tests as you see fit. Just beware that Jest would create a `__snapshots__` directory next to test files that performs snapshot testing.
+Jest рекомендует создать каталог `__tests__` рядом с тестируемым кодом, но не стесняйтесь структурировать ваши тесты по своему усмотрению. Просто остерегайтесь того, что Jest создаст каталог `__snapshots__` рядом с тестовыми файлами, который необходим для тестирования с помощью моментальных снимков.
 
-### Example Spec
+### Пример спецификации
 
-If you are familiar with Jasmine, you should feel right at home with Jest's [assertion API](https://facebook.github.io/jest/docs/en/expect.html#content):
+Если вы знакомы с Jasmine, то вы должны чувствовать себя как дома с [проверочным API](https://facebook.github.io/jest/docs/en/expect.html#content) Jest:
 
 ```js
 import { mount } from 'vue-test-utils'
 import Component from './component'
 
 describe('Component', () => {
-  test('is a Vue instance', () => {
+  test('является экземпляром Vue', () => {
     const wrapper = mount(Component)
     expect(wrapper.isVueInstance()).toBeTruthy()
   })
