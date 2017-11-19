@@ -106,7 +106,7 @@ it('button click should increment the count', () => {
 
 ### `nextTick`은 어떻게 할까요?
 
-Vue 배치가 DOM 업데이트를 보류하고 비동기적으로 적용되어 데이터 변이로 인한 불필요한 재렌더링을 방지합니다. 실제로 상태가 변경된 후 Vue가 실제 DOM을 갱신할 때까지 기다리기위해 `Vue.nextTick`을 사용해야합니다.
+Vue 배치가 DOM 업데이트를 미루고 비동기적으로 적용되어 여러 데이터 변이로 발생하는 불필요한 재렌더링을 방지합니다. 실제로 상태가 변경된 후 Vue가 실제 DOM을 갱신할 때까지 기다리기위해 `Vue.nextTick`을 사용해야합니다.
 
 간단히 사용하기 위해 `vue-test-utils`는 모든 업데이트를 동기적으로 반영하므로 DOM 업데이트를 기다리기 위해 `Vue.nextTick`을 사용할 필요가 없습니다.
 
