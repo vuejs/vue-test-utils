@@ -1,10 +1,10 @@
 # Использование с Vue Router
 
-## Installing Vue Router in tests
+## Установка Vue Router в тестах
 
-You should never install Vue Router on the Vue base constructor in tests. Installing Vue Router adds `$route` and `$router` as read-only properties on Vue prototype.
+Вы никогда не должны устанавливать Vue Router в базовый конструктор Vue в тестах. Установка Vue Router добавляет `$route` и `$router` как свойства только для чтения на прототипе Vue.
 
-To avoid this, we can create a localVue, and install Vue Router on that.
+Чтобы этого избежать, мы можем создать localVue и установить Vue Router на него.
 
 ```js
 import VueRouter from 'vue-router'
@@ -17,13 +17,13 @@ shallow(Component, {
 })
 ```
 
-## Testing components that use `router-link` or `router-view`
+## Тестирование компонентов использующих `router-link` или `router-view`
 
-When you install Vue Router, the `router-link` and `router-view` components are registered. This means we can use them anywhere in our application without needing to import them.
+Когда вы устанавливаете Vue Router, регистрируются глобальные компоненты `router-link` и `router-view`. Это означает, что мы можем использовать их в любом месте нашего приложения без необходимости импортировать их.
 
-When we run tests, we need to make these vue-router components available to the component we're mounting. There are two methods to do this.
+Когда мы запускаем тесты, нам нужно сделать эти компоненты vue-router доступными для компонента, который мы монтируем. Есть два способа сделать это.
 
-### Using stubs
+### Использование заглушек (stubs)
 
 ```js
 shallow(Component, {
@@ -31,7 +31,7 @@ shallow(Component, {
 })
 ```
 
-### Installing Vue Router with localVue
+### Установка Vue Router с помощью localVue
 
 ```js
 import VueRouter from 'vue-router'
@@ -44,9 +44,9 @@ shallow(Component, {
 })
 ```
 
-## Mocking `$route` and `$router`
+## Создание моков `$route` и `$router`
 
-Sometimes you want to test that a component does something with parameters from the `$route` and `$router` objects. To do that, you can pass custom mocks to the Vue instance.
+Иногда вам может потребоваться протестировать, что компонент что-то делает с параметрами объектов `$route` и `$router`. Для этого вы можете передавать пользовательские моки в экземпляр Vue.
 
 ```js
 const $route = {
@@ -62,10 +62,10 @@ const wrapper = shallow(Component, {
 wrapper.vm.$router // /some/path
 ```
 
-## Common gotchas
+## Общие ошибки
 
-Installing Vue Router adds `$route` and `$router` as read-only properties on Vue prototype.
+Установка Vue Router добавляет `$route` и `$router` в качестве свойств только для чтения на прототипе Vue.
 
-This means any future tests that try to mock `$route` or `$router` will fail.
+Это означет, что любые будущие тесты, которые попытаются сделать мок `$route` или `$router` потерпят неудачу.
 
-To avoid this, never install Vue Router when you're running tests.
+Для избежания этого никогда не устанавливайте Vue Router при запуске тестов.
