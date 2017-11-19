@@ -148,7 +148,7 @@ export default {
 import QuantityComponent from '@/components/QuantityComponent'
 import { mount } from 'vue-test-utils'
 
-describe('Key event tests', () => {
+describe('Тестирование событий клавиш', () => {
   it('Quantity по умолчанию равно нулю', () => {
     const wrapper = mount(QuantityComponent)
     expect(wrapper.vm.quantity).to.equal(0)
