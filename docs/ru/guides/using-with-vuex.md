@@ -1,18 +1,18 @@
 # Использование с Vuex
 
-In this guide, we'll see how to test Vuex in components with `vue-test-utils`.
+В этом руководстве мы рассмотрим как тестировать Vuex в компонентах с `vue-test-utils`.
 
-## Mocking Actions
+## Создание моков для действий
 
-Let’s look at some code.
+Давайте посмотрим на часть кода.
 
-This is the component we want to test. It calls Vuex actions.
+Это компонент который мы хотим протестировать. Он вызывает действие Vuex.
 
 ``` html
 <template>
     <div class="text-align-center">
       <input type="text" @input="actionInputIfTrue" />
-      <button @click="actionClick()">Click</button>
+      <button @click="actionClick()">Нажми</button>
     </div>
 </template>
 
@@ -35,13 +35,13 @@ export default{
 </script>
 ```
 
-For the purposes of this test, we don’t care what the actions do, or what the store looks like. We just need to know that these actions are being fired when they should, and that they are fired with the expected value.
+Для целей этого теста нам всё равно, что делает действие или как выглядит структура хранилища. Мы должны просто узнать, что это действие вызывается когда должно, и что оно вызывается с ожидаемым значением.
 
-To test this, we need to pass a mock store to Vue when we shallow our component.
+Чтобы протестировать это, нам нужно передать мок хранилища в Vue, когда мы отделяем наш компонент.
 
-Instead of passing the store to the base Vue constructor, we can pass it to a - [localVue](../api/options.md#localvue). A localVue is a scoped Vue constructor that we can make changes to without affecting the global Vue constructor.
+Вместо передачи хранилища в базовый конструктор Vue, мы можем передать его в [localVue](../api/options.md#localvue). localVue — это изолированный конструктор Vue, в который мы можем вносить изменения без влияния на глобальный конструктор Vue.
 
-Let’s see what this looks like:
+Давайте посмотрим, как это выглядит:
 
 ``` js
 import { shallow, createLocalVue } from 'vue-test-utils'
@@ -67,7 +67,7 @@ describe('Actions.vue', () => {
     })
   })
 
-  it('calls store action actionInput when input value is input and an input event is fired', () => {
+  it('вызывает действие хранилища actionInput когда значение поля input и было событие input', () => {
     const wrapper = shallow(Actions, { store, localVue })
     const input = wrapper.find('input')
     input.element.value = 'input'
@@ -75,7 +75,7 @@ describe('Actions.vue', () => {
     expect(actions.actionInput).toHaveBeenCalled()
   })
 
-  it('does not call store action actionInput when input value is not input and an input event is fired', () => {
+  it('не вызывает действие хранилища actionInput когда значение поля отлично от input и было событие input', () => {
     const wrapper = shallow(Actions, { store, localVue })
     const input = wrapper.find('input')
     input.element.value = 'not input'
@@ -83,7 +83,7 @@ describe('Actions.vue', () => {
     expect(actions.actionInput).not.toHaveBeenCalled()
   })
 
-  it('calls store action actionClick when button is clicked', () => {
+  it('вызывает действие хранилища actionClick по нажатию кнопки', () => {
     const wrapper = shallow(Actions, { store, localVue })
     wrapper.find('button').trigger('click')
     expect(actions.actionClick).toHaveBeenCalled()
@@ -91,24 +91,23 @@ describe('Actions.vue', () => {
 })
 ```
 
-What’s happening here? First we tell Vue to use Vuex with the `Vue.use` method. This is just a wrapper around `Vue.use`.
+Что тут происходит? Сначала мы говорим Vue использовать Vuex с помощью метода `Vue.use`. Это всего лишь обёртка вокруг `Vue.use`.
 
-We then make a mock store by calling new `Vuex.store` with our mock values. We only pass it the actions, since that’s all we care about.
+Затем мы создаём мок хранилища вызовом `Vuex.store` с нашими заготовленными значениями. Мы передаём ему только дейсвтия, так как это всё что нам необходимо.
 
-The actions are [jest mock functions](https://facebook.github.io/jest/docs/en/mock-functions.html). These mock functions give us methods to assert whether the actions were called or not.
+Действия реализуются с помощью [mock-функций jest](https://facebook.github.io/jest/docs/en/mock-functions.html). Эти mock-функции предоставляют нам методы для проверки, вызывались ли действия или нет.
 
-We can then assert in our tests that the action stub was called when expected.
+Затем мы можем проверить в наших тестах, что заглушка действия была вызвана когда ожидалось.
 
-Now the way we define the store might look a bit foreign to you.
+Теперь способ, которым мы определяем наше хранилище выглядит немного необычным для вас.
 
-We’re using `beforeEach` to ensure we have a clean store before each test. `beforeEach` is a mocha hook that’s called before each test. In our test, we are reassigning the store variables value. If we didn’t do this, the mock functions would need to be automatically reset. It also lets us change the state in our tests, without it affecting later tests.
+Мы используем `beforeEach`, чтобы убедиться, что у нас есть чистое хранилище перед каждым тестом. `beforeEach` — это хук в mocha, который вызывается перед каждым тестом. В нашем тесте мы переназначаем значения переменных хранилища. Если бы мы этого не сделали, mock-функции нужно было бы автоматически сбрасывать. Это также позволяет нам изменять состояние в наших тестах, не влияя на последующие тесты.
 
-The most important thing to note in this test is that **we create a mock Vuex store and then pass it to vue-test-utils**.
+Самое важно, что следует отметить в этом тесте — то что **мы создаём мок хранилища Vuex и затем передаём его в vue-test-utils**.
 
-Great, so now we can mock actions, let’s look at mocking getters.
+Отлично, теперь мы можем создавать моки действий, давайте посмотрим на создание моков для геттеров.
 
-## Mocking Getters
-
+## Создание моков для геттеров
 
 ``` html
 <template>
@@ -130,9 +129,9 @@ export default{
 </script>
 ```
 
-This is a fairly simple component. It renders the result of the getters `clicks` and `inputValue`. Again, we don’t really care about what those getters returns – just that the result of them is being rendered correctly.
+Это довольно простой компонент. Он отображает результат геттеров `clicks` и `inputValue`. Опять же, нас не волнует что возвращают эти геттеры — только то, что их результат будет корректно отображён.
 
-Let’s see the test:
+Давайте посмотрим на тест:
 
 ``` js
 import { shallow, createLocalVue } from 'vue-test-utils'
@@ -158,33 +157,33 @@ describe('Getters.vue', () => {
     })
   })
 
-  it('Renders state.inputValue in first p tag', () => {
+  it('Отображает state.inputValue в первом теге p', () => {
     const wrapper = shallow(Actions, { store, localVue })
     const p = wrapper.find('p')
     expect(p.text()).toBe(getters.inputValue())
   })
 
-  it('Renders state.clicks in second p tag', () => {
+  it('Отображает state.clicks во втором теге p', () => {
     const wrapper = shallow(Actions, { store, localVue })
     const p = wrapper.findAll('p').at(1)
     expect(p.text()).toBe(getters.clicks().toString())
   })
 })
 ```
-This test is similar to our actions test. We create a mock store before each test, pass it as an option when we call `shallow`, and assert that the value returned by our mock getters is being rendered.
+Этот тест очень похож на тест действий. Мы создаём мок хранилища перед каждым тестом, передаём его в качестве опции когда вызываем `shallow`, и проверяем что значение вернувшееся из мока-геттера отображается.
 
-This is great, but what if we want to check our getters are returning the correct part of our state?
+Это здорово, но что, если мы хотим проверить, что наши геттеры возвращают правильную часть нашего состояния?
 
-## Mocking with Modules
+## Создание моков с модулями
 
-[Modules](https://vuex.vuejs.org/en/modules.html) are useful for separating out our store into manageable chunks. They also export getters. We can use these in our tests.
+[Модули](https://vuex.vuejs.org/ru/modules.html) полезны для разделения нашего хранилища на управляемые части. Они также экспортируют геттеры. Мы можем использовать их в наших тестах.
 
-Let’s look at our component:
+Давайте взглянем на наш компонент:
 
 ``` html
 <template>
   <div>
-    <button @click="moduleActionClick()">Click</button>
+    <button @click="moduleActionClick()">Нажми</button>
     <p>{{moduleClicks}}</p>
   </div>
 </template>
@@ -205,9 +204,9 @@ export default{
 }
 </script>
 ```
-Simple component that includes one action and one getter.
+Простой компонент, который содержит одно действие и один геттер.
 
-And the test:
+И тест:
 
 ``` js
 import { shallow, createLocalVue } from 'vue-test-utils'
@@ -242,14 +241,14 @@ describe('Modules.vue', () => {
     })
   })
 
-  it('calls store action moduleActionClick when button is clicked', () => {
+  it('вызывает действие moduleActionClick при нажатии кнопки', () => {
     const wrapper = shallow(Modules, { store, localVue })
     const button = wrapper.find('button')
     button.trigger('click')
     expect(actions.moduleActionClick).toHaveBeenCalled()
   })
 
-  it('Renders state.inputValue in first p tag', () => {
+  it('отображает state.inputValue в первом теге p', () => {
     const wrapper = shallow(Modules, { store, localVue })
     const p = wrapper.find('p')
     expect(p.text()).toBe(state.module.clicks.toString())
