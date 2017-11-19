@@ -94,13 +94,20 @@ function stubComponents (component, stubs) {
 
   if (Array.isArray(stubs)) {
     stubs.forEach(function (stub) {
+      if (stub === false) {
+        return
+      }
+
       if (typeof stub !== 'string') {
-        throwError('each item in options.stub must be a string');
+        throwError('each item in an options.stubs array must be a string');
       }
       component.components[stub] = createBlankStub({});
     });
   } else {
     Object.keys(stubs).forEach(function (stub) {
+      if (stubs[stub] === false) {
+        return
+      }
       if (!isValidStub(stubs[stub])) {
         throwError('options.stub values must be passed a string or component');
       }
@@ -206,12 +213,62 @@ function isVueComponent (component) {
   return typeof component.render === 'function'
 }
 
-function isValidSelector (selector) {
-  if (isDomSelector(selector)) {
-    return true
+
+
+function isRefSelector (refOptionsObject) {
+  if (typeof refOptionsObject !== 'object') {
+    return false
   }
 
-  return isVueComponent(selector)
+  if (refOptionsObject === null) {
+    return false
+  }
+
+  var validFindKeys = ['ref'];
+  var entries = Object.entries(refOptionsObject);
+
+  if (!entries.length) {
+    return false
+  }
+
+  var isValid = entries.every(function (ref) {
+    var key = ref[0];
+    var value = ref[1];
+
+    return validFindKeys.includes(key) && typeof value === 'string'
+  });
+
+  return isValid
+}
+
+//
+
+var selectorTypes = {
+  DOM_SELECTOR: 'DOM_SELECTOR',
+  VUE_COMPONENT: 'VUE_COMPONENT',
+  OPTIONS_OBJECT: 'OPTIONS_OBJECT'
+};
+
+function getSelectorType (selector) {
+  if (isDomSelector(selector)) {
+    return selectorTypes.DOM_SELECTOR
+  }
+
+  if (isVueComponent(selector)) {
+    return selectorTypes.VUE_COMPONENT
+  }
+
+  if (isRefSelector(selector)) {
+    return selectorTypes.OPTIONS_OBJECT
+  }
+}
+
+function getSelectorTypeOrThrow (selector, methodName) {
+  var selectorType = getSelectorType(selector);
+  if (!selectorType) {
+    throwError(("wrapper." + methodName + "() must be passed a valid CSS selector, Vue constructor, or valid find option object"));
+  }
+  return selectorType
 }
 
 // 
@@ -264,10 +321,6 @@ function findAllVNodes (vnode, nodes) {
   return nodes
 }
 
-function nodeMatchesSelector (node, selector) {
-  return node.elm && node.elm.getAttribute && node.elm.matches(selector)
-}
-
 function removeDuplicateNodes (vNodes) {
   var uniqueNodes = [];
   vNodes.forEach(function (vNode) {
@@ -279,13 +332,33 @@ function removeDuplicateNodes (vNodes) {
   return uniqueNodes
 }
 
-function findMatchingVNodes (vNode, selector) {
+//
+
+function nodeMatchesSelector (node, selector) {
+  return node.elm && node.elm.getAttribute && node.elm.matches(selector)
+}
+
+function findVNodesBySelector (vNode, selector) {
   var nodes = findAllVNodes(vNode);
   var filteredNodes = nodes.filter(function (node) { return nodeMatchesSelector(node, selector); });
   return removeDuplicateNodes(filteredNodes)
 }
 
 // 
+
+function nodeMatchesRef (node, refName) {
+  return node.data && node.data.ref === refName
+}
+
+function findVNodesByRef (vNode, refName) {
+  var nodes = findAllVNodes(vNode);
+  var refFilteredNodes = nodes.filter(function (node) { return nodeMatchesRef(node, refName); });
+  // Only return refs defined on top-level VNode to provide the same behavior as selecting via vm.$ref.{someRefName}
+  var mainVNodeFilteredNodes = refFilteredNodes.filter(function (node) { return !!vNode.context.$refs[node.data.ref]; });
+  return removeDuplicateNodes(mainVNodeFilteredNodes)
+}
+
+//
 
 
 
@@ -561,16 +634,22 @@ Wrapper.prototype.at = function at () {
  * Checks if wrapper contains provided selector.
  */
 Wrapper.prototype.contains = function contains (selector) {
-  if (!isValidSelector(selector)) {
-    throwError('wrapper.contains() must be passed a valid CSS selector or a Vue constructor');
-  }
+  var selectorType = getSelectorTypeOrThrow(selector, 'contains');
 
-  if (typeof selector === 'object') {
+  if (selectorType === selectorTypes.VUE_COMPONENT) {
     var vm = this.vm || this.vnode.context.$root;
     return findVueComponents(vm, selector.name).length > 0
   }
 
-  if (typeof selector === 'string' && this.element instanceof HTMLElement) {
+  if (selectorType === selectorTypes.OPTIONS_OBJECT) {
+    if (!this.isVueComponent) {
+      throwError('$ref selectors can only be used on Vue component wrappers');
+    }
+    var nodes = findVNodesByRef(this.vnode, selector.ref);
+    return nodes.length > 0
+  }
+
+  if (selectorType === selectorTypes.DOM_SELECTOR && this.element instanceof HTMLElement) {
     return this.element.querySelectorAll(selector).length > 0
   }
 
@@ -702,11 +781,9 @@ Wrapper.prototype.hasStyle = function hasStyle (style, value) {
  * Finds first node in tree of the current wrapper that matches the provided selector.
  */
 Wrapper.prototype.find = function find (selector) {
-  if (!isValidSelector(selector)) {
-    throwError('wrapper.find() must be passed a valid CSS selector or a Vue constructor');
-  }
+  var selectorType = getSelectorTypeOrThrow(selector, 'find');
 
-  if (typeof selector === 'object') {
+  if (selectorType === selectorTypes.VUE_COMPONENT) {
     if (!selector.name) {
       throwError('.find() requires component to have a name property');
     }
@@ -718,7 +795,18 @@ Wrapper.prototype.find = function find (selector) {
     return new VueWrapper(components[0], this.options)
   }
 
-  var nodes = findMatchingVNodes(this.vnode, selector);
+  if (selectorType === selectorTypes.OPTIONS_OBJECT) {
+    if (!this.isVueComponent) {
+      throwError('$ref selectors can only be used on Vue component wrappers');
+    }
+    var nodes$1 = findVNodesByRef(this.vnode, selector.ref);
+    if (nodes$1.length === 0) {
+      return new ErrorWrapper(("ref=\"" + (selector.ref) + "\""))
+    }
+    return new Wrapper(nodes$1[0], this.update, this.options)
+  }
+
+  var nodes = findVNodesBySelector(this.vnode, selector);
 
   if (nodes.length === 0) {
     return new ErrorWrapper(selector)
@@ -732,11 +820,9 @@ Wrapper.prototype.find = function find (selector) {
 Wrapper.prototype.findAll = function findAll (selector) {
     var this$1 = this;
 
-  if (!isValidSelector(selector)) {
-    throwError('wrapper.findAll() must be passed a valid CSS selector or a Vue constructor');
-  }
+  var selectorType = getSelectorTypeOrThrow(selector, 'findAll');
 
-  if (typeof selector === 'object') {
+  if (selectorType === selectorTypes.VUE_COMPONENT) {
     if (!selector.name) {
       throwError('.findAll() requires component to have a name property');
     }
@@ -745,11 +831,19 @@ Wrapper.prototype.findAll = function findAll (selector) {
     return new WrapperArray(components.map(function (component) { return new VueWrapper(component, this$1.options); }))
   }
 
+  if (selectorType === selectorTypes.OPTIONS_OBJECT) {
+    if (!this.isVueComponent) {
+      throwError('$ref selectors can only be used on Vue component wrappers');
+    }
+    var nodes$1 = findVNodesByRef(this.vnode, selector.ref);
+    return new WrapperArray(nodes$1.map(function (node) { return new Wrapper(node, this$1.update, this$1.options); }))
+  }
+
   function nodeMatchesSelector (node, selector) {
     return node.elm && node.elm.getAttribute && node.elm.matches(selector)
   }
 
-  var nodes = findMatchingVNodes(this.vnode, selector);
+  var nodes = findVNodesBySelector(this.vnode, selector);
   var matchingNodes = nodes.filter(function (node) { return nodeMatchesSelector(node, selector); });
 
   return new WrapperArray(matchingNodes.map(function (node) { return new Wrapper(node, this$1.update, this$1.options); }))
@@ -766,18 +860,21 @@ Wrapper.prototype.html = function html () {
  * Checks if node matches selector
  */
 Wrapper.prototype.is = function is (selector) {
-  if (!isValidSelector(selector)) {
-    throwError('wrapper.is() must be passed a valid CSS selector or a Vue constructor');
-  }
+  var selectorType = getSelectorTypeOrThrow(selector, 'is');
 
-  if (typeof selector === 'object') {
-    if (!this.isVueComponent) {
-      return false
-    }
+  if (selectorType === selectorTypes.VUE_COMPONENT && this.isVueComponent) {
     if (typeof selector.name !== 'string') {
       throwError('a Component used as a selector must have a name property');
     }
     return vmCtorMatchesName(this.vm, selector.name)
+  }
+
+  if (selectorType === selectorTypes.OPTIONS_OBJECT) {
+    throwError('$ref selectors can not be used with wrapper.is()');
+  }
+
+  if (typeof selector === 'object') {
+    return false
   }
 
   return !!(this.element &&
@@ -824,6 +921,14 @@ Wrapper.prototype.setData = function setData (data) {
     // $FlowIgnore : Problem with possibly null this.vm
     this$1.vm.$set(this$1.vm, [key], data[key]);
   });
+
+  Object.keys(data).forEach(function (key) {
+    // $FlowIgnore : Problem with possibly null this.vm
+    this$1.vm._watchers.forEach(function (watcher) {
+      if (watcher.expression === key) { watcher.run(); }
+    });
+  });
+
   this.update();
 };
 
@@ -918,7 +1023,7 @@ Wrapper.prototype.text = function text () {
     throwError('cannot call wrapper.text() on a wrapper without an element');
   }
 
-  return this.element.textContent
+  return this.element.textContent.trim()
 };
 
 /**
@@ -1037,7 +1142,7 @@ var VueWrapper = (function (Wrapper$$1) {
 
 // 
 
-function isValidSlot (slot) {
+function isValidSlot$1 (slot) {
   return Array.isArray(slot) || (slot !== null && typeof slot === 'object') || typeof slot === 'string'
 }
 
@@ -1065,7 +1170,7 @@ function addSlotToVm (vm, slotName, slotValue) {
 
 function addSlots (vm, slots) {
   Object.keys(slots).forEach(function (key) {
-    if (!isValidSlot(slots[key])) {
+    if (!isValidSlot$1(slots[key])) {
       throwError('slots[key] must be a Component, string or an array of Components');
     }
 
@@ -1109,12 +1214,10 @@ function addListeners (vm, listeners) {
   Vue.config.silent = originalVueConfig.silent;
 }
 
-function addProvide (component, options) {
-  var provide = typeof options.provide === 'function'
-    ? options.provide
-    : Object.assign({}, options.provide);
-
-  delete options.provide;
+function addProvide (component, optionProvide, options) {
+  var provide = typeof optionProvide === 'function'
+    ? optionProvide
+    : Object.assign({}, optionProvide);
 
   options.beforeCreate = function vueTestUtilBeforeCreate () {
     this._provided = typeof provide === 'function'
@@ -1127,6 +1230,16 @@ function addProvide (component, options) {
 
 function compileTemplate (component) {
   Object.assign(component, vueTemplateCompiler.compileToFunctions(component.template));
+}
+
+function errorHandler (errorOrString, vm) {
+  var error = (typeof errorOrString === 'object')
+    ? errorOrString
+    : new Error(errorOrString);
+
+  vm._error = error;
+
+  throw error
 }
 
 // 
@@ -1146,6 +1259,8 @@ function createLocalVue () {
 
   // config is not enumerable
   instance.config = cloneDeep(Vue.config);
+
+  instance.config.errorHandler = errorHandler;
 
   // option merge strategies need to be exposed by reference
   // so that merge strats registered by plguins can work properly
@@ -1171,130 +1286,6 @@ function createLocalVue () {
     use.call.apply(use, [ instance, plugin ].concat( rest ));
   };
   return instance
-}
-
-// 
-
-function createConstructor (
-  component,
-  options
-) {
-  var vue = options.localVue || createLocalVue();
-
-  if (options.mocks) {
-    addMocks(options.mocks, vue);
-  }
-
-  if (component.functional) {
-    if (options.context && typeof options.context !== 'object') {
-      throwError('mount.context must be an object');
-    }
-    var clonedComponent = cloneDeep(component);
-    component = {
-      render: function render (h) {
-        return h(
-          clonedComponent,
-          options.context || component.FunctionalRenderContext
-        )
-      }
-    };
-  } else if (options.context) {
-    throwError(
-      'mount.context can only be used when mounting a functional component'
-    );
-  }
-
-  if (options.provide) {
-    addProvide(component, options);
-  }
-
-  if (options.stubs) {
-    stubComponents(component, options.stubs);
-  }
-
-  if (!component.render && component.template && !component.functional) {
-    compileTemplate(component);
-  }
-
-  var Constructor = vue.extend(component);
-
-  var vm = new Constructor(options);
-
-  addAttrs(vm, options.attrs);
-  addListeners(vm, options.listeners);
-
-  if (options.slots) {
-    addSlots(vm, options.slots);
-  }
-
-  return vm
-}
-
-// 
-
-function createElement () {
-  if (document) {
-    var elem = document.createElement('div');
-
-    if (document.body) {
-      document.body.appendChild(elem);
-    }
-    return elem
-  }
-}
-
-if (!Element.prototype.matches) {
-  Element.prototype.matches =
-        Element.prototype.matchesSelector ||
-        Element.prototype.mozMatchesSelector ||
-        Element.prototype.msMatchesSelector ||
-        Element.prototype.oMatchesSelector ||
-        Element.prototype.webkitMatchesSelector ||
-        function (s) {
-          var matches = (this.document || this.ownerDocument).querySelectorAll(s);
-          var i = matches.length;
-          while (--i >= 0 && matches.item(i) !== this) {}
-          return i > -1
-        };
-}
-
-// 
-
-Vue.config.productionTip = false;
-
-function mount (component, options) {
-  if ( options === void 0 ) options = {};
-
-  var componentToMount = options.clone === false ? component : cloneDeep(component.extend ? component.options : component);
-  // Remove cached constructor
-  delete componentToMount._Ctor;
-
-  var vm = createConstructor(componentToMount, options);
-
-  if (options.attachToDocument) {
-    vm.$mount(createElement());
-  } else {
-    vm.$mount();
-  }
-
-  return new VueWrapper(vm, { attachedToDocument: !!options.attachToDocument })
-}
-
-// 
-
-function shallow (component, options) {
-  if ( options === void 0 ) options = {};
-
-  var vue = options.localVue || Vue;
-  var clonedComponent = cloneDeep(component.extend ? component.options : component);
-
-  if (clonedComponent.components) {
-    stubAllComponents(clonedComponent);
-  }
-
-  stubGlobalComponents(clonedComponent, vue);
-
-  return mount(clonedComponent, options)
 }
 
 // 
@@ -1422,8 +1413,231 @@ var TransitionGroupStub = {
   }
 };
 
+var config = {
+  stubs: {
+    transition: TransitionStub,
+    'transition-group': TransitionGroupStub
+  }
+};
+
+//
+function getStubs (optionStubs) {
+  if (optionStubs || Object.keys(config.stubs).length > 0) {
+    if (Array.isArray(optionStubs)) {
+      return optionStubs.concat( Object.keys(config.stubs))
+    } else {
+      return Object.assign({}, config.stubs,
+        optionStubs)
+    }
+  }
+}
+
+function extractOptions (
+  options
+) {
+  return {
+    mocks: options.mocks,
+    context: options.context,
+    provide: options.provide,
+    stubs: getStubs(options.stubs),
+    attrs: options.attrs,
+    listeners: options.listeners,
+    slots: options.slots,
+    localVue: options.localVue
+  }
+}
+
+function deleteMountingOptions (options) {
+  delete options.custom;
+  delete options.attachToDocument;
+  delete options.mocks;
+  delete options.slots;
+  delete options.localVue;
+  delete options.stubs;
+  delete options.context;
+  delete options.clone;
+  delete options.attrs;
+  delete options.listeners;
+}
+
+//
+
+function isValidSlot (slot) {
+  return Array.isArray(slot) || (slot !== null && typeof slot === 'object') || typeof slot === 'string'
+}
+
+function createFunctionalSlots (slots, h) {
+  if ( slots === void 0 ) slots = {};
+
+  if (Array.isArray(slots.default)) {
+    return slots.default.map(h)
+  }
+
+  if (typeof slots.default === 'string') {
+    return [h(vueTemplateCompiler.compileToFunctions(slots.default))]
+  }
+  var children = [];
+  Object.keys(slots).forEach(function (slotType) {
+    if (Array.isArray(slots[slotType])) {
+      slots[slotType].forEach(function (slot) {
+        if (!isValidSlot(slot)) {
+          throwError('slots[key] must be a Component, string or an array of Components');
+        }
+        var component = typeof slot === 'string' ? vueTemplateCompiler.compileToFunctions(slot) : slot;
+        var newSlot = h(component);
+        newSlot.data.slot = slotType;
+        children.push(newSlot);
+      });
+    } else {
+      if (!isValidSlot(slots[slotType])) {
+        throwError('slots[key] must be a Component, string or an array of Components');
+      }
+      var component = typeof slots[slotType] === 'string' ? vueTemplateCompiler.compileToFunctions(slots[slotType]) : slots[slotType];
+      var slot = h(component);
+      slot.data.slot = slotType;
+      children.push(slot);
+    }
+  });
+  return children
+}
+
+function createConstructor (
+  component,
+  options
+) {
+  var mountingOptions = extractOptions(options);
+
+  var vue = mountingOptions.localVue || createLocalVue();
+
+  if (mountingOptions.mocks) {
+    addMocks(mountingOptions.mocks, vue);
+  }
+
+  if (component.functional) {
+    if (mountingOptions.context && typeof mountingOptions.context !== 'object') {
+      throwError('mount.context must be an object');
+    }
+
+    var clonedComponent = cloneDeep(component);
+    component = {
+      render: function render (h) {
+        return h(
+          clonedComponent,
+          mountingOptions.context || component.FunctionalRenderContext,
+          (mountingOptions.context && mountingOptions.context.children) || createFunctionalSlots(mountingOptions.slots, h)
+        )
+      }
+    };
+  } else if (mountingOptions.context) {
+    throwError(
+      'mount.context can only be used when mounting a functional component'
+    );
+  }
+
+  if (mountingOptions.provide) {
+    addProvide(component, mountingOptions.provide, options);
+  }
+
+  if (mountingOptions.stubs) {
+    stubComponents(component, mountingOptions.stubs);
+  }
+
+  if (!component.render && component.template && !component.functional) {
+    compileTemplate(component);
+  }
+
+  var Constructor = vue.extend(component);
+
+  var instanceOptions = Object.assign({}, options);
+  deleteMountingOptions(instanceOptions);
+
+  var vm = new Constructor(instanceOptions);
+
+  addAttrs(vm, mountingOptions.attrs);
+  addListeners(vm, mountingOptions.listeners);
+
+  if (mountingOptions.slots) {
+    addSlots(vm, mountingOptions.slots);
+  }
+
+  return vm
+}
+
+//
+
+function createElement () {
+  if (document) {
+    var elem = document.createElement('div');
+
+    if (document.body) {
+      document.body.appendChild(elem);
+    }
+    return elem
+  }
+}
+
+if (!Element.prototype.matches) {
+  Element.prototype.matches =
+        Element.prototype.matchesSelector ||
+        Element.prototype.mozMatchesSelector ||
+        Element.prototype.msMatchesSelector ||
+        Element.prototype.oMatchesSelector ||
+        Element.prototype.webkitMatchesSelector ||
+        function (s) {
+          var matches = (this.document || this.ownerDocument).querySelectorAll(s);
+          var i = matches.length;
+          while (--i >= 0 && matches.item(i) !== this) {}
+          return i > -1
+        };
+}
+
+//
+
+Vue.config.productionTip = false;
+Vue.config.errorHandler = errorHandler;
+
+function mount (component, options) {
+  if ( options === void 0 ) options = {};
+
+  var componentToMount = options.clone === false ? component : cloneDeep(component.extend ? component.options : component);
+  // Remove cached constructor
+  delete componentToMount._Ctor;
+
+  var vm = createConstructor(componentToMount, options);
+
+  if (options.attachToDocument) {
+    vm.$mount(createElement());
+  } else {
+    vm.$mount();
+  }
+
+  if (vm._error) {
+    throw (vm._error)
+  }
+
+  return new VueWrapper(vm, { attachedToDocument: !!options.attachToDocument })
+}
+
+//
+
+function shallow (component, options) {
+  if ( options === void 0 ) options = {};
+
+  var vue = options.localVue || Vue;
+  var clonedComponent = cloneDeep(component.extend ? component.options : component);
+
+  if (clonedComponent.components) {
+    stubAllComponents(clonedComponent);
+  }
+
+  stubGlobalComponents(clonedComponent, vue);
+
+  return mount(clonedComponent, options)
+}
+
 var index = {
   createLocalVue: createLocalVue,
+  config: config,
   mount: mount,
   shallow: shallow,
   TransitionStub: TransitionStub,
