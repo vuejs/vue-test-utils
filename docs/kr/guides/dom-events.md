@@ -2,7 +2,7 @@
 
 ## 이벤트 트리거
 
-`Wrapper`는 `trigger` 메소드를 노출합니다. 이를 이용해 DOM 이벤트를 트리거합니다.
+`Wrapper`는 `trigger` 메소드를 노출합니다. 이 메소드로 DOM 이벤트를 트리거합니다.
 
 ```js
 const wrapper = mount(MyButton)
