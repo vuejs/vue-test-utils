@@ -2,7 +2,7 @@
 
 > 이 설정의 예제는 [GitHub](https://github.com/vuejs/vue-test-utils-mocha-webpack-example)에 있습니다.
 
-싱글 파일 컴포넌트를 테스트하기 위한 또 다른 전략은 webpack을 통해 모든 테스트를 컴파일한 다음 테스트 러너에서 실행하는 것 입니다. 이 접근 방식의 장점은 모든 webpack 및 `vue-loader` 기능을 완벽히 지원하므로 소스코드를 테스트에 타협하지 않아도 된다는 것 입니다.
+싱글 파일 컴포넌트를 테스트하기 위한 또 다른 전략은 webpack을 통해 모든 테스트를 컴파일한 다음 테스트 러너에서 실행하는 것 입니다. 이 접근 방식의 장점은 모든 webpack 및 `vue-loader` 기능을 완벽히 지원하므로 소스코드를 테스트에 타협하지 않아도 된다는 점 입니다.
 
 기술적으로 테스트 러너를 사용해 수동으로 연결 할 수 있으나 특정 작업에 매우 유용한 [`mocha-webpack`](https://github.com/zinserjan/mocha-webpack)이 있습니다.
 
@@ -168,7 +168,7 @@ describe('Counter.vue', () => {
 npm run unit
 ```
 
-테스트가 실행될 것입니다!
+테스트가 실행됩니다!
 
 ### 리소스
 
