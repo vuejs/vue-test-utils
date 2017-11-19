@@ -71,7 +71,7 @@ import { mount } from 'vue-test-utils'
 import sinon from 'sinon'
 
 describe('Click event', () => {
-  it('Click on yes button calls our method with argument "yes"', () => {
+  it('Нажатие на кнопке yes вызывает наш метод с аргументом "yes"', () => {
     const spy = sinon.spy()
     const wrapper = mount(YesNoComponent, {
       propsData: {
@@ -149,32 +149,32 @@ import QuantityComponent from '@/components/QuantityComponent'
 import { mount } from 'vue-test-utils'
 
 describe('Key event tests', () => {
-  it('Quantity is zero by default', () => {
+  it('Quantity по умолчанию равно нулю', () => {
     const wrapper = mount(QuantityComponent)
     expect(wrapper.vm.quantity).to.equal(0)
   })
 
-  it('Cursor up sets quantity to 1', () => {
+  it('Клавиша вверх устанавливает quantity равным 1', () => {
     const wrapper = mount(QuantityComponent)
     wrapper.trigger('keydown.up')
     expect(wrapper.vm.quantity).to.equal(1)
   })
 
-  it('Cursor down reduce quantity by 1', () => {
+  it('Клавиша вниз уменьшает quantity на 1', () => {
     const wrapper = mount(QuantityComponent)
     wrapper.vm.quantity = 5
     wrapper.trigger('keydown.down')
     expect(wrapper.vm.quantity).to.equal(4)
   })
 
-  it('Escape sets quantity to 0', () => {
+  it('Escape устанавливает quantity равным 0', () => {
     const wrapper = mount(QuantityComponent)
     wrapper.vm.quantity = 5
     wrapper.trigger('keydown.esc')
     expect(wrapper.vm.quantity).to.equal(0)
   })
 
-  it('Magic character "a" sets quantity to 13', () => {
+  it('Магический символ "a" устанавливает quantity равным 13', () => {
     const wrapper = mount(QuantityComponent)
     wrapper.trigger('keydown', {
       which: 65
