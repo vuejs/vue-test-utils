@@ -42,7 +42,7 @@ describe('is', () => {
       undefined, null, NaN, 0, 2, true, false, () => {}, {}, { name: undefined }, []
     ]
     invalidSelectors.forEach((invalidSelector) => {
-      const message = '[vue-test-utils]: wrapper.is() must be passed a valid CSS selector or a Vue constructor'
+      const message = '[vue-test-utils]: wrapper.is() must be passed a valid CSS selector, Vue constructor, or valid find option object'
       const fn = () => wrapper.findAll('div').is(invalidSelector)
       expect(fn).to.throw().with.property('message', message)
     })

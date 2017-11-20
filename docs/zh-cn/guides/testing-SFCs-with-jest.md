@@ -27,10 +27,10 @@ $ npm install --save-dev jest vue-test-utils
 
 ## 在 Jest 中处理单文件组件
 
-为了告诉 Jest 如何处理 `*.vue` 文件，我们需要安装和配置 `jest-vue` 预处理器：
+为了告诉 Jest 如何处理 `*.vue` 文件，我们需要安装和配置 `vue-jest` 预处理器：
 
 ``` bash
-npm install --save-dev jest-vue
+npm install --save-dev vue-jest
 ```
 
 接下来在 `package.json` 中创建一个 `jest` 块：
@@ -46,15 +46,15 @@ npm install --save-dev jest-vue
       "vue"
     ],
     "transform": {
-      // 用 `jest-vue` 处理 `*.vue` 文件
-      ".*\\.(vue)$": "<rootDir>/node_modules/jest-vue"
+      // 用 `vue-jest` 处理 `*.vue` 文件
+      ".*\\.(vue)$": "<rootDir>/node_modules/vue-jest"
     },
     "mapCoverage": true
   }
 }
 ```
 
-> **注意：**`jest-vue` 目前并不支持 `vue-loader` 所有的功能，比如自定义块和样式加载。额外的，诸如代码分隔等 webpack 特有的功能也是不支持的。如果要使用它们，请阅读教程里的[用 Mocha + webpack 测试单文件组件](./testing-SFCs-with-mocha-webpack.md)。
+> **注意：**`vue-jest` 目前并不支持 `vue-loader` 所有的功能，比如自定义块和样式加载。额外的，诸如代码分隔等 webpack 特有的功能也是不支持的。如果要使用它们，请阅读教程里的[用 Mocha + webpack 测试单文件组件](./testing-SFCs-with-mocha-webpack.md)。
 
 ## 处理 webpack 别名
 

@@ -6,7 +6,7 @@ For UI components, we don't recommend aiming for complete line-based coverage, b
 
 Instead, we recommend writing tests that assert your component's public interface, and treat its internals as a black box. A single test case would assert that some input (user interaction or change of props) provided to the component results in the expected output (render result or emitted custom events).
 
-For example, for the `Counter` component which increments a display counter by 1 each time a button is clicked, its test case would simulate the click and assert that the rendered output has increased by 1. The test doesn't care about how the Counter increments the value, it only cares about the input and the output.
+For example, for the `Counter` component which increments a display counter by 1 each time a button is clicked, its test case would simulate the click and assert that the rendered output has increased by 1. The test doesn't care about how the `Counter` increments the value, it only cares about the input and the output.
 
 The benefit of this approach is that as long as your component's public interface remains the same, your tests will pass no matter how the component's internal implementation changes over time.
 
@@ -36,7 +36,7 @@ wrapper.vm.$emit('foo')
 wrapper.vm.$emit('foo', 123)
 
 /*
-wrapper.emitted() returns the following object:
+`wrapper.emitted()` returns the following object:
 {
   foo: [[], [123]]
 }
@@ -58,7 +58,7 @@ expect(wrapper.emitted().foo.length).toBe(2)
 expect(wrapper.emitted().foo[1]).toEqual([123])
 ```
 
-You can also get an Array of the events in their emit order by calling [wrapper.emittedByOrder()](../api/wrapper/emittedByOrder.md).
+You can also get an Array of the events in their emit order by calling [`wrapper.emittedByOrder()`](../api/wrapper/emittedByOrder.md).
 
 ## Manipulating Component State
 
@@ -92,18 +92,18 @@ You can also update the props of an already-mounted component with the `wrapper.
 
 Some of the components may rely on features injected by a global plugin or mixin, for example `vuex` and `vue-router`.
 
-If you are writing tests for components in a specific app, you can setup the same global plugins and mixins once in the entry of your tests. But in some cases, for example testing a generic component suite that may get shared across different apps, it's better to test your components in a more isolated setup, without polluting the global `Vue` constructor. We can use the [createLocalVue](../api/createLocalVue.md) method to achieve that:
+If you are writing tests for components in a specific app, you can setup the same global plugins and mixins once in the entry of your tests. But in some cases, for example testing a generic component suite that may get shared across different apps, it's better to test your components in a more isolated setup, without polluting the global `Vue` constructor. We can use the [`createLocalVue`](../api/createLocalVue.md) method to achieve that:
 
 ``` js
 import createLocalVue from 'vue-test-utils'
 
-// create an extended Vue constructor
+// create an extended `Vue` constructor
 const localVue = createLocalVue()
 
 // install plugins as normal
 localVue.use(MyPlugin)
 
-// pass the localVue to the mount options
+// pass the `localVue` to the mount options
 mount(Component, {
   localVue
 })
@@ -111,7 +111,7 @@ mount(Component, {
 
 ## Mocking Injections
 
-Another strategy for injected properties is simply mocking them. You can do that with the `mocks` option:
+Another strategy for injected props is simply mocking them. You can do that with the `mocks` option:
 
 ```js
 import { mount } from 'vue-test-utils'
@@ -125,7 +125,7 @@ const $route = {
 
 mount(Component, {
   mocks: {
-    $route // adds the mocked $route object to the Vue instance before mounting component
+    $route // adds the mocked `$route` object to the Vue instance before mounting component
   }
 })
 ```

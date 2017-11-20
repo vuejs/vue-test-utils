@@ -31,3 +31,16 @@ expect(wrapper.emitted().foo.length).toBe(2)
 // イベントのペイロードを検証します
 expect(wrapper.emitted().foo[1]).toEqual([123])
 ```
+
+別の構文があります。
+
+```js
+// イベントが発行されたか検証します
+expect(wrapper.emitted('foo')).toBeTruthy()
+
+// イベントの数を検証します
+expect(wrapper.emitted('foo').length).toBe(2)
+
+// イベントのペイロードを検証します
+expect(wrapper.emitted('foo')[1]).toEqual([123])
+```

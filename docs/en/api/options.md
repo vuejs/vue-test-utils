@@ -6,15 +6,15 @@ Vue options are passed to the component when a new instance is created. , e.g. `
 
 ## `vue-test-utils` Specific Mounting Options
 
-- [context](#context)
-- [slots](#slots)
-- [stubs](#stubs)
-- [mocks](#mocks)
-- [localVue](#localvue)
-- [attachToDocument](#attachtodocument)
-- [attrs](#attrs)
-- [listeners](#listeners)
-- [clone](#clone)
+- [`context`](#context)
+- [`slots`](#slots)
+- [`stubs`](#stubs)
+- [`mocks`](#mocks)
+- [`localVue`](#localvue)
+- [`attachToDocument`](#attachtodocument)
+- [`attrs`](#attrs)
+- [`listeners`](#listeners)
+- [`clone`](#clone)
 
 ### `context`
 
@@ -50,7 +50,7 @@ import Bar from './Bar.vue'
 const wrapper = shallow(Component, {
   slots: {
     default: [Foo, Bar],
-    fooBar: Foo, // Will match <slot name="FooBar" />,
+    fooBar: Foo, // Will match `<slot name="FooBar" />`.
     foo: '<div />'
   }
 })
@@ -106,7 +106,7 @@ expect(wrapper.vm.$route.path).toBe($route.path)
 
 - type: `Vue`
 
-A local copy of Vue created by [createLocalVue](./createLocalVue.md) to use when mounting the component. Installing plugins on this copy of Vue prevents polluting the original `Vue` copy.
+A local copy of Vue created by [`createLocalVue`](./createLocalVue.md) to use when mounting the component. Installing plugins on this copy of `Vue` prevents polluting the original `Vue` copy.
 
 Example:
 
@@ -162,4 +162,4 @@ Clones component before mounting if `true`, which avoids mutating the original c
 
 `options.mocks` (`Object`): Add globals to Vue instance.
 
-`options.localVue` (`Object`): vue class to use in `mount`. See [createLocalVue](createLocalVue.md)
+`options.localVue` (`Object`): `Vue` class to use in `mount`. See [`createLocalVue`](createLocalVue.md).

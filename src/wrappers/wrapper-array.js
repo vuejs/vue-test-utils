@@ -20,6 +20,18 @@ export default class WrapperArray implements BaseWrapper {
     return this.wrappers[index]
   }
 
+  attributes (): void {
+    this.throwErrorIfWrappersIsEmpty('attributes')
+
+    throwError('attributes must be called on a single wrapper, use at(i) to access a wrapper')
+  }
+
+  classes (): void {
+    this.throwErrorIfWrappersIsEmpty('classes')
+
+    throwError('classes must be called on a single wrapper, use at(i) to access a wrapper')
+  }
+
   contains (selector: Selector): boolean {
     this.throwErrorIfWrappersIsEmpty('contains')
 
@@ -105,6 +117,12 @@ export default class WrapperArray implements BaseWrapper {
     this.throwErrorIfWrappersIsEmpty('name')
 
     throwError('name must be called on a single wrapper, use at(i) to access a wrapper')
+  }
+
+  props (): void {
+    this.throwErrorIfWrappersIsEmpty('props')
+
+    throwError('props must be called on a single wrapper, use at(i) to access a wrapper')
   }
 
   text (): void {

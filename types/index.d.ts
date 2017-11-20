@@ -26,6 +26,13 @@ type Stubs = {
 } | string[]
 
 /**
+ * Utility type for ref options object that can be used as a Selector
+ */
+type RefSelector = {
+  ref: string
+}
+
+/**
  * Base class of Wrapper and WrapperArray
  * It has common methods on both Wrapper and WrapperArray
  */
@@ -60,22 +67,25 @@ interface Wrapper<V extends Vue> extends BaseWrapper {
   find<R extends Vue> (selector: ComponentOptions<R>): Wrapper<R>
   find (selector: FunctionalComponentOptions): Wrapper<Vue>
   find (selector: string): Wrapper<Vue>
+  find (selector: RefSelector): Wrapper<Vue>
 
   findAll<R extends Vue, Ctor extends VueClass<R> = VueClass<R>> (selector: Ctor): WrapperArray<R>
   findAll<R extends Vue> (selector: ComponentOptions<R>): WrapperArray<R>
   findAll (selector: FunctionalComponentOptions): WrapperArray<Vue>
   findAll (selector: string): WrapperArray<Vue>
+  findAll (selector: RefSelector): WrapperArray<Vue>
 
   html (): string
   text (): string
   name (): string
 
-  emitted (): { [name: string]: Array<Array<any>> }
+  emitted (string? event): { [name: string]: Array<Array<any>> }
   emittedByOrder (): Array<{ name: string, args: Array<any> }>
 }
 
 interface WrapperArray<V extends Vue> extends BaseWrapper {
   readonly length: number
+  readonly wrappers: Array<Wrapper<V>>
 
   at (index: number): Wrapper<V>
 }
