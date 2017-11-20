@@ -1,8 +1,8 @@
-# T마우스, 키 그리고 기타 DOM 이벤트
+# 마우스, 키 그리고 기타 DOM 이벤트 테스팅
 
 ## 이벤트 트리거
 
-`Wrapper`는 `trigger` 메소드를 노출합니다. 이 메소드로 DOM 이벤트를 트리거합니다.
+`Wrapper`는 `trigger` 메소드를 노출합니다. 이 메소드로 DOM 이벤트를 트리거(발생하게)합니다.
 
 ```js
 const wrapper = mount(MyButton)
@@ -10,7 +10,7 @@ const wrapper = mount(MyButton)
 wrapper.trigger('click')
 ```
 
-래퍼를 반환하는 것을 알고 있어야합니다. `MyComponent`에 버튼이 포함되어있다고 가정하면 다음 코드가 버튼을 클릭합니다.
+`find`를 이용하면, 리턴값이 래퍼가 돌아온다는 것을 알고 있어야 합니다. `MyComponent`속에 버튼이 포함되어 있다고 가정하면 다음 코드가 버튼을 클릭을 발생시킵니다.
 
 ```js
 const wrapper = mount(MyComponent)
@@ -20,7 +20,7 @@ wrapper.find('button').trigger('click')
 
 ## 옵션
 
-트리거 메소드는 선택적으로 `options` 객체를 취합니다. `options` 객체의 속성이 이벤트에 추가됩니다.
+트리거 메소드는 선택적으로 options 객체를 가질 수 있습니다. 이 options 객체의 속성이 이벤트에 추가됩니다.
 
 `options`에 `preventDefault: true`를 전달하여 이벤트에서 preventDefault를 실행할 수 있습니다.
 
@@ -68,7 +68,7 @@ export default {
 ```js
 import YesNoComponent from '@/components/YesNoComponent'
 import { mount } from 'vue-test-utils'
-import sinon from 'sinon'
+import sinon from 'sinon' // sinon.js
 
 describe('Click event', () => {
   it('Click on yes button calls our method with argument "yes"', () => {
@@ -185,12 +185,12 @@ describe('Key event tests', () => {
 
 ```
 
-**한계점**
+**제한 사항**
 
-`keydown.up` 점 뒤에 있는 키 이름은 `keyCode`로 반환됩니다. 다음 이름을 지원합니다.
+`keydown.up` 처럼, 점 뒤에 있는 키 이름은 `keyCode`로 반환됩니다. 현재 다음 이름들만 지원하고 있습니다.
 
 * enter, tab, delete, esc, space, up, down, left, right
 
 ## 중요
 
-vue-test-utils는 이벤트를 동기적으로 트리거합니다. 따라서, `Vue.nextTick`은 필요하지 않습니다.
+vue-test-utils는 이벤트를 동기적으로 트리거 합니다. 따라서, `Vue.nextTick`은 필요하지 않습니다.
