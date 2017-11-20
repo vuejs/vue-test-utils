@@ -2,7 +2,7 @@
 
 `WrapperArray`의 모든 래퍼가 셀렉터를 가지고 있는지 검증합니다.
 
-올바른 [selector](selectors.md)를 사용하세요.
+올바른 [selector](../selectors.md)를 사용하세요.
 
 - **전달인자:**
   - `{string|Component} selector`
