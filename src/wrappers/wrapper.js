@@ -34,6 +34,38 @@ export default class Wrapper implements BaseWrapper {
   }
 
   /**
+   * Returns an Object containing all the attribute/value pairs on the element.
+   */
+  attributes (): { [name: string]: string } {
+    const attributes = [...this.element.attributes] // NameNodeMap is not iterable
+    const attributeMap = {}
+    attributes.forEach((att) => {
+      attributeMap[att.localName] = att.value
+    })
+    return attributeMap
+  }
+
+  /**
+   * Returns an Array containing all the classes on the element
+   */
+  classes (): Array<string> {
+    let classes = [...this.element.classList]
+    // Handle converting cssmodules identifiers back to the original class name
+    if (this.vm && this.vm.$style) {
+      const cssModuleIdentifiers = {}
+      let moduleIdent
+      Object.keys(this.vm.$style).forEach((key) => {
+        moduleIdent = this.vm.$style[key]
+        // CSS Modules may be multi-class if they extend others. Extended classes should be already present in $style.
+        moduleIdent = moduleIdent.split(' ')[0]
+        cssModuleIdentifiers[moduleIdent] = key
+      })
+      classes = classes.map(className => cssModuleIdentifiers[className] || className)
+    }
+    return classes
+  }
+
+  /**
    * Checks if wrapper contains provided selector.
    */
   contains (selector: Selector) {
@@ -307,6 +339,23 @@ export default class Wrapper implements BaseWrapper {
     }
 
     return this.vnode.tag
+  }
+
+  /**
+   * Returns an Object containing the prop name/value pairs on the element
+   */
+  props (): { [name: string]: any } {
+    if (!this.isVueComponent) {
+      throwError('wrapper.props() must be called on a Vue instance')
+    }
+    // $props object does not exist in Vue 2.1.x, so use $options.propsData instead
+    let _props
+    if (this.vm && this.vm.$options && this.vm.$options.propsData) {
+      _props = this.vm.$options.propsData
+    } else {
+      _props = this.vm.$props
+    }
+    return _props || {} // Return an empty object if no props exist
   }
 
   /**
