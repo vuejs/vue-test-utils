@@ -2,7 +2,7 @@
 
 Assert `Wrapper` DOM node has class contains `className`.
 
-Returns `true` if `Wrapper` DOM node contains class.
+Returns `true` if `Wrapper` DOM node contains the class.
 
 - **Arguments:**
   - `{string} className`

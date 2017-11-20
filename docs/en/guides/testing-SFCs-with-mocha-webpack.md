@@ -78,7 +78,7 @@ module.exports = {
 
 ### Setting Up Browser Environment
 
-`vue-test-utils` requires a browser environment to run. We can simulate it in Node.js using `jsdom-global`:
+`vue-test-utils` requires a browser environment to run. We can simulate it in Node using `jsdom-global`:
 
 ```bash
 npm install --save-dev jsdom jsdom-global
@@ -90,7 +90,7 @@ Then in `test/setup.js`:
 require('jsdom-global')()
 ```
 
-This adds a browser environment to node, so that `vue-test-utils` can run correctly.
+This adds a browser environment to Node, so that `vue-test-utils` can run correctly.
 
 ### Picking an Assertion Library
 
@@ -116,7 +116,7 @@ global.expect = require('expect')
 
 Notice that we are using `babel-loader` to handle JavaScript. You should already have Babel configured if you are using it in your app via a `.babelrc` file. Here `babel-loader` will automatically use the same config file.
 
-One thing to note is that if you are using Node 6+, which already supports the majority of ES2015 features, you can configure a separate Babel [env option](https://babeljs.io/docs/usage/babelrc/#env-option) that only transpiles features that are not already supported in the Node version you are using (e.g. `stage-2` or flow syntax support, etc.)
+One thing to note is that if you are using Node 6+, which already supports the majority of ES2015 features, you can configure a separate Babel [env option](https://babeljs.io/docs/usage/babelrc/#env-option) that only transpiles features that are not already supported in the Node version you are using (e.g. `stage-2` or flow syntax support, etc.).
 
 ### Adding a test
 

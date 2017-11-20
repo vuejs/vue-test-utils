@@ -10,10 +10,10 @@ This is the component we want to test. It calls Vuex actions.
 
 ``` html
 <template>
-    <div class="text-align-center">
-      <input type="text" @input="actionInputIfTrue" />
-      <button @click="actionClick()">Click</button>
-    </div>
+  <div class="text-align-center">
+    <input type="text" @input="actionInputIfTrue" />
+    <button @click="actionClick()">Click</button>
+  </div>
 </template>
 
 <script>
@@ -67,7 +67,7 @@ describe('Actions.vue', () => {
     })
   })
 
-  it('calls store action actionInput when input value is input and an input event is fired', () => {
+  it('calls store action "actionInput" when input value is "input" and an "input" event is fired', () => {
     const wrapper = shallow(Actions, { store, localVue })
     const input = wrapper.find('input')
     input.element.value = 'input'
@@ -75,7 +75,7 @@ describe('Actions.vue', () => {
     expect(actions.actionInput).toHaveBeenCalled()
   })
 
-  it('does not call store action actionInput when input value is not input and an input event is fired', () => {
+  it('does not call store action "actionInput" when input value is not "input" and an "input" event is fired', () => {
     const wrapper = shallow(Actions, { store, localVue })
     const input = wrapper.find('input')
     input.element.value = 'not input'
@@ -83,7 +83,7 @@ describe('Actions.vue', () => {
     expect(actions.actionInput).not.toHaveBeenCalled()
   })
 
-  it('calls store action actionClick when button is clicked', () => {
+  it('calls store action "actionClick" when button is clicked', () => {
     const wrapper = shallow(Actions, { store, localVue })
     wrapper.find('button').trigger('click')
     expect(actions.actionClick).toHaveBeenCalled()
@@ -103,7 +103,7 @@ Now the way we define the store might look a bit foreign to you.
 
 We’re using `beforeEach` to ensure we have a clean store before each test. `beforeEach` is a mocha hook that’s called before each test. In our test, we are reassigning the store variables value. If we didn’t do this, the mock functions would need to be automatically reset. It also lets us change the state in our tests, without it affecting later tests.
 
-The most important thing to note in this test is that **we create a mock Vuex store and then pass it to vue-test-utils**.
+The most important thing to note in this test is that **we create a mock Vuex store and then pass it to `vue-test-utils`**.
 
 Great, so now we can mock actions, let’s look at mocking getters.
 
@@ -112,10 +112,10 @@ Great, so now we can mock actions, let’s look at mocking getters.
 
 ``` html
 <template>
-    <div>
-      <p v-if="inputValue">{{inputValue}}</p>
-      <p v-if="clicks">{{clicks}}</p>
-    </div>
+  <div>
+    <p v-if="inputValue">{{inputValue}}</p>
+    <p v-if="clicks">{{clicks}}</p>
+  </div>
 </template>
 
 <script>
@@ -158,19 +158,20 @@ describe('Getters.vue', () => {
     })
   })
 
-  it('Renders state.inputValue in first p tag', () => {
+  it('Renders "state.inputValue" in first p tag', () => {
     const wrapper = shallow(Actions, { store, localVue })
     const p = wrapper.find('p')
     expect(p.text()).toBe(getters.inputValue())
   })
 
-  it('Renders state.clicks in second p tag', () => {
+  it('Renders "state.clicks" in second p tag', () => {
     const wrapper = shallow(Actions, { store, localVue })
     const p = wrapper.findAll('p').at(1)
     expect(p.text()).toBe(getters.clicks().toString())
   })
 })
 ```
+
 This test is similar to our actions test. We create a mock store before each test, pass it as an option when we call `shallow`, and assert that the value returned by our mock getters is being rendered.
 
 This is great, but what if we want to check our getters are returning the correct part of our state?
@@ -205,6 +206,7 @@ export default{
 }
 </script>
 ```
+
 Simple component that includes one action and one getter.
 
 And the test:
@@ -242,14 +244,14 @@ describe('Modules.vue', () => {
     })
   })
 
-  it('calls store action moduleActionClick when button is clicked', () => {
+  it('calls store action "moduleActionClick" when button is clicked', () => {
     const wrapper = shallow(Modules, { store, localVue })
     const button = wrapper.find('button')
     button.trigger('click')
     expect(actions.moduleActionClick).toHaveBeenCalled()
   })
 
-  it('Renders state.inputValue in first p tag', () => {
+  it('Renders "state.inputValue" in first p tag', () => {
     const wrapper = shallow(Modules, { store, localVue })
     const p = wrapper.find('p')
     expect(p.text()).toBe(state.module.clicks.toString())
@@ -260,5 +262,5 @@ describe('Modules.vue', () => {
 ### Resources
 
 - [Example project for this guide](https://github.com/eddyerburgh/vue-test-utils-vuex-example)
-- [localVue](../api/options.md#localvue)
-- [createLocalVue](../api/createLocalVue.md)
+- [`localVue`](../api/options.md#localvue)
+- [`createLocalVue`](../api/createLocalVue.md)

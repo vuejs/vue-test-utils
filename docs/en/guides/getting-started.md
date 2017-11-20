@@ -48,7 +48,7 @@ You can create wrappers using the `mount` method. Let's create a file called `te
 ```js
 // test.js
 
-// Import the mount() method from the test utils
+// Import the `mount()` method from the test utils
 // and the component you want to test
 import { mount } from 'vue-test-utils'
 import Counter from './counter'
@@ -56,11 +56,11 @@ import Counter from './counter'
 // Now mount the component and you have the wrapper
 const wrapper = mount(Counter)
 
-// You can access the actual Vue instance via wrapper.vm
+// You can access the actual Vue instance via `wrapper.vm`
 const vm = wrapper.vm
 
 // To inspect the wrapper deeper just log it to the console
-// and your adventure with the vue-test-utils begins
+// and your adventure with the `vue-test-utils` begins
 console.log(wrapper)
 ```
 
@@ -112,5 +112,5 @@ To simplify usage, `vue-test-utils` applies all updates synchronously so you don
 
 ## What's Next
 
-- Integrate `vue-test-utils` into your project by [choosing a test runner](./choosing-a-test-runner.md)
-- Learn more about [common techniques when writing tests](./common-tips.md)
+- Integrate `vue-test-utils` into your project by [choosing a test runner](./choosing-a-test-runner.md).
+- Learn more about [common techniques when writing tests](./common-tips.md).
