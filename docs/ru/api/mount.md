@@ -1,4 +1,4 @@
-# mount(component {, options}])
+# `mount(component {, options}])`
 
 - **Принимает:**
 
@@ -82,7 +82,7 @@ describe('Foo', () => {
     const wrapper = mount(Foo, {
       slots: {
         default: [Bar, FooBar],
-        fooBar: FooBar, // будет соответствовать <slot name="FooBar" />,
+        fooBar: FooBar, // будет соответствовать `<slot name="FooBar" />`
         foo: '<div />'
       }
     })

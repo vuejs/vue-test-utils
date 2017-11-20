@@ -1,4 +1,4 @@
-# createLocalVue()
+# `createLocalVue()`
 
 - **Возвращает:**
   - `{Component}`
@@ -7,7 +7,7 @@
 
 `createLocalVue` возвращает класс Vue, чтобы вы могли добавлять компоненты, примеси и устанавливать плагины без загрузнения глобального класса Vue.
 
-Используйте вместе с `options.localVue`
+Используйте вместе с `options.localVue`:
 
 ```js
 import { createLocalVue, shallow } from 'vue-test-utils'

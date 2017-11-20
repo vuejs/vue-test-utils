@@ -48,7 +48,7 @@ export default {
 ```js
 // test.js
 
-// Импортируем метод mount() из vue-test-utils
+// Импортируем метод `mount()` из `vue-test-utils`
 // и компонент, который хотим протестировать
 import { mount } from 'vue-test-utils'
 import Counter from './counter'
@@ -56,11 +56,11 @@ import Counter from './counter'
 // Теперь монтируем компонент и у нас появляется wrapper
 const wrapper = mount(Counter)
 
-// Вы можете получить доступ к экземпляру Vue через wrapper.vm
+// Вы можете получить доступ к экземпляру Vue через `wrapper.vm`
 const vm = wrapper.vm
 
 // Чтобы изучить wrapper подробнее, просто выведите его в консоль
-// и ваши приключения с vue-test-utils начнутся
+// и ваши приключения с `vue-test-utils` начнутся
 console.log(wrapper)
 ```
 
@@ -112,5 +112,5 @@ Vue собирает пачку предстоящих обновлений DOM 
 
 ## Что дальше
 
-- Интегрируйте `vue-test-utils` в ваш проект выбрав [программу для запуска тестов](./choosing-a-test-runner.md)
-- Прочитайте больше об [общих техниках и советах при написании тестов](./common-tips.md)
+- Интегрируйте `vue-test-utils` в ваш проект выбрав [программу для запуска тестов](./choosing-a-test-runner.md).
+- Прочитайте больше об [общих техниках и советах при написании тестов](./common-tips.md).

@@ -6,15 +6,15 @@
 
 ## Специальные опции монтирования `vue-test-utils`
 
-- [context](#context)
-- [slots](#slots)
-- [stubs](#stubs)
-- [mocks](#mocks)
-- [localVue](#localvue)
-- [attachToDocument](#attachtodocument)
-- [attrs](#attrs)
-- [listeners](#listeners)
-- [clone](#clone)
+- [`context`](#context)
+- [`slots`](#slots)
+- [`stubs`](#stubs)
+- [`mocks`](#mocks)
+- [`localVue`](#localvue)
+- [`attachToDocument`](#attachtodocument)
+- [`attrs`](#attrs)
+- [`listeners`](#listeners)
+- [`clone`](#clone)
 
 ### `context`
 
@@ -50,7 +50,7 @@ import Bar from './Bar.vue'
 const wrapper = shallow(Component, {
   slots: {
     default: [Foo, Bar],
-    fooBar: Foo, // будет соответствовать <slot name="FooBar" />,
+    fooBar: Foo, // будет соответствовать `<slot name="FooBar" />`
     foo: '<div />'
   }
 })
@@ -106,7 +106,7 @@ expect(wrapper.vm.$route.path).toBe($route.path)
 
 - Тип: `Vue`
 
-Локальная копия Vue, созданная с помощью [createLocalVue](./createLocalVue.md) для использования при монтировании компонента. Установка плагинов на этой копии Vue предотвращает загрязнение оригинальной копии `Vue`.
+Локальная копия Vue, созданная с помощью [`createLocalVue`](./createLocalVue.md) для использования при монтировании компонента. Установка плагинов на этой копии `Vue` предотвращает загрязнение оригинальной копии `Vue`.
 
 Пример:
 
@@ -162,4 +162,4 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 
 `options.mocks` (`Object`): Добавляет глобальные свойства в экземпляр Vue.
 
-`options.localVue` (`Object`): vue класс для использования в `mount`. См. также [createLocalVue](createLocalVue.md)
+`options.localVue` (`Object`): `Vue` класс для использования в `mount`. См. также [`createLocalVue`](createLocalVue.md)

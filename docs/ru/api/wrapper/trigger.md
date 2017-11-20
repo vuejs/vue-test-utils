@@ -2,9 +2,9 @@
 
 Вызывает событие на `Wrapper` DOM узле.
 
-Также можно передать опциональный объект `options`. Свойства объекта `options` будут добавлены к Event.
+В `trigger` также можно передать опциональный объект `options`. Свойства объекта `options` будут добавлены к Event.
 
-Вы можете вызвать preventDefault на событие передав `preventDefault: true` в `options`.
+Вы можете вызвать `preventDefault` на событие передав `preventDefault: true` в `options`.
 
 - **Принимает:**
   - `{string} eventName`

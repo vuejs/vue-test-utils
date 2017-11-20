@@ -22,7 +22,7 @@ wrapper.find('button').trigger('click')
 
 Метод `trigger` также может опционально принимать объект `options`. Свойства объекта `options` добавятся к Event.
 
-Вы можете запустить preventDefault для события, передав `preventDefault: true` в `options`.
+Вы можете запустить `preventDefault` для события, передав `preventDefault: true` в `options`.
 
 ```js
 const wrapper = mount(MyButton)
@@ -189,8 +189,8 @@ describe('Тестирование событий клавиш', () => {
 
 Имя модификатора после точки `keydown.up` преобразуется в `keyCode`. Это поддерживается для следующих имён:
 
-* enter, tab, delete, esc, space, up, down, left, right
+* `enter`, `tab`, `delete`, `esc`, `space`, `up`, `down`, `left`, `right`
 
 ## Важно
 
-vue-test-utils генерирует событие синхронно. Следовательно, `Vue.nextTick` не требуется.
+`vue-test-utils` генерирует событие синхронно. Следовательно, `Vue.nextTick` не требуется.

@@ -42,12 +42,12 @@ npm install --save-dev vue-jest
     "moduleFileExtensions": [
       "js",
       "json",
-      // сообщаем Jest что необходимо обрабатывать *.vue файлы
+      // сообщаем Jest что необходимо обрабатывать `*.vue` файлы
       "vue"
     ],
     "transform": {
-      // обрабатываем *.vue файлы с помощью vue-jest
-      ".*\\.(vue)$": "<rootDir>/node_modules/vue-jest"
+      // обрабатываем `*.vue` файлы с помощью `jest-vue`
+      ".*\\.(vue)$": "<rootDir>/node_modules/jest-vue"
     },
     "mapCoverage": true
   }
@@ -75,6 +75,7 @@ npm install --save-dev vue-jest
 
 ## Конфигурация Babel для Jest
 
+<!-- todo ES modules has been supported in latest versions of Node -->
 Хотя последние версии Node уже поддерживают большинство функций ES2015, вы всё равно можете использовать синтаксис ES-модулей и stage-x функции в ваших тестах. Для этого нужно установить `babel-jest`:
 
 ``` bash
@@ -90,7 +91,7 @@ npm install --save-dev babel-jest
     // ...
     "transform": {
       // ...
-      // обрабатывать js с помощью babel-jest
+      // обрабатывать js с помощью `babel-jest`
       "^.+\\.js$": "<rootDir>/node_modules/babel-jest"
     },
     // ...
@@ -150,7 +151,7 @@ npm install --save-dev jest-serializer-vue
 
 ### Расположение файлов тестов
 
-По умолчанию Jest будет рекурсивно выбирать все файлы с расширением `.spec.js` или `.test.js` во всём проекте. Если это поведение не соответствует вашим потребностям, то возможно [изменить testRegex](https://facebook.github.io/jest/docs/en/configuration.html#testregex-string) в секции конфигурации в файле `package.json`.
+По умолчанию Jest будет рекурсивно выбирать все файлы с расширением `.spec.js` или `.test.js` во всём проекте. Если это поведение не соответствует вашим потребностям, то возможно [изменить `testRegex`](https://facebook.github.io/jest/docs/en/configuration.html#testregex-string) в секции конфигурации в файле `package.json`.
 
 Jest рекомендует создать каталог `__tests__` рядом с тестируемым кодом, но не стесняйтесь структурировать ваши тесты по своему усмотрению. Просто остерегайтесь того, что Jest создаст каталог `__snapshots__` рядом с тестовыми файлами, который необходим для тестирования с помощью моментальных снимков.
 
