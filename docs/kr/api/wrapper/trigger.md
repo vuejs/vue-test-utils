@@ -4,7 +4,7 @@
 
 트리거는 선택적으로 `options` 객체를 취합니다. `options` 객체의 속성 이벤트에 추가됩니다.
 
-`options에 `preventDefault: true`로 설정하면 preventDefault를 실행합니다.
+`options에 `preventDefault: true로 설정하면 preventDefault를 실행합니다.
 
 - **전달인자:**
   - `{string} eventName`

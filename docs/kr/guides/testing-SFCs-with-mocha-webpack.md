@@ -39,7 +39,7 @@ npm install --save-dev vue-test-utils mocha mocha-webpack
 
 #### NPM 의존성 외부화
 
-테스트에서 많은 NPM 의존성을 가져올 것입니다. - 이 모듈 중 이룹는 브라우저 사용법을 염두하고 작성할 수 있어 webpack으로 간단히 묶을 수 없습니다. 의존성을 외부화하는 또 다른 고려사항은 테스트 시작 속도를 크게 향상시킵니다. `webpack-node-externals`로 모든 NPM 의존성을 외부화할 수 있습니다.
+테스트에서 많은 NPM 의존성을 가져올 것입니다. - 이 모듈 중 일부는 브라우저 사용법을 염두하고 작성할 수 있어 webpack으로 간단히 묶을 수 없습니다. 의존성을 외부화하는 또 다른 고려사항은 테스트 시작 속도를 크게 향상시킵니다. `webpack-node-externals`로 모든 NPM 의존성을 외부화할 수 있습니다.
 
 ```js
 // webpack.config.js
