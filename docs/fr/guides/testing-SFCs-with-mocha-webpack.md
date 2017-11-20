@@ -90,7 +90,7 @@ Puis dans `test/setup.js`:
 require('jsdom-global')()
 ```
 
-Cela ajoute un environnement de navigateur dans Node.js afin que `vue-test-utils` fonctionne correctement. 
+Cela ajoute un environnement de navigateur dans Node.js afin que `vue-test-utils` fonctionne correctement.
 
 ### Choisir une bibliothèque d'assertions
 
@@ -116,7 +116,7 @@ global.expect = require('expect')
 
 Notez que nous utilisons `babel-loader` pour gérer JavaScript. Vous devriez déjà avoir Babel de configuré si vous l'utilisez dans votre application via un fichier `.babelrc`. Ici `babel-loader` va automatiquement utiliser le même fichier de configuration.
 
-Une autre chose à noter est que si vous utilisez une version de Node.js 6+, qui supporte déjà une majorité des fonctionnalités d'ES2015, vous pouvez configurer séparément un autre Babel [env option](https://babeljs.io/docs/usage/babelrc/#env-option) qui va uniquement transpiler les fonctionnalités non supportées dans la version de Node.js que vous utilisez (c.-à-d. stage-2 ou le support de la syntaxe flow, etc.).
+Une autre chose à noter est que si vous utilisez une version de Node.js 6+, qui supporte déjà une majorité des fonctionnalités d'ES2015, vous pouvez configurer séparément un autre Babel [env option](https://babeljs.io/docs/usage/babelrc/#env-option) qui va uniquement transpiler les fonctionnalités non supportées dans la version de Node.js que vous utilisez (c.-à-d. `stage-2` ou le support de la syntaxe flow, etc.).
 
 ### Ajouter un test
 

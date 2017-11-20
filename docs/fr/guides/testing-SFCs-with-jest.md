@@ -46,7 +46,7 @@ Ensuite, créez un objet `jest` dans `package.json` :
       "vue"
     ],
     "transform": {
-      // traite les fichiers `*.vue` avec vue-jest
+      // traite les fichiers `*.vue` avec `vue-jest`
       ".*\\.(vue)$": "<rootDir>/node_modules/vue-jest"
     },
     "mapCoverage": true
@@ -54,7 +54,7 @@ Ensuite, créez un objet `jest` dans `package.json` :
 }
 ```
 
-> **Note :** `vue-jest` ne supporte actuellement pas toutes les fonctionnalités de `vue-loader`, par exemple le support des blocs personnalisés et du chargement de styles. De plus, quelques fonctionnalités spécifiques à webpack comme la scission de code ne sont pas supportées. Pour les utiliser, lisez le guide sur [tester des composants monofichiers avec Mocha + webpack](./testing-SFCs-with-mocha-webpack.md).
+> **Note :** `vue-jest` ne supporte actuellement pas toutes les fonctionnalités de `vue-loader`, par exemple le support des blocs personnalisés et du chargement de styles. De plus, quelques fonctionnalités spécifiques à webpack comme la scission de code ne sont pas supportées. Pour les utiliser, lisez le guide sur [tester des composants monofichiers avec Mocha et webpack](./testing-SFCs-with-mocha-webpack.md).
 
 ## Gérer les alias webpack
 
@@ -75,7 +75,8 @@ Si vous utilisez un alias de résolution dans la configuration de webpack, c.-à
 
 ## Configurer Babel pour Jest
 
-Même si les dernières version de Node.js supportent la plupart des fonctionnalités ES2015, vous souhaitez quand même utiliser la syntaxe des modules ES ainsi que les fonctionnalités stage-x dans vos tests. Pour cela, on doit installer `babel-jest` :
+<!-- todo ES modules has been supported in latest versions of Node -->
+Même si les dernières version de Node.js supportent la plupart des fonctionnalités ES2015, vous souhaitez quand même utiliser la syntaxe des modules ES ainsi que les fonctionnalités `stage-x` dans vos tests. Pour cela, on doit installer `babel-jest` :
 
 ``` bash
 npm install --save-dev babel-jest
@@ -90,7 +91,7 @@ Ensuite, on doit indiquer à Jest de gérer les fichiers de tests JavaScript ave
     // ...
     "transform": {
       // ...
-      // gérer le JavaScript avec babel-jest
+      // gérer le JavaScript avec `babel-jest`
       "^.+\\.js$": "<rootDir>/node_modules/babel-jest"
     },
     // ...

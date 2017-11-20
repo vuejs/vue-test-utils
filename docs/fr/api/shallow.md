@@ -1,4 +1,4 @@
-# shallow(component {, options}])
+# `shallow(component {, options}])`
 
 - **Arguments:**
 

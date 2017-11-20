@@ -10,10 +10,10 @@ Ci-dessous, le composant que nous voulons tester. Il fait appel à des actions V
 
 ``` html
 <template>
-    <div class="text-align-center">
-      <input type="text" @input="actionInputIfTrue" />
-      <button @click="actionClick()">Click</button>
-    </div>
+  <div class="text-align-center">
+    <input type="text" @input="actionInputIfTrue" />
+    <button @click="actionClick()">Click</button>
+  </div>
 </template>
 
 <script>
@@ -103,7 +103,7 @@ La manière dont on définit le store peut vous paraitre un peu étrange.
 
 On utilise `beforeEach` pour s'assurer que nous avons un store propre avant chaque test. `beforeEach` est un hook de Mocha qui est appelé avant chaque test. Dans nos tests, on réassigne des valeurs aux variables du store. Si on ne le fait pas, les fonctions de simulations auraient besoin d'être automatiquement réinitialisées. Cela nous laisse la possibilité de changer l'état dans nos tests, sans avoir à affecter les prochains.
 
-La chose la plus importante à noter dans ce test est que **l'on crée une simulation d'un store Vuex, qui est ensuite passé à vue-test-utils**.
+La chose la plus importante à noter dans ce test est que **l'on crée une simulation d'un store Vuex, qui est ensuite passé à `vue-test-utils`**.
 
 Génial, on peut désormais simuler des actions. Allons avoir comment simuler des accesseurs !
 
@@ -112,10 +112,10 @@ Génial, on peut désormais simuler des actions. Allons avoir comment simuler de
 
 ``` html
 <template>
-    <div>
-      <p v-if="inputValue">{{inputValue}}</p>
-      <p v-if="clicks">{{clicks}}</p>
-    </div>
+  <div>
+    <p v-if="inputValue">{{inputValue}}</p>
+    <p v-if="clicks">{{clicks}}</p>
+  </div>
 </template>
 
 <script>
@@ -171,6 +171,7 @@ describe('Getters.vue', () => {
   })
 })
 ```
+
 Ce test est similaire à notre test sur les actions. On créer un store fictif avant chaque test, on le passe ensuite comme une option lorsque l'on appelle `shallow`. Pour finir, on asserte que la valeur retournée par nos accesseurs fictifs est bien affichée.
 
 C'est génial, mais comment faisons-nous pour vérifier que nos accesseurs retournent correctement les parties de l'état ?
@@ -205,7 +206,9 @@ export default{
 }
 </script>
 ```
+
 Simple composant qui possède une action et un accesseur.
+
 Et le test :
 
 ``` js
@@ -259,5 +262,5 @@ describe('Modules.vue', () => {
 ### Ressources
 
 - [Projet exemple pour ce guide](https://github.com/eddyerburgh/vue-test-utils-vuex-example)
-- [localVue](../api/options.md#localvue)
-- [createLocalVue](../api/createLocalVue.md)
+- [`localVue`](../api/options.md#localvue)
+- [`createLocalVue`](../api/createLocalVue.md)

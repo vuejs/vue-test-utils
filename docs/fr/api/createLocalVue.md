@@ -1,4 +1,4 @@
-# createLocalVue()
+# `createLocalVue()`
 
 - **Returns:**
   - `{Component}`
@@ -7,7 +7,7 @@
 
 <p><strong>⚠Cette page est actuellement en cours de traduction française. Vous pouvez repasser plus tard ou <a href="https://github.com/vuejs-fr/vue-test-utils" target="_blank">participer à la traduction</a> de celle-ci dès maintenant !</strong></p><p>`createLocalVue` returns a Vue class for you to add components, mixins and install plugins without polluting the global Vue class.</p>
 
-Use it with `options.localVue`
+Use it with `options.localVue`:
 
 ```js
 import { createLocalVue, shallow } from 'vue-test-utils'

@@ -2,6 +2,8 @@
 
 `vue-test-utils` est la bibliothèque officielle de tests unitaires pour Vue.js.
 
+## Table of Contents
+
 * [Guides](guides/README.md)
   * [Commencer](guides/getting-started.md)
   * [Astuces](guides/common-tips.md)
@@ -39,12 +41,14 @@
     * [isEmpty](api/wrapper/isEmpty.md)
     * [isVueInstance](api/wrapper/isVueInstance.md)
     * [name](api/wrapper/name.md)
+    * [setComputed](api/wrapper/setComputed.md)
     * [setData](api/wrapper/setData.md)
     * [setMethods](api/wrapper/setMethods.md)
     * [setProps](api/wrapper/setProps.md)
     * [text](api/wrapper/text.md)
     * [trigger](api/wrapper/trigger.md)
     * [update](api/wrapper/update.md)
+    * [destroy](api/wrapper/destroy.md)
   * [WrapperArray](api/wrapper-array/README.md)
     * [at](api/wrapper-array/at.md)
     * [contains](api/wrapper-array/contains.md)
@@ -55,10 +59,16 @@
     * [is](api/wrapper-array/is.md)
     * [isEmpty](api/wrapper-array/isEmpty.md)
     * [isVueInstance](api/wrapper-array/isVueInstance.md)
+    * [setComputed](api/wrapper-array/setComputed.md)
     * [setData](api/wrapper-array/setData.md)
     * [setMethods](api/wrapper-array/setMethods.md)
     * [setProps](api/wrapper-array/setProps.md)
     * [trigger](api/wrapper-array/trigger.md)
     * [update](api/wrapper-array/update.md)
+    * [destroy](api/wrapper-array/destroy.md)
+  * [components](api/components/README.md)
+    * [TransitionStub](api/components/TransitionStub.md)
+    * [TransitionGroupStub](api/components/TransitionGroupStub.md)
   * [Selecteurs](api/selectors.md)
   * [createLocalVue](api/createLocalVue.md)
+  * [config](api/config.md)

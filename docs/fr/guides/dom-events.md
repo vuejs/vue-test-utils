@@ -190,8 +190,8 @@ describe('Tests événement clavier', () => {
 
 Un nom de touche après le point `keydown.up` est traduit vers un `keyCode`. Cela est supporté pour les noms suivant :
 
-* enter, tab, delete, esc, space, up, down, left, right
+* `enter`, `tab`, `delete`, `esc`, `space`, `up`, `down`, `left`, `right`
 
 ## Important
 
-vue-test-utils déclenche les évènements de façon synchrone. Par conséquent, `vue.nextTick` n'est pas requis.
+`vue-test-utils` déclenche les évènements de façon synchrone. Par conséquent, `vue.nextTick` n'est pas requis.

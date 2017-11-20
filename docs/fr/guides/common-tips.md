@@ -91,12 +91,12 @@ Vous pouvez aussi mettre à jour les props d'un composant déjà monté avec la 
 
 Des composants pourraient se fier à des fonctionnalités injectées par un plugin global ou un mixin, par exemple `vuex` ou `vue-router`.
 
-Si vous écrivez des tests pour des composants dans une application spécifique, vous pouvez mettre en place les mêmes plugins globaux et mixins en une seule fois dans vos tests. Dans certains cas, comme tester un composant générique utilisé par des applications différentes, il est favorable de tester ces composants dans une installation plus isolée, sans avoir à polluer le constructeur global `Vue`. On peut utiliser la méthode [`createLocalVue`](../api/createLocalVue.md) pour faire cela : 
+Si vous écrivez des tests pour des composants dans une application spécifique, vous pouvez mettre en place les mêmes plugins globaux et mixins en une seule fois dans vos tests. Dans certains cas, comme tester un composant générique utilisé par des applications différentes, il est favorable de tester ces composants dans une installation plus isolée, sans avoir à polluer le constructeur global `Vue`. On peut utiliser la méthode [`createLocalVue`](../api/createLocalVue.md) pour faire cela :
 
 ``` js
 import createLocalVue from 'vue-test-utils'
 
-// créer un constructeur local de Vue
+// créer un constructeur local de `Vue`
 const localVue = createLocalVue()
 
 // installer des plugins comme d'habitude
@@ -124,7 +124,7 @@ const $route = {
 
 mount(Component, {
   mocks: {
-    $route // ajoute l'objet route simulé à l'instance de Vue avant de monter le composant
+    $route // ajoute l'objet `$route` simulé à l'instance de Vue avant de monter le composant
   }
 })
 ```
