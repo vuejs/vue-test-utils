@@ -9,7 +9,6 @@
   * [일반적인 팁](guides/common-tips.md)
   * [마우스, 키 그리고 기타 DOM 이벤트](guides/dom-events.md)
   * [테스트 러너 선택하기](guides/choosing-a-test-runner.md)
-  * [Jest 사용하기](./using-with-jest.md)
   * [Jest로 싱글 파일 컴포넌트 테스트](guides/testing-SFCs-with-jest.md)
   * [Mocha + webpack으로 싱글 파일 컴포넌트 테스트](guides/testing-SFCs-with-mocha-webpack.md)
   * [Vue Router 사용하기](guides/using-with-vue-router.md)
