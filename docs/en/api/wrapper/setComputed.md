@@ -3,7 +3,7 @@
 Sets `Wrapper` `vm` computed property and forces update.
 
 **Note the Wrapper must contain a Vue instance.**
-**Note every Vue instance must already have the computed properties passed to setComputed.**
+**Note the Vue instance must already have the computed properties passed to `setComputed`.**
 
 
 - **Arguments:**

@@ -4,7 +4,7 @@
 Sets `Wrapper` `vm` computed and forces update on each `Wrapper` in `WrapperArray`.
 
 **Note every `Wrapper` must contain a Vue instance.**
-**Note every Vue instance must already have the computed properties passed to setComputed.**
+**Note every Vue instance must already have the computed properties passed to `setComputed`.**
 
 - **Arguments:**
   - `{Object} computed properties`
