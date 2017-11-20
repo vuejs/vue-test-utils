@@ -1,10 +1,9 @@
-# TransitionStub
+# `TransitionStub`
 
-<!-- @todo translation -->
+一个用来存根 `transition` 包裹器组件的组件。与其异步完成过渡动画不同的是，它会同步返回子组件。
 
-A component to stub the `transition` wrapper component. Instead of performing transitions asynchronously, it returns the child component synchronously.
+它在 `vue-test-utils` 默认配置中用来存根所有的 `transition` 组件。将 `config.stubs.transition` 设为 `false` 可以使用内建的 `transition` 包裹器组件：
 
-This is set to stub all `transition` components by default in the vue-test-utils config. To use the built-in `transition` wrapper component set `config.stubs.transition` to false:
 
 ```js
 import VueTestUtils from 'vue-test-utils'
@@ -12,14 +11,15 @@ import VueTestUtils from 'vue-test-utils'
 VueTestUtils.config.stubs.transition = false
 ```
 
-To reset it to stub transition components:
+将其重置可以存根过渡组件：
+
 ```js
 import VueTestUtils, { TransitionStub } from 'vue-test-utils'
 
 VueTestUtils.config.stubs.transition = TransitionStub
 ```
 
-To set it as a stub in mounting options:
+还可以在挂载选项中将其设置为一个存根：
 
 ```js
 import { mount, TransitionStub } from 'vue-test-utils'

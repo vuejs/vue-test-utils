@@ -1,16 +1,14 @@
-# setComputed(computedObjects)
+# `setComputed(computedObjects)`
 
-<!-- @todo translation -->
+为 `WrapperArray` 的每个 `Wrapper` `vm` 都设置计算属性并强行更新。
 
-Sets `Wrapper` `vm` computed and forces update on each `Wrapper` in `WrapperArray`.
+**注意：该包裹器必须包含一个 Vue 示例。**
+**注意：每个 Vue 示例必须已经有被传入 `setComputed` 的计算属性。**
 
-**Note every `Wrapper` must contain a Vue instance.**
-**Note every Vue instance must already have the computed properties passed to setComputed.**
-
-- **Arguments:**
+- **参数：**
   - `{Object} computed properties`
 
-- **Example:**
+- **示例：**
 
 ```js
 import { mount } from 'vue-test-utils'

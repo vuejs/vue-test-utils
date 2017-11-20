@@ -1,24 +1,22 @@
-# Config
+# 配置
 
-<!-- @todo translation -->
+`vue-test-utils` 包含了一个定义其选项的配置对象。
 
-vue-test-utils includes a config object to defined options used by vue-test-utils.
-
-## `vue-test-utils` Config Options
+## `vue-test-utils` 配置选项
 
 ### `stubs`
 
-- type: `Object`
-- default: `{
+- 类型：`Object`
+- 默认值：`{
   transition: TransitionStub,
   'transition-group': TransitionGroupStub
 }`
 
-Stubs to use in components. These are overwritten by `stubs` passed in the mounting options.
+用到的组件存根。它们会被传入挂载选项的 `stubs` 复写。
 
-When passing `stubs` as an array in the mounting options, `config.stubs` are converted to an array, and will stub components with a basic component that returns a div.
+当把 `stubs` 作为一个数组传入挂载选项时，`config.stubs` 会被转换为一个数组，然后用只返回一个 div 的基础组件进行存根。
 
-Example:
+示例：
 
 ```js
 import VueTestUtils from 'vue-test-utils'

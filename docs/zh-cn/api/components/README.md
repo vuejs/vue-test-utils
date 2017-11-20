@@ -1,7 +1,5 @@
-# Components
+# 组件
 
-<!-- @todo translation -->
+`vue-test-utils` 包含了用做存根的实用组件。
 
-`vue-test-utils` includes utility components you can use to stub components.
-
-[TransitionStub](./TransitionStub.md) and [TransitionGroupStub](./TransitionGroupStub.md) are used to stub `transition` and `transition-group` components by default. You can edit the stubs by editing the config.
+默认情况下 [TransitionStub](./TransitionStub.md) 和 [TransitionGroupStub](./TransitionGroupStub.md) 用来存根 `transition` 和 `transition-group` 组件。你也可以通过配置信息来编辑存根。
