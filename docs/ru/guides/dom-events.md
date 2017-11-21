@@ -10,7 +10,7 @@ const wrapper = mount(MyButton)
 wrapper.trigger('click')
 ```
 
-Вы должны помнить, что поиск возвращает также и wrapper. Предполагается, что `MyComponent` содержит кнопку, а следующий код нажимает эту кнопку.
+Вы должны помнить, что метод `find` также возвращает `Wrapper`. Предполагается, что `MyComponent` содержит кнопку, а следующий код нажимает эту кнопку.
 
 ```js
 const wrapper = mount(MyComponent)
