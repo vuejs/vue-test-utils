@@ -39,7 +39,7 @@ Quelques éléments importants à noter :
 
 #### Externaliser les dépendances npm
 
-Dans nos tests, nous allons surement importer un nombre conséquent de dépendances npm, certaines d'entre elles n'ont pas été conçues pour une utilisation dans un navigateur et ne peuvent être empaquetées par webpack. Il faut aussi considérer qu'externaliser les dépendances augmente énormément la vitesse de lancement des tests. On peut externaliser toutes les dépendances npm avec `webpack-node-externals -externals` :
+Dans nos tests, nous allons surement importer un nombre conséquent de dépendances npm, certaines d'entre elles n'ont pas été conçues pour une utilisation dans un navigateur et ne peuvent être empaquetées par webpack. Il faut aussi considérer qu'externaliser les dépendances augmente énormément la vitesse de lancement des tests. On peut externaliser toutes les dépendances npm avec `webpack-node-externals` :
 
 ```js
 // webpack.config.js

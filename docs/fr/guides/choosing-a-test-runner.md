@@ -2,7 +2,7 @@
 
 Un lanceur de tests est un programme qui lance des tests (et oui !).
 
-Il y a un nombre conséquent de lanceurs de tests JavaScript et `vue-test-utils` fonctionne avec tous. `vue-test-utils` est agnostique en termne de lanceurs de tests.
+Il y a un nombre conséquent de lanceurs de tests JavaScript et `vue-test-utils` fonctionne avec tous. `vue-test-utils` est agnostique en terme de lanceurs de tests.
 
 Il y a tout de même plusieurs choses à considérer afin de choisir un lanceur de tests : variété des fonctionnalités, performance et support de la précompilation des composants monofichiers. Après avoir soigneusement analysé et comparé les bibliothèques, il y a deux lanceurs de tests que nous recommandons :
 

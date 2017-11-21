@@ -1,6 +1,6 @@
 # TransitionGroupStub
 
-A component to stub the `transition-group` wrapper component. Instead of performing transitions asynchronously, it returns the child components synchronously.
+<p><strong>⚠Cette page est actuellement en cours de traduction française. Vous pouvez repasser plus tard ou <a href="https://github.com/vuejs-fr/vue-test-utils" target="_blank">participer à la traduction</a> de celle-ci dès maintenant !</strong></p><p>A component to stub the `transition-group` wrapper component. Instead of performing transitions asynchronously, it returns the child components synchronously.</p>
 
 This is set to stub all `transition-group` components by default in the `vue-test-utils` config. To use the built-in `transition-group` wrapper component set `config.stubs['transition-group']` to false:
 

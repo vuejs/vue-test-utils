@@ -16,7 +16,7 @@ Ce sujet est discuté plus en détails dans une [très bonne présentation de Ma
 
 Dans des tests unitaires, on souhaite s'intéresser au composant qui est en train d'être testé comme une unité isolée et ainsi éviter de s'assurer du bon comportement des composants enfants.
 
-De plus, pour les composants qui contiennent beaucoup de composants enfant, l'intégralité de l'arbre de rendu peut être énorme. Répétitivement rendre tous les composants pourrait réduire la vitesse de nos tests.
+De plus, pour les composants qui contiennent beaucoup de composants enfants, l'intégralité de l'arbre de rendu peut être énorme. Répétitivement rendre tous les composants pourrait réduire la vitesse de nos tests.
 
 `vue-test-utils` vous permets de monter un composant sans avoir à rendre ses composants enfants (en les ignorants) avec la méthode `shallow` :
 

@@ -59,7 +59,7 @@ const wrapper = shallow(Component, {
   }
 })
 
-wrapper.vm.$router // /un/super/chemin
+wrapper.vm.$route.path // `'/un/super/chemin'`
 ```
 
 ## Trucs et astuces

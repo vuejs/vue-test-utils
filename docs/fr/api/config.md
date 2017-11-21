@@ -1,6 +1,6 @@
 # Config
 
-vue-test-utils includes a config object to defined options used by vue-test-utils.
+<p><strong>⚠Cette page est actuellement en cours de traduction française. Vous pouvez repasser plus tard ou <a href="https://github.com/vuejs-fr/vue-test-utils" target="_blank">participer à la traduction</a> de celle-ci dès maintenant !</strong></p><p>vue-test-utils includes a config object to defined options used by vue-test-utils.</p>
 
 ## `vue-test-utils` Config Options
 
