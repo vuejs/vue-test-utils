@@ -212,6 +212,7 @@ describe('mount.stub', () => {
     })
     expect(wrapper.contains('time')).to.equal(false)
     expect(wrapper.contains('p')).to.equal(false)
+    expect(wrapper.html()).to.equal('<div><!----></div>')
   })
 
   it('throws an error when passed an invalid value as stub', () => {
