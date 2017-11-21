@@ -193,4 +193,4 @@ describe('键盘事件测试', () => {
 
 ## 重要事项
 
-`vue-test-utils` 是同步触发事件。因此 `vue.nextTick` 不是必须的。
+`vue-test-utils` 是同步触发事件。因此 `Vue.nextTick` 不是必须的。
