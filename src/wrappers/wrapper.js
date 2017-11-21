@@ -55,6 +55,7 @@ export default class Wrapper implements BaseWrapper {
       const cssModuleIdentifiers = {}
       let moduleIdent
       Object.keys(this.vm.$style).forEach((key) => {
+        // $FlowIgnore : Flow thinks vm is a property
         moduleIdent = this.vm.$style[key]
         // CSS Modules may be multi-class if they extend others. Extended classes should be already present in $style.
         moduleIdent = moduleIdent.split(' ')[0]
@@ -353,6 +354,7 @@ export default class Wrapper implements BaseWrapper {
     if (this.vm && this.vm.$options && this.vm.$options.propsData) {
       _props = this.vm.$options.propsData
     } else {
+      // $FlowIgnore
       _props = this.vm.$props
     }
     return _props || {} // Return an empty object if no props exist
