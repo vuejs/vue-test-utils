@@ -46,7 +46,7 @@ shallow(Component, {
 
 ## `$route`와 `$router` 목킹
 
-때로는 컴포넌트가 `$route`와 `$router` 객체의 매개변수로 무언가를 하는지 테스트할 필요가 있습니다. 이를 위해 사용자 정의 목(mock)을 Vue 인스턴스에 전달해야합니다.
+때로는 컴포넌트가 `$route`와 `$router` 객체의 매개변수로 무언가를 수행하고 있는지 테스트를 할 필요가 있습니다. 이를 위해 사용자 정의 목(mocks-가짜데이터)을 Vue 인스턴스에 전달해야합니다.
 
 ```js
 const $route = {
@@ -62,10 +62,10 @@ const wrapper = shallow(Component, {
 wrapper.vm.$router // /some/path
 ```
 
-## 공통적으로 확인할 것
+## 공통적으로 확인 할 주의사항
 
 Vue Router를 설치하면 Vue prototype에 읽기 전용 속성으로 `$route`, `$router`가 추가됩니다.
 
 이는 `$route` 또는 `$router`를 목킹하려고 시도하는 모든 테스트가 실패하는 것을 의미합니다.
 
-이를 피하려면 테스트를 실행할 때 Vue Router를 설치하지 마십시오.
+이를 피하려면, 테스트를 실행하는 동안에는 Vue Router를 설치하지 마십시오.
