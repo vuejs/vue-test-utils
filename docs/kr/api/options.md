@@ -38,7 +38,7 @@ expect(wrapper.is(Component)).toBe(true)
 
 - 타입: `{ [name: string]: Array<Component>|Component|string }`
 
-컴포넌트에 슬롯 객체를 제공합니다. 키는 슬롯 이름입니다. 이 값은 컴포넌트, 컴포넌트 배열 또는 템플릿 문자열일 수 있습니다.
+컴포넌트에 슬롯 객체를 제공합니다. 키는 슬롯 이름입니다. 이 값은 컴포넌트, 컴포넌트 배열, 템플릿 문자열 일 수 있습니다.
 
 예:
 
