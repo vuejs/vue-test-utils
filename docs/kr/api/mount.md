@@ -9,7 +9,7 @@
 
 - **옵션:**
 
-See [options](options.md)
+[옵션](options.md)을 참고하세요.
 
 - **사용법:**
 
