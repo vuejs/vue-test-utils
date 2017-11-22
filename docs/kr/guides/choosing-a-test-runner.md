@@ -6,7 +6,7 @@ JavaScript 에는 유명한 테스트 러너가 많이 있습니다. `vue-test-u
 
 테스트 러너를 선택할 때는 기능 세트, 성능 및 싱글 파일 컴포넌트, 사전 컴파일 지원 등을 지원하는지 등 몇 가지 사항을 고려해야 합니다. 기존 라이브러리들을 신중하게 비교한 결과, 다음 두 가지 테스트 러너를 권장합니다:
 
-- [Jest](https://facebook.github.io/jest/docs/en/getting-started.html#content)는 완벽한 기능을 갖춘 테스트 러너입니다. 최소한의 설정이 필요하며, 기본적으로 JSDOM을 갖추고 내장된 검증 도구를 제공하며, 커맨드 라인 사용자경험이 뛰어납니다. 그러나 테스트에서 싱글 파일 컴포넌트(SFC: single-file component)를 가져오려면 프리 프로세서(사전 처리 과정)가 필요합니다. 우리는 일반적인 싱글 파일 컴포넌트를 처리할 수 있도록 `vue-jest` 프리프로세서를 만들었습니다. 하지만 vue-loader와 기능적으로 100% 같지는 않습니다.
+- [Jest](https://facebook.github.io/jest/docs/en/getting-started.html#content)는 완벽한 기능을 갖춘 테스트 러너입니다. 최소한의 설정이 필요하며, 기본적으로 JSDOM을 갖추었고, 내장된 검증 도구를 제공하며, 커맨드 라인 사용성이 뛰어납니다. 그러나 테스트에서 싱글 파일 컴포넌트(SFC: single-file component)를 가져오려면 프리 프로세서(사전 처리 과정)가 필요합니다. 우리는 일반적인 싱글 파일 컴포넌트를 처리할 수 있도록 `vue-jest` 프리프로세서를 만들었습니다. 하지만 vue-loader와 기능적으로 100% 같지는 않습니다.
 
 - [mocha-webpack](https://github.com/zinserjan/mocha-webpack)는 webpack + Mocha에 대한 래퍼이지만 간소화된 인터페이스와 감시 모드를 제공합니다. 이 설정의 장점은 webpack + `vue-loader`를 통해 완전한 싱글 파일 컴포넌트 지원을 할 수 있다는 점입니다. 그러나 더 많은 설정이 필요합니다.
 
