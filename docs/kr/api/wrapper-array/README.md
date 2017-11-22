@@ -4,7 +4,7 @@
 
 - **속성:**
 
-`length` `number`: `WrapperArray`가 가진 `Wrappers`의 갯수입니다.
+`length` `number`: `WrapperArray`가 가진 `Wrappers`의 개수입니다.
 
  - **메소드:**
 
