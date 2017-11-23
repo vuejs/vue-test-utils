@@ -10,7 +10,7 @@ import VueTestUtils from 'vue-test-utils'
 VueTestUtils.config.stubs.transition = false
 ```
 
-`transition` コンポーネントをスタブするために再びセットします。:
+`transition` コンポーネントをスタブするために再びセットするには以下のようにします。:
 
 ```js
 import VueTestUtils, { TransitionStub } from 'vue-test-utils'
@@ -18,7 +18,7 @@ import VueTestUtils, { TransitionStub } from 'vue-test-utils'
 VueTestUtils.config.stubs.transition = TransitionStub
 ```
 
-マウンティングオプションでスタブとしてセットします。:
+マウンティングオプションでスタブとしてセットするには以下のようにします。:
 
 ```js
 import { mount, TransitionStub } from 'vue-test-utils'
