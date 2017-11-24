@@ -1,8 +1,8 @@
 # TransitionGroupStub
 
-`transition-group` ラッパコンポーネントをスタブするためのコンポーネントです。これはトランジションを非同期で実行する代わりに、子コンポーネントを同期的に返します。
+`transition-group` コンポーネントをスタブするためのコンポーネントです。これはトランジションを非同期で実行する代わりに、子コンポーネントを同期的に返します。
 
-デフォルトではすべての `transition-group` コンポーネントは `TransitionGroupStub` でスタブされます。これは `vue-test-utils` の `config` で設定されています。スタブせずに既存の `transition-group` ラッパコンポーネントを使用したい場合は、 `config.stubs['transition-group']` に `false` をセットします。:
+デフォルトではすべての `transition-group` コンポーネントは `TransitionGroupStub` でスタブされます。これは `vue-test-utils` の `config` で設定されています。スタブせずに既存の `transition-group` コンポーネントを使用したい場合は、 `config.stubs['transition-group']` に `false` をセットします。:
 
 ```js
 import VueTestUtils from 'vue-test-utils'
