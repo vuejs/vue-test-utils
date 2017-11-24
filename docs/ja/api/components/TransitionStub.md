@@ -1,8 +1,8 @@
 # TransitionStub
 
-`transition` ラッパコンポーネントをスタブするためのコンポーネントです。これはトランジションを非同期で実行する代わりに、子コンポーネントを同期的に返します。
+`transition` コンポーネントをスタブするためのコンポーネントです。これはトランジションを非同期で実行する代わりに、子コンポーネントを同期的に返します。
 
-デフォルトではすべての `transition` コンポーネントは `TransitionStub` でスタブされます。これは `vue-test-utils` の `config` で設定されています。スタブせずに既存の `transition` ラッパコンポーネントを使用したい場合は、 `config.stubs['transition']` に `false` をセットします。:
+デフォルトではすべての `transition` コンポーネントは `TransitionStub` でスタブされます。これは `vue-test-utils` の `config` で設定されています。スタブせずに既存の `transition` コンポーネントを使用したい場合は、 `config.stubs['transition']` に `false` をセットします。:
 
 ```js
 import VueTestUtils from 'vue-test-utils'
