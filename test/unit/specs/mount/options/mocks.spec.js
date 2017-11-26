@@ -85,7 +85,7 @@ describe('mount.mocks', () => {
     expect(typeof freshWrapper.vm.$store).to.equal('undefined')
   })
 
-  it('replaces lifecycle hooks with mocks', () => {
+  it('replaces lifecycle hooks, but not mixin hooks with mocks', (done) => {
     const LIFECYCLE_HOOKS = [
       'beforeCreate',
       'created',
@@ -99,31 +99,43 @@ describe('mount.mocks', () => {
       'deactivated'
     ]
 
+    const localVue = createLocalVue()
+
+    const mixinHooks = {}
     const originalHooks = {}
     const mockedHooks = {}
     LIFECYCLE_HOOKS.forEach(hook => {
       originalHooks[hook] = sinon.spy()
       mockedHooks[hook] = sinon.spy()
+      mixinHooks[hook] = sinon.spy()
     })
+
+    // install mixins
+    localVue.mixin(mixinHooks)
 
     const wrapper = mount({
       ...originalHooks
     }, {
+      localVue,
       mocks: mockedHooks
     })
 
-    wrapper.setData({})
+    // call methods manually, that will not be triggered by mount, forceUpdate and destroy
+    const manualCalledHooks = [ 'activated', 'deactivated' ]
+    manualCalledHooks.forEach(hook => wrapper.vm.$options[hook]
+      .forEach(handler => handler.call(wrapper.vm)))
 
-    // call methods that will not be triggered by mount, setData and destroy manually
-    wrapper.vm.updated() // only called in v2.0.8
-    wrapper.vm.deactivated()
-    wrapper.vm.activated()
+    // force udpate and wait till it was resolved
+    wrapper.vm.$forceUpdate()
+    wrapper.vm.$nextTick(() => {
+      wrapper.destroy()
 
-    wrapper.destroy()
-
-    LIFECYCLE_HOOKS.forEach(hook => {
-      expect(originalHooks[hook].notCalled).to.be.true
-      expect(mockedHooks[hook].calledOnce || hook === 'updated' && mockedHooks[hook].calledTwice).to.be.true
+      LIFECYCLE_HOOKS.forEach(hook => {
+        expect(originalHooks[hook].callCount).to.equal(0)
+        expect(mockedHooks[hook].callCount).to.equal(1)
+        expect(mixinHooks[hook].callCount).to.equal(1)
+      })
+      done()
     })
   })
 })
