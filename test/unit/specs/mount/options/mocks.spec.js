@@ -117,7 +117,7 @@ describe('mount.mocks', () => {
       ...originalHooks
     }, {
       localVue,
-      // mocks: mockedHooks
+      mocks: mockedHooks
     })
 
     // call methods manually, that will not be triggered by mount, forceUpdate and destroy
