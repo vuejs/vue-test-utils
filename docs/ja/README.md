@@ -5,6 +5,7 @@
 * [ガイド](guides/README.md)
   * [はじめる](guides/getting-started.md)
   * [一般的なヒント](guides/common-tips.md)
+  * [キー、マウス、その他の DOM イベントのテスト](guides/dom-events.md)
   * [テストランナを選ぶ](guides/choosing-a-test-runner.md)
   * [Jest による単一ファイルコンポーネントのテスト](guides/testing-SFCs-with-jest.md)
   * [Mocha + webpack による単一ファイルコンポーネントのテスト](guides/testing-SFCs-with-mocha-webpack.md)
