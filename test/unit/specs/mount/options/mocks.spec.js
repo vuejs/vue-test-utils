@@ -117,7 +117,7 @@ describe('mount.mocks', () => {
       ...originalHooks
     }, {
       localVue,
-      mocks: mockedHooks
+      // mocks: mockedHooks
     })
 
     // call methods manually, that will not be triggered by mount, forceUpdate and destroy
@@ -130,12 +130,19 @@ describe('mount.mocks', () => {
     wrapper.vm.$nextTick(() => {
       wrapper.destroy()
 
-      LIFECYCLE_HOOKS.forEach(hook => {
-        expect(originalHooks[hook].callCount).to.equal(0)
-        expect(mockedHooks[hook].callCount).to.equal(1)
-        expect(mixinHooks[hook].callCount).to.equal(1)
-      })
-      done()
+      try {
+        LIFECYCLE_HOOKS.forEach(hook => {
+          expect(originalHooks[hook].callCount).to.equal(0,
+            `Error: Lifecycle hook ${hook} was not overridden properly`)
+          expect(mockedHooks[hook].callCount).to.equal(1,
+            `Error: Lifecycle hook ${hook} mock was not called`)
+          expect(mixinHooks[hook].callCount).to.equal(1,
+            `Error: Lifecycle hook ${hook} installed by mixin was not called`)
+        })
+        done()
+      } catch (error) {
+        done(error)
+      }
     })
   })
 })
