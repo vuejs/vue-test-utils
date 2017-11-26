@@ -61,7 +61,7 @@ expect(wrapper.find('div')).toBe(true)
 
 - 类型：`{ [name: string]: Component | boolean } | Array<string>`
 
-将子组件存根。可以是一个要存根的组件名的数组或对象。
+将子组件存根。可以是一个要存根的组件名的数组或对象。如果 `stubs` 是一个数组，则每个存根都是一个 `<!---->`。
 
 示例：
 
