@@ -133,3 +133,19 @@ mount(Component, {
 ## Dealing with Routing
 
 Since routing by definition has to do with the overall structure of the application and involves multiple components, it is best tested via integration or end-to-end tests. For individual components that rely on `vue-router` features, you can mock them using the techniques mentioned above.
+
+## Overriding lifecycle hooks
+
+To avoid running your lifecycle hooks you can pass them in the `mocks` object:
+
+```js
+import { mount } from 'vue-test-utils'
+
+const mounted = () => {}
+
+mount(Component, {
+  mocks: {
+    mounted // overrides the original mounted implementation
+  }
+})
+```

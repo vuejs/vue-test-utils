@@ -103,7 +103,7 @@ describe('Foo', () => {
 })
 ```
 
-**Stubbing global properties:**
+**Stubbing global properties and lifecycle hooks:**
 
 ```js
 import { shallow } from 'vue-test-utils'
@@ -113,9 +113,11 @@ import Foo from './Foo.vue'
 describe('Foo', () => {
   it('renders a div', () => {
     const $route = { path: 'http://www.example-path.com' }
+    const mounted = () => { /* original mounted hook suppressed */ }
     const wrapper = shallow(Foo, {
       mocks: {
-        $route
+        $route,
+        mounted
       }
     })
     expect(wrapper.vm.$route.path).toBe($route.path)
