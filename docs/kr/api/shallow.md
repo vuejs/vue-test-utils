@@ -80,7 +80,7 @@ describe('Foo', () => {
 })
 ```
 
-**기본, 이름을 가지는 슬롯**
+**기본 값, 이름을 가지고 있는 슬롯**
 
 ```js
 import { shallow } from 'vue-test-utils'
@@ -94,8 +94,8 @@ describe('Foo', () => {
     const wrapper = shallow(Foo, {
       slots: {
         default: [Bar, FooBar],
-        fooBar: FooBar, // Will match <slot name="FooBar" />,
-        foo: '<div />'
+        fooBar: FooBar, // <slot name="FooBar" /> 와 일치하는.
+        foo: '<div />'
       }
     })
     expect(wrapper.find('div')).toBe(true)
