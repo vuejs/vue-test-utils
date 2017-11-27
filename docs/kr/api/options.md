@@ -1,6 +1,6 @@
 # 마운팅 옵션
 
-`mount`와 `shallow` 옵션. 옵션 객체는 `vue-test-utils` 마운트 옵션과 Vue의 기본 옵션을 모두 포함할 수 있습니다.
+`mount`와 `shallow` 의 옵션. 옵션 객체는 `vue-test-utils` 마운트 옵션과 Vue의 기본 옵션을 모두 포함할 수 있습니다.
 
 새 인스턴스가 만들어지면 Vue 옵션이 컴포넌트에 전달됩니다. 예를 들어 `store`, `propsData`가 있습니다. 전체 목록을 보려면 [Vue API 문서](https://vuejs.org/v2/api/)를 참조하십시오
 
@@ -38,7 +38,7 @@ expect(wrapper.is(Component)).toBe(true)
 
 - 타입: `{ [name: string]: Array<Component>|Component|string }`
 
-컴포넌트에 슬롯 객체를 제공합니다. 키는 슬롯 이름입니다. 이 값은 컴포넌트, 컴포넌트 배열, 템플릿 문자열 일 수 있습니다.
+컴포넌트에 슬롯 객체를 제공합니다. 객체의 키 이름은, 해당 슬롯 이름입니다. 이 값은 컴포넌트, 컴포넌트 배열, 템플릿 문자열 일 수 있습니다.
 
 예:
 
@@ -50,7 +50,7 @@ import Bar from './Bar.vue'
 const wrapper = shallow(Component, {
   slots: {
     default: [Foo, Bar],
-    fooBar: Foo, // <slot name="FooBar" /> 과 매치합니다.,
+    fooBar: Foo, // <slot name="FooBar" /> 와 일치하는.,
     foo: '<div />'
   }
 })
@@ -74,10 +74,10 @@ mount(Component, {
 
 shallow(Component, {
   stubs: {
-    // stub with a specific implementation
+    // 특정 구현을 스텁으로 한다.
     'registered-component': Foo,
-    // create default stub
-    'another-component': true
+    // 기본 구현을 스텁으로 생성한다.
+    'another-component': true
   }
 })
 ```
@@ -86,7 +86,7 @@ shallow(Component, {
 
 - 타입: `Object`
 
-인스턴스에 추가 특성을 추가하십시오. 글로벌 인젝션을 목킹하는데 유용합니다.
+인스턴스에 추가 특성(prop)을 추가하십시오. 글로벌 인젝션을 목킹하는데 유용합니다.
 
 예:
 
@@ -106,7 +106,7 @@ expect(wrapper.vm.$route.path).toBe($route.path)
 
 - 타입: `Vue`
 
-컴포넌트를 마운트할 때 사용할 [createLocalVue](./createLocalVue.md)에 의해 생성된 Vue의 로컬 복사본입니다. 이 Vue 복사본에 플러그인을 설치하면 `Vue` 원본을 오염시키지 않습니다.
+localVue는 [createLocalVue](./createLocalVue.md)에 의해 생성된 Vue의 로컬 복사본입니다. 컴포넌트를 마운트할 때, 이 Vue 복사본에 플러그인을 설치하면 `Vue` 원본을 오염시키지 않습니다.
 
 예:
 
