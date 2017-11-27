@@ -79,7 +79,7 @@ interface Wrapper<V extends Vue> extends BaseWrapper {
   text (): string
   name (): string
 
-  emitted (string? event): { [name: string]: Array<Array<any>> }
+  emitted (event?: string): { [name: string]: Array<Array<any>> }
   emittedByOrder (): Array<{ name: string, args: Array<any> }>
 }
 
@@ -108,7 +108,12 @@ interface MountOptions<V extends Vue> extends ComponentOptions<V> {
 
 type ShallowOptions<V extends Vue> = MountOptions<V>
 
+interface VueTestUtilsConfigOptions {
+  stubs?: Stubs
+}
+
 export declare function createLocalVue (): typeof Vue
+export declare let config: VueTestUtilsConfigOptions
 
 export declare function mount<V extends Vue, Ctor extends VueClass<V> = VueClass<V>> (component: Ctor, options?: MountOptions<V>): Wrapper<V>
 export declare function mount<V extends Vue> (component: ComponentOptions<V>, options?: MountOptions<V>): Wrapper<V>
@@ -117,3 +122,6 @@ export declare function mount (component: FunctionalComponentOptions, options?: 
 export declare function shallow<V extends Vue, Ctor extends VueClass<V> = VueClass<V>> (component: Ctor, options?: ShallowOptions<V>): Wrapper<V>
 export declare function shallow<V extends Vue> (component: ComponentOptions<V>, options?: ShallowOptions<V>): Wrapper<V>
 export declare function shallow (component: FunctionalComponentOptions, options?: ShallowOptions<Vue>): Wrapper<Vue>
+
+export declare let TransitionStub: Component | string | true  
+export declare let TransitionGroupStub: Component | string | true 

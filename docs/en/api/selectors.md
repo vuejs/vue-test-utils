@@ -49,6 +49,6 @@ expect(wrapper.is(Foo)).toBe(true)
 Using a find option object, `vue-test-utils` allows for selecting elements by `$ref` on wrapper components.
 
 ```js
-const buttonWrapper = wrapper.find({ ref: 'myButton' });
-buttonWrapper.trigger('click');
+const buttonWrapper = wrapper.find({ ref: 'myButton' })
+buttonWrapper.trigger('click')
 ```
