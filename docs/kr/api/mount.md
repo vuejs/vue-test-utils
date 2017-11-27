@@ -66,7 +66,7 @@ describe('Foo', () => {
   })
 })
 ```
-**기본, 이름을 가지는 슬롯**
+**기본 값, 이름을 가지고 있는 슬롯**
 
 ```js
 import { mount } from 'vue-test-utils'
