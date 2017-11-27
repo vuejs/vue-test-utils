@@ -110,6 +110,34 @@ To simplify usage, `vue-test-utils` applies all updates synchronously so you don
 
 *Note: `nextTick` is still necessary when you need to explictly advance the event loop, for operations such as asynchronous callbacks or promise resolution.*
 
+If you do still need to use `nextTick` in your test files, be aware that any errors thrown inside it may not be caught by your test runner as it uses promises internally. There are two approaches to fixing this: either you can set the `done` callback as Vue's global error handler at the start of the test, or you can call `nextTick` without an argument and return it as a promise:
+
+```js
+// this will not be caught
+it('will time out', (done) => {
+  Vue.nextTick(() => {
+    expect(true).toBe(false);
+    done();
+  });
+});
+
+// the two following tests will work as expected
+it('will catch the error using done', (done) => {
+  Vue.config.errorHandler = done;
+  Vue.nextTick(() => {
+    expect(true).toBe(false);
+    done();
+  });
+});
+
+it('will catch the error using a promise', () => {
+  return Vue.nextTick()
+    .then(function () {
+      expect(true).toBe(false);
+    });
+});
+```
+
 ## What's Next
 
 - Integrate `vue-test-utils` into your project by [choosing a test runner](./choosing-a-test-runner.md).
