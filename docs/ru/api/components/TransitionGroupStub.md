@@ -2,7 +2,7 @@
 
 Компонент для создания заглушки компонента `transition-group`. Вместо асинхронного выполнения переходов он возвращает дочерние компоненты синхронно.
 
-Это настроено на заглушку всех компонентов `transition-group` по умолчанию в конфигурации vue-test-utils. Чтобы использовать встроенную обёртку компонента `transition-group` установите `config.stubs['transition-group']` в значение false:
+Это настроено на заглушку всех компонентов `transition-group` по умолчанию в конфигурации vue-test-utils. Чтобы использовать стандартный компонент `transition-group` установите `config.stubs['transition-group']` в значение false:
 
 ```js
 import VueTestUtils from 'vue-test-utils'
@@ -10,7 +10,7 @@ import VueTestUtils from 'vue-test-utils'
 VueTestUtils.config.stubs['transition-group'] = false
 ```
 
-Чтобы переустановить обратно на компоненты-заглушки:
+Чтобы переустановить обратно на заглушки компонентов `transition-group`:
 
 ```js
 import VueTestUtils, { TransitionGroupStub } from 'vue-test-utils'
