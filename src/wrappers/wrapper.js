@@ -512,10 +512,18 @@ export default class Wrapper implements BaseWrapper {
 
     const event = type.split('.')
 
-    const eventObject = new window.Event(event[0], {
-      bubbles: true,
-      cancelable: true
-    })
+    let eventObject
+
+    // Fallback for IE10,11 - https://stackoverflow.com/questions/26596123
+    if (typeof (window.Event) === 'function') {
+      eventObject = new window.Event(event[0], {
+        bubbles: true,
+        cancelable: true
+      })
+    } else {
+      eventObject = document.createEvent('Event')
+      eventObject.initEvent(event[0], true, true)
+    }
 
     if (options && options.preventDefault) {
       eventObject.preventDefault()
