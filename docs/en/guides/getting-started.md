@@ -116,26 +116,26 @@ If you do still need to use `nextTick` in your test files, be aware that any err
 // this will not be caught
 it('will time out', (done) => {
   Vue.nextTick(() => {
-    expect(true).toBe(false);
-    done();
-  });
-});
+    expect(true).toBe(false)
+    done()
+  })
+})
 
 // the two following tests will work as expected
 it('will catch the error using done', (done) => {
-  Vue.config.errorHandler = done;
+  Vue.config.errorHandler = done
   Vue.nextTick(() => {
-    expect(true).toBe(false);
-    done();
-  });
-});
+    expect(true).toBe(false)
+    done()
+  })
+})
 
 it('will catch the error using a promise', () => {
   return Vue.nextTick()
     .then(function () {
-      expect(true).toBe(false);
-    });
-});
+      expect(true).toBe(false)
+    })
+})
 ```
 
 ## What's Next
