@@ -531,11 +531,13 @@ export default class Wrapper implements BaseWrapper {
 
     if (options) {
       Object.keys(options).forEach(key => {
+        // $FlowIgnore
         eventObject[key] = options[key]
       })
     }
 
     if (event.length === 2) {
+      // $FlowIgnore
       eventObject.keyCode = modifiers[event[1]]
     }
 
