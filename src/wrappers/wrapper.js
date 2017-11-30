@@ -507,7 +507,13 @@ export default class Wrapper implements BaseWrapper {
       up: 38,
       down: 40,
       left: 37,
-      right: 39
+      right: 39,
+      end: 35,
+      home: 36,
+      backspace: 8,
+      insert: 45,
+      pageup: 33,
+      pagedown: 34
     }
 
     const event = type.split('.')
