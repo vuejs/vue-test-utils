@@ -91,7 +91,7 @@ describe('Actions.vue', () => {
 })
 ```
 
-Que se passe-t-il ici ? Premièrement, on indique à Vue d'utiliser Vuex avec la méthode `use`. C'est tout simplement une surcouche de `Vue.use`.
+Que se passe-t-il ici ? Premièrement, on indique à Vue d'utiliser Vuex avec la méthode `localVue.use`. C'est tout simplement une surcouche de `Vue.use`.
 
 On va ensuite créer un store fictif en appelant `new Vuex.Store` avec nos propres valeurs. À noter que l'on indique uniquement nos actions, car on ne s'intéresse qu'à elles.
 

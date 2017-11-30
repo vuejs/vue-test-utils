@@ -11,7 +11,7 @@ const wrapper = mount(MyButton)
 wrapper.trigger('click')
 ```
 
-Vous devez être au courant que la méthode `find` retourne aussi un wrapper. En partant du principe que `MyComponent` contient un bouton, le code suivant clique sur le bouton.
+Vous devez être au courant que la méthode `find` retourne aussi un `Wrapper`. En partant du principe que `MyComponent` contient un bouton, le code suivant clique sur le bouton.
 
 ```js
 const wrapper = mount(MyComponent)
