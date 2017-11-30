@@ -74,7 +74,7 @@ export default function createConstructor (
         return h(
           clonedComponent,
           mountingOptions.context || component.FunctionalRenderContext,
-          (mountingOptions.context && mountingOptions.context.children) || createFunctionalSlots(mountingOptions.slots, h)
+          (mountingOptions.context && mountingOptions.context.children && mountingOptions.context.children.map(x => typeof x === 'function' ? x(h) : x)) || createFunctionalSlots(mountingOptions.slots, h)
         )
       }
     }

@@ -55,6 +55,7 @@ export default class Wrapper implements BaseWrapper {
       const cssModuleIdentifiers = {}
       let moduleIdent
       Object.keys(this.vm.$style).forEach((key) => {
+        // $FlowIgnore : Flow thinks vm is a property
         moduleIdent = this.vm.$style[key]
         // CSS Modules may be multi-class if they extend others. Extended classes should be already present in $style.
         moduleIdent = moduleIdent.split(' ')[0]
@@ -353,6 +354,7 @@ export default class Wrapper implements BaseWrapper {
     if (this.vm && this.vm.$options && this.vm.$options.propsData) {
       _props = this.vm.$options.propsData
     } else {
+      // $FlowIgnore
       _props = this.vm.$props
     }
     return _props || {} // Return an empty object if no props exist
@@ -510,10 +512,18 @@ export default class Wrapper implements BaseWrapper {
 
     const event = type.split('.')
 
-    const eventObject = new window.Event(event[0], {
-      bubbles: true,
-      cancelable: true
-    })
+    let eventObject
+
+    // Fallback for IE10,11 - https://stackoverflow.com/questions/26596123
+    if (typeof (window.Event) === 'function') {
+      eventObject = new window.Event(event[0], {
+        bubbles: true,
+        cancelable: true
+      })
+    } else {
+      eventObject = document.createEvent('Event')
+      eventObject.initEvent(event[0], true, true)
+    }
 
     if (options && options.preventDefault) {
       eventObject.preventDefault()
@@ -521,11 +531,13 @@ export default class Wrapper implements BaseWrapper {
 
     if (options) {
       Object.keys(options).forEach(key => {
+        // $FlowIgnore
         eventObject[key] = options[key]
       })
     }
 
     if (event.length === 2) {
+      // $FlowIgnore
       eventObject.keyCode = modifiers[event[1]]
     }
 

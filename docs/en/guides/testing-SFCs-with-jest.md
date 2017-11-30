@@ -46,8 +46,8 @@ Next, create a `jest` block in `package.json`:
       "vue"
     ],
     "transform": {
-      // process `*.vue` files with `jest-vue`
-      ".*\\.(vue)$": "<rootDir>/node_modules/jest-vue"
+      // process `*.vue` files with `vue-jest`
+      ".*\\.(vue)$": "<rootDir>/node_modules/vue-jest"
     },
     "mapCoverage": true
   }
