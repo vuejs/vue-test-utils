@@ -49,6 +49,6 @@ expect(wrapper.is(Foo)).toBe(true)
 `find` メソッドのオプションオブジェクトを使用すると、`Wrapper` コンポーネントの `$ref` プロパティに一致する要素を取得することができます。
 
 ```js
-const buttonWrapper = wrapper.find({ ref: 'myButton' });
-buttonWrapper.trigger('click');
+const buttonWrapper = wrapper.find({ ref: 'myButton' })
+buttonWrapper.trigger('click')
 ```
