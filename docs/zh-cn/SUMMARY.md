@@ -8,7 +8,7 @@
   * [用 Jest 测试单文件组件](guides/testing-SFCs-with-jest.md)
   * [用 Mocha 和 webpack 测试单文件组件](guides/testing-SFCs-with-mocha-webpack.md)
   * [配合 Vue Router 使用](guides/using-with-vue-router.md)
-  * [配合 Vuex 实用](guides/using-with-vuex.md)
+  * [配合 Vuex 使用](guides/using-with-vuex.md)
 * [API](api/README.md)
   * [mount](api/mount.md)
   * [shallow](api/shallow.md)
