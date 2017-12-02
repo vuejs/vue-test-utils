@@ -1,6 +1,6 @@
 # セレクタ
 
-多くのメソッドがセレクタを引数とします。セレクタは、CSS セレクタまたは Vue コンポーネントのいずれかです。
+多くのメソッドがセレクタを引数とします。セレクタは、CSS セレクタ、 Vue コンポーネント、または find メソッドのオプションオブジェクトのいずれかです。
 
 ## CSS セレクタ
 
@@ -40,4 +40,15 @@ import Foo from './Foo.vue'
 
 const wrapper = shallow(Foo)
 expect(wrapper.is(Foo)).toBe(true)
+```
+
+## find メソッドのオプションオブジェクト
+
+### ref
+
+find メソッドのオプションオブジェクトを使用すると、`Wrapper` コンポーネントの `$ref` プロパティに一致する要素を取得することができます。
+
+```js
+const buttonWrapper = wrapper.find({ ref: 'myButton' })
+buttonWrapper.trigger('click')
 ```
