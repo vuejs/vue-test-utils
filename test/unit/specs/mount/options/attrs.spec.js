@@ -1,15 +1,10 @@
-import Vue from 'vue'
 import { compileToFunctions } from 'vue-template-compiler'
 import mount from '~src/mount'
-
-function attrsNotSupported () {
-  const version = Number(`${Vue.version.split('.')[0]}.${Vue.version.split('.')[1]}`)
-  return version <= 2.3
-}
+import { attrsSupported } from '~resources/test-utils'
 
 describe('mount.attrs', () => {
   it('handles inherit attrs', () => {
-    if (attrsNotSupported) return
+    if (!attrsSupported()) return
     const wrapper = mount(compileToFunctions('<p :id="anAttr" />'), {
       attrs: {
         anAttr: 'an attribute'

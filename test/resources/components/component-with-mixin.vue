@@ -3,7 +3,7 @@
 </template>
 
 <script>
-  import testMixin from '../testMixin'
+  import testMixin from '../test-mixin'
 
   export default {
     name: 'component-with-mixin',
