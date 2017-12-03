@@ -17,6 +17,7 @@
   * [emitted](./wrapper/emitted.md)
   * [emittedByOrder](./wrapper/emittedByOrder.md)
   * [find](./wrapper/find.md)
+  * [findAll](./wrapper/findAll.md)
   * [hasAttribute](./wrapper/hasAttribute.md)
   * [hasClass](./wrapper/hasClass.md)
   * [hasProp](./wrapper/hasProp.md)
