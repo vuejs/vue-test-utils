@@ -4,7 +4,8 @@
 
 `Wrapper` DOM 노드의 `style`에 일치하는 `value`가 있으면 `true`를 반환합니다.
 
-**Note will only detect inline styles when running in `jsdom`.**
+**참고: `jsdom` 환경에서 실행하는 경우에만 인라인 스타일을 감지할 수 있습니다.**
+
 - **전달인자:**
   - `{string} style`
   - `{string} value`
