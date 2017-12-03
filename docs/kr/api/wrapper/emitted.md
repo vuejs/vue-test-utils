@@ -1,6 +1,6 @@
 # emitted()
 
-`Wrapper`의 `vm`에 의해 만들어진 사용자 정의 이벤트를 포함하는 객체를 반환합니다.
+`Wrapper`의 `vm`에 의해 만들어진, 사용자 정의 이벤트를 포함한 객체를 반환합니다.
 
 - **반환값:** `{ [name: string]: Array<Array<any>> }`
 
