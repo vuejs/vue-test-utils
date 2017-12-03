@@ -48,7 +48,7 @@ You can create wrappers using the `mount` method. Let's create a file called `te
 ```js
 // test.js
 
-// Import the mount() method from the test utils
+// Import the `mount()` method from the test utils
 // and the component you want to test
 import { mount } from 'vue-test-utils'
 import Counter from './counter'
@@ -56,11 +56,11 @@ import Counter from './counter'
 // Now mount the component and you have the wrapper
 const wrapper = mount(Counter)
 
-// You can access the actual Vue instance via wrapper.vm
+// You can access the actual Vue instance via `wrapper.vm`
 const vm = wrapper.vm
 
 // To inspect the wrapper deeper just log it to the console
-// and your adventure with the vue-test-utils begins
+// and your adventure with the `vue-test-utils` begins
 console.log(wrapper)
 ```
 
@@ -110,7 +110,35 @@ To simplify usage, `vue-test-utils` applies all updates synchronously so you don
 
 *Note: `nextTick` is still necessary when you need to explictly advance the event loop, for operations such as asynchronous callbacks or promise resolution.*
 
+If you do still need to use `nextTick` in your test files, be aware that any errors thrown inside it may not be caught by your test runner as it uses promises internally. There are two approaches to fixing this: either you can set the `done` callback as Vue's global error handler at the start of the test, or you can call `nextTick` without an argument and return it as a promise:
+
+```js
+// this will not be caught
+it('will time out', (done) => {
+  Vue.nextTick(() => {
+    expect(true).toBe(false)
+    done()
+  })
+})
+
+// the two following tests will work as expected
+it('will catch the error using done', (done) => {
+  Vue.config.errorHandler = done
+  Vue.nextTick(() => {
+    expect(true).toBe(false)
+    done()
+  })
+})
+
+it('will catch the error using a promise', () => {
+  return Vue.nextTick()
+    .then(function () {
+      expect(true).toBe(false)
+    })
+})
+```
+
 ## What's Next
 
-- Integrate `vue-test-utils` into your project by [choosing a test runner](./choosing-a-test-runner.md)
-- Learn more about [common techniques when writing tests](./common-tips.md)
+- Integrate `vue-test-utils` into your project by [choosing a test runner](./choosing-a-test-runner.md).
+- Learn more about [common techniques when writing tests](./common-tips.md).

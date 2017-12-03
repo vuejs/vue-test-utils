@@ -42,11 +42,11 @@ Next, create a `jest` block in `package.json`:
     "moduleFileExtensions": [
       "js",
       "json",
-      // tell Jest to handle *.vue files
+      // tell Jest to handle `*.vue` files
       "vue"
     ],
     "transform": {
-      // process *.vue files with vue-jest
+      // process `*.vue` files with `vue-jest`
       ".*\\.(vue)$": "<rootDir>/node_modules/vue-jest"
     },
     "mapCoverage": true
@@ -75,6 +75,7 @@ If you use a resolve alias in the webpack config, e.g. aliasing `@` to `/src`, y
 
 ## Configuring Babel for Jest
 
+<!-- todo ES modules has been supported in latest versions of Node -->
 Although latest versions of Node already supports most ES2015 features, you may still want to use ES modules syntax and stage-x features in your tests. For that we need to install `babel-jest`:
 
 ``` bash
@@ -90,7 +91,7 @@ Next, we need to tell Jest to process JavaScript test files with `babel-jest` by
     // ...
     "transform": {
       // ...
-      // process js with babel-jest
+      // process js with `babel-jest`
       "^.+\\.js$": "<rootDir>/node_modules/babel-jest"
     },
     // ...
@@ -150,7 +151,7 @@ Then configure it in `package.json`:
 
 ### Placing Test Files
 
-By default, Jest will recursively pick up all files that have a `.spec.js` or `.test.js` extension in the entire project. If this does not fit your needs, it's possible [to change the testRegex](https://facebook.github.io/jest/docs/en/configuration.html#testregex-string) in the config section in the `package.json` file.
+By default, Jest will recursively pick up all files that have a `.spec.js` or `.test.js` extension in the entire project. If this does not fit your needs, it's possible [to change the `testRegex`](https://facebook.github.io/jest/docs/en/configuration.html#testregex-string) in the config section in the `package.json` file.
 
 Jest recommends creating a `__tests__` directory right next to the code being tested, but feel free to structure your tests as you see fit. Just beware that Jest would create a `__snapshots__` directory next to test files that performs snapshot testing.
 

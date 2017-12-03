@@ -1,4 +1,4 @@
-# 配合 Vuex 实用
+# 配合 Vuex 使用
 
 在本教程中，我们将会看到如何用 `vue-test-utils` 测试组件中的 Vuex。
 

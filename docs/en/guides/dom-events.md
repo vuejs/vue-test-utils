@@ -10,7 +10,7 @@ const wrapper = mount(MyButton)
 wrapper.trigger('click')
 ```
 
-You should be aware, that find returns a wrapper as well. Assuming `MyComponent` contains a button, the following code clicks the button.
+You should be aware that the `find` method returns a `Wrapper` as well. Assuming `MyComponent` contains a button, the following code clicks the button.
 
 ```js
 const wrapper = mount(MyComponent)
@@ -20,9 +20,9 @@ wrapper.find('button').trigger('click')
 
 ## Options
 
-The trigger method takes an optional `options` object. The properties in the `options` object are added to the Event.
+The `trigger` method takes an optional `options` object. The properties in the `options` object are added to the Event.
 
-You can run preventDefault on the event by passing `preventDefault: true` in `options`.
+You can run `preventDefault` on the event by passing `preventDefault: true` in `options`.
 
 ```js
 const wrapper = mount(MyButton)
@@ -189,8 +189,8 @@ describe('Key event tests', () => {
 
 A key name after the dot `keydown.up` is translated to a `keyCode`. This is supported for the following names:
 
-* enter, tab, delete, esc, space, up, down, left, right
+* `enter`, `tab`, `delete`, `esc`, `space`, `up`, `down`, `left`, `right`
 
 ## Important
 
-vue-test-utils triggers event synchronously. Consequently, `Vue.nextTick` is not required.
+`vue-test-utils` triggers event synchronously. Consequently, `Vue.nextTick` is not required.

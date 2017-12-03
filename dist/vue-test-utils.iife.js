@@ -2771,7 +2771,7 @@ function isRefSelector (refOptionsObject) {
   return isValid
 }
 
-//
+// 
 
 var selectorTypes = {
   DOM_SELECTOR: 'DOM_SELECTOR',
@@ -2862,7 +2862,7 @@ function removeDuplicateNodes (vNodes) {
   return uniqueNodes
 }
 
-//
+// 
 
 function nodeMatchesSelector (node, selector) {
   return node.elm && node.elm.getAttribute && node.elm.matches(selector)
@@ -2888,7 +2888,7 @@ function findVNodesByRef (vNode, refName) {
   return removeDuplicateNodes(mainVNodeFilteredNodes)
 }
 
-//
+// 
 
 
 
@@ -2902,6 +2902,18 @@ WrapperArray.prototype.at = function at (index) {
     throwError(("no item exists at " + index));
   }
   return this.wrappers[index]
+};
+
+WrapperArray.prototype.attributes = function attributes () {
+  this.throwErrorIfWrappersIsEmpty('attributes');
+
+  throwError('attributes must be called on a single wrapper, use at(i) to access a wrapper');
+};
+
+WrapperArray.prototype.classes = function classes () {
+  this.throwErrorIfWrappersIsEmpty('classes');
+
+  throwError('classes must be called on a single wrapper, use at(i) to access a wrapper');
 };
 
 WrapperArray.prototype.contains = function contains (selector) {
@@ -2991,6 +3003,12 @@ WrapperArray.prototype.name = function name () {
   throwError('name must be called on a single wrapper, use at(i) to access a wrapper');
 };
 
+WrapperArray.prototype.props = function props () {
+  this.throwErrorIfWrappersIsEmpty('props');
+
+  throwError('props must be called on a single wrapper, use at(i) to access a wrapper');
+};
+
 WrapperArray.prototype.text = function text () {
   this.throwErrorIfWrappersIsEmpty('text');
 
@@ -3054,6 +3072,14 @@ ErrorWrapper.prototype.at = function at () {
   throwError(("find did not return " + (this.selector) + ", cannot call at() on empty Wrapper"));
 };
 
+ErrorWrapper.prototype.attributes = function attributes () {
+  throwError(("find did not return " + (this.selector) + ", cannot call attributes() on empty Wrapper"));
+};
+
+ErrorWrapper.prototype.classes = function classes () {
+  throwError(("find did not return " + (this.selector) + ", cannot call classes() on empty Wrapper"));
+};
+
 ErrorWrapper.prototype.contains = function contains () {
   throwError(("find did not return " + (this.selector) + ", cannot call contains() on empty Wrapper"));
 };
@@ -3114,6 +3140,10 @@ ErrorWrapper.prototype.name = function name () {
   throwError(("find did not return " + (this.selector) + ", cannot call name() on empty Wrapper"));
 };
 
+ErrorWrapper.prototype.props = function props () {
+  throwError(("find did not return " + (this.selector) + ", cannot call props() on empty Wrapper"));
+};
+
 ErrorWrapper.prototype.text = function text () {
   throwError(("find did not return " + (this.selector) + ", cannot call text() on empty Wrapper"));
 };
@@ -3161,6 +3191,41 @@ Wrapper.prototype.at = function at () {
 };
 
 /**
+ * Returns an Object containing all the attribute/value pairs on the element.
+ */
+Wrapper.prototype.attributes = function attributes () {
+  var attributes = [].concat( this.element.attributes ); // NameNodeMap is not iterable
+  var attributeMap = {};
+  attributes.forEach(function (att) {
+    attributeMap[att.localName] = att.value;
+  });
+  return attributeMap
+};
+
+/**
+ * Returns an Array containing all the classes on the element
+ */
+Wrapper.prototype.classes = function classes () {
+    var this$1 = this;
+
+  var classes = [].concat( this.element.classList );
+  // Handle converting cssmodules identifiers back to the original class name
+  if (this.vm && this.vm.$style) {
+    var cssModuleIdentifiers = {};
+    var moduleIdent;
+    Object.keys(this.vm.$style).forEach(function (key) {
+      // $FlowIgnore : Flow thinks vm is a property
+      moduleIdent = this$1.vm.$style[key];
+      // CSS Modules may be multi-class if they extend others. Extended classes should be already present in $style.
+      moduleIdent = moduleIdent.split(' ')[0];
+      cssModuleIdentifiers[moduleIdent] = key;
+    });
+    classes = classes.map(function (className) { return cssModuleIdentifiers[className] || className; });
+  }
+  return classes
+};
+
+/**
  * Checks if wrapper contains provided selector.
  */
 Wrapper.prototype.contains = function contains (selector) {
@@ -3189,9 +3254,12 @@ Wrapper.prototype.contains = function contains (selector) {
 /**
  * Returns an object containing custom events emitted by the Wrapper vm
  */
-Wrapper.prototype.emitted = function emitted () {
+Wrapper.prototype.emitted = function emitted (event) {
   if (!this._emitted && !this.vm) {
     throwError('wrapper.emitted() can only be called on a Vue instance');
+  }
+  if (event) {
+    return this._emitted[event]
   }
   return this._emitted
 };
@@ -3435,6 +3503,24 @@ Wrapper.prototype.name = function name () {
   }
 
   return this.vnode.tag
+};
+
+/**
+ * Returns an Object containing the prop name/value pairs on the element
+ */
+Wrapper.prototype.props = function props () {
+  if (!this.isVueComponent) {
+    throwError('wrapper.props() must be called on a Vue instance');
+  }
+  // $props object does not exist in Vue 2.1.x, so use $options.propsData instead
+  var _props;
+  if (this.vm && this.vm.$options && this.vm.$options.propsData) {
+    _props = this.vm.$options.propsData;
+  } else {
+    // $FlowIgnore
+    _props = this.vm.$props;
+  }
+  return _props || {} // Return an empty object if no props exist
 };
 
 /**
@@ -3950,7 +4036,7 @@ var config = {
   }
 };
 
-//
+// 
 function getStubs (optionStubs) {
   if (optionStubs || Object.keys(config.stubs).length > 0) {
     if (Array.isArray(optionStubs)) {
@@ -3990,7 +4076,7 @@ function deleteMountingOptions (options) {
   delete options.listeners;
 }
 
-//
+// 
 
 function isValidSlot (slot) {
   return Array.isArray(slot) || (slot !== null && typeof slot === 'object') || typeof slot === 'string'
@@ -4093,7 +4179,7 @@ function createConstructor (
   return vm
 }
 
-//
+// 
 
 function createElement () {
   if (document) {
@@ -4121,7 +4207,7 @@ if (!Element.prototype.matches) {
         };
 }
 
-//
+// 
 
 Vue.config.productionTip = false;
 Vue.config.errorHandler = errorHandler;
@@ -4148,7 +4234,7 @@ function mount (component, options) {
   return new VueWrapper(vm, { attachedToDocument: !!options.attachToDocument })
 }
 
-//
+// 
 
 function shallow (component, options) {
   if ( options === void 0 ) options = {};

@@ -1,6 +1,6 @@
 # WrapperArray
 
-A `WrapperArray` is an object that contains an array of [Wrappers](../wrapper/README.md), and methods to test the `Wrappers`.
+A `WrapperArray` is an object that contains an array of [`Wrappers`](../wrapper/README.md), and methods to test the `Wrappers`.
 
 - **Properties:**
 
@@ -8,4 +8,4 @@ A `WrapperArray` is an object that contains an array of [Wrappers](../wrapper/RE
 
  - **Methods:**
 
-There is a detailed list of methods in the WrapperArray section of the docs.
+There is a detailed list of methods in the `WrapperArray` section of the docs.

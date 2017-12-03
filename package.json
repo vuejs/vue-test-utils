@@ -1,6 +1,6 @@
 {
   "name": "vue-test-utils",
-  "version": "1.0.0-beta.5",
+  "version": "1.0.0-beta.6",
   "description": "Utilities for testing Vue components.",
   "main": "dist/vue-test-utils.js",
   "types": "types/index.d.ts",

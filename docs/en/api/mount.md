@@ -1,4 +1,4 @@
-# mount(component {, options}])
+# `mount(component {, options}])`
 
 - **Arguments:**
 
@@ -31,6 +31,7 @@ describe('Foo', () => {
   })
 })
 ```
+
 **With Vue options:**
 
 ```js
@@ -80,7 +81,7 @@ describe('Foo', () => {
     const wrapper = mount(Foo, {
       slots: {
         default: [Bar, FooBar],
-        fooBar: FooBar, // Will match <slot name="FooBar" />,
+        fooBar: FooBar, // Will match `<slot name="FooBar" />`.
         foo: '<div />'
       }
     })

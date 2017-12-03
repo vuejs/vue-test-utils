@@ -31,3 +31,16 @@ expect(wrapper.emitted().foo.length).toBe(2)
 // 断言事件的有效数据
 expect(wrapper.emitted().foo[1]).toEqual([123])
 ```
+
+你也可以把上面的代码写成这样：
+
+```js
+// 断言事件已经被触发
+expect(wrapper.emitted('foo')).toBeTruthy()
+
+// 断言事件的数量
+expect(wrapper.emitted('foo').length).toBe(2)
+
+// 断言事件的有效数据
+expect(wrapper.emitted('foo')[1]).toEqual([123])
+```

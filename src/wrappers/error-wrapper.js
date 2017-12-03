@@ -12,6 +12,14 @@ export default class ErrorWrapper implements BaseWrapper {
     throwError(`find did not return ${this.selector}, cannot call at() on empty Wrapper`)
   }
 
+  attributes (): void {
+    throwError(`find did not return ${this.selector}, cannot call attributes() on empty Wrapper`)
+  }
+
+  classes (): void {
+    throwError(`find did not return ${this.selector}, cannot call classes() on empty Wrapper`)
+  }
+
   contains (): void {
     throwError(`find did not return ${this.selector}, cannot call contains() on empty Wrapper`)
   }
@@ -70,6 +78,10 @@ export default class ErrorWrapper implements BaseWrapper {
 
   name (): void {
     throwError(`find did not return ${this.selector}, cannot call name() on empty Wrapper`)
+  }
+
+  props (): void {
+    throwError(`find did not return ${this.selector}, cannot call props() on empty Wrapper`)
   }
 
   text (): void {

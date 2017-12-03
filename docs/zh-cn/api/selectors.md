@@ -1,6 +1,6 @@
 # 选择器
 
-很多方法的参数中都包含选择器。一个选择器可以是一个 CSS 选择器或是一个 Vue 组件。
+很多方法的参数中都包含选择器。一个选择器可以是一个 CSS 选择器、一个 Vue 组件或是一个查找选项对象。
 
 ## CSS 选择器
 
@@ -40,4 +40,15 @@ import Foo from './Foo.vue'
 
 const wrapper = shallow(Foo)
 expect(wrapper.is(Foo)).toBe(true)
+```
+
+## 查找选项对象
+
+### Ref
+
+`vue-test-utils` 允许通过一个查找选项对象在组件包裹器上根据 `$ref` 选择元素。
+
+```js
+const buttonWrapper = wrapper.find({ ref: 'myButton' })
+buttonWrapper.trigger('click')
 ```
