@@ -1,6 +1,6 @@
 # find(selector)
 
-첫번째 DOM 노드 또는 Vue 컴포넌트와 일치하는 셀렉터의 [`Wrapper`](README.md)를 반환합니다.
+입력한 셀렉터와 일치하는 첫번째 DOM 노드 또는 Vue 컴포넌트 [`Wrapper`](README.md)를 반환합니다.
 
 올바른 [selector](selectors.md)를 사용하세요.
 
