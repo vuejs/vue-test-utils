@@ -20,15 +20,15 @@ const wrapper = mount({
   data () {
     return {
       initial: 'initial'
-    };
+    }
   },
   computed: {
-    computed1 () { 
-      return this.initial 
+    computed1 () {
+      return this.initial
     },
-    computed2 () { 
-      return this.initial 
-    },
+    computed2 () {
+      return this.initial
+    }
   }
 })
 
