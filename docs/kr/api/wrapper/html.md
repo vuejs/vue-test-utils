@@ -1,6 +1,6 @@
 # html()
 
-`Wrapper` DOM 노드를 문자열로 반환합니다.
+`Wrapper` DOM 노드의 HTML을 문자열로 반환합니다.
 
 - **반환값:** `{string}`
 
