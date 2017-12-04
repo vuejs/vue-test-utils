@@ -41,14 +41,14 @@ function createFunctionalSlots (slots = {}, h) {
   return children
 }
 
-export default function createFunctionalComponent (component, mountingOptions) {
+export default function createFunctionalComponent (component: Component, mountingOptions: Options) {
   if (mountingOptions.context && typeof mountingOptions.context !== 'object') {
     throwError('mount.context must be an object')
   }
 
   const clonedComponent = cloneDeep(component)
   return {
-    render (h) {
+    render (h: Function) {
       return h(
         clonedComponent,
         mountingOptions.context || component.FunctionalRenderContext,
