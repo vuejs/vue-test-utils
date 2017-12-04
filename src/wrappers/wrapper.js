@@ -219,13 +219,12 @@ export default class Wrapper implements BaseWrapper {
    */
   find (selector: Selector): Wrapper | ErrorWrapper | VueWrapper {
     const selectorType = getSelectorTypeOrThrow(selector, 'find')
-
     if (selectorType === selectorTypes.VUE_COMPONENT) {
       if (!selector.name) {
         throwError('.find() requires component to have a name property')
       }
-      const vm = this.vm || this.vnode.context.$root
-      const components = findVueComponents(vm, selector.name)
+      const root = this.vm || this.vnode
+      const components = findVueComponents(root, selector.name)
       if (components.length === 0) {
         return new ErrorWrapper('Component')
       }
@@ -261,8 +260,8 @@ export default class Wrapper implements BaseWrapper {
       if (!selector.name) {
         throwError('.findAll() requires component to have a name property')
       }
-      const vm = this.vm || this.vnode.context.$root
-      const components = findVueComponents(vm, selector.name)
+      const root = this.vm || this.vnode
+      const components = findVueComponents(root, selector.name)
       return new WrapperArray(components.map(component => new VueWrapper(component, this.options)))
     }
 
