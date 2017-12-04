@@ -8,6 +8,13 @@ describe('exists', () => {
     expect(wrapper.exists()).to.equal(true)
   })
 
+  it('returns false if Wrapper is destroyed', () => {
+    const compiled = compileToFunctions('<div />')
+    const wrapper = mount(compiled)
+    wrapper.destroy()
+    expect(wrapper.exists()).to.equal(false)
+  })
+
   it('returns false if called on an ErrorWrapper', () => {
     const compiled = compileToFunctions('<div />')
     const wrapper = mount(compiled)

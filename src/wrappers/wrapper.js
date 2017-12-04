@@ -119,7 +119,7 @@ export default class Wrapper implements BaseWrapper {
    * Utility to check wrapper exists. Returns true as Wrapper always exists
    */
   exists (): boolean {
-    return true
+    return !!this.vm && !this.vm._isDestroyed
   }
 
   /**
