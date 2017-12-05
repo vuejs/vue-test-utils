@@ -96,7 +96,22 @@ describe('WrapperArray', () => {
     expect(wrapperArray.contains()).to.equal(false)
   })
 
-  it('exists returns true if it has existing wrappers', () => {
+  it('exists returns true if it has every existing wrappers', () => {
+    const wrapper = {
+      exists () {
+        return true
+      }
+    }
+    const wrapperArray = new WrapperArray([wrapper])
+    expect(wrapperArray.exists()).to.equal(true)
+  })
+
+  it('exists returns false if it does not have existing wrappers', () => {
+    const wrapperArray = new WrapperArray([])
+    expect(wrapperArray.exists()).to.equal(false)
+  })
+
+  it('exists returns false if it has not existing wrappers', () => {
     const wrapper1 = {
       exists () {
         return true
@@ -108,7 +123,7 @@ describe('WrapperArray', () => {
       }
     }
     const wrapperArray = new WrapperArray([wrapper1, wrapper2])
-    expect(wrapperArray.exists()).to.equal(true)
+    expect(wrapperArray.exists()).to.equal(false)
   })
 
   it('exists returns false if it does not have existing wrappers', () => {
