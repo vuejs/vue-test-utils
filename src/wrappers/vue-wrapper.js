@@ -29,4 +29,8 @@ export default class VueWrapper extends Wrapper implements BaseWrapper {
 
     logEvents(vm, this._emitted, this._emittedByOrder)
   }
+
+  exists (): boolean {
+    return !!this.vm && !this.vm._isDestroyed
+  }
 }

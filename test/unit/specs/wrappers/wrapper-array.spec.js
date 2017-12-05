@@ -96,13 +96,23 @@ describe('WrapperArray', () => {
     expect(wrapperArray.contains()).to.equal(false)
   })
 
-  it('exists returns true if length is greater then 0', () => {
-    const wrapperArray = new WrapperArray([{}])
+  it('exists returns true if it has existing wrappers', () => {
+    const wrapper = {
+      exists () {
+        return true
+      }
+    }
+    const wrapperArray = new WrapperArray([wrapper])
     expect(wrapperArray.exists()).to.equal(true)
   })
 
-  it('exists returns false if length is 0', () => {
-    const wrapperArray = new WrapperArray([])
+  it('exists returns false if it does not have existing wrappers', () => {
+    const wrapper = {
+      exists () {
+        return false
+      }
+    }
+    const wrapperArray = new WrapperArray([wrapper])
     expect(wrapperArray.exists()).to.equal(false)
   })
 

@@ -11,7 +11,6 @@ describe('mount.listeners', () => {
         aListener
       }
     })
-    console.info(123)
 
     expect(wrapper.vm.$listeners.aListener).to.equal(aListener)
     wrapper.update()

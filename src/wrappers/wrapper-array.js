@@ -37,8 +37,9 @@ export default class WrapperArray implements BaseWrapper {
 
     return this.wrappers.every(wrapper => wrapper.contains(selector))
   }
+
   exists (): boolean {
-    return this.wrappers.length > 0
+    return this.wrappers.filter(wrapper => wrapper.exists()).length > 0
   }
 
   emitted (): void {
