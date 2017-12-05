@@ -40,8 +40,4 @@ wrapper.setComputed({
 })
 
 expect(wrapper.html()).toBe('<div>new-computed1 new-computed2</div>')
-<<<<<<< HEAD
 ```
-=======
-```
->>>>>>> upstream/dev
