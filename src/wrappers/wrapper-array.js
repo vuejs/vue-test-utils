@@ -39,7 +39,7 @@ export default class WrapperArray implements BaseWrapper {
   }
 
   exists (): boolean {
-    return this.wrappers.filter(wrapper => wrapper.exists()).length > 0
+    return this.wrappers.some(wrapper => wrapper.exists())
   }
 
   emitted (): void {
