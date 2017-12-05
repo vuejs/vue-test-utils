@@ -15,6 +15,7 @@
 - [`attrs`](#attrs)
 - [`listeners`](#listeners)
 - [`clone`](#clone)
+- [`provide`](#provide)
 
 ### `context`
 
@@ -160,6 +161,8 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 
 Клонирует компонент перед монтированием, если установлено в `true`, что позволяет избежать мутаций оригинального определения компонента.
 
-`options.mocks` (`Object`): Добавляет глобальные свойства в экземпляр Vue.
+### `provide`
 
-`options.localVue` (`Object`): `Vue` класс для использования в `mount`. См. также [`createLocalVue`](createLocalVue.md)
+- Тип: `Object`
+
+Передаёт свойства в компоненты для использования в инъекциях. См. [provide/inject](https://ru.vuejs.org/v2/api/#provide-inject)
