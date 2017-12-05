@@ -20,15 +20,15 @@ const wrapper = mount({
   data () {
     return {
       initial: 'initial'
-    };
+    }
   },
   computed: {
-    computed1 () { 
-      return this.initial 
+    computed1 () {
+      return this.initial
     },
-    computed2 () { 
-      return this.initial 
-    },
+    computed2 () {
+      return this.initial
+    }
   }
 })
 
@@ -40,4 +40,8 @@ wrapper.setComputed({
 })
 
 expect(wrapper.html()).toBe('<div>new-computed1 new-computed2</div>')
+<<<<<<< HEAD
 ```
+=======
+```
+>>>>>>> upstream/dev

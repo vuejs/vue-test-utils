@@ -244,14 +244,14 @@ describe('Modules.vue', () => {
     })
   })
 
-  it("appelle l'action du store moduleActionClick quand le bouton est cliqué", () => {
+  it('appelle l\'action du store moduleActionClick quand le bouton est cliqué', () => {
     const wrapper = shallow(Modules, { store, localVue })
     const button = wrapper.find('button')
     button.trigger('click')
     expect(actions.moduleActionClick).toHaveBeenCalled()
   })
 
-  it("affiche `state.inputValue` dans la première balise <p>", () => {
+  it('affiche `state.inputValue` dans la première balise <p>', () => {
     const wrapper = shallow(Modules, { store, localVue })
     const p = wrapper.find('p')
     expect(p.text()).toBe(state.module.clicks.toString())

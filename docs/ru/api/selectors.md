@@ -49,6 +49,6 @@ expect(wrapper.is(Foo)).toBe(true)
 Использование опции поиска объекта позволяет `vue-test-utils` выбирать элементы по `$ref` на компонентах обёрток.
 
 ```js
-const buttonWrapper = wrapper.find({ ref: 'myButton' });
-buttonWrapper.trigger('click');
+const buttonWrapper = wrapper.find({ ref: 'myButton' })
+buttonWrapper.trigger('click')
 ```

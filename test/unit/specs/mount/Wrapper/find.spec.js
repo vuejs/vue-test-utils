@@ -1,5 +1,6 @@
 import { compileToFunctions } from 'vue-template-compiler'
 import mount from '~src/mount'
+import createLocalVue from '~src/create-local-vue'
 import ComponentWithChild from '~resources/components/component-with-child.vue'
 import ComponentWithoutName from '~resources/components/component-without-name.vue'
 import ComponentWithSlots from '~resources/components/component-with-slots.vue'
@@ -110,16 +111,35 @@ describe('find', () => {
   })
 
   it('returns array of VueWrappers of Vue Components matching component if component name in parent is different to filename', () => {
-    // same test as above, but good to be explicit
     const wrapper = mount(ComponentWithChild)
     const div = wrapper.find('span')
     expect(div.find(Component)).to.be.instanceOf(Wrapper)
   })
 
-  it('returns Wrapper of Vue Component matching component using Wrapper as reference', () => {
+  it('returns Wrapper matching selector using Wrapper as reference', () => {
     const wrapper = mount(ComponentWithChild)
     const div = wrapper.find('span')
     expect(div.find(Component)).to.be.instanceOf(Wrapper)
+  })
+
+  it('returns error Wrapper if Vue component is below Wrapper', () => {
+    const AComponent = {
+      render: () => {},
+      name: 'a component'
+    }
+    const localVue = createLocalVue()
+    localVue.component('a-component', AComponent)
+    const TestComponent = {
+      template: `
+        <div>
+          <span />
+          <a-component />
+        </div>
+      `
+    }
+    const wrapper = mount(TestComponent, { localVue })
+    const span = wrapper.find('span')
+    expect(span.find(AComponent)).to.be.instanceOf(ErrorWrapper)
   })
 
   it('throws error if component does not have a name property', () => {
