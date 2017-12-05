@@ -6,10 +6,10 @@
 
 - **Свойства:**
 
-`vm` `Component`: это экземпляр `Vue`. Вы можете получить доступ ко всем [методам и свойствам экземпляра](https://ru.vuejs.org/v2/api/index.html#Опции-—-данные) через `wrapper.vm`. Это существует только в обёртках для компонентов Vue
-`element` `HTMLElement`: корневой DOM-узел обёртки
-`options` `Object`: Объект содержащий опции `vue-test-utils`, передаваемые в `mount` или `shallow`
-`options.attachedToDom` `Boolean`: `true` если был передан `attachToDom` в `mount` или `shallow`
+`vm` `Component`: это экземпляр `Vue`. Вы можете получить доступ ко всем [методам и свойствам экземпляра](https://ru.vuejs.org/v2/api/index.html#Опции-—-данные) через `wrapper.vm`. Это существует только в обёртках для компонентов Vue  
+`element` `HTMLElement`: корневой DOM-узел обёртки  
+`options` `Object`: Объект содержащий опции `vue-test-utils`, передаваемые в `mount` или `shallow`  
+`options.attachedToDom` `Boolean`: `true` если был передан `attachToDom` в `mount` или `shallow`  
 
 - **Методы:**
 
