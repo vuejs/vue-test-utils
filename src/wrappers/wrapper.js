@@ -119,6 +119,9 @@ export default class Wrapper implements BaseWrapper {
    * Utility to check wrapper exists. Returns true as Wrapper always exists
    */
   exists (): boolean {
+    if (this.isVueComponent) {
+      return !!this.vm && !this.vm._isDestroyed
+    }
     return true
   }
 
