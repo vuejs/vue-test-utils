@@ -32,7 +32,7 @@ describe('mount.slots', () => {
       const wrapper = mount(ComponentWithSlots, { slots: { default: 'foo' }})
       expect(wrapper.text()).to.equal('foo')
     } else {
-      const message = 'vue-test-utils does not support for passing text to slots at your Vue.js version'
+      const message = '[vue-test-utils]: vue-test-utils does not support for passing text to slots at your Vue.js version'
       const fn = () => mount(ComponentWithSlots, { slots: { default: 'foo' }})
       expect(fn).to.throw().with.property('message', message)
     }
@@ -65,7 +65,7 @@ describe('mount.slots', () => {
       const wrapper = mount(ComponentWithSlots, { slots: { default: ['foo', 'bar'] }})
       expect(wrapper.text()).to.equal('foobar')
     } else {
-      const message = 'vue-test-utils does not support for passing text to slots at your Vue.js version'
+      const message = '[vue-test-utils]: vue-test-utils does not support for passing text to slots at your Vue.js version'
       const fn = () => mount(ComponentWithSlots, { slots: { default: ['foo', 'bar'] }})
       expect(fn).to.throw().with.property('message', message)
     }
