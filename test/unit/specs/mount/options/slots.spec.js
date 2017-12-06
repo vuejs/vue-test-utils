@@ -29,7 +29,7 @@ describe('mount.slots', () => {
   it('mounts component with default slot if passed string in slot object', () => {
     if (vueVersion >= 2.2) {
       const wrapper = mount(ComponentWithSlots, { slots: { default: 'foo' }})
-      expect(wrapper.text()).to.equal('foo')
+      expect(wrapper.find('main').text()).to.equal('foo')
     } else {
       const message = '[vue-test-utils]: vue-test-utils support for passing text to slots at vue@2.2+'
       const fn = () => mount(ComponentWithSlots, { slots: { default: 'foo' }})
@@ -61,7 +61,7 @@ describe('mount.slots', () => {
   it('mounts component with default slot if passed string in slot text array object', () => {
     if (vueVersion >= 2.2) {
       const wrapper = mount(ComponentWithSlots, { slots: { default: ['foo', 'bar'] }})
-      expect(wrapper.text()).to.equal('foobar')
+      expect(wrapper.find('main').text()).to.equal('foobar')
     } else {
       const message = '[vue-test-utils]: vue-test-utils support for passing text to slots at vue@2.2+'
       const fn = () => mount(ComponentWithSlots, { slots: { default: ['foo', 'bar'] }})
