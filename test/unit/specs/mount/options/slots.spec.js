@@ -25,6 +25,11 @@ describe('mount.slots', () => {
     expect(wrapper.contains('span')).to.equal(true)
   })
 
+  it('mounts component with default slot if passed string in slot object', () => {
+    const wrapper = mount(ComponentWithSlots, { slots: { default: 'foo' }})
+    expect(wrapper.text()).to.equal('foo')
+  })
+
   it('throws error if passed string in default slot object and vue-template-compiler is undefined', () => {
     const compilerSave = require.cache[require.resolve('vue-template-compiler')].exports.compileToFunctions
     require.cache[require.resolve('vue-template-compiler')].exports.compileToFunctions = undefined
@@ -44,6 +49,11 @@ describe('mount.slots', () => {
   it('mounts component with default slot if passed string in slot array object', () => {
     const wrapper = mount(ComponentWithSlots, { slots: { default: ['<span />'] }})
     expect(wrapper.contains('span')).to.equal(true)
+  })
+
+  it('mounts component with default slot if passed string in slot text array object', () => {
+    const wrapper = mount(ComponentWithSlots, { slots: { default: ['foo', 'bar'] }})
+    expect(wrapper.text()).to.equal('foobar')
   })
 
   it('throws error if passed string in default slot array vue-template-compiler is undefined', () => {

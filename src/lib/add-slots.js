@@ -8,24 +8,23 @@ function isValidSlot (slot: any): boolean {
 }
 
 function addSlotToVm (vm: Component, slotName: string, slotValue: Component | string | Array<Component> | Array<string>): void {
-  if (Array.isArray(vm.$slots[slotName])) {
-    if (typeof slotValue === 'string') {
-      if (!compileToFunctions) {
-        throwError('vueTemplateCompiler is undefined, you must pass components explicitly if vue-template-compiler is undefined')
-      }
-      vm.$slots[slotName].push(vm.$createElement(compileToFunctions(slotValue)))
+  let elem
+  if (typeof slotValue === 'string') {
+    if (!compileToFunctions) {
+      throwError('vueTemplateCompiler is undefined, you must pass components explicitly if vue-template-compiler is undefined')
+    }
+    if (slotValue.trim()[0] === '<') {
+      elem = vm.$createElement(compileToFunctions(slotValue))
     } else {
-      vm.$slots[slotName].push(vm.$createElement(slotValue))
+      elem = vm._v(slotValue)
     }
   } else {
-    if (typeof slotValue === 'string') {
-      if (!compileToFunctions) {
-        throwError('vueTemplateCompiler is undefined, you must pass components explicitly if vue-template-compiler is undefined')
-      }
-      vm.$slots[slotName] = [vm.$createElement(compileToFunctions(slotValue))]
-    } else {
-      vm.$slots[slotName] = [vm.$createElement(slotValue)] // eslint-disable-line no-param-reassign
-    }
+    elem = vm.$createElement(slotValue)
+  }
+  if (Array.isArray(vm.$slots[slotName])) {
+    vm.$slots[slotName].push(elem)
+  } else {
+    vm.$slots[slotName] = [elem]
   }
 }
 

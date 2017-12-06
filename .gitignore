@@ -21,4 +21,7 @@ _book
 .tmp
 tmp*
 
+# Vim
+*.sw[po]
+
 yarn.lock
