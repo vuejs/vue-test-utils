@@ -124,7 +124,7 @@ describe('Foo', () => {
   it('renders a div', () => {
     const wrapper = mount(Foo, {
       stubs: {
-        Bar: '<div class="stubbed />',
+        Bar: '<div class="stubbed" />',
         BarFoo: true,
         FooBar: Faz
       }
