@@ -1,8 +1,8 @@
 # TransitionGroupStub
 
-`transition-group` 래퍼 컴포넌트를 스텁하는 컴포넌트입니다. 트랜지션을 비동기로 수행하는 대신 동기적으로 자식 컴포넌트를 반환합니다.
+`transition-group`은 래퍼 컴포넌트를 스텁하는 컴포넌트입니다. 트랜지션을 비동기로 수행하는 대신, 동기적으로 자식 컴포넌트를 반환합니다.
 
-이는 vue-test-utils에서 기본적으로 모든 `transition-group` 컴포넌트를 스텁하도록 설정됩니다. 내장된 `transition-group` 래퍼 컴포넌트를 `config.stubs[transition-group]`을 false로 설정하려면:
+이것은 vue-test-utils에서 기본 config에서 모든 `transition-group` 컴포넌트를 스텁하도록 설정되어 있습니다. 내장된 `transition-group` 래퍼 컴포넌트를 기본으로 쓰고싶다면, `config.stubs[transition-group]`을 false로 설정합시다.:
 
 
 ```js
