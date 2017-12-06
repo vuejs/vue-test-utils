@@ -74,10 +74,10 @@ mount(Component, {
 
 shallow(Component, {
   stubs: {
-    // 특정 구현을 스텁으로 한다.
+    // 특정 구현을 스텁으로 한다.
     'registered-component': Foo,
-    // 기본 구현을 스텁으로 생성한다.
-    'another-component': true
+    // 기본 구현을 스텁으로 생성한다.
+    'another-component': true
   }
 })
 ```

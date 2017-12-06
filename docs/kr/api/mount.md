@@ -80,7 +80,7 @@ describe('Foo', () => {
     const wrapper = mount(Foo, {
       slots: {
         default: [Bar, FooBar],
-        fooBar: FooBar, // <slot name="FooBar" /> 와 일치하는.
+        fooBar: FooBar, // <slot name="FooBar" /> 와 일치하는.
         foo: '<div />'
       }
     })

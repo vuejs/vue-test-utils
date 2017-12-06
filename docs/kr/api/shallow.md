@@ -94,8 +94,8 @@ describe('Foo', () => {
     const wrapper = shallow(Foo, {
       slots: {
         default: [Bar, FooBar],
-        fooBar: FooBar, // <slot name="FooBar" /> 와 일치하는.
-        foo: '<div />'
+        fooBar: FooBar, // <slot name="FooBar" /> 와 일치하는.
+        foo: '<div />'
       }
     })
     expect(wrapper.find('div')).toBe(true)

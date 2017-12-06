@@ -49,6 +49,6 @@ expect(wrapper.is(Foo)).toBe(true)
 find 옵션 객체를 사용해 `vue-test-utils`는 래퍼 컴포넌트에서 $ref로 엘리먼트를 셀렉트할 수 있습니다.
 
 ```js
-const buttonWrapper = wrapper.find({ ref: 'myButton' });
-buttonWrapper.trigger('click');
+const buttonWrapper = wrapper.find({ ref: 'myButton' })
+buttonWrapper.trigger('click')
 ```
