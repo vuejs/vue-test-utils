@@ -3,6 +3,7 @@ import Vue from 'vue'
 import mount from '~src/mount'
 import Component from '~resources/components/component.vue'
 import ComponentWithSlots from '~resources/components/component-with-slots.vue'
+import { vueVersion } from '~resources/test-utils'
 
 describe('mount.slots', () => {
   it('mounts component with default slot if passed component in slot object', () => {
@@ -28,11 +29,11 @@ describe('mount.slots', () => {
 
   it('mounts component with default slot if passed string in slot object', () => {
     const vm = new Vue()
-    if ('_v' in vm) {
+    if (vueVersion >= 2.2) {
       const wrapper = mount(ComponentWithSlots, { slots: { default: 'foo' }})
       expect(wrapper.text()).to.equal('foo')
     } else {
-      const message = '[vue-test-utils]: vue-test-utils does not support for passing text to slots at your Vue.js version'
+      const message = '[vue-test-utils]: vue-test-utils support for passing text to slots at vue@2.2+'
       const fn = () => mount(ComponentWithSlots, { slots: { default: 'foo' }})
       expect(fn).to.throw().with.property('message', message)
     }
@@ -61,11 +62,11 @@ describe('mount.slots', () => {
 
   it('mounts component with default slot if passed string in slot text array object', () => {
     const vm = new Vue()
-    if ('_v' in vm) {
+    if (vueVersion >= 2.2) {
       const wrapper = mount(ComponentWithSlots, { slots: { default: ['foo', 'bar'] }})
       expect(wrapper.text()).to.equal('foobar')
     } else {
-      const message = '[vue-test-utils]: vue-test-utils does not support for passing text to slots at your Vue.js version'
+      const message = '[vue-test-utils]: vue-test-utils support for passing text to slots at vue@2.2+'
       const fn = () => mount(ComponentWithSlots, { slots: { default: ['foo', 'bar'] }})
       expect(fn).to.throw().with.property('message', message)
     }
