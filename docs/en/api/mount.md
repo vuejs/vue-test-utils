@@ -122,7 +122,7 @@ import Faz from './Faz.vue'
 describe('Foo', () => {
   it('renders a div', () => {
     const wrapper = mount(Foo, {
-      stub: {
+      stubs: {
         Bar: '<div class="stubbed />',
         BarFoo: true,
         FooBar: Faz
