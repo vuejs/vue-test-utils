@@ -10,7 +10,7 @@ const wrapper = mount(MyButton)
 wrapper.trigger('click')
 ```
 
-你应该注意到了，`find` 也会返回一个包裹器。假设 `MyComponent` 包含一个按钮，下面的代码会点击这个按钮。
+你应该注意到了，`find` 方法也会返回一个 `Wrapper`。假设 `MyComponent` 包含一个按钮，下面的代码会点击这个按钮。
 
 ```js
 const wrapper = mount(MyComponent)
@@ -20,7 +20,7 @@ wrapper.find('button').trigger('click')
 
 ## 选项
 
-该触发方法接受一个可选的 `options` 对象。这个 `options` 对象里的属性会被添加到事件中。
+其 `trigger` 方法接受一个可选的 `options` 对象。这个 `options` 对象里的属性会被添加到事件中。
 
 你可以通过在 `options` 里传入 `preventDefault: true` 来运行事件上的 `preventDefault`。
 
