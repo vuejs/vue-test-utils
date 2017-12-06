@@ -19,7 +19,7 @@ function addSlotToVm (vm: Component, slotName: string, slotValue: Component | st
       if ('_v' in vm) {
         elem = vm._v(slotValue)
       } else {
-        throwError('vue-test-utils support for passing text to slots at vue@2.1.5+')
+        throwError('vue-test-utils support for passing text to slots at vue@2.2+')
       }
     }
   } else {

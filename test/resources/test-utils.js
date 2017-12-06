@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-export const vueVersion = parseFloat(`${Vue.version.split('.')[0]}.${Vue.version.split('.')[1]}${Vue.version.split('.')[2]}`)
+export const vueVersion = Number(`${Vue.version.split('.')[0]}.${Vue.version.split('.')[1]}`)
 
 export function injectSupported () {
   return vueVersion > 2.2
