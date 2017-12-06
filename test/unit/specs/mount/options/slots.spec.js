@@ -1,4 +1,5 @@
 import { compileToFunctions } from 'vue-template-compiler'
+import Vue from 'vue'
 import mount from '~src/mount'
 import Component from '~resources/components/component.vue'
 import ComponentWithSlots from '~resources/components/component-with-slots.vue'
@@ -26,8 +27,15 @@ describe('mount.slots', () => {
   })
 
   it('mounts component with default slot if passed string in slot object', () => {
-    const wrapper = mount(ComponentWithSlots, { slots: { default: 'foo' }})
-    expect(wrapper.text()).to.equal('foo')
+    const vm = new Vue()
+    if ('_v' in vm) {
+      const wrapper = mount(ComponentWithSlots, { slots: { default: 'foo' }})
+      expect(wrapper.text()).to.equal('foo')
+    } else {
+      const message = 'vue-test-utils does not support for passing text to slots at your Vue.js version'
+      const fn = () => mount(ComponentWithSlots, { slots: { default: 'foo' }})
+      expect(fn).to.throw().with.property('message', message)
+    }
   })
 
   it('throws error if passed string in default slot object and vue-template-compiler is undefined', () => {
@@ -52,8 +60,15 @@ describe('mount.slots', () => {
   })
 
   it('mounts component with default slot if passed string in slot text array object', () => {
-    const wrapper = mount(ComponentWithSlots, { slots: { default: ['foo', 'bar'] }})
-    expect(wrapper.text()).to.equal('foobar')
+    const vm = new Vue()
+    if ('_v' in vm) {
+      const wrapper = mount(ComponentWithSlots, { slots: { default: ['foo', 'bar'] }})
+      expect(wrapper.text()).to.equal('foobar')
+    } else {
+      const message = 'vue-test-utils does not support for passing text to slots at your Vue.js version'
+      const fn = () => mount(ComponentWithSlots, { slots: { default: ['foo', 'bar'] }})
+      expect(fn).to.throw().with.property('message', message)
+    }
   })
 
   it('throws error if passed string in default slot array vue-template-compiler is undefined', () => {

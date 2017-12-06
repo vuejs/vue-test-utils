@@ -16,7 +16,11 @@ function addSlotToVm (vm: Component, slotName: string, slotValue: Component | st
     if (slotValue.trim()[0] === '<') {
       elem = vm.$createElement(compileToFunctions(slotValue))
     } else {
-      elem = vm._v(slotValue)
+      if ('_v' in vm) {
+        elem = vm._v(slotValue)
+      } else {
+        throwError('vue-test-utils does not support for passing text to slots at your Vue.js version')
+      }
     }
   } else {
     elem = vm.$createElement(slotValue)
