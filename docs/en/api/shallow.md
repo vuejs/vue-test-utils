@@ -7,8 +7,8 @@
     - `{boolean} attachToDocument`
     - `{Object} context`
     - `{Object} slots`
-        - `{Array<Componet|Object>|Component|String} default`
-        - `{Array<Componet|Object>|Component|String} named`
+        - `{Array<Component|Object>|Component|String} default`
+        - `{Array<Component|Object>|Component|String} named`
     - `{Object} intercept`
     - `{Object|Array<string>} stubs`
     - `{boolean} clone`
