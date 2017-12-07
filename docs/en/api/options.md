@@ -165,4 +165,4 @@ Clones component before mounting if `true`, which avoids mutating the original c
 
 - type: `Object`
 
-Pass properties for components to use in injection. See [provide/inject](https://vuejs.org/v2/api/#provide-inject)
+Pass properties for components to use in injection. See [provide/inject](https://vuejs.org/v2/api/#provide-inject).
