@@ -17,6 +17,9 @@
       prop1: { default: 'default prop1' },
       prop2: { default: 'default prop2' }
     },
+    computed: {
+      computed1: () => 'some value'
+    },
     watch: {
       prop1 (val) {
         this.prop2 = val
@@ -29,6 +32,9 @@
       },
       data2 () {
         console.info(this.data1)
+      },
+      computed1 () {
+        console.info(this.computed1)
       }
     }
   }

@@ -413,6 +413,9 @@ export default class Wrapper implements BaseWrapper {
           }
         })
       }
+      this.vm._watchers.forEach((watcher) => {
+        if (watcher.expression === key) { watcher.run() }
+      })
     })
     this.update()
   }
