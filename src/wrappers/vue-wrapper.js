@@ -1,7 +1,6 @@
 // @flow
 
 import Wrapper from './wrapper'
-import { logEvents } from '../lib/log-events'
 
 function update () {
   this._update(this._render())
@@ -24,9 +23,9 @@ export default class VueWrapper extends Wrapper implements BaseWrapper {
     }))
     this.vm = vm
     this.isVueComponent = true
-    this._emitted = Object.create(null)
-    this._emittedByOrder = []
+    this._emitted = options.eventCaptor.emitted
+    this._emittedByOrder = options.eventCaptor.emittedByOrder
 
-    logEvents(vm, this._emitted, this._emittedByOrder)
+    // logEvents(vm, this._emitted, this._emittedByOrder)
   }
 }

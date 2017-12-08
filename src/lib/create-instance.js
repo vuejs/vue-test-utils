@@ -13,13 +13,22 @@ import extractOptions from '../options/extract-options'
 import deleteMountingOptions from '../options/delete-mounting-options'
 import createFunctionalComponent from './create-functional-component'
 
+import { logEvents } from '../lib/log-events'
+
 export default function createConstructor (
   component: Component,
-  options: Options
+  options: Options,
+  eventCaptor: EventCaptor
 ): Component {
   const mountingOptions = extractOptions(options)
 
   const vue = mountingOptions.localVue || createLocalVue()
+
+  vue.mixin({
+    beforeCreate: function () {
+      logEvents(this, eventCaptor.emitted, eventCaptor.emittedByOrder)
+    }
+  })
 
   if (mountingOptions.mocks) {
     addMocks(mountingOptions.mocks, vue)

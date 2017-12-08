@@ -54,4 +54,20 @@ describe('emitted', () => {
     const fn = () => wrapper.find('p').emitted()
     expect(fn).to.throw().with.property('message', message)
   })
+
+  it('captures all events thrown after beforeCreate lifecycle hook', () => {
+    const wrapper = mount({
+      beforeCreate () {
+        this.$emit('foo')
+      },
+      mounted () {
+        this.$emit('bar', 1, 2)
+      }
+    })
+
+    expect(wrapper.emitted()).to.deep.equal({
+      foo: [[]],
+      bar: [[1, 2]]
+    })
+  })
 })

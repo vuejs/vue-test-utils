@@ -25,4 +25,25 @@ describe('emittedByOrder', () => {
     const fn = () => wrapper.find('p').emittedByOrder()
     expect(fn).to.throw().with.property('message', message)
   })
+
+  it('captures in lifecycle hooks emitted events in order', () => {
+    const wrapper = mount({
+      render: h => h('div'),
+      beforeCreate: function () {
+        this.$emit('foo')
+      },
+      created: function () {
+        this.$emit('bar', 1, 2, 3)
+      },
+      mounted: function () {
+        this.$emit('foo', 2, 3, 4)
+      }
+    })
+
+    expect(wrapper.emittedByOrder()).to.eql([
+      { name: 'foo', args: [] },
+      { name: 'bar', args: [1, 2, 3] },
+      { name: 'foo', args: [2, 3, 4] }
+    ])
+  })
 })
