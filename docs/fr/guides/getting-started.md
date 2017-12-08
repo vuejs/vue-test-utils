@@ -1,4 +1,4 @@
-HE# Pour commencer
+# Pour commencer
 
 ## Installation
 
