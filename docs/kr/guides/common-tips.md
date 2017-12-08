@@ -95,7 +95,7 @@ mount(Component, {
 특정 앱의 컴포넌트에 대한 테스트를 작성하는 경우 동일한 글로벌 플러그인과 믹스인을 테스트 항목에 한번만 설정할 수 있습니다. 그러나 일부 앱에서 공유할 수 있는 일반적인 컴포넌트들을 테스트하는 경우에는 글로벌 `Vue` 생성자를 오염시키지 않고 격리시켜 컴포넌트를 테스트하는 것이 좋습니다. [createLocalVue](../api/createLocalVue.md) 메소드를 사용해 다음과 같이 할 수 있습니다.
 
 ``` js
-import createLocalVue from 'vue-test-utils'
+import { createLocalVue } from 'vue-test-utils'
 
 // 확장된 Vue 생성자를 만듭니다.
 const localVue = createLocalVue()

@@ -95,7 +95,7 @@ mount(Component, {
 如果你在为一个特定的应用撰写组件，你可以在你的测试入口处一次性设置相同的全局插件和混入。但是有些情况下，比如测试一个可能会跨越不同应用共享的普通的组件套件的时候，最好还是在一个更加隔离的设置中测试你的组件，不对全局的 `Vue` 构造函数注入任何东西。我们可以使用 [`createLocalVue`](../api/createLocalVue.md) 方法来存档它们：
 
 ``` js
-import createLocalVue from 'vue-test-utils'
+import { createLocalVue } from 'vue-test-utils'
 
 // 创建一个扩展的 `Vue` 构造函数
 const localVue = createLocalVue()
