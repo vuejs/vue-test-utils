@@ -114,7 +114,7 @@ Si vous avez toujours besoin de `nextTick` dans vos fichiers de tests, faites at
 
 ```js
 // ceci ne sera pas intercepté
-it('pas d\'interception, (done) => {
+it('pas d\'interception', (done) => {
   Vue.nextTick(() => {
     expect(true).toBe(false)
     done()
