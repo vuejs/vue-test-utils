@@ -4,13 +4,7 @@ import mount from '~src/mount'
 import ComponentWithProps from '~resources/components/component-with-props.vue'
 import ComponentWithMixin from '~resources/components/component-with-mixin.vue'
 import createLocalVue from '~src/create-local-vue'
-
-function injectSupported () {
-  console.log(Vue.version)
-  const version = Number(`${Vue.version.split('.')[0]}.${Vue.version.split('.')[1]}`)
-  console.log(version)
-  return version > 2.2
-}
+import { injectSupported, vueVersion } from '~resources/test-utils'
 
 describe('mount', () => {
   it('returns new VueWrapper with mounted Vue instance if no options are passed', () => {
@@ -121,10 +115,9 @@ describe('mount', () => {
         'prop': 'val'
       }
     })
-    const version = Number(`${Vue.version.split('.')[0]}.${Vue.version.split('.')[1]}`)
     if (injectSupported()) {
       // provide is added by Vue, it's a function in Vue > 2.3
-      if (version > 2.3) {
+      if (vueVersion > 2.3) {
         expect(typeof wrapper.vm.$options.provide).to.equal('function')
       } else {
         expect(typeof wrapper.vm.$options.provide).to.equal('object')

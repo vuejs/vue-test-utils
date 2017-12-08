@@ -6,7 +6,8 @@ import VueWrapper from './wrappers/vue-wrapper'
 import createInstance from './lib/create-instance'
 import cloneDeep from 'lodash/cloneDeep'
 import createElement from './lib/create-element'
-import './lib/matches-polyfill'
+import './lib/polyfills/matches-polyfill'
+import './lib/polyfills/object-assign-polyfill'
 import errorHandler from './lib/error-handler'
 
 Vue.config.productionTip = false

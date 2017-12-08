@@ -95,7 +95,7 @@ mount(Component, {
 特定のアプリケーションでコンポーネントのテストを作成している場合は、同じグローバルプラグインとミックスインをテストのエントリに設定できます。しかし、異なるアプリケーション間で共有される可能性のあるジェネリックコンポーネントスイートをテストする場合など、グローバルな `Vue` コンストラクタを汚染することなく、より孤立した設定でコンポーネントをテストする方が良い場合もあります。[createLocalVue](../api/createLocalVue.md) メソッドを使用すると、次のことができます:
 
 ``` js
-import createLocalVue from 'vue-test-utils'
+import { createLocalVue } from 'vue-test-utils'
 
 // 拡張された Vue コンストラクタを作成する
 const localVue = createLocalVue()

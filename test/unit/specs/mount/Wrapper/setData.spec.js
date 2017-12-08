@@ -37,7 +37,7 @@ describe('setData', () => {
     expect(wrapper.hasClass('some-class')).to.be.true
   })
 
-  it('runs watch function when prop is updated', () => {
+  it('runs watch function when data is updated', () => {
     const wrapper = mount(ComponentWithWatch)
     const data1 = 'testest'
     wrapper.setData({ data1 })

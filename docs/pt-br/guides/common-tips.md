@@ -96,7 +96,7 @@ Alguns dos seus componentes podem ter características injetadas por um plugin o
 Se você está escrevendo testes para componentes de uma aplicação específica, você pode configurar os plugins e mixins globais uma vez na entrada dos seus testes. Mas, em alguns casos, por exemplo, testando um pacote de componentes genéricos que podem ser compartilhados em diferentes aplicações, será melhor testar seus componentes com uma configuração mais isolada, sem popular o construtor global do Vue. Nós podemos usar o método [createLocalVue](../api/createLocalVue.md) para conseguir isso:
 
 ``` js
-import createLocalVue from 'vue-test-utils'
+import { createLocalVue } from 'vue-test-utils'
 
 // criando um construtor ampliado do Vue
 const localVue = createLocalVue()

@@ -119,6 +119,9 @@ export default class Wrapper implements BaseWrapper {
    * Utility to check wrapper exists. Returns true as Wrapper always exists
    */
   exists (): boolean {
+    if (this.isVueComponent) {
+      return !!this.vm && !this.vm._isDestroyed
+    }
     return true
   }
 
@@ -219,13 +222,12 @@ export default class Wrapper implements BaseWrapper {
    */
   find (selector: Selector): Wrapper | ErrorWrapper | VueWrapper {
     const selectorType = getSelectorTypeOrThrow(selector, 'find')
-
     if (selectorType === selectorTypes.VUE_COMPONENT) {
       if (!selector.name) {
         throwError('.find() requires component to have a name property')
       }
-      const vm = this.vm || this.vnode.context.$root
-      const components = findVueComponents(vm, selector.name)
+      const root = this.vm || this.vnode
+      const components = findVueComponents(root, selector.name)
       if (components.length === 0) {
         return new ErrorWrapper('Component')
       }
@@ -261,8 +263,8 @@ export default class Wrapper implements BaseWrapper {
       if (!selector.name) {
         throwError('.findAll() requires component to have a name property')
       }
-      const vm = this.vm || this.vnode.context.$root
-      const components = findVueComponents(vm, selector.name)
+      const root = this.vm || this.vnode
+      const components = findVueComponents(root, selector.name)
       return new WrapperArray(components.map(component => new VueWrapper(component, this.options)))
     }
 
@@ -411,6 +413,10 @@ export default class Wrapper implements BaseWrapper {
           }
         })
       }
+      // $FlowIgnore
+      this.vm._watchers.forEach((watcher) => {
+        if (watcher.expression === key) { watcher.run() }
+      })
     })
     this.update()
   }
@@ -507,7 +513,13 @@ export default class Wrapper implements BaseWrapper {
       up: 38,
       down: 40,
       left: 37,
-      right: 39
+      right: 39,
+      end: 35,
+      home: 36,
+      backspace: 8,
+      insert: 45,
+      pageup: 33,
+      pagedown: 34
     }
 
     const event = type.split('.')
