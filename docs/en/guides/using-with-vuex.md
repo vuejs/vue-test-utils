@@ -91,7 +91,7 @@ describe('Actions.vue', () => {
 })
 ```
 
-What’s happening here? First we tell Vue to use Vuex with the `Vue.use` method. This is just a wrapper around `Vue.use`.
+What’s happening here? First we tell Vue to use Vuex with the `localVue.use` method. This is just a wrapper around `Vue.use`.
 
 We then make a mock store by calling `new Vuex.store` with our mock values. We only pass it the actions, since that’s all we care about.
 

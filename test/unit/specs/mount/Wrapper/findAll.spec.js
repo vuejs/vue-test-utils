@@ -1,5 +1,6 @@
 import { compileToFunctions } from 'vue-template-compiler'
 import mount from '~src/mount'
+import createLocalVue from '~src/create-local-vue'
 import ComponentWithChild from '~resources/components/component-with-child.vue'
 import ComponentWithoutName from '~resources/components/component-without-name.vue'
 import ComponentWithSlots from '~resources/components/component-with-slots.vue'
@@ -148,6 +149,27 @@ describe('findAll', () => {
     expect(componentArr.length).to.equal(1)
   })
 
+  it('only returns Vue components that exist as children of Wrapper', () => {
+    const AComponent = {
+      render: () => {},
+      name: 'a component'
+    }
+    const localVue = createLocalVue()
+    localVue.component('a-component', AComponent)
+    const TestComponent = {
+      template: `
+        <div>
+          <span>
+            <a-component />
+          </span>
+          <a-component />
+        </div>
+      `
+    }
+    const wrapper = mount(TestComponent, { localVue })
+    const span = wrapper.find('span')
+    expect(span.findAll(AComponent).length).to.equal(1)
+  })
   it('throws an error if component does not have a name property', () => {
     const wrapper = mount(Component)
     const message = '[vue-test-utils]: .findAll() requires component to have a name property'

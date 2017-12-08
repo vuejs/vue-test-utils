@@ -96,14 +96,46 @@ describe('WrapperArray', () => {
     expect(wrapperArray.contains()).to.equal(false)
   })
 
-  it('exists returns true if length is greater then 0', () => {
-    const wrapperArray = new WrapperArray([{}])
+  it('exists returns true if it has every existing wrappers', () => {
+    const wrapper = {
+      exists () {
+        return true
+      }
+    }
+    const wrapperArray = new WrapperArray([wrapper])
     expect(wrapperArray.exists()).to.equal(true)
   })
 
-  it('exists returns false if length is 0', () => {
+  it('exists returns false if it does not have existing wrappers', () => {
     const wrapperArray = new WrapperArray([])
     expect(wrapperArray.exists()).to.equal(false)
+  })
+
+  it('exists returns false if it has not existing wrappers', () => {
+    const wrapper1 = {
+      exists () {
+        return true
+      }
+    }
+    const wrapper2 = {
+      exists () {
+        return false
+      }
+    }
+    const wrapperArray = new WrapperArray([wrapper1, wrapper2])
+    expect(wrapperArray.exists()).to.equal(false)
+  })
+
+  it('exists returns false if it does not have existing wrappers', () => {
+    const wrapperArray1 = new WrapperArray([])
+    expect(wrapperArray1.exists()).to.equal(false)
+    const wrapper = {
+      exists () {
+        return false
+      }
+    }
+    const wrapperArray2 = new WrapperArray([wrapper])
+    expect(wrapperArray2.exists()).to.equal(false)
   })
 
   it('hasAttribute returns true if every wrapper.hasAttribute() returns true', () => {

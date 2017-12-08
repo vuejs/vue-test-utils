@@ -13,6 +13,7 @@ Vue options are passed to the component when a new instance is created. , e.g. `
 - [`localVue`](#localvue)
 - [`attachToDocument`](#attachtodocument)
 - [`attrs`](#attrs)
+- [`provide`](#provide)
 - [`listeners`](#listeners)
 - [`clone`](#clone)
 
@@ -160,6 +161,8 @@ Set the component instance's `$listeners` object.
 
 Clones component before mounting if `true`, which avoids mutating the original component definition.
 
-`options.mocks` (`Object`): Add globals to Vue instance.
+### `provide`
 
-`options.localVue` (`Object`): `Vue` class to use in `mount`. See [`createLocalVue`](createLocalVue.md).
+- type: `Object`
+
+Pass properties for components to use in injection. See [provide/inject](https://vuejs.org/v2/api/#provide-inject).
