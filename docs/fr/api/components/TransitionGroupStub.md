@@ -10,7 +10,7 @@ import VueTestUtils from 'vue-test-utils'
 VueTestUtils.config.stubs['transition-group'] = false
 ```
 
-To reset it to stub transition components:
+To reset it to stub `transition-group` components:
 
 ```js
 import VueTestUtils, { TransitionGroupStub } from 'vue-test-utils'

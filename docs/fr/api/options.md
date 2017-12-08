@@ -13,6 +13,7 @@ Vue options are passed to the component when a new instance is created. , e.g. `
 - [`localVue`](#localvue)
 - [`attachToDocument`](#attachtodocument)
 - [`attrs`](#attrs)
+- [`provide`](#provide)
 - [`listeners`](#listeners)
 - [`clone`](#clone)
 
@@ -61,7 +62,7 @@ expect(wrapper.find('div')).toBe(true)
 
 - type: `{ [name: string]: Component | boolean } | Array<string>`
 
-Stubs child components. Can be an Array of component names to stub, or an object.
+Stubs child components. Can be an Array of component names to stub, or an object. If `stubs` is an Array, every stub is `<!---->`.
 
 Example:
 
@@ -160,6 +161,8 @@ Set the component instance's `$listeners` object.
 
 Clones component before mounting if `true`, which avoids mutating the original component definition.
 
-`options.mocks` (`Object`): Add globals to Vue instance.
+### `provide`
 
-`options.localVue` (`Object`): `Vue` class to use in `mount`. See [`createLocalVue`](createLocalVue.md).
+- type: `Object`
+
+Pass properties for components to use in injection. See [provide/inject](https://vuejs.org/v2/api/#provide-inject).
