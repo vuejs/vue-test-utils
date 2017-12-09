@@ -5,6 +5,7 @@ import addMocks from './add-mocks'
 import addAttrs from './add-attrs'
 import addListeners from './add-listeners'
 import addProvide from './add-provide'
+import { addEventLogger } from './log-events'
 import { stubComponents } from './stub-components'
 import { throwError } from './util'
 import { compileTemplate } from './compile-template'
@@ -44,6 +45,8 @@ export default function createConstructor (
   if (!component.render && component.template && !component.functional) {
     compileTemplate(component)
   }
+
+  addEventLogger(vue)
 
   const Constructor = vue.extend(component)
 
