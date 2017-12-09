@@ -243,7 +243,7 @@ describe('Modules.vue', () => {
     })
   })
 
-  it('appelle l\'action du store moduleActionClick quand le bouton est cliqué', () => {
+  it("appelle l'action du store moduleActionClick quand le bouton est cliqué", () => {
     const wrapper = shallow(Modules, { store, localVue })
     const button = wrapper.find('button')
     button.trigger('click')

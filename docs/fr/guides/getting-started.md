@@ -114,7 +114,7 @@ Si vous avez toujours besoin de `nextTick` dans vos fichiers de tests, faites at
 
 ```js
 // ceci ne sera pas intercepté
-it('pas d\'interception', (done) => {
+it("pas d'interception", (done) => {
   Vue.nextTick(() => {
     expect(true).toBe(false)
     done()
@@ -122,7 +122,7 @@ it('pas d\'interception', (done) => {
 })
 
 // les deux tests ci-dessous vont fonctionner comme souhaité
-it('attraper l\'erreur avec `done`', (done) => {
+it("attraper l'erreur avec `done`", (done) => {
   Vue.config.errorHandler = done
   Vue.nextTick(() => {
     expect(true).toBe(false)
@@ -130,7 +130,7 @@ it('attraper l\'erreur avec `done`', (done) => {
   })
 })
 
-it('attraper l\'erreur avec une promesse', () => {
+it("attraper l'erreur avec une promesse", () => {
   return Vue.nextTick()
     .then(function () {
       expect(true).toBe(false)
