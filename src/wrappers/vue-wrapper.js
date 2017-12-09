@@ -23,9 +23,7 @@ export default class VueWrapper extends Wrapper implements BaseWrapper {
     }))
     this.vm = vm
     this.isVueComponent = true
-    this._emitted = options.eventCaptor.emitted
-    this._emittedByOrder = options.eventCaptor.emittedByOrder
-
-    // logEvents(vm, this._emitted, this._emittedByOrder)
+    this._emitted = vm.__emitted
+    this._emittedByOrder = vm.__emittedByOrder
   }
 }

@@ -34,11 +34,5 @@ declare interface BaseWrapper { // eslint-disable-line no-undef
 
 declare type WrapperOptions = { // eslint-disable-line no-undef
     attachedToDocument: boolean,
-    error?: string,
-    eventCaptor: EventCaptor
-}
-
-declare type EventCaptor = { // eslint-disable-line no-undef
-  emitted: Object,
-  emittedByOrder: Array<any>
+    error?: string
 }

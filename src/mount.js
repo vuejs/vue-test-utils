@@ -18,12 +18,7 @@ export default function mount (component: Component, options: Options = {}): Vue
   // Remove cached constructor
   delete componentToMount._Ctor
 
-  const eventCaptor: EventCaptor = {
-    emitted: Object.create(null),
-    emittedByOrder: []
-  }
-
-  const vm = createInstance(componentToMount, options, eventCaptor)
+  const vm = createInstance(componentToMount, options)
 
   if (options.attachToDocument) {
     vm.$mount(createElement())
@@ -35,5 +30,5 @@ export default function mount (component: Component, options: Options = {}): Vue
     throw (vm._error)
   }
 
-  return new VueWrapper(vm, { attachedToDocument: !!options.attachToDocument, eventCaptor })
+  return new VueWrapper(vm, { attachedToDocument: !!options.attachToDocument })
 }

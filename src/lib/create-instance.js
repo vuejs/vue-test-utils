@@ -5,6 +5,7 @@ import addMocks from './add-mocks'
 import addAttrs from './add-attrs'
 import addListeners from './add-listeners'
 import addProvide from './add-provide'
+import { addEventLogger } from './log-events'
 import { stubComponents } from './stub-components'
 import { throwError } from './util'
 import { compileTemplate } from './compile-template'
@@ -13,22 +14,13 @@ import extractOptions from '../options/extract-options'
 import deleteMountingOptions from '../options/delete-mounting-options'
 import createFunctionalComponent from './create-functional-component'
 
-import { logEvents } from '../lib/log-events'
-
 export default function createConstructor (
   component: Component,
-  options: Options,
-  eventCaptor: EventCaptor
+  options: Options
 ): Component {
   const mountingOptions = extractOptions(options)
 
   const vue = mountingOptions.localVue || createLocalVue()
-
-  vue.mixin({
-    beforeCreate: function () {
-      logEvents(this, eventCaptor.emitted, eventCaptor.emittedByOrder)
-    }
-  })
 
   if (mountingOptions.mocks) {
     addMocks(mountingOptions.mocks, vue)
@@ -53,6 +45,8 @@ export default function createConstructor (
   if (!component.render && component.template && !component.functional) {
     compileTemplate(component)
   }
+
+  addEventLogger(vue)
 
   const Constructor = vue.extend(component)
 
