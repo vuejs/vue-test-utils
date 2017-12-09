@@ -8,7 +8,7 @@ import findVNodesByRef from '../lib/find-vnodes-by-ref'
 import VueWrapper from './vue-wrapper'
 import WrapperArray from './wrapper-array'
 import ErrorWrapper from './error-wrapper'
-import { throwError } from '../lib/util'
+import { throwError, warn } from '../lib/util'
 
 export default class Wrapper implements BaseWrapper {
   vnode: VNode;
@@ -129,6 +129,8 @@ export default class Wrapper implements BaseWrapper {
    * Checks if wrapper has an attribute with matching value
    */
   hasAttribute (attribute: string, value: string) {
+    warn('hasAttribute() has been deprecated and will be removed in version 1.0.0. Use attributes() instead—https://vue-test-utils.vuejs.org/en/api/wrapper/attributes')
+
     if (typeof attribute !== 'string') {
       throwError('wrapper.hasAttribute() must be passed attribute as a string')
     }
@@ -144,6 +146,7 @@ export default class Wrapper implements BaseWrapper {
    * Asserts wrapper has a class name
    */
   hasClass (className: string) {
+    warn('hasClass() has been deprecated and will be removed in version 1.0.0. Use classes() instead—https://vue-test-utils.vuejs.org/en/api/wrapper/classes')
     let targetClass = className
 
     if (typeof targetClass !== 'string') {
@@ -166,6 +169,8 @@ export default class Wrapper implements BaseWrapper {
    * Asserts wrapper has a prop name
    */
   hasProp (prop: string, value: string) {
+    warn('hasProp() has been deprecated and will be removed in version 1.0.0. Use props() instead—https://vue-test-utils.vuejs.org/en/api/wrapper/props')
+
     if (!this.isVueComponent) {
       throwError('wrapper.hasProp() must be called on a Vue instance')
     }
