@@ -65,9 +65,7 @@ describe('emitted', () => {
       }
     })
 
-    expect(wrapper.emitted()).to.deep.equal({
-      foo: [[]],
-      bar: [[1, 2]]
-    })
+    expect(wrapper.emitted().foo).to.eql([[]])
+    expect(wrapper.emitted().bar).to.eql([[1, 2]])
   })
 })
