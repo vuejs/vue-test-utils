@@ -2,6 +2,7 @@ import { compileToFunctions } from 'vue-template-compiler'
 import mount from '~src/mount'
 import Component from '~resources/components/component.vue'
 import ComponentWithSlots from '~resources/components/component-with-slots.vue'
+import { vueVersion } from '~resources/test-utils'
 
 describe('mount.slots', () => {
   it('mounts component with default slot if passed component in slot object', () => {
@@ -25,6 +26,17 @@ describe('mount.slots', () => {
     expect(wrapper.contains('span')).to.equal(true)
   })
 
+  it('mounts component with default slot if passed string in slot object', () => {
+    if (vueVersion >= 2.2) {
+      const wrapper = mount(ComponentWithSlots, { slots: { default: 'foo' }})
+      expect(wrapper.find('main').text()).to.equal('foo')
+    } else {
+      const message = '[vue-test-utils]: vue-test-utils support for passing text to slots at vue@2.2+'
+      const fn = () => mount(ComponentWithSlots, { slots: { default: 'foo' }})
+      expect(fn).to.throw().with.property('message', message)
+    }
+  })
+
   it('throws error if passed string in default slot object and vue-template-compiler is undefined', () => {
     const compilerSave = require.cache[require.resolve('vue-template-compiler')].exports.compileToFunctions
     require.cache[require.resolve('vue-template-compiler')].exports.compileToFunctions = undefined
@@ -44,6 +56,17 @@ describe('mount.slots', () => {
   it('mounts component with default slot if passed string in slot array object', () => {
     const wrapper = mount(ComponentWithSlots, { slots: { default: ['<span />'] }})
     expect(wrapper.contains('span')).to.equal(true)
+  })
+
+  it('mounts component with default slot if passed string in slot text array object', () => {
+    if (vueVersion >= 2.2) {
+      const wrapper = mount(ComponentWithSlots, { slots: { default: ['foo', 'bar'] }})
+      expect(wrapper.find('main').text()).to.equal('foobar')
+    } else {
+      const message = '[vue-test-utils]: vue-test-utils support for passing text to slots at vue@2.2+'
+      const fn = () => mount(ComponentWithSlots, { slots: { default: ['foo', 'bar'] }})
+      expect(fn).to.throw().with.property('message', message)
+    }
   })
 
   it('throws error if passed string in default slot array vue-template-compiler is undefined', () => {

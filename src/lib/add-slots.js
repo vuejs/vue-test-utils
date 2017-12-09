@@ -1,5 +1,6 @@
 // @flow
 
+import Vue from 'vue'
 import { compileToFunctions } from 'vue-template-compiler'
 import { throwError } from './util'
 
@@ -8,24 +9,28 @@ function isValidSlot (slot: any): boolean {
 }
 
 function addSlotToVm (vm: Component, slotName: string, slotValue: Component | string | Array<Component> | Array<string>): void {
-  if (Array.isArray(vm.$slots[slotName])) {
-    if (typeof slotValue === 'string') {
-      if (!compileToFunctions) {
-        throwError('vueTemplateCompiler is undefined, you must pass components explicitly if vue-template-compiler is undefined')
-      }
-      vm.$slots[slotName].push(vm.$createElement(compileToFunctions(slotValue)))
+  let elem
+  const vueVersion = Number(`${Vue.version.split('.')[0]}.${Vue.version.split('.')[1]}`)
+  if (typeof slotValue === 'string') {
+    if (!compileToFunctions) {
+      throwError('vueTemplateCompiler is undefined, you must pass components explicitly if vue-template-compiler is undefined')
+    }
+    if (slotValue.trim()[0] === '<') {
+      elem = vm.$createElement(compileToFunctions(slotValue))
     } else {
-      vm.$slots[slotName].push(vm.$createElement(slotValue))
+      if (vueVersion >= 2.2) {
+        elem = vm._v(slotValue)
+      } else {
+        throwError('vue-test-utils support for passing text to slots at vue@2.2+')
+      }
     }
   } else {
-    if (typeof slotValue === 'string') {
-      if (!compileToFunctions) {
-        throwError('vueTemplateCompiler is undefined, you must pass components explicitly if vue-template-compiler is undefined')
-      }
-      vm.$slots[slotName] = [vm.$createElement(compileToFunctions(slotValue))]
-    } else {
-      vm.$slots[slotName] = [vm.$createElement(slotValue)] // eslint-disable-line no-param-reassign
-    }
+    elem = vm.$createElement(slotValue)
+  }
+  if (Array.isArray(vm.$slots[slotName])) {
+    vm.$slots[slotName].push(elem)
+  } else {
+    vm.$slots[slotName] = [elem]
   }
 }
 
