@@ -2806,14 +2806,29 @@ function getSelectorTypeOrThrow (selector, methodName) {
 
 // 
 
-function findAllVueComponents (vm, components) {
+function findAllVueComponentsFromVm (vm, components) {
   if ( components === void 0 ) components = [];
 
   components.push(vm);
-
   vm.$children.forEach(function (child) {
-    findAllVueComponents(child, components);
+    findAllVueComponentsFromVm(child, components);
   });
+
+  return components
+}
+
+function findAllVueComponentsFromVnode (vnode, components) {
+  if ( components === void 0 ) components = [];
+
+  debugger
+  if (vnode.child) {
+    components.push(vnode.child);
+  }
+  if (vnode.children) {
+    vnode.children.forEach(function (child) {
+      findAllVueComponentsFromVnode(child, components);
+    });
+  }
 
   return components
 }
@@ -2824,8 +2839,9 @@ function vmCtorMatchesName (vm, name) {
         vm.$options && vm.$options.name === name
 }
 
-function findVueComponents (vm, componentName) {
-  var components = findAllVueComponents(vm);
+function findVueComponents (root, componentName) {
+  debugger
+  var components = root._isVue ? findAllVueComponentsFromVm(root) : findAllVueComponentsFromVnode(root);
   return components.filter(function (component) {
     if (!component.$vnode) {
       return false
@@ -2924,8 +2940,9 @@ WrapperArray.prototype.contains = function contains (selector) {
 
   return this.wrappers.every(function (wrapper) { return wrapper.contains(selector); })
 };
+
 WrapperArray.prototype.exists = function exists () {
-  return this.wrappers.length > 0
+  return this.length > 0 && this.wrappers.every(function (wrapper) { return wrapper.exists(); })
 };
 
 WrapperArray.prototype.emitted = function emitted () {
@@ -3281,6 +3298,9 @@ Wrapper.prototype.emittedByOrder = function emittedByOrder () {
  * Utility to check wrapper exists. Returns true as Wrapper always exists
  */
 Wrapper.prototype.exists = function exists () {
+  if (this.isVueComponent) {
+    return !!this.vm && !this.vm._isDestroyed
+  }
   return true
 };
 
@@ -3383,13 +3403,12 @@ Wrapper.prototype.hasStyle = function hasStyle (style, value) {
  */
 Wrapper.prototype.find = function find (selector) {
   var selectorType = getSelectorTypeOrThrow(selector, 'find');
-
   if (selectorType === selectorTypes.VUE_COMPONENT) {
     if (!selector.name) {
       throwError('.find() requires component to have a name property');
     }
-    var vm = this.vm || this.vnode.context.$root;
-    var components = findVueComponents(vm, selector.name);
+    var root = this.vm || this.vnode;
+    var components = findVueComponents(root, selector.name);
     if (components.length === 0) {
       return new ErrorWrapper('Component')
     }
@@ -3427,8 +3446,8 @@ Wrapper.prototype.findAll = function findAll (selector) {
     if (!selector.name) {
       throwError('.findAll() requires component to have a name property');
     }
-    var vm = this.vm || this.vnode.context.$root;
-    var components = findVueComponents(vm, selector.name);
+    var root = this.vm || this.vnode;
+    var components = findVueComponents(root, selector.name);
     return new WrapperArray(components.map(function (component) { return new VueWrapper(component, this$1.options); }))
   }
 
@@ -3581,6 +3600,10 @@ Wrapper.prototype.setComputed = function setComputed (computed) {
         }
       });
     }
+    // $FlowIgnore
+    this$1.vm._watchers.forEach(function (watcher) {
+      if (watcher.expression === key) { watcher.run(); }
+    });
   });
   this.update();
 };
@@ -3683,15 +3706,29 @@ Wrapper.prototype.trigger = function trigger (type, options) {
     up: 38,
     down: 40,
     left: 37,
-    right: 39
+    right: 39,
+    end: 35,
+    home: 36,
+    backspace: 8,
+    insert: 45,
+    pageup: 33,
+    pagedown: 34
   };
 
   var event = type.split('.');
 
-  var eventObject = new window.Event(event[0], {
-    bubbles: true,
-    cancelable: true
-  });
+  var eventObject;
+
+  // Fallback for IE10,11 - https://stackoverflow.com/questions/26596123
+  if (typeof (window.Event) === 'function') {
+    eventObject = new window.Event(event[0], {
+      bubbles: true,
+      cancelable: true
+    });
+  } else {
+    eventObject = document.createEvent('Event');
+    eventObject.initEvent(event[0], true, true);
+  }
 
   if (options && options.preventDefault) {
     eventObject.preventDefault();
@@ -3699,29 +3736,19 @@ Wrapper.prototype.trigger = function trigger (type, options) {
 
   if (options) {
     Object.keys(options).forEach(function (key) {
+      // $FlowIgnore
       eventObject[key] = options[key];
     });
   }
 
   if (event.length === 2) {
+    // $FlowIgnore
     eventObject.keyCode = modifiers[event[1]];
   }
 
   this.element.dispatchEvent(eventObject);
   this.update();
 };
-
-function logEvents (vm, emitted, emittedByOrder) {
-  var emit = vm.$emit;
-  vm.$emit = function (name) {
-    var args = [], len = arguments.length - 1;
-    while ( len-- > 0 ) args[ len ] = arguments[ len + 1 ];
-
-    (emitted[name] || (emitted[name] = [])).push(args);
-    emittedByOrder.push({ name: name, args: args });
-    return emit.call.apply(emit, [ vm, name ].concat( args ))
-  };
-}
 
 // 
 
@@ -3746,10 +3773,8 @@ var VueWrapper = (function (Wrapper$$1) {
     }));
     this.vm = vm;
     this.isVueComponent = true;
-    this._emitted = Object.create(null);
-    this._emittedByOrder = [];
-
-    logEvents(vm, this._emitted, this._emittedByOrder);
+    this._emitted = vm.__emitted;
+    this._emittedByOrder = vm.__emittedByOrder;
   }
 
   if ( Wrapper$$1 ) VueWrapper.__proto__ = Wrapper$$1;
@@ -3761,35 +3786,39 @@ var VueWrapper = (function (Wrapper$$1) {
 
 // 
 
-function isValidSlot$1 (slot) {
+function isValidSlot (slot) {
   return Array.isArray(slot) || (slot !== null && typeof slot === 'object') || typeof slot === 'string'
 }
 
 function addSlotToVm (vm, slotName, slotValue) {
-  if (Array.isArray(vm.$slots[slotName])) {
-    if (typeof slotValue === 'string') {
-      if (!vueTemplateCompiler.compileToFunctions) {
-        throwError('vueTemplateCompiler is undefined, you must pass components explicitly if vue-template-compiler is undefined');
-      }
-      vm.$slots[slotName].push(vm.$createElement(vueTemplateCompiler.compileToFunctions(slotValue)));
+  var elem;
+  var vueVersion = Number(((Vue.version.split('.')[0]) + "." + (Vue.version.split('.')[1])));
+  if (typeof slotValue === 'string') {
+    if (!vueTemplateCompiler.compileToFunctions) {
+      throwError('vueTemplateCompiler is undefined, you must pass components explicitly if vue-template-compiler is undefined');
+    }
+    if (slotValue.trim()[0] === '<') {
+      elem = vm.$createElement(vueTemplateCompiler.compileToFunctions(slotValue));
     } else {
-      vm.$slots[slotName].push(vm.$createElement(slotValue));
+      if (vueVersion >= 2.2) {
+        elem = vm._v(slotValue);
+      } else {
+        throwError('vue-test-utils support for passing text to slots at vue@2.2+');
+      }
     }
   } else {
-    if (typeof slotValue === 'string') {
-      if (!vueTemplateCompiler.compileToFunctions) {
-        throwError('vueTemplateCompiler is undefined, you must pass components explicitly if vue-template-compiler is undefined');
-      }
-      vm.$slots[slotName] = [vm.$createElement(vueTemplateCompiler.compileToFunctions(slotValue))];
-    } else {
-      vm.$slots[slotName] = [vm.$createElement(slotValue)]; // eslint-disable-line no-param-reassign
-    }
+    elem = vm.$createElement(slotValue);
+  }
+  if (Array.isArray(vm.$slots[slotName])) {
+    vm.$slots[slotName].push(elem);
+  } else {
+    vm.$slots[slotName] = [elem];
   }
 }
 
 function addSlots (vm, slots) {
   Object.keys(slots).forEach(function (key) {
-    if (!isValidSlot$1(slots[key])) {
+    if (!isValidSlot(slots[key])) {
       throwError('slots[key] must be a Component, string or an array of Components');
     }
 
@@ -3843,6 +3872,30 @@ function addProvide (component, optionProvide, options) {
       ? provide.call(this)
       : provide;
   };
+}
+
+// 
+
+function logEvents (vm, emitted, emittedByOrder) {
+  var emit = vm.$emit;
+  vm.$emit = function (name) {
+    var args = [], len = arguments.length - 1;
+    while ( len-- > 0 ) args[ len ] = arguments[ len + 1 ];
+
+    (emitted[name] || (emitted[name] = [])).push(args);
+    emittedByOrder.push({ name: name, args: args });
+    return emit.call.apply(emit, [ vm, name ].concat( args ))
+  };
+}
+
+function addEventLogger (vue) {
+  vue.mixin({
+    beforeCreate: function () {
+      this.__emitted = Object.create(null);
+      this.__emittedByOrder = [];
+      logEvents(this, this.__emitted, this.__emittedByOrder);
+    }
+  });
 }
 
 // 
@@ -4081,7 +4134,7 @@ function deleteMountingOptions (options) {
 
 // 
 
-function isValidSlot (slot) {
+function isValidSlot$1 (slot) {
   return Array.isArray(slot) || (slot !== null && typeof slot === 'object') || typeof slot === 'string'
 }
 
@@ -4099,7 +4152,7 @@ function createFunctionalSlots (slots, h) {
   Object.keys(slots).forEach(function (slotType) {
     if (Array.isArray(slots[slotType])) {
       slots[slotType].forEach(function (slot) {
-        if (!isValidSlot(slot)) {
+        if (!isValidSlot$1(slot)) {
           throwError('slots[key] must be a Component, string or an array of Components');
         }
         var component = typeof slot === 'string' ? vueTemplateCompiler.compileToFunctions(slot) : slot;
@@ -4108,7 +4161,7 @@ function createFunctionalSlots (slots, h) {
         children.push(newSlot);
       });
     } else {
-      if (!isValidSlot(slots[slotType])) {
+      if (!isValidSlot$1(slots[slotType])) {
         throwError('slots[key] must be a Component, string or an array of Components');
       }
       var component = typeof slots[slotType] === 'string' ? vueTemplateCompiler.compileToFunctions(slots[slotType]) : slots[slotType];
@@ -4119,6 +4172,25 @@ function createFunctionalSlots (slots, h) {
   });
   return children
 }
+
+function createFunctionalComponent (component, mountingOptions) {
+  if (mountingOptions.context && typeof mountingOptions.context !== 'object') {
+    throwError('mount.context must be an object');
+  }
+
+  var clonedComponent = cloneDeep_1(component);
+  return {
+    render: function render (h) {
+      return h(
+        clonedComponent,
+        mountingOptions.context || component.FunctionalRenderContext,
+        (mountingOptions.context && mountingOptions.context.children && mountingOptions.context.children.map(function (x) { return typeof x === 'function' ? x(h) : x; })) || createFunctionalSlots(mountingOptions.slots, h)
+      )
+    }
+  }
+}
+
+// 
 
 function createConstructor (
   component,
@@ -4133,20 +4205,7 @@ function createConstructor (
   }
 
   if (component.functional) {
-    if (mountingOptions.context && typeof mountingOptions.context !== 'object') {
-      throwError('mount.context must be an object');
-    }
-
-    var clonedComponent = cloneDeep_1(component);
-    component = {
-      render: function render (h) {
-        return h(
-          clonedComponent,
-          mountingOptions.context || component.FunctionalRenderContext,
-          (mountingOptions.context && mountingOptions.context.children) || createFunctionalSlots(mountingOptions.slots, h)
-        )
-      }
-    };
+    component = createFunctionalComponent(component, mountingOptions);
   } else if (mountingOptions.context) {
     throwError(
       'mount.context can only be used when mounting a functional component'
@@ -4164,6 +4223,8 @@ function createConstructor (
   if (!component.render && component.template && !component.functional) {
     compileTemplate(component);
   }
+
+  addEventLogger(vue);
 
   var Constructor = vue.extend(component);
 
@@ -4208,6 +4269,32 @@ if (!Element.prototype.matches) {
           while (--i >= 0 && matches.item(i) !== this) {}
           return i > -1
         };
+}
+
+if (typeof Object.assign !== 'function') {
+  (function () {
+    Object.assign = function (target) {
+      'use strict';
+      var arguments$1 = arguments;
+
+      if (target === undefined || target === null) {
+        throw new TypeError('Cannot convert undefined or null to object')
+      }
+
+      var output = Object(target);
+      for (var index = 1; index < arguments.length; index++) {
+        var source = arguments$1[index];
+        if (source !== undefined && source !== null) {
+          for (var nextKey in source) {
+            if (source.hasOwnProperty(nextKey)) {
+              output[nextKey] = source[nextKey];
+            }
+          }
+        }
+      }
+      return output
+    };
+  })();
 }
 
 // 
