@@ -43,6 +43,35 @@ describe('trigger', () => {
     expect(keydownHandler.calledOnce).to.equal(true)
   })
 
+  it('convert a registered key name to a key code', () => {
+    const modifiers = {
+      enter: 13,
+      esc: 27,
+      tab: 9,
+      space: 32,
+      delete: 46,
+      backspace: 8,
+      insert: 45,
+      up: 38,
+      down: 40,
+      left: 37,
+      right: 39,
+      end: 35,
+      home: 36,
+      pageup: 33,
+      pagedown: 34
+    }
+    const keyupHandler = sinon.stub()
+    const wrapper = mount(ComponentWithEvents, {
+      propsData: { keyupHandler }
+    })
+    for (let keyName in modifiers) {
+      const keyCode = modifiers[keyName]
+      wrapper.find('.keydown').trigger(`keyup.${keyName}`)
+      expect(keyupHandler.lastCall.args[0].keyCode).to.equal(keyCode)
+    }
+  })
+
   it('causes DOM to update after clickHandler method that changes components data is called', () => {
     const wrapper = mount(ComponentWithEvents)
     const toggle = wrapper.find('.toggle')
