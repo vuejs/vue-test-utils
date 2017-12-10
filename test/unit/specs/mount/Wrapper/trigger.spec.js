@@ -65,7 +65,7 @@ describe('trigger', () => {
     const wrapper = mount(ComponentWithEvents, {
       propsData: { keyupHandler }
     })
-    for (let keyName in modifiers) {
+    for (const keyName in modifiers) {
       const keyCode = modifiers[keyName]
       wrapper.find('.keydown').trigger(`keyup.${keyName}`)
       expect(keyupHandler.lastCall.args[0].keyCode).to.equal(keyCode)
