@@ -15,6 +15,7 @@
 - [attrs](#attrs)
 - [listeners](#listeners)
 - [clone](#clone)
+- [provide](#provide)
 
 ### `context`
 
@@ -163,3 +164,10 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 `options.mocks` (`Object`): Vue インスタンスにグローバルを追加します。
 
 `options.localVue` (`Object`): `mount` で使う Vue クラスです。[createLocalVue](./createLocalVue.md)を参照してください。
+
+
+### `provide`
+
+- 型: `Object`
+
+コンポーネントに指定したプロパティを注入します。[provide/inject](https://vuejs.org/v2/api/#provide-inject) を参照してください。
