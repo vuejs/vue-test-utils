@@ -13,9 +13,9 @@ Vue options are passed to the component when a new instance is created. , e.g. `
 - [`localVue`](#localvue)
 - [`attachToDocument`](#attachtodocument)
 - [`attrs`](#attrs)
-- [`provide`](#provide)
 - [`listeners`](#listeners)
 - [`clone`](#clone)
+- [`provide`](#provide)
 
 ### `context`
 

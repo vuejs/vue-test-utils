@@ -26,6 +26,7 @@
     - [attrs](api/options.md#attrs)
     - [listeners](api/options.md#listeners)
     - [clone](api/options.md#clone)
+    - [provide](api/options.md#provide)
   * [Wrapper](api/wrapper/README.md)
     * [contains](api/wrapper/contains.md)
     * [emitted](api/wrapper/emitted.md)
