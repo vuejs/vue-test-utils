@@ -10,7 +10,6 @@ function findAllVueComponentsFromVm (vm: Component, components: Array<Component>
 }
 
 function findAllVueComponentsFromVnode (vnode: Component, components: Array<Component> = []): Array<Component> {
-  debugger
   if (vnode.child) {
     components.push(vnode.child)
   }
@@ -30,7 +29,6 @@ export function vmCtorMatchesName (vm: Component, name: string): boolean {
 }
 
 export default function findVueComponents (root: Component, componentName: string): Array<Component> {
-  debugger
   const components = root._isVue ? findAllVueComponentsFromVm(root) : findAllVueComponentsFromVnode(root)
   return components.filter((component) => {
     if (!component.$vnode) {
