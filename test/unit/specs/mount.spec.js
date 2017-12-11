@@ -149,7 +149,7 @@ describe('mount', () => {
     expect(fn).to.throw()
   })
 
-  it('overwrites the component options with the options other than the mounting options', () => {
+  it('overwrites the component options with the options other than the mounting options when the options for mount contain those', () => {
     const Component = {
       template: '<div>{{ foo() }}{{ bar() }}{{ baz() }}</div>',
       methods: {
