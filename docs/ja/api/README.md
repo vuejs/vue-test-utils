@@ -58,6 +58,6 @@
 * [コンポーネント](./components/README.md)
   * [TransitionStub](./components/TransitionStub.md)
   * [TransitionGroupStub](./components/TransitionGroupStub.md)
-* [createLocalVue](./createLocalVue.md)
 * [セレクタ](./selectors.md)
+* [createLocalVue](./createLocalVue.md)
 * [config](./config.md)
