@@ -14,7 +14,9 @@ import { expect } from 'chai'
 import Foo from './Foo.vue'
 
 const wrapper = mount(Foo, {
-  propsData: 'baz'
+  propsData: {
+    bar: 'baz'
+  }
 })
 expect(wrapper.props().bar).toBe('baz')
 ```
