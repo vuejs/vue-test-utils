@@ -167,7 +167,7 @@ Pass properties for components to use in injection. See [provide/inject](https:/
 
 ## Other options 
 
-When the options for `mount` and `shallow` contain the options other than the mounting options, the component options are overwritten with those like using [extends](https://vuejs.org/v2/api/#extends).
+When the options for `mount` and `shallow` contain the options other than the mounting options, the component options are overwritten with those using [extends](https://vuejs.org/v2/api/#extends).
 
 ```js
 const Component = {
