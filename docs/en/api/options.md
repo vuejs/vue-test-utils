@@ -1,8 +1,6 @@
 # Mounting Options
 
-Options for `mount` and `shallow`. The options object can contain both `vue-test-utils` mounting options and raw Vue options.
-
-Vue options are passed to the component when a new instance is created. , e.g. `store`, `propsData`. For a full list, see the [Vue API docs](https://vuejs.org/v2/api/).
+Options for `mount` and `shallow`. The options object can contain both `vue-test-utils` mounting options and other options.
 
 ## `vue-test-utils` Specific Mounting Options
 
@@ -166,3 +164,33 @@ Clones component before mounting if `true`, which avoids mutating the original c
 - type: `Object`
 
 Pass properties for components to use in injection. See [provide/inject](https://vuejs.org/v2/api/#provide-inject).
+
+## Other options 
+
+When the options for `mount` and `shallow` contain the options other than the mounting options, the component options are overwritten with those using [extends](https://vuejs.org/v2/api/#extends).
+
+```js
+const Component = {
+  template: '<div>{{ foo() }}{{ bar() }}{{ baz() }}</div>',
+  methods: {
+    foo () {
+      return 'a'
+    },
+    bar () {
+      return 'b'
+    }
+  }
+}
+const options = {
+  methods: {
+    bar () {
+      return 'B'
+    },
+    baz () {
+      return 'C'
+    }
+  }
+}
+const wrapper = mount(Component, options)
+expect(wrapper.text()).to.equal('aBC')
+```

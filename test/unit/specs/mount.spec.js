@@ -148,4 +148,30 @@ describe('mount', () => {
     const fn = () => mount(TestComponent)
     expect(fn).to.throw()
   })
+
+  it('overwrites the component options with the options other than the mounting options when the options for mount contain those', () => {
+    const Component = {
+      template: '<div>{{ foo() }}{{ bar() }}{{ baz() }}</div>',
+      methods: {
+        foo () {
+          return 'a'
+        },
+        bar () {
+          return 'b'
+        }
+      }
+    }
+    const options = {
+      methods: {
+        bar () {
+          return 'B'
+        },
+        baz () {
+          return 'C'
+        }
+      }
+    }
+    const wrapper = mount(Component, options)
+    expect(wrapper.text()).to.equal('aBC')
+  })
 })
