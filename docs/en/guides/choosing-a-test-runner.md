@@ -43,3 +43,4 @@ Read the following guides for different setups:
 - [Example project with Mocha](https://github.com/vuejs/vue-test-utils-mocha-webpack-example)
 - [Example project with tape](https://github.com/eddyerburgh/vue-test-utils-tape-example)
 - [Example project with AVA](https://github.com/eddyerburgh/vue-test-utils-ava-example)
+- [tyu - Delightful web testing by egoist](https://github.com/egoist/tyu)
