@@ -26,9 +26,13 @@ Passes context to functional component. Can only be used with functional compone
 Example:
 
 ```js
+import Foo from './Foo.vue'
+import Bar from './Bar.vue'
+
 const wrapper = mount(Component, {
   context: {
-    props: { show: true }
+    props: { show: true },
+    children: [Foo, Bar]
   }
 })
 
