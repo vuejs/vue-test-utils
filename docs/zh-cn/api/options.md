@@ -13,6 +13,7 @@ Vue 选项会在一个新的实例被创建的时候传递给组件。比如 `st
 - [`localVue`](#localvue)
 - [`attachToDocument`](#attachtodocument)
 - [`attrs`](#attrs)
+- [`provide`](#provide)
 - [`listeners`](#listeners)
 - [`clone`](#clone)
 
@@ -160,6 +161,8 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 
 如果为 `true` 则会在挂载之前克隆组件。这样做会回避原始组件定义的突变。
 
-`options.mocks` (`Object`)：向 Vue 实例添加全局属性。
+### `provide`
 
-`options.localVue` (`Object`)：在 `mount` 中使用的 `Vue` 类。请移步 [`createLocalVue`](createLocalVue.md)。
+- 类型：`Object`
+
+为组件传递用于注入的属性。可查阅 [provie/inject](https://cn.vuejs.org/v2/api/#provide-inject) 了解更多。
