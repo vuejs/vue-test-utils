@@ -41,7 +41,7 @@ expect(wrapper.is(Component)).toBe(true)
 
 - type: `{ [name: string]: Array<Component>|Component|string }`
 
-Provide an object of slot contents to the component. The key corresponds to the slot name. The value can be either a component, an array of components, or a template string.
+Provide an object of slot contents to the component. The key corresponds to the slot name. The value can be either a component, an array of components, or a template string, or text.
 
 Example:
 
@@ -54,10 +54,31 @@ const wrapper = shallow(Component, {
   slots: {
     default: [Foo, Bar],
     fooBar: Foo, // Will match `<slot name="FooBar" />`.
-    foo: '<div />'
+    foo: '<div />',
+    bar: 'bar'
   }
 })
 expect(wrapper.find('div')).toBe(true)
+```
+
+#### Passing text
+
+You can pass text to `slots`.  
+There are two limitations to this.
+
+This works with Vue 2.2+.
+
+This works for the text below.
+
+```js
+const wrapper = mount(ComponentWithSlots, { slots: { default: 'foobar' }})
+```
+
+This does not work for the text below.
+
+```js
+const wrapper1 = mount(ComponentWithSlots, { slots: { default: 'foo<span>bar</span>' }})
+const wrapper2 = mount(FooComponent, { slots: { default: 'foo {{ bar }}' }})
 ```
 
 ### `stubs`
