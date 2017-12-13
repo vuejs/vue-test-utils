@@ -66,15 +66,15 @@ expect(wrapper.find('div')).toBe(true)
 You can pass text to `slots`.  
 There are two limitations to this.
 
-This works at vue@2.2+.
+This works with Vue 2.2+.
 
-This works for the text as below.
+This works for the text below.
 
 ```js
 const wrapper = mount(ComponentWithSlots, { slots: { default: 'foobar' }})
 ```
 
-This does not work for the text as below.
+This does not work for the text below.
 
 ```js
 const wrapper1 = mount(ComponentWithSlots, { slots: { default: 'foo<span>bar</span>' }})
