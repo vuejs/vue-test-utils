@@ -3,7 +3,7 @@ const webpackConfig = require('../../../build/webpack.test.config.js')
 module.exports = function (config) {
   config.set({
     browsers: ['ChromeHeadless'],
-    frameworks: ['mocha', 'sinon-chai', 'phantomjs-shim'],
+    frameworks: ['mocha', 'sinon-chai'],
     reporters: ['spec', 'coverage'],
     files: [
       '../../../node_modules/babel-polyfill/dist/polyfill.js',
