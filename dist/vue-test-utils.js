@@ -287,7 +287,6 @@ function findAllVueComponentsFromVm (vm, components) {
 function findAllVueComponentsFromVnode (vnode, components) {
   if ( components === void 0 ) components = [];
 
-  debugger
   if (vnode.child) {
     components.push(vnode.child);
   }
@@ -307,7 +306,6 @@ function vmCtorMatchesName (vm, name) {
 }
 
 function findVueComponents (root, componentName) {
-  debugger
   var components = root._isVue ? findAllVueComponentsFromVm(root) : findAllVueComponentsFromVnode(root);
   return components.filter(function (component) {
     if (!component.$vnode) {
@@ -695,7 +693,7 @@ Wrapper.prototype.attributes = function attributes () {
 Wrapper.prototype.classes = function classes () {
     var this$1 = this;
 
-  var classes = [].concat( this.element.classList );
+  var classes = this.element.className ? this.element.className.split(' ') : [];
   // Handle converting cssmodules identifiers back to the original class name
   if (this.vm && this.vm.$style) {
     var cssModuleIdentifiers = {};
@@ -775,6 +773,8 @@ Wrapper.prototype.exists = function exists () {
  * Checks if wrapper has an attribute with matching value
  */
 Wrapper.prototype.hasAttribute = function hasAttribute (attribute, value) {
+  warn('hasAttribute() has been deprecated and will be removed in version 1.0.0. Use attributes() instead—https://vue-test-utils.vuejs.org/en/api/wrapper/attributes');
+
   if (typeof attribute !== 'string') {
     throwError('wrapper.hasAttribute() must be passed attribute as a string');
   }
@@ -792,6 +792,7 @@ Wrapper.prototype.hasAttribute = function hasAttribute (attribute, value) {
 Wrapper.prototype.hasClass = function hasClass (className) {
     var this$1 = this;
 
+  warn('hasClass() has been deprecated and will be removed in version 1.0.0. Use classes() instead—https://vue-test-utils.vuejs.org/en/api/wrapper/classes');
   var targetClass = className;
 
   if (typeof targetClass !== 'string') {
@@ -814,6 +815,8 @@ Wrapper.prototype.hasClass = function hasClass (className) {
  * Asserts wrapper has a prop name
  */
 Wrapper.prototype.hasProp = function hasProp (prop, value) {
+  warn('hasProp() has been deprecated and will be removed in version 1.0.0. Use props() instead—https://vue-test-utils.vuejs.org/en/api/wrapper/props');
+
   if (!this.isVueComponent) {
     throwError('wrapper.hasProp() must be called on a Vue instance');
   }
@@ -1653,7 +1656,8 @@ function createFunctionalComponent (component, mountingOptions) {
         mountingOptions.context || component.FunctionalRenderContext,
         (mountingOptions.context && mountingOptions.context.children && mountingOptions.context.children.map(function (x) { return typeof x === 'function' ? x(h) : x; })) || createFunctionalSlots(mountingOptions.slots, h)
       )
-    }
+    },
+    name: component.name
   }
 }
 
