@@ -18,6 +18,12 @@ export default function mount (component: Component, options: Options = {}): Vue
   // Remove cached constructor
   delete componentToMount._Ctor
 
+  if (componentToMount.template && options.stubs && options.stubs.slot) {
+    componentToMount.template = componentToMount.template.replace(/<(\/)?slot( )*/g, '<$1SlotStub$2')
+    // $FlowIgnore
+    options.stubs.SlotStub = options.stubs.slot
+  }
+
   const vm = createInstance(componentToMount, options)
 
   if (options.attachToDocument) {
