@@ -6,6 +6,7 @@ import ComponentWithoutName from '~resources/components/component-without-name.v
 import ComponentWithSlots from '~resources/components/component-with-slots.vue'
 import ComponentWithVFor from '~resources/components/component-with-v-for.vue'
 import Component from '~resources/components/component.vue'
+import VueWrapper from '~src/wrappers/vue-wrapper'
 import Wrapper from '~src/wrappers/wrapper'
 import ErrorWrapper from '~src/wrappers/error-wrapper'
 
@@ -172,7 +173,7 @@ describe('find', () => {
 
   it('returns Wrapper of Vue Components matching the ref in options object', () => {
     const wrapper = mount(ComponentWithChild)
-    expect(wrapper.find({ ref: 'child' })).to.be.instanceOf(Wrapper)
+    expect(wrapper.find({ ref: 'child' })).to.be.instanceOf(VueWrapper)
   })
 
   it('throws an error when ref selector is called on a wrapper that is not a Vue component', () => {
