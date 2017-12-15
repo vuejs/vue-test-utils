@@ -223,6 +223,13 @@ export default class Wrapper implements BaseWrapper {
     return !!(elStyle && mockNodeStyle && elStyle === mockNodeStyle)
   }
 
+  _wrapper (node: VNode) {
+    if (node && node.elm && '__vue__' in node.elm) {
+      return new VueWrapper(node.elm.__vue__, this.options)
+    }
+    return new Wrapper(node, this.update, this.options)
+  }
+
   /**
    * Finds first node in tree of the current wrapper that matches the provided selector.
    */
@@ -241,14 +248,11 @@ export default class Wrapper implements BaseWrapper {
     }
 
     if (selectorType === selectorTypes.OPTIONS_OBJECT) {
-      if (!this.isVueComponent) {
-        throwError('$ref selectors can only be used on Vue component wrappers')
-      }
       const nodes = findVNodesByRef(this.vnode, selector.ref)
       if (nodes.length === 0) {
         return new ErrorWrapper(`ref="${selector.ref}"`)
       }
-      return new Wrapper(nodes[0], this.update, this.options)
+      return this._wrapper(nodes[0])
     }
 
     const nodes = findVNodesBySelector(this.vnode, selector)
@@ -256,7 +260,7 @@ export default class Wrapper implements BaseWrapper {
     if (nodes.length === 0) {
       return new ErrorWrapper(selector)
     }
-    return new Wrapper(nodes[0], this.update, this.options)
+    return this._wrapper(nodes[0])
   }
 
   /**
@@ -275,11 +279,8 @@ export default class Wrapper implements BaseWrapper {
     }
 
     if (selectorType === selectorTypes.OPTIONS_OBJECT) {
-      if (!this.isVueComponent) {
-        throwError('$ref selectors can only be used on Vue component wrappers')
-      }
       const nodes = findVNodesByRef(this.vnode, selector.ref)
-      return new WrapperArray(nodes.map(node => new Wrapper(node, this.update, this.options)))
+      return new WrapperArray(nodes.map(node => this._wrapper(node)))
     }
 
     function nodeMatchesSelector (node, selector) {
@@ -289,7 +290,7 @@ export default class Wrapper implements BaseWrapper {
     const nodes = findVNodesBySelector(this.vnode, selector)
     const matchingNodes = nodes.filter(node => nodeMatchesSelector(node, selector))
 
-    return new WrapperArray(matchingNodes.map(node => new Wrapper(node, this.update, this.options)))
+    return new WrapperArray(matchingNodes.map(node => this._wrapper(node)))
   }
 
   /**

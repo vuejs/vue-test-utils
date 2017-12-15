@@ -6,7 +6,10 @@ import ComponentWithoutName from '~resources/components/component-without-name.v
 import ComponentWithSlots from '~resources/components/component-with-slots.vue'
 import ComponentWithVFor from '~resources/components/component-with-v-for.vue'
 import Component from '~resources/components/component.vue'
+import ComponentWithChildIncrease from '~resources/components/component-with-child-increase.vue'
 import WrapperArray from '~src/wrappers/wrapper-array'
+import Wrapper from '~src/wrappers/wrapper'
+import VueWrapper from '~src/wrappers/vue-wrapper'
 
 describe('findAll', () => {
   it('returns an WrapperArray of elements matching tag selector passed', () => {
@@ -191,15 +194,6 @@ describe('findAll', () => {
     expect(fooArr.length).to.equal(1)
   })
 
-  it('throws an error when ref selector is called on a wrapper that is not a Vue component', () => {
-    const compiled = compileToFunctions('<div><a href="/"></a></div>')
-    const wrapper = mount(compiled)
-    const a = wrapper.find('a')
-    const message = '[vue-test-utils]: $ref selectors can only be used on Vue component wrappers'
-    const fn = () => a.findAll({ ref: 'foo' })
-    expect(fn).to.throw().with.property('message', message)
-  })
-
   it('returns an array of Wrapper of elements matching the ref in options object if they are nested in a transition', () => {
     const compiled = compileToFunctions('<transition><div ref="foo" /></transition>')
     const wrapper = mount(compiled)
@@ -233,5 +227,23 @@ describe('findAll', () => {
       const fn = () => wrapper.findAll(invalidSelector)
       expect(fn).to.throw().with.property('message', message)
     })
+  })
+
+  it('returns VueWrapper and Wrapper', () => {
+    const wrapper = mount(ComponentWithChildIncrease)
+    const wrappers = wrapper.findAll('div')
+    expect(wrappers.length).to.equal(3)
+    expect(wrappers.at(0)).to.be.an.instanceOf(VueWrapper)
+    expect(wrappers.at(1)).to.be.an.instanceOf(VueWrapper)
+    expect(wrappers.at(2)).to.be.not.an.instanceOf(VueWrapper)
+    expect(wrappers.at(2)).to.be.an.instanceOf(Wrapper)
+  })
+
+  it('is used with ref by Wrapper', () => {
+    const wrapper = mount(ComponentWithChildIncrease)
+    const span = wrapper.find('span')
+    const wrappers = span.findAll({ ref: 'child' })
+    expect(wrappers.length).to.equal(1)
+    expect(wrappers.at(0)).to.be.an.instanceOf(VueWrapper)
   })
 })

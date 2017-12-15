@@ -1,4 +1,5 @@
 import { compileToFunctions } from 'vue-template-compiler'
+import ComponentWithChildIncrease from '~resources/components/component-with-child-increase.vue'
 import mount from '~src/mount'
 
 describe('text', () => {
@@ -20,12 +21,12 @@ describe('text', () => {
 
     expect(wrapper.text()).to.equal(text)
   })
-  152
+
   it('throws error if wrapper does not contain element', () => {
-    const wrapper = mount({ render: (h) => h('div') })
-    const div = wrapper.find('div')
-    div.element = null
-    const fn = () => div.text()
+    const wrapper = mount(ComponentWithChildIncrease)
+    const span = wrapper.find('#span')
+    span.element = null
+    const fn = () => span.text()
     const message = '[vue-test-utils]: cannot call wrapper.text() on a wrapper without an element'
     expect(fn).to.throw().with.property('message', message)
   })
