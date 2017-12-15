@@ -1,9 +1,8 @@
-import mount from '~src/mount'
+import { mount, config } from '~vue-test-utils'
 import ComponentWithChild from '~resources/components/component-with-child.vue'
 import ComponentWithNestedChildren from '~resources/components/component-with-nested-children.vue'
 import Component from '~resources/components/component.vue'
-import config from '~src/config'
-import createLocalVue from '~src/create-local-vue'
+import { createLocalVue } from '~vue-test-utils'
 
 describe('mount.stub', () => {
   let info

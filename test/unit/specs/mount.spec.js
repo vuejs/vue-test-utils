@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import { compileToFunctions } from 'vue-template-compiler'
-import mount from '~src/mount'
+import { mount } from '~vue-test-utils'
 import Component from '~resources/components/component.vue'
 import ComponentWithProps from '~resources/components/component-with-props.vue'
 import ComponentWithMixin from '~resources/components/component-with-mixin.vue'
-import createLocalVue from '~src/create-local-vue'
+import { createLocalVue } from '~vue-test-utils'
 import { injectSupported, vueVersion } from '~resources/test-utils'
 
 describe('mount', () => {

@@ -1,5 +1,5 @@
-import mount from '~src/mount'
-import createLocalVue from '~src/create-local-vue'
+import { mount } from '~vue-test-utils'
+import { createLocalVue } from '~vue-test-utils'
 import Component from '~resources/components/component.vue'
 import ComponentWithVuex from '~resources/components/component-with-vuex.vue'
 

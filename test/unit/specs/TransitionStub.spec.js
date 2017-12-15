@@ -1,6 +1,6 @@
 import ComponentWithTransition from '~resources/components/component-with-transition.vue'
 import TransitionStub from '~src/components/TransitionStub'
-import mount from '~src/mount'
+import { mount } from '~vue-test-utils'
 
 describe('TransitionStub', () => {
   it('update synchronously when used as stubs for Transition', () => {

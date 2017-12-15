@@ -1,4 +1,4 @@
-import mount from '~src/mount'
+import { mount } from '~vue-test-utils'
 import ComponentWithEvents from '~resources/components/component-with-events.vue'
 
 describe('trigger', () => {

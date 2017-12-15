@@ -1,4 +1,4 @@
-import mount from '~src/mount'
+import { mount } from '~vue-test-utils'
 
 describe('mount.clone', () => {
   it('uses a cloned component to augment if set to true', () => {

@@ -1,5 +1,5 @@
-import mount from '~src/mount'
-import createLocalVue from '~src/create-local-vue'
+import { mount } from '~vue-test-utils'
+import { createLocalVue } from '~vue-test-utils'
 
 describe('emitted', () => {
   it('captures emitted events with a different api', () => {

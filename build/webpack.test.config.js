@@ -23,7 +23,8 @@ module.exports = {
   resolve: {
     alias: {
       '~src': `${projectRoot}/src`,
-      '~resources': `${projectRoot}/test/resources`
+      '~resources': `${projectRoot}/test/resources`,
+      '~vue-test-utils': `${projectRoot}/dist/vue-test-utils`
     }
   },
   output: {

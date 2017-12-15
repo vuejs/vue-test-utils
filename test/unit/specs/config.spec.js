@@ -1,7 +1,9 @@
-import mount from '~src/mount'
-import TransitionStub from '~src/components/TransitionStub'
-import TransitionGroupStub from '~src/components/TransitionGroupStub'
-import config from '~src/config'
+import {
+  mount,
+  config,
+  TransitionStub,
+  TransitionGroupStub
+} from '~vue-test-utils'
 
 describe('config', () => {
   beforeEach(() => {

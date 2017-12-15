@@ -1,5 +1,5 @@
 import { compileToFunctions } from 'vue-template-compiler'
-import mount from '~src/mount'
+import { mount } from '~vue-test-utils'
 import ComponentWithComputed from '~resources/components/component-with-computed.vue'
 import ComponentWithWatch from '~resources/components/component-with-watch.vue'
 

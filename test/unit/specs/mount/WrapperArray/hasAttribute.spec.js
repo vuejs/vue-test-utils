@@ -1,5 +1,5 @@
 import { compileToFunctions } from 'vue-template-compiler'
-import mount from '~src/mount'
+import { mount } from '~vue-test-utils'
 
 describe('hasAttribute', () => {
   it('returns true if every item contains attribute matching value', () => {
