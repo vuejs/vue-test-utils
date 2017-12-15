@@ -516,6 +516,10 @@ export default class Wrapper implements BaseWrapper {
       throwError('cannot call wrapper.trigger() on a wrapper without an element')
     }
 
+    if (options.target) {
+      throwError('you cannot set the target value of an event. See the notes section of the docs for more details—https://vue-test-utils.vuejs.org/en/api/wrapper/trigger.html')
+    }
+
     const modifiers = {
       enter: 13,
       tab: 9,

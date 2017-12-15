@@ -36,3 +36,16 @@ wrapper.trigger('click', {
 
 expect(clickHandler.called).toBe(true)
 ```
+- **Setting the event target:**
+
+Under the hood, `trigger` creates an `Event` object and dispatches the event on the Wrapper element.
+
+It's not possible edit the `target` value of an `Event` object, so you can't set `target` in the options object.
+
+To add an attribute to the `target`, you need to set the value of the Wrapper element before calling `trigger`. You can do this with the `element` property.
+
+```js
+const input = wrapper.find('input')
+input.element.value = 100
+input.trigger('click')
+```

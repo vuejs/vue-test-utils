@@ -103,6 +103,16 @@ describe('trigger', () => {
     expect(info.calledWith(true)).to.equal(true)
   })
 
+  it('throws error if options contains a target value', () => {
+    const wrapper = mount({ render: (h) => h('div') })
+    const div = wrapper.find('div')
+    const fn = () => div.trigger('click', {
+      target: {}
+    })
+    const message = '[vue-test-utils]: you cannot set the target value of an event. See the notes section of the docs for more details—https://vue-test-utils.vuejs.org/en/api/wrapper/trigger.html'
+    expect(fn).to.throw().with.property('message', message)
+  })
+
   it('throws error if wrapper does not contain element', () => {
     const wrapper = mount({ render: (h) => h('div') })
     const div = wrapper.find('div')
