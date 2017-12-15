@@ -2,11 +2,13 @@ import { compileToFunctions } from 'vue-template-compiler'
 import mount from '~src/mount'
 import createLocalVue from '~src/create-local-vue'
 import ComponentWithChild from '~resources/components/component-with-child.vue'
+import ComponentWithChildIncrease from '~resources/components/component-with-child-increase.vue'
 import ComponentWithoutName from '~resources/components/component-without-name.vue'
 import ComponentWithSlots from '~resources/components/component-with-slots.vue'
 import ComponentWithVFor from '~resources/components/component-with-v-for.vue'
 import Component from '~resources/components/component.vue'
 import Wrapper from '~src/wrappers/wrapper'
+import VueWrapper from '~src/wrappers/vue-wrapper'
 import ErrorWrapper from '~src/wrappers/error-wrapper'
 
 describe('find', () => {
@@ -171,17 +173,16 @@ describe('find', () => {
   })
 
   it('returns Wrapper of Vue Components matching the ref in options object', () => {
-    const wrapper = mount(ComponentWithChild)
-    expect(wrapper.find({ ref: 'child' })).to.be.instanceOf(Wrapper)
-  })
-
-  it('throws an error when ref selector is called on a wrapper that is not a Vue component', () => {
-    const compiled = compileToFunctions('<div><a href="/"></a></div>')
-    const wrapper = mount(compiled)
-    const a = wrapper.find('a')
-    const message = '[vue-test-utils]: $ref selectors can only be used on Vue component wrappers'
-    const fn = () => a.find({ ref: 'foo' })
-    expect(fn).to.throw().with.property('message', message)
+    const wrapper = mount(ComponentWithChildIncrease)
+    const child1 = wrapper.find({ ref: 'child' })
+    expect(child1.vm.count).to.equal(0)
+    wrapper.find('#button').trigger('click')
+    expect(child1).to.be.instanceOf(VueWrapper)
+    expect(child1.vm.count).to.equal(1)
+    wrapper.find('#span').find({ ref: 'child' })
+    const child2 = wrapper.find({ ref: 'child' })
+    expect(child2).to.be.instanceOf(VueWrapper)
+    expect(child2.vm.count).to.equal(1)
   })
 
   it('returns Wrapper matching ref selector in options object passed if nested in a transition', () => {

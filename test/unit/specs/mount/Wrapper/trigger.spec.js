@@ -1,5 +1,6 @@
 import mount from '~src/mount'
 import ComponentWithEvents from '~resources/components/component-with-events.vue'
+import ComponentWithChildIncrease from '~resources/components/component-with-child-increase.vue'
 
 describe('trigger', () => {
   let info
@@ -104,10 +105,10 @@ describe('trigger', () => {
   })
 
   it('throws error if wrapper does not contain element', () => {
-    const wrapper = mount({ render: (h) => h('div') })
-    const div = wrapper.find('div')
-    div.element = null
-    const fn = () => div.trigger('click')
+    const wrapper = mount(ComponentWithChildIncrease)
+    const span = wrapper.find('#span')
+    span.element = null
+    const fn = () => span.trigger('click')
     const message = '[vue-test-utils]: cannot call wrapper.trigger() on a wrapper without an element'
     expect(fn).to.throw().with.property('message', message)
   })
