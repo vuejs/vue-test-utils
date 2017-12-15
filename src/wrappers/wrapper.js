@@ -244,6 +244,9 @@ export default class Wrapper implements BaseWrapper {
       if (!this.isVueComponent) {
         throwError('$ref selectors can only be used on Vue component wrappers')
       }
+      if (this.vm && this.vm.$refs && selector.ref in this.vm.$refs && this.vm.$refs[selector.ref] instanceof Vue) {
+        return new VueWrapper(this.vm.$refs[selector.ref], this.options)
+      }
       const nodes = findVNodesByRef(this.vnode, selector.ref)
       if (nodes.length === 0) {
         return new ErrorWrapper(`ref="${selector.ref}"`)
@@ -277,6 +280,9 @@ export default class Wrapper implements BaseWrapper {
     if (selectorType === selectorTypes.OPTIONS_OBJECT) {
       if (!this.isVueComponent) {
         throwError('$ref selectors can only be used on Vue component wrappers')
+      }
+      if (this.vm && this.vm.$refs && selector.ref in this.vm.$refs && this.vm.$refs[selector.ref] instanceof Vue) {
+        return new WrapperArray([new VueWrapper(this.vm.$refs[selector.ref], this.options)])
       }
       const nodes = findVNodesByRef(this.vnode, selector.ref)
       return new WrapperArray(nodes.map(node => new Wrapper(node, this.update, this.options)))
