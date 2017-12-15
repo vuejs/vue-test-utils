@@ -79,7 +79,7 @@ export default class Wrapper implements BaseWrapper {
     }
 
     if (selectorType === selectorTypes.OPTIONS_OBJECT) {
-      if (!this.isVueComponent) {
+      if (!this.vm) {
         throwError('$ref selectors can only be used on Vue component wrappers')
       }
       const nodes = findVNodesByRef(this.vnode, selector.ref)
@@ -96,7 +96,7 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Returns an object containing custom events emitted by the Wrapper vm
    */
-  emitted (event: ?string) {
+  emitted (event?: string) {
     if (!this._emitted && !this.vm) {
       throwError('wrapper.emitted() can only be called on a Vue instance')
     }
@@ -120,7 +120,7 @@ export default class Wrapper implements BaseWrapper {
    * Utility to check wrapper exists. Returns true as Wrapper always exists
    */
   exists (): boolean {
-    if (this.isVueComponent) {
+    if (this.vm) {
       return !!this.vm && !this.vm._isDestroyed
     }
     return true
@@ -241,7 +241,7 @@ export default class Wrapper implements BaseWrapper {
     }
 
     if (selectorType === selectorTypes.OPTIONS_OBJECT) {
-      if (!this.isVueComponent) {
+      if (!this.vm) {
         throwError('$ref selectors can only be used on Vue component wrappers')
       }
       if (this.vm && this.vm.$refs && selector.ref in this.vm.$refs && this.vm.$refs[selector.ref] instanceof Vue) {
@@ -278,7 +278,7 @@ export default class Wrapper implements BaseWrapper {
     }
 
     if (selectorType === selectorTypes.OPTIONS_OBJECT) {
-      if (!this.isVueComponent) {
+      if (!this.vm) {
         throwError('$ref selectors can only be used on Vue component wrappers')
       }
       if (this.vm && this.vm.$refs && selector.ref in this.vm.$refs && this.vm.$refs[selector.ref] instanceof Vue) {
@@ -311,7 +311,7 @@ export default class Wrapper implements BaseWrapper {
   is (selector: Selector): boolean {
     const selectorType = getSelectorTypeOrThrow(selector, 'is')
 
-    if (selectorType === selectorTypes.VUE_COMPONENT && this.isVueComponent) {
+    if (selectorType === selectorTypes.VUE_COMPONENT && this.vm) {
       if (typeof selector.name !== 'string') {
         throwError('a Component used as a selector must have a name property')
       }
@@ -349,7 +349,7 @@ export default class Wrapper implements BaseWrapper {
    * Returns name of component, or tag name if node is not a Vue component
    */
   name (): string {
-    if (this.isVueComponent && this.vm) {
+    if (this.vm) {
       return this.vm.$options.name
     }
 
@@ -360,7 +360,7 @@ export default class Wrapper implements BaseWrapper {
    * Returns an Object containing the prop name/value pairs on the element
    */
   props (): { [name: string]: any } {
-    if (!this.isVueComponent) {
+    if (!this.vm) {
       throwError('wrapper.props() must be called on a Vue instance')
     }
     // $props object does not exist in Vue 2.1.x, so use $options.propsData instead
@@ -378,7 +378,7 @@ export default class Wrapper implements BaseWrapper {
    * Sets vm data
    */
   setData (data: Object) {
-    if (!this.isVueComponent) {
+    if (!this.vm) {
       throwError('wrapper.setData() can only be called on a Vue instance')
     }
 

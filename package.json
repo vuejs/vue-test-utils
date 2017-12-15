@@ -57,7 +57,7 @@
     "eslint-plugin-markdown": "^1.0.0-beta.6",
     "eslint-plugin-vue": "^2.0.1",
     "eslint-plugin-vue-libs": "1.2.0",
-    "flow-bin": "^0.47.0",
+    "flow-bin": "^0.61.0",
     "gitbook-cli": "^2.3.0",
     "gitbook-plugin-edit-link": "^2.0.2",
     "gitbook-plugin-github": "^3.0.0",
