@@ -2,7 +2,6 @@ import { compileToFunctions } from 'vue-template-compiler'
 import { mount } from '~vue-test-utils'
 import Component from '~resources/components/component.vue'
 import ComponentWithSlots from '~resources/components/component-with-slots.vue'
-import { vueVersion } from '~resources/test-utils'
 
 describe('mount.slots', () => {
   it('mounts component with default slot if passed component in slot object', () => {
@@ -27,14 +26,12 @@ describe('mount.slots', () => {
   })
 
   it('mounts component with default slot if passed string in slot object', () => {
-    if (vueVersion >= 2.2) {
-      const wrapper = mount(ComponentWithSlots, { slots: { default: 'foo' }})
-      expect(wrapper.find('main').text()).to.equal('foo')
-    } else {
-      const message = '[vue-test-utils]: vue-test-utils support for passing text to slots at vue@2.2+'
-      const fn = () => mount(ComponentWithSlots, { slots: { default: 'foo' }})
-      expect(fn).to.throw().with.property('message', message)
-    }
+    const wrapper1 = mount(ComponentWithSlots, { slots: { default: 'foo<span>123</span>{{ foo }}' }})
+    expect(wrapper1.find('main').html()).to.equal('<main>foo<span>123</span>bar</main>')
+    const wrapper2 = mount(ComponentWithSlots, { slots: { default: '<p>1</p>{{ foo }}' }})
+    expect(wrapper2.find('main').html()).to.equal('<main><p>1</p>bar</main>')
+    const wrapper3 = mount(ComponentWithSlots, { slots: { default: '<p>1</p>{{ foo }}<p></p>' }})
+    expect(wrapper3.find('main').html()).to.equal('<main><p>1</p>bar<p></p></main>')
   })
 
   it('throws error if passed string in default slot object and vue-template-compiler is undefined', () => {
@@ -59,14 +56,8 @@ describe('mount.slots', () => {
   })
 
   it('mounts component with default slot if passed string in slot text array object', () => {
-    if (vueVersion >= 2.2) {
-      const wrapper = mount(ComponentWithSlots, { slots: { default: ['foo', 'bar'] }})
-      expect(wrapper.find('main').text()).to.equal('foobar')
-    } else {
-      const message = '[vue-test-utils]: vue-test-utils support for passing text to slots at vue@2.2+'
-      const fn = () => mount(ComponentWithSlots, { slots: { default: ['foo', 'bar'] }})
-      expect(fn).to.throw().with.property('message', message)
-    }
+    const wrapper = mount(ComponentWithSlots, { slots: { default: ['{{ foo }}<span>1</span>', 'bar'] }})
+    expect(wrapper.find('main').html()).to.equal('<main>bar<span>1</span>bar</main>')
   })
 
   it('throws error if passed string in default slot array vue-template-compiler is undefined', () => {
