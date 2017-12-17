@@ -11,9 +11,11 @@ describe('mount.slots', () => {
   })
 
   afterEach(() => {
-    /* eslint-disable */
-    window = _window 
-    /* eslint-enable */
+    if (!window.navigator.userAgent.match(/Chrome/i)) {
+      /* eslint-disable */
+      window = _window 
+      /* eslint-enable */
+    }
   })
 
   it('mounts component with default slot if passed component in slot object', () => {
@@ -38,6 +40,9 @@ describe('mount.slots', () => {
   })
 
   it('throws error if the UserAgent is PhantomJS when passed string is in slot object', () => {
+    if (window.navigator.userAgent.match(/Chrome/i)) {
+      return
+    }
     /* eslint-disable */
     window = { navigator: { userAgent:'PhantomJS' } }
     /* eslint-enable */
