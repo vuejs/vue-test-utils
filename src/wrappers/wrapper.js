@@ -75,7 +75,7 @@ export default class Wrapper implements BaseWrapper {
 
     if (selectorType === selectorTypes.VUE_COMPONENT) {
       const vm = this.vm || this.vnode.context.$root
-      return findVueComponents(vm, selector.name).length > 0
+      return findVueComponents(vm, selector.name).length > 0 || this.is(selector)
     }
 
     if (selectorType === selectorTypes.OPTIONS_OBJECT) {
@@ -87,7 +87,7 @@ export default class Wrapper implements BaseWrapper {
     }
 
     if (selectorType === selectorTypes.DOM_SELECTOR && this.element instanceof HTMLElement) {
-      return this.element.querySelectorAll(selector).length > 0
+      return this.element.querySelectorAll(selector).length > 0 || this.is(selector)
     }
 
     return false

@@ -30,10 +30,27 @@ describe('contains', () => {
     expect(fn).to.throw().with.property('message', message)
   })
 
-  it('returns false if wrapper does not contain element', () => {
+  it('returns true when wrapper contains root element', () => {
     const compiled = compileToFunctions('<div><input /></div>')
     const wrapper = mount(compiled)
     expect(wrapper.contains('doesntexist')).to.equal(false)
+  })
+
+  it('returns true if wrapper root element matches contains', () => {
+    const compiled = compileToFunctions('<div><input /></div>')
+    const wrapper = mount(compiled)
+    expect(wrapper.contains('doesntexist')).to.equal(false)
+  })
+
+  it('returns true if wrapper root Component matches selector', () => {
+    const wrapper = mount(Component)
+    expect(wrapper.contains(Component)).to.equal(true)
+  })
+
+  it('returns false if wrapper does not contain element', () => {
+    const compiled = compileToFunctions('<div></div>')
+    const wrapper = mount(compiled)
+    expect(wrapper.contains('div')).to.equal(true)
   })
 
   it('returns false if wrapper does not contain element specified by ref selector', () => {
