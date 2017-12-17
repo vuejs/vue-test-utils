@@ -67,7 +67,7 @@ You can pass text to `slots`.
 There are two limitations to this.
 
 This does not support PhantomJS.  
-Please use [Puppeteer](ihttps://github.com/karma-runner/karma-chrome-launcher#headless-chromium-with-puppeteer).
+Please use [Puppeteer](https://github.com/karma-runner/karma-chrome-launcher#headless-chromium-with-puppeteer).
 
 This works for the text below.
 
