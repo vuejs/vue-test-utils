@@ -66,7 +66,8 @@ expect(wrapper.find('div')).toBe(true)
 You can pass text to `slots`.  
 There is two limitations to this.
 
-This does not support PhantomJS.
+This does not support PhantomJS.  
+Please use [Puppeteer](ihttps://github.com/karma-runner/karma-chrome-launcher#headless-chromium-with-puppeteer).
 
 The text works below.
 
