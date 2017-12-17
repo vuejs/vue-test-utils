@@ -28,10 +28,14 @@ describe('mount.slots', () => {
   it('mounts component with default slot if passed string in slot object', () => {
     const wrapper1 = mount(ComponentWithSlots, { slots: { default: 'foo<span>123</span>{{ foo }}' }})
     expect(wrapper1.find('main').html()).to.equal('<main>foo<span>123</span>bar</main>')
-    const wrapper2 = mount(ComponentWithSlots, { slots: { default: '<p>1</p>{{ foo }}' }})
-    expect(wrapper2.find('main').html()).to.equal('<main><p>1</p>bar</main>')
-    const wrapper3 = mount(ComponentWithSlots, { slots: { default: '<p>1</p>{{ foo }}<p></p>' }})
-    expect(wrapper3.find('main').html()).to.equal('<main><p>1</p>bar<p></p></main>')
+    const wrapper2 = mount(ComponentWithSlots, { slots: { default: '<p>1</p>{{ foo }}2' }})
+    expect(wrapper2.find('main').html()).to.equal('<main><p>1</p>bar2</main>')
+    const wrapper3 = mount(ComponentWithSlots, { slots: { default: '<p>1</p>{{ foo }}<p>2</p>' }})
+    expect(wrapper3.find('main').html()).to.equal('<main><p>1</p>bar<p>2</p></main>')
+    const wrapper4 = mount(ComponentWithSlots, { slots: { default: '123' }})
+    expect(wrapper4.find('main').html()).to.equal('<main>123</main>')
+    const wrapper5 = mount(ComponentWithSlots, { slots: { default: '1{{ foo }}2' }})
+    expect(wrapper5.find('main').html()).to.equal('<main>1bar2</main>')
   })
 
   it('throws error if passed string in default slot object and vue-template-compiler is undefined', () => {
