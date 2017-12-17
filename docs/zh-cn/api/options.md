@@ -1,8 +1,6 @@
 # 挂载选项
 
-即 `mount` 和 `shallow` 的选项。该对象同时包含了 `vue-test-utils` 挂载选项和原始的 Vue 选项。
-
-Vue 选项会在一个新的实例被创建的时候传递给组件。比如 `store`、`propsData`。想查阅完整的列表，请移步 [Vue API 文档](https://cn.vuejs.org/v2/api/)。
+即 `mount` 和 `shallow` 的选项。该对象同时包含了 `vue-test-utils` 挂载选项和其它选项。
 
 ## `vue-test-utils` 特定的挂载选项
 
@@ -13,9 +11,9 @@ Vue 选项会在一个新的实例被创建的时候传递给组件。比如 `st
 - [`localVue`](#localvue)
 - [`attachToDocument`](#attachtodocument)
 - [`attrs`](#attrs)
-- [`provide`](#provide)
 - [`listeners`](#listeners)
 - [`clone`](#clone)
+- [`provide`](#provide)
 
 ### `context`
 
@@ -26,9 +24,13 @@ Vue 选项会在一个新的实例被创建的时候传递给组件。比如 `st
 示例：
 
 ```js
+import Foo from './Foo.vue'
+import Bar from './Bar.vue'
+
 const wrapper = mount(Component, {
   context: {
-    props: { show: true }
+    props: { show: true },
+    children: [Foo, Bar]
   }
 })
 
@@ -39,7 +41,7 @@ expect(wrapper.is(Component)).toBe(true)
 
 - 类型：`{ [name: string]: Array<Component>|Component|string }`
 
-为组件提供一个 slot 内容的对象。该对象中的键名就是相应的 slot 名，键值可以是一个组件、一个组件数组或一个字符串模板。
+为组件提供一个 slot 内容的对象。该对象中的键名就是相应的 slot 名，键值可以是一个组件、一个组件数组、一个字符串模板或文本。
 
 示例：
 
@@ -52,10 +54,31 @@ const wrapper = shallow(Component, {
   slots: {
     default: [Foo, Bar],
     fooBar: Foo, // 将会匹配 `<slot name="FooBar" />`。
-    foo: '<div />'
+    foo: '<div />',
+    bar: 'bar'
   }
 })
 expect(wrapper.find('div')).toBe(true)
+```
+
+#### 传递文本
+
+你可以传递文本到 `slots`。  
+这里有两处限制。
+
+这只在 Vue 2.2+ 及以上版本工作。
+
+下面的这段代码的文本可以工作。
+
+```js
+const wrapper = mount(ComponentWithSlots, { slots: { default: 'foobar' }})
+```
+
+下面的这段代码的文本则不可以工作。
+
+```js
+const wrapper1 = mount(ComponentWithSlots, { slots: { default: 'foo<span>bar</span>' }})
+const wrapper2 = mount(FooComponent, { slots: { default: 'foo {{ bar }}' }})
 ```
 
 ### `stubs`
@@ -166,3 +189,33 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 - 类型：`Object`
 
 为组件传递用于注入的属性。可查阅 [provie/inject](https://cn.vuejs.org/v2/api/#provide-inject) 了解更多。
+
+## 其它选项
+
+当 `mount` 和 `shallow` 的选项包含了挂载选项之外的选项时，则会将它们通过[扩展](https://vuejs.org/v2/api/#extends)复写到其组件选项。
+
+```js
+const Component = {
+  template: '<div>{{ foo() }}{{ bar() }}{{ baz() }}</div>',
+  methods: {
+    foo () {
+      return 'a'
+    },
+    bar () {
+      return 'b'
+    }
+  }
+}
+const options = {
+  methods: {
+    bar () {
+      return 'B'
+    },
+    baz () {
+      return 'C'
+    }
+  }
+}
+const wrapper = mount(Component, options)
+expect(wrapper.text()).to.equal('aBC')
+```
