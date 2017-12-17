@@ -12,9 +12,7 @@ describe('mount.slots', () => {
 
   afterEach(() => {
     if (!window.navigator.userAgent.match(/Chrome/i)) {
-      /* eslint-disable */
-      window = _window 
-      /* eslint-enable */
+      window = _window // eslint-disable-line no-native-reassign
     }
   })
 
@@ -43,9 +41,7 @@ describe('mount.slots', () => {
     if (window.navigator.userAgent.match(/Chrome/i)) {
       return
     }
-    /* eslint-disable */
-    window = { navigator: { userAgent:'PhantomJS' } }
-    /* eslint-enable */
+    window = { navigator: { userAgent: 'PhantomJS' }} // eslint-disable-line no-native-reassign
     const message = '[vue-test-utils]: option.slots does not support PhantomJS. Please use Puppeteer'
     const fn = () => mount(ComponentWithSlots, { slots: { default: 'foo' }})
     expect(fn).to.throw().with.property('message', message)
