@@ -61,6 +61,29 @@ const wrapper = shallow(Component, {
 expect(wrapper.find('div')).toBe(true)
 ```
 
+#### Passing text
+
+You can pass text to `slots`.  
+There is a limitation to this.
+
+The text works below.
+
+```js
+const wrapper1 = mount(ComponentWithSlots, { slots: { default: '1{{ foo }}2' }})
+const wrapper2 = mount(ComponentWithSlots, { slots: { default: '<p>1</p>{{ foo }}<p>2</p>' }})
+const wrapper3 = mount(ComponentWithSlots, { slots: { default: '<p>1</p>{{ foo }}' }})
+const wrapper4 = mount(ComponentWithSlots, { slots: { default: '123' }})
+const wrapper5 = mount(ComponentWithSlots, { slots: { default: '1<p>2</p>{{ foo }}3' }})
+```
+
+This does not work for the text below.  
+When there are some elements, `{{ }}` is required.
+
+```js
+const wrapper1 = mount(ComponentWithSlots, { slots: { default: '<p>1</p><p>2</p>' }})
+const wrapper2 = mount(ComponentWithSlots, { slots: { default: '1<p>2</p>3' }})
+```
+
 ### `stubs`
 
 - type: `{ [name: string]: Component | boolean } | Array<string>`
