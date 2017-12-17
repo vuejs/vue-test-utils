@@ -1,12 +1,12 @@
-# classes()
+# `classes()`
 
-Return `Wrapper` DOM node classes.
+返回 `Wrapper` DOM 节点的 class。
 
-Returns Array of class names.
+返回 class 名称的数组。
 
-- **Returns:** `Array<{string}>`
+- **返回值：**`Array<{string}>`
 
-- **Example:**
+- **示例：**
 
 ```js
 import { mount } from 'vue-test-utils'

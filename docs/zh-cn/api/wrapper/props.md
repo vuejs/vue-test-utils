@@ -1,12 +1,12 @@
-# props()
+# `props()`
 
-Return `Wrapper` `vm` props object.
+返回 `Wrapper` `vm` 的 props 对象。
 
-**Note the Wrapper must contain a Vue instance.**
+**注意：该包裹器必须包含一个 Vue 示例。**
 
-- **Returns:** `{[prop: string]: any}`
+- **返回值：**`{[prop: string]: any}`
 
-- **Example:**
+- **示例：**
 
 ```js
 import { mount } from 'vue-test-utils'

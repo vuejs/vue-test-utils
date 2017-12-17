@@ -1,10 +1,10 @@
-# attributes()
+# `attributes()`
 
-Returns `Wrapper` DOM node attribute object.
+返回 `Wrapper` DOM 节点的特性对象。
 
-- **Returns:** `{[attribute: string]: any}`
+- **返回值：**`{[attribute: string]: any}`
 
-- **Example:**
+- **示例：**
 
 ```js
 import { mount } from 'vue-test-utils'
