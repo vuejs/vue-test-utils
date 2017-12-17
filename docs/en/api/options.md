@@ -64,7 +64,9 @@ expect(wrapper.find('div')).toBe(true)
 #### Passing text
 
 You can pass text to `slots`.  
-There is a limitation to this.
+There is two limitations to this.
+
+This does not support PhantomJS.
 
 The text works below.
 

@@ -4,6 +4,18 @@ import Component from '~resources/components/component.vue'
 import ComponentWithSlots from '~resources/components/component-with-slots.vue'
 
 describe('mount.slots', () => {
+  let _window
+
+  beforeEach(() => {
+    _window = window
+  })
+
+  afterEach(() => {
+    /* eslint-disable */
+    window = _window 
+    /* eslint-enable */
+  })
+
   it('mounts component with default slot if passed component in slot object', () => {
     const wrapper = mount(ComponentWithSlots, { slots: { default: Component }})
     expect(wrapper.contains(Component)).to.equal(true)
@@ -23,6 +35,15 @@ describe('mount.slots', () => {
   it('mounts component with default slot if passed string in slot object', () => {
     const wrapper = mount(ComponentWithSlots, { slots: { default: '<span />' }})
     expect(wrapper.contains('span')).to.equal(true)
+  })
+
+  it('throws error if the UserAgent is PhantomJS when passed string is in slot object', () => {
+    /* eslint-disable */
+    window = { navigator: { userAgent:'PhantomJS' } }
+    /* eslint-enable */
+    const message = '[vue-test-utils]: option.slots does not support PhantomJS. Please use Puppeteer'
+    const fn = () => mount(ComponentWithSlots, { slots: { default: 'foo' }})
+    expect(fn).to.throw().with.property('message', message)
   })
 
   it('mounts component with default slot if passed string in slot object', () => {
