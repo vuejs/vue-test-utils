@@ -60,6 +60,10 @@ describe('mount.slots', () => {
     expect(wrapper5.find('main').html()).to.equal('<main>1bar2</main>')
     wrapper5.trigger('keydown')
     expect(wrapper5.find('main').html()).to.equal('<main>1BAR2</main>')
+    const wrapper6 = mount(ComponentWithSlots, { slots: { default: '<p>1</p><p>2</p>' }})
+    expect(wrapper6.find('main').html()).to.equal('<main><p>1</p><p>2</p></main>')
+    const wrapper7 = mount(ComponentWithSlots, { slots: { default: '1<p>2</p>3' }})
+    expect(wrapper7.find('main').html()).to.equal('<main>1<p>2</p>3</main>')
   })
 
   it('throws error if passed string in default slot object and vue-template-compiler is undefined', () => {

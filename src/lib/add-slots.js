@@ -22,7 +22,7 @@ function addSlotToVm (vm: Component, slotName: string, slotValue: Component | st
     if (_slotValue[0] === '<' && _slotValue[_slotValue.length - 1] === '>' && document.body.childElementCount === 1) {
       elem = vm.$createElement(compileToFunctions(slotValue))
     } else {
-      const compiledResult = compileToFunctions(`<div>${slotValue}</div>`)
+      const compiledResult = compileToFunctions(`<div>${slotValue}{{ }}</div>`)
       const _staticRenderFns = vm._renderProxy.$options.staticRenderFns
       vm._renderProxy.$options.staticRenderFns = compiledResult.staticRenderFns
       elem = compiledResult.render.call(vm._renderProxy, vm.$createElement).children
