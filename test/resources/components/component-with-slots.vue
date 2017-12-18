@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" @keydown="change">
     <header>
       <slot name="header"></slot>
     </header>
@@ -18,6 +18,11 @@
     data () {
       return {
         'foo': 'bar'
+      }
+    },
+    methods: {
+      change () {
+        this.foo = 'BAR'
       }
     }
   }

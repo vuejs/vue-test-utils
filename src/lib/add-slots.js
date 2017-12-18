@@ -31,10 +31,18 @@ function addSlotToVm (vm: Component, slotName: string, slotValue: Component | st
   } else {
     elem = vm.$createElement(slotValue)
   }
-  if (Array.isArray(vm.$slots[slotName])) {
-    vm.$slots[slotName].push(elem)
+  if (Array.isArray(elem)) {
+    if (Array.isArray(vm.$slots[slotName])) {
+      vm.$slots[slotName] = [...vm.$slots[slotName], ...elem]
+    } else {
+      vm.$slots[slotName] = [...elem]
+    }
   } else {
-    vm.$slots[slotName] = [elem]
+    if (Array.isArray(vm.$slots[slotName])) {
+      vm.$slots[slotName].push(elem)
+    } else {
+      vm.$slots[slotName] = [elem]
+    }
   }
 }
 

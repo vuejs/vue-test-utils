@@ -13,6 +13,7 @@ import createLocalVue from '../create-local-vue'
 import extractOptions from '../options/extract-options'
 import deleteMountingOptions from '../options/delete-mounting-options'
 import createFunctionalComponent from './create-functional-component'
+import cloneDeep from 'lodash/cloneDeep'
 
 export default function createConstructor (
   component: Component,
@@ -57,6 +58,9 @@ export default function createConstructor (
 
   addAttrs(vm, mountingOptions.attrs)
   addListeners(vm, mountingOptions.listeners)
+
+  vm.$_mountingOptionsSlots = mountingOptions.slots
+  vm.$_originalSlots = cloneDeep(vm.$slots)
 
   if (mountingOptions.slots) {
     addSlots(vm, mountingOptions.slots)
