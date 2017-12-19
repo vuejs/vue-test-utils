@@ -7,46 +7,10 @@ To simplify testing, `vue-test-utils` applies updates _synchronously_. However, 
 One common cases is componentst that use `watch`, which updates asynchronously. Below in an example of a component that renders some content based on a boolean value, which is updated using a watcher:
 
 ``` js
-import { shallow  } from 'vue-test-utils'
-import Component from './Component'
-import flushPromises from 'flush-promises'
-
-describe('Component', () => {
-  it('renders content conditionally using a watcher',  () => {
-    const wrapper = shallow(Click)
-
-    wrapper.find('input').element.value = 'Value'
-    wrapper.find('input').trigger('input')
-
-    expect(wrapper.findAll('#changed')).toHaveLength(1)
-  })
-})
-
-``` js
-import { shallow  } from 'vue-test-utils'
-import Click from './Click'
-import flushPromises from 'flush-promises'
-
-describe('test', () => {
-  it('works',  async () => {
-    const wrapper = shallow(Click)
-
-    wrapper.find('input').element.value = 'Value'
-    wrapper.find('input').trigger('input')
-    await flushPromises()
-
-    expect(wrapper.findAll('#changed')).toHaveLength(1)
-  })
-})
-
-describe('test', () => {
-  it('works',  async () => {
-    const wrapper = shallow(Click)
-
-    wrapper.find('input').element.value = 'Value'
-    wrapper.find('input').trigger('input')
-
-    expect(wrapper.find('#updated').text()).toEqual('true')
-  })
-})
+Demo....
 ```
+The above test fails - however, when you test it by hand in a browser, it seems fine!  The reason the test is failing is because properties inside of `watch` use promises. In this test, the assertion occurs before the promise is resolved, so the `button` is still not visible.
+
+One solution is to use the npm package, `flush-promises`. This allows you to immediately resolve any promises. Let's update the test:
+
+Now the test passes! Note, because we are using the ES7 keyword `await`, we need to prepend the test with `async`.
