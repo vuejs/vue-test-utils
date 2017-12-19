@@ -9,8 +9,19 @@ One common cases is componentst that use `watch`, which updates asynchronously. 
 ``` js
 Demo....
 ```
-The above test fails - however, when you test it by hand in a browser, it seems fine!  The reason the test is failing is because properties inside of `watch` use promises. In this test, the assertion occurs before the promise is resolved, so the `button` is still not visible.
+The above test fails - however, when you test it by hand in a browser, it seems fine!  The reason the test is failing is because properties inside of `watch` are updated asynchronously. In this test, the assertion occurs before `nextTick()` is called, so the `button` is still not visible.
 
-One solution is to use the npm package, `flush-promises`. This allows you to immediately resolve any promises. Let's update the test:
+Most unit test libraries provide a callback to let the runner know when the test is complete. Jest and Karma both use `done()`. We can use this, in combination with `nextTick()`, to test the component.
 
-Now the test passes! Note, because we are using the ES7 keyword `await`, we need to prepend the test with `async`.
+Now the test passes! 
+
+Another common asynchronous behavior is API calls and Vuex actions. The following examples shows how to test a method that makes an API call. This example is using Jest to run the test and to mock the HTTP library `axios`.
+
+The implementation of the `axios` mock looks like this:
+
+This test currently fails, because the assertion is called before the promise resolves. One solution is to use the npm package, `flush-promises`. which immediately resolve any promises. The test is asynchronous, so like above, we need to let the test runner know to wait. Jest provides a few options, such as `done()`, as shown above. Another is to prepend the test with the ES7 'async' keyword. We can now use the the ES7 `await` keyword with `flushPromises()`, to immediately resolve the API call.
+
+The updated test looks like this:
+
+This same technique can be applied to Vuex actions.
+
