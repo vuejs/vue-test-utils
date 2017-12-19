@@ -64,22 +64,10 @@ expect(wrapper.find('div')).toBe(true)
 #### Passing text
 
 You can pass text to `slots`.  
-There are two limitations to this.
+There is a limitation to this.
 
-This works with Vue 2.2+.
-
-This works for the text below.
-
-```js
-const wrapper = mount(ComponentWithSlots, { slots: { default: 'foobar' }})
-```
-
-This does not work for the text below.
-
-```js
-const wrapper1 = mount(ComponentWithSlots, { slots: { default: 'foo<span>bar</span>' }})
-const wrapper2 = mount(FooComponent, { slots: { default: 'foo {{ bar }}' }})
-```
+This does not support PhantomJS.  
+Please use [Puppeteer](https://github.com/karma-runner/karma-chrome-launcher#headless-chromium-with-puppeteer).
 
 ### `stubs`
 

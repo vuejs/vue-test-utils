@@ -1,9 +1,19 @@
 // @flow
 
 import Wrapper from './wrapper'
+import addSlots from '../lib/add-slots'
+import cloneDeep from 'lodash/cloneDeep'
 
 function update () {
-  this._update(this._render())
+  // the only component made by mount()
+  if (this.$_originalSlots) {
+    this.$slots = cloneDeep(this.$_originalSlots)
+  }
+  if (this.$_mountingOptionsSlots) {
+    addSlots(this, this.$_mountingOptionsSlots)
+  }
+  const vnodes = this._render()
+  this._update(vnodes)
   this.$children.forEach(child => update.call(child))
 }
 
