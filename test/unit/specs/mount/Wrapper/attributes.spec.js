@@ -16,7 +16,7 @@ describe('attributes', () => {
     expect(wrapper.attributes()).to.eql({})
   })
 
-  it('returns empoty object if wrapper element is null', () => {
+  it('returns empty object if wrapper element is null', () => {
     const compiled = compileToFunctions('<div />')
     const wrapper = mount(compiled)
     wrapper.element = null
