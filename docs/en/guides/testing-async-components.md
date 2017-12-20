@@ -30,6 +30,7 @@ One common cases is components that use `watch`, which updates asynchronously. B
     }
   }
 </script>
+```
 
 This component conditionally renders a submit button, based on whether the user entered some text. Let's see how we might test this:
 
@@ -92,7 +93,8 @@ export default {
 ```
 
 The below component makes an API call when a button is clicked, then assigns the response to `value`.
-```
+
+``` js
 <template>
   <button @click="fetchResults" />
 </template>
