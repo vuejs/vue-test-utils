@@ -23,6 +23,7 @@
     - [listeners](api/options.md#listeners)
     - [clone](api/options.md#clone)
     - [provide](api/options.md#provide)
+    - [その他のオプション](api/options.md#その他のオプション)
   * [Wrapper](api/wrapper/README.md)
     * [attributes](api/wrapper/attributes.md)
     * [classes](api/wrapper/classes.md)

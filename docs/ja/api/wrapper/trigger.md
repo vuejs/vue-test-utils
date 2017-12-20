@@ -36,3 +36,15 @@ wrapper.trigger('click', {
 
 expect(clickHandler.called).toBe(true)
 ```
+
+- **event.targetの設定:**
+
+`trigger` は `Event` オブジェクトを生成して、Wrapper.element にイベントを送ります。  
+event.target を編集することはできません。つまり、 `target` を オプションオブジェクトにセットすることはできません。  
+`target` の属性を追加するには、 `trigger` を実行する前に Wrapper.element の属性にその値をセットする必要があります。  
+
+```js
+const input = wrapper.find('input')
+input.element.value = 100
+input.trigger('click')
+```

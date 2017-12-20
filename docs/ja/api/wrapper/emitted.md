@@ -44,3 +44,15 @@ expect(wrapper.emitted('foo').length).toBe(2)
 // イベントのペイロードを検証します
 expect(wrapper.emitted('foo')[1]).toEqual([123])
 ```
+
+`.emitted()` メソッドは呼ばれる度、新しいオブジェクトではなく同じオブジェクトを返します。イベントが発生すると、そのオブジェクトは更新します。
+
+```js
+const emitted = wrapper.emitted()
+
+expect(emitted.foo.length).toBe(1)
+
+// `wrapper` が foo イベントを emit する何らかの処理したとします。
+
+expect(emitted.foo.length).toBe(2)
+```
