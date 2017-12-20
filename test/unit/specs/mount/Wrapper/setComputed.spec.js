@@ -32,6 +32,26 @@ describe('setComputed', () => {
     const computed1 = 'new computed'
     wrapper.setComputed({ computed1 })
     expect(info.args[0][0]).to.equal(computed1)
+    expect(wrapper.vm.computed1).to.equal(computed1)
+  })
+
+  it('updates vm computed value', () => {
+    const TestComponent = {
+      data () {
+        return {
+          a: 1
+        }
+      },
+      computed: {
+        b () {
+          return this.a * 2
+        }
+      }
+    }
+
+    const wrapper = mount(TestComponent)
+    wrapper.setComputed({b: 3})
+    expect(wrapper.vm.b).to.equal(3)
   })
 
   it('throws an error if node is not a Vue instance', () => {
