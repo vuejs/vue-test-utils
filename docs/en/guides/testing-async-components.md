@@ -2,7 +2,7 @@
 
 > An example project will be made available.
 
-To simplify testing, `vue-test-utils` applies updates _synchronously_. However, there are some techniques you need to be aware ofwhen testing a component with asynchronous behavior such as callbacks or promises.
+To simplify testing, `vue-test-utils` applies updates _synchronously_. However, there are some techniques you need to be aware of when testing a component with asynchronous behavior such as callbacks or promises.
 
 One common cases is components that use `watch`, which updates asynchronously. Below in an example of a component that renders some content based on a boolean value, which is updated using a watcher:
 
@@ -133,9 +133,9 @@ test('Foo', () => {
 })
 ```
 
-This test currently fails, because the assertion is called before the promise resolves. One solution is to use the npm package, `flush-promises`. which immediately resolve any unresolved promises. This test is also asynchronous, so like the previous example, we need to let the test runner know to wait before making any assertions. If you are using Jest, there are a few options, such as passing a `done()` callback, as shown above. 
+This test currently fails, because the assertion is called before the promise resolves. One solution is to use the npm package, `flush-promises`. which immediately resolve any unresolved promises. This test is also asynchronous, so like the previous example, we need to let the test runner know to wait before making any assertions. 
 
-Another is to prepend the test with the ES7 'async' keyword. We can now use the the ES7 `await` keyword with `flushPromises()`, to immediately resolve the API call.
+If you are using Jest, there are a few options, such as passing a `done()` callback, as shown above. Another is to prepend the test with the ES7 'async' keyword. We can now use the the ES7 `await` keyword with `flushPromises()`, to immediately resolve the API call.
 
 The updated test looks like this:
 
