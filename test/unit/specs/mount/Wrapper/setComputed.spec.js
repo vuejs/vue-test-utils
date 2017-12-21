@@ -50,7 +50,7 @@ describe('setComputed', () => {
     }
 
     const wrapper = mount(TestComponent)
-    wrapper.setComputed({b: 3})
+    wrapper.setComputed({ b: 3 })
     expect(wrapper.vm.b).to.equal(3)
   })
 

@@ -413,8 +413,8 @@ export default class Wrapper implements BaseWrapper {
         }
         // $FlowIgnore : Problem with possibly null this.vm
         this.vm._computedWatchers[key].value = computed[key]
+        // $FlowIgnore : Problem with possibly null this.vm
         this.vm._computedWatchers[key].getter = () => computed[key]
-
       } else {
         // $FlowIgnore : Problem with possibly null this.vm
         if (!this.vm._watchers.some(w => w.getter.name === key)) {
