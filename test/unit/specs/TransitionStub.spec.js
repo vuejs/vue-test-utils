@@ -30,4 +30,30 @@ describe('TransitionStub', () => {
     expect(error.args[0][0]).to.equal(msg)
     error.restore()
   })
+
+  it('handles keyed transitions', () => {
+    const TestComponent = {
+      template: `
+      <div>
+        <transition>
+          <div v-if="bool" key="a">a</div>
+          <div v-else key="b">b</div>
+        </transition>
+      </div>
+      `,
+      data () {
+        return {
+          bool: true
+        }
+      }
+    }
+    const wrapper = mount(TestComponent, {
+      stubs: {
+        'transition': TransitionStub
+      }
+    })
+    expect(wrapper.text()).to.equal('a')
+    wrapper.setData({ bool: false })
+    expect(wrapper.text()).to.equal('b')
+  })
 })
