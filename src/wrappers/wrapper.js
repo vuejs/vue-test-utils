@@ -416,8 +416,24 @@ export default class Wrapper implements BaseWrapper {
         // $FlowIgnore : Problem with possibly null this.vm
         this.vm._computedWatchers[key].getter = () => computed[key]
       } else {
+        let isStore = false
         // $FlowIgnore : Problem with possibly null this.vm
-        if (!this.vm._watchers.some(w => w.getter.name === key)) {
+        const max = this.vm._watchers.length
+        for (let i = 0; i < max; i++) {
+          // $FlowIgnore : Problem with possibly null this.vm
+          const watcher = this.vm._watchers[i]
+          // $FlowIgnore : Problem with possibly null this.vm
+          if (watcher.getter.vuex && key in watcher.vm.$options.store.getters) {
+            watcher.vm.$options.store.getters = {
+              ...watcher.vm.$options.store.getters
+            }
+            Object.defineProperty(watcher.vm.$options.store.getters, key, { get: function () { return computed[key] } })
+            isStore = true
+            break
+          }
+        }
+        // $FlowIgnore : Problem with possibly null this.vm
+        if (!isStore && !this.vm._watchers.some(w => w.getter.name === key)) {
           throwError(`wrapper.setComputed() was passed a value that does not exist as a computed property on the Vue instance. Property ${key} does not exist on the Vue instance`)
         }
         // $FlowIgnore : Problem with possibly null this.vm
