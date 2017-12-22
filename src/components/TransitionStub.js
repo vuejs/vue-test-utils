@@ -26,11 +26,11 @@ function getFirstComponentChild (children: ?Array<VNode>): ?VNode {
   }
 }
 
-function isPrimitive (value: any): boolean %checks {
+function isPrimitive (value: any): boolean {
   return (
     typeof value === 'string' ||
     typeof value === 'number' ||
-    // $flow-disable-line
+    // $FlowIgnore
     typeof value === 'symbol' ||
     typeof value === 'boolean'
   )
@@ -126,8 +126,8 @@ export default {
         : child.key
 
     const data: Object = (child.data || (child.data = {})).transition = extractTransitionData(this)
-    const oldRawChild: VNode = this._vnode
-    const oldChild: VNode = getRealChild(oldRawChild)
+    const oldRawChild: ?VNode = this._vnode
+    const oldChild: ?VNode = getRealChild(oldRawChild)
     if (child.data.directives && child.data.directives.some(d => d.name === 'show')) {
       child.data.show = true
     }
