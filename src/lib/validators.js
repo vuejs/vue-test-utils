@@ -35,7 +35,7 @@ export function isVueComponent (component: any): boolean {
     return false
   }
 
-  return typeof component.render === 'function'
+  return typeof component.render === 'function' || !!component.extends
 }
 
 export function isValidSelector (selector: any): boolean {

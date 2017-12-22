@@ -31,7 +31,7 @@ export function vmCtorMatchesName (vm: Component, name: string): boolean {
 export default function findVueComponents (root: Component, componentName: string): Array<Component> {
   const components = root._isVue ? findAllVueComponentsFromVm(root) : findAllVueComponentsFromVnode(root)
   return components.filter((component) => {
-    if (!component.$vnode) {
+    if (!component.$vnode && !component.$options.extends) {
       return false
     }
     return vmCtorMatchesName(component, componentName)

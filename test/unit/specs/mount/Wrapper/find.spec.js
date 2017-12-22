@@ -168,7 +168,23 @@ describe('find', () => {
     expect(wrapper.find({ ref: 'foo' })).to.be.an('object')
   })
 
-  it('returns Wrapper of Vue Components matching the ref in options object', () => {
+  it('returns Wrapper of Vue Component matching the extended component', () => {
+    const BaseComponent = {
+      template: '<div><a-component /></div>',
+      components: {
+        AComponent: Component
+      }
+    }
+    const TestComponent = {
+      extends: BaseComponent,
+      name: 'test-component'
+    }
+    const wrapper = mount(TestComponent)
+    expect(wrapper.find(TestComponent).exists()).to.equal(true)
+    expect(wrapper.find(TestComponent).isVueComponent).to.equal(true)
+  })
+
+  it('returns Wrapper of Vue Component matching the ref in options object', () => {
     const wrapper = mount(ComponentWithChild)
     expect(wrapper.find({ ref: 'child' }).isVueComponent).to.equal(true)
   })
