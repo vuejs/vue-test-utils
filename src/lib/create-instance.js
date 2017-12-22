@@ -43,7 +43,9 @@ export default function createConstructor (
     stubComponents(component, mountingOptions.stubs)
   }
 
-  if (!component.render && component.template && !component.functional) {
+  if (!component.render &&
+    (component.template || component.extends) &&
+    !component.functional) {
     compileTemplate(component)
   }
 

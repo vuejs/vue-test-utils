@@ -56,6 +56,37 @@ describe('mount', () => {
     }
   })
 
+  it('handles uncompiled extended Vue component', () => {
+    const BaseComponent = {
+      template: '<div />'
+    }
+    const TestComponent = {
+      extends: BaseComponent
+    }
+    const wrapper = mount(TestComponent)
+    expect(wrapper.findAll('div').length).to.equal(1)
+  })
+
+  it('handles nested uncompiled extended Vue component', () => {
+    const BaseComponent = {
+      template: '<div />'
+    }
+    const TestComponentA = {
+      extends: BaseComponent
+    }
+    const TestComponentB = {
+      extends: TestComponentA
+    }
+    const TestComponentC = {
+      extends: TestComponentB
+    }
+    const TestComponentD = {
+      extends: TestComponentC
+    }
+    const wrapper = mount(TestComponentD)
+    expect(wrapper.findAll('div').length).to.equal(1)
+  })
+
   it('does not use cached component', () => {
     ComponentWithMixin.methods.someMethod = sinon.stub()
     mount(ComponentWithMixin)
