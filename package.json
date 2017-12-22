@@ -9,7 +9,7 @@
     "types/index.d.ts"
   ],
   "scripts": {
-    "build": "node build/build.js",
+    "build": "NODE_ENV=production node build/build.js",
     "build:test": "NODE_ENV=test node build/build.js",
     "docs": "cd docs && gitbook install && gitbook serve",
     "docs:deploy": "build/update-docs.sh",
