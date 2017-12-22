@@ -1,4 +1,5 @@
 import shallow from './shallow'
+import sleep from './sleep'
 import mount from './mount'
 import createLocalVue from './create-local-vue'
 import TransitionStub from './components/TransitionStub'
@@ -10,6 +11,7 @@ export default {
   config,
   mount,
   shallow,
+  sleep,
   TransitionStub,
   TransitionGroupStub
 }

@@ -1,9 +1,24 @@
 {
-  "presets": ["env", "stage-2", "flow-vue"],
+  "presets": ["stage-2", "flow-vue"],
   "comments": false,
   "env": {
     "test": {
-      "plugins": ["istanbul"]
+      "plugins": ["istanbul"],
+      "presets": [
+        [
+          "env",
+          {
+            "targets": {
+              "node": "8.2"
+            }
+          }
+        ],
+      ]
+    },
+    "production": {
+      "presets": [
+        "env"
+      ]
     }
   }
 }
