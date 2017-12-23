@@ -8,8 +8,8 @@ The implementation of the `axios` mock looks like this:
 
 ``` js
 export default {
-  get: () => new Promise(resolve => { 
-    resolve({ data: 'value' }) 
+  get: () => new Promise(resolve => {
+    resolve({ data: 'value' })
   })
 }
 ```
