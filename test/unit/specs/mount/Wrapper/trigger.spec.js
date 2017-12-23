@@ -93,14 +93,12 @@ describe('trigger', () => {
     expect(clickHandler.calledOnce).to.equal(true)
   })
 
-  it('prevents default on event when pass preventDefault as true', () => {
-    const wrapper = mount(ComponentWithEvents)
-    const button = wrapper.find('.left-click')
-    button.trigger('mousedown', {
-      preventDefault: true,
-      button: 0
-    })
-    expect(info.calledWith(true)).to.equal(true)
+  it('handles .prevent', () => {
+    const TestComponent = {
+      template: '<input @keydown.enter.prevent="enter">'
+    }
+    const wrapper = mount(TestComponent)
+    wrapper.trigger('keydown')
   })
 
   it('throws error if options contains a target value', () => {

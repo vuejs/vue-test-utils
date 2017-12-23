@@ -4,12 +4,9 @@
 
 В `trigger` также можно передать опциональный объект `options`. Свойства объекта `options` будут добавлены к Event.
 
-Вы можете вызвать `preventDefault` на событие передав `preventDefault: true` в `options`.
-
 - **Принимает:**
   - `{string} eventName`
   - `{Object} options`
-    - `{boolean} preventDefault`
 
 - **Пример:**
 
@@ -28,10 +25,6 @@ wrapper.trigger('click')
 
 wrapper.trigger('click', {
   button: 0
-})
-
-wrapper.trigger('click', {
-  preventDefault: true
 })
 
 expect(clickHandler.called).toBe(true)

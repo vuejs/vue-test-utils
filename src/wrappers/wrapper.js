@@ -568,10 +568,6 @@ export default class Wrapper implements BaseWrapper {
       eventObject.initEvent(event[0], true, true)
     }
 
-    if (options && options.preventDefault) {
-      eventObject.preventDefault()
-    }
-
     if (options) {
       Object.keys(options).forEach(key => {
         // $FlowIgnore

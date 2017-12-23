@@ -4,12 +4,9 @@
 
 Triggerは `options` オブジェクト形式で行います。`options` オブジェクトのプロパティがイベントに追加されます。
 
-`options` で `preventDefault: true` とすることで、イベントに対して preventDefault を実行することができます。
-
 - **引数:**
   - `{string} eventName`
-  - `{Object} options` 
-    - `{boolean} preventDefault`
+  - `{Object} options`
 
 - **例:**
 
@@ -28,10 +25,6 @@ wrapper.trigger('click')
 
 wrapper.trigger('click', {
   button: 0
-})
-
-wrapper.trigger('click', {
-  preventDefault: true
 })
 
 expect(clickHandler.called).toBe(true)

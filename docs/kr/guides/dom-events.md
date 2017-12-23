@@ -22,12 +22,10 @@ wrapper.find('button').trigger('click')
 
 트리거 메소드는 선택적으로 `options` 객체를 가질 수 있습니다. 이 `options` 객체의 속성이 이벤트에 추가됩니다.
 
-`options`에 `preventDefault: true`를 전달하여 이벤트에서 preventDefault를 실행할 수 있습니다.
-
 ```js
 const wrapper = mount(MyButton)
 
-wrapper.trigger('click', { preventDefault: true })
+wrapper.trigger('click', { button: 0 })
 ```
 
 

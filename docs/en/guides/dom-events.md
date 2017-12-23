@@ -22,12 +22,12 @@ wrapper.find('button').trigger('click')
 
 The `trigger` method takes an optional `options` object. The properties in the `options` object are added to the Event.
 
-You can run `preventDefault` on the event by passing `preventDefault: true` in `options`.
+Note that target cannot be added in the `options` object.
 
 ```js
 const wrapper = mount(MyButton)
 
-wrapper.trigger('click', { preventDefault: true })
+wrapper.trigger('click', { button: 0 })
 ```
 
 

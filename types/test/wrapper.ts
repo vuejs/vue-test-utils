@@ -35,7 +35,7 @@ wrapper.setData({ foo: 'bar' })
 wrapper.setMethods({checked: true})
 wrapper.setProps({ checked: true })
 wrapper.trigger('mousedown.enter', {
-  preventDefault: true
+  button: 0
 })
 
 /**
