@@ -11,7 +11,6 @@
         - `{Array<Componet|Object>|Component|String} named`
     - `{Object} mocks`
     - `{Object|Array<string>} stubs`
-    - `{boolean} clone`
     - `{Object} children`
     - `{Vue} localVue`
 

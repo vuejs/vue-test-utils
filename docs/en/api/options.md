@@ -12,7 +12,6 @@ Options for `mount` and `shallow`. The options object can contain both `vue-test
 - [`attachToDocument`](#attachtodocument)
 - [`attrs`](#attrs)
 - [`listeners`](#listeners)
-- [`clone`](#clone)
 - [`provide`](#provide)
 
 ### `context`
@@ -165,20 +164,13 @@ Set the component instance's `$attrs` object.
 
 Set the component instance's `$listeners` object.
 
-### `clone`
-
-- type: `boolean`
-- default: `true`
-
-Clones component before mounting if `true`, which avoids mutating the original component definition.
-
 ### `provide`
 
 - type: `Object`
 
 Pass properties for components to use in injection. See [provide/inject](https://vuejs.org/v2/api/#provide-inject).
 
-## Other options 
+## Other options
 
 When the options for `mount` and `shallow` contain the options other than the mounting options, the component options are overwritten with those using [extends](https://vuejs.org/v2/api/#extends).
 

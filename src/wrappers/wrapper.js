@@ -2,7 +2,7 @@
 
 import Vue from 'vue'
 import getSelectorTypeOrThrow, { selectorTypes } from '../lib/get-selector-type'
-import findVueComponents, { vmCtorMatchesName } from '../lib/find-vue-components'
+import findVueComponents, { vmCtorMatchesName, vmCtorMatchesSelector } from '../lib/find-vue-components'
 import findVNodesBySelector from '../lib/find-vnodes-by-selector'
 import findVNodesByRef from '../lib/find-vnodes-by-ref'
 import VueWrapper from './vue-wrapper'
@@ -315,6 +315,13 @@ export default class Wrapper implements BaseWrapper {
         return false
       }
       return vmCtorMatchesName(this.vm, selector.name)
+    }
+
+    if (selectorType === selectorTypes.VUE_COMPONENT) {
+      if (!this.vm) {
+        return false
+      }
+      return vmCtorMatchesSelector(this.vm, selector._Ctor)
     }
 
     if (selectorType === selectorTypes.REF_SELECTOR) {

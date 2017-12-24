@@ -11,7 +11,6 @@
   - [attachToDocument](./options.md#attachtodocument)
   - [attrs](./options.md#attrs)
   - [listeners](./options.md#listeners)
-  - [clone](./options.md#clone)
   - [provide](./options.md#provide)
   - [其它选项](./options.md#other-options)
 * [Wrapper](./wrapper/README.md)

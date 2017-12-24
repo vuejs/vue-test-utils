@@ -12,7 +12,6 @@
 - [attachToDocument](#attachtodocument)
 - [attrs](#attrs)
 - [listeners](#listeners)
-- [clone](#clone)
 - [provide](#provide)
 
 ### `context`
@@ -157,18 +156,6 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 - 型: `Object`
 
 コンポーネントインスタンスの `$listeners` オブジェクトを設定します。
-
-### `clone`
-
-- 型: `boolean`
-- デフォルト: `true`
-
-`true` に設定されている場合、マウント前にコンポーネントを複製し、元のコンポーネントの定義を変更することはありません。
-
-`options.mocks` (`Object`): Vue インスタンスにグローバルを追加します。
-
-`options.localVue` (`Object`): `mount` で使う Vue クラスです。[createLocalVue](./createLocalVue.md)を参照してください。
-
 
 ### `provide`
 

@@ -30,7 +30,7 @@ export function vmCtorMatchesName (vm: Component, name: string): boolean {
 }
 
 export function vmCtorMatchesSelector (component: Component, Ctor: Object) {
-  return Ctor[0] === component.__proto__.constructor // eslint-disable-line no-proto
+  return Ctor[component.__proto__.constructor.cid - 1] === component.__proto__.constructor // eslint-disable-line no-proto
 }
 
 export default function findVueComponents (root: Component, selectorType: string, selector: Object): Array<Component> {

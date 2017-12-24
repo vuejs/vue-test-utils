@@ -6,7 +6,7 @@ import addAttrs from './add-attrs'
 import addListeners from './add-listeners'
 import addProvide from './add-provide'
 import { addEventLogger } from './log-events'
-import { stubComponents } from './stub-components'
+import { createComponentStubs } from './stub-components'
 import { throwError } from './util'
 import { compileTemplate } from './compile-template'
 import createLocalVue from '../create-local-vue'
@@ -39,10 +39,6 @@ export default function createConstructor (
     addProvide(component, mountingOptions.provide, options)
   }
 
-  if (mountingOptions.stubs) {
-    stubComponents(component, mountingOptions.stubs)
-  }
-
   if (!component.render &&
     (component.template || component.extends) &&
     !component.functional) {
@@ -55,6 +51,14 @@ export default function createConstructor (
 
   const instanceOptions = { ...options }
   deleteMountingOptions(instanceOptions)
+
+  if (mountingOptions.stubs) {
+    instanceOptions.components = {
+      ...instanceOptions.components,
+      // $FlowIgnore
+      ...createComponentStubs(component.components, mountingOptions.stubs)
+    }
+  }
 
   const vm = new Constructor(instanceOptions)
 

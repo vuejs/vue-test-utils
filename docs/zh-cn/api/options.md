@@ -12,7 +12,6 @@
 - [`attachToDocument`](#attachtodocument)
 - [`attrs`](#attrs)
 - [`listeners`](#listeners)
-- [`clone`](#clone)
 - [`provide`](#provide)
 
 ### `context`
@@ -176,13 +175,6 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 - 类型：`Object`
 
 设置组件实例的 `$listeners` 对象。
-
-### `clone`
-
-- 类型：`boolean`
-- 默认值：`true`
-
-如果为 `true` 则会在挂载之前克隆组件。这样做会回避原始组件定义的突变。
 
 ### `provide`
 

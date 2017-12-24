@@ -14,7 +14,6 @@
 - [`attachToDocument`](#attachtodocument)
 - [`attrs`](#attrs)
 - [`listeners`](#listeners)
-- [`clone`](#clone)
 - [`provide`](#provide)
 
 ### `context`
@@ -153,13 +152,6 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 - Тип: `Object`
 
 Устанавливает объект `$listeners` на экземпляре компонента.
-
-### `clone`
-
-- Тип: `boolean`
-- По умолчанию: `true`
-
-Клонирует компонент перед монтированием, если установлено в `true`, что позволяет избежать мутаций оригинального определения компонента.
 
 ### `provide`
 

@@ -14,7 +14,6 @@ Vue options are passed to the component when a new instance is created. , e.g. `
 - [`attachToDocument`](#attachtodocument)
 - [`attrs`](#attrs)
 - [`listeners`](#listeners)
-- [`clone`](#clone)
 
 ### `context`
 
@@ -152,13 +151,6 @@ Set the component instance's `$attrs` object.
 - type: `Object`
 
 Set the component instance's `$listeners` object.
-
-### `clone`
-
-- type: `boolean`
-- default: `true`
-
-Clones component before mounting if `true`, which avoids mutating the original component definition.
 
 `options.mocks` (`Object`): Add globals to Vue instance.
 

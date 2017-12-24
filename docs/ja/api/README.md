@@ -11,7 +11,6 @@
   - [attachToDocument](./options.md#attachtodocument)
   - [attrs](./options.md#attrs)
   - [listeners](./options.md#listeners)
-  - [clone](./options.md#clone)
   - [provide](./options.md#provide)
   - [その他のオプション](./options.md#その他のオプション)
 * [Wrapper](./wrapper/README.md)

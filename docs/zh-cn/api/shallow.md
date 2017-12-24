@@ -12,7 +12,6 @@
         - `{Array<Componet|Object>|Component|String} named`
     - `{Object} mocks`
     - `{Object|Array<string>} stubs`
-    - `{boolean} clone`
     - `{Vue} localVue`
 
 - **返回值：**`{Wrapper}`

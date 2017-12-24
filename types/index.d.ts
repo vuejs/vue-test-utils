@@ -96,7 +96,6 @@ interface WrapperOptions {
 
 interface MountOptions<V extends Vue> extends ComponentOptions<V> {
   attachToDocument?: boolean
-  clone?: boolean
   context?: VNodeData
   localVue?: typeof Vue
   mocks?: object
@@ -123,5 +122,5 @@ export declare function shallow<V extends Vue, Ctor extends VueClass<V> = VueCla
 export declare function shallow<V extends Vue> (component: ComponentOptions<V>, options?: ShallowOptions<V>): Wrapper<V>
 export declare function shallow (component: FunctionalComponentOptions, options?: ShallowOptions<Vue>): Wrapper<Vue>
 
-export declare let TransitionStub: Component | string | true  
-export declare let TransitionGroupStub: Component | string | true 
+export declare let TransitionStub: Component | string | true
+export declare let TransitionGroupStub: Component | string | true

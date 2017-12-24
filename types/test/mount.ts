@@ -24,7 +24,6 @@ const store = new Vuex.Store({})
 
 mount<ClassComponent>(ClassComponent, {
   attachToDocument: true,
-  clone: true,
   localVue,
   mocks: {
     $store: store

@@ -139,7 +139,6 @@ describe('mount', () => {
       stubs: {
         'prop': 'val'
       },
-      clone: 'clone',
       attrs: {
         'prop': 'val'
       },
@@ -163,7 +162,6 @@ describe('mount', () => {
     expect(wrapper.vm.$options.localVue).to.equal(undefined)
     expect(wrapper.vm.$options.stubs).to.equal(undefined)
     expect(wrapper.vm.$options.context).to.equal(undefined)
-    expect(wrapper.vm.$options.clone).to.equal(undefined)
     expect(wrapper.vm.$options.attrs).to.equal(undefined)
     expect(wrapper.vm.$options.listeners).to.equal(undefined)
   })

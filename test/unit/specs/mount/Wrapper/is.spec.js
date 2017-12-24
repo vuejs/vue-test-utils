@@ -40,7 +40,7 @@ describe('is', () => {
     expect(wrapper.is(Component)).to.equal(true)
   })
 
-  it.skip('returns true if root node matches Component without a name', () => {
+  it('returns true if root node matches Component without a name', () => {
     const wrapper = mount(ComponentWithoutName)
     expect(wrapper.is(ComponentWithoutName)).to.equal(true)
   })
