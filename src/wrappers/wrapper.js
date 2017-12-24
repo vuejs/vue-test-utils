@@ -1,7 +1,13 @@
 // @flow
 
 import Vue from 'vue'
-import getSelectorTypeOrThrow, { selectorTypes } from '../lib/get-selector-type'
+import getSelectorTypeOrThrow from '../lib/get-selector-type'
+import {
+  REF_SELECTOR,
+  COMPONENT_SELECTOR,
+  NAME_SELECTOR,
+  DOM_SELECTOR
+} from '../lib/consts'
 import findVueComponents, { vmCtorMatchesName, vmCtorMatchesSelector } from '../lib/find-vue-components'
 import findVNodesBySelector from '../lib/find-vnodes-by-selector'
 import findVNodesByRef from '../lib/find-vnodes-by-ref'
@@ -73,12 +79,12 @@ export default class Wrapper implements BaseWrapper {
   contains (selector: Selector) {
     const selectorType = getSelectorTypeOrThrow(selector, 'contains')
 
-    if (selectorType === selectorTypes.NAME_SELECTOR || selectorType === selectorTypes.VUE_COMPONENT) {
+    if (selectorType === NAME_SELECTOR || selectorType === COMPONENT_SELECTOR) {
       const vm = this.vm || this.vnode.context.$root
       return findVueComponents(vm, selector, selector).length > 0 || this.is(selector)
     }
 
-    if (selectorType === selectorTypes.REF_SELECTOR) {
+    if (selectorType === REF_SELECTOR) {
       if (!this.vm) {
         throwError('$ref selectors can only be used on Vue component wrappers')
       }
@@ -86,7 +92,7 @@ export default class Wrapper implements BaseWrapper {
       return nodes.length > 0
     }
 
-    if (selectorType === selectorTypes.DOM_SELECTOR && this.element instanceof HTMLElement) {
+    if (selectorType === DOM_SELECTOR && this.element instanceof HTMLElement) {
       return this.element.querySelectorAll(selector).length > 0 || this.is(selector)
     }
 
@@ -229,8 +235,8 @@ export default class Wrapper implements BaseWrapper {
   find (selector: Selector): Wrapper | ErrorWrapper | VueWrapper {
     const selectorType = getSelectorTypeOrThrow(selector, 'find')
 
-    if (selectorType === selectorTypes.VUE_COMPONENT ||
-      selectorType === selectorTypes.NAME_SELECTOR) {
+    if (selectorType === COMPONENT_SELECTOR ||
+      selectorType === NAME_SELECTOR) {
       const root = this.vm || this.vnode
       // $FlowIgnore warning about selectorType being undefined
       const components = findVueComponents(root, selectorType, selector)
@@ -240,7 +246,7 @@ export default class Wrapper implements BaseWrapper {
       return new VueWrapper(components[0], this.options)
     }
 
-    if (selectorType === selectorTypes.REF_SELECTOR) {
+    if (selectorType === REF_SELECTOR) {
       if (!this.vm) {
         throwError('$ref selectors can only be used on Vue component wrappers')
       }
@@ -268,15 +274,15 @@ export default class Wrapper implements BaseWrapper {
   findAll (selector: Selector): WrapperArray {
     const selectorType = getSelectorTypeOrThrow(selector, 'findAll')
 
-    if (selectorType === selectorTypes.VUE_COMPONENT ||
-      selectorType === selectorTypes.NAME_SELECTOR) {
+    if (selectorType === COMPONENT_SELECTOR ||
+      selectorType === NAME_SELECTOR) {
       const root = this.vm || this.vnode
       // $FlowIgnore warning about selectorType being undefined
       const components = findVueComponents(root, selectorType, selector)
       return new WrapperArray(components.map(component => new VueWrapper(component, this.options)))
     }
 
-    if (selectorType === selectorTypes.REF_SELECTOR) {
+    if (selectorType === REF_SELECTOR) {
       if (!this.vm) {
         throwError('$ref selectors can only be used on Vue component wrappers')
       }
@@ -310,21 +316,21 @@ export default class Wrapper implements BaseWrapper {
   is (selector: Selector): boolean {
     const selectorType = getSelectorTypeOrThrow(selector, 'is')
 
-    if (selectorType === selectorTypes.NAME_SELECTOR) {
+    if (selectorType === NAME_SELECTOR) {
       if (!this.vm) {
         return false
       }
       return vmCtorMatchesName(this.vm, selector.name)
     }
 
-    if (selectorType === selectorTypes.VUE_COMPONENT) {
+    if (selectorType === COMPONENT_SELECTOR) {
       if (!this.vm) {
         return false
       }
       return vmCtorMatchesSelector(this.vm, selector._Ctor)
     }
 
-    if (selectorType === selectorTypes.REF_SELECTOR) {
+    if (selectorType === REF_SELECTOR) {
       throwError('$ref selectors can not be used with wrapper.is()')
     }
 

@@ -7,29 +7,28 @@ import {
   isVueComponent
 } from './validators.js'
 import { throwError } from '../lib/util'
-
-export const selectorTypes = {
-  DOM_SELECTOR: 'DOM_SELECTOR',
-  NAME_SELECTOR: 'NAME_SELECTOR',
-  REF_SELECTOR: 'REF_SELECTOR',
-  VUE_COMPONENT: 'VUE_COMPONENT'
-}
+import {
+  REF_SELECTOR,
+  COMPONENT_SELECTOR,
+  NAME_SELECTOR,
+  DOM_SELECTOR
+} from './consts'
 
 function getSelectorType (selector: Selector): string | void {
   if (isDomSelector(selector)) {
-    return selectorTypes.DOM_SELECTOR
+    return DOM_SELECTOR
   }
 
   if (isNameSelector(selector)) {
-    return selectorTypes.NAME_SELECTOR
+    return NAME_SELECTOR
   }
 
   if (isVueComponent(selector)) {
-    return selectorTypes.VUE_COMPONENT
+    return COMPONENT_SELECTOR
   }
 
   if (isRefSelector(selector)) {
-    return selectorTypes.REF_SELECTOR
+    return REF_SELECTOR
   }
 }
 
