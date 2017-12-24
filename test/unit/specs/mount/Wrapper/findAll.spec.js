@@ -157,10 +157,22 @@ describe('findAll', () => {
     const span = wrapper.find('span')
     expect(span.findAll(AComponent).length).to.equal(1)
   })
-  it('throws an error if component does not have a name property', () => {
-    const wrapper = mount(Component)
-    const message = '[vue-test-utils]: .findAll() requires component to have a name property'
-    expect(() => wrapper.findAll(ComponentWithoutName)).to.throw().with.property('message', message)
+
+  it('returns matching Vue components that have no name property', () => {
+    const TestComponent = {
+      template: `
+        <div>
+          <component-without-name />
+          <component-without-name />
+          <component-without-name />
+        </div>
+      `,
+      components: {
+        ComponentWithoutName
+      }
+    }
+    const wrapper = mount(TestComponent)
+    expect(wrapper.findAll(ComponentWithoutName).length).to.equal(3)
   })
 
   it('returns VueWrapper with length 0 if no nodes matching selector are found', () => {

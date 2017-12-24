@@ -35,7 +35,15 @@ export function isVueComponent (component: any): boolean {
     return false
   }
 
-  return typeof component.render === 'function' || !!component.extends
+  if (component.extends) {
+    return true
+  }
+
+  if (component._Ctor) {
+    return true
+  }
+
+  return typeof component.render === 'function'
 }
 
 export function isValidSelector (selector: any): boolean {
@@ -44,6 +52,10 @@ export function isValidSelector (selector: any): boolean {
   }
 
   if (isVueComponent(selector)) {
+    return true
+  }
+
+  if (isNameSelector(selector)) {
     return true
   }
 
@@ -71,4 +83,16 @@ export function isRefSelector (refOptionsObject: any) {
   })
 
   return isValid
+}
+
+export function isNameSelector (nameOptionsObject: any): boolean {
+  if (typeof nameOptionsObject !== 'object') {
+    return false
+  }
+
+  if (nameOptionsObject === null) {
+    return false
+  }
+
+  return !!nameOptionsObject.name
 }

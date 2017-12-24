@@ -140,13 +140,6 @@ describe('find', () => {
     expect(span.find(AComponent).exists()).to.equal(false)
   })
 
-  it('throws error if component does not have a name property', () => {
-    const wrapper = mount(Component)
-    const message = '[vue-test-utils]: .find() requires component to have a name property'
-    const fn = () => wrapper.find(ComponentWithoutName)
-    expect(fn).to.throw().with.property('message', message)
-  })
-
   it('returns empty Wrapper with error if no nodes are found', () => {
     const wrapper = mount(Component)
     const selector = 'pre'
@@ -209,6 +202,21 @@ describe('find', () => {
     const error = wrapper.find({ ref: 'foo' })
     expect(error.exists()).to.equal(false)
     expect(error.selector).to.equal('ref="foo"')
+  })
+
+  it('returns Wrapper matching component that has no name property', () => {
+    const TestComponent = {
+      template: `
+        <div>
+          <component-without-name />
+        </div>
+      `,
+      components: {
+        ComponentWithoutName
+      }
+    }
+    const wrapper = mount(TestComponent)
+    expect(wrapper.find(ComponentWithoutName).exists()).to.equal(true)
   })
 
   it('throws an error if selector is not a valid selector', () => {

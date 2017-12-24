@@ -1,4 +1,5 @@
 // @flow
+import selectorTypes from './get-selector-type'
 
 function findAllVueComponentsFromVm (vm: Component, components: Array<Component> = []): Array<Component> {
   components.push(vm)
@@ -28,12 +29,18 @@ export function vmCtorMatchesName (vm: Component, name: string): boolean {
         vm.$options && vm.$options.name === name
 }
 
-export default function findVueComponents (root: Component, componentName: string): Array<Component> {
+export function vmCtorMatchesSelector (component: Component, Ctor: Object) {
+  return Ctor[0] === component.__proto__.constructor // eslint-disable-line no-proto
+}
+
+export default function findVueComponents (root: Component, selectorType: string, selector: Object): Array<Component> {
   const components = root._isVue ? findAllVueComponentsFromVm(root) : findAllVueComponentsFromVnode(root)
   return components.filter((component) => {
     if (!component.$vnode && !component.$options.extends) {
       return false
     }
-    return vmCtorMatchesName(component, componentName)
+    return selectorType === selectorTypes.VUE_COMPONENT
+      ? vmCtorMatchesSelector(component, selector._Ctor)
+      : vmCtorMatchesName(component, selector.name)
   })
 }

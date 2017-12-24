@@ -73,12 +73,12 @@ export default class Wrapper implements BaseWrapper {
   contains (selector: Selector) {
     const selectorType = getSelectorTypeOrThrow(selector, 'contains')
 
-    if (selectorType === selectorTypes.VUE_COMPONENT) {
+    if (selectorType === selectorTypes.NAME_SELECTOR || selectorType === selectorTypes.VUE_COMPONENT) {
       const vm = this.vm || this.vnode.context.$root
-      return findVueComponents(vm, selector.name).length > 0 || this.is(selector)
+      return findVueComponents(vm, selector, selector).length > 0 || this.is(selector)
     }
 
-    if (selectorType === selectorTypes.OPTIONS_OBJECT) {
+    if (selectorType === selectorTypes.REF_SELECTOR) {
       if (!this.vm) {
         throwError('$ref selectors can only be used on Vue component wrappers')
       }
@@ -228,19 +228,19 @@ export default class Wrapper implements BaseWrapper {
    */
   find (selector: Selector): Wrapper | ErrorWrapper | VueWrapper {
     const selectorType = getSelectorTypeOrThrow(selector, 'find')
-    if (selectorType === selectorTypes.VUE_COMPONENT) {
-      if (!selector.name) {
-        throwError('.find() requires component to have a name property')
-      }
+
+    if (selectorType === selectorTypes.VUE_COMPONENT ||
+      selectorType === selectorTypes.NAME_SELECTOR) {
       const root = this.vm || this.vnode
-      const components = findVueComponents(root, selector.name)
+      // $FlowIgnore warning about selectorType being undefined
+      const components = findVueComponents(root, selectorType, selector)
       if (components.length === 0) {
         return new ErrorWrapper('Component')
       }
       return new VueWrapper(components[0], this.options)
     }
 
-    if (selectorType === selectorTypes.OPTIONS_OBJECT) {
+    if (selectorType === selectorTypes.REF_SELECTOR) {
       if (!this.vm) {
         throwError('$ref selectors can only be used on Vue component wrappers')
       }
@@ -268,16 +268,15 @@ export default class Wrapper implements BaseWrapper {
   findAll (selector: Selector): WrapperArray {
     const selectorType = getSelectorTypeOrThrow(selector, 'findAll')
 
-    if (selectorType === selectorTypes.VUE_COMPONENT) {
-      if (!selector.name) {
-        throwError('.findAll() requires component to have a name property')
-      }
+    if (selectorType === selectorTypes.VUE_COMPONENT ||
+      selectorType === selectorTypes.NAME_SELECTOR) {
       const root = this.vm || this.vnode
-      const components = findVueComponents(root, selector.name)
+      // $FlowIgnore warning about selectorType being undefined
+      const components = findVueComponents(root, selectorType, selector)
       return new WrapperArray(components.map(component => new VueWrapper(component, this.options)))
     }
 
-    if (selectorType === selectorTypes.OPTIONS_OBJECT) {
+    if (selectorType === selectorTypes.REF_SELECTOR) {
       if (!this.vm) {
         throwError('$ref selectors can only be used on Vue component wrappers')
       }
@@ -311,14 +310,14 @@ export default class Wrapper implements BaseWrapper {
   is (selector: Selector): boolean {
     const selectorType = getSelectorTypeOrThrow(selector, 'is')
 
-    if (selectorType === selectorTypes.VUE_COMPONENT && this.vm) {
-      if (typeof selector.name !== 'string') {
-        throwError('a Component used as a selector must have a name property')
+    if (selectorType === selectorTypes.NAME_SELECTOR) {
+      if (!this.vm) {
+        return false
       }
       return vmCtorMatchesName(this.vm, selector.name)
     }
 
-    if (selectorType === selectorTypes.OPTIONS_OBJECT) {
+    if (selectorType === selectorTypes.REF_SELECTOR) {
       throwError('$ref selectors can not be used with wrapper.is()')
     }
 
