@@ -5,16 +5,17 @@ import getSelectorTypeOrThrow from '../lib/get-selector-type'
 import {
   REF_SELECTOR,
   COMPONENT_SELECTOR,
-  NAME_SELECTOR,
-  DOM_SELECTOR
+  NAME_SELECTOR
 } from '../lib/consts'
-import findVueComponents, { vmCtorMatchesName, vmCtorMatchesSelector } from '../lib/find-vue-components'
-import findVNodesBySelector from '../lib/find-vnodes-by-selector'
-import findVNodesByRef from '../lib/find-vnodes-by-ref'
+import {
+  vmCtorMatchesName,
+  vmCtorMatchesSelector
+} from '../lib/find-vue-components'
 import VueWrapper from './vue-wrapper'
 import WrapperArray from './wrapper-array'
 import ErrorWrapper from './error-wrapper'
 import { throwError, warn } from '../lib/util'
+import findAll from '../lib/find'
 
 export default class Wrapper implements BaseWrapper {
   vnode: VNode;
@@ -78,25 +79,9 @@ export default class Wrapper implements BaseWrapper {
    */
   contains (selector: Selector) {
     const selectorType = getSelectorTypeOrThrow(selector, 'contains')
-
-    if (selectorType === NAME_SELECTOR || selectorType === COMPONENT_SELECTOR) {
-      const vm = this.vm || this.vnode.context.$root
-      return findVueComponents(vm, selector, selector).length > 0 || this.is(selector)
-    }
-
-    if (selectorType === REF_SELECTOR) {
-      if (!this.vm) {
-        throwError('$ref selectors can only be used on Vue component wrappers')
-      }
-      const nodes = findVNodesByRef(this.vnode, selector.ref)
-      return nodes.length > 0
-    }
-
-    if (selectorType === DOM_SELECTOR && this.element instanceof HTMLElement) {
-      return this.element.querySelectorAll(selector).length > 0 || this.is(selector)
-    }
-
-    return false
+    const nodes = findAll(this.vm, this.vnode, selectorType, selector)
+    const is = selectorType === REF_SELECTOR ? false : this.is(selector)
+    return nodes.length > 0 || is
   }
 
   /**
@@ -234,38 +219,16 @@ export default class Wrapper implements BaseWrapper {
    */
   find (selector: Selector): Wrapper | ErrorWrapper | VueWrapper {
     const selectorType = getSelectorTypeOrThrow(selector, 'find')
-
-    if (selectorType === COMPONENT_SELECTOR ||
-      selectorType === NAME_SELECTOR) {
-      const root = this.vm || this.vnode
-      // $FlowIgnore warning about selectorType being undefined
-      const components = findVueComponents(root, selectorType, selector)
-      if (components.length === 0) {
-        return new ErrorWrapper('Component')
-      }
-      return new VueWrapper(components[0], this.options)
-    }
-
-    if (selectorType === REF_SELECTOR) {
-      if (!this.vm) {
-        throwError('$ref selectors can only be used on Vue component wrappers')
-      }
-      if (this.vm && this.vm.$refs && selector.ref in this.vm.$refs && this.vm.$refs[selector.ref] instanceof Vue) {
-        return new VueWrapper(this.vm.$refs[selector.ref], this.options)
-      }
-      const nodes = findVNodesByRef(this.vnode, selector.ref)
-      if (nodes.length === 0) {
+    const nodes = findAll(this.vm, this.vnode, selectorType, selector)
+    if (nodes.length === 0) {
+      if (selector.ref) {
         return new ErrorWrapper(`ref="${selector.ref}"`)
       }
-      return new Wrapper(nodes[0], this.update, this.options)
+      return new ErrorWrapper(typeof selector === 'string' ? selector : 'Component')
     }
-
-    const nodes = findVNodesBySelector(this.vnode, selector)
-
-    if (nodes.length === 0) {
-      return new ErrorWrapper(selector)
-    }
-    return new Wrapper(nodes[0], this.update, this.options)
+    return nodes[0] instanceof Vue
+    ? new VueWrapper(nodes[0], this.options)
+    : new Wrapper(nodes[0], this.update, this.options)
   }
 
   /**
@@ -273,34 +236,12 @@ export default class Wrapper implements BaseWrapper {
    */
   findAll (selector: Selector): WrapperArray {
     const selectorType = getSelectorTypeOrThrow(selector, 'findAll')
+    const nodes = findAll(this.vm, this.vnode, selectorType, selector)
+    const wrappers = nodes[0] && nodes[0] instanceof Vue
+    ? nodes.map(node => new VueWrapper(node, this.options))
+    : nodes.map(node => new Wrapper(node, this.update, this.options))
 
-    if (selectorType === COMPONENT_SELECTOR ||
-      selectorType === NAME_SELECTOR) {
-      const root = this.vm || this.vnode
-      // $FlowIgnore warning about selectorType being undefined
-      const components = findVueComponents(root, selectorType, selector)
-      return new WrapperArray(components.map(component => new VueWrapper(component, this.options)))
-    }
-
-    if (selectorType === REF_SELECTOR) {
-      if (!this.vm) {
-        throwError('$ref selectors can only be used on Vue component wrappers')
-      }
-      if (this.vm && this.vm.$refs && selector.ref in this.vm.$refs && this.vm.$refs[selector.ref] instanceof Vue) {
-        return new WrapperArray([new VueWrapper(this.vm.$refs[selector.ref], this.options)])
-      }
-      const nodes = findVNodesByRef(this.vnode, selector.ref)
-      return new WrapperArray(nodes.map(node => new Wrapper(node, this.update, this.options)))
-    }
-
-    function nodeMatchesSelector (node, selector) {
-      return node.elm && node.elm.getAttribute && node.elm.matches(selector)
-    }
-
-    const nodes = findVNodesBySelector(this.vnode, selector)
-    const matchingNodes = nodes.filter(node => nodeMatchesSelector(node, selector))
-
-    return new WrapperArray(matchingNodes.map(node => new Wrapper(node, this.update, this.options)))
+    return new WrapperArray(wrappers)
   }
 
   /**

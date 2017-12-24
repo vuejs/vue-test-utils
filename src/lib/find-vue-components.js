@@ -3,7 +3,10 @@ import {
   COMPONENT_SELECTOR
 } from './consts'
 
-function findAllVueComponentsFromVm (vm: Component, components: Array<Component> = []): Array<Component> {
+function findAllVueComponentsFromVm (
+  vm: Component,
+  components: Array<Component> = []
+): Array<Component> {
   components.push(vm)
   vm.$children.forEach((child) => {
     findAllVueComponentsFromVm(child, components)
@@ -12,7 +15,10 @@ function findAllVueComponentsFromVm (vm: Component, components: Array<Component>
   return components
 }
 
-function findAllVueComponentsFromVnode (vnode: Component, components: Array<Component> = []): Array<Component> {
+function findAllVueComponentsFromVnode (
+  vnode: Component,
+  components: Array<Component> = []
+): Array<Component> {
   if (vnode.child) {
     components.push(vnode.child)
   }
@@ -26,8 +32,10 @@ function findAllVueComponentsFromVnode (vnode: Component, components: Array<Comp
 }
 
 export function vmCtorMatchesName (vm: Component, name: string): boolean {
-  return (vm.$vnode && vm.$vnode.componentOptions && vm.$vnode.componentOptions.Ctor.options.name === name) ||
-        (vm._vnode && vm._vnode.functionalOptions && vm._vnode.functionalOptions.name === name) ||
+  return (vm.$vnode && vm.$vnode.componentOptions &&
+    vm.$vnode.componentOptions.Ctor.options.name === name) ||
+    (vm._vnode && vm._vnode.functionalOptions &&
+      vm._vnode.functionalOptions.name === name) ||
         vm.$options && vm.$options.name === name
 }
 
@@ -36,8 +44,14 @@ export function vmCtorMatchesSelector (component: Component, Ctor: Object) {
   return Ctors.some(c => Ctor[c] === component.__proto__.constructor)
 }
 
-export default function findVueComponents (root: Component, selectorType: string, selector: Object): Array<Component> {
-  const components = root._isVue ? findAllVueComponentsFromVm(root) : findAllVueComponentsFromVnode(root)
+export default function findVueComponents (
+  root: Component,
+  selectorType: ?string,
+  selector: Object
+): Array<Component> {
+  const components = root._isVue
+    ? findAllVueComponentsFromVm(root)
+    : findAllVueComponentsFromVnode(root)
   return components.filter((component) => {
     if (!component.$vnode && !component.$options.extends) {
       return false
