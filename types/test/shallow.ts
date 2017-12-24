@@ -25,7 +25,6 @@ const store = new Vuex.Store({})
 shallow<ClassComponent>(ClassComponent, {
   attachToDocument: true,
   localVue,
-  localVue,
   mocks: {
     $store: store
   },
