@@ -2,7 +2,7 @@
 
 To simplify testing, `vue-test-utils` applies updates _synchronously_. However, there are some techniques you need to be aware of when testing a component with asynchronous behavior such as callbacks or promises.
 
-One of the most common asynchronous behaviors is API calls and Vuex actions. The following examples shows how to test a method that makes an API call. This example is using Jest to run the test and to mock the HTTP library `axios`.
+One of the most common asynchronous behaviors is API calls and Vuex actions. The following examples shows how to test a method that makes an API call. This example uses Jest to run the test and to mock the HTTP library `axios`. More about Jest manual mocks can be found [here](https://facebook.github.io/jest/docs/en/manual-mocks.html#content).
 
 The implementation of the `axios` mock looks like this:
 
@@ -23,6 +23,7 @@ The below component makes an API call when a button is clicked, then assigns the
 
 <script>
   import axios from 'axios'
+
   export default {
     data () {
       return {
@@ -39,6 +40,7 @@ The below component makes an API call when a button is clicked, then assigns the
   }
 </script>
 ```
+
 A test can be written like this:
 
 ``` js
@@ -55,9 +57,24 @@ test('Foo', () => {
 })
 ```
 
-This test currently fails, because the assertion is called before the promise resolves. One solution is to use the npm package, `flush-promises`. which immediately resolve any unresolved promises. This test is also asynchronous, so like the previous example, we need to let the test runner know to wait before making any assertions. 
+This test currently fails because the assertion is called before the promise in `fetchResults` resolves. Most unit test libraries provide a callback to let the runner know when the test is complete. Jest and Karma both use `done`. We can use `done` in combination with `$nextTick` or `setTimeout` to ensure any promises resolve before the assertion is made. 
 
-If you are using Jest, there are a few options, such as passing a `done` callback, as shown above. Another is to prepend the test with the ES7 'async' keyword. We can now use the the ES7 `await` keyword with `flushPromises`, to immediately resolve the API call.
+``` js
+test('Foo', () => {
+  it('fetches async when a button is clicked', (done) => {
+    const wrapper = shallow(Foo)
+    wrapper.find('button').trigger('click')
+    wrapper.vm.$nextTick(() => {
+      expect(wrapper.vm.value).toEqual('value')
+      done()
+    })
+  })
+})
+```
+
+The reason `$nextTick` or `setTimeout` allow the test to pass is because the microtask queue where promise callbacks are processed run efore the task queue, where `$nextTick` and `setTimeout` are processed. This means by the time the `$nexTick` and `setTimeout` run, any promise callbacks on the microtask queue will have been executed. See [here](https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/) for a more detailed explanation.
+
+Another solution is to use the npm package, `flush-promises`, which can be used to flush all pending resolved promise handlers, and prepend the test with the ES7 'async' keyword. The ES7 `await` keyword with `flushPromises` can now be used to immediately resolve the API call.
 
 The updated test looks like this:
 
@@ -68,7 +85,7 @@ import Foo from './Foo'
 jest.mock('axios')
 
 test('Foo', () => {
-  it('fetches async when a button is clicked', () => {
+  it('fetches async when a button is clicked', async () => {
     const wrapper = shallow(Foo)
     wrapper.find('button').trigger('click')
     await flushPromises()
