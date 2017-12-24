@@ -38,6 +38,36 @@ describe('update', () => {
     expect(innerEl.hasClass('is-on')).to.equal(true)
   })
 
+  it('runs watchers', () => {
+    const TestComponent = {
+      template: `
+      <div>
+        <input v-model="text" />
+        <button v-if="showButton">Submit</button>
+      </div>
+      `,
+      data () {
+        return {
+          text: '',
+          showButton: false
+        }
+      },
+
+      watch: {
+        text () {
+          this.showButton = true
+        }
+      }
+    }
+    const wrapper = mount(TestComponent)
+
+    wrapper.find('input').element.value = 'Value'
+    wrapper.find('input').trigger('input')
+
+    expect(wrapper.vm.showButton).to.equal(true)
+    expect(wrapper.find('button').exists()).to.equal(true)
+  })
+
   it('causes vm to re render, and retain slots', () => {
     const compiled = compileToFunctions('<div><slot></slot></div>')
     const wrapper = mount(compiled, { slots: { default: [compileToFunctions('<div class="test-div" />')] }})

@@ -340,13 +340,6 @@ export default class Wrapper implements BaseWrapper {
       this.vm.$set(this.vm, [key], data[key])
     })
 
-    Object.keys(data).forEach((key) => {
-      // $FlowIgnore : Problem with possibly null this.vm
-      this.vm._watchers.forEach((watcher) => {
-        if (watcher.expression === key) { watcher.run() }
-      })
-    })
-
     this.update()
   }
 
@@ -393,10 +386,6 @@ export default class Wrapper implements BaseWrapper {
           }
         })
       }
-      // $FlowIgnore
-      this.vm._watchers.forEach((watcher) => {
-        if (watcher.expression === key) { watcher.run() }
-      })
     })
     this.update()
   }
@@ -435,12 +424,6 @@ export default class Wrapper implements BaseWrapper {
       }
     })
 
-    Object.keys(data).forEach((key) => {
-      // $FlowIgnore : Problem with possibly null this.vm
-      this.vm._watchers.forEach((watcher) => {
-        if (watcher.expression === key) { watcher.run() }
-      })
-    })
     this.update()
     // $FlowIgnore : Problem with possibly null this.vm
     this.vnode = this.vm._vnode

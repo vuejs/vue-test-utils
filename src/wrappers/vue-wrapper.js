@@ -15,6 +15,9 @@ function update () {
   const vnodes = this._render()
   this._update(vnodes)
   this.$children.forEach(child => update.call(child))
+  this._watchers.forEach(watcher => {
+    watcher.run()
+  })
 }
 
 export default class VueWrapper extends Wrapper implements BaseWrapper {
