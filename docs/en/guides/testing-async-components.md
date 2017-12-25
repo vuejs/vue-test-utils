@@ -72,9 +72,9 @@ test('Foo', () => {
 })
 ```
 
-The reason `$nextTick` or `setTimeout` allow the test to pass is because the microtask queue where promise callbacks are processed run efore the task queue, where `$nextTick` and `setTimeout` are processed. This means by the time the `$nexTick` and `setTimeout` run, any promise callbacks on the microtask queue will have been executed. See [here](https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/) for a more detailed explanation.
+The reason `$nextTick` or `setTimeout` allow the test to pass is because the microtask queue where promise callbacks are processed run before the task queue, where `$nextTick` and `setTimeout` are processed. This means by the time the `$nexTick` and `setTimeout` run, any promise callbacks on the microtask queue will have been executed. See [here](https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/) for a more detailed explanation.
 
-Another solution is to use the npm package, `flush-promises`, which can be used to flush all pending resolved promise handlers, and prepend the test with the ES7 'async' keyword. The ES7 `await` keyword with `flushPromises` can now be used to immediately resolve the API call.
+Another solution is to use an `async` function and the npm package `flush-promises`. `flush-promises` flushes all pending resolved promise handlers. You can `await` the call of `flushPromises` to flush pending promises and improve the readability of your test.
 
 The updated test looks like this:
 
