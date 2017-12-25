@@ -16,9 +16,9 @@ export default {
 
 The below component makes an API call when a button is clicked, then assigns the response to `value`.
 
-``` js
+``` html
 <template>
-  <button v-on:click="fetchResults" />
+  <button @click="fetchResults" />
 </template>
 
 <script>
