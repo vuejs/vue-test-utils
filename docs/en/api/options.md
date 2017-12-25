@@ -72,7 +72,9 @@ Please use [Puppeteer](https://github.com/karma-runner/karma-chrome-launcher#hea
 
 - type: `{ [name: string]: Component | boolean } | Array<string>`
 
-Stubs child components. Can be an Array of component names to stub, or an object. If `stubs` is an Array, every stub is `<!---->`.
+Stubs child components. Can be an Array of component names to stub, or an object.  
+If `stubs` is an Array, every stub is `<!---->`.  
+The default stub is `<!---->`.
 
 Example:
 
@@ -88,7 +90,9 @@ shallow(Component, {
     // stub with a specific implementation
     'registered-component': Foo,
     // create default stub
-    'another-component': true
+    'another-component': true,
+    // cancel VueTestUtils.config.stubs.transition
+    transition: false
   }
 })
 ```
