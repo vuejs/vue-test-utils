@@ -3,9 +3,7 @@
 set -e
 
 test_version_number(){
-  rm -rf node_modules
   echo "running unit tests with Vue $1"
-  yarn install
   yarn add vue@$1 vue-template-compiler@$1
   yarn test:unit
   yarn test:unit:karma

@@ -4,6 +4,9 @@ import {
   TransitionStub,
   TransitionGroupStub
 } from '~vue-test-utils'
+import Vue from 'vue'
+
+console.log(Vue.version)
 
 describe('config', () => {
   beforeEach(() => {
