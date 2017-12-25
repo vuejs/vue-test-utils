@@ -85,14 +85,16 @@ mount(Component, {
   stubs: ['registered-component']
 })
 
+VueTestUtils.config.stubs['child-component'] = '<p>stub</p>'
+
 shallow(Component, {
   stubs: {
     // stub with a specific implementation
     'registered-component': Foo,
     // create default stub
     'another-component': true,
-    // cancel VueTestUtils.config.stubs.transition
-    transition: false
+    // cancel stub
+    'child-component': false
   }
 })
 ```

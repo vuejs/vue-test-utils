@@ -1,4 +1,4 @@
-import { mount, config, TransitionStub } from '~vue-test-utils'
+import { mount, config } from '~vue-test-utils'
 import ComponentWithChild from '~resources/components/component-with-child.vue'
 import ComponentWithNestedChildren from '~resources/components/component-with-nested-children.vue'
 import Component from '~resources/components/component.vue'
@@ -99,20 +99,13 @@ describe('mount.stub', () => {
   })
 
   it('does not stub components when passed false', () => {
-    config.stubs.transition = TransitionStub
-    const testComponent = {
-      template: `
-        <div>
-          <transition><p /></transition>
-        </div>
-      `
-    }
-    const wrapper = mount(testComponent, {
+    config.stubs['child-component'] = '<p>stub</p>'
+    const wrapper = mount(ComponentWithChild, {
       stubs: {
-        'transition': false
+        'child-component': false
       }
     })
-    expect(wrapper.contains(TransitionStub)).to.equal(false)
+    expect(wrapper.contains('p')).to.equal(false)
   })
 
   it('stubs components with dummy when passed as an array', () => {
