@@ -178,7 +178,7 @@ This will enable coverage reports with the [default coverage reporters](https://
 ```json
 {
   "jest": {
-    "collectCoverage": true,
+    // ...
     "coverageReporters": ["html", "text-summary"]
   }
 }
