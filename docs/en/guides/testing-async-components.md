@@ -18,7 +18,7 @@ The below component makes an API call when a button is clicked, then assigns the
 
 ``` js
 <template>
-  <button @click="fetchResults" />
+  <button v-on:click="fetchResults" />
 </template>
 
 <script>
