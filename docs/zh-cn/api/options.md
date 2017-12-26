@@ -63,22 +63,10 @@ expect(wrapper.find('div')).toBe(true)
 #### 传递文本
 
 你可以传递文本到 `slots`。  
-这里有两处限制。
+这里有一处限制。
 
-这只在 Vue 2.2+ 及以上版本工作。
-
-下面的这段代码的文本可以工作。
-
-```js
-const wrapper = mount(ComponentWithSlots, { slots: { default: 'foobar' }})
-```
-
-下面的这段代码的文本则不可以工作。
-
-```js
-const wrapper1 = mount(ComponentWithSlots, { slots: { default: 'foo<span>bar</span>' }})
-const wrapper2 = mount(FooComponent, { slots: { default: 'foo {{ bar }}' }})
-```
+我们不支持 PhantomJS。  
+请使用 [Puppeteer](https://github.com/karma-runner/karma-chrome-launcher#headless-chromium-with-puppeteer)。
 
 ### `stubs`
 

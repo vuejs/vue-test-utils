@@ -22,6 +22,7 @@ wrapper.find('button').trigger('click')
 
 其 `trigger` 方法接受一个可选的 `options` 对象。这个 `options` 对象里的属性会被添加到事件中。
 
+注意其目标不能被添加到 `options` 对象中。
 
 ```js
 const wrapper = mount(MyButton)
