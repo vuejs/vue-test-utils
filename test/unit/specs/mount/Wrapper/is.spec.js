@@ -3,6 +3,9 @@ import { mount } from '~vue-test-utils'
 import ComponentWithChild from '~resources/components/component-with-child.vue'
 import Component from '~resources/components/component.vue'
 import ComponentWithoutName from '~resources/components/component-without-name.vue'
+import FunctionalComponent from '~resources/components/functional-component.vue'
+import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
+import { functionalSFCsSupported } from '~resources/test-utils'
 
 describe('is', () => {
   it('returns true if root node matches tag selector', () => {
@@ -43,6 +46,19 @@ describe('is', () => {
   it('returns true if root node matches Component without a name', () => {
     const wrapper = mount(ComponentWithoutName)
     expect(wrapper.is(ComponentWithoutName)).to.equal(true)
+  })
+
+  it('returns true if root node matches functional Component', () => {
+    if (!functionalSFCsSupported()) {
+      return
+    }
+    const wrapper = mount(FunctionalComponent)
+    expect(wrapper.is(FunctionalComponent)).to.equal(true)
+  })
+
+  it('returns true if root node matches Component extending class component', () => {
+    const wrapper = mount(ComponentAsAClass)
+    expect(wrapper.is(ComponentAsAClass)).to.equal(true)
   })
 
   it('returns false if root node is not a Vue Component', () => {

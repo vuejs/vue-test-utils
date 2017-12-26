@@ -6,6 +6,9 @@ import ComponentWithoutName from '~resources/components/component-without-name.v
 import ComponentWithSlots from '~resources/components/component-with-slots.vue'
 import ComponentWithVFor from '~resources/components/component-with-v-for.vue'
 import Component from '~resources/components/component.vue'
+import FunctionalComponent from '~resources/components/functional-component.vue'
+import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
+import { functionalSFCsSupported } from '~resources/test-utils'
 
 describe('findAll', () => {
   it('returns an WrapperArray of elements matching tag selector passed', () => {
@@ -173,6 +176,41 @@ describe('findAll', () => {
     }
     const wrapper = mount(TestComponent)
     expect(wrapper.findAll(ComponentWithoutName).length).to.equal(3)
+  })
+
+  it('returns Wrapper of class component', () => {
+    const TestComponent = {
+      template: `
+        <div>
+          <component-as-a-class />
+        </div>
+      `,
+      components: {
+        ComponentAsAClass
+      }
+    }
+
+    const wrapper = mount(TestComponent)
+    expect(wrapper.findAll(ComponentAsAClass).length).to.equal(1)
+  })
+
+  it('returns Wrapper of Vue Component matching functional component', () => {
+    if (!functionalSFCsSupported()) {
+      return
+    }
+    const TestComponent = {
+      template: `
+        <div>
+          <functional-component />
+        </div>
+      `,
+      components: {
+        FunctionalComponent
+      }
+    }
+
+    const wrapper = mount(TestComponent)
+    expect(wrapper.findAll(FunctionalComponent).length).to.equal(1)
   })
 
   it('returns VueWrapper with length 0 if no nodes matching selector are found', () => {

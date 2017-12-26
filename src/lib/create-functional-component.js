@@ -1,6 +1,5 @@
 // @flow
 
-import cloneDeep from 'lodash/cloneDeep'
 import { compileToFunctions } from 'vue-template-compiler'
 import { throwError } from './util'
 
@@ -46,11 +45,10 @@ export default function createFunctionalComponent (component: Component, mountin
     throwError('mount.context must be an object')
   }
 
-  const clonedComponent = cloneDeep(component)
   return {
     render (h: Function) {
       return h(
-        clonedComponent,
+        component,
         mountingOptions.context || component.FunctionalRenderContext,
         (mountingOptions.context && mountingOptions.context.children && mountingOptions.context.children.map(x => typeof x === 'function' ? x(h) : x)) || createFunctionalSlots(mountingOptions.slots, h)
       )

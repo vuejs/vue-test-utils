@@ -9,7 +9,8 @@ import {
 } from '../lib/consts'
 import {
   vmCtorMatchesName,
-  vmCtorMatchesSelector
+  vmCtorMatchesSelector,
+  vmFunctionalCtorMatchesSelector
 } from '../lib/find-vue-components'
 import VueWrapper from './vue-wrapper'
 import WrapperArray from './wrapper-array'
@@ -268,7 +269,10 @@ export default class Wrapper implements BaseWrapper {
       if (!this.vm) {
         return false
       }
-      return vmCtorMatchesSelector(this.vm, selector._Ctor)
+      if (selector.functional) {
+        return vmFunctionalCtorMatchesSelector(this.vm._vnode, selector._Ctor)
+      }
+      return vmCtorMatchesSelector(this.vm, selector)
     }
 
     if (selectorType === REF_SELECTOR) {

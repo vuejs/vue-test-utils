@@ -23,8 +23,8 @@ export function isDomSelector (selector: any): boolean {
 }
 
 export function isVueComponent (component: any): boolean {
-  if (typeof component === 'function') {
-    return false
+  if (typeof component === 'function' && component.options) {
+    return true
   }
 
   if (component === null) {

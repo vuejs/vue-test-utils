@@ -2,6 +2,9 @@ import { compileToFunctions } from 'vue-template-compiler'
 import { mount } from '~vue-test-utils'
 import ComponentWithChild from '~resources/components/component-with-child.vue'
 import Component from '~resources/components/component.vue'
+import FunctionalComponent from '~resources/components/functional-component.vue'
+import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
+import { functionalSFCsSupported } from '~resources/test-utils'
 
 describe('contains', () => {
   it('returns true if wrapper contains element', () => {
@@ -13,6 +16,39 @@ describe('contains', () => {
   it('returns true if wrapper contains Vue component', () => {
     const wrapper = mount(ComponentWithChild)
     expect(wrapper.contains(Component)).to.equal(true)
+  })
+
+  it('returns true if wrapper contains functional Vue component', () => {
+    if (!functionalSFCsSupported()) {
+      return false
+    }
+    const TestComponent = {
+      template: `
+        <div>
+          <functional-component />
+        </div>
+      `,
+      components: {
+        FunctionalComponent
+      }
+    }
+    const wrapper = mount(TestComponent)
+    expect(wrapper.contains(FunctionalComponent)).to.equal(true)
+  })
+
+  it('returns true if wrapper contains Vue class component', () => {
+    const TestComponent = {
+      template: `
+        <div>
+          <component-as-a-class />
+        </div>
+      `,
+      components: {
+        ComponentAsAClass
+      }
+    }
+    const wrapper = mount(TestComponent)
+    expect(wrapper.contains(ComponentAsAClass)).to.equal(true)
   })
 
   it('returns true if wrapper contains element specified by ref selector', () => {

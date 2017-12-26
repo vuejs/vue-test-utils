@@ -54,12 +54,16 @@ export function vmCtorMatchesName (vm: Component, name: string): boolean {
         vm.$options && vm.$options.name === name
 }
 
-export function vmCtorMatchesSelector (component: Component, Ctor: Object) {
+export function vmCtorMatchesSelector (component: Component, selector: Object) {
+  const Ctor = selector._Ctor || selector.options && selector.options._Ctor
   const Ctors = Object.keys(Ctor)
   return Ctors.some(c => Ctor[c] === component.__proto__.constructor)
 }
 
 export function vmFunctionalCtorMatchesSelector (component: VNode, Ctor: Object) {
+  if (!component.fnOptions) {
+    return false
+  }
   const Ctors = Object.keys(component.fnOptions._Ctor)
   return Ctors.some(c => Ctor[c] === component.fnOptions._Ctor[c])
 }
@@ -83,7 +87,7 @@ export default function findVueComponents (
       return false
     }
     return selectorType === COMPONENT_SELECTOR
-      ? vmCtorMatchesSelector(component, selector._Ctor)
+      ? vmCtorMatchesSelector(component, selector)
       : vmCtorMatchesName(component, selector.name)
   })
 }

@@ -7,6 +7,7 @@ import ComponentWithSlots from '~resources/components/component-with-slots.vue'
 import ComponentWithVFor from '~resources/components/component-with-v-for.vue'
 import Component from '~resources/components/component.vue'
 import FunctionalComponent from '~resources/components/functional-component.vue'
+import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
 import { functionalSFCsSupported } from '~resources/test-utils'
 
 describe('find', () => {
@@ -102,6 +103,22 @@ describe('find', () => {
   it('returns Wrapper of Vue Components matching component', () => {
     const wrapper = mount(ComponentWithChild)
     expect(wrapper.find(Component).vnode).to.be.an('object')
+  })
+
+  it('returns Wrapper of class component', () => {
+    const TestComponent = {
+      template: `
+        <div>
+          <component-as-a-class />
+        </div>
+      `,
+      components: {
+        ComponentAsAClass
+      }
+    }
+
+    const wrapper = mount(TestComponent)
+    expect(wrapper.find(ComponentAsAClass).vnode).to.be.an('object')
   })
 
   it('returns Wrapper of Vue Component matching functional component', () => {
