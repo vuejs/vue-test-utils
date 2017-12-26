@@ -12,6 +12,7 @@ node_modules/
 *.log
 reports
 coverage
+.nyc_output/
 
 # Build
 dist
