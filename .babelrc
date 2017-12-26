@@ -1,9 +1,4 @@
 {
   "presets": ["env", "stage-2", "flow-vue"],
-  "comments": false,
-  "env": {
-    "test": {
-      "plugins": ["istanbul"]
-    }
-  }
+  "comments": false
 }

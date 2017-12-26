@@ -8,3 +8,4 @@ test:
   override:
     - npm run test  
     - npm run test:compatibility
+    - npm run coverage  

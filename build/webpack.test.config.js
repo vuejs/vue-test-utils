@@ -3,21 +3,28 @@ const browser = process.env.TARGET === 'browser'
 const path = require('path')
 
 const projectRoot = path.resolve(__dirname, '../')
+const isCoverage = process.env.NODE_ENV === 'coverage'
+const rules = [].concat(
+  isCoverage ? {
+    test: /\.js/,
+    include: path.resolve('dist'),
+    loader: 'istanbul-instrumenter-loader'
+  } : [],
+  {
+    test: /\.vue$/,
+    loader: 'vue-loader'
+  },
+  {
+    test: /\.js$/,
+    loader: 'babel-loader',
+    include: [projectRoot],
+    exclude: /node_modules/
+  }
+)
 
 module.exports = {
   module: {
-    rules: [
-      {
-        test: /\.vue$/,
-        loader: 'vue-loader'
-      },
-      {
-        test: /\.js$/,
-        loader: 'babel-loader',
-        include: [projectRoot],
-        exclude: /node_modules/
-      }
-    ]
+    rules
   },
   externals: !browser ? [nodeExternals()] : undefined,
   resolve: {
