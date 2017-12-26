@@ -6,6 +6,8 @@ import ComponentWithoutName from '~resources/components/component-without-name.v
 import ComponentWithSlots from '~resources/components/component-with-slots.vue'
 import ComponentWithVFor from '~resources/components/component-with-v-for.vue'
 import Component from '~resources/components/component.vue'
+import FunctionalComponent from '~resources/components/functional-component.vue'
+import { functionalSFCsSupported } from '~resources/test-utils'
 
 describe('find', () => {
   it('returns a Wrapper matching tag selector passed', () => {
@@ -100,6 +102,25 @@ describe('find', () => {
   it('returns Wrapper of Vue Components matching component', () => {
     const wrapper = mount(ComponentWithChild)
     expect(wrapper.find(Component).vnode).to.be.an('object')
+  })
+
+  it('returns Wrapper of Vue Component matching functional component', () => {
+    if (!functionalSFCsSupported()) {
+      return
+    }
+    const TestComponent = {
+      template: `
+        <div>
+          <functional-component />
+        </div>
+      `,
+      components: {
+        FunctionalComponent
+      }
+    }
+
+    const wrapper = mount(TestComponent)
+    expect(wrapper.find(FunctionalComponent).vnode).to.be.an('object')
   })
 
   it('returns correct number of Vue Wrappers when component has a v-for', () => {
