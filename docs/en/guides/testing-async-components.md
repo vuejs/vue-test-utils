@@ -1,6 +1,6 @@
 # Testing Asynchronous Behavior
 
-To simplify testing, `vue-test-utils` applies updates _synchronously_. However, there are some techniques you need to be aware of when testing a component with asynchronous behavior such as callbacks or promises.
+To simplify testing, `vue-test-utils` applies DOM updates _synchronously_. However, there are some techniques you need to be aware of when testing a component with asynchronous behavior such as callbacks or promises.
 
 One of the most common asynchronous behaviors is API calls and Vuex actions. The following examples shows how to test a method that makes an API call. This example uses Jest to run the test and to mock the HTTP library `axios`. More about Jest manual mocks can be found [here](https://facebook.github.io/jest/docs/en/manual-mocks.html#content).
 
@@ -57,7 +57,7 @@ test('Foo', () => {
 })
 ```
 
-This test currently fails because the assertion is called before the promise in `fetchResults` resolves. Most unit test libraries provide a callback to let the runner know when the test is complete. Jest and Karma both use `done`. We can use `done` in combination with `$nextTick` or `setTimeout` to ensure any promises resolve before the assertion is made. 
+This test currently fails because the assertion is called before the promise in `fetchResults` resolves. Most unit test libraries provide a callback to let the runner know when the test is complete. Jest and Mocha both use `done`. We can use `done` in combination with `$nextTick` or `setTimeout` to ensure any promises resolve before the assertion is made. 
 
 ``` js
 test('Foo', () => {
