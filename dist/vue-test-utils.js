@@ -180,8 +180,8 @@ function isDomSelector (selector) {
 }
 
 function isVueComponent (component) {
-  if (typeof component === 'function') {
-    return false
+  if (typeof component === 'function' && component.options) {
+    return true
   }
 
   if (component === null) {
@@ -248,7 +248,7 @@ var COMPONENT_SELECTOR = 'COMPONENT_SELECTOR';
 var REF_SELECTOR = 'REF_SELECTOR';
 var DOM_SELECTOR = 'DOM_SELECTOR';
 
-//
+// 
 
 function getSelectorType (selector) {
   if (isDomSelector(selector)) {
@@ -277,7 +277,10 @@ function getSelectorTypeOrThrow (selector, methodName) {
 }
 
 // 
-function findAllVueComponentsFromVm (vm, components) {
+function findAllVueComponentsFromVm (
+  vm,
+  components
+) {
   if ( components === void 0 ) components = [];
 
   components.push(vm);
@@ -288,7 +291,10 @@ function findAllVueComponentsFromVm (vm, components) {
   return components
 }
 
-function findAllVueComponentsFromVnode (vnode, components) {
+function findAllVueComponentsFromVnode (
+  vnode,
+  components
+) {
   if ( components === void 0 ) components = [];
 
   if (vnode.child) {
@@ -303,84 +309,67 @@ function findAllVueComponentsFromVnode (vnode, components) {
   return components
 }
 
+function findAllFunctionalComponentsFromVnode (
+  vnode,
+  components
+) {
+  if ( components === void 0 ) components = [];
+
+  if (vnode.fnOptions) {
+    components.push(vnode);
+  }
+  if (vnode.children) {
+    vnode.children.forEach(function (child) {
+      findAllFunctionalComponentsFromVnode(child, components);
+    });
+  }
+  return components
+}
+
 function vmCtorMatchesName (vm, name) {
-  return (vm.$vnode && vm.$vnode.componentOptions && vm.$vnode.componentOptions.Ctor.options.name === name) ||
-        (vm._vnode && vm._vnode.functionalOptions && vm._vnode.functionalOptions.name === name) ||
+  return (vm.$vnode && vm.$vnode.componentOptions &&
+    vm.$vnode.componentOptions.Ctor.options.name === name) ||
+    (vm._vnode && vm._vnode.functionalOptions &&
+      vm._vnode.functionalOptions.name === name) ||
         vm.$options && vm.$options.name === name
 }
 
-function vmCtorMatchesSelector (component, Ctor) {
+function vmCtorMatchesSelector (component, selector) {
+  var Ctor = selector._Ctor || selector.options && selector.options._Ctor;
   var Ctors = Object.keys(Ctor);
   return Ctors.some(function (c) { return Ctor[c] === component.__proto__.constructor; })
 }
 
-function findVueComponents (root, selectorType, selector) {
-  var components = root._isVue ? findAllVueComponentsFromVm(root) : findAllVueComponentsFromVnode(root);
+function vmFunctionalCtorMatchesSelector (component, Ctor) {
+  if (!component.fnOptions) {
+    return false
+  }
+  var Ctors = Object.keys(component.fnOptions._Ctor);
+  return Ctors.some(function (c) { return Ctor[c] === component.fnOptions._Ctor[c]; })
+}
+
+function findVueComponents (
+  root,
+  selectorType,
+  selector
+) {
+  if (selector.functional) {
+    var components$1 = root._vnode
+    ? findAllFunctionalComponentsFromVnode(root._vnode)
+    : findAllFunctionalComponentsFromVnode(root);
+    return components$1.filter(function (component) { return vmFunctionalCtorMatchesSelector(component, selector._Ctor); })
+  }
+  var components = root._isVue
+    ? findAllVueComponentsFromVm(root)
+    : findAllVueComponentsFromVnode(root);
   return components.filter(function (component) {
     if (!component.$vnode && !component.$options.extends) {
       return false
     }
     return selectorType === COMPONENT_SELECTOR
-      ? vmCtorMatchesSelector(component, selector._Ctor)
+      ? vmCtorMatchesSelector(component, selector)
       : vmCtorMatchesName(component, selector.name)
   })
-}
-
-// 
-
-function findAllVNodes (vnode, nodes) {
-  if ( nodes === void 0 ) nodes = [];
-
-  nodes.push(vnode);
-
-  if (Array.isArray(vnode.children)) {
-    vnode.children.forEach(function (childVNode) {
-      findAllVNodes(childVNode, nodes);
-    });
-  }
-
-  if (vnode.child) {
-    findAllVNodes(vnode.child._vnode, nodes);
-  }
-
-  return nodes
-}
-
-function removeDuplicateNodes (vNodes) {
-  var uniqueNodes = [];
-  vNodes.forEach(function (vNode) {
-    var exists = uniqueNodes.some(function (node) { return vNode.elm === node.elm; });
-    if (!exists) {
-      uniqueNodes.push(vNode);
-    }
-  });
-  return uniqueNodes
-}
-
-// 
-
-function nodeMatchesSelector (node, selector) {
-  return node.elm && node.elm.getAttribute && node.elm.matches(selector)
-}
-
-function findVNodesBySelector (vNode, selector) {
-  var nodes = findAllVNodes(vNode);
-  var filteredNodes = nodes.filter(function (node) { return nodeMatchesSelector(node, selector); });
-  return removeDuplicateNodes(filteredNodes)
-}
-
-// 
-
-function nodeMatchesRef (node, refName) {
-  return node.data && node.data.ref === refName
-}
-
-function findVNodesByRef (vNode, refName) {
-  var nodes = findAllVNodes(vNode);
-  var refFilteredNodes = nodes.filter(function (node) { return nodeMatchesRef(node, refName); });
-  // Only return refs defined on top-level VNode to provide the same behavior as selecting via vm.$ref.{someRefName}
-  var mainVNodeFilteredNodes = refFilteredNodes.filter(function (node) { return !!vNode.context.$refs[node.data.ref]; });
-  return removeDuplicateNodes(mainVNodeFilteredNodes)
 }
 
 // 
@@ -674,6 +663,116 @@ ErrorWrapper.prototype.destroy = function destroy () {
 
 // 
 
+function findAllVNodes (vnode, nodes) {
+  if ( nodes === void 0 ) nodes = [];
+
+  nodes.push(vnode);
+
+  if (Array.isArray(vnode.children)) {
+    vnode.children.forEach(function (childVNode) {
+      findAllVNodes(childVNode, nodes);
+    });
+  }
+
+  if (vnode.child) {
+    findAllVNodes(vnode.child._vnode, nodes);
+  }
+
+  return nodes
+}
+
+function removeDuplicateNodes (vNodes) {
+  var uniqueNodes = [];
+  vNodes.forEach(function (vNode) {
+    var exists = uniqueNodes.some(function (node) { return vNode.elm === node.elm; });
+    if (!exists) {
+      uniqueNodes.push(vNode);
+    }
+  });
+  return uniqueNodes
+}
+
+function nodeMatchesRef (node, refName) {
+  return node.data && node.data.ref === refName
+}
+
+function findVNodesByRef (vNode, refName) {
+  var nodes = findAllVNodes(vNode);
+  var refFilteredNodes = nodes.filter(function (node) { return nodeMatchesRef(node, refName); });
+  // Only return refs defined on top-level VNode to provide the same
+  // behavior as selecting via vm.$ref.{someRefName}
+  var mainVNodeFilteredNodes = refFilteredNodes.filter(function (node) { return (
+    !!vNode.context.$refs[node.data.ref]
+  ); });
+  return removeDuplicateNodes(mainVNodeFilteredNodes)
+}
+
+function nodeMatchesSelector (node, selector) {
+  return node.elm && node.elm.getAttribute && node.elm.matches(selector)
+}
+
+function findVNodesBySelector (
+  vNode,
+  selector
+) {
+  var nodes = findAllVNodes(vNode);
+  var filteredNodes = nodes.filter(function (node) { return (
+    nodeMatchesSelector(node, selector)
+  ); });
+  return removeDuplicateNodes(filteredNodes)
+}
+
+function findVnodes (
+  vnode,
+  vm,
+  selectorType,
+  selector
+) {
+  if (selectorType === REF_SELECTOR) {
+    if (!vm) {
+      throwError('$ref selectors can only be used on Vue component wrappers');
+    }
+    // $FlowIgnore
+    return findVNodesByRef(vnode, selector.ref)
+  }
+  // $FlowIgnore
+  return findVNodesBySelector(vnode, selector)
+}
+
+// 
+
+function find (
+  vm,
+  vnode,
+  selectorType,
+  selector
+) {
+  if (selectorType === COMPONENT_SELECTOR || selectorType === NAME_SELECTOR) {
+    var root = vm || vnode;
+    return findVueComponents(root, selectorType, selector)
+  }
+
+  if (vm && vm.$refs && selector.ref in vm.$refs && vm.$refs[selector.ref] instanceof Vue) {
+    return [vm.$refs[selector.ref]]
+  }
+
+  return findVnodes(vnode, vm, selectorType, selector)
+}
+
+// 
+
+function createWrapper (
+  node,
+  update,
+  options
+) {
+  return node instanceof Vue
+    ? new VueWrapper(node, options)
+    : new Wrapper(node, update, options)
+}
+
+// 
+
 var Wrapper = function Wrapper (vnode, update, options) {
   this.vnode = vnode;
   this.element = vnode.elm;
@@ -713,7 +812,8 @@ Wrapper.prototype.classes = function classes () {
     Object.keys(this.vm.$style).forEach(function (key) {
       // $FlowIgnore : Flow thinks vm is a property
       moduleIdent = this$1.vm.$style[key];
-      // CSS Modules may be multi-class if they extend others. Extended classes should be already present in $style.
+      // CSS Modules may be multi-class if they extend others.
+      // Extended classes should be already present in $style.
       moduleIdent = moduleIdent.split(' ')[0];
       cssModuleIdentifiers[moduleIdent] = key;
     });
@@ -727,25 +827,9 @@ Wrapper.prototype.classes = function classes () {
  */
 Wrapper.prototype.contains = function contains (selector) {
   var selectorType = getSelectorTypeOrThrow(selector, 'contains');
-
-  if (selectorType === NAME_SELECTOR || selectorType === COMPONENT_SELECTOR) {
-    var vm = this.vm || this.vnode.context.$root;
-    return findVueComponents(vm, selector, selector).length > 0 || this.is(selector)
-  }
-
-  if (selectorType === REF_SELECTOR) {
-    if (!this.vm) {
-      throwError('$ref selectors can only be used on Vue component wrappers');
-    }
-    var nodes = findVNodesByRef(this.vnode, selector.ref);
-    return nodes.length > 0
-  }
-
-  if (selectorType === DOM_SELECTOR && this.element instanceof HTMLElement) {
-    return this.element.querySelectorAll(selector).length > 0 || this.is(selector)
-  }
-
-  return false
+  var nodes = find(this.vm, this.vnode, selectorType, selector);
+  var is = selectorType === REF_SELECTOR ? false : this.is(selector);
+  return nodes.length > 0 || is
 };
 
 /**
@@ -883,77 +967,29 @@ Wrapper.prototype.hasStyle = function hasStyle (style, value) {
 /**
  * Finds first node in tree of the current wrapper that matches the provided selector.
  */
-Wrapper.prototype.find = function find (selector) {
+Wrapper.prototype.find = function find$$1 (selector) {
   var selectorType = getSelectorTypeOrThrow(selector, 'find');
-
-  if (selectorType === COMPONENT_SELECTOR ||
-    selectorType === NAME_SELECTOR) {
-    var root = this.vm || this.vnode;
-    // $FlowIgnore warning about selectorType being undefined
-    var components = findVueComponents(root, selectorType, selector);
-    if (components.length === 0) {
-      return new ErrorWrapper('Component')
-    }
-    return new VueWrapper(components[0], this.options)
-  }
-
-  if (selectorType === REF_SELECTOR) {
-    if (!this.vm) {
-      throwError('$ref selectors can only be used on Vue component wrappers');
-    }
-    if (this.vm && this.vm.$refs && selector.ref in this.vm.$refs && this.vm.$refs[selector.ref] instanceof Vue) {
-      return new VueWrapper(this.vm.$refs[selector.ref], this.options)
-    }
-    var nodes$1 = findVNodesByRef(this.vnode, selector.ref);
-    if (nodes$1.length === 0) {
+  var nodes = find(this.vm, this.vnode, selectorType, selector);
+  if (nodes.length === 0) {
+    if (selector.ref) {
       return new ErrorWrapper(("ref=\"" + (selector.ref) + "\""))
     }
-    return new Wrapper(nodes$1[0], this.update, this.options)
+    return new ErrorWrapper(typeof selector === 'string' ? selector : 'Component')
   }
-
-  var nodes = findVNodesBySelector(this.vnode, selector);
-
-  if (nodes.length === 0) {
-    return new ErrorWrapper(selector)
-  }
-  return new Wrapper(nodes[0], this.update, this.options)
+  return createWrapper(nodes[0], this.update, this.options)
 };
 
 /**
  * Finds node in tree of the current wrapper that matches the provided selector.
  */
-Wrapper.prototype.findAll = function findAll (selector) {
+Wrapper.prototype.findAll = function findAll$1 (selector) {
     var this$1 = this;
 
   var selectorType = getSelectorTypeOrThrow(selector, 'findAll');
-
-  if (selectorType === COMPONENT_SELECTOR ||
-    selectorType === NAME_SELECTOR) {
-    var root = this.vm || this.vnode;
-    // $FlowIgnore warning about selectorType being undefined
-    var components = findVueComponents(root, selectorType, selector);
-    return new WrapperArray(components.map(function (component) { return new VueWrapper(component, this$1.options); }))
-  }
-
-  if (selectorType === REF_SELECTOR) {
-    if (!this.vm) {
-      throwError('$ref selectors can only be used on Vue component wrappers');
-    }
-    if (this.vm && this.vm.$refs && selector.ref in this.vm.$refs && this.vm.$refs[selector.ref] instanceof Vue) {
-      return new WrapperArray([new VueWrapper(this.vm.$refs[selector.ref], this.options)])
-    }
-    var nodes$1 = findVNodesByRef(this.vnode, selector.ref);
-    return new WrapperArray(nodes$1.map(function (node) { return new Wrapper(node, this$1.update, this$1.options); }))
-  }
-
-  function nodeMatchesSelector (node, selector) {
-    return node.elm && node.elm.getAttribute && node.elm.matches(selector)
-  }
-
-  var nodes = findVNodesBySelector(this.vnode, selector);
-  var matchingNodes = nodes.filter(function (node) { return nodeMatchesSelector(node, selector); });
-
-  return new WrapperArray(matchingNodes.map(function (node) { return new Wrapper(node, this$1.update, this$1.options); }))
+  var nodes = find(this.vm, this.vnode, selectorType, selector);
+  var wrappers = nodes.map(function (node) { return createWrapper(node, this$1.update, this$1.options); }
+  );
+  return new WrapperArray(wrappers)
 };
 
 /**
@@ -980,7 +1016,10 @@ Wrapper.prototype.is = function is (selector) {
     if (!this.vm) {
       return false
     }
-    return vmCtorMatchesSelector(this.vm, selector._Ctor)
+    if (selector.functional) {
+      return vmFunctionalCtorMatchesSelector(this.vm._vnode, selector._Ctor)
+    }
+    return vmCtorMatchesSelector(this.vm, selector)
   }
 
   if (selectorType === REF_SELECTOR) {
@@ -1054,13 +1093,6 @@ Wrapper.prototype.setData = function setData (data) {
     this$1.vm.$set(this$1.vm, [key], data[key]);
   });
 
-  Object.keys(data).forEach(function (key) {
-    // $FlowIgnore : Problem with possibly null this.vm
-    this$1.vm._watchers.forEach(function (watcher) {
-      if (watcher.expression === key) { watcher.run(); }
-    });
-  });
-
   this.update();
 };
 
@@ -1107,10 +1139,6 @@ Wrapper.prototype.setComputed = function setComputed (computed) {
         }
       });
     }
-    // $FlowIgnore
-    this$1.vm._watchers.forEach(function (watcher) {
-      if (watcher.expression === key) { watcher.run(); }
-    });
   });
   this.update();
 };
@@ -1153,12 +1181,6 @@ Wrapper.prototype.setProps = function setProps (data) {
     }
   });
 
-  Object.keys(data).forEach(function (key) {
-    // $FlowIgnore : Problem with possibly null this.vm
-    this$1.vm._watchers.forEach(function (watcher) {
-      if (watcher.expression === key) { watcher.run(); }
-    });
-  });
   this.update();
   // $FlowIgnore : Problem with possibly null this.vm
   this.vnode = this.vm._vnode;
@@ -3851,7 +3873,7 @@ function cloneDeep(value) {
 
 var cloneDeep_1 = cloneDeep;
 
-//
+// 
 
 function update () {
   // the only component made by mount()
@@ -3864,6 +3886,9 @@ function update () {
   var vnodes = this._render();
   this._update(vnodes);
   this.$children.forEach(function (child) { return update.call(child); });
+  this._watchers.forEach(function (watcher) {
+    watcher.run();
+  });
 }
 
 var VueWrapper = (function (Wrapper$$1) {
@@ -3893,7 +3918,7 @@ var VueWrapper = (function (Wrapper$$1) {
   return VueWrapper;
 }(Wrapper));
 
-//
+// 
 function addMocks (mockedProperties, Vue$$1) {
   Object.keys(mockedProperties).forEach(function (key) {
     Vue$$1.prototype[key] = mockedProperties[key];
@@ -3935,7 +3960,7 @@ function addProvide (component, optionProvide, options) {
   };
 }
 
-//
+// 
 
 function logEvents (vm, emitted, emittedByOrder) {
   var emit = vm.$emit;
@@ -3959,7 +3984,7 @@ function addEventLogger (vue) {
   });
 }
 
-//
+// 
 
 function compileTemplate (component) {
   if (component.extends) {
@@ -3980,7 +4005,7 @@ function errorHandler (errorOrString, vm) {
   throw error
 }
 
-//
+// 
 
 function createLocalVue () {
   var instance = Vue.extend();
@@ -4026,7 +4051,7 @@ function createLocalVue () {
   return instance
 }
 
-//
+// 
 
 function getRealChild (vnode) {
   var compOptions = vnode && vnode.componentOptions;
@@ -4281,11 +4306,10 @@ function createFunctionalComponent (component, mountingOptions) {
     throwError('mount.context must be an object');
   }
 
-  var clonedComponent = cloneDeep_1(component);
   return {
     render: function render (h) {
       return h(
-        clonedComponent,
+        component,
         mountingOptions.context || component.FunctionalRenderContext,
         (mountingOptions.context && mountingOptions.context.children && mountingOptions.context.children.map(function (x) { return typeof x === 'function' ? x(h) : x; })) || createFunctionalSlots(mountingOptions.slots, h)
       )
@@ -4436,13 +4460,14 @@ function mount (component, options) {
 
 // 
 
-function shallow (component, options) {
+function shallow (
+  component,
+  options
+) {
   if ( options === void 0 ) options = {};
 
   var vue = options.localVue || Vue;
-
   var stubbedComponents = createComponentStubsForAll(component);
-
   var stubbedGlobalComponents = createComponentStubsForGlobals(vue);
 
   return mount(component, Object.assign({}, options,
