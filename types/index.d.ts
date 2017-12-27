@@ -114,11 +114,11 @@ interface VueTestUtilsConfigOptions {
 export declare function createLocalVue (): typeof Vue
 export declare let config: VueTestUtilsConfigOptions
 
-export declare function mount<V extends Vue, Ctor extends VueClass<V> = VueClass<V>> (component: Ctor, options?: MountOptions<V>): Wrapper<V>
+export declare function mount<V extends Vue> (component: VueClass<V>, options?: MountOptions<V>): Wrapper<V>
 export declare function mount<V extends Vue> (component: ComponentOptions<V>, options?: MountOptions<V>): Wrapper<V>
 export declare function mount (component: FunctionalComponentOptions, options?: MountOptions<Vue>): Wrapper<Vue>
 
-export declare function shallow<V extends Vue, Ctor extends VueClass<V> = VueClass<V>> (component: Ctor, options?: ShallowOptions<V>): Wrapper<V>
+export declare function shallow<V extends Vue> (component: VueClass<V>, options?: ShallowOptions<V>): Wrapper<V>
 export declare function shallow<V extends Vue> (component: ComponentOptions<V>, options?: ShallowOptions<V>): Wrapper<V>
 export declare function shallow (component: FunctionalComponentOptions, options?: ShallowOptions<Vue>): Wrapper<Vue>
 
