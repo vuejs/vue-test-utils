@@ -89,16 +89,23 @@ describe('mount.stub', () => {
     expect(warn.called).to.equal(false)
   })
 
-  it('stubs components with dummy when passed a boolean', () => {
-    const ComponentWithGlobalComponent = {
-      render: h => h('registered-component')
-    }
-    mount(ComponentWithGlobalComponent, {
+  it('stubs components with a default stub when passed true', () => {
+    const wrapper = mount(ComponentWithChild, {
       stubs: {
-        'registered-component': true
+        'child-component': true
       }
     })
-    expect(warn.called).to.equal(false)
+    expect(wrapper.html()).to.equal('<div><span><!----></span></div>')
+  })
+
+  it('does not stub components when passed false', () => {
+    config.stubs['child-component'] = '<p>stub</p>'
+    const wrapper = mount(ComponentWithChild, {
+      stubs: {
+        'child-component': false
+      }
+    })
+    expect(wrapper.contains('p')).to.equal(false)
   })
 
   it('stubs components with dummy when passed as an array', () => {
