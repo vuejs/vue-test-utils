@@ -17,6 +17,7 @@ import WrapperArray from './wrapper-array'
 import ErrorWrapper from './error-wrapper'
 import { throwError, warn } from '../lib/util'
 import findAll from '../lib/find'
+import createWrapper from './create-wrapper'
 
 export default class Wrapper implements BaseWrapper {
   vnode: VNode;
@@ -66,7 +67,8 @@ export default class Wrapper implements BaseWrapper {
       Object.keys(this.vm.$style).forEach((key) => {
         // $FlowIgnore : Flow thinks vm is a property
         moduleIdent = this.vm.$style[key]
-        // CSS Modules may be multi-class if they extend others. Extended classes should be already present in $style.
+        // CSS Modules may be multi-class if they extend others.
+        // Extended classes should be already present in $style.
         moduleIdent = moduleIdent.split(' ')[0]
         cssModuleIdentifiers[moduleIdent] = key
       })
@@ -227,9 +229,7 @@ export default class Wrapper implements BaseWrapper {
       }
       return new ErrorWrapper(typeof selector === 'string' ? selector : 'Component')
     }
-    return nodes[0] instanceof Vue
-    ? new VueWrapper(nodes[0], this.options)
-    : new Wrapper(nodes[0], this.update, this.options)
+    return createWrapper(nodes[0], this.update, this.options)
   }
 
   /**
@@ -238,10 +238,9 @@ export default class Wrapper implements BaseWrapper {
   findAll (selector: Selector): WrapperArray {
     const selectorType = getSelectorTypeOrThrow(selector, 'findAll')
     const nodes = findAll(this.vm, this.vnode, selectorType, selector)
-    const wrappers = nodes[0] && nodes[0] instanceof Vue
-    ? nodes.map(node => new VueWrapper(node, this.options))
-    : nodes.map(node => new Wrapper(node, this.update, this.options))
-
+    const wrappers = nodes.map(node =>
+      createWrapper(node, this.update, this.options)
+    )
     return new WrapperArray(wrappers)
   }
 

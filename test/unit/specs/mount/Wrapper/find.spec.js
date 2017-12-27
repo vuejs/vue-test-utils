@@ -138,6 +138,7 @@ describe('find', () => {
 
     const wrapper = mount(TestComponent)
     expect(wrapper.find(FunctionalComponent).vnode).to.be.an('object')
+    expect(wrapper.find(FunctionalComponent).vm).to.be('undefined')
   })
 
   it('returns correct number of Vue Wrappers when component has a v-for', () => {
