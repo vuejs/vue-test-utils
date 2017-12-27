@@ -1,7 +1,7 @@
 import { mount } from '~vue-test-utils'
 import { compileToFunctions } from 'vue-template-compiler'
 
-describe('ErrorWrapper', () => { 
+describe('ErrorWrapper', () => {
   const methods = ['at', 'attributes', 'classes', 'contains', 'emitted', 'emittedByOrder', 'hasAttribute',
     'hasClass', 'hasProp', 'hasStyle', 'find', 'findAll', 'html', 'text', 'is', 'isEmpty', 'isVueInstance',
     'name', 'props', 'setComputed', 'setMethods', 'setData', 'setProps', 'trigger', 'update', 'destroy']
