@@ -40,6 +40,9 @@ interface BaseWrapper {
   contains (selector: Selector): boolean
   exists (): boolean
 
+  attributes(): { [name: string]: string }
+  classes(): Array<string>
+  
   hasAttribute (attribute: string, value: string): boolean
   hasClass (className: string): boolean
   hasProp (prop: string, value: any): boolean
