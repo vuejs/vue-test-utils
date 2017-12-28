@@ -172,7 +172,7 @@ Woohoo, we got our tests running!
 
 ### Coverage
 
-To setup code coverage to mocha-webpack, follow [the mocha-webpack code coverage guide](https://github.com/zinserjan/mocha-webpack/blob/master/docs/guides/code-coverage.md).
+`vuejs-templates/webpack` uses [karma-webpack](https://github.com/webpack-contrib/karma-webpack) to setup code coverage, follow [test/unit/karma.conf.js](https://github.com/vuejs-templates/webpack/blob/c48c910eaf599537c81e75331f6309487c575695/template/test/unit/karma.conf.js).
 
 ### Resources
 
