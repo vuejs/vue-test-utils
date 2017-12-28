@@ -24,6 +24,7 @@ declare interface BaseWrapper { // eslint-disable-line no-undef
     isEmpty(): boolean | void,
     isVueInstance(): boolean | void,
     name(): string | void,
+    props(): { [name: string]: any },
     text(): string | void,
     setData(data: Object): void,
     setComputed(computed: Object): void,
