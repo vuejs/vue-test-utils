@@ -5,6 +5,7 @@ import Component from '~resources/components/component.vue'
 import FunctionalComponent from '~resources/components/functional-component.vue'
 import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
 import { functionalSFCsSupported } from '~resources/test-utils'
+import ComponentWithoutName from '~resources/components/component-without-name.vue'
 
 describe('contains', () => {
   it('returns true if wrapper contains element', () => {
@@ -76,6 +77,21 @@ describe('contains', () => {
     const compiled = compileToFunctions('<div><input /></div>')
     const wrapper = mount(compiled)
     expect(wrapper.contains('doesntexist')).to.equal(false)
+  })
+
+  it('returns true if wrapper root Component matches selector', () => {
+    const TestComponent = {
+      template: `
+        <div>
+            <component-without-name />
+        </div>
+      `,
+      components: {
+        ComponentWithoutName
+      }
+    }
+    const wrapper = mount(TestComponent)
+    expect(wrapper.contains(ComponentWithoutName)).to.equal(true)
   })
 
   it('returns true if wrapper root Component matches selector', () => {

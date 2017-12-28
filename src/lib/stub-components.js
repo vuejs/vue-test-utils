@@ -120,6 +120,9 @@ export function createComponentStubsForAll (component: Component): Object {
   Object.keys(component.components).forEach(c => {
     // Remove cached constructor
     delete component.components[c]._Ctor
+    if (!component.components[c].name) {
+      component.components[c].name = c
+    }
     components[c] = createBlankStub(component.components[c])
 
     // ignoreElements does not exist in Vue 2.0.x
