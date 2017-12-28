@@ -42,7 +42,8 @@ interface BaseWrapper {
 
   attributes(): { [name: string]: string }
   classes(): Array<string>
-  
+  props(): { [name: string]: any }
+
   hasAttribute (attribute: string, value: string): boolean
   hasClass (className: string): boolean
   hasProp (prop: string, value: any): boolean
