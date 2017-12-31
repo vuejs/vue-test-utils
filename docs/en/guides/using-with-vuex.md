@@ -157,13 +157,13 @@ describe('Getters.vue', () => {
   })
 
   it('Renders state.inputValue in first p tag', () => {
-    const wrapper = mount(Actions, { store })
+    const wrapper = mount(Getters, { store })
     const p = wrapper.find('p')[0]
     expect(p.text()).to.equal(getters.inputValue())
   })
 
   it('Renders state.clicks in second p tag', () => {
-    const wrapper = mount(Actions, { store })
+    const wrapper = mount(Getters, { store })
     const p = wrapper.find('p')[1]
     expect(p.text()).to.equal(getters.clicks().toString())
   })
