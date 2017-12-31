@@ -137,7 +137,7 @@ import Vue from 'vue'
 import { mount } from 'vue-test-utils'
 import { expect } from 'chai'
 import Vuex from 'vuex'
-import Getters from '../../../src/components/Getters'
+import Actions from '../../../src/components/Getters'
 
 Vue.use(Vuex)
 
@@ -157,13 +157,13 @@ describe('Getters.vue', () => {
   })
 
   it('Renders state.inputValue in first p tag', () => {
-    const wrapper = mount(Getters, { store })
+    const wrapper = mount(Actions, { store })
     const p = wrapper.find('p')[0]
     expect(p.text()).to.equal(getters.inputValue())
   })
 
   it('Renders state.clicks in second p tag', () => {
-    const wrapper = mount(Getters, { store })
+    const wrapper = mount(Actions, { store })
     const p = wrapper.find('p')[1]
     expect(p.text()).to.equal(getters.clicks().toString())
   })
