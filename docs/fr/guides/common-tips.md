@@ -94,7 +94,7 @@ Des composants pourraient se fier à des fonctionnalités injectées par un plug
 Si vous écrivez des tests pour des composants dans une application spécifique, vous pouvez mettre en place les mêmes plugins globaux et mixins en une seule fois dans vos tests. Dans certains cas, comme tester un composant générique utilisé par des applications différentes, il est favorable de tester ces composants dans une installation plus isolée, sans avoir à polluer le constructeur global `Vue`. On peut utiliser la méthode [`createLocalVue`](../api/createLocalVue.md) pour faire cela :
 
 ``` js
-import createLocalVue from 'vue-test-utils'
+import { createLocalVue } from 'vue-test-utils'
 
 // créer un constructeur local de `Vue`
 const localVue = createLocalVue()

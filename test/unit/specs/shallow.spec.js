@@ -1,12 +1,11 @@
 import { compileToFunctions } from 'vue-template-compiler'
 import Vue from 'vue'
-import shallow from '~src/shallow'
-import mount from '~src/mount'
-import VueWrapper from '~src/wrappers/vue-wrapper'
+import { mount, shallow } from '~vue-test-utils'
 import Component from '~resources/components/component.vue'
 import ComponentWithChild from '~resources/components/component-with-child.vue'
 import ComponentWithNestedChildren from '~resources/components/component-with-nested-children.vue'
 import ComponentWithLifecycleHooks from '~resources/components/component-with-lifecycle-hooks.vue'
+import ComponentWithoutName from '~resources/components/component-without-name.vue'
 
 describe('shallow', () => {
   let info
@@ -22,20 +21,20 @@ describe('shallow', () => {
   it('returns new VueWrapper of Vue localVue if no options are passed', () => {
     const compiled = compileToFunctions('<div><input /></div>')
     const wrapper = shallow(compiled)
-    expect(wrapper).to.be.instanceOf(VueWrapper)
+    expect(wrapper.isVueComponent).to.equal(true)
     expect(wrapper.vm).to.be.an('object')
   })
 
   it('returns new VueWrapper of Vue localVue with all children stubbed', () => {
     const wrapper = shallow(ComponentWithNestedChildren)
-    expect(wrapper).to.be.instanceOf(VueWrapper)
+    expect(wrapper.isVueComponent).to.equal(true)
     expect(wrapper.findAll(Component).length).to.equal(0)
     expect(wrapper.findAll(ComponentWithChild).length).to.equal(1)
   })
 
   it('returns new VueWrapper of Vue localVue with all children stubbed', () => {
     const wrapper = shallow(ComponentWithNestedChildren)
-    expect(wrapper).to.be.instanceOf(VueWrapper)
+    expect(wrapper.isVueComponent).to.equal(true)
     expect(wrapper.findAll(Component).length).to.equal(0)
     expect(wrapper.findAll(ComponentWithChild).length).to.equal(1)
   })
@@ -73,6 +72,23 @@ describe('shallow', () => {
   it('does not call stubbed children lifecycle hooks', () => {
     shallow(ComponentWithNestedChildren)
     expect(info.called).to.equal(false)
+  })
+
+  it('works correctly with find, contains, findAll, and is', () => {
+    const TestComponent = {
+      template: `
+        <div>
+            <component-without-name />
+        </div>
+      `,
+      components: {
+        ComponentWithoutName
+      }
+    }
+    const wrapper = shallow(TestComponent)
+    expect(wrapper.contains(ComponentWithoutName)).to.equal(true)
+    expect(wrapper.find(ComponentWithoutName).is(ComponentWithoutName)).to.equal(true)
+    expect(wrapper.findAll(ComponentWithoutName).length).to.equal(1)
   })
 
   it('throws an error when the component fails to mount', () => {

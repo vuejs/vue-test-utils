@@ -1,12 +1,11 @@
 import { compileToFunctions } from 'vue-template-compiler'
-import mount from '~src/mount'
-import Wrapper from '~src/wrappers/wrapper'
+import { mount } from '~vue-test-utils'
 
 describe('at', () => {
   it('returns Wrapper at index', () => {
     const compiled = compileToFunctions('<div><p /><p class="index-1"/></div>')
     const p = mount(compiled).findAll('p').at(1)
-    expect(p).to.be.instanceOf(Wrapper)
+    expect(p.vnode).to.be.an('object')
     expect(p.hasClass('index-1')).to.equal(true)
   })
 

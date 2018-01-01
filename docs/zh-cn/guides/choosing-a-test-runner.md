@@ -43,3 +43,4 @@ Vue 的单文件组件在它们运行于 Node 或浏览器之前是需要预编�
 - [使用 Mocha 的示例工程](https://github.com/vuejs/vue-test-utils-mocha-webpack-example)
 - [使用 tape 的示例工程](https://github.com/eddyerburgh/vue-test-utils-tape-example)
 - [使用 AVA 的示例工程](https://github.com/eddyerburgh/vue-test-utils-ava-example)
+- [tyu - Delightful web testing by egoist](https://github.com/egoist/tyu)

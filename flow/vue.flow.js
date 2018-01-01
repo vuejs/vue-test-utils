@@ -2,6 +2,5 @@
 
 // Importing these types declares them, so they are available globally
 
-import type VNode from 'vue/src/core/vdom/vnode' // eslint-disable-line no-unused-vars
-import type Component from 'vue/flow/component' // eslint-disable-line no-unused-vars
-import type GlobalAPI from 'vue/flow/global-api' // eslint-disable-line no-unused-vars
+declare type Component = Object // eslint-disable-line no-undef
+declare type VNode = Object // eslint-disable-line no-undef

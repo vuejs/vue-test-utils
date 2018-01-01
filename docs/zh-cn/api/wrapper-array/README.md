@@ -4,6 +4,7 @@
 
 - **属性：**
 
+`wrappers` `array`: 包含在 `WrapperArray` 内的 `Wrappers`  
 `length` `number`：该 `WrapperArray` 中包含的 `Wrapper` 的数量。
 
  - **方法：**

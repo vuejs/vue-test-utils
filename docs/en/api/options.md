@@ -1,8 +1,6 @@
 # Mounting Options
 
-Options for `mount` and `shallow`. The options object can contain both `vue-test-utils` mounting options and raw Vue options.
-
-Vue options are passed to the component when a new instance is created. , e.g. `store`, `propsData`. For a full list, see the [Vue API docs](https://vuejs.org/v2/api/).
+Options for `mount` and `shallow`. The options object can contain both `vue-test-utils` mounting options and other options.
 
 ## `vue-test-utils` Specific Mounting Options
 
@@ -13,9 +11,8 @@ Vue options are passed to the component when a new instance is created. , e.g. `
 - [`localVue`](#localvue)
 - [`attachToDocument`](#attachtodocument)
 - [`attrs`](#attrs)
-- [`provide`](#provide)
 - [`listeners`](#listeners)
-- [`clone`](#clone)
+- [`provide`](#provide)
 
 ### `context`
 
@@ -26,9 +23,13 @@ Passes context to functional component. Can only be used with functional compone
 Example:
 
 ```js
+import Foo from './Foo.vue'
+import Bar from './Bar.vue'
+
 const wrapper = mount(Component, {
   context: {
-    props: { show: true }
+    props: { show: true },
+    children: [Foo, Bar]
   }
 })
 
@@ -39,7 +40,7 @@ expect(wrapper.is(Component)).toBe(true)
 
 - type: `{ [name: string]: Array<Component>|Component|string }`
 
-Provide an object of slot contents to the component. The key corresponds to the slot name. The value can be either a component, an array of components, or a template string.
+Provide an object of slot contents to the component. The key corresponds to the slot name. The value can be either a component, an array of components, or a template string, or text.
 
 Example:
 
@@ -52,11 +53,20 @@ const wrapper = shallow(Component, {
   slots: {
     default: [Foo, Bar],
     fooBar: Foo, // Will match `<slot name="FooBar" />`.
-    foo: '<div />'
+    foo: '<div />',
+    bar: 'bar'
   }
 })
 expect(wrapper.find('div')).toBe(true)
 ```
+
+#### Passing text
+
+You can pass text to `slots`.  
+There is a limitation to this.
+
+This does not support PhantomJS.  
+Please use [Puppeteer](https://github.com/karma-runner/karma-chrome-launcher#headless-chromium-with-puppeteer).
 
 ### `stubs`
 
@@ -154,15 +164,38 @@ Set the component instance's `$attrs` object.
 
 Set the component instance's `$listeners` object.
 
-### `clone`
-
-- type: `boolean`
-- default: `true`
-
-Clones component before mounting if `true`, which avoids mutating the original component definition.
-
 ### `provide`
 
 - type: `Object`
 
-Pass properties for components to use in injection. See [provide/inject](https://vuejs.org/v2/api/#provide-inject)
+Pass properties for components to use in injection. See [provide/inject](https://vuejs.org/v2/api/#provide-inject).
+
+## Other options
+
+When the options for `mount` and `shallow` contain the options other than the mounting options, the component options are overwritten with those using [extends](https://vuejs.org/v2/api/#extends).
+
+```js
+const Component = {
+  template: '<div>{{ foo() }}{{ bar() }}{{ baz() }}</div>',
+  methods: {
+    foo () {
+      return 'a'
+    },
+    bar () {
+      return 'b'
+    }
+  }
+}
+const options = {
+  methods: {
+    bar () {
+      return 'B'
+    },
+    baz () {
+      return 'C'
+    }
+  }
+}
+const wrapper = mount(Component, options)
+expect(wrapper.text()).to.equal('aBC')
+```

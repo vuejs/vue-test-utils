@@ -22,12 +22,12 @@ wrapper.find('button').trigger('click')
 
 The `trigger` method takes an optional `options` object. The properties in the `options` object are added to the Event.
 
-You can run `preventDefault` on the event by passing `preventDefault: true` in `options`.
+Note that target cannot be added in the `options` object.
 
 ```js
 const wrapper = mount(MyButton)
 
-wrapper.trigger('click', { preventDefault: true })
+wrapper.trigger('click', { button: 0 })
 ```
 
 
@@ -189,7 +189,23 @@ describe('Key event tests', () => {
 
 A key name after the dot `keydown.up` is translated to a `keyCode`. This is supported for the following names:
 
-* `enter`, `tab`, `delete`, `esc`, `space`, `up`, `down`, `left`, `right`
+| key name | key code |
+| --- | --- |
+| enter | 13 |
+| esc | 27 |
+| tab | 9 |
+| space | 32 |
+| delete | 46 |
+| backspace | 8 |
+| insert | 45 |
+| up | 38 |
+| down | 40 |
+| left | 37 |
+| right | 39 |
+| end | 35 |
+| home | 36 |
+| pageup | 33 |
+| pagedown | 34 |
 
 ## Important
 

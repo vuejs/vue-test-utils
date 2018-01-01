@@ -1,7 +1,11 @@
 import { compileToFunctions } from 'vue-template-compiler'
-import mount from '~src/mount'
+import { mount } from '~vue-test-utils'
 import ComponentWithChild from '~resources/components/component-with-child.vue'
 import Component from '~resources/components/component.vue'
+import ComponentWithoutName from '~resources/components/component-without-name.vue'
+import FunctionalComponent from '~resources/components/functional-component.vue'
+import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
+import { functionalSFCsSupported } from '~resources/test-utils'
 
 describe('is', () => {
   it('returns true if root node matches tag selector', () => {
@@ -39,6 +43,24 @@ describe('is', () => {
     expect(wrapper.is(Component)).to.equal(true)
   })
 
+  it('returns true if root node matches Component without a name', () => {
+    const wrapper = mount(ComponentWithoutName)
+    expect(wrapper.is(ComponentWithoutName)).to.equal(true)
+  })
+
+  it('returns true if root node matches functional Component', () => {
+    if (!functionalSFCsSupported()) {
+      return
+    }
+    const wrapper = mount(FunctionalComponent)
+    expect(wrapper.is(FunctionalComponent)).to.equal(true)
+  })
+
+  it('returns true if root node matches Component extending class component', () => {
+    const wrapper = mount(ComponentAsAClass)
+    expect(wrapper.is(ComponentAsAClass)).to.equal(true)
+  })
+
   it('returns false if root node is not a Vue Component', () => {
     const wrapper = mount(ComponentWithChild)
     const input = wrapper.findAll('span').at(0)
@@ -69,15 +91,6 @@ describe('is', () => {
 
     const message = '[vue-test-utils]: $ref selectors can not be used with wrapper.is()'
     const fn = () => wrapper.is({ ref: 'foo' })
-    expect(fn).to.throw().with.property('message', message)
-  })
-
-  it('throws error if component passed to use as identifier does not have a name', () => {
-    const compiled = compileToFunctions('<div />')
-    const wrapper = mount(compiled)
-
-    const message = '[vue-test-utils]: a Component used as a selector must have a name property'
-    const fn = () => wrapper.is({ render: () => {} })
     expect(fn).to.throw().with.property('message', message)
   })
 

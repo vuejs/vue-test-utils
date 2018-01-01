@@ -1,9 +1,5 @@
 {
   "presets": ["env", "stage-2", "flow-vue"],
-  "comments": false,
-  "env": {
-    "test": {
-      "plugins": ["istanbul"]
-    }
-  }
+  "plugins": ["transform-decorators-legacy"],
+  "comments": false
 }

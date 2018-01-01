@@ -4,12 +4,9 @@
 
 Triggerは `options` オブジェクト形式で行います。`options` オブジェクトのプロパティがイベントに追加されます。
 
-`options` で `preventDefault: true` とすることで、イベントに対して preventDefault を実行することができます。
-
 - **引数:**
   - `{string} eventName`
-  - `{Object} options` 
-    - `{boolean} preventDefault`
+  - `{Object} options`
 
 - **例:**
 
@@ -30,9 +27,17 @@ wrapper.trigger('click', {
   button: 0
 })
 
-wrapper.trigger('click', {
-  preventDefault: true
-})
-
 expect(clickHandler.called).toBe(true)
+```
+
+- **イベントターゲットの設定:**
+
+`trigger` は `Event` オブジェクトを生成して、Wrapper.element にイベントを送ります。  
+`Event` オブジェクトの `target` 値を編集できません。つまり、 `target` を オプションオブジェクトにセットすることはできません。  
+`target` の属性を追加するには、 `trigger` を実行する前に Wrapper.element の属性にその値をセットする必要があります。  
+
+```js
+const input = wrapper.find('input')
+input.element.value = 100
+input.trigger('click')
 ```

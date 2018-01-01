@@ -5,6 +5,8 @@ const buble = require('rollup-plugin-buble')
 const nodeResolve = require('rollup-plugin-node-resolve')
 const commonjs = require('rollup-plugin-commonjs')
 const chalk = require('chalk')
+const rollupOptionsBuild = require('./config/rollup-options-build')
+const rollupOptionsTest = require('./config/rollup-options-test')
 
 function success (text) {
   console.log(chalk.green(`${text} ✔`))
@@ -14,102 +16,25 @@ function error (text) {
   console.log(chalk.red(`${text} ✘`))
 }
 
-rollup({
-  entry: resolve('src/index.js'),
-  plugins: [
-    flow(),
-    buble({
-      objectAssign: 'Object.assign'
+const rollupOptions = process.env.NODE_ENV === 'test' ? rollupOptionsTest : rollupOptionsBuild
+
+rollupOptions.forEach(options => {
+  rollup({
+    entry: resolve('src/index.js'),
+    external: ['vue', 'vue-template-compiler'],
+    plugins: [
+      flow(),
+      buble({
+        objectAssign: 'Object.assign'
+      }),
+      nodeResolve(),
+      commonjs()
+    ]
+  }).then(bundle => {
+    bundle.write(options)
+  })
+    .then(() => success(`${options.format} build successful`))
+    .catch((err) => {
+      error(err)
     })
-  ]
-}).then(bundle => {
-  bundle.write({
-    dest: resolve('dist/vue-test-utils.js'),
-    format: 'cjs'
-  })
 })
-  .then(() => success('commonjs build successful'))
-  .catch((err) => {
-    error(err)
-  })
-
-rollup({
-  entry: resolve('src/index.js'),
-  external: ['vue', 'vue-template-compiler'],
-  plugins: [
-    flow(),
-    buble({
-      objectAssign: 'Object.assign'
-    }),
-    nodeResolve(),
-    commonjs()
-  ]
-}).then(bundle => {
-  bundle.write({
-    name: 'globals',
-    dest: resolve('dist/vue-test-utils.iife.js'),
-    moduleName: 'vueTestUtils',
-    format: 'iife',
-    globals: {
-      'vue': 'Vue',
-      'vue-template-compiler': 'VueTemplateCompiler'
-    }
-  })
-})
-  .then(() => success('IIFE build successful'))
-  .catch((err) => {
-    error(err)
-  })
-
-rollup({
-  entry: resolve('src/index.js'),
-  external: ['vue', 'vue-template-compiler'],
-  plugins: [
-    flow(),
-    buble({
-      objectAssign: 'Object.assign'
-    }),
-    nodeResolve(),
-    commonjs()
-  ]
-}).then((bundle) => {
-  bundle.write({
-    dest: resolve('dist/vue-test-utils.amd.js'),
-    format: 'amd',
-    globals: {
-      'vue': 'Vue',
-      'vue-template-compiler': 'VueTemplateCompiler'
-    }
-  })
-})
-  .then(() => success('AMD build successful'))
-  .catch((err) => {
-    error(err)
-  })
-
-rollup({
-  entry: resolve('src/index.js'),
-  external: ['vue', 'vue-template-compiler'],
-  plugins: [
-    flow(),
-    buble({
-      objectAssign: 'Object.assign'
-    }),
-    nodeResolve(),
-    commonjs()
-  ]
-}).then((bundle) => {
-  bundle.write({
-    dest: resolve('dist/vue-test-utils.umd.js'),
-    format: 'umd',
-    globals: {
-      'vue': 'Vue',
-      'vue-template-compiler': 'VueTemplateCompiler'
-    },
-    moduleName: 'vueTestUtils'
-  })
-})
-  .then(() => success('UMD build successful'))
-  .catch((err) => {
-    error(err)
-  })

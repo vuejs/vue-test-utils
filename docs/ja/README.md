@@ -1,6 +1,6 @@
 # vue-test-utils
 
-`vue-test-utils`は Vue.js 向けの公式単体テストライブラリです。 
+`vue-test-utils`は Vue.js 向けの公式単体テストライブラリです。
 
 * [ガイド](guides/README.md)
   * [はじめる](guides/getting-started.md)
@@ -23,8 +23,11 @@
     - [attachToDocument](api/options.md#attachtodocument)
     - [attrs](api/options.md#attrs)
     - [listeners](api/options.md#listeners)
-    - [clone](api/options.md#clone)
+    - [provide](api/options.md#provide)
+    - [その他のオプション](api/options.md#その他のオプション)
   * [Wrapper](api/wrapper/README.md)
+    * [attributes](api/wrapper/attributes.md)
+    * [classes](api/wrapper/classes.md)
     * [contains](api/wrapper/contains.md)
     * [emitted](api/wrapper/emitted.md)
     * [emittedByOrder](api/wrapper/emittedByOrder.md)
@@ -32,15 +35,13 @@
     * [destroy](api/wrapper/destroy.md)
     * [find](api/wrapper/find.md)
     * [findAll](api/wrapper/findAll.md)
-    * [hasAttribute](api/wrapper/hasAttribute.md)
-    * [hasClass](api/wrapper/hasClass.md)
-    * [hasProp](api/wrapper/hasProp.md)
     * [hasStyle](api/wrapper/hasStyle.md)
     * [html](api/wrapper/html.md)
     * [is](api/wrapper/is.md)
     * [isEmpty](api/wrapper/isEmpty.md)
     * [isVueInstance](api/wrapper/isVueInstance.md)
     * [name](api/wrapper/name.md)
+    * [props](api/wrapper/props.md)
     * [setComputed](api/wrapper/setComputed.md)
     * [setData](api/wrapper/setData.md)
     * [setMethods](api/wrapper/setMethods.md)
@@ -53,9 +54,6 @@
     * [contains](api/wrapper-array/contains.md)
     * [exists](api/wrapper/exists.md)
     * [destroy](api/wrapper-array/destroy.md)
-    * [hasAttribute](api/wrapper-array/hasAttribute.md)
-    * [hasClass](api/wrapper-array/hasClass.md)
-    * [hasProp](api/wrapper-array/hasProp.md)
     * [hasStyle](api/wrapper-array/hasStyle.md)
     * [is](api/wrapper-array/is.md)
     * [isEmpty](api/wrapper-array/isEmpty.md)

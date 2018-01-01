@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import mount from '~src/mount'
+import { mount } from '~vue-test-utils'
 import Component from '~resources/components/component.vue'
 
 describe('mount.localVue', () => {

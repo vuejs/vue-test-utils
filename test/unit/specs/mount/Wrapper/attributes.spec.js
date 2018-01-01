@@ -1,5 +1,5 @@
 import { compileToFunctions } from 'vue-template-compiler'
-import mount from '~src/mount'
+import { mount } from '~vue-test-utils'
 
 describe('attributes', () => {
   it('returns true if wrapper contains attribute matching value', () => {
@@ -16,7 +16,7 @@ describe('attributes', () => {
     expect(wrapper.attributes()).to.eql({})
   })
 
-  it('returns empoty object if wrapper element is null', () => {
+  it('returns empty object if wrapper element is null', () => {
     const compiled = compileToFunctions('<div />')
     const wrapper = mount(compiled)
     wrapper.element = null

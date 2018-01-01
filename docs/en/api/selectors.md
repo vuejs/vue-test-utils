@@ -23,8 +23,6 @@ You can also use combinators:
 
 Vue components are also valid selectors.
 
-`vue-test-utils` uses the `name` property to search the instance tree for matching Vue components.
-
 ```js
 // Foo.vue
 
@@ -43,6 +41,15 @@ expect(wrapper.is(Foo)).toBe(true)
 ```
 
 ## Find Option Object
+
+### Name
+
+Using a find option object, `vue-test-utils` allows for selecting elements by `name` on wrapper components.
+
+```js
+const buttonWrapper = wrapper.find({ name: 'my-button' })
+buttonWrapper.trigger('click')
+```
 
 ### Ref
 

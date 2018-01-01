@@ -124,7 +124,7 @@ Example `.babelrc`:
 }
 ```
 
-### Snapshot Testing
+## Snapshot Testing
 
 You can use [`vue-server-renderer`](https://github.com/vuejs/vue/tree/dev/packages/vue-server-renderer) to render a component into a string so that it can be saved as a snapshot for [Jest snapshot testing](https://facebook.github.io/jest/docs/en/snapshot-testing.html).
 
@@ -149,13 +149,46 @@ Then configure it in `package.json`:
 }
 ```
 
-### Placing Test Files
+## Placing Test Files
 
 By default, Jest will recursively pick up all files that have a `.spec.js` or `.test.js` extension in the entire project. If this does not fit your needs, it's possible [to change the `testRegex`](https://facebook.github.io/jest/docs/en/configuration.html#testregex-string) in the config section in the `package.json` file.
 
 Jest recommends creating a `__tests__` directory right next to the code being tested, but feel free to structure your tests as you see fit. Just beware that Jest would create a `__snapshots__` directory next to test files that performs snapshot testing.
 
-### Example Spec
+## Coverage
+
+Jest can be used to generate coverage reports in multiple formats. The following is a simple example to get started with:
+
+Extend your `jest` config (usually in `package.json` or `jest.config.js`) with the [collectCoverage](https://facebook.github.io/jest/docs/en/configuration.html#collectcoverage-boolean) option, and then add the [collectCoverageFrom](https://facebook.github.io/jest/docs/en/configuration.html#collectcoveragefrom-array) array to define the files for which coverage information should be collected. You'll also want [mapCoverage](https://facebook.github.io/jest/docs/en/configuration.html#mapcoverage-boolean) to be `true`, for coverage data to be accurate.
+
+```json
+{
+  "jest": {
+    // ...
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "**/*.{js,vue}",
+      "!**/node_modules/**"
+    ],
+    "mapCoverage": true
+  }
+}
+```
+
+This will enable coverage reports with the [default coverage reporters](https://facebook.github.io/jest/docs/en/configuration.html#coveragereporters-array-string). You can customise these with the `coverageReporters` option:
+
+```json
+{
+  "jest": {
+    // ...
+    "coverageReporters": ["html", "text-summary"]
+  }
+}
+```
+
+Further documentation can be found in the [Jest configuration documentation](https://facebook.github.io/jest/docs/en/configuration.html#collectcoverage-boolean), where you can find options for coverage thresholds, target output directories, etc.
+
+## Example Spec
 
 If you are familiar with Jasmine, you should feel right at home with Jest's [assertion API](https://facebook.github.io/jest/docs/en/expect.html#content):
 
@@ -171,7 +204,7 @@ describe('Component', () => {
 })
 ```
 
-### Resources
+## Resources
 
 - [Example project for this setup](https://github.com/vuejs/vue-test-utils-jest-example)
 - [Examples and slides from Vue Conf 2017](https://github.com/codebryo/vue-testing-with-jest-conf17)

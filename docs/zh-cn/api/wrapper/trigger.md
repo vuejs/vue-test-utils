@@ -4,12 +4,9 @@
 
 `trigger` 带有一个可选的 `options` 对象。`options` 对象内的属性会被添加到事件上。
 
-你可以通过在 `options` 里传入 `preventDefault: true` 来运行事件上的 `preventDefault`。
-
 - **参数：**
   - `{string} eventName`
   - `{Object} options`
-    - `{boolean} preventDefault`
 
 - **示例：**
 
@@ -30,9 +27,19 @@ wrapper.trigger('click', {
   button: 0
 })
 
-wrapper.trigger('click', {
-  preventDefault: true
-})
-
 expect(clickHandler.called).toBe(true)
+```
+
+- **设置事件目标：**
+
+在这背后，`trigger` 创建了一个 `Event` 对象并分发到其包裹器的元素上。 
+
+我们没有机会编辑 `Event` 对象的 `target` 值，所以你无法在选项对象中设置 `target`。
+
+如果想在 `target` 中添加一个特性，你需要在调用 `trigger` 之前设置包裹器元素的那个值。你可以通过 `element` 属性做到这件事。
+
+```js
+const input = wrapper.find('input')
+input.element.value = 100
+input.trigger('click')
 ```

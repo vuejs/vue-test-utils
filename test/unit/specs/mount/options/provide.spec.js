@@ -1,4 +1,4 @@
-import mount from '~src/mount'
+import { mount } from '~vue-test-utils'
 import ComponentWithInject from '~resources/components/component-with-inject.vue'
 import { injectSupported } from '~resources/test-utils'
 

@@ -6,13 +6,12 @@
   - `{Object} options`
     - `{boolean} attachToDocument`
     - `{Object} context`
+      - `{Array<Component|Object>|Component} children`
     - `{Object} slots`
         - `{Array<Componet|Object>|Component|String} default`
         - `{Array<Componet|Object>|Component|String} named`
     - `{Object} mocks`
     - `{Object|Array<string>} stubs`
-    - `{boolean} clone`
-    - `{Object} children`
     - `{Vue} localVue`
 
 - **返回值：**`{Wrapper}`

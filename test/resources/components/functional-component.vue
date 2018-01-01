@@ -1,0 +1,3 @@
+<template functional>
+  <div />
+</template>

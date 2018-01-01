@@ -2,7 +2,7 @@
 
 `WrapperArray` の `Wrapper` ごとに `Wrapper` `vm` の computed プロパティを設定し、更新を強制します。
 
-**すべての Wrapper には Vue インスタンスを含む必要があることに注意してください**
+**すべての Wrapper には Vue インスタンスを含む必要があることに注意してください**  
 **`setComputed` に渡す computed プロパティはすべての Vue インスタンスに存在する必要があることに注意してください**
 
 - **引数:**

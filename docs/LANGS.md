@@ -4,3 +4,4 @@
 * [简体中文](zh-cn/)
 * [Portuguese (Brazil)](pt-br/)
 * [Русский](ru/)
+* [한국어](kr/)
