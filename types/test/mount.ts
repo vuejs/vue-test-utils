@@ -9,7 +9,7 @@ import { normalOptions, functionalOptions, Normal, ClassComponent } from './reso
 const normalWrapper = mount(normalOptions)
 const normalFoo: string = normalWrapper.vm.foo
 
-const classWrapper = mount<ClassComponent>(ClassComponent)
+const classWrapper = mount(ClassComponent)
 const classFoo: string = classWrapper.vm.bar
 
 const functinalWrapper = mount(functionalOptions)
@@ -22,7 +22,7 @@ localVue.use(Vuex)
 
 const store = new Vuex.Store({})
 
-mount<ClassComponent>(ClassComponent, {
+mount(ClassComponent, {
   attachToDocument: true,
   localVue,
   mocks: {
@@ -57,7 +57,7 @@ mount(functionalOptions, {
 /**
  * MountOptions should receive Vue's component options
  */
-mount<ClassComponent>(ClassComponent, {
+mount(ClassComponent, {
   propsData: {
     test: 'test'
   },

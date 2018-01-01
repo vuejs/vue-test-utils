@@ -9,7 +9,7 @@ import { normalOptions, functionalOptions, Normal, ClassComponent } from './reso
 const normalWrapper = shallow(normalOptions)
 const normalFoo: string = normalWrapper.vm.foo
 
-const classWrapper = shallow<ClassComponent>(ClassComponent)
+const classWrapper = shallow(ClassComponent)
 const classFoo: string = classWrapper.vm.bar
 
 const functinalWrapper = shallow(functionalOptions)
@@ -22,7 +22,7 @@ localVue.use(Vuex)
 
 const store = new Vuex.Store({})
 
-shallow<ClassComponent>(ClassComponent, {
+shallow(ClassComponent, {
   attachToDocument: true,
   localVue,
   mocks: {
@@ -51,7 +51,7 @@ shallow(functionalOptions, {
 /**
  * ShallowOptions should receive Vue's component options
  */
-shallow<ClassComponent>(ClassComponent, {
+shallow(ClassComponent, {
   propsData: {
     test: 'test'
   },
