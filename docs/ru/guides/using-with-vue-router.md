@@ -7,9 +7,10 @@
 Чтобы этого избежать, мы можем создать localVue и установить Vue Router на него.
 
 ```js
+import { shallow, createLocalVue } from 'vue-test-utils'
 import VueRouter from 'vue-router'
-const localVue = createLocalVue()
 
+const localVue = createLocalVue()
 localVue.use(VueRouter)
 
 shallow(Component, {
@@ -26,6 +27,8 @@ shallow(Component, {
 ### Использование заглушек (stubs)
 
 ```js
+import { shallow } from 'vue-test-utils'
+
 shallow(Component, {
   stubs: ['router-link', 'router-view']
 })
@@ -34,9 +37,10 @@ shallow(Component, {
 ### Установка Vue Router с помощью localVue
 
 ```js
+import { shallow, createLocalVue } from 'vue-test-utils'
 import VueRouter from 'vue-router'
-const localVue = createLocalVue()
 
+const localVue = createLocalVue()
 localVue.use(VueRouter)
 
 shallow(Component, {
@@ -49,6 +53,8 @@ shallow(Component, {
 Иногда вам может потребоваться протестировать, что компонент что-то делает с параметрами объектов `$route` и `$router`. Для этого вы можете передавать пользовательские моки в экземпляр Vue.
 
 ```js
+import { shallow } from 'vue-test-utils'
+
 const $route = {
   path: '/some/path'
 }
@@ -59,7 +65,7 @@ const wrapper = shallow(Component, {
   }
 })
 
-wrapper.vm.$router // /some/path
+wrapper.vm.$route.path // /some/path
 ```
 
 ## Общие ошибки
@@ -68,4 +74,4 @@ wrapper.vm.$router // /some/path
 
 Это означет, что любые будущие тесты, которые попытаются сделать мок `$route` или `$router` потерпят неудачу.
 
-Для избежания этого никогда не устанавливайте Vue Router при запуске тестов.
+Для избежания этого никогда не устанавливайте Vue Router глобально при запуске тестов; используйте localVue как было показано выше.
