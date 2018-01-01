@@ -29,3 +29,17 @@ wrapper.trigger('click', {
 
 expect(clickHandler.called).toBe(true)
 ```
+
+- **Установка target для event:**
+
+Под капотом, `trigger` создаёт объект `Event` и вызывает событие на элементе Wrapper.
+
+Невозможно изменить значение `target` объекта `Event`, поэтому вы не можете установить `target` в объекте опций.
+
+Чтобы добавить атрибут к `target`, вам нужно установить значение элемента Wrapper перед вызовом `trigger`. Вы можете сделать это с помощью свойства `element`.
+
+```js
+const input = wrapper.find('input')
+input.element.value = 100
+input.trigger('click')
+```
