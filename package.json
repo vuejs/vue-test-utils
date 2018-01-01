@@ -87,7 +87,7 @@
     "typescript": "^2.6.2",
     "vue": "^2.5.13",
     "vue-class-component": "^6.1.2",
-    "vue-loader": "^13.0.5",
+    "vue-loader": "^13.6.2",
     "vue-router": "^3.0.1",
     "vue-template-compiler": "^2.5.13",
     "vuetify": "^0.16.9",
