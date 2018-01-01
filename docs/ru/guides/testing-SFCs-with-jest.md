@@ -124,7 +124,7 @@ npm install --save-dev babel-jest
 }
 ```
 
-### Тестирование моментальными снимками
+## Тестирование моментальными снимками
 
 Вы можете использовать [`vue-server-renderer`](https://github.com/vuejs/vue/tree/dev/packages/vue-server-renderer) для рендеринга компонента в строку, чтобы его можно было сохранить в качестве снимка для [тестирования моментальными снимками в Jest](https://facebook.github.io/jest/docs/en/snapshot-testing.html).
 
@@ -149,13 +149,46 @@ npm install --save-dev jest-serializer-vue
 }
 ```
 
-### Расположение файлов тестов
+## Расположение файлов тестов
 
 По умолчанию Jest будет рекурсивно выбирать все файлы с расширением `.spec.js` или `.test.js` во всём проекте. Если это поведение не соответствует вашим потребностям, то возможно [изменить `testRegex`](https://facebook.github.io/jest/docs/en/configuration.html#testregex-string) в секции конфигурации в файле `package.json`.
 
 Jest рекомендует создать каталог `__tests__` рядом с тестируемым кодом, но не стесняйтесь структурировать ваши тесты по своему усмотрению. Просто остерегайтесь того, что Jest создаст каталог `__snapshots__` рядом с тестовыми файлами, который необходим для тестирования с помощью моментальных снимков.
 
-### Пример спецификации
+## Покрытие кода (Coverage)
+
+Jest может быть использован для генерации отчётов о покрытии кода в нескольких форматах. Ниже приведён простой пример для начала:
+
+Расширьте вашу конфигурацию `jest` (обычно расположенную в `package.json` или `jest.config.js`) с помощью опции [collectCoverage](https://facebook.github.io/jest/docs/en/configuration.html#collectcoverage-boolean), и затем добавьте массив [collectCoverageFrom](https://facebook.github.io/jest/docs/en/configuration.html#collectcoveragefrom-array) для определения файлов, для которых требуется собирать информацию о покрытии. Вы также можете установить [mapCoverage](https://facebook.github.io/jest/docs/en/configuration.html#mapcoverage-boolean) в значение `true`, для более аккуратного сбора информации о покрытии.
+
+```json
+{
+  "jest": {
+    // ...
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "**/*.{js,vue}",
+      "!**/node_modules/**"
+    ],
+    "mapCoverage": true
+  }
+}
+```
+
+Это включит отчёты о покрытии с использованием [стандартных отчётов о покрытии](https://facebook.github.io/jest/docs/en/configuration.html#coveragereporters-array-string). Вы можете настроить их с помощью опции `coverageReporters`:
+
+```json
+{
+  "jest": {
+    // ...
+    "coverageReporters": ["html", "text-summary"]
+  }
+}
+```
+
+Дополнительную информацию можно найти в [документации по конфигурации Jest](https://facebook.github.io/jest/docs/en/configuration.html#collectcoverage-boolean), где вы можете найти параметры для пороговых значений покрытия, каталоги вывода данных и т.д.
+
+## Пример спецификации
 
 Если вы знакомы с Jasmine, то вы должны чувствовать себя как дома с [проверочным API](https://facebook.github.io/jest/docs/en/expect.html#content) Jest:
 
@@ -171,7 +204,7 @@ describe('Component', () => {
 })
 ```
 
-### Ресурсы
+## Ресурсы
 
 - [Пример проекта для этой конфигурации](https://github.com/vuejs/vue-test-utils-jest-example)
 - [Примеры и слайды с Vue Conf 2017](https://github.com/codebryo/vue-testing-with-jest-conf17)
