@@ -4,7 +4,7 @@ import { normalOptions, functionalOptions, Normal, ClassComponent } from './reso
 /**
  * Tests for BaseWrapper API
  */
-let wrapper = mount<Normal>(normalOptions)
+let wrapper = mount(normalOptions)
 
 let bool: boolean = wrapper.contains('.foo')
 bool = wrapper.contains(normalOptions)
@@ -51,12 +51,12 @@ bool = wrapper.options.attachedToDocument
 let found = wrapper.find('.foo')
 found = wrapper.find(normalOptions)
 found = wrapper.find(functionalOptions)
-found = wrapper.find<ClassComponent>(ClassComponent)
+found = wrapper.find(ClassComponent)
 
 let array = wrapper.findAll('.bar')
 array = wrapper.findAll(normalOptions)
 array = wrapper.findAll(functionalOptions)
-array = wrapper.findAll<ClassComponent>(ClassComponent)
+array = wrapper.findAll(ClassComponent)
 
 let str: string = wrapper.html()
 str = wrapper.text()
