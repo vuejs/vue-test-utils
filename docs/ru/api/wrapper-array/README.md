@@ -4,7 +4,8 @@
 
 - **Свойства:**
 
-`length` `number`: the number of `Wrappers` contained in the `WrapperArray`
+`wrappers` `array`: массив `Wrappers` содержащихся в `WrapperArray`
+`length` `number`: количество `Wrappers` содержащихся в `WrapperArray`
 
  - **Методы:**
 
