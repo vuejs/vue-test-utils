@@ -187,7 +187,23 @@ describe('Тестирование событий клавиш', () => {
 
 Имя модификатора после точки `keydown.up` преобразуется в `keyCode`. Это поддерживается для следующих имён:
 
-* `enter`, `tab`, `delete`, `esc`, `space`, `up`, `down`, `left`, `right`
+| key name | key code |
+| --- | --- |
+| enter | 13 |
+| esc | 27 |
+| tab | 9 |
+| space | 32 |
+| delete | 46 |
+| backspace | 8 |
+| insert | 45 |
+| up | 38 |
+| down | 40 |
+| left | 37 |
+| right | 39 |
+| end | 35 |
+| home | 36 |
+| pageup | 33 |
+| pagedown | 34 |
 
 ## Важно
 
