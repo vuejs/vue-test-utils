@@ -9,6 +9,7 @@
   * [Тестирование однофайловых компонентов с Mocha + webpack](guides/testing-SFCs-with-mocha-webpack.md)
   * [Использование с Vue Router](guides/using-with-vue-router.md)
   * [Использование с Vuex](guides/using-with-vuex.md)
+  * [Тестирование асинхронной логики](guides/testing-async-components.md)
 * [API](api/README.md)
   * [mount](api/mount.md)
   * [shallow](api/shallow.md)
