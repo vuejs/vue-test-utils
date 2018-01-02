@@ -110,6 +110,34 @@ Pour simplifier cela, `vue-test-utils` applique toutes les mises à jour de faç
 
 *Note : `nextTick` est toujours nécessaire quand vous souhaitez explicitement faire avancer la boucle des évènements, pour des opérations telles que des fonctions de rappel ou des résolutions de promesses.*
 
+Si vous avez toujours besoin de `nextTick` dans vos fichiers de tests, faites attention aux erreurs jetées aux erreurs lancées à l'intérieur qui peuvent ne pas être attrapées par votre lanceur de tests car il utilise des promesses. Il y a deux approches pour régler celà : vous pouvez affecter la fonction de rappel `done` du système de gestion d'erreurs globales de Vue au démarrage des tests, ou vous pouvez appeler `nextTick` sans argument pour l'utiliser sous forme de promesse :
+
+```js
+// ceci ne sera pas intercepté
+it("pas d'interception", (done) => {
+  Vue.nextTick(() => {
+    expect(true).toBe(false)
+    done()
+  })
+})
+
+// les deux tests ci-dessous vont fonctionner comme souhaité
+it("attraper l'erreur avec `done`", (done) => {
+  Vue.config.errorHandler = done
+  Vue.nextTick(() => {
+    expect(true).toBe(false)
+    done()
+  })
+})
+
+it("attraper l'erreur avec une promesse", () => {
+  return Vue.nextTick()
+    .then(function () {
+      expect(true).toBe(false)
+    })
+})
+```
+
 ## Et après ?
 
 - Intégrez `vue-test-utils` dans votre projet en [choisissant votre lanceur de tests](./choosing-a-test-runner.md)
