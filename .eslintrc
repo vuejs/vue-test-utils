@@ -11,5 +11,9 @@
   "extends": [
     "plugin:vue-libs/recommended",
     "plugin:flowtype/recommended"
-  ]
+  ],
+  rules: {
+    "no-debugger": 2,
+    "no-proto": 0
+  }
 }

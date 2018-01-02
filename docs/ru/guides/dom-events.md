@@ -22,12 +22,10 @@ wrapper.find('button').trigger('click')
 
 Метод `trigger` также может опционально принимать объект `options`. Свойства объекта `options` добавятся к Event.
 
-Вы можете запустить `preventDefault` для события, передав `preventDefault: true` в `options`.
-
 ```js
 const wrapper = mount(MyButton)
 
-wrapper.trigger('click', { preventDefault: true })
+wrapper.trigger('click', { button: 0 })
 ```
 
 

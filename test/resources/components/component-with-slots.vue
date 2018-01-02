@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" @keydown="change">
     <header>
       <slot name="header"></slot>
     </header>
@@ -14,6 +14,16 @@
 
 <script>
   export default {
-    name: 'component-with-slots'
+    name: 'component-with-slots',
+    data () {
+      return {
+        'foo': 'bar'
+      }
+    },
+    methods: {
+      change () {
+        this.foo = 'BAR'
+      }
+    }
   }
 </script>

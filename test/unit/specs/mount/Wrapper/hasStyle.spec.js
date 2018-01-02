@@ -1,5 +1,5 @@
 import { compileToFunctions } from 'vue-template-compiler'
-import mount from '~src/mount'
+import { mount } from '~vue-test-utils'
 import ComponentWithStyle from '~resources/components/component-with-style.vue'
 
 describe('hasStyle', () => {

@@ -3,7 +3,7 @@
     <button class="click" @click="clickHandler" id="button" />
     <button class="left-click" @mousedown="mousedownHandler" />
     <div @click="toggleActive" v-bind:class="{ toggle: true, active: isActive }" />
-    <input class="keydown" type="text" @keydown="keydownHandler" />
+    <input class="keydown" type="text" @keyup="keyupHandler" @keydown="keydownHandler" />
     <input class="keydown-enter" type="text" @keydown.enter="keydownHandler" />
   </div>
 </template>
@@ -13,6 +13,10 @@
     name: 'component-with-event',
     props: {
       clickHandler: {
+        type: Function,
+        default: () => {}
+      },
+      keyupHandler: {
         type: Function,
         default: () => {}
       },

@@ -12,6 +12,7 @@ vue-test-utils includes a config object to defined options used by vue-test-util
   'transition-group': TransitionGroupStub
 }`
 
+The stub stored in `config.stubs` is used by default.  
 Stubs to use in components. These are overwritten by `stubs` passed in the mounting options.
 
 When passing `stubs` as an array in the mounting options, `config.stubs` are converted to an array, and will stub components with a basic component that returns `<!---->`.

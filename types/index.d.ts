@@ -40,6 +40,10 @@ interface BaseWrapper {
   contains (selector: Selector): boolean
   exists (): boolean
 
+  attributes(): { [name: string]: string } | void
+  classes(): Array<string> | void
+  props(): { [name: string]: any } | void
+
   hasAttribute (attribute: string, value: string): boolean
   hasClass (className: string): boolean
   hasProp (prop: string, value: any): boolean
@@ -63,13 +67,13 @@ interface Wrapper<V extends Vue> extends BaseWrapper {
   readonly element: HTMLElement
   readonly options: WrapperOptions
 
-  find<R extends Vue, Ctor extends VueClass<R> = VueClass<R>> (selector: Ctor): Wrapper<R>
+  find<R extends Vue> (selector: VueClass<R>): Wrapper<R>
   find<R extends Vue> (selector: ComponentOptions<R>): Wrapper<R>
   find (selector: FunctionalComponentOptions): Wrapper<Vue>
   find (selector: string): Wrapper<Vue>
   find (selector: RefSelector): Wrapper<Vue>
 
-  findAll<R extends Vue, Ctor extends VueClass<R> = VueClass<R>> (selector: Ctor): WrapperArray<R>
+  findAll<R extends Vue> (selector: VueClass<R>): WrapperArray<R>
   findAll<R extends Vue> (selector: ComponentOptions<R>): WrapperArray<R>
   findAll (selector: FunctionalComponentOptions): WrapperArray<Vue>
   findAll (selector: string): WrapperArray<Vue>
@@ -96,7 +100,6 @@ interface WrapperOptions {
 
 interface MountOptions<V extends Vue> extends ComponentOptions<V> {
   attachToDocument?: boolean
-  clone?: boolean
   context?: VNodeData
   localVue?: typeof Vue
   mocks?: object
@@ -115,13 +118,13 @@ interface VueTestUtilsConfigOptions {
 export declare function createLocalVue (): typeof Vue
 export declare let config: VueTestUtilsConfigOptions
 
-export declare function mount<V extends Vue, Ctor extends VueClass<V> = VueClass<V>> (component: Ctor, options?: MountOptions<V>): Wrapper<V>
+export declare function mount<V extends Vue> (component: VueClass<V>, options?: MountOptions<V>): Wrapper<V>
 export declare function mount<V extends Vue> (component: ComponentOptions<V>, options?: MountOptions<V>): Wrapper<V>
 export declare function mount (component: FunctionalComponentOptions, options?: MountOptions<Vue>): Wrapper<Vue>
 
-export declare function shallow<V extends Vue, Ctor extends VueClass<V> = VueClass<V>> (component: Ctor, options?: ShallowOptions<V>): Wrapper<V>
+export declare function shallow<V extends Vue> (component: VueClass<V>, options?: ShallowOptions<V>): Wrapper<V>
 export declare function shallow<V extends Vue> (component: ComponentOptions<V>, options?: ShallowOptions<V>): Wrapper<V>
 export declare function shallow (component: FunctionalComponentOptions, options?: ShallowOptions<Vue>): Wrapper<Vue>
 
-export declare let TransitionStub: Component | string | true  
-export declare let TransitionGroupStub: Component | string | true 
+export declare let TransitionStub: Component | string | true
+export declare let TransitionGroupStub: Component | string | true

@@ -22,12 +22,10 @@ wrapper.find('button').trigger('click')
 
 O método `trigger` pode receber um objeto `options` opcional. As propriedades no objeto `options` serão adicionadas no evento.
 
-Você pode executar `preventDefault` no evento passando `preventDefault: true` no objeto `options`:
-
 ```js
 const wrapper = mount(MeuBotao)
 
-wrapper.trigger('click', { preventDefault: true })
+wrapper.trigger('click', { button: 0 })
 ```
 
 ## Exemplo de clique no mouse

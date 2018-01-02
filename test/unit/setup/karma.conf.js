@@ -3,8 +3,8 @@ const webpackConfig = require('../../../build/webpack.test.config.js')
 module.exports = function (config) {
   config.set({
     browsers: ['ChromeHeadless'],
-    frameworks: ['mocha', 'sinon-chai', 'phantomjs-shim'],
-    reporters: ['spec', 'coverage'],
+    frameworks: ['mocha', 'sinon-chai'],
+    reporters: ['spec'],
     files: [
       '../../../node_modules/babel-polyfill/dist/polyfill.js',
       '../specs/**/*.+(vue|js)'
@@ -16,13 +16,6 @@ module.exports = function (config) {
     webpack: webpackConfig,
     webpackMiddleware: {
       noInfo: true
-    },
-    coverageReporter: {
-      dir: './coverage',
-      reporters: [
-        { type: 'lcov', subdir: '.' },
-        { type: 'text-summary' }
-      ]
     }
   })
 }

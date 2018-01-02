@@ -14,7 +14,6 @@
 - [attachToDocument](#attachtodocument)
 - [attrs](#attrs)
 - [listeners](#listeners)
-- [clone](#clone)
 
 ### `context`
 
@@ -152,14 +151,3 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 - 타입: `Object`
 
 컴포넌트 인스턴스의 `$listeners`를 설정합니다.
-
-### `clone`
-
-- 타입: `boolean`
-- 기본값: `true`
-
-`true`인 경우 마운트 전에 컴포넌트를 복제하면 원래 컴포넌트 정의가 변경되지 않습니다.
-
-`options.mocks` (`Object`): Vue 인스턴스에 전역으로 추가합니다.
-
-`options.localVue` (`Object`): `mount`에서 사용할 Vue 클래스. [createLocalVue](createLocalVue.md)를 참조하세요.

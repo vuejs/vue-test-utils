@@ -1,4 +1,4 @@
-import mount from '~src/mount'
+import { mount } from '~vue-test-utils'
 import { vueVersion } from '~resources/test-utils'
 
 describe('context', () => {

@@ -11,7 +11,6 @@
   - [attachToDocument (EN)](./options.md#attachtodocument)
   - [attrs (EN)](./options.md#attrs)
   - [listeners (EN)](./options.md#listeners)
-  - [clone (EN)](./options.md#clone)
 * [Wrapper (EN)](./wrapper/README.md)
   * [contains (EN)](./wrapper/contains.md)
   * [emitted (EN)](./wrapper/emitted.md)

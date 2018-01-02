@@ -1,6 +1,6 @@
 {
   "name": "vue-test-utils",
-  "version": "1.0.0-beta.6",
+  "version": "1.0.0-beta.9",
   "description": "Utilities for testing Vue components.",
   "main": "dist/vue-test-utils.js",
   "types": "types/index.d.ts",
@@ -10,6 +10,8 @@
   ],
   "scripts": {
     "build": "node build/build.js",
+    "build:test": "NODE_ENV=test node build/build.js",
+    "coverage": "cross-env NODE_ENV=coverage nyc --reporter=lcov --reporter=text npm run test:unit",
     "docs": "cd docs && gitbook install && gitbook serve",
     "docs:deploy": "build/update-docs.sh",
     "docs:serve": "cd docs && gitbook serve",
@@ -20,8 +22,8 @@
     "setup": "node build/install-hooks.js",
     "test": "npm run lint && npm run lint:docs && npm run flow && npm run test:types && npm run test:unit && npm run test:unit:karma",
     "test:compatibility": "test/test.sh",
-    "test:unit": "mocha-webpack --webpack-config build/webpack.test.config.js test/unit/specs --recursive --require test/unit/setup/mocha.setup.js",
-    "test:unit:karma": "cross-env BABEL_ENV=test TARGET=browser karma start test/unit/setup/karma.conf.js --single-run",
+    "test:unit": "npm run build:test && cross-env BABEL_ENV=test && mocha-webpack --webpack-config build/webpack.test.config.js test/unit/specs --recursive --require test/unit/setup/mocha.setup.js",
+    "test:unit:karma": "npm run build:test && cross-env BABEL_ENV=test TARGET=browser karma start test/unit/setup/karma.conf.js --single-run",
     "test:types": "tsc -p types",
     "release": "bash build/release.sh",
     "release:note": "node build/gen-release-note.js"
@@ -40,7 +42,7 @@
     "babel-core": "^6.26.0",
     "babel-eslint": "^7.2.3",
     "babel-loader": "^7.0.0",
-    "babel-plugin-istanbul": "^4.1.4",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "babel-polyfill": "^6.23.0",
     "babel-preset-env": "^1.6.0",
     "babel-preset-flow-vue": "^1.0.0",
@@ -56,25 +58,24 @@
     "eslint-plugin-markdown": "^1.0.0-beta.6",
     "eslint-plugin-vue": "^2.0.1",
     "eslint-plugin-vue-libs": "1.2.0",
-    "flow-bin": "^0.47.0",
+    "flow-bin": "^0.61.0",
     "gitbook-cli": "^2.3.0",
     "gitbook-plugin-edit-link": "^2.0.2",
     "gitbook-plugin-github": "^3.0.0",
     "gitbook-plugin-theme-vuejs": "^1.1.0",
-    "jsdom": "^11.0.0",
+    "istanbul-instrumenter-loader": "^3.0.0",
+    "jsdom": "^11.5.1",
     "jsdom-global": "^3.0.2",
     "karma": "^1.7.0",
     "karma-chrome-launcher": "^2.2.0",
-    "karma-coverage": "^1.1.1",
     "karma-mocha": "^1.3.0",
-    "karma-phantomjs-launcher": "^1.0.4",
-    "karma-phantomjs-shim": "^1.4.0",
     "karma-sinon-chai": "^1.3.1",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-spec-reporter": "^0.0.31",
     "karma-webpack": "^2.0.3",
     "mocha": "^3.5.0",
     "mocha-webpack": "^1.0.0-rc.1",
+    "nyc": "^11.4.1",
     "rollup": "^0.43.0",
     "rollup-plugin-buble": "^0.15.0",
     "rollup-plugin-commonjs": "^8.2.0",
@@ -85,6 +86,7 @@
     "sinon-chai": "^2.10.0",
     "typescript": "^2.4.1",
     "vue": "^2.4.2",
+    "vue-class-component": "^6.1.2",
     "vue-loader": "^13.0.5",
     "vue-router": "^2.7.0",
     "vue-template-compiler": "^2.4.2",
@@ -99,5 +101,12 @@
   },
   "dependencies": {
     "lodash": "^4.17.4"
+  },
+  "nyc": {
+    "include": [
+      "dist/vue-test-utils.js"
+    ],
+    "instrument": false,
+    "sourceMap": false
   }
 }

@@ -23,8 +23,8 @@ export function isDomSelector (selector: any): boolean {
 }
 
 export function isVueComponent (component: any): boolean {
-  if (typeof component === 'function') {
-    return false
+  if (typeof component === 'function' && component.options) {
+    return true
   }
 
   if (component === null) {
@@ -33,6 +33,14 @@ export function isVueComponent (component: any): boolean {
 
   if (typeof component !== 'object') {
     return false
+  }
+
+  if (component.extends) {
+    return true
+  }
+
+  if (component._Ctor) {
+    return true
   }
 
   return typeof component.render === 'function'
@@ -44,6 +52,10 @@ export function isValidSelector (selector: any): boolean {
   }
 
   if (isVueComponent(selector)) {
+    return true
+  }
+
+  if (isNameSelector(selector)) {
     return true
   }
 
@@ -71,4 +83,16 @@ export function isRefSelector (refOptionsObject: any) {
   })
 
   return isValid
+}
+
+export function isNameSelector (nameOptionsObject: any): boolean {
+  if (typeof nameOptionsObject !== 'object') {
+    return false
+  }
+
+  if (nameOptionsObject === null) {
+    return false
+  }
+
+  return !!nameOptionsObject.name
 }

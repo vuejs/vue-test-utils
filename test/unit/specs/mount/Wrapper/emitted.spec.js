@@ -1,4 +1,5 @@
-import mount from '~src/mount'
+import { mount } from '~vue-test-utils'
+import { createLocalVue } from '~vue-test-utils'
 
 describe('emitted', () => {
   it('captures emitted events with a different api', () => {
@@ -53,5 +54,40 @@ describe('emitted', () => {
 
     const fn = () => wrapper.find('p').emitted()
     expect(fn).to.throw().with.property('message', message)
+  })
+
+  it('captures all events thrown after beforeCreate lifecycle hook', () => {
+    const wrapper = mount({
+      beforeCreate () {
+        this.$emit('foo')
+      },
+      mounted () {
+        this.$emit('bar', 1, 2)
+      }
+    })
+
+    expect(wrapper.emitted().foo).to.eql([[]])
+    expect(wrapper.emitted().bar).to.eql([[1, 2]])
+  })
+
+  it('captures only events from its component without side effects on localVue', () => {
+    const localVue = createLocalVue()
+
+    const wrapper1 = mount({
+      beforeCreate () {
+        this.$emit('foo')
+      }
+    }, { localVue })
+
+    const wrapper2 = mount({
+      mounted () {
+        this.$emit('bar')
+      }
+    }, { localVue })
+
+    expect(wrapper1.emitted().foo).to.eql([[]])
+    expect(wrapper1.emitted().bar).to.eql(undefined)
+    expect(wrapper2.emitted().foo).to.eql(undefined)
+    expect(wrapper2.emitted().bar).to.eql([[]])
   })
 })

@@ -14,7 +14,6 @@ As opções do Vue são passadas para o componente quando uma nova instância é
 - [attachToDocument](#attachtodocument)
 - [attrs](#attrs)
 - [listeners](#listeners)
-- [clone](#clone)
 
 ### `context`
 
@@ -152,14 +151,3 @@ Define o objeto `$attrs` da instância do componente.
 - tipo: `Object`
 
 Define o objeto `$listeners` da instância do componente.
-
-### `clone`
-
-- tipo: `Boolean`
-- padrão: `true`
-
-Clona o componente antes de monta-lo se o valor for `true`, evitando qualquer mutação no componente original.
-
-`options.mocks` (`Object`): Adiciona variáveis global à instância do Vue.
-
-`options.localVue` (`Object`): classe do Vue usada no método `mount`. Veja [createLocalVue](createLocalVue.md)

@@ -12,6 +12,7 @@ node_modules/
 *.log
 reports
 coverage
+.nyc_output/
 
 # Build
 dist
@@ -20,5 +21,8 @@ dist
 _book
 .tmp
 tmp*
+
+# Vim
+*.sw[po]
 
 yarn.lock

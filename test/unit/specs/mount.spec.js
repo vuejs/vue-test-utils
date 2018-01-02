@@ -1,9 +1,10 @@
 import Vue from 'vue'
 import { compileToFunctions } from 'vue-template-compiler'
-import mount from '~src/mount'
+import { mount } from '~vue-test-utils'
+import Component from '~resources/components/component.vue'
 import ComponentWithProps from '~resources/components/component-with-props.vue'
 import ComponentWithMixin from '~resources/components/component-with-mixin.vue'
-import createLocalVue from '~src/create-local-vue'
+import { createLocalVue } from '~vue-test-utils'
 import { injectSupported, vueVersion } from '~resources/test-utils'
 
 describe('mount', () => {
@@ -55,6 +56,37 @@ describe('mount', () => {
     }
   })
 
+  it('handles uncompiled extended Vue component', () => {
+    const BaseComponent = {
+      template: '<div />'
+    }
+    const TestComponent = {
+      extends: BaseComponent
+    }
+    const wrapper = mount(TestComponent)
+    expect(wrapper.findAll('div').length).to.equal(1)
+  })
+
+  it('handles nested uncompiled extended Vue component', () => {
+    const BaseComponent = {
+      template: '<div />'
+    }
+    const TestComponentA = {
+      extends: BaseComponent
+    }
+    const TestComponentB = {
+      extends: TestComponentA
+    }
+    const TestComponentC = {
+      extends: TestComponentB
+    }
+    const TestComponentD = {
+      extends: TestComponentC
+    }
+    const wrapper = mount(TestComponentD)
+    expect(wrapper.findAll('div').length).to.equal(1)
+  })
+
   it('does not use cached component', () => {
     ComponentWithMixin.methods.someMethod = sinon.stub()
     mount(ComponentWithMixin)
@@ -101,13 +133,12 @@ describe('mount', () => {
         'prop': 'val'
       },
       slots: {
-        'prop': 'val'
+        'prop': Component
       },
       localVue: createLocalVue(),
       stubs: {
         'prop': 'val'
       },
-      clone: 'clone',
       attrs: {
         'prop': 'val'
       },
@@ -131,7 +162,6 @@ describe('mount', () => {
     expect(wrapper.vm.$options.localVue).to.equal(undefined)
     expect(wrapper.vm.$options.stubs).to.equal(undefined)
     expect(wrapper.vm.$options.context).to.equal(undefined)
-    expect(wrapper.vm.$options.clone).to.equal(undefined)
     expect(wrapper.vm.$options.attrs).to.equal(undefined)
     expect(wrapper.vm.$options.listeners).to.equal(undefined)
   })
@@ -146,5 +176,31 @@ describe('mount', () => {
 
     const fn = () => mount(TestComponent)
     expect(fn).to.throw()
+  })
+
+  it('overwrites the component options with the options other than the mounting options when the options for mount contain those', () => {
+    const Component = {
+      template: '<div>{{ foo() }}{{ bar() }}{{ baz() }}</div>',
+      methods: {
+        foo () {
+          return 'a'
+        },
+        bar () {
+          return 'b'
+        }
+      }
+    }
+    const options = {
+      methods: {
+        bar () {
+          return 'B'
+        },
+        baz () {
+          return 'C'
+        }
+      }
+    }
+    const wrapper = mount(Component, options)
+    expect(wrapper.text()).to.equal('aBC')
   })
 })

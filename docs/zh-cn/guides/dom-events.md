@@ -22,12 +22,12 @@ wrapper.find('button').trigger('click')
 
 其 `trigger` 方法接受一个可选的 `options` 对象。这个 `options` 对象里的属性会被添加到事件中。
 
-你可以通过在 `options` 里传入 `preventDefault: true` 来运行事件上的 `preventDefault`。
+注意其目标不能被添加到 `options` 对象中。
 
 ```js
 const wrapper = mount(MyButton)
 
-wrapper.trigger('click', { preventDefault: true })
+wrapper.trigger('click', { button: 0 })
 ```
 
 
@@ -189,7 +189,23 @@ describe('键盘事件测试', () => {
 
 点后面的按键名 `keydown.up` 会被翻译成一个 `keyCode`。这些被支持的按键名有：
 
-* `enter`, `tab`, `delete`, `esc`, `space`, `up`, `down`, `left`, `right`
+| key name | key code |
+| --- | --- |
+| enter | 13 |
+| esc | 27 |
+| tab | 9 |
+| space | 32 |
+| delete | 46 |
+| backspace | 8 |
+| insert | 45 |
+| up | 38 |
+| down | 40 |
+| left | 37 |
+| right | 39 |
+| end | 35 |
+| home | 36 |
+| pageup | 33 |
+| pagedown | 34 |
 
 ## 重要事项
 

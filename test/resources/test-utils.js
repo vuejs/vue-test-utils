@@ -13,3 +13,7 @@ export function attrsSupported () {
 export function listenersSupported () {
   return vueVersion > 2.3
 }
+
+export function functionalSFCsSupported () {
+  return vueVersion >= 2.5
+}

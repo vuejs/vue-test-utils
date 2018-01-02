@@ -1,25 +1,34 @@
 // @flow
 
-import { isDomSelector, isVueComponent, isRefSelector } from './validators.js'
+import {
+  isDomSelector,
+  isNameSelector,
+  isRefSelector,
+  isVueComponent
+} from './validators.js'
 import { throwError } from '../lib/util'
-
-export const selectorTypes = {
-  DOM_SELECTOR: 'DOM_SELECTOR',
-  VUE_COMPONENT: 'VUE_COMPONENT',
-  OPTIONS_OBJECT: 'OPTIONS_OBJECT'
-}
+import {
+  REF_SELECTOR,
+  COMPONENT_SELECTOR,
+  NAME_SELECTOR,
+  DOM_SELECTOR
+} from './consts'
 
 function getSelectorType (selector: Selector): string | void {
   if (isDomSelector(selector)) {
-    return selectorTypes.DOM_SELECTOR
+    return DOM_SELECTOR
+  }
+
+  if (isNameSelector(selector)) {
+    return NAME_SELECTOR
   }
 
   if (isVueComponent(selector)) {
-    return selectorTypes.VUE_COMPONENT
+    return COMPONENT_SELECTOR
   }
 
   if (isRefSelector(selector)) {
-    return selectorTypes.OPTIONS_OBJECT
+    return REF_SELECTOR
   }
 }
 

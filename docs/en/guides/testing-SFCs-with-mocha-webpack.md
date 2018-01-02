@@ -170,6 +170,10 @@ npm run unit
 
 Woohoo, we got our tests running!
 
+### Coverage
+
+To setup code coverage to mocha-webpack, follow [the mocha-webpack code coverage guide](https://github.com/zinserjan/mocha-webpack/blob/master/docs/guides/code-coverage.md).
+
 ### Resources
 
 - [Example project for this setup](https://github.com/vuejs/vue-test-utils-mocha-webpack-example)

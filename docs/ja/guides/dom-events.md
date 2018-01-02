@@ -22,12 +22,10 @@ wrapper.find('button').trigger('click')
 
 `trigger` メソッドはオプションで `options` オブジェクトを引数として取ります。`options` オブジェクトのプロパティはイベントオブジェクトのプロパティに追加されます。
 
-`preventDefault: true` を `options` に渡すと、 `event.preventDefault()` を実行することができます。
-
 ```js
 const wrapper = mount(MyButton)
 
-wrapper.trigger('click', { preventDefault: true })
+wrapper.trigger('click', { button: 0 })
 ```
 
 
@@ -187,9 +185,25 @@ describe('Key event tests', () => {
 
 **制限事項**
 
-`.` の後のキー名( `keydown.up` の場合 `up` )は `keyCode` に変換されます。以下のキー名が変換されます。 
+`.` の後のキー名( `keydown.up` の場合 `up` )は `keyCode` に変換されます。以下のキー名が変換されます。
 
-* `enter`, `tab`, `delete`, `esc`, `space`, `up`, `down`, `left`, `right`
+| キー名 | キーコード |
+| --- | --- |
+| enter | 13 |
+| esc | 27 |
+| tab | 9 |
+| space | 32 |
+| delete | 46 |
+| backspace | 8 |
+| insert | 45 |
+| up | 38 |
+| down | 40 |
+| left | 37 |
+| right | 39 |
+| end | 35 |
+| home | 36 |
+| pageup | 33 |
+| pagedown | 34 |
 
 ## 重要事項
 

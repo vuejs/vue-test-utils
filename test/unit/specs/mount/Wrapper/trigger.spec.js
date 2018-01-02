@@ -1,4 +1,4 @@
-import mount from '~src/mount'
+import { mount } from '~vue-test-utils'
 import ComponentWithEvents from '~resources/components/component-with-events.vue'
 
 describe('trigger', () => {
@@ -43,6 +43,35 @@ describe('trigger', () => {
     expect(keydownHandler.calledOnce).to.equal(true)
   })
 
+  it('convert a registered key name to a key code', () => {
+    const modifiers = {
+      enter: 13,
+      esc: 27,
+      tab: 9,
+      space: 32,
+      delete: 46,
+      backspace: 8,
+      insert: 45,
+      up: 38,
+      down: 40,
+      left: 37,
+      right: 39,
+      end: 35,
+      home: 36,
+      pageup: 33,
+      pagedown: 34
+    }
+    const keyupHandler = sinon.stub()
+    const wrapper = mount(ComponentWithEvents, {
+      propsData: { keyupHandler }
+    })
+    for (const keyName in modifiers) {
+      const keyCode = modifiers[keyName]
+      wrapper.find('.keydown').trigger(`keyup.${keyName}`)
+      expect(keyupHandler.lastCall.args[0].keyCode).to.equal(keyCode)
+    }
+  })
+
   it('causes DOM to update after clickHandler method that changes components data is called', () => {
     const wrapper = mount(ComponentWithEvents)
     const toggle = wrapper.find('.toggle')
@@ -64,14 +93,22 @@ describe('trigger', () => {
     expect(clickHandler.calledOnce).to.equal(true)
   })
 
-  it('prevents default on event when pass preventDefault as true', () => {
-    const wrapper = mount(ComponentWithEvents)
-    const button = wrapper.find('.left-click')
-    button.trigger('mousedown', {
-      preventDefault: true,
-      button: 0
+  it('handles .prevent', () => {
+    const TestComponent = {
+      template: '<input @keydown.enter.prevent="enter">'
+    }
+    const wrapper = mount(TestComponent)
+    wrapper.trigger('keydown')
+  })
+
+  it('throws error if options contains a target value', () => {
+    const wrapper = mount({ render: (h) => h('div') })
+    const div = wrapper.find('div')
+    const fn = () => div.trigger('click', {
+      target: {}
     })
-    expect(info.calledWith(true)).to.equal(true)
+    const message = '[vue-test-utils]: you cannot set the target value of an event. See the notes section of the docs for more details—https://vue-test-utils.vuejs.org/en/api/wrapper/trigger.html'
+    expect(fn).to.throw().with.property('message', message)
   })
 
   it('throws error if wrapper does not contain element', () => {
