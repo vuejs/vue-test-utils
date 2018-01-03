@@ -6,6 +6,6 @@ dependencies:
     - npm install -g npm@5.2.0
 test:
   override:
-    - npm run test  
-    - npm run test:compatibility
-    - npm run coverage  
+    - npm run test
+    - npm run test:compat
+    - npm run coverage

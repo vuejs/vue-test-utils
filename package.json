@@ -21,7 +21,7 @@
     "lint:fix": "npm run lint -- --fix",
     "setup": "node build/install-hooks.js",
     "test": "npm run lint && npm run lint:docs && npm run flow && npm run test:types && npm run test:unit && npm run test:unit:karma",
-    "test:compatibility": "test/test.sh",
+    "test:compat": "test/test.sh",
     "test:unit": "npm run build:test && cross-env BABEL_ENV=test && mocha-webpack --webpack-config build/webpack.test.config.js test/unit/specs --recursive --require test/unit/setup/mocha.setup.js",
     "test:unit:karma": "npm run build:test && cross-env BABEL_ENV=test TARGET=browser karma start test/unit/setup/karma.conf.js --single-run",
     "test:types": "tsc -p types",
