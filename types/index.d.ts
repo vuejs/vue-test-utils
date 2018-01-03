@@ -1,9 +1,10 @@
 import Vue, { VNodeData, ComponentOptions, FunctionalComponentOptions } from 'vue'
 
+// TODO: use core repo's Component type after https://github.com/vuejs/vue/pull/7369 is released
 export type Component =
   | typeof Vue
   | FunctionalComponentOptions<{}>
-  | ComponentOptions<Vue, {}, {}, {}, {}>
+  | ComponentOptions<never, {}, {}, {}, {}>
 
 /**
  * Utility type to declare an extended Vue constructor
