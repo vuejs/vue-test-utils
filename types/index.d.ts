@@ -1,4 +1,4 @@
-import Vue, { VNodeData, ComponentOptions, FunctionalComponentOptions } from 'vue'
+import Vue, { VNode, VNodeData, ComponentOptions, FunctionalComponentOptions } from 'vue'
 
 // TODO: use core repo's Component type after https://github.com/vuejs/vue/pull/7369 is released
 export type Component =
@@ -126,6 +126,8 @@ interface VueTestUtilsConfigOptions {
 }
 
 export declare function createLocalVue (): typeof Vue
+export declare function createWrapper (node: VNode | Component, update?: Function, options?: WrapperOptions): Wrapper<Vue>
+export declare function createWrapperArray<T extends Vue> (wrappers: Array<Wrapper<T>>): WrapperArray<T>
 export declare let config: VueTestUtilsConfigOptions
 
 export declare function mount<V extends Vue> (component: VueClass<V>, options?: ThisTypedMountOptions<V>): Wrapper<V>
