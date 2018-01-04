@@ -170,6 +170,10 @@ npm run unit
 
 Ура, мы запустили наши тесты!
 
+### Покрытие кода (Coverage)
+
+Для настройки покрытия кода в mocha-webpack, следуйте [инструкции по настройке покрытия кода mocha-webpack](https://github.com/zinserjan/mocha-webpack/blob/master/docs/guides/code-coverage.md).
+
 ### Ресурсы
 
 - [Пример проекта для этой конфигурации](https://github.com/vuejs/vue-test-utils-mocha-webpack-example)

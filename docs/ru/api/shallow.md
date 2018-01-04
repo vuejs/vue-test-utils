@@ -6,6 +6,7 @@
   - `{Object} options`
     - `{boolean} attachToDocument`
     - `{Object} context`
+      - `{Array<Component|Object>|Component} children`
     - `{Object} slots`
         - `{Array<Component|Object>|Component|String} default`
         - `{Array<Component|Object>|Component|String} named`
