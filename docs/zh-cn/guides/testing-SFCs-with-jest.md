@@ -123,7 +123,7 @@ npm install --save-dev babel-jest
 }
 ```
 
-### 测试快照
+## 测试快照
 
 你可以使用 [`vue-server-renderer`](https://github.com/vuejs/vue/tree/dev/packages/vue-server-renderer) 将组件渲染为一个字符串，这样它就可以为 [Jest 快照测试](https://facebook.github.io/jest/docs/en/snapshot-testing.html) 保存一个快照。
 
@@ -148,13 +148,46 @@ npm install --save-dev jest-serializer-vue
 }
 ```
 
-### 放置测试文件
+## 放置测试文件
 
 默认情况下，Jest 将会递归的找到整个工程里所有 `.spec.js` 或 `.test.js` 扩展名的文件。如果这不符合你的需求，你也可以在 `package.json` 里的配置段落中[改变它的 `testRegex`](https://facebook.github.io/jest/docs/en/configuration.html#testregex-string)。
 
 Jest 推荐你在被测试代码的所在目录下创建一个 `__tests__` 目录，但你也可以为你的测试文件随意设计自己习惯的文件结构。不过要当心 Jest 会为快照测试在临近测试文件的地方创建一个 `__snapshots__` 目录。
 
-### 测试规范示例
+## 测试覆盖率
+
+Jest 可以被用来生成多种格式的测试覆盖率报告。以下是一个简单的起步的例子：
+
+扩展你的 `jest` 配置 (通常在 `package.json` 或 `jest.config.js` 中) 的 [`collectCoverage`](https://facebook.github.io/jest/docs/en/configuration.html#collectcoverage-boolean) 选项，然后添加 [`collectCoverageFrom`](https://facebook.github.io/jest/docs/en/configuration.html#collectcoveragefrom-array) 数组来定义需要收集测试覆盖率信息的文件。你还需要设置 [`mapCoverage`](https://facebook.github.io/jest/docs/en/configuration.html#mapcoverage-boolean) 为 `true`，以确保测试覆盖率数据的精准。
+
+```json
+{
+  "jest": {
+    // ...
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "**/*.{js,vue}",
+      "!**/node_modules/**"
+    ],
+    "mapCoverage": true
+  }
+}
+```
+
+这样就会开启[默认格式的测试覆盖率报告](https://facebook.github.io/jest/docs/en/configuration.html#coveragereporters-array-string)。你可以通过 `coverageReporters` 选项来定制它们。
+
+```json
+{
+  "jest": {
+    // ...
+    "coverageReporters": ["html", "text-summary"]
+  }
+}
+```
+
+更多文档内容请移步至 [Jest 配置文档](https://facebook.github.io/jest/docs/en/configuration.html#collectcoverage-boolean)，在那里你可以找到覆盖率阀值、目标输出目录等选项。
+
+## 测试规范示例
 
 如果你已经熟悉了 Jasmine，你应该很适应 Jest 的[断言 API](https://facebook.github.io/jest/docs/en/expect.html#content)：
 
@@ -170,7 +203,7 @@ describe('Component', () => {
 })
 ```
 
-### 相关资料
+## 相关资料
 
 - [该设置的示例工程](https://github.com/vuejs/vue-test-utils-jest-example)
 - [Vue Conf 2017 中的示例和幻灯片](https://github.com/codebryo/vue-testing-with-jest-conf17)
