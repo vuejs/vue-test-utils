@@ -74,4 +74,4 @@ Installing Vue Router adds `$route` and `$router` as read-only properties on Vue
 
 This means any future tests that try to mock `$route` or `$router` will fail.
 
-To avoid this, never install Vue Router globally when you're running tests; use a localVue as detailed above.
+To avoid this, never install Vue Router globally when you're running tests; use a `localVue` as detailed above.
