@@ -43,6 +43,7 @@
 * [WrapperArray](./wrapper-array/README.md)
   * [at](./wrapper-array/at.md)
   * [contains](./wrapper-array/contains.md)
+  * [filter](./wrapper-array/filter.md)
   * [exists](./wrapper/exists.md)
   * [destroy](./wrapper-array/destroy.md)
   * [hasStyle](./wrapper-array/hasStyle.md)

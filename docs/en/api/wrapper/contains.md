@@ -1,9 +1,10 @@
 # `contains(selector)`
 
-Assert `Wrapper` contains an element or component matching [selector](../selectors.md).
+Assert `Wrapper` contains an element or component matching [selector](../selectors.md) and optional predicate.
 
 - **Arguments:**
   - `{string|Component} selector`
+  - `{function} predicate`
 
 - **Returns:** `{boolean}`
 

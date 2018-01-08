@@ -38,6 +38,7 @@
 * [WrapperArray (EN)](./wrapper-array/README.md)
   * [at (EN)](./wrapper-array/at.md)
   * [contains (EN)](./wrapper-array/contains.md)
+  * [filter (EN)](./wrapper-array/filter.md)
   * [exists (EN)](./wrapper/exists.md)
   * [destroy (EN)](./wrapper-array/destroy.md)
   * [hasAttribute (EN)](./wrapper-array/hasAttribute.md)

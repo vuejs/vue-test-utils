@@ -1,11 +1,12 @@
 # find(selector)
 
-Returns [`Wrapper`](README.md) of first DOM node or Vue component matching selector.
+Returns [`Wrapper`](README.md) of first DOM node or Vue component matching selector and predicate.
 
-Use any valid [selector](../selectors.md).
+Use any valid [selector](../selectors.md) and an optional predicate.
 
 - **Arguments:**
   - `{string|Component} selector`
+  - `{function} predicate`
 
 - **Returns:** `{Wrapper}`
 
