@@ -2,6 +2,7 @@ import { compileToFunctions } from 'vue-template-compiler'
 import { mount } from '~vue-test-utils'
 import Component from '~resources/components/component.vue'
 import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
+import { vueVersion } from '~resources/test-utils'
 
 describe('html', () => {
   it('returns a VueWrappers HTML as a string', () => {
@@ -24,7 +25,10 @@ describe('html', () => {
     expect(wrapper.html()).to.equal(expectedHtml)
   })
 
-  it('class component', () => {
+  it('handles class component', () => {
+    if(vueVersion < 2.3) {
+      return
+    }
     const wrapper = mount(ComponentAsAClass)
     expect(wrapper.html()).to.equal('<div></div>')
   })
