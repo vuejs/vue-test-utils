@@ -20,6 +20,10 @@ export default class WrapperArray implements BaseWrapper {
     return this.wrappers[index]
   }
 
+  filter (predicate: WrapperPredicate) {
+    return new WrapperArray(this.wrappers.filter(predicate))
+  }
+
   attributes (): void {
     this.throwErrorIfWrappersIsEmpty('attributes')
 

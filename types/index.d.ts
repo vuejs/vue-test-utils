@@ -17,6 +17,11 @@ type VueClass<V extends Vue> = (new (...args: any[]) => V) & typeof Vue
 type Selector = string | Component
 
 /**
+ * Utility type for wrapper predicate
+ */
+declare type WrapperPredicate<V extends Vue> = (wrapper: Wrapper<V>, index?: number, array?: Array<Wrapper<V>>) => boolean;
+
+/**
  * Utility type for slots
  */
 type Slots = {
@@ -43,7 +48,7 @@ type RefSelector = {
  * It has common methods on both Wrapper and WrapperArray
  */
 interface BaseWrapper {
-  contains (selector: Selector): boolean
+  contains (selector: Selector, predicate?: WrapperPredicate<Vue>): boolean
   exists (): boolean
 
   attributes(): { [name: string]: string } | void
@@ -73,17 +78,17 @@ interface Wrapper<V extends Vue> extends BaseWrapper {
   readonly element: HTMLElement
   readonly options: WrapperOptions
 
-  find<R extends Vue> (selector: VueClass<R>): Wrapper<R>
-  find<R extends Vue> (selector: ComponentOptions<R>): Wrapper<R>
-  find (selector: FunctionalComponentOptions): Wrapper<Vue>
-  find (selector: string): Wrapper<Vue>
-  find (selector: RefSelector): Wrapper<Vue>
+  find<R extends Vue> (selector: VueClass<R>, predicate?: WrapperPredicate<R>): Wrapper<R>
+  find<R extends Vue> (selector: ComponentOptions<R>, predicate?: WrapperPredicate<R>): Wrapper<R>
+  find (selector: FunctionalComponentOptions, predicate?: WrapperPredicate<Vue>): Wrapper<Vue>
+  find (selector: string, predicate?: WrapperPredicate<Vue>): Wrapper<Vue>
+  find (selector: RefSelector, predicate?: WrapperPredicate<Vue>): Wrapper<Vue>
 
-  findAll<R extends Vue> (selector: VueClass<R>): WrapperArray<R>
-  findAll<R extends Vue> (selector: ComponentOptions<R>): WrapperArray<R>
-  findAll (selector: FunctionalComponentOptions): WrapperArray<Vue>
-  findAll (selector: string): WrapperArray<Vue>
-  findAll (selector: RefSelector): WrapperArray<Vue>
+  findAll<R extends Vue> (selector: VueClass<R>, predicate?: WrapperPredicate<R>): WrapperArray<R>
+  findAll<R extends Vue> (selector: ComponentOptions<R>, predicate?: WrapperPredicate<R>): WrapperArray<R>
+  findAll (selector: FunctionalComponentOptions, predicate?: WrapperPredicate<Vue>): WrapperArray<Vue>
+  findAll (selector: string, predicate?: WrapperPredicate<Vue>): WrapperArray<Vue>
+  findAll (selector: RefSelector, predicate?: WrapperPredicate<Vue>): WrapperArray<Vue>
 
   html (): string
   text (): string
@@ -98,6 +103,7 @@ interface WrapperArray<V extends Vue> extends BaseWrapper {
   readonly wrappers: Array<Wrapper<V>>
 
   at (index: number): Wrapper<V>
+  filter (predicate: WrapperPredicate<V>): WrapperArray<V>
 }
 
 interface WrapperOptions {

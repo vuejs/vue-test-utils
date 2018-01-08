@@ -4,12 +4,13 @@ import type Wrapper from '~src/Wrapper'
 import type WrapperArray from '~src/WrapperArray'
 
 declare type Selector = any
+declare type WrapperPredicate = (wrapper: Wrapper, index?: number, array?: Array<Wrapper>) => boolean;
 
 declare interface BaseWrapper { // eslint-disable-line no-undef
     at(index: number): Wrapper | void,
     attributes(): { [name: string]: string } | void,
     classes(): Array<string> | void,
-    contains(selector: Selector): boolean | void,
+    contains(selector: Selector, filter?: WrapperPredicate): boolean | void,
     emitted(event?: string): { [name: string]: Array<Array<any>> } | Array<Array<any>> | void,
     emittedByOrder(): Array<{ name: string; args: Array<any> }> | void,
     exists(): boolean,
@@ -17,8 +18,8 @@ declare interface BaseWrapper { // eslint-disable-line no-undef
     hasClass(className: string): boolean | void,
     hasProp(prop: string, value: string): boolean | void,
     hasStyle(style: string, value: string): boolean | void,
-    find(selector: Selector): Wrapper | void,
-    findAll(selector: Selector): WrapperArray | void,
+    find(selector: Selector, filter?: WrapperPredicate): Wrapper | void,
+    findAll(selector: Selector, filter?: WrapperPredicate): WrapperArray | void,
     html(): string | void,
     is(selector: Selector): boolean | void,
     isEmpty(): boolean | void,

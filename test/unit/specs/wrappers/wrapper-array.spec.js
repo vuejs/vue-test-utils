@@ -14,7 +14,7 @@ describe('WrapperArray', () => {
     return wrapperArray
   }
 
-  it('returns class with length equal to lenght of wrappers passed in constructor', () => {
+  it('returns class with length equal to length of wrappers passed in constructor', () => {
     const wrapperArray = getWrapperArray()
     expect(wrapperArray.length).to.equal(3)
   })
@@ -22,6 +22,13 @@ describe('WrapperArray', () => {
   it('returns wrapper at index 0 when at(0) is called', () => {
     const wrapperArray = getWrapperArray()
     expect(wrapperArray.at(0).text()).to.equal('1')
+  })
+
+  it('returns filtered wrapper when filter is called', () => {
+    const wrapperArray = getWrapperArray()
+    expect(wrapperArray.filter(w => {
+      return w.text() !== '2'
+    }).length).to.equal(2)
   })
 
   const methods = ['at', 'attributes', 'classes', 'contains', 'emitted', 'emittedByOrder', 'hasAttribute',

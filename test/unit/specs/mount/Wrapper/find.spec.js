@@ -23,6 +23,12 @@ describe('find', () => {
     expect(wrapper.find('.foo').vnode).to.be.an('object')
   })
 
+  it('returns first Wrapper matching class selector and filter predicate passed', () => {
+    const compiled = compileToFunctions('<div><div class="foo fooFilter">filtered</div><div class="foo">not filtered</div></div>')
+    const wrapper = mount(compiled)
+    expect(wrapper.find('.foo', w => !w.hasClass('fooFilter')).text()).to.be.equals('not filtered')
+  })
+
   it('returns Wrapper matching class selector passed if nested in a transition', () => {
     const compiled = compileToFunctions('<transition><div /></transition>')
     const wrapper = mount(compiled)
