@@ -26,7 +26,7 @@ describe('html', () => {
   })
 
   it('handles class component', () => {
-    if(vueVersion < 2.3) {
+    if (vueVersion < 2.3) {
       return
     }
     const wrapper = mount(ComponentAsAClass)
