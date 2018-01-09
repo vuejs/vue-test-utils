@@ -13,7 +13,7 @@
 Первое, что нужно сделать, это установить тестовые зависимости:
 
 ``` bash
-npm install --save-dev vue-test-utils mocha mocha-webpack
+npm install --save-dev @vue/test-utils mocha mocha-webpack
 ```
 
 Затем мы должны указать скрипт test в нашем `package.json`.

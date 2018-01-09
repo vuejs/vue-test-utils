@@ -13,7 +13,7 @@ On va supposer que vous commencez avec une installation qui a déjà webpack, vu
 La première chose à faire est d'installer les dépendances de tests :
 
 ``` bash
-npm install --save-dev vue-test-utils mocha mocha-webpack
+npm install --save-dev @vue/test-utils mocha mocha-webpack
 ```
 
 Ensuite, on doit définir un script test dans notre `package.json`.

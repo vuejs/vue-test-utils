@@ -13,7 +13,7 @@ Assumiremos que você está começando com o webpack, vue-loader e babel correta
 A primeira coisa a se fazer é instalar as dependências dos testes:
 
 ``` bash
-npm install --save-dev vue-test-utils mocha mocha-webpack
+npm install --save-dev @vue/test-utils mocha mocha-webpack
 ```
 
 Posteriormente, defina o script `test` no `package.json`:

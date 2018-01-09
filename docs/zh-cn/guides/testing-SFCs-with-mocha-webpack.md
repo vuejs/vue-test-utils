@@ -13,7 +13,7 @@
 首先要做的是安装测试依赖：
 
 ``` bash
-npm install --save-dev vue-test-utils mocha mocha-webpack
+npm install --save-dev @vue/test-utils mocha mocha-webpack
 ```
 
 接下来我们需要在 `package.json` 中定义一个测试脚本。

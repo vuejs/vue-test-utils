@@ -13,7 +13,7 @@
 가장 먼저 할 일은 테스트 종속성을 설치하는 것 입니다.:
 
 ``` bash
-npm install --save-dev vue-test-utils mocha mocha-webpack
+npm install --save-dev @vue/test-utils mocha mocha-webpack
 ```
 
 다음은 `package.json`에서 스크립트 하나를 추가합니다.:
