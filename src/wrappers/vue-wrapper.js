@@ -12,12 +12,12 @@ function update () {
   if (this.$_mountingOptionsSlots) {
     addSlots(this, this.$_mountingOptionsSlots)
   }
-  const vnodes = this._render()
-  this._update(vnodes)
-  this.$children.forEach(child => update.call(child))
   this._watchers.forEach(watcher => {
     watcher.run()
   })
+  const vnodes = this._render()
+  this._update(vnodes)
+  this.$children.forEach(child => update.call(child))
 }
 
 export default class VueWrapper extends Wrapper implements BaseWrapper {
