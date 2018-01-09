@@ -22,11 +22,7 @@ See [options](./options.md)
 
 - **Usage:**
 
-Returns [`Wrapper`](./wrapper/README.md) of first DOM node or Vue component matching selector.
-
-Stubs all child components.
-
-Use any valid [selector](./selectors.md).
+Like [`mount`](mount.md), it creates a [`Wrapper`](wrapper/README.md) that contains the mounted and rendered Vue component, but with stubbed child components.
 
 **Without options:**
 

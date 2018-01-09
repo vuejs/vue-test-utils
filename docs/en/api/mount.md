@@ -13,9 +13,7 @@ See [options](options.md)
 
 - **Usage:**
 
-Returns [`Wrapper`](wrapper/README.md) of first DOM node or Vue component matching selector.
-
-Use any valid [selector](selectors.md).
+Creates a [`Wrapper`](wrapper/README.md) that contains the mounted and rendered Vue component.
 
 **Without options:**
 
