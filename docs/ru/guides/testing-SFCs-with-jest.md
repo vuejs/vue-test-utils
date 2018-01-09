@@ -46,8 +46,8 @@ npm install --save-dev vue-jest
       "vue"
     ],
     "transform": {
-      // обрабатываем `*.vue` файлы с помощью `jest-vue`
-      ".*\\.(vue)$": "<rootDir>/node_modules/jest-vue"
+      // обрабатываем `*.vue` файлы с помощью `vue-jest`
+      ".*\\.(vue)$": "<rootDir>/node_modules/vue-jest"
     },
     "mapCoverage": true
   }
