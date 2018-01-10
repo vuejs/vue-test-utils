@@ -170,6 +170,10 @@ npm run unit
 
 喔，我们的测试运行起来了！
 
+### 测试覆盖率
+
+如果想设置 `mocha-webpack` 的测试覆盖率，请参照 [`mocha-webpack` 测试覆盖率指南](https://github.com/zinserjan/mocha-webpack/blob/master/docs/guides/code-coverage.md)。
+
 ### 相关资料
 
 - [该设置的示例工程](https://github.com/vuejs/vue-test-utils-mocha-webpack-example)
