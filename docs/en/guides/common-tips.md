@@ -109,6 +109,8 @@ mount(Component, {
 })
 ```
 
+**Note some plugins, like Vue Router, add read-only properties to the global Vue constructor. This makes it impossible to reinstall the plugin on a localVue constructor, or add mocks for these properties**
+
 ## Mocking Injections
 
 Another strategy for injected props is simply mocking them. You can do that with the `mocks` option:
