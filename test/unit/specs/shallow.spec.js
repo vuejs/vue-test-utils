@@ -74,7 +74,7 @@ describe('shallow', () => {
     expect(info.called).to.equal(false)
   })
 
-  it('works correctly with find, contains, findAll, and is', () => {
+  it('works correctly with find, contains, findAll, and is on unnamed components', () => {
     const TestComponent = {
       template: `
         <div>
@@ -87,8 +87,25 @@ describe('shallow', () => {
     }
     const wrapper = shallow(TestComponent)
     expect(wrapper.contains(ComponentWithoutName)).to.equal(true)
-    expect(wrapper.find(ComponentWithoutName).is(ComponentWithoutName)).to.equal(true)
+    expect(wrapper.find(ComponentWithoutName).exists()).to.equal(true)
     expect(wrapper.findAll(ComponentWithoutName).length).to.equal(1)
+  })
+
+  it('works correctly with find, contains, findAll, and is on named components', () => {
+    const TestComponent = {
+      template: `
+        <div>
+            <a-component />
+        </div>
+      `,
+      components: {
+        AComponent: Component
+      }
+    }
+    const wrapper = shallow(TestComponent)
+    expect(wrapper.contains(Component)).to.equal(true)
+    expect(wrapper.find(Component).exists()).to.equal(true)
+    expect(wrapper.findAll(Component).length).to.equal(1)
   })
 
   it('throws an error when the component fails to mount', () => {
