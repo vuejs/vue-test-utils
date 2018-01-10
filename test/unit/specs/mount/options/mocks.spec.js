@@ -3,6 +3,19 @@ import { createLocalVue } from '~vue-test-utils'
 import Component from '~resources/components/component.vue'
 import ComponentWithVuex from '~resources/components/component-with-vuex.vue'
 
+const LIFECYCLE_HOOKS = [
+  'beforeCreate',
+  'created',
+  'beforeMount',
+  'mounted',
+  'beforeUpdate',
+  'updated',
+  'beforeDestroy',
+  'destroyed',
+  'activated',
+  'deactivated'
+]
+
 describe('mount.mocks', () => {
   it('adds variables to vm when passed as mocks object', () => {
     const $store = { store: true }
@@ -83,5 +96,86 @@ describe('mount.mocks', () => {
     expect(wrapper.vm.$store).to.equal($store)
     const freshWrapper = mount(Component)
     expect(typeof freshWrapper.vm.$store).to.equal('undefined')
+  })
+
+  it('replaces lifecycle hooks with mocks', (done) => {
+
+    const originalHooks = {}
+    const mockedHooks = {}
+    LIFECYCLE_HOOKS.forEach(hook => {
+      originalHooks[hook] = sinon.spy()
+      mockedHooks[hook] = sinon.spy()
+    })
+
+    const wrapper = mount({
+      ...originalHooks
+    }, {
+      mocks: mockedHooks
+    })
+
+    // call methods manually, that will not be triggered by mount, forceUpdate and destroy
+    const manualCalledHooks = [ 'activated', 'deactivated' ]
+    manualCalledHooks.forEach(hook => wrapper.vm.$options[hook]
+      .forEach(handler => handler.call(wrapper.vm)))
+
+    // force udpate and wait till it was resolved
+    wrapper.vm.$forceUpdate()
+    wrapper.vm.$nextTick(() => {
+      wrapper.destroy()
+
+      try {
+        LIFECYCLE_HOOKS.forEach(hook => {
+          expect(originalHooks[hook].callCount).to.equal(0,
+            `Error: Lifecycle hook ${hook} was not overridden properly`)
+          expect(mockedHooks[hook].callCount).to.equal(1,
+            `Error: Lifecycle hook ${hook} mock was not called`)
+        })
+        done()
+      } catch (error) {
+        done(error)
+      }
+    })
+  })
+
+  it('does not affect mixin hooks when mocking lifecycle hooks', (done) => {
+    const localVue = createLocalVue()
+
+    const mixinHooks = {}
+    const mockedHooks = {}
+    LIFECYCLE_HOOKS.forEach(hook => {
+      mockedHooks[hook] = sinon.spy()
+      mixinHooks[hook] = sinon.spy()
+    })
+
+    // install mixins
+    localVue.mixin(mixinHooks)
+
+    const wrapper = mount({ }, {
+      localVue,
+      mocks: mockedHooks
+    })
+
+    // call methods manually, that will not be triggered by mount, forceUpdate and destroy
+    const manualCalledHooks = [ 'activated', 'deactivated' ]
+    manualCalledHooks.forEach(hook => wrapper.vm.$options[hook]
+      .forEach(handler => handler.call(wrapper.vm)))
+
+    // force udpate and wait till it was resolved
+    wrapper.vm.$forceUpdate()
+    wrapper.vm.$nextTick(() => {
+      wrapper.destroy()
+
+      try {
+        LIFECYCLE_HOOKS.forEach(hook => {
+          expect(mockedHooks[hook].callCount).to.equal(1,
+            `Error: Lifecycle hook ${hook} mock was not called`)
+          expect(mixinHooks[hook].callCount).to.equal(1,
+            `Error: Lifecycle hook ${hook} installed by mixin was not called`)
+        })
+        done()
+      } catch (error) {
+        done(error)
+      }
+    })
   })
 })

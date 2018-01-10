@@ -97,7 +97,7 @@ shallow(Component, {
 
 - type: `Object`
 
-Add additional properties to the instance. Useful for mocking global injections.
+Add additional properties to the instance and mock lifecycle hooks. Useful for mocking global injections.
 
 Example:
 
@@ -105,9 +105,11 @@ Example:
 import { expect } from 'chai'
 
 const $route = { path: 'http://www.example-path.com' }
+const mounted = () => { /* original mounted hook suppressed */ }
 const wrapper = shallow(Component, {
   mocks: {
-    $route
+    $route,
+    mounted
   }
 })
 expect(wrapper.vm.$route.path).toBe($route.path)
