@@ -6,7 +6,8 @@
   "types": "types/index.d.ts",
   "files": [
     "dist/*.js",
-    "types/index.d.ts"
+    "types/index.d.ts",
+    "build/moved-warning.js"
   ],
   "scripts": {
     "build": "node build/build.js",
