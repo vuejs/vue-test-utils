@@ -13,9 +13,7 @@
 
 - **使い方:**
 
-最初の DOM ノードまたは Vue コンポーネント一致セレクタの [`Wrapper`](./wrapper/README.md) を返します。
-
-有効な[セレクタ](./selectors.md)を使用してください。
+マウントされて描画された Vue コンポーネントを含む [`Wrapper`](./wrapper/README.md) を生成します。
 
 **オプションなし:**
 

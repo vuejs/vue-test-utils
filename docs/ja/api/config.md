@@ -21,5 +21,5 @@ vue-test-utils にはオプションを定義するための `config` オプシ�
 ```js
 import VueTestUtils from '@vue/test-utils'
 
-VueTestUtils.config.stubs['my-compomnent'] = '<div />'
+VueTestUtils.config.stubs['my-component'] = '<div />'
 ```
