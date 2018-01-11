@@ -44,7 +44,7 @@ expect(wrapper.is(Foo)).toBe(true)
 
 ### Name
 
-Using a find option object, `vue-test-utils` allows for selecting elements by `name` on wrapper components.
+Using a find option object, `vue-test-utils` allows for selecting elements by a `name` of component on wrapper components.
 
 ```js
 const buttonWrapper = wrapper.find({ name: 'my-button' })
