@@ -6,8 +6,7 @@
   "types": "types/index.d.ts",
   "files": [
     "dist/*.js",
-    "types/index.d.ts",
-    "build/moved-warning.js"
+    "types/index.d.ts"
   ],
   "scripts": {
     "build": "node build/build.js",
@@ -17,7 +16,6 @@
     "docs:deploy": "build/update-docs.sh",
     "docs:serve": "cd docs && gitbook serve",
     "flow": "flow check",
-    "install": "node build/moved-warning",
     "lint": "eslint --ext js,vue src test flow build --ignore-path .gitignore",
     "lint:docs": "eslint --ext js,vue,md docs --ignore-path .gitignore",
     "lint:fix": "npm run lint -- --fix",
