@@ -110,7 +110,7 @@ localVue는 [createLocalVue](./createLocalVue.md)에 의해 생성된 Vue의 로
 예:
 
 ```js
-import { createLocalVue, mount } from 'vue-test-utils'
+import { createLocalVue, mount } from '@vue/test-utils'
 import VueRouter from 'vue-router'
 import { expect } from 'chai'
 import Foo from './Foo.vue'

@@ -159,7 +159,7 @@ O Jest recomenda a criação de um diretório `__tests__` logo ao lado do códig
 Se você está familiarizado com o Jasmine, você deve se sentir em casa com a [API de asserção](https://facebook.github.io/jest/docs/en/expect.html#content) do Jest:
 
 ```js
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import Componente from './componente'
 
 describe('Componente', () => {

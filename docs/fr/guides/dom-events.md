@@ -66,7 +66,7 @@ export default {
 
 ```js
 import YesNoComponent from '@/components/YesNoComponent'
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import sinon from 'sinon'
 
 describe('Évènement click', () => {
@@ -145,7 +145,7 @@ export default {
 
 ```js
 import QuantityComponent from '@/components/QuantityComponent'
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 
 describe('Tests événement clavier', () => {
   it('La quantité est zéro par défaut', () => {

@@ -150,7 +150,7 @@ export default {
 次のコードを使って `test/Counter.spec.js` という名前のテストファイルを作成します。
 
 ```js
-import { shallow } from 'vue-test-utils'
+import { shallow } from '@vue/test-utils'
 import Counter from '../src/Counter.vue'
 
 describe('Counter.vue', () => {

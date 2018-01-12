@@ -5,7 +5,7 @@
 Это настроено на заглушку всех компонентов `transition-group` по умолчанию в конфигурации vue-test-utils. Чтобы использовать стандартный компонент `transition-group` установите `config.stubs['transition-group']` в значение false:
 
 ```js
-import VueTestUtils from 'vue-test-utils'
+import VueTestUtils from '@vue/test-utils'
 
 VueTestUtils.config.stubs['transition-group'] = false
 ```
@@ -13,7 +13,7 @@ VueTestUtils.config.stubs['transition-group'] = false
 Чтобы переустановить обратно на заглушки компонентов `transition-group`:
 
 ```js
-import VueTestUtils, { TransitionGroupStub } from 'vue-test-utils'
+import VueTestUtils, { TransitionGroupStub } from '@vue/test-utils'
 
 VueTestUtils.config.stubs['transition-group'] = TransitionGroupStub
 ```
@@ -21,7 +21,7 @@ VueTestUtils.config.stubs['transition-group'] = TransitionGroupStub
 Для установки заглушек в настройках монтирования:
 
 ```js
-import { mount, TransitionGroupStub } from 'vue-test-utils'
+import { mount, TransitionGroupStub } from '@vue/test-utils'
 
 mount(Component, {
   stubs: {

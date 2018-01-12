@@ -10,7 +10,7 @@
 **참고: Wrapper는 Vue 인스턴스를 반드시 가지고 있어야합니다.**
 
 ```js
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import { expect } from 'chai'
 import Foo from './Foo.vue'
 
@@ -34,7 +34,7 @@ export default {
 ```
 
 ``` js
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import { expect } from 'chai'
 import Foo from './Foo.vue'
 

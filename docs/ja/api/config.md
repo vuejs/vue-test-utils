@@ -19,7 +19,7 @@ vue-test-utils にはオプションを定義するための `config` オプシ�
 例:
 
 ```js
-import VueTestUtils from 'vue-test-utils'
+import VueTestUtils from '@vue/test-utils'
 
 VueTestUtils.config.stubs['my-compomnent'] = '<div />'
 ```

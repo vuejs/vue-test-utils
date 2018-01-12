@@ -44,7 +44,7 @@ The below component makes an API call when a button is clicked, then assigns the
 A test can be written like this:
 
 ``` js
-import { shallow } from 'vue-test-utils'
+import { shallow } from '@vue/test-utils'
 import Foo from './Foo'
 jest.mock('axios')
 
@@ -79,7 +79,7 @@ Another solution is to use an `async` function and the npm package `flush-promis
 The updated test looks like this:
 
 ``` js
-import { shallow } from 'vue-test-utils'
+import { shallow } from '@vue/test-utils'
 import flushPromises from 'flush-promises'
 import Foo from './Foo'
 jest.mock('axios')

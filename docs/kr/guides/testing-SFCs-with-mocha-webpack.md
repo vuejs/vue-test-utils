@@ -150,7 +150,7 @@ export default {
 다음 `test/Counter.spec.js` 파일을 만들고 아래 내용으로 테스트를 작성하세요.:
 
 ```js
-import { shallow } from 'vue-test-utils'
+import { shallow } from '@vue/test-utils'
 import Counter from '../src/Counter.vue'
 
 describe('Counter.vue', () => {

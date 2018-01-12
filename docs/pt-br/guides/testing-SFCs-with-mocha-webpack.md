@@ -150,7 +150,7 @@ export default {
 Agora crie um arquivo de teste chamado `test/Contador.spec.js` com o código a seguir:
 
 ```js
-import { shallow } from 'vue-test-utils'
+import { shallow } from '@vue/test-utils'
 import Contador from '../src/Contador.vue'
 
 describe('Contador.vue', () => {

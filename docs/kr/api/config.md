@@ -19,7 +19,7 @@ vue-test-utils는 내부에서 사용할 설정 객체를 포함합니다.
 예:
 
 ```js
-import VueTestUtils from 'vue-test-utils'
+import VueTestUtils from '@vue/test-utils'
 
 VueTestUtils.config.stubs['my-compomnent'] = '<div />'
 ```

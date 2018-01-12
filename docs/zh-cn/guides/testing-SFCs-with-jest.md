@@ -192,7 +192,7 @@ Jest 可以被用来生成多种格式的测试覆盖率报告。以下是一个
 如果你已经熟悉了 Jasmine，你应该很适应 Jest 的[断言 API](https://facebook.github.io/jest/docs/en/expect.html#content)：
 
 ```js
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import Component from './component'
 
 describe('Component', () => {

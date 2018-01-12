@@ -193,7 +193,7 @@ Jest может быть использован для генерации отч
 Если вы знакомы с Jasmine, то вы должны чувствовать себя как дома с [проверочным API](https://facebook.github.io/jest/docs/en/expect.html#content) Jest:
 
 ```js
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import Component from './component'
 
 describe('Component', () => {

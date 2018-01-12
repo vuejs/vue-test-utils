@@ -11,7 +11,7 @@ O método `trigger` usa o objeto opicional `options`, essas opções serão adic
 - **Exemplo:**
 
 ```js
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import { expect } from 'chai'
 import sinon from 'sinon'
 import Foo from './Foo'
