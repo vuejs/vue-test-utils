@@ -2,7 +2,7 @@
 
 テストをシンプルにするために、 `vue-test-utils` はDOMの更新を同期的に適用します。しかし、コールバックや Promise のようなコンポーネントの非同期動作をテストする場合、いくつかのテクニックを知っておく必要があります。
 
-よくある非同期動作の1つとして API 呼び出しと Vuex の action があります。以下の例は API 呼び出しをするメソッドをテストする方法を示しています。この例は HTTPのライブラリである `axios` をモックしてテストを実行するために Jest を使っています。Jestのモックの詳細は[ここ](https://facebook.github.io/jest/docs/en/manual-mocks.html#content)にあります。
+よくある非同期動作の1つとして API 呼び出しと Vuex の action があります。以下の例は API 呼び出しをするメソッドをテストする方法を示しています。この例は HTTP のライブラリである `axios` をモックしてテストを実行するために Jest を使っています。Jestのモックの詳細は[ここ](https://facebook.github.io/jest/docs/en/manual-mocks.html#content)にあります。
 
 `axios` のモックの実装はこのようにします。
 
