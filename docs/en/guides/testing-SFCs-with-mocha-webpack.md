@@ -13,7 +13,7 @@ We will assume you are starting with a setup that already has webpack, vue-loade
 The first thing to do is installing test dependencies:
 
 ``` bash
-npm install --save-dev vue-test-utils mocha mocha-webpack
+npm install --save-dev @vue/test-utils mocha mocha-webpack
 ```
 
 Next we need to define a test script in our `package.json`.
@@ -150,7 +150,7 @@ export default {
 And create a test file named `test/Counter.spec.js` with the following code:
 
 ```js
-import { shallow } from 'vue-test-utils'
+import { shallow } from '@vue/test-utils'
 import Counter from '../src/Counter.vue'
 
 describe('Counter.vue', () => {

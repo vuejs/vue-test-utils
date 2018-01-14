@@ -44,7 +44,7 @@ Au lieu de passer le store au constructeur de base de Vue, on peut le passer à 
 Voyons à quoi cela ressemble :
 
 ``` js
-import { shallow, createLocalVue } from 'vue-test-utils'
+import { shallow, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import Actions from '../../../src/components/Actions'
 
@@ -91,7 +91,7 @@ describe('Actions.vue', () => {
 })
 ```
 
-Que se passe-t-il ici ? Premièrement, on indique à Vue d'utiliser Vuex avec la méthode `use`. C'est tout simplement une surcouche de `Vue.use`.
+Que se passe-t-il ici ? Premièrement, on indique à Vue d'utiliser Vuex avec la méthode `localVue.use`. C'est tout simplement une surcouche de `Vue.use`.
 
 On va ensuite créer un store fictif en appelant `new Vuex.Store` avec nos propres valeurs. À noter que l'on indique uniquement nos actions, car on ne s'intéresse qu'à elles.
 
@@ -108,7 +108,6 @@ La chose la plus importante à noter dans ce test est que **l'on crée une simul
 Génial, on peut désormais simuler des actions. Allons avoir comment simuler des accesseurs !
 
 ## Simuler des accesseurs
-
 
 ``` html
 <template>
@@ -135,7 +134,7 @@ C'est un composant relativement simple. Il affiche le résultat des accesseurs `
 Jetons un œil à un test :
 
 ``` js
-import { shallow, createLocalVue } from 'vue-test-utils'
+import { shallow, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import Actions from '../../../src/components/Getters'
 
@@ -212,7 +211,7 @@ Simple composant qui possède une action et un accesseur.
 Et le test :
 
 ``` js
-import { shallow, createLocalVue } from 'vue-test-utils'
+import { shallow, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import Modules from '../../../src/components/Modules'
 import module from '../../../src/store/module'
@@ -244,7 +243,7 @@ describe('Modules.vue', () => {
     })
   })
 
-  it('appelle l\'action du store moduleActionClick quand le bouton est cliqué', () => {
+  it("appelle l'action du store moduleActionClick quand le bouton est cliqué", () => {
     const wrapper = shallow(Modules, { store, localVue })
     const button = wrapper.find('button')
     button.trigger('click')

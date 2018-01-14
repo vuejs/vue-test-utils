@@ -14,12 +14,12 @@
 
 Stubs to use in components. These are overwritten by `stubs` passed in the mounting options.
 
-When passing `stubs` as an array in the mounting options, `config.stubs` are converted to an array, and will stub components with a basic component that returns a div.
+When passing `stubs` as an array in the mounting options, `config.stubs` are converted to an array, and will stub components with a basic component that returns `<!---->`.
 
 Example:
 
 ```js
-import VueTestUtils from 'vue-test-utils'
+import VueTestUtils from '@vue/test-utils'
 
 VueTestUtils.config.stubs['my-compomnent'] = '<div />'
 ```

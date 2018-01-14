@@ -11,7 +11,7 @@ Verifica se algum wrapper do Array tem o `atributo` com `value` correspondente n
 - **Exemplo:**
 
 ```js
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import { expect } from 'chai'
 import Foo from './Foo.vue'
 

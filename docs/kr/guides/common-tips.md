@@ -21,7 +21,7 @@ UI 컴포넌트의 경우, 내부 구현에 집중하다 보면 너무 많은 �
 `vue-test-utils`는 `shallow` 메소드를 이용해 자식 컴포넌트를 렌더링하지 않고 (스텁으로) 컴포넌트를 마운트할 수 있게 합니다.
 
 ```js
-import { shallow } from 'vue-test-utils'
+import { shallow } from '@vue/test-utils'
 
 const wrapper = shallow(Component) // 마운트된 컴포넌트 인스턴트를 포함한 래퍼를 반환
 wrapper.vm // 마운트된 Vue 인스턴스
@@ -75,7 +75,7 @@ wrapper.setProps({ foo: 'bar' })
 Vue에 내장된 `propsData` 옵션을 이용해 컴포넌트에 props에 전달할 수 있습니다.
 
 ```js
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 
 mount(Component, {
   propsData: {
@@ -95,7 +95,7 @@ mount(Component, {
 특정 앱의 컴포넌트에 대한 테스트를 작성하는 경우 동일한 글로벌 플러그인과 믹스인을 테스트 항목에 한번만 설정할 수 있습니다. 그러나 일부 앱에서 공유할 수 있는 일반적인 컴포넌트들을 테스트하는 경우에는 글로벌 `Vue` 생성자를 오염시키지 않고 격리시켜 컴포넌트를 테스트하는 것이 좋습니다. [createLocalVue](../api/createLocalVue.md) 메소드를 사용해 다음과 같이 할 수 있습니다.
 
 ``` js
-import { createLocalVue } from 'vue-test-utils'
+import { createLocalVue } from '@vue/test-utils'
 
 // 확장된 Vue 생성자를 만듭니다.
 const localVue = createLocalVue()
@@ -114,7 +114,7 @@ mount(Component, {
 간단하게 모의 속성을 주입하는 또 다른 방법은, `mocks` 옵션을 이용해 목킹하면 됩니다.
 
 ```js
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 
 const $route = {
   path: '/',

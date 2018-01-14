@@ -13,14 +13,12 @@ See [options](options.md)
 
 - **Usage:**
 
-Returns [`Wrapper`](wrapper/README.md) of first DOM node or Vue component matching selector.
-
-Use any valid [selector](selectors.md).
+Creates a [`Wrapper`](wrapper/README.md) that contains the mounted and rendered Vue component.
 
 **Without options:**
 
 ```js
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import { expect } from 'chai'
 import Foo from './Foo.vue'
 
@@ -35,7 +33,7 @@ describe('Foo', () => {
 **With Vue options:**
 
 ```js
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import { expect } from 'chai'
 import Foo from './Foo.vue'
 
@@ -54,7 +52,7 @@ describe('Foo', () => {
 **Attach to DOM:**
 
 ```js
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import { expect } from 'chai'
 import Foo from './Foo.vue'
 
@@ -70,7 +68,7 @@ describe('Foo', () => {
 **Default and named slots:**
 
 ```js
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import { expect } from 'chai'
 import Foo from './Foo.vue'
 import Bar from './Bar.vue'
@@ -93,7 +91,7 @@ describe('Foo', () => {
 **Stubbing global properties:**
 
 ```js
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import { expect } from 'chai'
 import Foo from './Foo.vue'
 
@@ -113,7 +111,7 @@ describe('Foo', () => {
 **Stubbing components:**
 
 ```js
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import { expect } from 'chai'
 import Foo from './Foo.vue'
 import Bar from './Bar.vue'

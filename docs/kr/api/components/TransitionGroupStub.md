@@ -6,7 +6,7 @@
 
 
 ```js
-import VueTestUtils from 'vue-test-utils'
+import VueTestUtils from '@vue/test-utils'
 
 VueTestUtils.config.stubs.transition = false
 ```
@@ -14,7 +14,7 @@ VueTestUtils.config.stubs.transition = false
 트랜지션 컴포넌트를 스텁으로 재설정하려면 다음을 하십시오.
 
 ```js
-import VueTestUtils, { TransitionGroupStub } from 'vue-test-utils'
+import VueTestUtils, { TransitionGroupStub } from '@vue/test-utils'
 
 VueTestUtils.config.stubs['transition-group'] = TransitionGroupStub
 ```
@@ -22,7 +22,7 @@ VueTestUtils.config.stubs['transition-group'] = TransitionGroupStub
 마운트 옵션에서 스텁으로 설정하려면 다음을 하십시오.
 
 ```js
-import { mount, TransitionGroupStub } from 'vue-test-utils'
+import { mount, TransitionGroupStub } from '@vue/test-utils'
 
 mount(Component, {
   stubs: {

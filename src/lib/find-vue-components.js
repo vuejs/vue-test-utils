@@ -1,7 +1,12 @@
 // @flow
 import {
-  COMPONENT_SELECTOR
+  COMPONENT_SELECTOR,
+  FUNCTIONAL_OPTIONS,
+  VUE_VERSION
 } from './consts'
+import {
+    throwError
+} from './util'
 
 function findAllVueComponentsFromVm (
   vm: Component,
@@ -35,7 +40,7 @@ function findAllFunctionalComponentsFromVnode (
   vnode: Component,
   components: Array<Component> = []
 ): Array<Component> {
-  if (vnode.fnOptions) {
+  if (vnode[FUNCTIONAL_OPTIONS] || vnode.functionalContext) {
     components.push(vnode)
   }
   if (vnode.children) {
@@ -61,11 +66,15 @@ export function vmCtorMatchesSelector (component: Component, selector: Object) {
 }
 
 export function vmFunctionalCtorMatchesSelector (component: VNode, Ctor: Object) {
-  if (!component.fnOptions) {
+  if (VUE_VERSION < 2.3) {
+    throwError('find for functional components is not support in Vue < 2.3')
+  }
+
+  if (!component[FUNCTIONAL_OPTIONS]) {
     return false
   }
-  const Ctors = Object.keys(component.fnOptions._Ctor)
-  return Ctors.some(c => Ctor[c] === component.fnOptions._Ctor[c])
+  const Ctors = Object.keys(component[FUNCTIONAL_OPTIONS]._Ctor)
+  return Ctors.some(c => Ctor[c] === component[FUNCTIONAL_OPTIONS]._Ctor[c])
 }
 
 export default function findVueComponents (
@@ -74,10 +83,10 @@ export default function findVueComponents (
   selector: Object
 ): Array<Component> {
   if (selector.functional) {
-    const components = root._vnode
+    const nodes = root._vnode
     ? findAllFunctionalComponentsFromVnode(root._vnode)
     : findAllFunctionalComponentsFromVnode(root)
-    return components.filter(component => vmFunctionalCtorMatchesSelector(component, selector._Ctor))
+    return nodes.filter(node => vmFunctionalCtorMatchesSelector(node, selector._Ctor))
   }
   const components = root._isVue
     ? findAllVueComponentsFromVm(root)

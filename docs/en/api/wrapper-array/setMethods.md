@@ -11,7 +11,7 @@ Sets `Wrapper` `vm` methods and forces update on each `Wrapper` in `WrapperArray
 - **Example:**
 
 ```js
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import { expect } from 'chai'
 import sinon from 'sinon'
 import Foo from './Foo.vue'

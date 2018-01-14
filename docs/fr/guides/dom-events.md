@@ -11,7 +11,7 @@ const wrapper = mount(MyButton)
 wrapper.trigger('click')
 ```
 
-Vous devez être au courant que la méthode `find` retourne aussi un wrapper. En partant du principe que `MyComponent` contient un bouton, le code suivant clique sur le bouton.
+Vous devez être au courant que la méthode `find` retourne aussi un `Wrapper`. En partant du principe que `MyComponent` contient un bouton, le code suivant clique sur le bouton.
 
 ```js
 const wrapper = mount(MyComponent)
@@ -66,11 +66,11 @@ export default {
 
 ```js
 import YesNoComponent from '@/components/YesNoComponent'
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import sinon from 'sinon'
 
 describe('Évènement click', () => {
-  it('Cliquer sur le bouton oui appelle notre méthode avec l\'argument "oui"', () => {
+  it("Cliquer sur le bouton oui appelle notre méthode avec l'argument « oui »", () => {
     const spy = sinon.spy()
     const wrapper = mount(YesNoComponent, {
       propsData: {
@@ -145,7 +145,7 @@ export default {
 
 ```js
 import QuantityComponent from '@/components/QuantityComponent'
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 
 describe('Tests événement clavier', () => {
   it('La quantité est zéro par défaut', () => {
@@ -173,7 +173,7 @@ describe('Tests événement clavier', () => {
     expect(wrapper.vm.quantity).to.equal(0)
   })
 
-  it('Le caractère magique "a" positionne la quantité à 13', () => {
+  it('Le caractère magique `a` positionne la quantité à 13', () => {
     const wrapper = mount(QuantityComponent)
     wrapper.trigger('keydown', {
       which: 65

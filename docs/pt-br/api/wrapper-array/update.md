@@ -7,7 +7,7 @@ Se for chamado a partir de um componente Vue, força a atualização de cada com
 - **Exemplo:**
 
 ```js
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import { expect } from 'chai'
 import Foo from './Foo.vue'
 

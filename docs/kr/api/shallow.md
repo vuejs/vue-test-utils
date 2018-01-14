@@ -31,7 +31,7 @@
 **옵션없이 사용**
 
 ```js
-import { shallow } from 'vue-test-utils'
+import { shallow } from '@vue/test-utils'
 import { expect } from 'chai'
 import Foo from './Foo.vue'
 
@@ -46,7 +46,7 @@ describe('Foo', () => {
 **Vue 옵션과 사용**
 
 ```js
-import { shallow } from 'vue-test-utils'
+import { shallow } from '@vue/test-utils'
 import { expect } from 'chai'
 import Foo from './Foo.vue'
 
@@ -65,7 +65,7 @@ describe('Foo', () => {
 **DOM에 붙이기**
 
 ```js
-import { shallow } from 'vue-test-utils'
+import { shallow } from '@vue/test-utils'
 import { expect } from 'chai'
 import Foo from './Foo.vue'
 
@@ -82,7 +82,7 @@ describe('Foo', () => {
 **기본 값, 이름을 가지고 있는 슬롯**
 
 ```js
-import { shallow } from 'vue-test-utils'
+import { shallow } from '@vue/test-utils'
 import { expect } from 'chai'
 import Foo from './Foo.vue'
 import Bar from './Bar.vue'
@@ -105,7 +105,7 @@ describe('Foo', () => {
 **글로벌 속성 스텁**
 
 ```js
-import { shallow } from 'vue-test-utils'
+import { shallow } from '@vue/test-utils'
 import { expect } from 'chai'
 import Foo from './Foo.vue'
 

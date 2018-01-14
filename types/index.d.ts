@@ -1,4 +1,10 @@
-import Vue, { VNodeData, Component, ComponentOptions, FunctionalComponentOptions } from 'vue'
+import Vue, { VNodeData, ComponentOptions, FunctionalComponentOptions } from 'vue'
+
+// TODO: use core repo's Component type after https://github.com/vuejs/vue/pull/7369 is released
+export type Component =
+  | typeof Vue
+  | FunctionalComponentOptions<{}>
+  | ComponentOptions<never, {}, {}, {}, {}>
 
 /**
  * Utility type to declare an extended Vue constructor
@@ -109,7 +115,11 @@ interface MountOptions<V extends Vue> extends ComponentOptions<V> {
   listeners?: object
 }
 
+type ThisTypedMountOptions<V extends Vue> = MountOptions<V> & ThisType<V>
+
 type ShallowOptions<V extends Vue> = MountOptions<V>
+
+type ThisTypedShallowOptions<V extends Vue> = ShallowOptions<V> & ThisType<V>
 
 interface VueTestUtilsConfigOptions {
   stubs?: Stubs
@@ -118,12 +128,12 @@ interface VueTestUtilsConfigOptions {
 export declare function createLocalVue (): typeof Vue
 export declare let config: VueTestUtilsConfigOptions
 
-export declare function mount<V extends Vue> (component: VueClass<V>, options?: MountOptions<V>): Wrapper<V>
-export declare function mount<V extends Vue> (component: ComponentOptions<V>, options?: MountOptions<V>): Wrapper<V>
+export declare function mount<V extends Vue> (component: VueClass<V>, options?: ThisTypedMountOptions<V>): Wrapper<V>
+export declare function mount<V extends Vue> (component: ComponentOptions<V>, options?: ThisTypedMountOptions<V>): Wrapper<V>
 export declare function mount (component: FunctionalComponentOptions, options?: MountOptions<Vue>): Wrapper<Vue>
 
-export declare function shallow<V extends Vue> (component: VueClass<V>, options?: ShallowOptions<V>): Wrapper<V>
-export declare function shallow<V extends Vue> (component: ComponentOptions<V>, options?: ShallowOptions<V>): Wrapper<V>
+export declare function shallow<V extends Vue> (component: VueClass<V>, options?: ThisTypedShallowOptions<V>): Wrapper<V>
+export declare function shallow<V extends Vue> (component: ComponentOptions<V>, options?: ThisTypedShallowOptions<V>): Wrapper<V>
 export declare function shallow (component: FunctionalComponentOptions, options?: ShallowOptions<Vue>): Wrapper<Vue>
 
 export declare let TransitionStub: Component | string | true

@@ -5,14 +5,14 @@
 Это настроено на заглушку всех компонентов `transition` по умолчанию в конфигурации vue-test-utils. Чтобы использовать стандартный компонент `transition` установите `config.stubs.transition` в значение false:
 
 ```js
-import VueTestUtils from 'vue-test-utils'
+import VueTestUtils from '@vue/test-utils'
 
 VueTestUtils.config.stubs.transition = false
 ```
 
 Чтобы переустановить обратно на заглушки компонентов `transition`:
 ```js
-import VueTestUtils, { TransitionStub } from 'vue-test-utils'
+import VueTestUtils, { TransitionStub } from '@vue/test-utils'
 
 VueTestUtils.config.stubs.transition = TransitionStub
 ```
@@ -20,7 +20,7 @@ VueTestUtils.config.stubs.transition = TransitionStub
 Для установки заглушек в настройках монтирования:
 
 ```js
-import { mount, TransitionStub } from 'vue-test-utils'
+import { mount, TransitionStub } from '@vue/test-utils'
 
 mount(Component, {
   stubs: {

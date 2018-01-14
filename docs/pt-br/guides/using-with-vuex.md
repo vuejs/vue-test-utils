@@ -44,7 +44,7 @@ Em vez de passar a store para o construtor do Vue, nós passamos um [localVue](.
 Vamos ver como isso se apreenta no código:
 
 ``` js
-import { shallow, createLocalVue } from 'vue-test-utils'
+import { shallow, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import Acoes from '../../../src/componentes/Acoes'
 
@@ -135,7 +135,7 @@ Esse é um componente bastante simples, Ele mostra os resultados capturados pelo
 Valos ver o teste do componente:
 
 ``` js
-import { shallow, createLocalVue } from 'vue-test-utils'
+import { shallow, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import GettersComponente from '../../../src/componentes/GettersComponente'
 
@@ -212,7 +212,7 @@ Esse simples componente incluí uma ação e um getter.
 E seu teste fica assim:
 
 ``` js
-import { shallow, createLocalVue } from 'vue-test-utils'
+import { shallow, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import ModuloComponente from '../../../src/componentes/ModuloComponente'
 import modulo from '../../../src/store/modulo'

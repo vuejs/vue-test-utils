@@ -19,7 +19,7 @@ Quando você passa os esboços como um Array de String nas opções de montagens
 Exemplo:
 
 ```js
-import VueTestUtils from 'vue-test-utils'
+import VueTestUtils from '@vue/test-utils'
 
 VueTestUtils.config.stubs['meu-componente'] = '<div />'
 ```

@@ -6,7 +6,7 @@
 
 
 ```js
-import VueTestUtils from 'vue-test-utils'
+import VueTestUtils from '@vue/test-utils'
 
 VueTestUtils.config.stubs.transition = false
 ```
@@ -14,7 +14,7 @@ VueTestUtils.config.stubs.transition = false
 将其重置可以存根 `transition` 组件：
 
 ```js
-import VueTestUtils, { TransitionStub } from 'vue-test-utils'
+import VueTestUtils, { TransitionStub } from '@vue/test-utils'
 
 VueTestUtils.config.stubs.transition = TransitionStub
 ```
@@ -22,7 +22,7 @@ VueTestUtils.config.stubs.transition = TransitionStub
 还可以在挂载选项中将其设置为一个存根：
 
 ```js
-import { mount, TransitionStub } from 'vue-test-utils'
+import { mount, TransitionStub } from '@vue/test-utils'
 
 mount(Component, {
   stubs: {

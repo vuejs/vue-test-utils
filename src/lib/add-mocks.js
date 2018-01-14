@@ -1,9 +1,14 @@
 // @flow
 import $$Vue from 'vue'
+import { warn } from './util'
 
 export default function addMocks (mockedProperties: Object, Vue: Component) {
   Object.keys(mockedProperties).forEach((key) => {
-    Vue.prototype[key] = mockedProperties[key]
+    try {
+      Vue.prototype[key] = mockedProperties[key]
+    } catch (e) {
+      warn('could not overwrite property $store, this usually caused by a plugin that has added the property as a read-only value')
+    }
     $$Vue.util.defineReactive(Vue, key, mockedProperties[key])
   })
 }

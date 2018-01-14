@@ -8,7 +8,7 @@ import ComponentWithVFor from '~resources/components/component-with-v-for.vue'
 import Component from '~resources/components/component.vue'
 import FunctionalComponent from '~resources/components/functional-component.vue'
 import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
-import { functionalSFCsSupported } from '~resources/test-utils'
+import { functionalSFCsSupported, vueVersion } from '~resources/test-utils'
 
 describe('find', () => {
   it('returns a Wrapper matching tag selector passed', () => {
@@ -141,6 +141,28 @@ describe('find', () => {
     expect(wrapper.find(FunctionalComponent).vm).to.equal(undefined)
   })
 
+  it('returns Wrapper of Vue Component matching functional component with name', () => {
+    const TestFunctionalComponent = {
+      render: h => h('div'),
+      functional: true,
+      name: 'test-functional-component'
+    }
+    const TestComponent = {
+      template: '<div><test-functional-component /></div>',
+      components: {
+        TestFunctionalComponent
+      }
+    }
+    const wrapper = mount(TestComponent)
+    if (vueVersion < 2.3) {
+      const message = '[vue-test-utils]: find for functional components is not support in Vue < 2.3'
+      const fn = () => wrapper.find(TestFunctionalComponent)
+      expect(fn).to.throw().with.property('message', message)
+    } else {
+      expect(wrapper.find(TestFunctionalComponent).exists()).to.equal(true)
+    }
+  })
+
   it('returns correct number of Vue Wrappers when component has a v-for', () => {
     const items = [{ id: 1 }, { id: 2 }, { id: 3 }]
     const wrapper = mount(ComponentWithVFor, { propsData: { items }})
@@ -214,6 +236,11 @@ describe('find', () => {
     const wrapper = mount(TestComponent)
     expect(wrapper.find(TestComponent).exists()).to.equal(true)
     expect(wrapper.find(TestComponent).isVueComponent).to.equal(true)
+  })
+
+  it('returns a Wrapper matching a component name in options object', () => {
+    const wrapper = mount(ComponentWithChild)
+    expect(wrapper.find({ name: 'component' }).name()).to.equal('component')
   })
 
   it('returns Wrapper of Vue Component matching the ref in options object', () => {
