@@ -7,7 +7,7 @@ Se você chamar esse método em um wrapper que contém `vm`, ele forçará o `vm
 - **Exemplo:**
 
 ```js
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import { expect } from 'chai'
 import Foo from './Foo.vue'
 

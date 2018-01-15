@@ -31,7 +31,7 @@ Use any valid [selector](./selectors.md).
 **Without options:**
 
 ```js
-import { shallow } from 'vue-test-utils'
+import { shallow } from '@vue/test-utils'
 import { expect } from 'chai'
 import Foo from './Foo.vue'
 
@@ -46,7 +46,7 @@ describe('Foo', () => {
 **With Vue options:**
 
 ```js
-import { shallow } from 'vue-test-utils'
+import { shallow } from '@vue/test-utils'
 import { expect } from 'chai'
 import Foo from './Foo.vue'
 
@@ -65,7 +65,7 @@ describe('Foo', () => {
 **Attach to DOM:**
 
 ```js
-import { shallow } from 'vue-test-utils'
+import { shallow } from '@vue/test-utils'
 import { expect } from 'chai'
 import Foo from './Foo.vue'
 
@@ -82,7 +82,7 @@ describe('Foo', () => {
 **Default and named slots:**
 
 ```js
-import { shallow } from 'vue-test-utils'
+import { shallow } from '@vue/test-utils'
 import { expect } from 'chai'
 import Foo from './Foo.vue'
 import Bar from './Bar.vue'
@@ -105,7 +105,7 @@ describe('Foo', () => {
 **Stubbing global properties:**
 
 ```js
-import { shallow } from 'vue-test-utils'
+import { shallow } from '@vue/test-utils'
 import { expect } from 'chai'
 import Foo from './Foo.vue'
 

@@ -220,6 +220,13 @@ describe('findAll', () => {
     expect(preArray.wrappers).to.deep.equal([])
   })
 
+  it('returns an array of Wrapper of elements matching a component name in options object', () => {
+    const wrapper = mount(ComponentWithChild)
+    const wrapperArray = wrapper.findAll({ name: 'component' })
+    expect(wrapperArray.at(0).name()).to.equal('component')
+    expect(wrapperArray.length).to.equal(1)
+  })
+
   it('returns an array of Wrapper of elements matching the ref in options object', () => {
     const compiled = compileToFunctions('<div><div ref="foo" /></div>')
     const wrapper = mount(compiled)

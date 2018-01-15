@@ -50,7 +50,7 @@ Vous pouvez créer des wrappers en utilisant la méthode `mount`. Créons un fic
 
 // Importe la méthode `mount()` depuis test utils
 // et le composant qu'on souhaite tester
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import Counter from './counter'
 
 // On monte le composant et nous voilà avec un wrapper
@@ -69,7 +69,7 @@ console.log(wrapper)
 Nous avons maintenant un wrapper, la première chose que l'on peut faire, c'est de vérifier que le contenu du rendu HTML du composant correspond à celui attendu.
 
 ```js
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import Counter from './counter'
 
 describe('Counter', () => {

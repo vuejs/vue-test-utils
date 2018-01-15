@@ -50,7 +50,7 @@ export default {
 
 // test utils から mount() メソッドをインポート
 // テストするコンポーネント
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import Counter from './counter'
 
 // コンポーネントがマウントされ、ラッパが作成されます。
@@ -69,7 +69,7 @@ console.log(wrapper)
 ラッパが完成したので、コンポーネントの描画された HTML 出力が、期待されるものと一致することを確認します。
 
 ```js
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import Counter from './counter'
 
 describe('Counter', () => {

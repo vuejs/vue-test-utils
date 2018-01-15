@@ -13,7 +13,7 @@
 - **예제:**
 
 ```js
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import { expect } from 'chai'
 import Foo from './Foo.vue'
 
@@ -26,7 +26,7 @@ expect(wrapper.hasAttribute('id', 'foo')).toBe(true)
 `Wrapper.element`를 이용해 속성을 가져와 값에 기반한 검증을 할 수 있습니다.
 
 ```js
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import { expect } from 'chai'
 import Foo from './Foo.vue'
 

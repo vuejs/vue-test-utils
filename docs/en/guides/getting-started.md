@@ -50,7 +50,7 @@ You can create wrappers using the `mount` method. Let's create a file called `te
 
 // Import the `mount()` method from the test utils
 // and the component you want to test
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import Counter from './counter'
 
 // Now mount the component and you have the wrapper
@@ -69,7 +69,7 @@ console.log(wrapper)
 Now that we have the wrapper, the first thing we can do is to verify that the rendered HTML output of the component matches what is expected.
 
 ```js
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import Counter from './counter'
 
 describe('Counter', () => {

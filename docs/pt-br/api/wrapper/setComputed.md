@@ -12,7 +12,7 @@ Define as propriedades computadas do `vm` do wrapper e força a sua atualizaçã
 - **Exemplo:**
 
 ```js
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import { expect } from 'chai'
 
 const wrapper = mount({

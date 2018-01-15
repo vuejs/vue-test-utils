@@ -67,7 +67,7 @@ export default {
 
 ```js
 import YesNoComponent from '@/components/YesNoComponent'
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import sinon from 'sinon'
 
 describe('点击事件', () => {
@@ -146,7 +146,7 @@ export default {
 
 ```js
 import QuantityComponent from '@/components/QuantityComponent'
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 
 describe('键盘事件测试', () => {
   it('默认的数量是零', () => {

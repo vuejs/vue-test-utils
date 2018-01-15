@@ -44,7 +44,7 @@ export default {
 Тест можно написать следующим образом:
 
 ``` js
-import { shallow } from 'vue-test-utils'
+import { shallow } from '@vue/test-utils'
 import Foo from './Foo'
 jest.mock('axios')
 
@@ -79,7 +79,7 @@ test('Foo', () => {
 Обновлённый тест будет выглядеть так:
 
 ``` js
-import { shallow } from 'vue-test-utils'
+import { shallow } from '@vue/test-utils'
 import flushPromises from 'flush-promises'
 import Foo from './Foo'
 jest.mock('axios')

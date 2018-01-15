@@ -131,6 +131,9 @@ function createComponentStubsForAll (component) {
   Object.keys(component.components).forEach(function (c) {
     // Remove cached constructor
     delete component.components[c]._Ctor;
+    if (!component.components[c].name) {
+      component.components[c].name = c;
+    }
     components[c] = createBlankStub(component.components[c]);
 
     // ignoreElements does not exist in Vue 2.0.x
@@ -245,6 +248,8 @@ var NAME_SELECTOR = 'NAME_SELECTOR';
 var COMPONENT_SELECTOR = 'COMPONENT_SELECTOR';
 var REF_SELECTOR = 'REF_SELECTOR';
 var DOM_SELECTOR = 'DOM_SELECTOR';
+var VUE_VERSION = Number(((Vue.version.split('.')[0]) + "." + (Vue.version.split('.')[1])));
+var FUNCTIONAL_OPTIONS = VUE_VERSION >= 2.5 ? 'fnOptions' : 'functionalOptions';
 
 // 
 
@@ -313,7 +318,7 @@ function findAllFunctionalComponentsFromVnode (
 ) {
   if ( components === void 0 ) components = [];
 
-  if (vnode.fnOptions) {
+  if (vnode[FUNCTIONAL_OPTIONS] || vnode.functionalContext) {
     components.push(vnode);
   }
   if (vnode.children) {
@@ -339,11 +344,15 @@ function vmCtorMatchesSelector (component, selector) {
 }
 
 function vmFunctionalCtorMatchesSelector (component, Ctor) {
-  if (!component.fnOptions) {
+  if (VUE_VERSION < 2.3) {
+    throwError('find for functional components is not support in Vue < 2.3');
+  }
+
+  if (!component[FUNCTIONAL_OPTIONS]) {
     return false
   }
-  var Ctors = Object.keys(component.fnOptions._Ctor);
-  return Ctors.some(function (c) { return Ctor[c] === component.fnOptions._Ctor[c]; })
+  var Ctors = Object.keys(component[FUNCTIONAL_OPTIONS]._Ctor);
+  return Ctors.some(function (c) { return Ctor[c] === component[FUNCTIONAL_OPTIONS]._Ctor[c]; })
 }
 
 function findVueComponents (
@@ -352,10 +361,10 @@ function findVueComponents (
   selector
 ) {
   if (selector.functional) {
-    var components$1 = root._vnode
+    var nodes = root._vnode
     ? findAllFunctionalComponentsFromVnode(root._vnode)
     : findAllFunctionalComponentsFromVnode(root);
-    return components$1.filter(function (component) { return vmFunctionalCtorMatchesSelector(component, selector._Ctor); })
+    return nodes.filter(function (node) { return vmFunctionalCtorMatchesSelector(node, selector._Ctor); })
   }
   var components = root._isVue
     ? findAllVueComponentsFromVm(root)
@@ -930,6 +939,8 @@ Wrapper.prototype.hasProp = function hasProp (prop, value) {
  * Checks if wrapper has a style with value
  */
 Wrapper.prototype.hasStyle = function hasStyle (style, value) {
+  warn('hasStyle() has been deprecated and will be removed in version 1.0.0. Use wrapper.element.style instead');
+
   if (typeof style !== 'string') {
     throwError('wrapper.hasStyle() must be passed style as a string');
   }
@@ -3881,12 +3892,12 @@ function update () {
   if (this.$_mountingOptionsSlots) {
     addSlots(this, this.$_mountingOptionsSlots);
   }
-  var vnodes = this._render();
-  this._update(vnodes);
-  this.$children.forEach(function (child) { return update.call(child); });
   this._watchers.forEach(function (watcher) {
     watcher.run();
   });
+  var vnodes = this._render();
+  this._update(vnodes);
+  this.$children.forEach(function (child) { return update.call(child); });
 }
 
 var VueWrapper = (function (Wrapper$$1) {
@@ -3919,7 +3930,11 @@ var VueWrapper = (function (Wrapper$$1) {
 // 
 function addMocks (mockedProperties, Vue$$1) {
   Object.keys(mockedProperties).forEach(function (key) {
-    Vue$$1.prototype[key] = mockedProperties[key];
+    try {
+      Vue$$1.prototype[key] = mockedProperties[key];
+    } catch (e) {
+      warn('could not overwrite property $store, this usually caused by a plugin that has added the property as a read-only value');
+    }
     Vue.util.defineReactive(Vue$$1, key, mockedProperties[key]);
   });
 }
@@ -3985,6 +4000,14 @@ function addEventLogger (vue) {
 // 
 
 function compileTemplate (component) {
+  if (component.components) {
+    Object.keys(component.components).forEach(function (c) {
+      var cmp = component.components[c];
+      if (!cmp.render) {
+        compileTemplate(cmp);
+      }
+    });
+  }
   if (component.extends) {
     compileTemplate(component.extends);
   }

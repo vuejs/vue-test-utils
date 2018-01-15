@@ -185,6 +185,8 @@ export default class Wrapper implements BaseWrapper {
    * Checks if wrapper has a style with value
    */
   hasStyle (style: string, value: string) {
+    warn('hasStyle() has been deprecated and will be removed in version 1.0.0. Use wrapper.element.style instead')
+
     if (typeof style !== 'string') {
       throwError('wrapper.hasStyle() must be passed style as a string')
     }

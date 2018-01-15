@@ -19,7 +19,7 @@ When passing `stubs` as an array in the mounting options, `config.stubs` are con
 Example:
 
 ```js
-import VueTestUtils from 'vue-test-utils'
+import VueTestUtils from '@vue/test-utils'
 
 VueTestUtils.config.stubs['my-compomnent'] = '<div />'
 ```

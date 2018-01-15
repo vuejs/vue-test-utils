@@ -44,7 +44,7 @@ Au lieu de passer le store au constructeur de base de Vue, on peut le passer à 
 Voyons à quoi cela ressemble :
 
 ``` js
-import { shallow, createLocalVue } from 'vue-test-utils'
+import { shallow, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import Actions from '../../../src/components/Actions'
 
@@ -134,7 +134,7 @@ C'est un composant relativement simple. Il affiche le résultat des accesseurs `
 Jetons un œil à un test :
 
 ``` js
-import { shallow, createLocalVue } from 'vue-test-utils'
+import { shallow, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import Actions from '../../../src/components/Getters'
 
@@ -211,7 +211,7 @@ Simple composant qui possède une action et un accesseur.
 Et le test :
 
 ``` js
-import { shallow, createLocalVue } from 'vue-test-utils'
+import { shallow, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import Modules from '../../../src/components/Modules'
 import module from '../../../src/store/module'

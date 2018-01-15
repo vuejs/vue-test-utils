@@ -5,14 +5,14 @@ A component to stub the `transition` component. Instead of performing transition
 This is set to stub all `transition` components by default in the vue-test-utils config. To use the built-in `transition` component set `config.stubs.transition` to false:
 
 ```js
-import VueTestUtils from 'vue-test-utils'
+import VueTestUtils from '@vue/test-utils'
 
 VueTestUtils.config.stubs.transition = false
 ```
 
 To reset it to stub `transition` components:
 ```js
-import VueTestUtils, { TransitionStub } from 'vue-test-utils'
+import VueTestUtils, { TransitionStub } from '@vue/test-utils'
 
 VueTestUtils.config.stubs.transition = TransitionStub
 ```
@@ -20,7 +20,7 @@ VueTestUtils.config.stubs.transition = TransitionStub
 To set it as a stub in mounting options:
 
 ```js
-import { mount, TransitionStub } from 'vue-test-utils'
+import { mount, TransitionStub } from '@vue/test-utils'
 
 mount(Component, {
   stubs: {

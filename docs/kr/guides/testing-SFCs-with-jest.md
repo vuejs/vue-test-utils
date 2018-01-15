@@ -160,7 +160,7 @@ Jest는 테스트중인 코드 바로 다음에 `__tests__` 디렉터리를 만�
 Jasmine에 익숙하면 Jest의 [assertion API](https://facebook.github.io/jest/docs/en/expect.html#content)를 사용해 편하게 사용할 수 있습니다.
 
 ```js
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import Component from './component'
 
 describe('Component', () => {

@@ -9,6 +9,7 @@
   * [选择一个测试运行器](guides/choosing-a-test-runner.md)
   * [用 Jest 测试单文件组件](guides/testing-SFCs-with-jest.md)
   * [用 Mocha 和 webpack 测试单文件组件](guides/testing-SFCs-with-mocha-webpack.md)
+  * [测试异步行为](guides/testing-async-components.md)
   * [配合 Vue Router 使用](guides/using-with-vue-router.md)
   * [配合 Vuex 实用](guides/using-with-vuex.md)
 * [API](api/README.md)

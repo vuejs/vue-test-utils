@@ -13,7 +13,7 @@
 首先要做的是安装测试依赖：
 
 ``` bash
-npm install --save-dev vue-test-utils mocha mocha-webpack
+npm install --save-dev @vue/test-utils mocha mocha-webpack
 ```
 
 接下来我们需要在 `package.json` 中定义一个测试脚本。
@@ -150,7 +150,7 @@ export default {
 然后创建一个名为 `test/Counter.spec.js` 的测试文件并写入如下代码：
 
 ```js
-import { shallow } from 'vue-test-utils'
+import { shallow } from '@vue/test-utils'
 import Counter from '../src/Counter.vue'
 
 describe('Counter.vue', () => {
@@ -169,6 +169,10 @@ npm run unit
 ```
 
 喔，我们的测试运行起来了！
+
+### 测试覆盖率
+
+如果想设置 `mocha-webpack` 的测试覆盖率，请参照 [`mocha-webpack` 测试覆盖率指南](https://github.com/zinserjan/mocha-webpack/blob/master/docs/guides/code-coverage.md)。
 
 ### 相关资料
 

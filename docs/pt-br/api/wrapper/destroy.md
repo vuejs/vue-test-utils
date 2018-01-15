@@ -5,7 +5,7 @@ Destrói a instância do componente Vue.
 - **Exemplo:**
 
 ```js
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import { expect } from 'chai'
 import sinon from 'sinon'
 
