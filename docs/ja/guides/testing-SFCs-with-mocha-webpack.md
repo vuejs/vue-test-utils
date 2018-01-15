@@ -170,6 +170,10 @@ npm run unit
 
 やったー！テストを実行している!
 
+### カバレッジ
+
+mocha-webpack にコードカバレッジをセットしたい場合は、 [the mocha-webpack code coverage guide](https://github.com/zinserjan/mocha-webpack/blob/master/docs/guides/code-coverage.md) に従ってください。
+
 ### リソース
 
 - [この設定のプロジェクトの例](https://github.com/vuejs/vue-test-utils-mocha-webpack-example)

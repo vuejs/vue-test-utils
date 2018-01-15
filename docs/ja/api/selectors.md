@@ -23,8 +23,6 @@
 
 Vue コンポーネントもセレクタとして有効です。
 
-vue-test-utils は `name` プロパティを使用して、一致する Vue コンポーネントのインスタンスツリーを検索します。
-
 ```js
 // Foo.vue
 
@@ -44,9 +42,18 @@ expect(wrapper.is(Foo)).toBe(true)
 
 ## find メソッドのオプションオブジェクト
 
+### name
+
+find メソッドのオプションオブジェクトを使用すると、Wrapper コンポーネント内にあるコンポーネントの `name` に一致する要素を取得することができます。
+
+```js
+const buttonWrapper = wrapper.find({ name: 'my-button' })
+buttonWrapper.trigger('click')
+```
+
 ### ref
 
-find メソッドのオプションオブジェクトを使用すると、`Wrapper` コンポーネントの `$ref` プロパティに一致する要素を取得することができます。
+find メソッドのオプションオブジェクトを使用すると、Wrapper コンポーネントの `$ref` プロパティに一致する要素を取得することができます。
 
 ```js
 const buttonWrapper = wrapper.find({ ref: 'myButton' })
