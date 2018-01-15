@@ -64,7 +64,7 @@ export default {
 
 ```js
 import SimNaoComponente from '@/componentes/SimNaoComponente'
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import sinon from 'sinon'
 
 describe('Evento de clique', () => {
@@ -144,7 +144,7 @@ export default {
 
 ```js
 import ContadorComponente from '@/componentes/ContadorComponente'
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 
 describe('Testes de eventos de tecla', () => {
   it('Contador é zero por padrão', () => {

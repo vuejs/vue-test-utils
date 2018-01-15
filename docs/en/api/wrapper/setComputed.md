@@ -12,7 +12,7 @@ Sets `Wrapper` `vm` computed property and forces update.
 - **Example:**
 
 ```js
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import { expect } from 'chai'
 
 const wrapper = mount({

@@ -13,7 +13,7 @@ Assumiremos que você está começando com o webpack, vue-loader e babel correta
 A primeira coisa a se fazer é instalar as dependências dos testes:
 
 ``` bash
-npm install --save-dev vue-test-utils mocha mocha-webpack
+npm install --save-dev @vue/test-utils mocha mocha-webpack
 ```
 
 Posteriormente, defina o script `test` no `package.json`:
@@ -150,7 +150,7 @@ export default {
 Agora crie um arquivo de teste chamado `test/Contador.spec.js` com o código a seguir:
 
 ```js
-import { shallow } from 'vue-test-utils'
+import { shallow } from '@vue/test-utils'
 import Contador from '../src/Contador.vue'
 
 describe('Contador.vue', () => {

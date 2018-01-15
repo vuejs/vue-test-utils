@@ -13,7 +13,7 @@
 - **示例：**
 
 ```js
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import { expect } from 'chai'
 import Foo from './Foo.vue'
 
@@ -26,7 +26,7 @@ expect(wrapper.hasAttribute('id', 'foo')).toBe(true)
 你可以从 `Wrapper.element` 获取特性并对其值做断言：
 
 ```js
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import { expect } from 'chai'
 import Foo from './Foo.vue'
 

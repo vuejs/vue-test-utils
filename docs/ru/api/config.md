@@ -20,7 +20,7 @@ vue-test-utils включает в себя объект конфигураци�
 Пример:
 
 ```js
-import VueTestUtils from 'vue-test-utils'
+import VueTestUtils from '@vue/test-utils'
 
 VueTestUtils.config.stubs['my-component'] = '<div />'
 ```

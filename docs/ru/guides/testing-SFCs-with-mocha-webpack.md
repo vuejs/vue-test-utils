@@ -13,7 +13,7 @@
 Первое, что нужно сделать, это установить тестовые зависимости:
 
 ``` bash
-npm install --save-dev vue-test-utils mocha mocha-webpack
+npm install --save-dev @vue/test-utils mocha mocha-webpack
 ```
 
 Затем мы должны указать скрипт test в нашем `package.json`.
@@ -150,7 +150,7 @@ export default {
 И создайте файл теста, названный `test/Counter.spec.js` со следующим кодом:
 
 ```js
-import { shallow } from 'vue-test-utils'
+import { shallow } from '@vue/test-utils'
 import Counter from '../src/Counter.vue'
 
 describe('Counter.vue', () => {

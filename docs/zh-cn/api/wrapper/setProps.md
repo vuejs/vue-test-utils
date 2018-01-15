@@ -10,7 +10,7 @@
 **注意：该包裹器必须包含一个 Vue 示例。**
 
 ```js
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import { expect } from 'chai'
 import Foo from './Foo.vue'
 
@@ -34,7 +34,7 @@ export default {
 ```
 
 ``` js
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import { expect } from 'chai'
 import Foo from './Foo.vue'
 

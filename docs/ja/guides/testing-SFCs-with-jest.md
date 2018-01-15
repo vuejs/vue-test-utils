@@ -159,7 +159,7 @@ Jestは、テスト対象のコードのすぐ隣に`__tests__`ディレクト�
 あなたが Jasmine をよく知っているなら、Jest の [assertion API](https://facebook.github.io/jest/docs/en/expect.html#content)は自宅のように感じるはずです。
 
 ```js
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import Component from './component'
 
 describe('Component', () => {

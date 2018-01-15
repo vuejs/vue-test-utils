@@ -21,7 +21,7 @@ Além disso, para componentes que possuem muitos componentes filhos, toda a árv
 O `vue-test-utils` permite que você monte um componente sem renderizar seus componentes filhos, para isso, use o método `shallow`:
 
 ```js
-import { shallow } from 'vue-test-utils'
+import { shallow } from '@vue/test-utils'
 
 // obtém o wrapper contendo a instância montada de Componente
 const wrapper = shallow(Componente)
@@ -76,7 +76,7 @@ wrapper.setProps({ foo: 'bar' })
 Você pode passar propriedades para o componente usando a opção `propsData` integrada no Vue:
 
 ```js
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 
 mount(Component, {
   propsData: {
@@ -96,7 +96,7 @@ Alguns dos seus componentes podem ter características injetadas por um plugin o
 Se você está escrevendo testes para componentes de uma aplicação específica, você pode configurar os plugins e mixins globais uma vez na entrada dos seus testes. Mas, em alguns casos, por exemplo, testando um pacote de componentes genéricos que podem ser compartilhados em diferentes aplicações, será melhor testar seus componentes com uma configuração mais isolada, sem popular o construtor global do Vue. Nós podemos usar o método [createLocalVue](../api/createLocalVue.md) para conseguir isso:
 
 ``` js
-import { createLocalVue } from 'vue-test-utils'
+import { createLocalVue } from '@vue/test-utils'
 
 // criando um construtor ampliado do Vue
 const localVue = createLocalVue()
@@ -115,7 +115,7 @@ mount(Componente, {
 Outra estratégia para injetar propriedades é simplesmente simular ela. Você pode fazer isso com a opção `mocks`:
 
 ```js
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 
 const $route = {
   path: '/',

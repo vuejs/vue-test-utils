@@ -238,6 +238,11 @@ describe('find', () => {
     expect(wrapper.find(TestComponent).isVueComponent).to.equal(true)
   })
 
+  it('returns a Wrapper matching a component name in options object', () => {
+    const wrapper = mount(ComponentWithChild)
+    expect(wrapper.find({ name: 'component' }).name()).to.equal('component')
+  })
+
   it('returns Wrapper of Vue Component matching the ref in options object', () => {
     const wrapper = mount(ComponentWithChild)
     expect(wrapper.find({ ref: 'child' }).isVueComponent).to.equal(true)

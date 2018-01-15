@@ -7,7 +7,7 @@
 Чтобы этого избежать, мы можем создать localVue и установить Vue Router на него.
 
 ```js
-import { shallow, createLocalVue } from 'vue-test-utils'
+import { shallow, createLocalVue } from '@vue/test-utils'
 import VueRouter from 'vue-router'
 
 const localVue = createLocalVue()
@@ -27,7 +27,7 @@ shallow(Component, {
 ### Использование заглушек (stubs)
 
 ```js
-import { shallow } from 'vue-test-utils'
+import { shallow } from '@vue/test-utils'
 
 shallow(Component, {
   stubs: ['router-link', 'router-view']
@@ -37,7 +37,7 @@ shallow(Component, {
 ### Установка Vue Router с помощью localVue
 
 ```js
-import { shallow, createLocalVue } from 'vue-test-utils'
+import { shallow, createLocalVue } from '@vue/test-utils'
 import VueRouter from 'vue-router'
 
 const localVue = createLocalVue()
@@ -53,7 +53,7 @@ shallow(Component, {
 Иногда вам может потребоваться протестировать, что компонент что-то делает с параметрами объектов `$route` и `$router`. Для этого вы можете передавать пользовательские моки в экземпляр Vue.
 
 ```js
-import { shallow } from 'vue-test-utils'
+import { shallow } from '@vue/test-utils'
 
 const $route = {
   path: '/some/path'

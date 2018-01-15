@@ -21,7 +21,7 @@ In addition, for components that contain many child components, the entire rende
 `vue-test-utils` allows you to mount a component without rendering its child components (by stubbing them) with the `shallow` method:
 
 ```js
-import { shallow } from 'vue-test-utils'
+import { shallow } from '@vue/test-utils'
 
 const wrapper = shallow(Component) // returns a Wrapper containing a mounted Component instance
 wrapper.vm // the mounted Vue instance
@@ -75,7 +75,7 @@ wrapper.setProps({ foo: 'bar' })
 You can pass props to the component using Vue's built-in `propsData` option:
 
 ```js
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 
 mount(Component, {
   propsData: {
@@ -95,7 +95,7 @@ Some of the components may rely on features injected by a global plugin or mixin
 If you are writing tests for components in a specific app, you can setup the same global plugins and mixins once in the entry of your tests. But in some cases, for example testing a generic component suite that may get shared across different apps, it's better to test your components in a more isolated setup, without polluting the global `Vue` constructor. We can use the [`createLocalVue`](../api/createLocalVue.md) method to achieve that:
 
 ``` js
-import { createLocalVue } from 'vue-test-utils'
+import { createLocalVue } from '@vue/test-utils'
 
 // create an extended `Vue` constructor
 const localVue = createLocalVue()
@@ -109,12 +109,14 @@ mount(Component, {
 })
 ```
 
+**Note some plugins, like Vue Router, add read-only properties to the global Vue constructor. This makes it impossible to reinstall the plugin on a localVue constructor, or add mocks for these properties**
+
 ## Mocking Injections
 
 Another strategy for injected props is simply mocking them. You can do that with the `mocks` option:
 
 ```js
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 
 const $route = {
   path: '/',

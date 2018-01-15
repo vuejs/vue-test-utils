@@ -21,7 +21,7 @@ De plus, pour les composants qui contiennent beaucoup de composants enfants, l'i
 `vue-test-utils` vous permets de monter un composant sans avoir à rendre ses composants enfants (en les ignorants) avec la méthode `shallow` :
 
 ```js
-import { shallow } from 'vue-test-utils'
+import { shallow } from '@vue/test-utils'
 
 const wrapper = shallow(Component) // retourne un wrapper contenant une instance de composant montée
 wrapper.vm // l'instance de Vue montée
@@ -74,7 +74,7 @@ wrapper.setProps({ foo: 'bar' })
 Vous pouvez passer des props au composant en utilisant l'option `propsData` de Vue :
 
 ```js
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 
 mount(Component, {
   propsData: {
@@ -94,7 +94,7 @@ Des composants pourraient se fier à des fonctionnalités injectées par un plug
 Si vous écrivez des tests pour des composants dans une application spécifique, vous pouvez mettre en place les mêmes plugins globaux et mixins en une seule fois dans vos tests. Dans certains cas, comme tester un composant générique utilisé par des applications différentes, il est favorable de tester ces composants dans une installation plus isolée, sans avoir à polluer le constructeur global `Vue`. On peut utiliser la méthode [`createLocalVue`](../api/createLocalVue.md) pour faire cela :
 
 ``` js
-import { createLocalVue } from 'vue-test-utils'
+import { createLocalVue } from '@vue/test-utils'
 
 // créer un constructeur local de `Vue`
 const localVue = createLocalVue()
@@ -113,7 +113,7 @@ mount(Component, {
 Une stratégie alternative pour injecter des propriétés est de simplement les simuler. Vous pouvez faire cela avec l'option `mocks` :
 
 ```js
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 
 const $route = {
   path: '/',

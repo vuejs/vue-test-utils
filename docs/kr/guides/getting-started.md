@@ -52,7 +52,7 @@ export default {
 // mount() 메소드를 테스트 유틸에서 임포트합니다.
 // 그리고 테스트할 컴포넌트를 가져옵니다.
 
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import Counter from './counter'
 
 // 컴포넌트를 마운트하여 래퍼를 얻습니다.
@@ -71,7 +71,7 @@ console.log(wrapper)
 래퍼를 얻었으니 처음으로 할 일은 컴포넌트가 렌더링한 HTML이 예상하는 것과 같은지 살펴봅니다.
 
 ```js
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import Counter from './counter'
 
 describe('Counter', () => {

@@ -4,10 +4,10 @@
 To use vue-test-utils beta:
 ```
 // npm
-npm install --save-dev vue-test-utils@latest
+npm install --save-dev @vue/test-utils
 
 // yarn
-yarn add --dev vue-test-utils@latest
+yarn add --dev @vue/test-utils
 ```
 
 ## Intro

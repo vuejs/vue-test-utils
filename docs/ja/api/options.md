@@ -115,7 +115,7 @@ expect(wrapper.vm.$route.path).toBe($route.path)
 例:
 
 ```js
-import { createLocalVue, mount } from 'vue-test-utils'
+import { createLocalVue, mount } from '@vue/test-utils'
 import VueRouter from 'vue-router'
 import { expect } from 'chai'
 import Foo from './Foo.vue'

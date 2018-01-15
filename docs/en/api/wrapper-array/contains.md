@@ -12,7 +12,7 @@ Use any valid [selector](../selectors.md).
 - **Example:**
 
 ```js
-import { shallow } from 'vue-test-utils'
+import { shallow } from '@vue/test-utils'
 import { expect } from 'chai'
 import Foo from './Foo.vue'
 import Bar from './Bar.vue'

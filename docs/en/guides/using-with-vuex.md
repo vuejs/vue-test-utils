@@ -44,7 +44,7 @@ Instead of passing the store to the base Vue constructor, we can pass it to a - 
 Let’s see what this looks like:
 
 ``` js
-import { shallow, createLocalVue } from 'vue-test-utils'
+import { shallow, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import Actions from '../../../src/components/Actions'
 
@@ -135,7 +135,7 @@ This is a fairly simple component. It renders the result of the getters `clicks`
 Let’s see the test:
 
 ``` js
-import { shallow, createLocalVue } from 'vue-test-utils'
+import { shallow, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import Actions from '../../../src/components/Getters'
 
@@ -212,7 +212,7 @@ Simple component that includes one action and one getter.
 And the test:
 
 ``` js
-import { shallow, createLocalVue } from 'vue-test-utils'
+import { shallow, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import Modules from '../../../src/components/Modules'
 import module from '../../../src/store/module'

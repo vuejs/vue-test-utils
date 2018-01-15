@@ -160,7 +160,7 @@ Jest recommande de créer un répertoire `__tests__` au même niveau que le code
 Si vous êtes habitué à Jasmine, vous devriez très bien vous en sortir avec [l'API d'assertions de Jest](https://facebook.github.io/jest/docs/en/expect.html#content) :
 
 ```js
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import Component from './component'
 
 describe('Component', () => {
