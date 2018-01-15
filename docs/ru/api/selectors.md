@@ -44,7 +44,7 @@ expect(wrapper.is(Foo)).toBe(true)
 
 ### Name
 
-Использование объекта для опции поиска, позволяет `vue-test-utils` выбирать элементы по `name` на компонентах обёртках.
+Использование объекта для опции поиска, позволяет `vue-test-utils` выбирать элементы по `name` компонента на компонентах обёртках.
 
 ```js
 const buttonWrapper = wrapper.find({ name: 'my-button' })
