@@ -121,6 +121,26 @@ export default class Wrapper implements BaseWrapper {
   }
 
   /**
+   * Utility to check wrapper is visible. Returns false if a parent element has display: none or visibility: hidden style.
+   */
+  visible (): boolean {
+    let element = this.element
+
+    if (!element) {
+      return false
+    }
+
+    while (element) {
+      if (element.style && (element.style.visibility === 'hidden' || element.style.display === 'none')) {
+        return false
+      }
+      element = element.parentElement
+    }
+
+    return true
+  }
+
+  /**
    * Checks if wrapper has an attribute with matching value
    */
   hasAttribute (attribute: string, value: string) {

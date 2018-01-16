@@ -42,6 +42,12 @@ export default class WrapperArray implements BaseWrapper {
     return this.length > 0 && this.wrappers.every(wrapper => wrapper.exists())
   }
 
+  visible (): boolean {
+    this.throwErrorIfWrappersIsEmpty('visible')
+
+    return this.length > 0 && this.wrappers.every(wrapper => wrapper.visible())
+  }
+
   emitted (): void {
     this.throwErrorIfWrappersIsEmpty('emitted')
 
