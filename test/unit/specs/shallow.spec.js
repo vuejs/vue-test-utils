@@ -6,6 +6,7 @@ import ComponentWithChild from '~resources/components/component-with-child.vue'
 import ComponentWithNestedChildren from '~resources/components/component-with-nested-children.vue'
 import ComponentWithLifecycleHooks from '~resources/components/component-with-lifecycle-hooks.vue'
 import ComponentWithoutName from '~resources/components/component-without-name.vue'
+import RecursiveComponent from '~resources/components/recursive-component.vue'
 
 describe('shallow', () => {
   let info
@@ -106,6 +107,28 @@ describe('shallow', () => {
     expect(wrapper.contains(Component)).to.equal(true)
     expect(wrapper.find(Component).exists()).to.equal(true)
     expect(wrapper.findAll(Component).length).to.equal(1)
+  })
+
+  it('works correctly with find on recursive components', () => {
+    // this is for a bug that I've been unable to replicate.
+    // Sometimes components mutate their components, in this line—
+    RecursiveComponent.components = {
+      RecursiveComponent: { render: h => h('div') }
+    }
+
+    expect(shallow(RecursiveComponent, {
+      propsData: {
+        items: ['', '']
+      }
+    }).findAll(RecursiveComponent).length).to.equal(2)
+    RecursiveComponent.components = {
+      'recursive-component': { render: h => h('div') }
+    }
+    expect(shallow(RecursiveComponent, {
+      propsData: {
+        items: ['', '']
+      }
+    }).findAll(RecursiveComponent).length).to.equal(2)
   })
 
   it('throws an error when the component fails to mount', () => {
