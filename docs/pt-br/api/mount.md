@@ -20,7 +20,7 @@ Use qualquer [seletor](selectors.md) válido.
 **Sem opções:**
 
 ```js
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import { expect } from 'chai'
 import Foo from './Foo.vue'
 
@@ -35,7 +35,7 @@ describe('Foo', () => {
 **Com opções do Vue:**
 
 ```js
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import { expect } from 'chai'
 import Foo from './Foo.vue'
 
@@ -54,7 +54,7 @@ describe('Foo', () => {
 **Anexar ao DOM:**
 
 ```js
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import { expect } from 'chai'
 import Foo from './Foo.vue'
 
@@ -71,7 +71,7 @@ describe('Foo', () => {
 **Com slots padrões ou nomeados:**
 
 ```js
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import { expect } from 'chai'
 import Foo from './Foo.vue'
 import Bar from './Bar.vue'
@@ -94,7 +94,7 @@ describe('Foo', () => {
 **Adicionando propriedades globais:**
 
 ```js
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import { expect } from 'chai'
 import Foo from './Foo.vue'
 
@@ -114,7 +114,7 @@ describe('Foo', () => {
 **Esboçando componentes filhos:**
 
 ```js
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import { expect } from 'chai'
 import Foo from './Foo.vue'
 import Bar from './Bar.vue'

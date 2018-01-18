@@ -22,6 +22,8 @@ wrapper.find('button').trigger('click')
 
 `trigger` メソッドはオプションで `options` オブジェクトを引数として取ります。`options` オブジェクトのプロパティはイベントオブジェクトのプロパティに追加されます。
 
+target を `options` オブジェクトに追加することができないことに注意してください。
+
 ```js
 const wrapper = mount(MyButton)
 
@@ -65,7 +67,7 @@ export default {
 
 ```js
 import YesNoComponent from '@/components/YesNoComponent'
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import sinon from 'sinon'
 
 describe('Click event', () => {
@@ -144,7 +146,7 @@ export default {
 
 ```js
 import QuantityComponent from '@/components/QuantityComponent'
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 
 describe('Key event tests', () => {
   it('Quantity is zero by default', () => {

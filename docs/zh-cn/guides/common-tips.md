@@ -21,7 +21,7 @@
 `vue-test-utils` 允许你通过 `shallow` 方法只挂载一个组件而不渲染其子组件 (即保留它们的存根)：
 
 ```js
-import { shallow } from 'vue-test-utils'
+import { shallow } from '@vue/test-utils'
 
 const wrapper = shallow(Component) // 返回一个包裹器，包含一个挂载的组件实例
 wrapper.vm // 挂载的 Vue 实例
@@ -75,7 +75,7 @@ wrapper.setProps({ foo: 'bar' })
 你可以使用 Vue 在内置 `propsData` 选项向组件传入 prop：
 
 ```js
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 
 mount(Component, {
   propsData: {
@@ -95,7 +95,7 @@ mount(Component, {
 如果你在为一个特定的应用撰写组件，你可以在你的测试入口处一次性设置相同的全局插件和混入。但是有些情况下，比如测试一个可能会跨越不同应用共享的普通的组件套件的时候，最好还是在一个更加隔离的设置中测试你的组件，不对全局的 `Vue` 构造函数注入任何东西。我们可以使用 [`createLocalVue`](../api/createLocalVue.md) 方法来存档它们：
 
 ``` js
-import { createLocalVue } from 'vue-test-utils'
+import { createLocalVue } from '@vue/test-utils'
 
 // 创建一个扩展的 `Vue` 构造函数
 const localVue = createLocalVue()
@@ -114,7 +114,7 @@ mount(Component, {
 另一个注入 prop 的策略就是简单的仿造它们。你可以使用 `mocks` 选项：
 
 ```js
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 
 const $route = {
   path: '/',

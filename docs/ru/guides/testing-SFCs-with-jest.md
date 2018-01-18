@@ -46,8 +46,8 @@ npm install --save-dev vue-jest
       "vue"
     ],
     "transform": {
-      // обрабатываем `*.vue` файлы с помощью `jest-vue`
-      ".*\\.(vue)$": "<rootDir>/node_modules/jest-vue"
+      // обрабатываем `*.vue` файлы с помощью `vue-jest`
+      ".*\\.(vue)$": "<rootDir>/node_modules/vue-jest"
     },
     "mapCoverage": true
   }
@@ -193,7 +193,7 @@ Jest может быть использован для генерации отч
 Если вы знакомы с Jasmine, то вы должны чувствовать себя как дома с [проверочным API](https://facebook.github.io/jest/docs/en/expect.html#content) Jest:
 
 ```js
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import Component from './component'
 
 describe('Component', () => {

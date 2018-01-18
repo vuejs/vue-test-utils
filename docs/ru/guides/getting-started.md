@@ -50,7 +50,7 @@ export default {
 
 // Импортируем метод `mount()` из `vue-test-utils`
 // и компонент, который хотим протестировать
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import Counter from './counter'
 
 // Теперь монтируем компонент и у нас появляется wrapper
@@ -69,7 +69,7 @@ console.log(wrapper)
 Теперь, когда у нас есть wrapper, первой вещью, которую мы можем захотеть проверить что отрендеренный HTML компонента соответствует нашим ожиданиям.
 
 ```js
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import Counter from './counter'
 
 describe('Компонент Counter', () => {

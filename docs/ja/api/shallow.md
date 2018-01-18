@@ -22,16 +22,13 @@
 
 - **使い方:**
 
-最初の DOM ノードまたは Vue コンポーネント一致セレクタの [`Wrapper`](./wrapper/) を返します。
-
-全ての子コンポーネントをスタブします。
-
-有効な[セレクタ](./selectors.md)を使用してください。
+[`mount`](mount.md)のようにマウントされて描画された Vue コンポーネントを含む [`Wrapper`](./wrapper/README.md) を生成しますが、  
+子コンポーネントはスタブされたコンポーネントです。
 
 **オプションなし:**
 
 ```js
-import { shallow } from 'vue-test-utils'
+import { shallow } from '@vue/test-utils'
 import { expect } from 'chai'
 import Foo from './Foo.vue'
 
@@ -46,7 +43,7 @@ describe('Foo', () => {
 **Vueオプションを使用:**
 
 ```js
-import { shallow } from 'vue-test-utils'
+import { shallow } from '@vue/test-utils'
 import { expect } from 'chai'
 import Foo from './Foo.vue'
 
@@ -65,7 +62,7 @@ describe('Foo', () => {
 **DOMへのアタッチ:**
 
 ```js
-import { shallow } from 'vue-test-utils'
+import { shallow } from '@vue/test-utils'
 import { expect } from 'chai'
 import Foo from './Foo.vue'
 
@@ -82,7 +79,7 @@ describe('Foo', () => {
 **デフォルトおよび名前付きスロット:**
 
 ```js
-import { shallow } from 'vue-test-utils'
+import { shallow } from '@vue/test-utils'
 import { expect } from 'chai'
 import Foo from './Foo.vue'
 import Bar from './Bar.vue'
@@ -105,7 +102,7 @@ describe('Foo', () => {
 **グローバルプロパティのスタブ:**
 
 ```js
-import { shallow } from 'vue-test-utils'
+import { shallow } from '@vue/test-utils'
 import { expect } from 'chai'
 import Foo from './Foo.vue'
 

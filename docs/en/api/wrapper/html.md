@@ -7,7 +7,7 @@ Returns HTML of `Wrapper` DOM node as a string.
 - **Example:**
 
 ```js
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import { expect } from 'chai'
 import Foo from './Foo.vue'
 

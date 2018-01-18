@@ -7,7 +7,7 @@ Return an object containing custom events emitted by the `Wrapper` `vm`.
 - **Example:**
 
 ```js
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import { expect } from 'chai'
 
 const wrapper = mount(Component)

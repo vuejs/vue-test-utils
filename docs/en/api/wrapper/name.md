@@ -7,7 +7,7 @@ Returns component name if `Wrapper` contains a Vue instance, or the tag name of 
 - **Example:**
 
 ```js
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import { expect } from 'chai'
 import Foo from './Foo.vue'
 

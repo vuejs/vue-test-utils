@@ -44,7 +44,7 @@ export default{
 어떻게 구성되었는지 보겠습니다.
 
 ``` js
-import { shallow, createLocalVue } from 'vue-test-utils'
+import { shallow, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import Actions from '../../../src/components/Actions'
 
@@ -135,7 +135,7 @@ export default{
 테스트를 봅니다.
 
 ``` js
-import { shallow, createLocalVue } from 'vue-test-utils'
+import { shallow, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import Actions from '../../../src/components/Getters'
 
@@ -211,7 +211,7 @@ export default{
 아래는 테스트입니다.
 
 ``` js
-import { shallow, createLocalVue } from 'vue-test-utils'
+import { shallow, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import Modules from '../../../src/components/Modules'
 import module from '../../../src/store/module'

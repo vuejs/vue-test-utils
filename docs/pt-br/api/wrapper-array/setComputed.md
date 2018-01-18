@@ -11,7 +11,7 @@ Define as propriedades computadas e força a atualização de cada um dos wrappe
 - **Exemplo:**
 
 ```js
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import Foo from './Foo.vue'
 import Bar from './Bar.vue'
 

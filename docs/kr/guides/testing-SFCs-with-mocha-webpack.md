@@ -13,7 +13,7 @@
 가장 먼저 할 일은 테스트 종속성을 설치하는 것 입니다.:
 
 ``` bash
-npm install --save-dev vue-test-utils mocha mocha-webpack
+npm install --save-dev @vue/test-utils mocha mocha-webpack
 ```
 
 다음은 `package.json`에서 스크립트 하나를 추가합니다.:
@@ -150,7 +150,7 @@ export default {
 다음 `test/Counter.spec.js` 파일을 만들고 아래 내용으로 테스트를 작성하세요.:
 
 ```js
-import { shallow } from 'vue-test-utils'
+import { shallow } from '@vue/test-utils'
 import Counter from '../src/Counter.vue'
 
 describe('Counter.vue', () => {

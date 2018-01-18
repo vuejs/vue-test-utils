@@ -10,7 +10,7 @@ Aciona um evento no elemeto do DOM de cada wrapper no Array.
 - **Exemplo:**
 
 ```js
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import { expect } from 'chai'
 import sinon from 'sinon'
 import Foo from './Foo.vue'

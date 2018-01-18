@@ -44,7 +44,7 @@ export default{
 我们来看看它的样子：
 
 ``` js
-import { shallow, createLocalVue } from 'vue-test-utils'
+import { shallow, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import Actions from '../../../src/components/Actions'
 
@@ -135,7 +135,7 @@ export default{
 让我们看看这个测试：
 
 ``` js
-import { shallow, createLocalVue } from 'vue-test-utils'
+import { shallow, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import Actions from '../../../src/components/Getters'
 
@@ -212,7 +212,7 @@ export default{
 其测试：
 
 ``` js
-import { shallow, createLocalVue } from 'vue-test-utils'
+import { shallow, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import Modules from '../../../src/components/Modules'
 import module from '../../../src/store/module'
