@@ -159,7 +159,7 @@ Jest recommends creating a `__tests__` directory right next to the code being te
 
 Jest can be used to generate coverage reports in multiple formats. The following is a simple example to get started with:
 
-Extend your `jest` config (usually in `package.json` or `jest.config.js`) with the [collectCoverage](https://facebook.github.io/jest/docs/en/configuration.html#collectcoverage-boolean) option, and then add the [collectCoverageFrom](https://facebook.github.io/jest/docs/en/configuration.html#collectcoveragefrom-array) array to define the files for which coverage information should be collected. You'll also want [mapCoverage](https://facebook.github.io/jest/docs/en/configuration.html#mapcoverage-boolean) to be `true`, for coverage data to be accurate.
+Extend your `jest` config (usually in `package.json` or `jest.config.js`) with the [`collectCoverage`](https://facebook.github.io/jest/docs/en/configuration.html#collectcoverage-boolean) option, and then add the [`collectCoverageFrom`](https://facebook.github.io/jest/docs/en/configuration.html#collectcoveragefrom-array) array to define the files for which coverage information should be collected. You'll also want [`mapCoverage`](https://facebook.github.io/jest/docs/en/configuration.html#mapcoverage-boolean) to be `true`, for coverage data to be accurate.
 
 ```json
 {
