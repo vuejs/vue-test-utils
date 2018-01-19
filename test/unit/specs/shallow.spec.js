@@ -6,7 +6,9 @@ import ComponentWithChild from '~resources/components/component-with-child.vue'
 import ComponentWithNestedChildren from '~resources/components/component-with-nested-children.vue'
 import ComponentWithLifecycleHooks from '~resources/components/component-with-lifecycle-hooks.vue'
 import ComponentWithoutName from '~resources/components/component-without-name.vue'
+import ComponentAsAClassWithChild from '~resources/components/component-as-a-class-with-child.vue'
 import RecursiveComponent from '~resources/components/recursive-component.vue'
+import { vueVersion } from '~resources/test-utils'
 
 describe('shallow', () => {
   let info
@@ -73,6 +75,67 @@ describe('shallow', () => {
   it('does not call stubbed children lifecycle hooks', () => {
     shallow(ComponentWithNestedChildren)
     expect(info.called).to.equal(false)
+  })
+
+  it('stubs extended components', () => {
+    const ComponentWithPTag = {
+      template: `<p></p>`
+    }
+    const BaseComponent = {
+      template: `
+        <div>
+          <component-with-p-tag />
+        </div>
+      `,
+      components: {
+        ComponentWithPTag
+      }
+    }
+
+    const TestComponent = {
+      extends: BaseComponent
+    }
+
+    const wrapper = shallow(TestComponent)
+    expect(wrapper.find(ComponentWithPTag).exists()).to.equal(true)
+    expect(wrapper.find('p').exists()).to.equal(false)
+  })
+
+  it('stubs nested extended components', () => {
+    const ComponentWithPTag = {
+      template: `<p></p>`
+    }
+    const BaseComponent = {
+      template: `
+        <div>
+          <component-with-p-tag />
+        </div>
+      `,
+      components: {
+        ComponentWithPTag
+      }
+    }
+
+    const ExtendedBaseComponent = {
+      extends: BaseComponent
+    }
+
+    const TestComponent = {
+      extends: ExtendedBaseComponent
+    }
+
+    const wrapper = shallow(TestComponent)
+    expect(wrapper.find(ComponentWithPTag).exists()).to.equal(true)
+    expect(wrapper.find('p').exists()).to.equal(false)
+  })
+
+  it('stubs Vue class component children', () => {
+    if(vueVersion < 2.3) {
+      return
+    }
+    const wrapper = shallow(ComponentAsAClassWithChild)
+    expect(wrapper.find(Component).exists()).to.equal(true)
+    expect(wrapper.findAll('div').length).to.equal(1)
   })
 
   it('works correctly with find, contains, findAll, and is on unnamed components', () => {

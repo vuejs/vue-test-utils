@@ -112,25 +112,44 @@ export function createComponentStubs (originalComponents: Object = {}, stubs: Ob
   return components
 }
 
-export function createComponentStubsForAll (component: Component): Object {
-  const components = {}
-  if (!component.components) {
-    return components
-  }
-  Object.keys(component.components).forEach(c => {
+function stubComponents (components: Object, stubbedComponents: Object) {
+  Object.keys(components).forEach(component => {
     // Remove cached constructor
-    delete component.components[c]._Ctor
-    if (!component.components[c].name) {
-      component.components[c].name = c
+    delete components[component]._Ctor
+    if (!components[component].name) {
+      components[component].name = component
     }
-    components[c] = createBlankStub(component.components[c])
+    stubbedComponents[component] = createBlankStub(components[component])
 
     // ignoreElements does not exist in Vue 2.0.x
     if (Vue.config.ignoredElements) {
-      Vue.config.ignoredElements.push(c)
+      Vue.config.ignoredElements.push(component)
     }
   })
-  return components
+}
+
+export function createComponentStubsForAll (component: Component): Object {
+  const stubbedComponents = {}
+
+  if (component.components) {
+    stubComponents(component.components, stubbedComponents)
+  }
+
+  let extended = component.extends
+
+  // Loop through extended component chains to stub all child components
+  while (extended) {
+    if (extended.components) {
+      stubComponents(extended.components, stubbedComponents)
+    }
+    extended = extended.extends
+  }
+
+  if (component.extendOptions && component.extendOptions.components) {
+    stubComponents(component.extendOptions.components, stubbedComponents)
+  }
+
+  return stubbedComponents
 }
 
 export function createComponentStubsForGlobals (instance: Component): Object {

@@ -29,13 +29,13 @@ export default function shallow (
 
   const stubbedComponents = createComponentStubsForAll(component)
   const stubbedGlobalComponents = createComponentStubsForGlobals(vue)
+
   return mount(component, {
     ...options,
     components: {
       // stubbed components are used instead of original components components
       ...stubbedGlobalComponents,
-      ...stubbedComponents,
-      ...options
+      ...stubbedComponents
     }
   })
 }
