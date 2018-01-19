@@ -27,7 +27,7 @@ export default function createConstructor (
     addMocks(mountingOptions.mocks, vue)
   }
 
-  if (component.functional) {
+  if ((component.options && component.options.functional) || component.functional) {
     component = createFunctionalComponent(component, mountingOptions)
   } else if (mountingOptions.context) {
     throwError(
