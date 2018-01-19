@@ -130,7 +130,7 @@ describe('shallow', () => {
   })
 
   it('stubs Vue class component children', () => {
-    if(vueVersion < 2.3) {
+    if (vueVersion < 2.3) {
       return
     }
     const wrapper = shallow(ComponentAsAClassWithChild)
