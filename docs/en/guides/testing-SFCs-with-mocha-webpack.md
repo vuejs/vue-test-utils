@@ -165,7 +165,7 @@ describe('Counter.vue', () => {
 And now we can run the test:
 
 ```
-npm run unit
+npm run test
 ```
 
 Woohoo, we got our tests running!
