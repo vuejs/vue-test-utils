@@ -11,6 +11,7 @@ import errorHandler from './lib/error-handler'
 
 Vue.config.productionTip = false
 Vue.config.errorHandler = errorHandler
+Vue.config.devtools = false
 
 export default function mount (component: Component, options: Options = {}): VueWrapper {
   // Remove cached constructor
