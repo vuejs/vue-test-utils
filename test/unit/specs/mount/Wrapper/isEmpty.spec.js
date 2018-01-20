@@ -23,10 +23,7 @@ describe('isEmpty', () => {
     expect(wrapper.find('svg').isEmpty()).to.equal(true)
   })
 
-  it('returns false if innerHTML is not empty', () => {
-    if (/HeadlessChrome/.test(window.navigator.userAgent)) {
-      return
-    }
+  it.skip('returns false if innerHTML is not empty', () => {
     const TestComponent = {
       render (createElement) {
         return createElement('div', {
