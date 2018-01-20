@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "build": "node build/build.js",
-    "build:test": "NODE_ENV=test node build/build.js",
+    "build:test": "cross-env NODE_ENV=test node build/build.js",
     "coverage": "cross-env NODE_ENV=coverage nyc --reporter=lcov --reporter=text npm run test:unit",
     "docs": "cd docs && gitbook install && gitbook serve",
     "docs:deploy": "build/update-docs.sh",

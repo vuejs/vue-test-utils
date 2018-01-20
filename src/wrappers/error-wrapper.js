@@ -36,6 +36,10 @@ export default class ErrorWrapper implements BaseWrapper {
     return false
   }
 
+  visible (): void {
+    throwError(`find did not return ${this.selector}, cannot call visible() on empty Wrapper`)
+  }
+
   hasAttribute (): void {
     throwError(`find did not return ${this.selector}, cannot call hasAttribute() on empty Wrapper`)
   }

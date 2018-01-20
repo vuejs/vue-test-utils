@@ -13,6 +13,7 @@ declare interface BaseWrapper { // eslint-disable-line no-undef
     emitted(event?: string): { [name: string]: Array<Array<any>> } | Array<Array<any>> | void,
     emittedByOrder(): Array<{ name: string; args: Array<any> }> | void,
     exists(): boolean,
+    visible(): boolean | void,
     hasAttribute(attribute: string, value: string): boolean | void,
     hasClass(className: string): boolean | void,
     hasProp(prop: string, value: string): boolean | void,
