@@ -2,7 +2,7 @@ import Vue from 'vue'
 import { mount } from '~vue-test-utils'
 import { vueVersion } from '~resources/test-utils'
 
-describe.only('context', () => {
+describe('context', () => {
   it('mounts functional component when passed context object', () => {
     if (vueVersion <= 2.2) {
       console.log('WARN: no current way to test functional component is component in v2.1.x')
