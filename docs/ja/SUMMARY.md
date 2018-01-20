@@ -41,7 +41,6 @@
     * [isVueInstance](api/wrapper/isVueInstance.md)
     * [name](api/wrapper/name.md)
     * [props](api/wrapper/props.md)
-    * [setComputed](api/wrapper/setComputed.md)
     * [setData](api/wrapper/setData.md)
     * [setMethods](api/wrapper/setMethods.md)
     * [setProps](api/wrapper/setProps.md)

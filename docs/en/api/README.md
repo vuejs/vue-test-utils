@@ -33,7 +33,6 @@
   * [isVueInstance](./wrapper/isVueInstance.md)
   * [name](./wrapper/name.md)
   * [props](./wrapper/props.md)
-  * [setComputed](./wrapper/setComputed.md)
   * [setData](./wrapper/setData.md)
   * [setMethods](./wrapper/setMethods.md)
   * [setProps](./wrapper/setProps.md)

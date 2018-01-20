@@ -376,6 +376,8 @@ export default class Wrapper implements BaseWrapper {
       throwError('wrapper.setComputed() can only be called on a Vue instance')
     }
 
+    warn('setComputed() has been deprecated and will be removed in version 1.0.0. You can overwrite computed properties by passing a computed object in the mounting options')
+
     Object.keys(computed).forEach((key) => {
       if (this.version > 2.1) {
         // $FlowIgnore : Problem with possibly null this.vm
