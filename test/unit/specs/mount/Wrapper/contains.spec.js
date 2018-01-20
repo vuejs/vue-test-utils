@@ -14,6 +14,12 @@ describe('contains', () => {
     expect(wrapper.contains('input')).to.equal(true)
   })
 
+  it('returns false if wrapper contains element filtered by predicate', () => {
+    const compiled = compileToFunctions('<div><input class="filtered" /></div>')
+    const wrapper = mount(compiled)
+    expect(wrapper.contains('input', w => !w.hasClass('filtered'))).to.equal(false)
+  })
+
   it('returns true if wrapper contains Vue component', () => {
     const wrapper = mount(ComponentWithChild)
     expect(wrapper.contains(Component)).to.equal(true)

@@ -25,6 +25,14 @@ describe('findAll', () => {
     expect(fooArr.length).to.equal(1)
   })
 
+  it('returns an array of Wrapper of elements matching class selector passed and filter predicate', () => {
+    const compiled = compileToFunctions('<div><div class="foo fooFiltered">filtered</div><div class="foo">not filtered</div></div>')
+    const wrapper = mount(compiled)
+    const fooArr = wrapper.findAll('.foo', (wrapper) => !wrapper.hasClass('fooFiltered'))
+    expect(fooArr.length).to.equal(1)
+    expect(fooArr.at(0).text()).to.equal('not filtered')
+  })
+
   it('returns an array of Wrapper of elements matching class selector passed if they are nested in a transition', () => {
     const compiled = compileToFunctions('<transition><div /></transition>')
     const wrapper = mount(compiled)

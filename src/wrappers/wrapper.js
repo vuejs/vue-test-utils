@@ -80,11 +80,17 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Checks if wrapper contains provided selector.
    */
-  contains (selector: Selector) {
+  contains (selector: Selector, predicate?: WrapperPredicate) {
     const selectorType = getSelectorTypeOrThrow(selector, 'contains')
     const nodes = findAll(this.vm, this.vnode, selectorType, selector)
+    let wrappers = nodes.map(node =>
+      createWrapper(node, this.update, this.options)
+    )
+    if (predicate) {
+      wrappers = wrappers.filter(predicate)
+    }
     const is = selectorType === REF_SELECTOR ? false : this.is(selector)
-    return nodes.length > 0 || is
+    return wrappers.length > 0 || is
   }
 
   /**
@@ -242,27 +248,35 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Finds first node in tree of the current wrapper that matches the provided selector.
    */
-  find (selector: Selector): Wrapper | ErrorWrapper | VueWrapper {
+  find (selector: Selector, predicate?: WrapperPredicate): Wrapper | ErrorWrapper | VueWrapper {
     const selectorType = getSelectorTypeOrThrow(selector, 'find')
-    const nodes = findAll(this.vm, this.vnode, selectorType, selector)
-    if (nodes.length === 0) {
+    let wrappers = findAll(this.vm, this.vnode, selectorType, selector).map(node =>
+      createWrapper(node, this.update, this.options)
+    )
+    if (predicate) {
+      wrappers = wrappers.filter(predicate)
+    }
+    if (wrappers.length === 0) {
       if (selector.ref) {
         return new ErrorWrapper(`ref="${selector.ref}"`)
       }
       return new ErrorWrapper(typeof selector === 'string' ? selector : 'Component')
     }
-    return createWrapper(nodes[0], this.update, this.options)
+    return wrappers[0]
   }
 
   /**
    * Finds node in tree of the current wrapper that matches the provided selector.
    */
-  findAll (selector: Selector): WrapperArray {
+  findAll (selector: Selector, predicate?: WrapperPredicate): WrapperArray {
     const selectorType = getSelectorTypeOrThrow(selector, 'findAll')
     const nodes = findAll(this.vm, this.vnode, selectorType, selector)
-    const wrappers = nodes.map(node =>
+    let wrappers = nodes.map(node =>
       createWrapper(node, this.update, this.options)
     )
+    if (predicate) {
+      wrappers = wrappers.filter(predicate)
+    }
     return new WrapperArray(wrappers)
   }
 

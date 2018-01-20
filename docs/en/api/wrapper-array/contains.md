@@ -6,6 +6,7 @@ Use any valid [selector](../selectors.md).
 
 - **Arguments:**
   - `{string|Component} selector`
+  - `{function} predicate`
 
 - **Returns:** `{boolean}`
 

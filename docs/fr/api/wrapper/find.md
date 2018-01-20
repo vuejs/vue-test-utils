@@ -1,11 +1,12 @@
 # find(selector)
 
-<p><strong>⚠Cette page est actuellement en cours de traduction française. Vous pouvez repasser plus tard ou <a href="https://github.com/vuejs-fr/vue-test-utils" target="_blank">participer à la traduction</a> de celle-ci dès maintenant !</strong></p><p>Returns [`Wrapper`](README.md) of first DOM node or Vue component matching selector.</p>
+<p><strong>⚠Cette page est actuellement en cours de traduction française. Vous pouvez repasser plus tard ou <a href="https://github.com/vuejs-fr/vue-test-utils" target="_blank">participer à la traduction</a> de celle-ci dès maintenant !</strong></p><p>Returns [`Wrapper`](README.md) of first DOM node or Vue component matching selector and predicate.</p>
 
-Use any valid [selector](../selectors.md).
+Use any valid [selector](../selectors.md) and an optional predicate.
 
 - **Arguments:**
   - `{string|Component} selector`
+  - `{function} predicate`
 
 - **Returns:** `{Wrapper}`
 

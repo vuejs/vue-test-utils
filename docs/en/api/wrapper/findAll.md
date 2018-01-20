@@ -2,10 +2,11 @@
 
 Returns a [`WrapperArray`](../wrapper-array/README.md).
 
-Use any valid [selector](../selectors.md).
+Use any valid [selector](../selectors.md) and an optional predicate.
 
 - **Arguments:**
   - `{string|Component} selector`
+  - `{function} predicate`
 
 - **Returns:** `{WrapperArray}`
 
