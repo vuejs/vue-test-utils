@@ -48,6 +48,20 @@ describe('is', () => {
     expect(wrapper.is(ComponentWithoutName)).to.equal(true)
   })
 
+  it('works correctly with innerHTML', () => {
+    const TestComponent = {
+      render (createElement) {
+        return createElement('div', {
+          domProps: {
+            innerHTML: '<svg></svg>'
+          }
+        })
+      }
+    }
+    const wrapper = mount(TestComponent)
+    expect(wrapper.find('svg').is('svg')).to.equal(true)
+  })
+
   it('returns true if root node matches functional Component', () => {
     if (!functionalSFCsSupported()) {
       return

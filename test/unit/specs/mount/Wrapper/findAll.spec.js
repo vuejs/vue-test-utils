@@ -62,6 +62,20 @@ describe('findAll', () => {
     expect(wrapper.findAll('p').length).to.equal(3)
   })
 
+  it('works correctly with innerHTML', () => {
+    const TestComponent = {
+      render (createElement) {
+        return createElement('div', {
+          domProps: {
+            innerHTML: '<svg></svg>'
+          }
+        })
+      }
+    }
+    const wrapper = mount(TestComponent)
+    expect(wrapper.findAll('svg').length).to.equal(1)
+  })
+
   it('returns an array of Wrappers of elements matching id selector passed', () => {
     const compiled = compileToFunctions('<div><div id="foo" /></div>')
     const wrapper = mount(compiled)

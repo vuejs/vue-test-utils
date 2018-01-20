@@ -9,6 +9,37 @@ describe('isEmpty', () => {
     expect(wrapper.isEmpty()).to.equal(true)
   })
 
+  it('returns true if innerHTML is empty', () => {
+    const TestComponent = {
+      render (createElement) {
+        return createElement('div', {
+          domProps: {
+            innerHTML: '<svg />'
+          }
+        })
+      }
+    }
+    const wrapper = mount(TestComponent)
+    expect(wrapper.find('svg').isEmpty()).to.equal(true)
+  })
+
+  it('returns false if innerHTML is not empty', () => {
+    if (/HeadlessChrome/.test(window.navigator.userAgent)) {
+      return
+    }
+    const TestComponent = {
+      render (createElement) {
+        return createElement('div', {
+          domProps: {
+            innerHTML: '<svg><p>not empty</p></svg>'
+          }
+        })
+      }
+    }
+    const wrapper = mount(TestComponent)
+    expect(wrapper.find('svg').isEmpty()).to.equal(false)
+  })
+
   it('returns true contains empty slot', () => {
     const compiled = compileToFunctions('<div><slot></slot></div>')
     const wrapper = mount(compiled)

@@ -20,19 +20,24 @@ import findAll from '../lib/find'
 import createWrapper from './create-wrapper'
 
 export default class Wrapper implements BaseWrapper {
-  vnode: VNode;
+  vnode: VNode | null;
   vm: Component | null;
   _emitted: { [name: string]: Array<Array<any>> };
   _emittedByOrder: Array<{ name: string; args: Array<any> }>;
   isVueComponent: boolean;
-  element: HTMLElement;
+  element: Element;
   update: Function;
   options: WrapperOptions;
   version: number
 
-  constructor (vnode: VNode, update: Function, options: WrapperOptions) {
-    this.vnode = vnode
-    this.element = vnode.elm
+  constructor (node: VNode | Element, update: Function, options: WrapperOptions) {
+    if (node instanceof Element) {
+      this.element = node
+      this.vnode = null
+    } else {
+      this.vnode = node
+      this.element = node.elm
+    }
     this.update = update
     this.options = options
     this.version = Number(`${Vue.version.split('.')[0]}.${Vue.version.split('.')[1]}`)
@@ -82,7 +87,7 @@ export default class Wrapper implements BaseWrapper {
    */
   contains (selector: Selector) {
     const selectorType = getSelectorTypeOrThrow(selector, 'contains')
-    const nodes = findAll(this.vm, this.vnode, selectorType, selector)
+    const nodes = findAll(this.vm, this.vnode, this.element, selector)
     const is = selectorType === REF_SELECTOR ? false : this.is(selector)
     return nodes.length > 0 || is
   }
@@ -222,14 +227,15 @@ export default class Wrapper implements BaseWrapper {
     const body = document.querySelector('body')
     const mockElement = document.createElement('div')
 
-    if (!(body instanceof HTMLElement)) {
+    if (!(body instanceof Element)) {
       return false
     }
     const mockNode = body.insertBefore(mockElement, null)
     // $FlowIgnore : Flow thinks style[style] returns a number
     mockElement.style[style] = value
 
-    if (!this.options.attachedToDocument) {
+    if (!this.options.attachedToDocument && (this.vm || this.vnode)) {
+      // $FlowIgnore : Possible null value, will be removed in 1.0.0
       const vm = this.vm || this.vnode.context.$root
       body.insertBefore(vm.$root._vnode.elm, null)
     }
@@ -243,8 +249,7 @@ export default class Wrapper implements BaseWrapper {
    * Finds first node in tree of the current wrapper that matches the provided selector.
    */
   find (selector: Selector): Wrapper | ErrorWrapper | VueWrapper {
-    const selectorType = getSelectorTypeOrThrow(selector, 'find')
-    const nodes = findAll(this.vm, this.vnode, selectorType, selector)
+    const nodes = findAll(this.vm, this.vnode, this.element, selector)
     if (nodes.length === 0) {
       if (selector.ref) {
         return new ErrorWrapper(`ref="${selector.ref}"`)
@@ -258,8 +263,8 @@ export default class Wrapper implements BaseWrapper {
    * Finds node in tree of the current wrapper that matches the provided selector.
    */
   findAll (selector: Selector): WrapperArray {
-    const selectorType = getSelectorTypeOrThrow(selector, 'findAll')
-    const nodes = findAll(this.vm, this.vnode, selectorType, selector)
+    getSelectorTypeOrThrow(selector, 'findAll')
+    const nodes = findAll(this.vm, this.vnode, this.element, selector)
     const wrappers = nodes.map(node =>
       createWrapper(node, this.update, this.options)
     )
@@ -313,6 +318,9 @@ export default class Wrapper implements BaseWrapper {
    * Checks if node is empty
    */
   isEmpty (): boolean {
+    if (!this.vnode) {
+      return this.element.innerHTML === ''
+    }
     return this.vnode.children === undefined || this.vnode.children.length === 0
   }
 
@@ -329,6 +337,10 @@ export default class Wrapper implements BaseWrapper {
   name (): string {
     if (this.vm) {
       return this.vm.$options.name
+    }
+
+    if (!this.vnode) {
+      return this.element.tagName
     }
 
     return this.vnode.tag

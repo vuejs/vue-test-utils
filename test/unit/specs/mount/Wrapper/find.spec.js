@@ -163,6 +163,50 @@ describe('find', () => {
     }
   })
 
+  it('works correctly with innerHTML', () => {
+    const TestComponent = {
+      render (createElement) {
+        return createElement('div', {
+          domProps: {
+            innerHTML: '<svg></svg>'
+          }
+        })
+      }
+    }
+    const wrapper = mount(TestComponent)
+    expect(wrapper.find('svg').find('svg').exists()).to.equal(true)
+  })
+
+  it('throws errror when searching for a component on an element Wrapper', () => {
+    const TestComponent = {
+      render (createElement) {
+        return createElement('div', {
+          domProps: {
+            innerHTML: '<svg></svg>'
+          }
+        })
+      }
+    }
+    const fn = () => mount(TestComponent).find('svg').find(Component)
+    const message = '[vue-test-utils]: cannot find a Vue instance on a DOM node. The node you are calling find on does not exist in the VDom. Are you adding the node as innerHTML?'
+    expect(fn).to.throw().with.property('message', message)
+  })
+
+  it('throws errror when using ref selector on an element Wrapper', () => {
+    const TestComponent = {
+      render (createElement) {
+        return createElement('div', {
+          domProps: {
+            innerHTML: '<svg></svg>'
+          }
+        })
+      }
+    }
+    const fn = () => mount(TestComponent).find('svg').find({ ref: 'some-ref' })
+    const message = '[vue-test-utils]: cannot find a Vue instance on a DOM node. The node you are calling find on does not exist in the VDom. Are you adding the node as innerHTML?'
+    expect(fn).to.throw().with.property('message', message)
+  })
+
   it('returns correct number of Vue Wrappers when component has a v-for', () => {
     const items = [{ id: 1 }, { id: 2 }, { id: 3 }]
     const wrapper = mount(ComponentWithVFor, { propsData: { items }})

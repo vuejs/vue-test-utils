@@ -111,6 +111,21 @@ describe('contains', () => {
     expect(wrapper.contains({ ref: 'foo' })).to.equal(false)
   })
 
+  it('works correctly with innerHTML', () => {
+    const TestComponent = {
+      render (createElement) {
+        return createElement('div', {
+          domProps: {
+            innerHTML: '<svg></svg>'
+          }
+        })
+      }
+    }
+    const wrapper = mount(TestComponent)
+    expect(wrapper.contains('svg')).to.equal(true)
+    expect(wrapper.find('svg').contains('svg')).to.equal(true)
+  })
+
   it('throws an error if selector is not a valid selector', () => {
     const wrapper = mount(Component)
     const invalidSelectors = [
