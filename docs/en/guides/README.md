@@ -6,6 +6,7 @@
 * [Choosing a test runner](./choosing-a-test-runner.md)
 * [Testing SFCs with Jest](./testing-SFCs-with-jest.md)
 * [Testing SFCs with Mocha + webpack](./testing-SFCs-with-mocha-webpack.md)
+* [Testing SFCs with Karma](./testing-SFCs-with-karma.md)
 * [Testing Asynchronous Behavior](testing-async-components.md)
 * [Using with Vue Router](./using-with-vue-router.md)
 * [Using with Vuex](./using-with-vuex.md)

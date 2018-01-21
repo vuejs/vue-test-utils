@@ -109,7 +109,7 @@ mount(Component, {
 })
 ```
 
-**Note some plugins, like Vue Router, add read-only properties to the global Vue constructor. This makes it impossible to reinstall the plugin on a `localVue` constructor, or add mocks for these properties**
+**Note some plugins, like Vue Router, add read-only properties to the global Vue constructor. This makes it impossible to reinstall the plugin on a `localVue` constructor, or add mocks for these read-only properties**
 
 ## Mocking Injections
 
@@ -135,3 +135,7 @@ mount(Component, {
 ## Dealing with Routing
 
 Since routing by definition has to do with the overall structure of the application and involves multiple components, it is best tested via integration or end-to-end tests. For individual components that rely on `vue-router` features, you can mock them using the techniques mentioned above.
+
+## Detecting styles
+
+Your test can only detect inline styles when running in `jsdom`.
