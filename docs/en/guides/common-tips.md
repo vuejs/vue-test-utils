@@ -136,6 +136,6 @@ mount(Component, {
 
 Since routing by definition has to do with the overall structure of the application and involves multiple components, it is best tested via integration or end-to-end tests. For individual components that rely on `vue-router` features, you can mock them using the techniques mentioned above.
 
-## Detecting style
+## Detecting styles
 
 Your test can only detect inline styles when running in `jsdom`.
