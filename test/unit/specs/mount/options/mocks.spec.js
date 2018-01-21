@@ -102,4 +102,22 @@ describe('mount.mocks', () => {
     expect(error.calledWith(msg)).to.equal(true)
     error.restore()
   })
+
+  it('logs that a property cannot be overwritten if there are problems writing', () => {
+    const error = sinon.stub(console, 'error')
+    const localVue = createLocalVue()
+    Object.defineProperty(localVue.prototype, '$val', {
+      value: 42
+    })
+    const $val = 64
+    mount(Component, {
+      localVue,
+      mocks: {
+        $val
+      }
+    })
+    const msg = '[vue-test-utils]: could not overwrite property $val, this usually caused by a plugin that has added the property as a read-only value'
+    expect(error.calledWith(msg)).to.equal(true)
+    error.restore()
+  })
 })
