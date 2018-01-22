@@ -13,3 +13,4 @@ import Foo from './Foo.vue'
 
 const wrapper = mount(Foo)
 expect(wrapper.attributes().id).toBe('foo')
+```
