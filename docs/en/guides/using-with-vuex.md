@@ -386,6 +386,6 @@ Notice that we use `cloneDeep` to clone the store config before creating a store
 ### Resources
 
 - [Example project for testing the components](https://github.com/eddyerburgh/vue-test-utils-vuex-example)
-- [Example project for testing the store](https://github.com/EddYerburgh/testing-vuex-store-example)
+- [Example project for testing the store](https://github.com/eddyerburgh/testing-vuex-store-example)
 - [`localVue`](../api/options.md#localvue)
 - [`createLocalVue`](../api/createLocalVue.md)
