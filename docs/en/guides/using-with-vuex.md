@@ -1,8 +1,10 @@
 # Using with Vuex
 
-In this guide, we'll see how to test Vuex in components with `vue-test-utils`.
+In this guide, we'll see how to test Vuex in components with `vue-test-utils`, and how to approach testing a Vuex store.
 
-## Mocking Actions
+## Testing Vuex in components
+
+### Mocking Actions
 
 Let’s look at some code.
 
@@ -259,8 +261,131 @@ describe('Modules.vue', () => {
 })
 ```
 
+## Testing a Vuex Store
+
+There are two approaches to testing a Vuex store. The first approach is to unit test the getters, mutations, and actions separately. The second approach is to create a store and test against that. We'll look at both approaches.
+
+To see how to test a Vuex store, we're going to create a simple counter store. The store will have an `increment` mutation and a `counter` getter.
+
+```js
+// mutations.js
+export default {
+  increment (state) {
+    state.count++
+  }
+}
+
+```
+
+```js
+// getters.js
+export default {
+  evenOrOdd: state => state.count % 2 === 0 ? 'even' : 'odd'
+}
+```
+
+### Testing getters, mutations, and actions separately
+
+Getters, mutations, and actions are all JavaScript functions, so we can test them without using `vue-test-utils` or Vuex.
+
+The benefit to testing getters, mutations, and actions separately is that your unit tests are detailed. When they fail, you know exactly what is wrong with your code. The downside is that you will need to mock Vuex funtions, like `commit` and `dispatch`. This can lead to a situation where your unit tests pass, but your production code fails because your mocks are incorrect.
+
+We'll create two test files, mutations.spec.js and getters.spec.js:
+
+First, let's test the `increment` mutations:
+
+```js
+// mutations.spec.js
+
+import mutations from './mutations'
+
+test('increment increments state.count by 1', () => {
+  const state = {
+    count: 0
+  }
+  mutations.increment(state)
+  expect(state.count).toBe(1)
+})
+```
+
+Now let's test the `evenOrOdd` getter. We can test it by creating a mock `state`, calling the getter with the `state` and checking it returns the correct value.
+
+```js
+// getters.spec.js
+
+import getters from './getters'
+
+test('evenOrOdd returns even if state.count is even', () => {
+  const state = {
+    count: 2
+  }
+  expect(getters.evenOrOdd(state)).toBe('even')
+})
+
+test('evenOrOdd returns odd if state.count is even', () => {
+  const state = {
+    count: 1
+  }
+  expect(getters.evenOrOdd(state)).toBe('odd')
+})
+
+```
+
+### Testing a running store
+
+Anopther approach to testing a Vuex store is to create a running store using the store config.
+
+The benefit of testing creating a running store instance is we don't have to mock any Vuex functions.
+
+The downside is that when a test breaks, it can be difficult to find where the problem is.
+
+Let's write a test. When we create a store, we'll use `localVue` to avoid polluting the Vue base constructor. The test creates a store using the store-config.js export:
+
+```js
+import mutations from './mutations'
+import getters from './getters'
+
+export default {
+  state: {
+    count: 0
+  },
+  mutations,
+  getters
+}
+```
+
+```js
+// store-config.spec.js
+
+import { createLocalVue } from '@vue/test-utils'
+import Vuex from 'vuex'
+import storeConfig from './store-config'
+import { cloneDeep } from 'lodash'
+
+test('increments count value when increment is commited', () => {
+  const localVue = createLocalVue()
+  localVue.use(Vuex)
+  const store = new Vuex.Store(cloneDeep(storeConfig))
+  expect(store.state.count).toBe(0)
+  store.commit('increment')
+  expect(store.state.count).toBe(1)
+})
+
+test('updates evenOrOdd getter when increment is commited', () => {
+  const localVue = createLocalVue()
+  localVue.use(Vuex)
+  const store = new Vuex.Store(cloneDeep(storeConfig))
+  expect(store.getters.evenOrOdd).toBe('even')
+  store.commit('increment')
+  expect(store.getters.evenOrOdd).toBe('odd')
+})
+```
+
+Notice that we use `cloneDeep` to clone the store config before creating a store with it. This is because Vuex mutates the options object used to create the store. To make sure we have a clean store in each test, we need to clone the `storeConfig` object.
+
 ### Resources
 
-- [Example project for this guide](https://github.com/eddyerburgh/vue-test-utils-vuex-example)
+- [Example project for testing the components](https://github.com/eddyerburgh/vue-test-utils-vuex-example)
+- [Example project for testing the store](https://github.com/eddyerburgh/testing-vuex-store-example)
 - [`localVue`](../api/options.md#localvue)
 - [`createLocalVue`](../api/createLocalVue.md)
