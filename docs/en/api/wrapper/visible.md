@@ -1,6 +1,6 @@
 # visible()
 
-Assert `Wrapper` or `WrapperArray` is visible.
+Assert `Wrapper` is visible.
 
 Returns false if an ancestor element has `display: none` or `visibility: hidden` style.
 
