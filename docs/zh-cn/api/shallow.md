@@ -22,11 +22,7 @@
 
 - **用法：**
 
-返回第一个 DOM 节点或匹配选择器的 Vue 组件的 [`Wrapper`](wrapper/README.md)。
-
-将存根所有的自组件。
-
-可使用任何有效的[选择器](./selectors.md)。
+和 [`mount`](mount.md) 一样，创建一个包含被挂载和渲染的 Vue 组件的 [`Wrapper`](wrapper/README.md)，不同的是被存根的子组件。
 
 **无选项：**
 

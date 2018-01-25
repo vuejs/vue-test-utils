@@ -13,9 +13,7 @@
 
 - **用法：**
 
-返回第一个 DOM 节点或匹配选择器的 Vue 组件的 [`Wrapper`](wrapper/README.md)。
-
-可使用任何有效的[选择器](selectors.md)。
+创建一个包含被挂载和渲染的 Vue 组件的 [`Wrapper`](wrapper/README.md)。
 
 **Without options:**
 

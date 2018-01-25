@@ -44,7 +44,7 @@ expect(wrapper.is(Foo)).toBe(true)
 
 ### Name
 
-`vue-test-utils` 允许通过一个查找选项对象在组件包裹器上根据 `name` 选择元素。
+`vue-test-utils` 允许通过一个查找选项对象在组件包裹器上根据一个组件的 `name` 选择元素。
 
 
 ```js
