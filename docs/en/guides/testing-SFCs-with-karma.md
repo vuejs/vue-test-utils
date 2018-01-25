@@ -4,7 +4,7 @@
 
 Karma is a test runner that launches browsers, runs tests, and reports them back to us. We're going to use the Mocha framework to write the tests. We'll use the chai library for test assertions.
 
-## Setting up Jest
+## Setting up Mocha
 
 We will assume you are starting with a setup that already has webpack, vue-loader and Babel properly configured - e.g. the `webpack-simple` template scaffolded by `vue-cli`.
 
