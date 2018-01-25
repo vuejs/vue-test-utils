@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import { mount } from '~vue-test-utils'
 import { vueVersion } from '~resources/test-utils'
 
@@ -32,6 +33,16 @@ describe('context', () => {
     const message = '[vue-test-utils]: mount.context can only be used when mounting a functional component'
     const fn = () => mount(Component, { context })
     expect(fn).to.throw().with.property('message', message)
+  })
+
+  it('does not throw error if functional component with Vue.extend', () => {
+    const Component = Vue.extend({
+      functional: true,
+      render: h => h('div')
+    })
+    const context = {}
+    const fn = () => mount(Component, { context })
+    expect(fn).not.to.throw()
   })
 
   it('throws error if context option is not an object', () => {
