@@ -452,14 +452,16 @@ export default class Wrapper implements BaseWrapper {
     if (!this.isVueComponent || !this.vm) {
       throwError('wrapper.setProps() can only be called on a Vue instance')
     }
-
     Object.keys(data).forEach((key) => {
       // $FlowIgnore : Problem with possibly null this.vm
       if (this.vm._props) {
         this.vm._props[key] = data[key]
+        this.vm.$props[key] = data[key]
+        this.vm.$options.propsData[key] = data[key]
       } else {
         // $FlowIgnore : Problem with possibly null this.vm
         this.vm[key] = data[key]
+        this.vm.$options.propsData[key] = data[key]
       }
     })
 
