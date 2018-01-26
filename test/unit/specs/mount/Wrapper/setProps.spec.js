@@ -47,6 +47,30 @@ describe('setProps', () => {
     expect(info.args[0][0]).to.equal(prop1)
   })
 
+  it('should not run watchers if prop updated is null', () => {
+    const TestComponent = {
+      template: `
+      <div>
+        <div v-if="!message">There is no message yet</div>
+        <div v-else>{{ reversedMessage }}</div>
+      </div>
+      `,
+      computed: {
+        reversedMessage: function () {
+          return this.message.split('').reverse().join('')
+        }
+      },
+      props: ['message']
+    }
+    const wrapper = mount(TestComponent, {
+      propsData: {
+        message: 'message'
+      }
+    })
+    wrapper.setProps({ message: null })
+    expect(wrapper.text()).to.equal('There is no message yet')
+  })
+
   it('throws an error if node is not a Vue instance', () => {
     const message = 'wrapper.setProps() can only be called on a Vue instance'
     const compiled = compileToFunctions('<div><p></p></div>')

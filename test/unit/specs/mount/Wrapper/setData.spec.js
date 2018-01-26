@@ -58,4 +58,26 @@ describe('setData', () => {
     const p = wrapper.find('p')
     expect(() => p.setData({ ready: true })).throw(Error, message)
   })
+
+  it('should not run watchers if data updated is null', () => {
+    const TestComponent = {
+      template: `
+      <div>
+        <div v-if="!message">There is no message yet</div>
+        <div v-else>{{ reversedMessage }}</div>
+      </div>
+      `,
+      data: () => ({
+        message: 'egassem'
+      }),
+      computed: {
+        reversedMessage: function () {
+          return this.message.split('').reverse().join('')
+        }
+      }
+    }
+    const wrapper = mount(TestComponent)
+    wrapper.setData({ message: null })
+    expect(wrapper.text()).to.equal('There is no message yet')
+  })
 })

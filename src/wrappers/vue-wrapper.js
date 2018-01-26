@@ -4,7 +4,7 @@ import Wrapper from './wrapper'
 import addSlots from '../lib/add-slots'
 import cloneDeep from 'lodash/cloneDeep'
 
-function update () {
+function update (changedData) {
   // the only component made by mount()
   if (this.$_originalSlots) {
     this.$slots = cloneDeep(this.$_originalSlots)
@@ -12,9 +12,18 @@ function update () {
   if (this.$_mountingOptionsSlots) {
     addSlots(this, this.$_mountingOptionsSlots)
   }
-  this._watchers.forEach(watcher => {
-    watcher.run()
-  })
+  if (changedData) {
+    Object.keys(changedData).forEach((key) => {
+       // $FlowIgnore : Problem with possibly null this.vm
+      this._watchers.forEach((watcher) => {
+        if (watcher.expression === key) { watcher.run() }
+      })
+    })
+  } else {
+    this._watchers.forEach(watcher => {
+      watcher.run()
+    })
+  }
   const vnodes = this._render()
   this._update(vnodes)
   this.$children.forEach(child => update.call(child))
