@@ -377,7 +377,7 @@ export default class Wrapper implements BaseWrapper {
       this.vm.$set(this.vm, [key], data[key])
     })
 
-    this.update()
+    this.update(data)
   }
 
   /**
@@ -452,6 +452,9 @@ export default class Wrapper implements BaseWrapper {
     if (!this.isVueComponent || !this.vm) {
       throwError('wrapper.setProps() can only be called on a Vue instance')
     }
+    if (!this.vm.$options.propsData) {
+      this.vm.$options.propsData = {}
+    }
     Object.keys(data).forEach((key) => {
       // $FlowIgnore : Problem with possibly null this.vm
       if (this.vm._props) {
@@ -465,7 +468,7 @@ export default class Wrapper implements BaseWrapper {
       }
     })
 
-    this.update()
+    this.update(data)
     // $FlowIgnore : Problem with possibly null this.vm
     this.vnode = this.vm._vnode
   }

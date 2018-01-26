@@ -18,7 +18,7 @@ describe('props', () => {
     expect(wrapper.props()).to.eql({})
   })
 
-  it.only('should update after setProps', () => {
+  it('should update after setProps', () => {
     const prop1 = {}
     const prop2 = 'val1'
     const wrapper = mount(ComponentWithProps, {
