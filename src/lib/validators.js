@@ -72,14 +72,14 @@ export function isRefSelector (refOptionsObject: any) {
   }
 
   const validFindKeys = ['ref']
-  const entries = Object.entries(refOptionsObject)
-
-  if (!entries.length) {
+  const keys = Object.keys(refOptionsObject)
+  if (!keys.length) {
     return false
   }
 
-  const isValid = entries.every(([key, value]) => {
-    return validFindKeys.includes(key) && typeof value === 'string'
+  const isValid = Object.keys(refOptionsObject).every((key) => {
+    return validFindKeys.includes(key) &&
+      typeof refOptionsObject[key] === 'string'
   })
 
   return isValid
