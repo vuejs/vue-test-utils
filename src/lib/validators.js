@@ -46,6 +46,13 @@ export function isVueComponent (component: any): boolean {
   return typeof component.render === 'function'
 }
 
+export function componentNeedsCompiling (component) {
+  return component &&
+    !component.render &&
+    (component.template || component.extends) &&
+    !component.functional
+}
+
 export function isValidSelector (selector: any): boolean {
   if (isDomSelector(selector)) {
     return true

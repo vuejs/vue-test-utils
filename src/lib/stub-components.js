@@ -3,6 +3,8 @@
 import Vue from 'vue'
 import { compileToFunctions } from 'vue-template-compiler'
 import { throwError } from './util'
+import { componentNeedsCompiling } from './validators'
+import { compileTemplate } from './compile-template'
 
 function isVueComponent (comp) {
   return comp && (comp.render || comp.template || comp.options)
@@ -81,6 +83,11 @@ export function createComponentStubs (originalComponents: Object = {}, stubs: Ob
         components[stub] = createBlankStub({})
         return
       }
+
+      if (componentNeedsCompiling(stubs[stub])) {
+        compileTemplate(stubs[stub])
+      }
+
       if (originalComponents[stub]) {
         // Remove cached constructor
         delete originalComponents[stub]._Ctor
