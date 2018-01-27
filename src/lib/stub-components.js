@@ -4,12 +4,15 @@ import Vue from 'vue'
 import { compileToFunctions } from 'vue-template-compiler'
 import { throwError } from './util'
 
+function isVueComponent (comp) {
+  return comp && (comp.render || comp.template || comp.options)
+}
+
 function isValidStub (stub: any) {
   return !!stub &&
-      (typeof stub === 'string' ||
+      typeof stub === 'string' ||
       (stub === true) ||
-      (typeof stub === 'object' &&
-      typeof stub.render === 'function'))
+      (isVueComponent(stub))
 }
 
 function isRequiredComponent (name) {
