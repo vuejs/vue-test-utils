@@ -46,7 +46,7 @@ export function isVueComponent (component: any): boolean {
   return typeof component.render === 'function'
 }
 
-export function componentNeedsCompiling (component) {
+export function componentNeedsCompiling (component: any) {
   return component &&
     !component.render &&
     (component.template || component.extends) &&
