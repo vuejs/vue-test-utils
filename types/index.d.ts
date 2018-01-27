@@ -99,6 +99,7 @@ interface WrapperArray<V extends Vue> extends BaseWrapper {
   readonly wrappers: Array<Wrapper<V>>
 
   at (index: number): Wrapper<V>
+  filter (predicate: Function): WrapperArray<Vue>
 }
 
 interface WrapperOptions {

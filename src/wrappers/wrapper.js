@@ -125,6 +125,10 @@ export default class Wrapper implements BaseWrapper {
     return true
   }
 
+  filter () {
+    throwError('filter() must be called on a WrapperArray')
+  }
+
   /**
    * Utility to check wrapper is visible. Returns false if a parent element has display: none or visibility: hidden style.
    */

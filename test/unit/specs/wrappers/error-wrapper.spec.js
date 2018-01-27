@@ -3,7 +3,7 @@ import { compileToFunctions } from 'vue-template-compiler'
 
 describe('ErrorWrapper', () => {
   const methods = ['at', 'attributes', 'classes', 'contains', 'emitted', 'emittedByOrder', 'hasAttribute',
-    'hasClass', 'hasProp', 'hasStyle', 'find', 'findAll', 'html', 'text', 'is', 'isEmpty', 'isVueInstance',
+    'hasClass', 'hasProp', 'hasStyle', 'find', 'findAll', 'filter', 'html', 'text', 'is', 'isEmpty', 'isVueInstance',
     'name', 'props', 'setComputed', 'setMethods', 'setData', 'setProps', 'trigger', 'update', 'destroy']
   methods.forEach((method) => {
     it(`${method} throws error when called`, () => {

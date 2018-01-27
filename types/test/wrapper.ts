@@ -67,3 +67,4 @@ str = wrapper.name()
  */
 let num: number = array.length
 found = array.at(1)
+array = array.filter((a: any) => a === true)
