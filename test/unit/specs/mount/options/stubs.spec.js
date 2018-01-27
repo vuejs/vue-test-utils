@@ -230,6 +230,30 @@ describe('mount.stub', () => {
     expect(wrapper.html()).to.equal('<div><!----></div>')
   })
 
+  it('handles components without a render function', () => {
+    const TestComponent = {
+      template: `
+        <div>
+          <stub-component />
+        </div>
+      `,
+      components: {
+        stubComponent: { template: '<div />' }
+      }
+    }
+    const StubComponent = {
+      template: '<div>No render function</div>'
+    }
+
+    const wrapper = mount(TestComponent, {
+      stubs: {
+        'stub-component': StubComponent
+      }
+    })
+
+    expect(wrapper.text()).contains('No render function')
+  })
+
   it('throws an error when passed an invalid value as stub', () => {
     const error = '[vue-test-utils]: options.stub values must be passed a string or component'
     const invalidValues = [1, null, [], {}, NaN]

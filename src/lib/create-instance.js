@@ -14,6 +14,7 @@ import extractOptions from '../options/extract-options'
 import deleteMountingOptions from '../options/delete-mounting-options'
 import createFunctionalComponent from './create-functional-component'
 import cloneDeep from 'lodash/cloneDeep'
+import { componentNeedsCompiling } from './validators'
 
 export default function createConstructor (
   component: Component,
@@ -39,9 +40,7 @@ export default function createConstructor (
     addProvide(component, mountingOptions.provide, options)
   }
 
-  if (!component.render &&
-    (component.template || component.extends) &&
-    !component.functional) {
+  if (componentNeedsCompiling(component)) {
     compileTemplate(component)
   }
 
