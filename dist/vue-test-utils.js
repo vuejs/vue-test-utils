@@ -15,6 +15,20 @@ function warn (msg) {
   console.error(("[vue-test-utils]: " + msg));
 }
 
+var camelizeRE = /-(\w)/g;
+var camelize = function (str) { return str.replace(camelizeRE, function (_, c) { return c ? c.toUpperCase() : ''; }); };
+
+/**
+ * Capitalize a string.
+ */
+var capitalize = function (str) { return str.charAt(0).toUpperCase() + str.slice(1); };
+
+/**
+ * Hyphenate a camelCase string.
+ */
+var hyphenateRE = /\B([A-Z])/g;
+var hyphenate = function (str) { return str.replace(hyphenateRE, '-$1').toLowerCase(); };
+
 if (typeof window === 'undefined') {
   throwError(
     'window is undefined, vue-test-utils needs to be run in a browser environment.\n' +
@@ -25,12 +39,15 @@ if (typeof window === 'undefined') {
 
 // 
 
+function isVueComponent (comp) {
+  return comp && (comp.render || comp.template || comp.options)
+}
+
 function isValidStub (stub) {
   return !!stub &&
-      (typeof stub === 'string' ||
+      typeof stub === 'string' ||
       (stub === true) ||
-      (typeof stub === 'object' &&
-      typeof stub.render === 'function'))
+      (isVueComponent(stub))
 }
 
 function isRequiredComponent (name) {
@@ -125,25 +142,44 @@ function createComponentStubs (originalComponents, stubs) {
   return components
 }
 
-function createComponentStubsForAll (component) {
-  var components = {};
-  if (!component.components) {
-    return components
-  }
-  Object.keys(component.components).forEach(function (c) {
+function stubComponents (components, stubbedComponents) {
+  Object.keys(components).forEach(function (component) {
     // Remove cached constructor
-    delete component.components[c]._Ctor;
-    if (!component.components[c].name) {
-      component.components[c].name = c;
+    delete components[component]._Ctor;
+    if (!components[component].name) {
+      components[component].name = component;
     }
-    components[c] = createBlankStub(component.components[c]);
+    stubbedComponents[component] = createBlankStub(components[component]);
 
     // ignoreElements does not exist in Vue 2.0.x
     if (Vue.config.ignoredElements) {
-      Vue.config.ignoredElements.push(c);
+      Vue.config.ignoredElements.push(component);
     }
   });
-  return components
+}
+
+function createComponentStubsForAll (component) {
+  var stubbedComponents = {};
+
+  if (component.components) {
+    stubComponents(component.components, stubbedComponents);
+  }
+
+  var extended = component.extends;
+
+  // Loop through extended component chains to stub all child components
+  while (extended) {
+    if (extended.components) {
+      stubComponents(extended.components, stubbedComponents);
+    }
+    extended = extended.extends;
+  }
+
+  if (component.extendOptions && component.extendOptions.components) {
+    stubComponents(component.extendOptions.components, stubbedComponents);
+  }
+
+  return stubbedComponents
 }
 
 function createComponentStubsForGlobals (instance) {
@@ -182,7 +218,7 @@ function isDomSelector (selector) {
   }
 }
 
-function isVueComponent (component) {
+function isVueComponent$1 (component) {
   if (typeof component === 'function' && component.options) {
     return true
   }
@@ -218,17 +254,14 @@ function isRefSelector (refOptionsObject) {
   }
 
   var validFindKeys = ['ref'];
-  var entries = Object.entries(refOptionsObject);
-
-  if (!entries.length) {
+  var keys = Object.keys(refOptionsObject);
+  if (!keys.length) {
     return false
   }
 
-  var isValid = entries.every(function (ref) {
-    var key = ref[0];
-    var value = ref[1];
-
-    return validFindKeys.includes(key) && typeof value === 'string'
+  var isValid = Object.keys(refOptionsObject).every(function (key) {
+    return validFindKeys.includes(key) &&
+      typeof refOptionsObject[key] === 'string'
   });
 
   return isValid
@@ -264,7 +297,7 @@ function getSelectorType (selector) {
     return NAME_SELECTOR
   }
 
-  if (isVueComponent(selector)) {
+  if (isVueComponent$1(selector)) {
     return COMPONENT_SELECTOR
   }
 
@@ -417,6 +450,16 @@ WrapperArray.prototype.contains = function contains (selector) {
 
 WrapperArray.prototype.exists = function exists () {
   return this.length > 0 && this.wrappers.every(function (wrapper) { return wrapper.exists(); })
+};
+
+WrapperArray.prototype.filter = function filter (predicate) {
+  return new WrapperArray(this.wrappers.filter(predicate))
+};
+
+WrapperArray.prototype.visible = function visible () {
+  this.throwErrorIfWrappersIsEmpty('visible');
+
+  return this.length > 0 && this.wrappers.every(function (wrapper) { return wrapper.visible(); })
 };
 
 WrapperArray.prototype.emitted = function emitted () {
@@ -590,6 +633,14 @@ ErrorWrapper.prototype.exists = function exists () {
   return false
 };
 
+ErrorWrapper.prototype.filter = function filter () {
+  throwError(("find did not return " + (this.selector) + ", cannot call filter() on empty Wrapper"));
+};
+
+ErrorWrapper.prototype.visible = function visible () {
+  throwError(("find did not return " + (this.selector) + ", cannot call visible() on empty Wrapper"));
+};
+
 ErrorWrapper.prototype.hasAttribute = function hasAttribute () {
   throwError(("find did not return " + (this.selector) + ", cannot call hasAttribute() on empty Wrapper"));
 };
@@ -750,14 +801,41 @@ function findVnodes (
 
 // 
 
+function findDOMNodes (
+  element,
+  selector
+) {
+  var nodes = [];
+  if (!element || !element.querySelectorAll || !element.matches) {
+    return nodes
+  }
+
+  if (element.matches(selector)) {
+    nodes.push(element);
+  }
+  // $FlowIgnore
+  return nodes.concat([].slice.call(element.querySelectorAll(selector)))
+}
+
+// 
+
 function find (
   vm,
   vnode,
-  selectorType,
+  element,
   selector
 ) {
+  var selectorType = getSelectorTypeOrThrow(selector, 'find');
+
+  if (!vnode && !vm && selectorType !== DOM_SELECTOR) {
+    throwError('cannot find a Vue instance on a DOM node. The node you are calling find on does not exist in the VDom. Are you adding the node as innerHTML?');
+  }
+
   if (selectorType === COMPONENT_SELECTOR || selectorType === NAME_SELECTOR) {
     var root = vm || vnode;
+    if (!root) {
+      return []
+    }
     return findVueComponents(root, selectorType, selector)
   }
 
@@ -765,7 +843,15 @@ function find (
     return [vm.$refs[selector.ref]]
   }
 
-  return findVnodes(vnode, vm, selectorType, selector)
+  if (vnode) {
+    var nodes = findVnodes(vnode, vm, selectorType, selector);
+    if (selectorType !== DOM_SELECTOR) {
+      return nodes
+    }
+    return nodes.length > 0 ? nodes : findDOMNodes(element, selector)
+  }
+
+  return findDOMNodes(element, selector)
 }
 
 // 
@@ -782,9 +868,14 @@ function createWrapper (
 
 // 
 
-var Wrapper = function Wrapper (vnode, update, options) {
-  this.vnode = vnode;
-  this.element = vnode.elm;
+var Wrapper = function Wrapper (node, update, options) {
+  if (node instanceof Element) {
+    this.element = node;
+    this.vnode = null;
+  } else {
+    this.vnode = node;
+    this.element = node.elm;
+  }
   this.update = update;
   this.options = options;
   this.version = Number(((Vue.version.split('.')[0]) + "." + (Vue.version.split('.')[1])));
@@ -836,7 +927,7 @@ Wrapper.prototype.classes = function classes () {
  */
 Wrapper.prototype.contains = function contains (selector) {
   var selectorType = getSelectorTypeOrThrow(selector, 'contains');
-  var nodes = find(this.vm, this.vnode, selectorType, selector);
+  var nodes = find(this.vm, this.vnode, this.element, selector);
   var is = selectorType === REF_SELECTOR ? false : this.is(selector);
   return nodes.length > 0 || is
 };
@@ -871,6 +962,30 @@ Wrapper.prototype.exists = function exists () {
   if (this.vm) {
     return !!this.vm && !this.vm._isDestroyed
   }
+  return true
+};
+
+Wrapper.prototype.filter = function filter () {
+  throwError('filter() must be called on a WrapperArray');
+};
+
+/**
+ * Utility to check wrapper is visible. Returns false if a parent element has display: none or visibility: hidden style.
+ */
+Wrapper.prototype.visible = function visible () {
+  var element = this.element;
+
+  if (!element) {
+    return false
+  }
+
+  while (element) {
+    if (element.style && (element.style.visibility === 'hidden' || element.style.display === 'none')) {
+      return false
+    }
+    element = element.parentElement;
+  }
+
   return true
 };
 
@@ -958,14 +1073,15 @@ Wrapper.prototype.hasStyle = function hasStyle (style, value) {
   var body = document.querySelector('body');
   var mockElement = document.createElement('div');
 
-  if (!(body instanceof HTMLElement)) {
+  if (!(body instanceof Element)) {
     return false
   }
   var mockNode = body.insertBefore(mockElement, null);
   // $FlowIgnore : Flow thinks style[style] returns a number
   mockElement.style[style] = value;
 
-  if (!this.options.attachedToDocument) {
+  if (!this.options.attachedToDocument && (this.vm || this.vnode)) {
+    // $FlowIgnore : Possible null value, will be removed in 1.0.0
     var vm = this.vm || this.vnode.context.$root;
     body.insertBefore(vm.$root._vnode.elm, null);
   }
@@ -979,8 +1095,7 @@ Wrapper.prototype.hasStyle = function hasStyle (style, value) {
  * Finds first node in tree of the current wrapper that matches the provided selector.
  */
 Wrapper.prototype.find = function find$$1 (selector) {
-  var selectorType = getSelectorTypeOrThrow(selector, 'find');
-  var nodes = find(this.vm, this.vnode, selectorType, selector);
+  var nodes = find(this.vm, this.vnode, this.element, selector);
   if (nodes.length === 0) {
     if (selector.ref) {
       return new ErrorWrapper(("ref=\"" + (selector.ref) + "\""))
@@ -996,8 +1111,8 @@ Wrapper.prototype.find = function find$$1 (selector) {
 Wrapper.prototype.findAll = function findAll$1 (selector) {
     var this$1 = this;
 
-  var selectorType = getSelectorTypeOrThrow(selector, 'findAll');
-  var nodes = find(this.vm, this.vnode, selectorType, selector);
+  getSelectorTypeOrThrow(selector, 'findAll');
+  var nodes = find(this.vm, this.vnode, this.element, selector);
   var wrappers = nodes.map(function (node) { return createWrapper(node, this$1.update, this$1.options); }
   );
   return new WrapperArray(wrappers)
@@ -1050,6 +1165,9 @@ Wrapper.prototype.is = function is (selector) {
  * Checks if node is empty
  */
 Wrapper.prototype.isEmpty = function isEmpty () {
+  if (!this.vnode) {
+    return this.element.innerHTML === ''
+  }
   return this.vnode.children === undefined || this.vnode.children.length === 0
 };
 
@@ -1066,6 +1184,10 @@ Wrapper.prototype.isVueInstance = function isVueInstance () {
 Wrapper.prototype.name = function name () {
   if (this.vm) {
     return this.vm.$options.name
+  }
+
+  if (!this.vnode) {
+    return this.element.tagName
   }
 
   return this.vnode.tag
@@ -1104,7 +1226,7 @@ Wrapper.prototype.setData = function setData (data) {
     this$1.vm.$set(this$1.vm, [key], data[key]);
   });
 
-  this.update();
+  this.update(data);
 };
 
 /**
@@ -1116,6 +1238,8 @@ Wrapper.prototype.setComputed = function setComputed (computed) {
   if (!this.isVueComponent) {
     throwError('wrapper.setComputed() can only be called on a Vue instance');
   }
+
+  warn('setComputed() has been deprecated and will be removed in version 1.0.0. You can overwrite computed properties by passing a computed object in the mounting options');
 
   Object.keys(computed).forEach(function (key) {
     if (this$1.version > 2.1) {
@@ -1181,18 +1305,26 @@ Wrapper.prototype.setProps = function setProps (data) {
   if (!this.isVueComponent || !this.vm) {
     throwError('wrapper.setProps() can only be called on a Vue instance');
   }
-
+  if (this.vm && this.vm.$options && !this.vm.$options.propsData) {
+    this.vm.$options.propsData = {};
+  }
   Object.keys(data).forEach(function (key) {
     // $FlowIgnore : Problem with possibly null this.vm
     if (this$1.vm._props) {
       this$1.vm._props[key] = data[key];
+      // $FlowIgnore : Problem with possibly null this.vm.$props
+      this$1.vm.$props[key] = data[key];
+      // $FlowIgnore : Problem with possibly null this.vm.$options
+      this$1.vm.$options.propsData[key] = data[key];
     } else {
       // $FlowIgnore : Problem with possibly null this.vm
       this$1.vm[key] = data[key];
+      // $FlowIgnore : Problem with possibly null this.vm.$options
+      this$1.vm.$options.propsData[key] = data[key];
     }
   });
 
-  this.update();
+  this.update(data);
   // $FlowIgnore : Problem with possibly null this.vm
   this.vnode = this.vm._vnode;
 };
@@ -3886,7 +4018,9 @@ var cloneDeep_1 = cloneDeep;
 
 // 
 
-function update () {
+function update (changedData) {
+  var this$1 = this;
+
   // the only component made by mount()
   if (this.$_originalSlots) {
     this.$slots = cloneDeep_1(this.$_originalSlots);
@@ -3894,9 +4028,18 @@ function update () {
   if (this.$_mountingOptionsSlots) {
     addSlots(this, this.$_mountingOptionsSlots);
   }
-  this._watchers.forEach(function (watcher) {
-    watcher.run();
-  });
+  if (changedData) {
+    Object.keys(changedData).forEach(function (key) {
+       // $FlowIgnore : Problem with possibly null this.vm
+      this$1._watchers.forEach(function (watcher) {
+        if (watcher.expression === key) { watcher.run(); }
+      });
+    });
+  } else {
+    this._watchers.forEach(function (watcher) {
+      watcher.run();
+    });
+  }
   var vnodes = this._render();
   this._update(vnodes);
   this.$children.forEach(function (child) { return update.call(child); });
@@ -3935,7 +4078,7 @@ function addMocks (mockedProperties, Vue$$1) {
     try {
       Vue$$1.prototype[key] = mockedProperties[key];
     } catch (e) {
-      warn('could not overwrite property $store, this usually caused by a plugin that has added the property as a read-only value');
+      warn(("could not overwrite property " + key + ", this usually caused by a plugin that has added the property as a read-only value"));
     }
     Vue.util.defineReactive(Vue$$1, key, mockedProperties[key]);
   });
@@ -4113,9 +4256,9 @@ function isPrimitive (value) {
 function isAsyncPlaceholder (node) {
   return node.isComment && node.asyncFactory
 }
-var camelizeRE = /-(\w)/g;
-var camelize = function (str) {
-  return str.replace(camelizeRE, function (_, c) { return c ? c.toUpperCase() : ''; })
+var camelizeRE$1 = /-(\w)/g;
+var camelize$1 = function (str) {
+  return str.replace(camelizeRE$1, function (_, c) { return c ? c.toUpperCase() : ''; })
 };
 
 function extractTransitionData (comp) {
@@ -4129,7 +4272,7 @@ function extractTransitionData (comp) {
   // extract listeners and pass them directly to the transition methods
   var listeners = options._parentListeners;
   for (var key$1 in listeners) {
-    data[camelize(key$1)] = listeners[key$1];
+    data[camelize$1(key$1)] = listeners[key$1];
   }
   return data
 }
@@ -4355,7 +4498,7 @@ function createConstructor (
     addMocks(mountingOptions.mocks, vue);
   }
 
-  if (component.functional) {
+  if ((component.options && component.options.functional) || component.functional) {
     component = createFunctionalComponent(component, mountingOptions);
   } else if (mountingOptions.context) {
     throwError(
@@ -4459,6 +4602,7 @@ if (typeof Object.assign !== 'function') {
 
 Vue.config.productionTip = false;
 Vue.config.errorHandler = errorHandler;
+Vue.config.devtools = false;
 
 function mount (component, options) {
   if ( options === void 0 ) options = {};
@@ -4490,14 +4634,51 @@ function shallow (
   if ( options === void 0 ) options = {};
 
   var vue = options.localVue || Vue;
+
+  // remove any recursive components added to the constructor
+  // in vm._init from previous tests
+  if (component.name && component.components) {
+    delete component.components[capitalize(camelize(component.name))];
+    delete component.components[hyphenate(component.name)];
+  }
+
   var stubbedComponents = createComponentStubsForAll(component);
   var stubbedGlobalComponents = createComponentStubsForGlobals(vue);
 
   return mount(component, Object.assign({}, options,
     {components: Object.assign({}, stubbedGlobalComponents,
-      stubbedComponents,
-      options)}))
+      stubbedComponents)}))
 }
+
+// 
+var toTypes = [String, Object];
+var eventTypes = [String, Array];
+
+var RouterLinkStub = {
+  name: 'RouterLinkStub',
+  props: {
+    to: {
+      type: toTypes,
+      required: true
+    },
+    tag: {
+      type: String,
+      default: 'a'
+    },
+    exact: Boolean,
+    append: Boolean,
+    replace: Boolean,
+    activeClass: String,
+    exactActiveClass: String,
+    event: {
+      type: eventTypes,
+      default: 'click'
+    }
+  },
+  render: function render (h) {
+    return h(this.tag, undefined, this.$slots.default)
+  }
+};
 
 var index = {
   createLocalVue: createLocalVue,
@@ -4505,7 +4686,8 @@ var index = {
   mount: mount,
   shallow: shallow,
   TransitionStub: TransitionStub,
-  TransitionGroupStub: TransitionGroupStub
+  TransitionGroupStub: TransitionGroupStub,
+  RouterLinkStub: RouterLinkStub
 };
 
 module.exports = index;
