@@ -2,7 +2,9 @@ import { mount, config } from '~vue-test-utils'
 import ComponentWithChild from '~resources/components/component-with-child.vue'
 import ComponentWithNestedChildren from '~resources/components/component-with-nested-children.vue'
 import Component from '~resources/components/component.vue'
+import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
 import { createLocalVue } from '~vue-test-utils'
+import Vue from 'vue'
 
 describe('mount.stub', () => {
   let info
@@ -20,6 +22,20 @@ describe('mount.stub', () => {
     info.restore()
     warn.restore()
     config.stubs = configStubsSave
+  })
+
+  it('accepts valid component stubs', () => {
+    const ComponentWithRender = { render: h => h('div') }
+    const ComponentWithoutRender = { template: '<div></div>' }
+    const ExtendedComponent = Vue.extend({ template: '<div></div>' })
+    mount(ComponentWithChild, {
+      stubs: {
+        ChildComponent: ComponentAsAClass,
+        ChildComponent2: ComponentWithRender,
+        ChildComponent3: ComponentWithoutRender,
+        ChildComponent4: ExtendedComponent
+      }
+    })
   })
 
   it('replaces component with template string ', () => {
