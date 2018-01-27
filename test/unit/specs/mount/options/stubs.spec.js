@@ -244,11 +244,13 @@ describe('mount.stub', () => {
     const StubComponent = {
       template: '<div>No render function</div>'
     }
+
     const wrapper = mount(TestComponent, {
       stubs: {
-        StubComponent
+        'stub-component': StubComponent
       }
     })
+
     expect(wrapper.text()).contains('No render function')
   })
 
