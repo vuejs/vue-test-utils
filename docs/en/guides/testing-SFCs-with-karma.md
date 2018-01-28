@@ -160,7 +160,7 @@ Update your `.babelrc` file to use `babel-plugin-istanbul` when `BABEL_ENV` is s
 }
 ```
 
-Now update the karma.conf.js file to use coverage. Add `coverage` to the reporters array, and add a coverageReporters field:
+Now update the karma.conf.js file to use coverage. Add `coverage` to the reporters array, and add a coverageReporter field:
 
 ```js
 // karma.conf.js
