@@ -138,7 +138,7 @@ Karma にコードカバレッジをセットアップするために、 `karma-
 npm install --save-dev karma-coverage cross-env
 ```
 
-環境変数の `BABEL_ENV` をセットするために `cross-env` を使います。テストをコンパイルする時に babel-plugin-istanbul を使用します。プロダクションコードをコンパイルする時に `babel-plugin-istnabul` を含めるべきではありません。
+環境変数の `BABEL_ENV` をセットするために `cross-env` を使います。テストをコンパイルする時に babel-plugin-istanbul を使用します。プロダクションコードをコンパイルする時は `babel-plugin-istnabul` を含めるべきではありません。
 
 ```
 npm install --save-dev babel-plugin-istanbul
