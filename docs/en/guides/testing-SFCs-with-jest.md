@@ -11,7 +11,7 @@ We will assume you are starting with a setup that already has webpack, vue-loade
 The first thing to do is install Jest and `vue-test-utils`:
 
 ```bash
-$ npm install --save-dev jest vue-test-utils
+$ npm install --save-dev jest @vue/test-utils
 ```
 
 Next we need to define a unit script in our `package.json`.
