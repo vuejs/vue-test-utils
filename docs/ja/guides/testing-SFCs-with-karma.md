@@ -75,7 +75,7 @@ npm install --save-dev karma-chai
 
 ### テストを加える
 
-ファイルを `Counter.vue` という名前で `src` ディレクトリに作成します。
+`Counter.vue` ファイルを `src` ディレクトリに作成します。
 
 ``` html
 <template>
