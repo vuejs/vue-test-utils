@@ -59,9 +59,9 @@ module.exports = function (config) {
 
 このファイルは Karma を設定するために使用されます。
 
-ファイルを Webpack で前処理する必要があります。そのために、 Webpack をプレプロセッサとして加えます。そして、 Webpack の設定を含めます。プロジェクトに元々あった Webpack の設定ファイルを変更なしで使用することができます。
+ファイルを Webpack で前処理する必要があります。そのために、 Webpack をプリプロセッサとして加えます。そして、 Webpack の設定を含めます。プロジェクトに元々あった Webpack の設定ファイルを変更なしで使用することができます。
 
-この設定では、 Chrome でテストを実行します。他のブラウザーを加える方法は [Karma のドキュメントにある Browsers セクション](http://karma-runner.github.io/2.0/config/browsers.html) を見てください。
+この設定では、 Chrome でテストを実行します。他のブラウザを加える方法は [Karma のドキュメントにあるブラウザセクション](http://karma-runner.github.io/2.0/config/browsers.html) を見てください。
 
 ### アサーションライブラリを選ぶ
 
@@ -79,10 +79,10 @@ npm install --save-dev karma-chai
 
 ``` html
 <template>
-	<div>
-	  {{ count }}
-	  <button @click="increment">Increment</button>
-	</div>
+  <div>
+    {{ count }}
+    <button @click="increment">Increment</button>
+  </div>
 </template>
 
 <script>
@@ -138,7 +138,7 @@ Karma にコードカバレッジをセットアップするために、 `karma-
 npm install --save-dev karma-coverage cross-env
 ```
 
-環境変数の `BABEL_ENV` をセットするために `cross-env` を使います。テストをコンパイルする時に babel-plugin-istanbul を使用します。プロダクションコードをコンパイルする時は `babel-plugin-istnabul` を含めるべきではありません。
+環境変数の `BABEL_ENV` をセットするために `cross-env` を使います。テストをコンパイルする時に `babel-plugin-istanbul` を使用します。プロダクションコードをコンパイルする時は `babel-plugin-istnabul` を含めるべきではありません。
 
 ```
 npm install --save-dev babel-plugin-istanbul
