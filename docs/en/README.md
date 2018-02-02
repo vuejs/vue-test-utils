@@ -57,6 +57,7 @@
     * [contains](api/wrapper-array/contains.md)
     * [exists](api/wrapper/exists.md)
     * [destroy](api/wrapper-array/destroy.md)
+    * [filter](api/wrapper-array/filter.md)
     * [is](api/wrapper-array/is.md)
     * [isEmpty](api/wrapper-array/isEmpty.md)
     * [isVueInstance](api/wrapper-array/isVueInstance.md)
