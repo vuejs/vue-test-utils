@@ -44,6 +44,7 @@
   * [contains](./wrapper-array/contains.md)
   * [exists](./wrapper/exists.md)
   * [destroy](./wrapper-array/destroy.md)
+  * [filter](./wrapper-array/filter.md)
   * [is](./wrapper-array/is.md)
   * [isEmpty](./wrapper-array/isEmpty.md)
   * [isVueInstance](./wrapper-array/isVueInstance.md)
