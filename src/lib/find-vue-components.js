@@ -70,6 +70,10 @@ export function vmFunctionalCtorMatchesSelector (component: VNode, Ctor: Object)
     throwError('find for functional components is not support in Vue < 2.3')
   }
 
+  if (!Ctor) {
+    return false
+  }
+
   if (!component[FUNCTIONAL_OPTIONS]) {
     return false
   }
@@ -86,7 +90,10 @@ export default function findVueComponents (
     const nodes = root._vnode
     ? findAllFunctionalComponentsFromVnode(root._vnode)
     : findAllFunctionalComponentsFromVnode(root)
-    return nodes.filter(node => vmFunctionalCtorMatchesSelector(node, selector._Ctor))
+    return nodes.filter(node =>
+      vmFunctionalCtorMatchesSelector(node, selector._Ctor) ||
+      node[FUNCTIONAL_OPTIONS].name === selector.name
+    )
   }
   const components = root._isVue
     ? findAllVueComponentsFromVm(root)

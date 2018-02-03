@@ -35,7 +35,8 @@ function getCoreProperties (component: Component): Object {
     staticStyle: component.staticStyle,
     style: component.style,
     normalizedStyle: component.normalizedStyle,
-    nativeOn: component.nativeOn
+    nativeOn: component.nativeOn,
+    functional: component.functional
   }
 }
 function createStubFromString (templateString: string, originalComponent: Component): Object {
@@ -51,7 +52,7 @@ function createStubFromString (templateString: string, originalComponent: Compon
 function createBlankStub (originalComponent: Component) {
   return {
     ...getCoreProperties(originalComponent),
-    render: () => {}
+    render: h => h('')
   }
 }
 
@@ -126,6 +127,7 @@ function stubComponents (components: Object, stubbedComponents: Object) {
   Object.keys(components).forEach(component => {
     // Remove cached constructor
     delete components[component]._Ctor
+    console.log(components[component].name)
     if (!components[component].name) {
       components[component].name = component
     }
