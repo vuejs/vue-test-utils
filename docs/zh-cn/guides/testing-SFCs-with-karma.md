@@ -1,20 +1,20 @@
-# Testing Single File Components with Karma
+# 用 Karma 测试单文件组件
 
-> An example project for this setup is available on [GitHub](https://github.com/eddyerburgh/vue-test-utils-karma-example).
+> 我们在 [GitHub](https://github.com/eddyerburgh/vue-test-utils-karma-example) 上放有一个该设置的示例工程。
 
-Karma is a test runner that launches browsers, runs tests, and reports them back to us. We're going to use the Mocha framework to write the tests. We'll use the chai library for test assertions.
+Karma 是一个启动浏览器运行测试并生成报告的测试运行器。我们会使用 Mocha 框架撰写测试，同时使用 chai 作为断言库。
 
-## Setting up Mocha
+## 设置 Mocha
 
-We will assume you are starting with a setup that already has webpack, vue-loader and Babel properly configured - e.g. the `webpack-simple` template scaffolded by `vue-cli`.
+我们会假设你一开始已经正确配置好了 webpack、vue-loader 和 Babel——例如通过 `vue-cli` 的 `webpack-simple` 模板搭建起来。
 
-The first thing to do is install the test dependencies:
+第一件要做的事是安装测试依赖：
 
 ``` bash
 npm install --save-dev @vue/test-utils karma karma-chrome-launcher karma-mocha karma-sourcemap-loader karma-spec-reporter karma-webpack mocha
 ```
 
-Next we need to define a test script in our `package.json`.
+接下来我们需要在 `package.json` 定义一个测试脚本。
 
 ```json
 // package.json
@@ -25,11 +25,11 @@ Next we need to define a test script in our `package.json`.
 }
 ```
 
-- The `--single-run` flag tells Karma to run the test suite once.
+- `--single-run` 标识告诉了 Karma 一次性运行该测试套件。
 
-### Karma Configuration
+### Karma 配置
 
-Create a karma.conf.js file in the index of the project:
+在项目的主目录创建一个 `karma.conf.js` 文件：
 
 ```js
 // karma.conf.js
@@ -57,25 +57,25 @@ module.exports = function (config) {
 }
 ```
 
-This file is used to configure Karma.
+这个文件用来配置 Karma。
 
-We need to preprocess our files with webpack. to do that, we add webpack as a preprocessor, and include our webpack config. We can use the webpack config file in the base of the project without changing anything.
+我们需要用 webpack 预处理文件。为此，我们将 webpack 添加为预处理器，并引入我们的 webpack 配置。我们可以在项目基础中使用该 webpack 配置文件而无需任何修改。
 
-In our configuration, we run the tests in Chrome. To add extra browsers, see [the Browsers section in the Karma docs](http://karma-runner.github.io/2.0/config/browsers.html).
+在我们的配置中，我们在 Chrome 中运行测试。如果想添加其它浏览器，可查阅[Karma 文档的浏览器章节](http://karma-runner.github.io/2.0/config/browsers.html)。
 
-### Picking an Assertion Library
+### 选用一个断言库
 
-[Chai](http://chaijs.com/) is a popular assertion library that is commonly used alongside Mocha. You may also want to check out [Sinon](http://sinonjs.org/) for creating spies and stubs.
+[Chai](http://chaijs.com/) 是一个流行的常配合 Mocha 使用的断言库。你也可以选用 [Sinon](http://sinonjs.org/) 来创建监视和存根。
 
-We can install the `karma-chai` plugin to use `chai` in our tests.
+我们可以安装 `karma-chai` 插件以在我们的测试中使用 `chai`。
 
 ``` bash
 npm install --save-dev karma-chai
 ```
 
-### Adding a test
+### 添加一个测试
 
-Create a file in `src` named `Counter.vue`:
+在 `src` 中创建一个名为 `Counter.vue` 的文件：
 
 ``` html
 <template>
@@ -102,7 +102,7 @@ export default {
 </script>
 ```
 
-And create a test file named `test/Counter.spec.js` with the following code:
+然后添加一个名为 `test/Coutner.spec.js` 的测试文件，并写入如下代码：
 
 ```js
 import { expect } from 'chai'
@@ -118,33 +118,33 @@ describe('Counter.vue', () => {
 })
 ```
 
-And now we can run the tests:
+接下来我们可以运行测试：
 
 ```
 npm run test
 ```
 
-Woohoo, we got our tests running!
+Woohoo，我们的测试跑起来了！
 
-### Coverage
+### 覆盖率
 
-To setup code coverage to Karma, we can use the `karma-coverage` plugin.
+我们可以使用 `karma-coverage` 插件来设置 Karma 的代码覆盖率。
 
-By default, `karma-coverage` won't use source maps to map the coverage reports. So we need to use `babel-plugin-istanbul` to make sure the coverage is mapped correctly.
+默认情况下，`karma-coverage` 不会使用 source map 来对照覆盖率报告。所以我们需要使用 `babel-plugin-istanbul` 来确认正确匹配的覆盖率。
 
-Install `karma-coverage`, `babel-plugin-istanbul`, and `cross-env`:
+安装 `karma-coverage`、`babel-plugin-istanbul` 和 `cross-env`：
 
 ```
 npm install --save-dev karma-coverage cross-env
 ```
 
-We're going to use `cross-env` to set a `BABEL_ENV` environment variable. This way we can use babel-plugin-istanbul when we're compiling for our tests—we don't want to include `babel-plugin-istnabul` when we compile our production code:
+我们会使用 `cross-env` 来设置一个 `BABEL_ENV` 环境变量。这样我们就可以在编译测试的时候使用 `babel-plugin-istanbul`——因为我们不想在生产环境下引入 `babel-plugin-istnabul`：
 
 ```
 npm install --save-dev babel-plugin-istanbul
 ```
 
-Update your `.babelrc` file to use `babel-plugin-istanbul` when `BABEL_ENV` is set to test:
+更新你的 `.babelrc` 文件，在因测试设置了 `BABEL_ENV` 时使用 `babel-plugin-istanbul`：
 
 ```json
 {
@@ -160,7 +160,7 @@ Update your `.babelrc` file to use `babel-plugin-istanbul` when `BABEL_ENV` is s
 }
 ```
 
-Now update the karma.conf.js file to use coverage. Add `coverage` to the reporters array, and add a coverageReporter field:
+现在更新 `karma.conf.js` 文件来进行覆盖率测试。添加 `coverage` 到 `reporters` 数组，并添加一个 `coverageReporter` 字段：
 
 ```js
 // karma.conf.js
@@ -182,7 +182,7 @@ module.exports = function (config) {
 }
 ```
 
-And update the `test` script to set the `BABEL_ENV`:
+然后更新 `test` 脚本来设置 `BABEL_ENV`：
 
 ```json
 // package.json
@@ -193,9 +193,9 @@ And update the `test` script to set the `BABEL_ENV`:
 }
 ```
 
-### Resources
+### 相关资料
 
-- [Example project for this setup](https://github.com/eddyerburgh/vue-test-utils-karma-example)
+- [该设置的示例工程](https://github.com/eddyerburgh/vue-test-utils-karma-example)
 - [Karma](http://karma-runner.github.io/)
 - [Mocha](https://mochajs.org/)
 - [Chai](http://chaijs.com/)

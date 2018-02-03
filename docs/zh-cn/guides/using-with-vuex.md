@@ -261,11 +261,11 @@ describe('Modules.vue', () => {
 })
 ```
 
-## Testing a Vuex Store
+## 测试一个 Vuex Store
 
-There are two approaches to testing a Vuex store. The first approach is to unit test the getters, mutations, and actions separately. The second approach is to create a store and test against that. We'll look at both approaches.
+这里有两个测试 Vuex store 的方式。第一个方式是分别单元化测试 getter、mutation 和 action。第二个方式是创建一个 store 并针对其进行测试。我们接下来看看这两种方式如何。
 
-To see how to test a Vuex store, we're going to create a simple counter store. The store will have an `increment` mutation and a `counter` getter.
+为了弄清楚如果测试一个 Vuex store，我们会创建一个简单的计数器 store。该 store 会有一个 `increment` mutation 和一个 `counter` getter。
 
 ```js
 // mutations.js
@@ -284,15 +284,15 @@ export default {
 }
 ```
 
-### Testing getters, mutations, and actions separately
+### 分别测试 getter、mutation 和 action
 
-Getters, mutations, and actions are all JavaScript functions, so we can test them without using `vue-test-utils` or Vuex.
+Getter、mutation 和 action 全部是 JavaScript 函数，所以我们可以不通过 `vue-test-utils` 或 Vuex 测试它们。
 
-The benefit to testing getters, mutations, and actions separately is that your unit tests are detailed. When they fail, you know exactly what is wrong with your code. The downside is that you will need to mock Vuex funtions, like `commit` and `dispatch`. This can lead to a situation where your unit tests pass, but your production code fails because your mocks are incorrect.
+分别测试 getter、mutation 和 action 的好处是你的单元测试是非常详细的。当它们失败时，你完全知道你代码的问题是什么。当然另外一方面你需要伪造诸如 `commit` 和 `dispatch` 的 Vuex 函数。这会导致在一些情况下你伪造错了东西，导致单元测试通过，生产环境的代码缺失败了。
 
-We'll create two test files, mutations.spec.js and getters.spec.js:
+我们会创建两个测试文件：`mutations.spec.js` 和 `getters.spec.js`：
 
-First, let's test the `increment` mutations:
+首先，我们测试名为 `increment` 的 mutation：
 
 ```js
 // mutations.spec.js
@@ -308,7 +308,7 @@ test('increment increments state.count by 1', () => {
 })
 ```
 
-Now let's test the `evenOrOdd` getter. We can test it by creating a mock `state`, calling the getter with the `state` and checking it returns the correct value.
+现在让我们测试 `evenOrOdd` getter。我们可以通过创建一个伪造的 `state` 来测试它，带上 `state` 调用这个 getter 并检查它是否返回正确的结果。
 
 ```js
 // getters.spec.js
@@ -331,15 +331,15 @@ test('evenOrOdd returns odd if state.count is even', () => {
 
 ```
 
-### Testing a running store
+### 测试一个运行中的 store
 
-Anopther approach to testing a Vuex store is to create a running store using the store config.
+另一个测试 Vuex store 的方式就是使用 store 配置创建一个运行中的 store。
 
-The benefit of testing creating a running store instance is we don't have to mock any Vuex functions.
+这样做的好处是我们不需要伪造任何 Vuex 函数。
 
-The downside is that when a test breaks, it can be difficult to find where the problem is.
+另一方面当一个测试失败时，排查问题的难度会增加。
 
-Let's write a test. When we create a store, we'll use `localVue` to avoid polluting the Vue base constructor. The test creates a store using the store-config.js export:
+我们来写一个测试吧。当我们创建一个 store 时，我们会使用 `localVue` 来避免污染 Vue 的基础构造函数。该测试会使用 `store-config.js` 导出的配置创建一个 store：
 
 ```js
 import mutations from './mutations'
@@ -381,12 +381,12 @@ test('updates evenOrOdd getter when increment is commited', () => {
 })
 ```
 
-Notice that we use `cloneDeep` to clone the store config before creating a store with it. This is because Vuex mutates the options object used to create the store. To make sure we have a clean store in each test, we need to clone the `storeConfig` object.
+注意我们在创建一个 store 之前使用了 `cloneDeep` 来克隆 store 配置。这是因为 Vuex 会改变用来创建 store 的选项对象。为了确保我们能为每一个测试都提供一个干净的 store，我们需要克隆 `storeConfig` 对象。
 
 ### 相关资料
 
-- [Example project for testing the components](https://github.com/eddyerburgh/vue-test-utils-vuex-example)
-- [Example project for testing the store](https://github.com/eddyerburgh/testing-vuex-store-example)
+- [测试组件的示例工程](https://github.com/eddyerburgh/vue-test-utils-vuex-example)
+- [测试 store 的示例工程](https://github.com/eddyerburgh/testing-vuex-store-example)
 - [`localVue`](../api/options.md#localvue)
 - [`createLocalVue`](../api/createLocalVue.md)
 
