@@ -5,8 +5,6 @@ const buble = require('rollup-plugin-buble')
 const nodeResolve = require('rollup-plugin-node-resolve')
 const commonjs = require('rollup-plugin-commonjs')
 const chalk = require('chalk')
-const rollupOptionsBuild = require('./config/rollup-options-build')
-const rollupOptionsTest = require('./config/rollup-options-test')
 
 function success (text) {
   console.log(chalk.green(`${text} ✔`))
@@ -15,6 +13,40 @@ function success (text) {
 function error (text) {
   console.log(chalk.red(`${text} ✘`))
 }
+
+const rollupOptionsBuild = [
+  {
+    dest: resolve('dist/vue-test-utils.js'),
+    format: 'cjs'
+  },
+  {
+    name: 'globals',
+    dest: resolve('dist/vue-test-utils.iife.js'),
+    moduleName: 'vueTestUtils',
+    format: 'iife',
+    globals: {
+      'vue': 'Vue',
+      'vue-template-compiler': 'VueTemplateCompiler'
+    }
+  },
+  {
+    dest: resolve('dist/vue-test-utils.umd.js'),
+    format: 'umd',
+    globals: {
+      'vue': 'Vue',
+      'vue-template-compiler': 'VueTemplateCompiler'
+    },
+    moduleName: 'vueTestUtils'
+  }
+]
+
+const rollupOptionsTest = [
+  {
+    dest: resolve('dist/vue-test-utils.js'),
+    format: 'cjs',
+    sourceMap: 'inline'
+  }
+]
 
 const rollupOptions = process.env.NODE_ENV === 'test' ? rollupOptionsTest : rollupOptionsBuild
 

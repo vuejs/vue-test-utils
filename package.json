@@ -9,24 +9,23 @@
     "types/index.d.ts"
   ],
   "scripts": {
-    "build": "node build/build.js",
-    "build:test": "cross-env NODE_ENV=test node build/build.js",
+    "build": "node scripts/build.js",
+    "build:test": "cross-env NODE_ENV=test node scripts/build.js",
     "coverage": "cross-env NODE_ENV=coverage nyc --reporter=lcov --reporter=text npm run test:unit",
     "docs": "cd docs && gitbook install && gitbook serve",
-    "docs:deploy": "build/update-docs.sh",
+    "docs:deploy": "scripts/update-docs.sh",
     "docs:serve": "cd docs && gitbook serve",
     "flow": "flow check",
     "lint": "eslint --ext js,vue src test flow build --ignore-path .gitignore",
     "lint:docs": "eslint --ext js,vue,md docs --ignore-path .gitignore",
     "lint:fix": "npm run lint -- --fix",
-    "setup": "node build/install-hooks.js",
     "test": "npm run lint && npm run lint:docs && npm run flow && npm run test:types && npm run test:unit && npm run test:unit:karma",
-    "test:compat": "test/test.sh",
-    "test:unit": "npm run build:test && cross-env BABEL_ENV=test && mocha-webpack --webpack-config build/webpack.test.config.js test/specs --recursive --require test/setup/mocha.setup.js",
+    "test:compat": "scripts/test-compat.sh",
+    "test:unit": "npm run build:test && cross-env BABEL_ENV=test && mocha-webpack --webpack-config test/setup/webpack.test.config.js test/specs --recursive --require test/setup/mocha.setup.js",
     "test:unit:karma": "npm run build:test && cross-env BABEL_ENV=test TARGET=browser karma start test/setup/karma.conf.js --single-run",
     "test:types": "tsc -p types",
-    "release": "bash build/release.sh",
-    "release:note": "node build/gen-release-note.js"
+    "release": "bash scripts/release.sh",
+    "release:note": "node scripts/gen-release-note.js"
   },
   "repository": {
     "type": "git",
