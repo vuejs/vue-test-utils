@@ -29,7 +29,7 @@ Next we need to define a test script in our `package.json`.
 
 ### Karma Configuration
 
-Create a karma.conf.js file in the index of the project:
+Create a `karma.conf.js` file in the index of the project:
 
 ```js
 // karma.conf.js
@@ -138,7 +138,7 @@ Install `karma-coverage`, `babel-plugin-istanbul`, and `cross-env`:
 npm install --save-dev karma-coverage cross-env
 ```
 
-We're going to use `cross-env` to set a `BABEL_ENV` environment variable. This way we can use babel-plugin-istanbul when we're compiling for our tests—we don't want to include `babel-plugin-istnabul` when we compile our production code:
+We're going to use `cross-env` to set a `BABEL_ENV` environment variable. This way we can use `babel-plugin-istanbul` when we're compiling for our tests—we don't want to include `babel-plugin-istnabul` when we compile our production code:
 
 ```
 npm install --save-dev babel-plugin-istanbul
@@ -160,7 +160,7 @@ Update your `.babelrc` file to use `babel-plugin-istanbul` when `BABEL_ENV` is s
 }
 ```
 
-Now update the karma.conf.js file to use coverage. Add `coverage` to the reporters array, and add a coverageReporter field:
+Now update the `karma.conf.js` file to use coverage. Add `coverage` to the `reporters` array, and add a `coverageReporter` field:
 
 ```js
 // karma.conf.js
