@@ -119,7 +119,9 @@ describe('createLocalVue', () => {
 
     class Plugin {}
     Plugin.install = function (_Vue) {
-      expect(_Vue._installedPlugins.indexOf(Plugin)).to.equal(-1)
+      if (_Vue._installedPlugins) {
+        expect(_Vue._installedPlugins.indexOf(Plugin)).to.equal(-1)
+      }
       installCount++
     }
 
@@ -127,7 +129,9 @@ describe('createLocalVue', () => {
     const localVue = createLocalVue()
     localVue.use(Plugin)
 
-    expect(localVue._installedPlugins.indexOf(Plugin)).to.equal(0)
+    if (localVue._installedPlugins) {
+      expect(localVue._installedPlugins.indexOf(Plugin)).to.equal(0)
+    }
     expect(installCount).to.equal(2)
   })
 
