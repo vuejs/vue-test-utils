@@ -1,4 +1,5 @@
 import { createLocalVue } from '~vue-test-utils'
+import Vue from 'vue'
 import Vuex from 'vuex'
 import Vuetify from 'vuetify'
 import VueRouter from 'vue-router'
@@ -111,6 +112,23 @@ describe('createLocalVue', () => {
   it('installs Vutify successfuly', () => {
     const localVue = createLocalVue()
     localVue.use(Vuetify)
+  })
+
+  it('installs plugin into local Vue regardless of previous install in Vue', () => {
+    let installCount = 0
+
+    class Plugin {}
+    Plugin.install = function (_Vue) {
+      expect(_Vue._installedPlugins.indexOf(Plugin)).to.equal(-1)
+      installCount++
+    }
+
+    Vue.use(Plugin)
+    const localVue = createLocalVue()
+    localVue.use(Plugin)
+
+    expect(localVue._installedPlugins.indexOf(Plugin)).to.equal(0)
+    expect(installCount).to.equal(2)
   })
 
   it('has an errorHandler', () => {
