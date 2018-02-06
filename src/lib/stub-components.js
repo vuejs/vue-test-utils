@@ -127,7 +127,6 @@ function stubComponents (components: Object, stubbedComponents: Object) {
   Object.keys(components).forEach(component => {
     // Remove cached constructor
     delete components[component]._Ctor
-    console.log(components[component].name)
     if (!components[component].name) {
       components[component].name = component
     }
