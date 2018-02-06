@@ -165,7 +165,7 @@ describe('Counter.vue', () => {
 现在我们运行测试：
 
 ```
-npm run unit
+npm run test
 ```
 
 喔，我们的测试运行起来了！

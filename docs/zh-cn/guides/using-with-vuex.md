@@ -1,8 +1,10 @@
 # 配合 Vuex 使用
 
-在本教程中，我们将会看到如何用 `vue-test-utils` 测试组件中的 Vuex。
+在本教程中，我们将会看到如何用 `vue-test-utils` 测试组件中的 Vuex，以及如何测试一个 Vuex store。
 
-## 伪造 Action
+## 在组件中测试 Vuex
+
+### 伪造 Action
 
 我们来看一些代码。
 
@@ -259,9 +261,132 @@ describe('Modules.vue', () => {
 })
 ```
 
+## 测试一个 Vuex Store
+
+这里有两个测试 Vuex store 的方式。第一个方式是分别单元化测试 getter、mutation 和 action。第二个方式是创建一个 store 并针对其进行测试。我们接下来看看这两种方式如何。
+
+为了弄清楚如果测试一个 Vuex store，我们会创建一个简单的计数器 store。该 store 会有一个 `increment` mutation 和一个 `counter` getter。
+
+```js
+// mutations.js
+export default {
+  increment (state) {
+    state.count++
+  }
+}
+
+```
+
+```js
+// getters.js
+export default {
+  evenOrOdd: state => state.count % 2 === 0 ? 'even' : 'odd'
+}
+```
+
+### 分别测试 getter、mutation 和 action
+
+Getter、mutation 和 action 全部是 JavaScript 函数，所以我们可以不通过 `vue-test-utils` 或 Vuex 测试它们。
+
+分别测试 getter、mutation 和 action 的好处是你的单元测试是非常详细的。当它们失败时，你完全知道你代码的问题是什么。当然另外一方面你需要伪造诸如 `commit` 和 `dispatch` 的 Vuex 函数。这会导致在一些情况下你伪造错了东西，导致单元测试通过，生产环境的代码缺失败了。
+
+我们会创建两个测试文件：`mutations.spec.js` 和 `getters.spec.js`：
+
+首先，我们测试名为 `increment` 的 mutation：
+
+```js
+// mutations.spec.js
+
+import mutations from './mutations'
+
+test('increment increments state.count by 1', () => {
+  const state = {
+    count: 0
+  }
+  mutations.increment(state)
+  expect(state.count).toBe(1)
+})
+```
+
+现在让我们测试 `evenOrOdd` getter。我们可以通过创建一个伪造的 `state` 来测试它，带上 `state` 调用这个 getter 并检查它是否返回正确的结果。
+
+```js
+// getters.spec.js
+
+import getters from './getters'
+
+test('evenOrOdd returns even if state.count is even', () => {
+  const state = {
+    count: 2
+  }
+  expect(getters.evenOrOdd(state)).toBe('even')
+})
+
+test('evenOrOdd returns odd if state.count is even', () => {
+  const state = {
+    count: 1
+  }
+  expect(getters.evenOrOdd(state)).toBe('odd')
+})
+
+```
+
+### 测试一个运行中的 store
+
+另一个测试 Vuex store 的方式就是使用 store 配置创建一个运行中的 store。
+
+这样做的好处是我们不需要伪造任何 Vuex 函数。
+
+另一方面当一个测试失败时，排查问题的难度会增加。
+
+我们来写一个测试吧。当我们创建一个 store 时，我们会使用 `localVue` 来避免污染 Vue 的基础构造函数。该测试会使用 `store-config.js` 导出的配置创建一个 store：
+
+```js
+import mutations from './mutations'
+import getters from './getters'
+
+export default {
+  state: {
+    count: 0
+  },
+  mutations,
+  getters
+}
+```
+
+```js
+// store-config.spec.js
+
+import { createLocalVue } from '@vue/test-utils'
+import Vuex from 'vuex'
+import storeConfig from './store-config'
+import { cloneDeep } from 'lodash'
+
+test('increments count value when increment is commited', () => {
+  const localVue = createLocalVue()
+  localVue.use(Vuex)
+  const store = new Vuex.Store(cloneDeep(storeConfig))
+  expect(store.state.count).toBe(0)
+  store.commit('increment')
+  expect(store.state.count).toBe(1)
+})
+
+test('updates evenOrOdd getter when increment is commited', () => {
+  const localVue = createLocalVue()
+  localVue.use(Vuex)
+  const store = new Vuex.Store(cloneDeep(storeConfig))
+  expect(store.getters.evenOrOdd).toBe('even')
+  store.commit('increment')
+  expect(store.getters.evenOrOdd).toBe('odd')
+})
+```
+
+注意我们在创建一个 store 之前使用了 `cloneDeep` 来克隆 store 配置。这是因为 Vuex 会改变用来创建 store 的选项对象。为了确保我们能为每一个测试都提供一个干净的 store，我们需要克隆 `storeConfig` 对象。
+
 ### 相关资料
 
-- [该设置的示例工程](https://github.com/eddyerburgh/vue-test-utils-vuex-example)
+- [测试组件的示例工程](https://github.com/eddyerburgh/vue-test-utils-vuex-example)
+- [测试 store 的示例工程](https://github.com/eddyerburgh/testing-vuex-store-example)
 - [`localVue`](../api/options.md#localvue)
 - [`createLocalVue`](../api/createLocalVue.md)
 

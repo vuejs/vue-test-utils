@@ -11,7 +11,7 @@ Jest 是一个由 Facebook 开发的测试运行器，致力于提供一个“be
 我们要做的第一件事就是安装 Jest 和 `vue-test-utils`：
 
 ```bash
-$ npm install --save-dev jest vue-test-utils
+$ npm install --save-dev jest @vue/test-utils
 ```
 
 然后我们需要在 `package.json` 中定义一个单元测试的脚本。
