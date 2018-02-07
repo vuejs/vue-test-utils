@@ -460,6 +460,12 @@ export default class Wrapper implements BaseWrapper {
       this.vm.$options.propsData = {}
     }
     Object.keys(data).forEach((key) => {
+      // Ignore properties that were not specified in the component options
+      // $FlowIgnore : Problem with possibly null this.vm
+      if (!this.vm.$options._propKeys.includes(key)) {
+        return
+      }
+
       // $FlowIgnore : Problem with possibly null this.vm
       if (this.vm._props) {
         this.vm._props[key] = data[key]
