@@ -33,6 +33,13 @@ describeWithShallowAndMount('setProps', (mountingMethod) => {
     expect(wrapper.find('.prop-2').element.textContent).to.equal(prop2)
   })
 
+  it('does not add properties not defined in component', () => {
+    const undefinedProp = 'some value'
+    const wrapper = mountingMethod(ComponentWithProps)
+    wrapper.setProps({ undefinedProp })
+    expect(wrapper.props().undefinedProp).to.be.undefined
+  })
+
   it('runs watch function when prop is updated', () => {
     const wrapper = mountingMethod(ComponentWithWatch)
     const prop1 = 'testest'
