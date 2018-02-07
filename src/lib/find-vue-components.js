@@ -8,7 +8,7 @@ import {
     throwError
 } from './util'
 
-function findAllVueComponentsFromVm (
+export function findAllVueComponentsFromVm (
   vm: Component,
   components: Array<Component> = []
 ): Array<Component> {
