@@ -58,7 +58,7 @@ npm install --save-dev vue-jest
 
 ## 处理 webpack 别名
 
-如果你在 webpack 中配置了别名解析，比如把 `@` 设置为 `/src` 的别名，那么你也需要用 `moduleNameWrapper` 选项为 Jest 增加一个匹配配置：
+如果你在 webpack 中配置了别名解析，比如把 `@` 设置为 `/src` 的别名，那么你也需要用 `moduleNameMapper` 选项为 Jest 增加一个匹配配置：
 
 ``` json
 {
