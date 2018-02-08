@@ -175,7 +175,27 @@ describe('mount', () => {
     }
 
     const fn = () => mount(TestComponent)
-    expect(fn).to.throw()
+    expect(fn).to.throw('Error in mounted')
+  })
+
+  it('propagates errors when they are thrown by a nested component', () => {
+    const childComponent = {
+      template: '<div></div>',
+      mounted: function () {
+        throw new Error('Error in mounted')
+      }
+    }
+    const rootComponent = {
+      render: function (h) {
+        return h('div', [h(childComponent)])
+      }
+    }
+
+    const fn = () => {
+      mount(rootComponent)
+    }
+
+    expect(fn).to.throw('Error in mounted')
   })
 
   it('overwrites the component options with the options other than the mounting options when the options for mount contain those', () => {
