@@ -11,7 +11,7 @@ Jest は Facebook が開発したテストランナであり、ユニットテ�
 まず Jest と `vue-test-utils` をインストールします:
 
 ```bash
-$ npm install --save-dev jest vue-test-utils
+$ npm install --save-dev jest @vue/test-utils
 ```
 
 次に、`package.json` にスクリプトを定義する必要があります。
