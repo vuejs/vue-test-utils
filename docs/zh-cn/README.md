@@ -70,6 +70,7 @@
   * [组件](api/components/README.md)
     * [TransitionStub](api/components/TransitionStub.md)
     * [TransitionGroupStub](api/components/TransitionGroupStub.md)
+    * [RouterLinkStub](api/components/RouterLinkStub.md)
   * [选择器](api/selectors.md)
   * [createLocalVue](api/createLocalVue.md)
   * [配置](api/config.md)
