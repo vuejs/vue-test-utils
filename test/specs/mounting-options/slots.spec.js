@@ -1,9 +1,13 @@
 import { compileToFunctions } from 'vue-template-compiler'
-import { mount } from '~vue-test-utils'
 import Component from '~resources/components/component.vue'
 import ComponentWithSlots from '~resources/components/component-with-slots.vue'
+import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
+import {
+  describeWithShallowAndMount,
+  vueVersion
+ } from '~resources/test-utils'
 
-describe('mount.slots', () => {
+describeWithShallowAndMount('options.slots', (mountingMethod) => {
   let _window
 
   beforeEach(() => {
@@ -17,23 +21,31 @@ describe('mount.slots', () => {
   })
 
   it('mounts component with default slot if passed component in slot object', () => {
-    const wrapper = mount(ComponentWithSlots, { slots: { default: Component }})
+    const wrapper = mountingMethod(ComponentWithSlots, { slots: { default: Component }})
     expect(wrapper.contains(Component)).to.equal(true)
   })
 
   it('mounts component with default slot if passed component in array in slot object', () => {
-    const wrapper = mount(ComponentWithSlots, { slots: { default: [Component] }})
+    const wrapper = mountingMethod(ComponentWithSlots, { slots: { default: [Component] }})
     expect(wrapper.contains(Component)).to.equal(true)
   })
 
   it('mounts component with default slot if passed object with template prop in slot object', () => {
     const compiled = compileToFunctions('<div id="div" />')
-    const wrapper = mount(ComponentWithSlots, { slots: { default: [compiled] }})
+    const wrapper = mountingMethod(ComponentWithSlots, { slots: { default: [compiled] }})
     expect(wrapper.contains('#div')).to.equal(true)
   })
 
   it('mounts component with default slot if passed string in slot object', () => {
-    const wrapper = mount(ComponentWithSlots, { slots: { default: '<span />' }})
+    const wrapper = mountingMethod(ComponentWithSlots, { slots: { default: '<span />' }})
+    expect(wrapper.contains('span')).to.equal(true)
+  })
+
+  it('works correctly with class component', () => {
+    if (vueVersion < 2.3) {
+      return
+    }
+    const wrapper = mountingMethod(ComponentAsAClass, { slots: { default: '<span />' }})
     expect(wrapper.contains('span')).to.equal(true)
   })
 
@@ -43,36 +55,36 @@ describe('mount.slots', () => {
     }
     window = { navigator: { userAgent: 'PhantomJS' }} // eslint-disable-line no-native-reassign
     const message = '[vue-test-utils]: option.slots does not support strings in PhantomJS. Please use Puppeteer, or pass a component'
-    const fn = () => mount(ComponentWithSlots, { slots: { default: 'foo' }})
+    const fn = () => mountingMethod(ComponentWithSlots, { slots: { default: 'foo' }})
     expect(fn).to.throw().with.property('message', message)
   })
 
   it('mounts component with default slot if passed string in slot object', () => {
-    const wrapper1 = mount(ComponentWithSlots, { slots: { default: 'foo<span>123</span>{{ foo }}' }})
+    const wrapper1 = mountingMethod(ComponentWithSlots, { slots: { default: 'foo<span>123</span>{{ foo }}' }})
     expect(wrapper1.find('main').html()).to.equal('<main>foo<span>123</span>bar</main>')
-    const wrapper2 = mount(ComponentWithSlots, { slots: { default: '<p>1</p>{{ foo }}2' }})
+    const wrapper2 = mountingMethod(ComponentWithSlots, { slots: { default: '<p>1</p>{{ foo }}2' }})
     expect(wrapper2.find('main').html()).to.equal('<main><p>1</p>bar2</main>')
-    const wrapper3 = mount(ComponentWithSlots, { slots: { default: '<p>1</p>{{ foo }}<p>2</p>' }})
+    const wrapper3 = mountingMethod(ComponentWithSlots, { slots: { default: '<p>1</p>{{ foo }}<p>2</p>' }})
     expect(wrapper3.find('main').html()).to.equal('<main><p>1</p>bar<p>2</p></main>')
-    const wrapper4 = mount(ComponentWithSlots, { slots: { default: '123' }})
+    const wrapper4 = mountingMethod(ComponentWithSlots, { slots: { default: '123' }})
     expect(wrapper4.find('main').html()).to.equal('<main>123</main>')
-    const wrapper5 = mount(ComponentWithSlots, { slots: { default: '1{{ foo }}2' }})
+    const wrapper5 = mountingMethod(ComponentWithSlots, { slots: { default: '1{{ foo }}2' }})
     expect(wrapper5.find('main').html()).to.equal('<main>1bar2</main>')
     wrapper5.trigger('keydown')
     expect(wrapper5.find('main').html()).to.equal('<main>1BAR2</main>')
-    const wrapper6 = mount(ComponentWithSlots, { slots: { default: '<p>1</p><p>2</p>' }})
+    const wrapper6 = mountingMethod(ComponentWithSlots, { slots: { default: '<p>1</p><p>2</p>' }})
     expect(wrapper6.find('main').html()).to.equal('<main><p>1</p><p>2</p></main>')
-    const wrapper7 = mount(ComponentWithSlots, { slots: { default: '1<p>2</p>3' }})
+    const wrapper7 = mountingMethod(ComponentWithSlots, { slots: { default: '1<p>2</p>3' }})
     expect(wrapper7.find('main').html()).to.equal('<main>1<p>2</p>3</main>')
   })
 
   it('throws error if passed string in default slot object and vue-template-compiler is undefined', () => {
     const compilerSave = require.cache[require.resolve('vue-template-compiler')].exports.compileToFunctions
     require.cache[require.resolve('vue-template-compiler')].exports.compileToFunctions = undefined
-    delete require.cache[require.resolve('../../../src/mount')]
-    const mountFresh = require('../../../src/mount').default
+    delete require.cache[require.resolve('../../../dist/vue-test-utils')]
+    const mountingMethodFresh = require('../../../dist/vue-test-utils')[mountingMethod.name]
     const message = '[vue-test-utils]: vueTemplateCompiler is undefined, you must pass components explicitly if vue-template-compiler is undefined'
-    const fn = () => mountFresh(ComponentWithSlots, { slots: { default: '<span />' }})
+    const fn = () => mountingMethodFresh(ComponentWithSlots, { slots: { default: '<span />' }})
     try {
       expect(fn).to.throw().with.property('message', message)
     } catch (err) {
@@ -83,22 +95,22 @@ describe('mount.slots', () => {
   })
 
   it('mounts component with default slot if passed string in slot array object', () => {
-    const wrapper = mount(ComponentWithSlots, { slots: { default: ['<span />'] }})
+    const wrapper = mountingMethod(ComponentWithSlots, { slots: { default: ['<span />'] }})
     expect(wrapper.contains('span')).to.equal(true)
   })
 
   it('mounts component with default slot if passed string in slot text array object', () => {
-    const wrapper = mount(ComponentWithSlots, { slots: { default: ['{{ foo }}<span>1</span>', 'bar'] }})
+    const wrapper = mountingMethod(ComponentWithSlots, { slots: { default: ['{{ foo }}<span>1</span>', 'bar'] }})
     expect(wrapper.find('main').html()).to.equal('<main>bar<span>1</span>bar</main>')
   })
 
   it('throws error if passed string in default slot array vue-template-compiler is undefined', () => {
     const compilerSave = require.cache[require.resolve('vue-template-compiler')].exports.compileToFunctions
     require.cache[require.resolve('vue-template-compiler')].exports.compileToFunctions = undefined
-    delete require.cache[require.resolve('../../../src/mount')]
-    const mountFresh = require('../../../src/mount').default
+    delete require.cache[require.resolve('../../../dist/vue-test-utils')]
+    const mountingMethodFresh = require('../../../dist/vue-test-utils')[mountingMethod.name]
     const message = '[vue-test-utils]: vueTemplateCompiler is undefined, you must pass components explicitly if vue-template-compiler is undefined'
-    const fn = () => mountFresh(ComponentWithSlots, { slots: { default: ['<span />'] }})
+    const fn = () => mountingMethodFresh(ComponentWithSlots, { slots: { default: ['<span />'] }})
     try {
       expect(fn).to.throw().with.property('message', message)
     } catch (err) {
@@ -109,7 +121,7 @@ describe('mount.slots', () => {
   })
 
   it('mounts component with named slot if passed component in slot object', () => {
-    const wrapper = mount(ComponentWithSlots, {
+    const wrapper = mountingMethod(ComponentWithSlots, {
       slots: {
         header: [Component],
         footer: [Component]
@@ -119,7 +131,7 @@ describe('mount.slots', () => {
   })
 
   it('mounts component with named slot if passed component in slot object', () => {
-    const wrapper = mount(ComponentWithSlots, {
+    const wrapper = mountingMethod(ComponentWithSlots, {
       slots: {
         header: Component
       }
@@ -134,7 +146,7 @@ describe('mount.slots', () => {
       functional: true,
       render: (h, ctx) => h('div', ctx.data, ctx.slots().default)
     }
-    const wrapper = mount(TestComponent, { slots: { default: Component }})
+    const wrapper = mountingMethod(TestComponent, { slots: { default: Component }})
     expect(wrapper.contains(Component)).to.equal(true)
   })
 
@@ -144,7 +156,7 @@ describe('mount.slots', () => {
       functional: true,
       render: (h, ctx) => h('div', ctx.data, ctx.slots().default)
     }
-    const wrapper = mount(TestComponent, { slots: { default: [Component] }})
+    const wrapper = mountingMethod(TestComponent, { slots: { default: [Component] }})
     expect(wrapper.contains(Component)).to.equal(true)
   })
 
@@ -155,7 +167,7 @@ describe('mount.slots', () => {
       render: (h, ctx) => h('div', ctx.data, ctx.slots().default)
     }
     const compiled = compileToFunctions('<div id="div" />')
-    const wrapper = mount(TestComponent, { slots: { default: [compiled] }})
+    const wrapper = mountingMethod(TestComponent, { slots: { default: [compiled] }})
     expect(wrapper.contains('#div')).to.equal(true)
   })
 
@@ -165,7 +177,7 @@ describe('mount.slots', () => {
       functional: true,
       render: (h, ctx) => h('div', ctx.data, ctx.slots().default)
     }
-    const wrapper = mount(TestComponent, { slots: { default: '<span />' }})
+    const wrapper = mountingMethod(TestComponent, { slots: { default: '<span />' }})
     expect(wrapper.contains('span')).to.equal(true)
   })
 
@@ -174,7 +186,7 @@ describe('mount.slots', () => {
       functional: true,
       render: (h, ctx) => h('div', {}, ctx.slots().named)
     }
-    const wrapper = mount(TestComponent, { slots: { named: Component }})
+    const wrapper = mountingMethod(TestComponent, { slots: { named: Component }})
     expect(wrapper.contains(Component)).to.equal(true)
   })
 
@@ -183,7 +195,7 @@ describe('mount.slots', () => {
       functional: true,
       render: (h, ctx) => h('div', {}, ctx.slots().named)
     }
-    const wrapper = mount(TestComponent, { slots: { named: [Component] }})
+    const wrapper = mountingMethod(TestComponent, { slots: { named: [Component] }})
     expect(wrapper.contains(Component)).to.equal(true)
   })
 
@@ -192,7 +204,7 @@ describe('mount.slots', () => {
       functional: true,
       render: (h, ctx) => h('div', {}, ctx.slots().named)
     }
-    const wrapper = mount(TestComponent, { slots: { named: '<span />' }})
+    const wrapper = mountingMethod(TestComponent, { slots: { named: '<span />' }})
     expect(wrapper.contains('span')).to.equal(true)
   })
 
@@ -201,7 +213,7 @@ describe('mount.slots', () => {
       functional: true,
       render: (h, ctx) => h('div', {}, ctx.slots().named)
     }
-    const wrapper = mount(TestComponent, { slots: { named: ['<span />'] }})
+    const wrapper = mountingMethod(TestComponent, { slots: { named: ['<span />'] }})
     expect(wrapper.contains('span')).to.equal(true)
   })
 
@@ -211,7 +223,7 @@ describe('mount.slots', () => {
       functional: true,
       render: (h, ctx) => h('div', ctx.data, ctx.slots().default)
     }
-    const fn = () => mount(TestComponent, { slots: { named: [false] }})
+    const fn = () => mountingMethod(TestComponent, { slots: { named: [false] }})
     const message = '[vue-test-utils]: slots[key] must be a Component, string or an array of Components'
     expect(fn).to.throw().with.property('message', message)
   })
@@ -222,7 +234,7 @@ describe('mount.slots', () => {
       functional: true,
       render: (h, ctx) => h('div', ctx.data, ctx.slots().default)
     }
-    const fn = () => mount(TestComponent, { slots: { named: [1] }})
+    const fn = () => mountingMethod(TestComponent, { slots: { named: [1] }})
     const message = '[vue-test-utils]: slots[key] must be a Component, string or an array of Components'
     expect(fn).to.throw().with.property('message', message)
   })
@@ -232,7 +244,7 @@ describe('mount.slots', () => {
       functional: true,
       render: (h, ctx) => h('div', ctx.data, ctx.slots().default)
     }
-    const fn = () => mount(TestComponent, { slots: { named: false }})
+    const fn = () => mountingMethod(TestComponent, { slots: { named: false }})
     const message = '[vue-test-utils]: slots[key] must be a Component, string or an array of Components'
     expect(fn).to.throw().with.property('message', message)
   })
@@ -243,7 +255,7 @@ describe('mount.slots', () => {
       functional: true,
       render: (h, ctx) => h('div', ctx.data, ctx.slots().default)
     }
-    const fn = () => mount(TestComponent, { slots: { named: 1 }})
+    const fn = () => mountingMethod(TestComponent, { slots: { named: 1 }})
     const message = '[vue-test-utils]: slots[key] must be a Component, string or an array of Components'
     expect(fn).to.throw().with.property('message', message)
   })
@@ -255,10 +267,10 @@ describe('mount.slots', () => {
     }
     const compilerSave = require.cache[require.resolve('vue-template-compiler')].exports.compileToFunctions
     require.cache[require.resolve('vue-template-compiler')].exports.compileToFunctions = undefined
-    delete require.cache[require.resolve('../../../src/mount')]
-    const mountFresh = require('../../../src/mount').default
+    delete require.cache[require.resolve('../../../dist/vue-test-utils')]
+    const mountingMethodFresh = require('../../../dist/vue-test-utils')[mountingMethod.name]
     const message = '[vue-test-utils]: vueTemplateCompiler is undefined, you must pass components explicitly if vue-template-compiler is undefined'
-    const fn = () => mountFresh(TestComponent, { slots: { default: ['<span />'] }})
+    const fn = () => mountingMethodFresh(TestComponent, { slots: { default: ['<span />'] }})
     try {
       expect(fn).to.throw().with.property('message', message)
     } catch (err) {

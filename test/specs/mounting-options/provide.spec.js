@@ -1,8 +1,9 @@
 import { mount } from '~vue-test-utils'
 import ComponentWithInject from '~resources/components/component-with-inject.vue'
 import { injectSupported } from '~resources/test-utils'
+import { describeWithShallowAndMount } from '~resources/test-utils'
 
-describe('mount.provide', () => {
+describeWithShallowAndMount('options.provide', (mountingMethod) => {
   it('provides objects which is injected by mounted component', () => {
     if (!injectSupported()) return
 
@@ -16,7 +17,7 @@ describe('mount.provide', () => {
   it('provides function which is injected by mounted component', () => {
     if (!injectSupported()) return
 
-    const wrapper = mount(ComponentWithInject, {
+    const wrapper = mountingMethod(ComponentWithInject, {
       provide () {
         return {
           fromMount: 'functionValue'
@@ -30,7 +31,7 @@ describe('mount.provide', () => {
   it('supports beforeCreate in component', () => {
     if (!injectSupported()) return
 
-    const wrapper = mount(ComponentWithInject, {
+    const wrapper = mountingMethod(ComponentWithInject, {
       provide: { fromMount: '_' }
     })
 

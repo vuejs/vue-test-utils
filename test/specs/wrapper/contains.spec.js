@@ -5,8 +5,7 @@ import FunctionalComponent from '~resources/components/functional-component.vue'
 import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
 import {
   functionalSFCsSupported,
-  describeWithShallowAndMount,
-  itSkipIf
+  describeWithShallowAndMount
 } from '~resources/test-utils'
 import ComponentWithoutName from '~resources/components/component-without-name.vue'
 
@@ -41,8 +40,7 @@ describeWithShallowAndMount('contains', (mountingMethod) => {
     expect(wrapper.contains(FunctionalComponent)).to.equal(true)
   })
 
-  itSkipIf(mountingMethod.name === 'shallow',
-  'returns true if wrapper contains Vue class component', () => {
+  it('returns true if wrapper contains Vue class component', () => {
     const TestComponent = {
       template: `
         <div>

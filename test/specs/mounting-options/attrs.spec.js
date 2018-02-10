@@ -1,11 +1,11 @@
 import { compileToFunctions } from 'vue-template-compiler'
-import { mount } from '~vue-test-utils'
 import { attrsSupported } from '~resources/test-utils'
+import { describeWithShallowAndMount } from '~resources/test-utils'
 
-describe('mount.attrs', () => {
+describeWithShallowAndMount('options.attrs', (mountingMethod) => {
   it('handles inherit attrs', () => {
     if (!attrsSupported()) return
-    const wrapper = mount(compileToFunctions('<p :id="anAttr" />'), {
+    const wrapper = mountingMethod(compileToFunctions('<p :id="anAttr" />'), {
       attrs: {
         anAttr: 'an attribute'
       }
@@ -16,7 +16,7 @@ describe('mount.attrs', () => {
   })
 
   it('defines attrs as empty object even when not passed', () => {
-    const wrapper = mount(compileToFunctions('<p />'))
+    const wrapper = mountingMethod(compileToFunctions('<p />'))
     expect(wrapper.vm.$attrs).to.deep.equal({})
   })
 })
