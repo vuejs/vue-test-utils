@@ -10,8 +10,7 @@ import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
 import {
   functionalSFCsSupported,
   vueVersion,
-  describeWithShallowAndMount,
-  itSkipIf
+  describeWithShallowAndMount
 } from '~resources/test-utils'
 
 describeWithShallowAndMount('find', (mountingMethod) => {
@@ -109,22 +108,21 @@ describeWithShallowAndMount('find', (mountingMethod) => {
     expect(wrapper.find(Component).vnode).to.be.an('object')
   })
 
-  itSkipIf(mountingMethod.name === 'shallow',
-    'returns Wrapper of class component', () => {
-      const TestComponent = {
-        template: `
+  it('returns Wrapper of class component', () => {
+    const TestComponent = {
+      template: `
         <div>
           <component-as-a-class />
         </div>
       `,
-        components: {
-          ComponentAsAClass
-        }
+      components: {
+        ComponentAsAClass
       }
+    }
 
-      const wrapper = mountingMethod(TestComponent)
-      expect(wrapper.find(ComponentAsAClass).vnode).to.be.an('object')
-    })
+    const wrapper = mountingMethod(TestComponent)
+    expect(wrapper.find(ComponentAsAClass).vnode).to.be.an('object')
+  })
 
   it('returns Wrapper of Vue Component matching functional component', () => {
     if (!functionalSFCsSupported()) {

@@ -1,6 +1,5 @@
 // @flow
 import {
-  COMPONENT_SELECTOR,
   FUNCTIONAL_OPTIONS,
   VUE_VERSION
 } from './consts'
@@ -52,15 +51,20 @@ function findAllFunctionalComponentsFromVnode (
 }
 
 export function vmCtorMatchesName (vm: Component, name: string): boolean {
-  return (vm.$vnode && vm.$vnode.componentOptions &&
+  return !!((vm.$vnode && vm.$vnode.componentOptions &&
     vm.$vnode.componentOptions.Ctor.options.name === name) ||
-    (vm._vnode && vm._vnode.functionalOptions &&
-      vm._vnode.functionalOptions.name === name) ||
-        vm.$options && vm.$options.name === name
+    (vm._vnode &&
+    vm._vnode.functionalOptions &&
+    vm._vnode.functionalOptions.name === name) ||
+    vm.$options && vm.$options.name === name ||
+    vm.options && vm.options.name === name)
 }
 
 export function vmCtorMatchesSelector (component: Component, selector: Object) {
-  const Ctor = selector._Ctor || selector.options && selector.options._Ctor
+  const Ctor = selector._Ctor || (selector.options && selector.options._Ctor)
+  if (!Ctor) {
+    return false
+  }
   const Ctors = Object.keys(Ctor)
   return Ctors.some(c => Ctor[c] === component.__proto__.constructor)
 }
@@ -95,6 +99,7 @@ export default function findVueComponents (
       node[FUNCTIONAL_OPTIONS].name === selector.name
     )
   }
+  const nameSelector = typeof selector === 'function' ? selector.options.name : selector.name
   const components = root._isVue
     ? findAllVueComponentsFromVm(root)
     : findAllVueComponentsFromVnode(root)
@@ -102,8 +107,6 @@ export default function findVueComponents (
     if (!component.$vnode && !component.$options.extends) {
       return false
     }
-    return selectorType === COMPONENT_SELECTOR
-      ? vmCtorMatchesSelector(component, selector)
-      : vmCtorMatchesName(component, selector.name)
+    return vmCtorMatchesSelector(component, selector) || vmCtorMatchesName(component, nameSelector)
   })
 }
