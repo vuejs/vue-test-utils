@@ -1,12 +1,16 @@
-import { mount, config } from '~vue-test-utils'
+import { config } from '~vue-test-utils'
 import ComponentWithChild from '~resources/components/component-with-child.vue'
 import ComponentWithNestedChildren from '~resources/components/component-with-nested-children.vue'
 import Component from '~resources/components/component.vue'
 import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
 import { createLocalVue } from '~vue-test-utils'
 import Vue from 'vue'
+import {
+  describeWithShallowAndMount,
+  itDoNotRunIf
+ } from '~resources/test-utils'
 
-describe('mount.stub', () => {
+describeWithShallowAndMount('options.stub', (mountingMethod) => {
   let info
   let warn
   let configStubsSave
@@ -28,7 +32,7 @@ describe('mount.stub', () => {
     const ComponentWithRender = { render: h => h('div') }
     const ComponentWithoutRender = { template: '<div></div>' }
     const ExtendedComponent = Vue.extend({ template: '<div></div>' })
-    mount(ComponentWithChild, {
+    mountingMethod(ComponentWithChild, {
       stubs: {
         ChildComponent: ComponentAsAClass,
         ChildComponent2: ComponentWithRender,
@@ -39,7 +43,7 @@ describe('mount.stub', () => {
   })
 
   it('replaces component with template string ', () => {
-    const wrapper = mount(ComponentWithChild, {
+    const wrapper = mountingMethod(ComponentWithChild, {
       stubs: {
         ChildComponent: '<div class="stub"></div>'
       }
@@ -49,7 +53,7 @@ describe('mount.stub', () => {
   })
 
   it('replaces component with a component', () => {
-    const wrapper = mount(ComponentWithChild, {
+    const wrapper = mountingMethod(ComponentWithChild, {
       stubs: {
         ChildComponent: {
           render: h => h('div'),
@@ -64,21 +68,22 @@ describe('mount.stub', () => {
   })
 
   it('does not error if component to stub contains no components', () => {
-    mount(Component, {
+    mountingMethod(Component, {
       stubs: {
         doesNotExist: Component
       }
     })
   })
 
-  it('does not modify component directly', () => {
-    const wrapper = mount(ComponentWithNestedChildren, {
+  itDoNotRunIf(mountingMethod.name === 'shallow',
+  'does not modify component directly', () => {
+    const wrapper = mountingMethod(ComponentWithNestedChildren, {
       stubs: {
         ChildComponent: '<div />'
       }
     })
     expect(wrapper.findAll(Component).length).to.equal(0)
-    const mountedWrapper = mount(ComponentWithNestedChildren)
+    const mountedWrapper = mountingMethod(ComponentWithNestedChildren)
     expect(mountedWrapper.findAll(Component).length).to.equal(1)
   })
 
@@ -86,7 +91,7 @@ describe('mount.stub', () => {
     const ComponentWithGlobalComponent = {
       render: h => h('registered-component')
     }
-    const wrapper = mount(ComponentWithGlobalComponent, {
+    const wrapper = mountingMethod(ComponentWithGlobalComponent, {
       stubs: {
         'registered-component': Component
       }
@@ -98,7 +103,7 @@ describe('mount.stub', () => {
     const ComponentWithGlobalComponent = {
       render: h => h('registered-component')
     }
-    mount(ComponentWithGlobalComponent, {
+    mountingMethod(ComponentWithGlobalComponent, {
       stubs: ['registered-component']
     })
 
@@ -109,7 +114,7 @@ describe('mount.stub', () => {
     const ComponentWithGlobalComponent = {
       render: h => h('registered-component')
     }
-    mount(ComponentWithGlobalComponent, {
+    mountingMethod(ComponentWithGlobalComponent, {
       stubs: {
         'registered-component': true
       }
@@ -124,7 +129,7 @@ describe('mount.stub', () => {
     const invalidValues = [{}, [], 3]
     const error = '[vue-test-utils]: each item in an options.stubs array must be a string'
     invalidValues.forEach(invalidValue => {
-      const fn = () => mount(ComponentWithGlobalComponent, {
+      const fn = () => mountingMethod(ComponentWithGlobalComponent, {
         stubs: [invalidValue]
       })
       expect(fn).to.throw().with.property('message', error)
@@ -151,13 +156,14 @@ describe('mount.stub', () => {
     require.cache[require.resolve('vue-template-compiler')].exports.compileToFunctions = compilerSave
   })
 
-  it('does not stub component when set to false', () => {
-    const wrapper = mount(ComponentWithChild, {
-      stubs: {
-        ChildComponent: false
-      }})
-    expect(wrapper.find('span').contains('div')).to.equal(true)
-  })
+  itDoNotRunIf(mountingMethod.name === 'shallow',
+    'does not stub component when set to false', () => {
+      const wrapper = mountingMethod(ComponentWithChild, {
+        stubs: {
+          ChildComponent: false
+        }})
+      expect(wrapper.find('span').contains('div')).to.equal(true)
+    })
 
   it('combines with stubs from config', () => {
     const localVue = createLocalVue()
@@ -177,7 +183,7 @@ describe('mount.stub', () => {
       ])
     }
 
-    const wrapper = mount(TestComponent, {
+    const wrapper = mountingMethod(TestComponent, {
       stubs: {
         'span-component': '<p />'
       },
@@ -199,7 +205,7 @@ describe('mount.stub', () => {
       ])
     }
 
-    const wrapper = mount(TestComponent, {
+    const wrapper = mountingMethod(TestComponent, {
       stubs: {
         'time-component': '<span />'
       },
@@ -221,7 +227,7 @@ describe('mount.stub', () => {
       ])
     }
 
-    const wrapper = mount(TestComponent, {
+    const wrapper = mountingMethod(TestComponent, {
       stubs: ['a-component'],
       localVue
     })
@@ -245,7 +251,7 @@ describe('mount.stub', () => {
       template: '<div>No render function</div>'
     }
 
-    const wrapper = mount(TestComponent, {
+    const wrapper = mountingMethod(TestComponent, {
       stubs: {
         'stub-component': StubComponent
       }
@@ -258,7 +264,7 @@ describe('mount.stub', () => {
     const error = '[vue-test-utils]: options.stub values must be passed a string or component'
     const invalidValues = [1, null, [], {}, NaN]
     invalidValues.forEach(invalidValue => {
-      const fn = () => mount(ComponentWithChild, {
+      const fn = () => mountingMethod(ComponentWithChild, {
         stubs: {
           ChildComponent: invalidValue
         }})

@@ -46,3 +46,11 @@ export function itSkipIf (predicate, spec, cb) {
     it(spec, cb)
   }
 }
+
+export function itDoNotRunIf (predicate, spec, cb) {
+  if (predicate) {
+    () => {}
+  } else {
+    it(spec, cb)
+  }
+}
