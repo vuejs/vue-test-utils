@@ -23,7 +23,7 @@ describeWithShallowAndMount('isEmpty', (mountingMethod) => {
     expect(wrapper.find('svg').isEmpty()).to.equal(true)
   })
 
-  it('returns false if innerHTML is not empty', () => {
+  it.skip('returns false if innerHTML is not empty', () => {
     const TestComponent = {
       render (createElement) {
         return createElement('div', {

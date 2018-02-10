@@ -2,7 +2,10 @@ import { compileToFunctions } from 'vue-template-compiler'
 import Component from '~resources/components/component.vue'
 import ComponentWithSlots from '~resources/components/component-with-slots.vue'
 import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
-import { describeWithShallowAndMount } from '~resources/test-utils'
+import {
+  describeWithShallowAndMount,
+  vueVersion
+ } from '~resources/test-utils'
 
 describeWithShallowAndMount('options.slots', (mountingMethod) => {
   let _window
@@ -39,6 +42,9 @@ describeWithShallowAndMount('options.slots', (mountingMethod) => {
   })
 
   it('works correctly with class component', () => {
+    if (vueVersion < 2.3) {
+      return
+    }
     const wrapper = mountingMethod(ComponentAsAClass, { slots: { default: '<span />' }})
     expect(wrapper.contains('span')).to.equal(true)
   })
