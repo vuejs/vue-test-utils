@@ -109,7 +109,7 @@ The most important thing to note in this test is that **we create a mock Vuex st
 
 Great, so now we can mock actions, let’s look at mocking getters.
 
-## Mocking Getters
+### Mocking Getters
 
 
 ``` html
@@ -178,7 +178,7 @@ This test is similar to our actions test. We create a mock store before each tes
 
 This is great, but what if we want to check our getters are returning the correct part of our state?
 
-## Mocking with Modules
+### Mocking with Modules
 
 [Modules](https://vuex.vuejs.org/en/modules.html) are useful for separating out our store into manageable chunks. They also export getters. We can use these in our tests.
 
@@ -274,7 +274,6 @@ export default {
     state.count++
   }
 }
-
 ```
 
 ```js
@@ -286,7 +285,7 @@ export default {
 
 ### Testing getters, mutations, and actions separately
 
-Getters, mutations, and actions are all JavaScript functions, so we can test them without using `vue-test-utils` or Vuex.
+Getters, mutations, and actions are all JavaScript functions, so we can test them without using `vue-test-utils` and Vuex.
 
 The benefit to testing getters, mutations, and actions separately is that your unit tests are detailed. When they fail, you know exactly what is wrong with your code. The downside is that you will need to mock Vuex funtions, like `commit` and `dispatch`. This can lead to a situation where your unit tests pass, but your production code fails because your mocks are incorrect.
 
@@ -333,7 +332,7 @@ test('evenOrOdd returns odd if state.count is even', () => {
 
 ### Testing a running store
 
-Anopther approach to testing a Vuex store is to create a running store using the store config.
+Another approach to testing a Vuex store is to create a running store using the store config.
 
 The benefit of testing creating a running store instance is we don't have to mock any Vuex functions.
 
@@ -383,7 +382,7 @@ test('updates evenOrOdd getter when increment is commited', () => {
 
 Notice that we use `cloneDeep` to clone the store config before creating a store with it. This is because Vuex mutates the options object used to create the store. To make sure we have a clean store in each test, we need to clone the `storeConfig` object.
 
-### Resources
+## Resources
 
 - [Example project for testing the components](https://github.com/eddyerburgh/vue-test-utils-vuex-example)
 - [Example project for testing the store](https://github.com/eddyerburgh/testing-vuex-store-example)
