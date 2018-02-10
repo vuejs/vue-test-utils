@@ -1,8 +1,8 @@
 import Vue from 'vue'
-import { mount } from '~vue-test-utils'
 import { vueVersion } from '~resources/test-utils'
+import { describeWithShallowAndMount } from '~resources/test-utils'
 
-describe('context', () => {
+describeWithShallowAndMount('options.context', (mountingMethod) => {
   it('mounts functional component when passed context object', () => {
     if (vueVersion <= 2.2) {
       console.log('WARN: no current way to test functional component is component in v2.1.x')
@@ -21,7 +21,7 @@ describe('context', () => {
       props: { show: true }
     }
 
-    const wrapper = mount(Component, { context })
+    const wrapper = mountingMethod(Component, { context })
     expect(wrapper.is(Component)).to.equal(true)
   })
 
@@ -31,7 +31,7 @@ describe('context', () => {
     }
     const context = {}
     const message = '[vue-test-utils]: mount.context can only be used when mounting a functional component'
-    const fn = () => mount(Component, { context })
+    const fn = () => mountingMethod(Component, { context })
     expect(fn).to.throw().with.property('message', message)
   })
 
@@ -41,7 +41,7 @@ describe('context', () => {
       render: h => h('div')
     })
     const context = {}
-    const fn = () => mount(Component, { context })
+    const fn = () => mountingMethod(Component, { context })
     expect(fn).not.to.throw()
   })
 
@@ -52,7 +52,7 @@ describe('context', () => {
     }
     const context = 'string'
     const message = '[vue-test-utils]: mount.context must be an object'
-    const fn = () => mount(Component, { context })
+    const fn = () => mountingMethod(Component, { context })
     expect(fn).to.throw().with.property('message', message)
   })
 
@@ -68,7 +68,7 @@ describe('context', () => {
       },
       render: (h, { props }) => h('div', props.testProp)
     }
-    const wrapper = mount(Component)
+    const wrapper = mountingMethod(Component)
     expect(wrapper.element.textContent).to.equal(defaultValue)
   })
 
@@ -79,7 +79,7 @@ describe('context', () => {
         return h('div', children)
       }
     }
-    const wrapper = mount(Component, {
+    const wrapper = mountingMethod(Component, {
       context: {
         children: ['render text']
       }
@@ -94,7 +94,7 @@ describe('context', () => {
         return h('div', children)
       }
     }
-    const wrapper = mount(Component, {
+    const wrapper = mountingMethod(Component, {
       context: {
         children: [h => h('div', 'render component')]
       }

@@ -4,7 +4,7 @@ import ComponentWithSlots from '~resources/components/component-with-slots.vue'
 import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
 import { describeWithShallowAndMount } from '~resources/test-utils'
 
-describeWithShallowAndMount.only('slots', (mountingMethod) => {
+describeWithShallowAndMount('slots', (mountingMethod) => {
   let _window
 
   beforeEach(() => {
