@@ -1,10 +1,10 @@
 import ComponentWithTransition from '~resources/components/component-with-transition.vue'
 import TransitionStub from '~src/components/TransitionStub'
-import { mount } from '~vue-test-utils'
+import { describeWithShallowAndMount } from '~resources/test-utils'
 
-describe('TransitionStub', () => {
+describeWithShallowAndMount('TransitionStub', (mountingMethod) => {
   it('update synchronously when used as stubs for Transition', () => {
-    const wrapper = mount(ComponentWithTransition, {
+    const wrapper = mountingMethod(ComponentWithTransition, {
       stubs: {
         'transition': TransitionStub
       }
@@ -12,6 +12,32 @@ describe('TransitionStub', () => {
     expect(wrapper.text()).contains('a')
     wrapper.setData({ a: 'b' })
     expect(wrapper.text()).contains('b')
+  })
+
+  it('does not add v-leave class to children', () => {
+    const TestComponent = {
+      template: `
+    <div>
+      <transition name="expand">
+        <nav v-show="isShown" />
+      </transition>
+      <button @click="isShown = !isShown" />
+    </div>
+    `,
+      data: () => ({
+        isShown: false
+      })
+    }
+    const wrapper = mountingMethod(TestComponent, {
+      stubs: {
+        'transition': TransitionStub
+      }
+    })
+    expect(wrapper.find('nav').visible()).to.equal(false)
+    wrapper.find('button').trigger('click')
+    expect(wrapper.find('nav').visible()).to.equal(true)
+    wrapper.find('button').trigger('click')
+    expect(wrapper.find('nav').visible()).to.equal(false)
   })
 
   it('logs error when has multiple children', () => {
@@ -22,7 +48,7 @@ describe('TransitionStub', () => {
     }
     const msg = '[vue-test-utils]: <transition> can only be used on a single element. Use <transition-group> for lists.'
     const error = sinon.stub(console, 'error')
-    mount(TestComponent, {
+    mountingMethod(TestComponent, {
       stubs: {
         'transition': TransitionStub
       }
@@ -47,7 +73,7 @@ describe('TransitionStub', () => {
         }
       }
     }
-    const wrapper = mount(TestComponent, {
+    const wrapper = mountingMethod(TestComponent, {
       stubs: {
         'transition': TransitionStub
       }
