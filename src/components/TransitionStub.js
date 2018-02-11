@@ -44,22 +44,6 @@ export const camelize = (str: string): string => {
   return str.replace(camelizeRE, (_, c) => c ? c.toUpperCase() : '')
 }
 
-function extractTransitionData (comp: Component): Object {
-  const data = {}
-  const options = comp.$options
-  // props
-  for (const key in options.propsData) {
-    data[key] = comp[key]
-  }
-  // events.
-  // extract listeners and pass them directly to the transition methods
-  const listeners: ?Object = options._parentListeners
-  for (const key in listeners) {
-    data[camelize(key)] = listeners[key]
-  }
-  return data
-}
-
 function hasParentTransition (vnode: VNode): ?boolean {
   while ((vnode = vnode.parent)) {
     if (vnode.data.transition) {
@@ -125,7 +109,7 @@ export default {
         ? (String(child.key).indexOf(id) === 0 ? child.key : id + child.key)
         : child.key
 
-    const data: Object = (child.data || (child.data = {})).transition = extractTransitionData(this)
+    const data: Object = (child.data || (child.data = {}))
     const oldRawChild: ?VNode = this._vnode
     const oldChild: ?VNode = getRealChild(oldRawChild)
     if (child.data.directives && child.data.directives.some(d => d.name === 'show')) {
