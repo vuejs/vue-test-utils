@@ -523,7 +523,7 @@ export default class Wrapper implements BaseWrapper {
     }
 
     // Don't fire event on a disabled element
-    if(this.attributes().disabled) {
+    if (this.attributes().disabled) {
       return
     }
 
