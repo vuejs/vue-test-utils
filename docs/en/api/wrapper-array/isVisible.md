@@ -16,7 +16,7 @@ import { expect } from 'chai'
 import Foo from './Foo.vue'
 
 const wrapper = mount(Foo)
-expect(wrapper.visible()).toBe(true)
-expect(wrapper.findAll('.is-not-visible').visible()).toBe(false)
-expect(wrapper.findAll('.is-visible').visible()).toBe(true)
+expect(wrapper.isVisible()).toBe(true)
+expect(wrapper.findAll('.is-not-visible').isVisible()).toBe(false)
+expect(wrapper.findAll('.is-visible').isVisible()).toBe(true)
 ```

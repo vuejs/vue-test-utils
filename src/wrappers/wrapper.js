@@ -133,6 +133,8 @@ export default class Wrapper implements BaseWrapper {
    * Utility to check wrapper is visible. Returns false if a parent element has display: none or visibility: hidden style.
    */
   visible (): boolean {
+    warn('visible has been deprecated and will be removed in version 1, use isVisible instead')
+
     let element = this.element
 
     if (!element) {
@@ -326,6 +328,26 @@ export default class Wrapper implements BaseWrapper {
       return this.element.innerHTML === ''
     }
     return this.vnode.children === undefined || this.vnode.children.length === 0
+  }
+
+  /**
+   * Checks if node is visible
+   */
+  isVisible (): boolean {
+    let element = this.element
+
+    if (!element) {
+      return false
+    }
+
+    while (element) {
+      if (element.style && (element.style.visibility === 'hidden' || element.style.display === 'none')) {
+        return false
+      }
+      element = element.parentElement
+    }
+
+    return true
   }
 
   /**

@@ -1,4 +1,4 @@
-# visible()
+# isVisible()
 
 Assert `Wrapper` is visible.
 
@@ -16,6 +16,6 @@ import { expect } from 'chai'
 import Foo from './Foo.vue'
 
 const wrapper = mount(Foo)
-expect(wrapper.visible()).toBe(true)
-expect(wrapper.find('.is-not-visible').visible()).toBe(false)
+expect(wrapper.isVisible()).toBe(true)
+expect(wrapper.find('.is-not-visible').isVisible()).toBe(false)
 ```
