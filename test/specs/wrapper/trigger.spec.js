@@ -93,6 +93,21 @@ describeWithShallowAndMount('trigger', (mountingMethod) => {
     expect(clickHandler.calledOnce).to.equal(true)
   })
 
+  it('does not fire on disabled elements', () => {
+    const clickHandler = sinon.stub()
+    const TestComponent = {
+      template: '<button disabled @click="clickHandler"/>',
+      props: ['clickHandler']
+    }
+    const wrapper = mountingMethod(TestComponent, {
+      propsData: {
+        clickHandler
+      }
+    })
+    wrapper.trigger('click')
+    expect(clickHandler.called).to.equal(false)
+  })
+
   it('handles .prevent', () => {
     const TestComponent = {
       template: '<input @keydown.enter.prevent="enter">'
