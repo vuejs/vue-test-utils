@@ -1,5 +1,4 @@
-
-# setMethods(methods)
+# `setMethods(methods)`
 
 Sets `Wrapper` `vm` methods and forces update on each `Wrapper` in `WrapperArray`.
 

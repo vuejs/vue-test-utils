@@ -1,4 +1,4 @@
-# contains(selector)
+# `contains(selector)`
 
 Assert every wrapper in `WrapperArray` contains selector.
 

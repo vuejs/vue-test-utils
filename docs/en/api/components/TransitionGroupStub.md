@@ -1,4 +1,4 @@
-# TransitionGroupStub
+# `TransitionGroupStub`
 
 A component to stub the `transition-group` component. Instead of performing transitions asynchronously, it returns the child components synchronously.
 

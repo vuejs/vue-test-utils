@@ -1,4 +1,4 @@
-# TransitionStub
+# `TransitionStub`
 
 A component to stub the `transition` component. Instead of performing transitions asynchronously, it returns the child component synchronously.
 

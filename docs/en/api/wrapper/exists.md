@@ -1,4 +1,4 @@
-# exists()
+# `exists()`
 
 Assert `Wrapper` or `WrapperArray` exists.
 

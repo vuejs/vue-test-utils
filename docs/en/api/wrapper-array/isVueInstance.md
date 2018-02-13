@@ -1,4 +1,4 @@
-# isVueInstance()
+# `isVueInstance()`
 
 Assert every `Wrapper` in `WrapperArray` is Vue instance.
 

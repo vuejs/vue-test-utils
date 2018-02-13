@@ -1,4 +1,4 @@
-# html()
+# `html()`
 
 Returns HTML of `Wrapper` DOM node as a string.
 

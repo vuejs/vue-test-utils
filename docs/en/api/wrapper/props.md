@@ -1,4 +1,4 @@
-# props()
+# `props()`
 
 Return `Wrapper` `vm` props object.
 

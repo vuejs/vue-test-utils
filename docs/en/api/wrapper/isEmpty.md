@@ -1,4 +1,4 @@
-# isEmpty()
+# `isEmpty()`
 
 Assert `Wrapper` does not contain child node.
 
