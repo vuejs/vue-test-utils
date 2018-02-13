@@ -11,7 +11,7 @@ Jest 是一个由 Facebook 开发的测试运行器，致力于提供一个“be
 我们要做的第一件事就是安装 Jest 和 `vue-test-utils`：
 
 ```bash
-$ npm install --save-dev jest vue-test-utils
+$ npm install --save-dev jest @vue/test-utils
 ```
 
 然后我们需要在 `package.json` 中定义一个单元测试的脚本。
@@ -58,7 +58,7 @@ npm install --save-dev vue-jest
 
 ## 处理 webpack 别名
 
-如果你在 webpack 中配置了别名解析，比如把 `@` 设置为 `/src` 的别名，那么你也需要用 `moduleNameWrapper` 选项为 Jest 增加一个匹配配置：
+如果你在 webpack 中配置了别名解析，比如把 `@` 设置为 `/src` 的别名，那么你也需要用 `moduleNameMapper` 选项为 Jest 增加一个匹配配置：
 
 ``` json
 {

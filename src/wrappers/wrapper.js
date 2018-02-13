@@ -133,6 +133,8 @@ export default class Wrapper implements BaseWrapper {
    * Utility to check wrapper is visible. Returns false if a parent element has display: none or visibility: hidden style.
    */
   visible (): boolean {
+    warn('visible has been deprecated and will be removed in version 1, use isVisible instead')
+
     let element = this.element
 
     if (!element) {
@@ -329,6 +331,26 @@ export default class Wrapper implements BaseWrapper {
   }
 
   /**
+   * Checks if node is visible
+   */
+  isVisible (): boolean {
+    let element = this.element
+
+    if (!element) {
+      return false
+    }
+
+    while (element) {
+      if (element.style && (element.style.visibility === 'hidden' || element.style.display === 'none')) {
+        return false
+      }
+      element = element.parentElement
+    }
+
+    return true
+  }
+
+  /**
    * Checks if wrapper is a vue instance
    */
   isVueInstance (): boolean {
@@ -460,6 +482,12 @@ export default class Wrapper implements BaseWrapper {
       this.vm.$options.propsData = {}
     }
     Object.keys(data).forEach((key) => {
+      // Ignore properties that were not specified in the component options
+      // $FlowIgnore : Problem with possibly null this.vm
+      if (!this.vm.$options._propKeys.includes(key)) {
+        return
+      }
+
       // $FlowIgnore : Problem with possibly null this.vm
       if (this.vm._props) {
         this.vm._props[key] = data[key]
@@ -520,6 +548,11 @@ export default class Wrapper implements BaseWrapper {
 
     if (options.target) {
       throwError('you cannot set the target value of an event. See the notes section of the docs for more details—https://vue-test-utils.vuejs.org/en/api/wrapper/trigger.html')
+    }
+
+    // Don't fire event on a disabled element
+    if (this.attributes().disabled) {
+      return
     }
 
     const modifiers = {

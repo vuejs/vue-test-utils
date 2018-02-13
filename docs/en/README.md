@@ -70,6 +70,7 @@
   * [components](api/components/README.md)
     * [TransitionStub](api/components/TransitionStub.md)
     * [TransitionGroupStub](api/components/TransitionGroupStub.md)
+    * [RouterLinkStub](api/components/RouterLinkStub.md)
   * [Selectors](api/selectors.md)
   * [createLocalVue](api/createLocalVue.md)
   * [config](api/config.md)

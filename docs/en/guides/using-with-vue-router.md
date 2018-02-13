@@ -18,6 +18,8 @@ shallow(Component, {
 })
 ```
 
+> **Note:** Installing Vue Router on a localVue also adds `$route` and `$router` as read-only properties to a localVue. This means you can not use the `mocks` option to overwrite `$route` and `$router` when mounting a component using a localVue with VueRouter installed.
+
 ## Testing components that use `router-link` or `router-view`
 
 When you install Vue Router, the `router-link` and `router-view` components are registered. This means we can use them anywhere in our application without needing to import them.
