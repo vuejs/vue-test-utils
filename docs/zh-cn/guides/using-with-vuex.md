@@ -178,7 +178,7 @@ describe('Getters.vue', () => {
 
 这非常好，但是如果我们想要检查我们的 getter 是否返回了正确的 state 的部分该怎么办呢？
 
-## 伪造 Module
+### 伪造 Module
 
 [Module](https://vuex.vuejs.org/zh-cn/modules.html) 对于将我们的 store 分隔成多个可管理的块来说非常有用。它们也暴露 getter。我们可以在测试中使用它们。
 
@@ -286,7 +286,7 @@ export default {
 
 ### 分别测试 getter、mutation 和 action
 
-Getter、mutation 和 action 全部是 JavaScript 函数，所以我们可以不通过 `vue-test-utils` 或 Vuex 测试它们。
+Getter、mutation 和 action 全部是 JavaScript 函数，所以我们可以不通过 `vue-test-utils` 和 Vuex 测试它们。
 
 分别测试 getter、mutation 和 action 的好处是你的单元测试是非常详细的。当它们失败时，你完全知道你代码的问题是什么。当然另外一方面你需要伪造诸如 `commit` 和 `dispatch` 的 Vuex 函数。这会导致在一些情况下你伪造错了东西，导致单元测试通过，生产环境的代码缺失败了。
 
@@ -342,6 +342,7 @@ test('evenOrOdd returns odd if state.count is even', () => {
 我们来写一个测试吧。当我们创建一个 store 时，我们会使用 `localVue` 来避免污染 Vue 的基础构造函数。该测试会使用 `store-config.js` 导出的配置创建一个 store：
 
 ```js
+// store-config.spec.js
 import mutations from './mutations'
 import getters from './getters'
 
@@ -355,8 +356,6 @@ export default {
 ```
 
 ```js
-// store-config.spec.js
-
 import { createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import storeConfig from './store-config'
@@ -383,7 +382,7 @@ test('updates evenOrOdd getter when increment is commited', () => {
 
 注意我们在创建一个 store 之前使用了 `cloneDeep` 来克隆 store 配置。这是因为 Vuex 会改变用来创建 store 的选项对象。为了确保我们能为每一个测试都提供一个干净的 store，我们需要克隆 `storeConfig` 对象。
 
-### 相关资料
+## 相关资料
 
 - [测试组件的示例工程](https://github.com/eddyerburgh/vue-test-utils-vuex-example)
 - [测试 store 的示例工程](https://github.com/eddyerburgh/testing-vuex-store-example)

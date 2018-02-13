@@ -18,6 +18,8 @@ shallow(Component, {
 })
 ```
 
+> **注意：**在一个 `localVue` 上安装 Vue Router 时也会将 `$route` 和 `$router` 作为两个只读属性添加给该 `localVue`。这意味着如果你使用安装了 Vue Router 的 `localVue`，则不能在挂在一个组件时使用 `mocks` 选项来复写 `$route` 和 `$router`。
+
 ## 测试使用了 `router-link` 或 `router-view` 的组件
 
 当你安装 Vue Router 的时候，`router-link` 和 `router-view` 组件就被注册了。这意味着我们无需再导入可以在应用的任意地方使用它们。
