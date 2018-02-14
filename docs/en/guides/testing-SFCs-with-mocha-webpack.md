@@ -78,7 +78,7 @@ module.exports = {
 
 ### Setting Up Browser Environment
 
-`vue-test-utils` requires a browser environment to run. We can simulate it in Node using `jsdom-global`:
+Vue Test Utils requires a browser environment to run. We can simulate it in Node using `jsdom-global`:
 
 ```bash
 npm install --save-dev jsdom jsdom-global
@@ -90,7 +90,7 @@ Then in `test/setup.js`:
 require('jsdom-global')()
 ```
 
-This adds a browser environment to Node, so that `vue-test-utils` can run correctly.
+This adds a browser environment to Node, so that Vue Test Utils can run correctly.
 
 ### Picking an Assertion Library
 

@@ -1,7 +1,7 @@
-# vue-test-utils [![Build Status](https://circleci.com/gh/vuejs/vue-test-utils/tree/dev.png?style=shield)](https://circleci.com/gh/vuejs/vue-test-utils)
+# Vue Test Utils [![Build Status](https://circleci.com/gh/vuejs/vue-test-utils/tree/dev.png?style=shield)](https://circleci.com/gh/vuejs/vue-test-utils)
 
 ## Currently in beta
-To use vue-test-utils beta:
+To use Vue Test Utils beta:
 ```
 // npm
 npm install --save-dev @vue/test-utils
@@ -12,7 +12,7 @@ yarn add --dev @vue/test-utils
 
 ## Intro
 
-`vue-test-utils` is the official test library for [Vue.js](http://vuejs.org). It provides methods for unit testing Vue components.
+Vue Test Utils is the official test library for [Vue.js](http://vuejs.org). It provides methods for unit testing Vue components.
 
 ## Documentation
 

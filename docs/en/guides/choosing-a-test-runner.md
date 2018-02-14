@@ -2,7 +2,7 @@
 
 A test runner is a program that runs tests.
 
-There are many popular JavaScript test runners, and `vue-test-utils` works with all of them. It's test runner agnostic.
+There are many popular JavaScript test runners, and Vue Test Utils works with all of them. It's test runner agnostic.
 
 There are a few things to consider when choosing a test runner though: feature set, performance, and support for single-file component (SFC) pre-compilation. After carefully comparing existing libraries, here are two test runners that we recommend:
 
@@ -12,7 +12,7 @@ There are a few things to consider when choosing a test runner though: feature s
 
 ## Browser Environment
 
-`vue-test-utils` relies on a browser environment. Technically you can run it in a real browser, but it's not recommended due to the complexity of launching real browsers on different platforms. Instead, we recommend running the tests in Node with a virtual browser environment using [JSDOM](https://github.com/tmpvar/jsdom).
+Vue Test Utils relies on a browser environment. Technically you can run it in a real browser, but it's not recommended due to the complexity of launching real browsers on different platforms. Instead, we recommend running the tests in Node with a virtual browser environment using [JSDOM](https://github.com/tmpvar/jsdom).
 
 The Jest test runner sets up JSDOM automatically. For other test runners, you can manually set up JSDOM for the tests using [jsdom-global](https://github.com/rstacruz/jsdom-global) in the entry for your tests:
 

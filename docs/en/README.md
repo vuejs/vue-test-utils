@@ -1,6 +1,6 @@
-# vue-test-utils
+# Vue Test Utils
 
-`vue-test-utils` is the official unit testing utility library for Vue.js.
+Vue Test Utils is the official unit testing utility library for Vue.js.
 
 ## Table of Contents
 

@@ -8,7 +8,7 @@ Jest is a test runner developed by Facebook, aiming to deliver a battery-include
 
 We will assume you are starting with a setup that already has webpack, vue-loader and Babel properly configured - e.g. the `webpack-simple` template scaffolded by `vue-cli`.
 
-The first thing to do is install Jest and `vue-test-utils`:
+The first thing to do is install Jest and Vue Test Utils:
 
 ```bash
 $ npm install --save-dev jest @vue/test-utils

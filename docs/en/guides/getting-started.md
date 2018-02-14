@@ -2,7 +2,7 @@
 
 ## Setup
 
-To get a quick taste of using `vue-test-utils`, clone our demo repository with basic setup and install the dependencies:
+To get a quick taste of using Vue Test Utils, clone our demo repository with basic setup and install the dependencies:
 
 ``` bash
 git clone https://github.com/vuejs/vue-test-utils-getting-started
@@ -39,7 +39,7 @@ export default {
 
 ### Mounting Components
 
-`vue-test-utils` tests Vue components by mounting them in isolation, mocking the necessary inputs (props, injections and user events) and asserting the outputs (render result, emitted custom events).
+Vue Test Utils tests Vue components by mounting them in isolation, mocking the necessary inputs (props, injections and user events) and asserting the outputs (render result, emitted custom events).
 
 Mounted components are returned inside a [Wrapper](./api/wrapper.md), which exposes many convenience methods for manipulating, traversing and querying the underlying Vue component instance.
 
@@ -60,7 +60,7 @@ const wrapper = mount(Counter)
 const vm = wrapper.vm
 
 // To inspect the wrapper deeper just log it to the console
-// and your adventure with the `vue-test-utils` begins
+// and your adventure with the Vue Test Utils begins
 console.log(wrapper)
 ```
 
@@ -106,7 +106,7 @@ it('button click should increment the count', () => {
 
 Vue batches pending DOM updates and applies them asynchronously to prevent unnecessary re-renders caused by multiple data mutations. This is why in practice we often have to use `Vue.nextTick` to wait until Vue has performed the actual DOM update after we trigger some state change.
 
-To simplify usage, `vue-test-utils` applies all updates synchronously so you don't need to use `Vue.nextTick` to wait for DOM updates in your tests.
+To simplify usage, Vue Test Utils applies all updates synchronously so you don't need to use `Vue.nextTick` to wait for DOM updates in your tests.
 
 *Note: `nextTick` is still necessary when you need to explictly advance the event loop, for operations such as asynchronous callbacks or promise resolution.*
 
@@ -140,5 +140,5 @@ it('will catch the error using a promise', () => {
 
 ## What's Next
 
-- Integrate `vue-test-utils` into your project by [choosing a test runner](./choosing-a-test-runner.md).
+- Integrate Vue Test Utils into your project by [choosing a test runner](./choosing-a-test-runner.md).
 - Learn more about [common techniques when writing tests](./common-tips.md).
