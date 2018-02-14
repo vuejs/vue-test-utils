@@ -1,4 +1,4 @@
-# emittedByOrder()
+# `emittedByOrder()`
 
 Return an Array containing custom events emitted by the `Wrapper` `vm`.
 

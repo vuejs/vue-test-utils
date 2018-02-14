@@ -1,4 +1,4 @@
-# update()
+# `update()`
 
 Force root Vue component of each `Wrapper` in `WrapperArray` to re-render.
 

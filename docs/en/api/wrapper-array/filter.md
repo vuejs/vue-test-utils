@@ -1,4 +1,4 @@
-# filter(predicate)
+# `filter(predicate)`
 
 Filter `WrapperArray` with a predicate function on `Wrapper` objects.
 

@@ -1,4 +1,4 @@
-# emitted()
+# `emitted()`
 
 Return an object containing custom events emitted by the `Wrapper` `vm`.
 

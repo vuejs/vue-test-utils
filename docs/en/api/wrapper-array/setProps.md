@@ -1,4 +1,4 @@
-# setProps(props)
+# `setProps(props)`
 
 Sets `Wrapper` `vm` props and forces update on each `Wrapper` in `WrapperArray`.
 

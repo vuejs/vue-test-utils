@@ -1,4 +1,4 @@
-# isVisible()
+# `isVisible()`
 
 Assert `Wrapper` is visible.
 
@@ -11,7 +11,7 @@ This can be used to assert that a component is hidden by `v-show`.
 - **Example:**
 
 ```js
-import { mount } from 'vue-test-utils'
+import { mount } from '@vue/test-utils'
 import { expect } from 'chai'
 import Foo from './Foo.vue'
 

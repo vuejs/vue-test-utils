@@ -289,7 +289,7 @@ Getters, mutations, and actions are all JavaScript functions, so we can test the
 
 The benefit to testing getters, mutations, and actions separately is that your unit tests are detailed. When they fail, you know exactly what is wrong with your code. The downside is that you will need to mock Vuex funtions, like `commit` and `dispatch`. This can lead to a situation where your unit tests pass, but your production code fails because your mocks are incorrect.
 
-We'll create two test files, mutations.spec.js and getters.spec.js:
+We'll create two test files, `mutations.spec.js` and `getters.spec.js`:
 
 First, let's test the `increment` mutations:
 
@@ -338,7 +338,7 @@ The benefit of testing creating a running store instance is we don't have to moc
 
 The downside is that when a test breaks, it can be difficult to find where the problem is.
 
-Let's write a test. When we create a store, we'll use `localVue` to avoid polluting the Vue base constructor. The test creates a store using the store-config.js export:
+Let's write a test. When we create a store, we'll use `localVue` to avoid polluting the Vue base constructor. The test creates a store using the `store-config.js` export:
 
 ```js
 // store-config.spec.js

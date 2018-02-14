@@ -1,4 +1,4 @@
-# trigger(eventName)
+# `trigger(eventName)`
 
 Triggers an event on every `Wrapper` in the `WrapperArray` DOM node.
 

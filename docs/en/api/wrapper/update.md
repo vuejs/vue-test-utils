@@ -1,4 +1,4 @@
-# update()
+# `update()`
 
 Force root Vue component to re-render.
 

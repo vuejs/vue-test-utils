@@ -1,4 +1,4 @@
-# text()
+# `text()`
 
 Returns text content of `Wrapper`.
 

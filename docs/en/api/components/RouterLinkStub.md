@@ -1,4 +1,4 @@
-# RouterLinkStub
+# `RouterLinkStub`
 
 A component to stub the Vue Router `router-link` component.
 

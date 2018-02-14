@@ -1,4 +1,4 @@
-# find(selector)
+# `find(selector)`
 
 Returns [`Wrapper`](README.md) of first DOM node or Vue component matching selector.
 
