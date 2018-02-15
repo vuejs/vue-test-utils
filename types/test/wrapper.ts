@@ -13,8 +13,10 @@ bool = wrapper.contains(ClassComponent)
 bool = wrapper.exists()
 
 bool = wrapper.hasAttribute('foo', 'bar')
+bool = wrapper.attributes().foo === 'bar'
 bool = wrapper.hasClass('foo-class')
 bool = wrapper.hasProp('checked', true)
+bool = wrapper.props().checked
 bool = wrapper.hasStyle('color', 'red')
 
 bool = wrapper.is(normalOptions)
