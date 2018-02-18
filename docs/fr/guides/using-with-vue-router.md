@@ -9,11 +9,12 @@ Pour éviter cela, on peut utiliser une `localVue`, et installer Vue Router dess
 ```js
 import VueRouter from 'vue-router'
 const localVue = createLocalVue()
-
 localVue.use(VueRouter)
+const router = new VueRouter()
 
 shallow(Component, {
-  localVue
+  localVue,
+  router
 })
 ```
 
