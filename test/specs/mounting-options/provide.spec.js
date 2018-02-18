@@ -1,22 +1,26 @@
-import { mount } from '~vue-test-utils'
 import ComponentWithInject from '~resources/components/component-with-inject.vue'
 import { injectSupported } from '~resources/test-utils'
-import { describeWithShallowAndMount } from '~resources/test-utils'
+import {
+  describeWithMountingMethods,
+  itDoNotRunIf
+ } from '~resources/test-utils'
 
-describeWithShallowAndMount('options.provide', (mountingMethod) => {
-  it('provides objects which is injected by mounted component', () => {
-    if (!injectSupported()) return
+describeWithMountingMethods('options.provide', (mountingMethod) => {
+  itDoNotRunIf(!injectSupported(),
+    'provides objects which is injected by mounted component', () => {
+      if (!injectSupported()) return
 
-    const wrapper = mount(ComponentWithInject, {
-      provide: { fromMount: 'objectValue' }
+      const wrapper = mountingMethod(ComponentWithInject, {
+        provide: { fromMount: 'objectValue' }
+      })
+      const HTML = mountingMethod.name === 'render'
+    ? wrapper
+    : wrapper.html()
+      expect(HTML).to.contain('objectValue')
     })
 
-    expect(wrapper.text()).to.contain('objectValue')
-  })
-
-  it('provides function which is injected by mounted component', () => {
-    if (!injectSupported()) return
-
+  itDoNotRunIf(!injectSupported(),
+  'provides function which is injected by mounted component', () => {
     const wrapper = mountingMethod(ComponentWithInject, {
       provide () {
         return {
@@ -24,17 +28,20 @@ describeWithShallowAndMount('options.provide', (mountingMethod) => {
         }
       }
     })
-
-    expect(wrapper.text()).to.contain('functionValue')
+    const HTML = mountingMethod.name === 'render'
+    ? wrapper
+    : wrapper.html()
+    expect(HTML).to.contain('functionValue')
   })
 
-  it('supports beforeCreate in component', () => {
-    if (!injectSupported()) return
+  itDoNotRunIf(!injectSupported() || mountingMethod.name === 'render',
+    'supports beforeCreate in component', () => {
+      if (!injectSupported()) return
 
-    const wrapper = mountingMethod(ComponentWithInject, {
-      provide: { fromMount: '_' }
+      const wrapper = mountingMethod(ComponentWithInject, {
+        provide: { fromMount: '_' }
+      })
+
+      expect(wrapper.vm.setInBeforeCreate).to.equal('created')
     })
-
-    expect(wrapper.vm.setInBeforeCreate).to.equal('created')
-  })
 })

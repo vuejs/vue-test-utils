@@ -1,7 +1,7 @@
 /* global describe, it*/
 
 import Vue from 'vue'
-import { shallow, mount } from '~vue-test-utils'
+import { shallow, mount, render } from '~vue-test-utils'
 
 export const vueVersion = Number(`${Vue.version.split('.')[0]}.${Vue.version.split('.')[1]}`)
 
@@ -24,6 +24,24 @@ export function functionalSFCsSupported () {
 export function describeWithShallowAndMount (spec, cb) {
   ;[mount, shallow].forEach(method => {
     describe(`${spec} with ${method.name}`, () => cb(method))
+  })
+}
+
+export function describeWithMountingMethods (spec, cb) {
+  ;[mount, shallow, render].forEach(method => {
+    describe(`${spec} with ${method.name}`, () => cb(method))
+  })
+}
+
+describeWithMountingMethods.skip = function (spec, cb) {
+  ;[mount, shallow, render].forEach(method => {
+    describe.skip(`${spec} with ${method.name}`, () => cb(method))
+  })
+}
+
+describeWithMountingMethods.only = function (spec, cb) {
+  ;[mount, shallow, render].forEach(method => {
+    describe.only(`${spec} with ${method.name}`, () => cb(method))
   })
 }
 

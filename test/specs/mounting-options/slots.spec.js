@@ -3,11 +3,11 @@ import Component from '~resources/components/component.vue'
 import ComponentWithSlots from '~resources/components/component-with-slots.vue'
 import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
 import {
-  describeWithShallowAndMount,
+  describeWithMountingMethods,
   vueVersion
  } from '~resources/test-utils'
 
-describeWithShallowAndMount('options.slots', (mountingMethod) => {
+describeWithMountingMethods('options.slots', (mountingMethod) => {
   let _window
 
   beforeEach(() => {
@@ -22,23 +22,40 @@ describeWithShallowAndMount('options.slots', (mountingMethod) => {
 
   it('mounts component with default slot if passed component in slot object', () => {
     const wrapper = mountingMethod(ComponentWithSlots, { slots: { default: Component }})
-    expect(wrapper.contains(Component)).to.equal(true)
+    console.log(mountingMethod.name)
+    if (mountingMethod.name === 'render') {
+      expect(wrapper).contains('<div></div>')
+    } else {
+      expect(wrapper.contains(Component)).to.equal(true)
+    }
   })
 
   it('mounts component with default slot if passed component in array in slot object', () => {
     const wrapper = mountingMethod(ComponentWithSlots, { slots: { default: [Component] }})
-    expect(wrapper.contains(Component)).to.equal(true)
+    if (mountingMethod.name === 'render') {
+      expect(wrapper).contains('<div></div>')
+    } else {
+      expect(wrapper.contains(Component)).to.equal(true)
+    }
   })
 
   it('mounts component with default slot if passed object with template prop in slot object', () => {
     const compiled = compileToFunctions('<div id="div" />')
     const wrapper = mountingMethod(ComponentWithSlots, { slots: { default: [compiled] }})
-    expect(wrapper.contains('#div')).to.equal(true)
+    if (mountingMethod.name === 'render') {
+      expect(wrapper).contains('div id="div"')
+    } else {
+      expect(wrapper.contains('#div')).to.equal(true)
+    }
   })
 
   it('mounts component with default slot if passed string in slot object', () => {
     const wrapper = mountingMethod(ComponentWithSlots, { slots: { default: '<span />' }})
-    expect(wrapper.contains('span')).to.equal(true)
+    if (mountingMethod.name === 'render') {
+      expect(wrapper).contains('<span')
+    } else {
+      expect(wrapper.contains('span')).to.equal(true)
+    }
   })
 
   it('works correctly with class component', () => {
@@ -46,7 +63,11 @@ describeWithShallowAndMount('options.slots', (mountingMethod) => {
       return
     }
     const wrapper = mountingMethod(ComponentAsAClass, { slots: { default: '<span />' }})
-    expect(wrapper.contains('span')).to.equal(true)
+    if (mountingMethod.name === 'render') {
+      expect(wrapper).contains('<span')
+    } else {
+      expect(wrapper.contains('span')).to.equal(true)
+    }
   })
 
   it('throws error if the UserAgent is PhantomJS when passed string is in slot object', () => {
@@ -60,6 +81,9 @@ describeWithShallowAndMount('options.slots', (mountingMethod) => {
   })
 
   it('mounts component with default slot if passed string in slot object', () => {
+    if (mountingMethod.name === 'render') {
+      return
+    }
     const wrapper1 = mountingMethod(ComponentWithSlots, { slots: { default: 'foo<span>123</span>{{ foo }}' }})
     expect(wrapper1.find('main').html()).to.equal('<main>foo<span>123</span>bar</main>')
     const wrapper2 = mountingMethod(ComponentWithSlots, { slots: { default: '<p>1</p>{{ foo }}2' }})
@@ -96,12 +120,20 @@ describeWithShallowAndMount('options.slots', (mountingMethod) => {
 
   it('mounts component with default slot if passed string in slot array object', () => {
     const wrapper = mountingMethod(ComponentWithSlots, { slots: { default: ['<span />'] }})
-    expect(wrapper.contains('span')).to.equal(true)
+    if (mountingMethod.name === 'render') {
+      expect(wrapper).contains('<span')
+    } else {
+      expect(wrapper.contains('span')).to.equal(true)
+    }
   })
 
   it('mounts component with default slot if passed string in slot text array object', () => {
     const wrapper = mountingMethod(ComponentWithSlots, { slots: { default: ['{{ foo }}<span>1</span>', 'bar'] }})
-    expect(wrapper.find('main').html()).to.equal('<main>bar<span>1</span>bar</main>')
+    if (mountingMethod.name === 'render') {
+      expect(wrapper).contains('<main>bar<span>1</span>bar</main>')
+    } else {
+      expect(wrapper.find('main').html()).to.equal('<main>bar<span>1</span>bar</main>')
+    }
   })
 
   it('throws error if passed string in default slot array vue-template-compiler is undefined', () => {
@@ -127,7 +159,11 @@ describeWithShallowAndMount('options.slots', (mountingMethod) => {
         footer: [Component]
       }
     })
-    expect(wrapper.findAll(Component).length).to.equal(2)
+    if (mountingMethod.name === 'render') {
+      expect(wrapper).contains('<header><div></div></header> <main></main> <footer><div></div></footer>')
+    } else {
+      expect(wrapper.findAll(Component).length).to.equal(2)
+    }
   })
 
   it('mounts component with named slot if passed component in slot object', () => {
@@ -136,8 +172,12 @@ describeWithShallowAndMount('options.slots', (mountingMethod) => {
         header: Component
       }
     })
-    expect(wrapper.findAll(Component).length).to.equal(1)
-    expect(Array.isArray(wrapper.vm.$slots.header)).to.equal(true)
+    if (mountingMethod.name === 'render') {
+      expect(wrapper).contains('<header><div></div></header>')
+    } else {
+      expect(wrapper.findAll(Component).length).to.equal(1)
+      expect(Array.isArray(wrapper.vm.$slots.header)).to.equal(true)
+    }
   })
 
   it('mounts functional component with default slot if passed component in slot object', () => {
@@ -147,7 +187,11 @@ describeWithShallowAndMount('options.slots', (mountingMethod) => {
       render: (h, ctx) => h('div', ctx.data, ctx.slots().default)
     }
     const wrapper = mountingMethod(TestComponent, { slots: { default: Component }})
-    expect(wrapper.contains(Component)).to.equal(true)
+    if (mountingMethod.name === 'render') {
+      expect(wrapper).contains('<div data-server-rendered="true"><div></div></div>')
+    } else {
+      expect(wrapper.contains(Component)).to.equal(true)
+    }
   })
 
   it('mounts component with default slot if passed component in slot object', () => {
@@ -157,7 +201,11 @@ describeWithShallowAndMount('options.slots', (mountingMethod) => {
       render: (h, ctx) => h('div', ctx.data, ctx.slots().default)
     }
     const wrapper = mountingMethod(TestComponent, { slots: { default: [Component] }})
-    expect(wrapper.contains(Component)).to.equal(true)
+    if (mountingMethod.name === 'render') {
+      expect(wrapper).contains('<div data-server-rendered="true"><div></div></div>')
+    } else {
+      expect(wrapper.contains(Component)).to.equal(true)
+    }
   })
 
   it('mounts component with default slot if passed object with template prop in slot object', () => {
@@ -168,7 +216,11 @@ describeWithShallowAndMount('options.slots', (mountingMethod) => {
     }
     const compiled = compileToFunctions('<div id="div" />')
     const wrapper = mountingMethod(TestComponent, { slots: { default: [compiled] }})
-    expect(wrapper.contains('#div')).to.equal(true)
+    if (mountingMethod.name === 'render') {
+      expect(wrapper).contains('<div id="div">')
+    } else {
+      expect(wrapper.contains('#div')).to.equal(true)
+    }
   })
 
   it('mounts component with default slot if passed string in slot object', () => {
@@ -178,7 +230,11 @@ describeWithShallowAndMount('options.slots', (mountingMethod) => {
       render: (h, ctx) => h('div', ctx.data, ctx.slots().default)
     }
     const wrapper = mountingMethod(TestComponent, { slots: { default: '<span />' }})
-    expect(wrapper.contains('span')).to.equal(true)
+    if (mountingMethod.name === 'render') {
+      expect(wrapper).contains('<span')
+    } else {
+      expect(wrapper.contains('span')).to.equal(true)
+    }
   })
 
   it('mounts component with named slot if passed string in slot object', () => {
@@ -187,7 +243,11 @@ describeWithShallowAndMount('options.slots', (mountingMethod) => {
       render: (h, ctx) => h('div', {}, ctx.slots().named)
     }
     const wrapper = mountingMethod(TestComponent, { slots: { named: Component }})
-    expect(wrapper.contains(Component)).to.equal(true)
+    if (mountingMethod.name === 'render') {
+      expect(wrapper).contains('<div></div>')
+    } else {
+      expect(wrapper.contains(Component)).to.equal(true)
+    }
   })
 
   it('mounts component with named slot if passed string in slot object in array', () => {
@@ -196,7 +256,11 @@ describeWithShallowAndMount('options.slots', (mountingMethod) => {
       render: (h, ctx) => h('div', {}, ctx.slots().named)
     }
     const wrapper = mountingMethod(TestComponent, { slots: { named: [Component] }})
-    expect(wrapper.contains(Component)).to.equal(true)
+    if (mountingMethod.name === 'render') {
+      expect(wrapper).contains('<div></div>')
+    } else {
+      expect(wrapper.contains(Component)).to.equal(true)
+    }
   })
 
   it('mounts component with named slot if passed string in slot object in array', () => {
@@ -205,7 +269,11 @@ describeWithShallowAndMount('options.slots', (mountingMethod) => {
       render: (h, ctx) => h('div', {}, ctx.slots().named)
     }
     const wrapper = mountingMethod(TestComponent, { slots: { named: '<span />' }})
-    expect(wrapper.contains('span')).to.equal(true)
+    if (mountingMethod.name === 'render') {
+      expect(wrapper).contains('<span')
+    } else {
+      expect(wrapper.contains('span')).to.equal(true)
+    }
   })
 
   it('mounts component with named slot if passed string in slot object in array', () => {
@@ -214,7 +282,11 @@ describeWithShallowAndMount('options.slots', (mountingMethod) => {
       render: (h, ctx) => h('div', {}, ctx.slots().named)
     }
     const wrapper = mountingMethod(TestComponent, { slots: { named: ['<span />'] }})
-    expect(wrapper.contains('span')).to.equal(true)
+    if (mountingMethod.name === 'render') {
+      expect(wrapper).contains('<span')
+    } else {
+      expect(wrapper.contains('span')).to.equal(true)
+    }
   })
 
   it('throws error if passed false for named slots', () => {
@@ -238,6 +310,7 @@ describeWithShallowAndMount('options.slots', (mountingMethod) => {
     const message = '[vue-test-utils]: slots[key] must be a Component, string or an array of Components'
     expect(fn).to.throw().with.property('message', message)
   })
+
   it('throws error if passed false for named slots', () => {
     const TestComponent = {
       name: 'component-with-slots',
@@ -259,6 +332,7 @@ describeWithShallowAndMount('options.slots', (mountingMethod) => {
     const message = '[vue-test-utils]: slots[key] must be a Component, string or an array of Components'
     expect(fn).to.throw().with.property('message', message)
   })
+
   it('throws error if passed string in default slot array when vue-template-compiler is undefined', () => {
     const TestComponent = {
       name: 'component-with-slots',
