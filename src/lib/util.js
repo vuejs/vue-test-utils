@@ -21,8 +21,3 @@ export const capitalize = (str: string): string => str.charAt(0).toUpperCase() +
  */
 const hyphenateRE = /\B([A-Z])/g
 export const hyphenate = (str: string): string => str.replace(hyphenateRE, '-$1').toLowerCase()
-
-export const runningInNode =
-  Object.prototype.toString.call(typeof process !== 'undefined' ? process : 0) === '[object process]' ||
-  // $FlowIgnore
-  !process.browser
