@@ -5,6 +5,8 @@ import { shallow, mount, renderToString } from '~vue-test-utils'
 
 export const vueVersion = Number(`${Vue.version.split('.')[0]}.${Vue.version.split('.')[1]}`)
 
+export const isRunningJSDOM = navigator.userAgent.includes && navigator.userAgent.includes('jsdom')
+
 export function injectSupported () {
   return vueVersion > 2.2
 }
@@ -22,7 +24,7 @@ export function functionalSFCsSupported () {
 }
 
 const shallowAndMount = [mount, shallow]
-const shallowMountAndRender = (navigator.userAgent.includes && navigator.userAgent.includes('jsdom'))
+const shallowMountAndRender = isRunningJSDOM
   ? [mount, shallow, renderToString]
   : [mount, shallow]
 

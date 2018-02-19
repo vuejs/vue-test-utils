@@ -21,3 +21,9 @@ export const capitalize = (str: string): string => str.charAt(0).toUpperCase() +
  */
 const hyphenateRE = /\B([A-Z])/g
 export const hyphenate = (str: string): string => str.replace(hyphenateRE, '-$1').toLowerCase()
+
+export const runningInNode = typeof require === 'function' &&
+    typeof Buffer === 'function' &&
+    typeof Buffer.byteLength === 'function' &&
+    typeof Buffer.prototype !== 'undefined' &&
+    typeof Buffer.prototype.write === 'function'

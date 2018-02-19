@@ -1,5 +1,8 @@
 import { compileToFunctions } from 'vue-template-compiler'
-import { describeWithShallowAndMount } from '~resources/test-utils'
+import {
+  describeWithShallowAndMount,
+  isRunningJSDOM
+} from '~resources/test-utils'
 import { renderToString } from '~vue-test-utils'
 
 describeWithShallowAndMount('options.attachToDocument', (mountingMethod) => {
@@ -13,7 +16,7 @@ describeWithShallowAndMount('options.attachToDocument', (mountingMethod) => {
 describe('options.attachToDocument with renderToString', () => {
   it('throws error that renderToString does not accept attachToDocument', () => {
     // renderToString can only be run in node
-    if (!(navigator.userAgent.includes && navigator.userAgent.includes('jsdom'))) {
+    if (!isRunningJSDOM) {
       return
     }
     const compiled = compileToFunctions('<div><input /></div>')

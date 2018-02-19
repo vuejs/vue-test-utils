@@ -7,10 +7,10 @@ module.exports = function (config) {
     reporters: ['spec'],
     files: [
       '../../node_modules/babel-polyfill/dist/polyfill.js',
-      '../specs/**/*.+(vue|js)'
+      'loadtests.js'
     ],
     preprocessors: {
-      '../specs/**/*.+(vue|js)': ['webpack', 'sourcemap']
+      'loadtests.js': ['webpack', 'sourcemap']
     },
     client: { mocha: { timeout: 20000 }},
     webpack: webpackConfig,
