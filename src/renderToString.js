@@ -13,6 +13,7 @@ export default function renderToString (component: Component, options: Options =
   try {
     renderer = require('vue-server-renderer').createRenderer()
   } catch (e) {}
+
   if (!renderer) {
     throwError('renderToString must be run in node. It cannot be run in a browser')
   }
@@ -27,6 +28,7 @@ export default function renderToString (component: Component, options: Options =
 
   let renderedString = ''
 
+  // $FlowIgnore
   renderer.renderToString(vm, (err, res) => {
     if (err) {
       console.log(err)
