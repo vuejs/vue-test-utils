@@ -48,7 +48,7 @@ describeWithMountingMethods('options.stub', (mountingMethod) => {
         ChildComponent: '<div class="stub"></div>'
       }
     })
-    if (mountingMethod.name === 'render') {
+    if (mountingMethod.name === 'renderToString') {
       expect(wrapper).to.contain('"stub"')
     } else {
       expect(wrapper.findAll('.stub').length).to.equal(1)
@@ -56,7 +56,7 @@ describeWithMountingMethods('options.stub', (mountingMethod) => {
     }
   })
 
-  itDoNotRunIf(mountingMethod.name === 'render',
+  itDoNotRunIf(mountingMethod.name === 'renderToString',
   'replaces component with a component', () => {
     const wrapper = mountingMethod(ComponentWithChild, {
       stubs: {
@@ -81,7 +81,7 @@ describeWithMountingMethods('options.stub', (mountingMethod) => {
   })
 
   itDoNotRunIf(mountingMethod.name === 'shallow' ||
-    mountingMethod.name === 'render',
+    mountingMethod.name === 'renderToString',
   'does not modify component directly', () => {
     const wrapper = mountingMethod(ComponentWithNestedChildren, {
       stubs: {
@@ -103,7 +103,7 @@ describeWithMountingMethods('options.stub', (mountingMethod) => {
         'registered-component': Component
       }
     })
-    const HTML = mountingMethod.name === 'render'
+    const HTML = mountingMethod.name === 'renderToString'
     ? wrapper
     : wrapper.html()
     expect(HTML).to.contain('</div>')
@@ -111,25 +111,30 @@ describeWithMountingMethods('options.stub', (mountingMethod) => {
 
   it('stubs components with dummy when passed as an array', () => {
     const ComponentWithGlobalComponent = {
-      render: h => h('registered-component')
+      render: h => h('div', [h('registered-component')])
     }
-    mountingMethod(ComponentWithGlobalComponent, {
+    const wrapper = mountingMethod(ComponentWithGlobalComponent, {
       stubs: ['registered-component']
     })
-
-    expect(warn.called).to.equal(false)
+    const HTML = mountingMethod.name === 'renderToString'
+    ? wrapper
+    : wrapper.html()
+    expect(HTML).to.contain('<!---->')
   })
 
   it('stubs components with dummy when passed a boolean', () => {
     const ComponentWithGlobalComponent = {
-      render: h => h('registered-component')
+      render: h => h('div', [h('registered-component')])
     }
-    mountingMethod(ComponentWithGlobalComponent, {
+    const wrapper = mountingMethod(ComponentWithGlobalComponent, {
       stubs: {
         'registered-component': true
       }
     })
-    expect(warn.called).to.equal(false)
+    const HTML = mountingMethod.name === 'renderToString'
+    ? wrapper
+    : wrapper.html()
+    expect(HTML).to.contain('<!---->')
   })
 
   it('stubs components with dummy when passed as an array', () => {
@@ -172,7 +177,7 @@ describeWithMountingMethods('options.stub', (mountingMethod) => {
         stubs: {
           ChildComponent: false
         }})
-      const HTML = mountingMethod.name === 'render'
+      const HTML = mountingMethod.name === 'renderToString'
       ? wrapper
       : wrapper.html()
       expect(HTML).to.contain('<span><div></div></span>')
@@ -202,7 +207,7 @@ describeWithMountingMethods('options.stub', (mountingMethod) => {
       },
       localVue
     })
-    const HTML = mountingMethod.name === 'render'
+    const HTML = mountingMethod.name === 'renderToString'
     ? wrapper
     : wrapper.html()
     expect(HTML).to.contain('<br>')
@@ -228,7 +233,7 @@ describeWithMountingMethods('options.stub', (mountingMethod) => {
       },
       localVue
     })
-    const HTML = mountingMethod.name === 'render'
+    const HTML = mountingMethod.name === 'renderToString'
     ? wrapper
     : wrapper.html()
     expect(HTML).to.contain('<span>')
@@ -252,7 +257,7 @@ describeWithMountingMethods('options.stub', (mountingMethod) => {
       localVue
     })
 
-    const HTML = mountingMethod.name === 'render'
+    const HTML = mountingMethod.name === 'renderToString'
     ? wrapper
     : wrapper.html()
     expect(HTML).to.contain('<!----></div>')
@@ -278,7 +283,7 @@ describeWithMountingMethods('options.stub', (mountingMethod) => {
         'stub-component': StubComponent
       }
     })
-    const HTML = mountingMethod.name === 'render'
+    const HTML = mountingMethod.name === 'renderToString'
     ? wrapper
     : wrapper.html()
     expect(HTML).contains('No render function')

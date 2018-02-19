@@ -24,7 +24,7 @@ describeWithMountingMethods('options.mocks', (mountingMethod) => {
         $route
       }
     })
-    const HTML = mountingMethod.name === 'render'
+    const HTML = mountingMethod.name === 'renderToString'
     ? wrapper
     : wrapper.html()
     expect(HTML).contains('true')
@@ -32,7 +32,7 @@ describeWithMountingMethods('options.mocks', (mountingMethod) => {
   })
 
   // render returns a string so reactive does not apply
-  itDoNotRunIf(mountingMethod.name === 'render',
+  itDoNotRunIf(mountingMethod.name === 'renderToString',
      'adds variables as reactive properties to vm when passed', () => {
        const stub = sinon.stub()
        const $reactiveMock = { value: 'value' }
@@ -72,7 +72,7 @@ describeWithMountingMethods('options.mocks', (mountingMethod) => {
       }, {
         mocks: { $store: { state: { count, foo: {}}}}
       })
-      const HTML = mountingMethod.name === 'render'
+      const HTML = mountingMethod.name === 'renderToString'
       ? wrapper
       : wrapper.html()
       expect(HTML).contains(count)
@@ -91,13 +91,13 @@ describeWithMountingMethods('options.mocks', (mountingMethod) => {
       mocks: { $store: { state: { count, foo: {}}}},
       localVue
     })
-    const HTML = mountingMethod.name === 'render'
+    const HTML = mountingMethod.name === 'renderToString'
     ? wrapper
     : wrapper.html()
     expect(HTML).contains(count)
   })
 
-  itDoNotRunIf(mountingMethod.name === 'render',
+  itDoNotRunIf(mountingMethod.name === 'renderToString',
   'does not affect global vue class when passed as mocks object', () => {
     const $store = { store: true }
     const wrapper = mountingMethod(Component, {

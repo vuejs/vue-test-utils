@@ -22,7 +22,6 @@ describe('TransitionGroupStub', () => {
       }),
       watch: {
         someWatchedData (newData) {
-          console.log('asd')
           this.someData = newData
         }
       },

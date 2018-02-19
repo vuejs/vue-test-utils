@@ -22,8 +22,7 @@ describeWithMountingMethods('options.slots', (mountingMethod) => {
 
   it('mounts component with default slot if passed component in slot object', () => {
     const wrapper = mountingMethod(ComponentWithSlots, { slots: { default: Component }})
-    console.log(mountingMethod.name)
-    if (mountingMethod.name === 'render') {
+    if (mountingMethod.name === 'renderToString') {
       expect(wrapper).contains('<div></div>')
     } else {
       expect(wrapper.contains(Component)).to.equal(true)
@@ -32,7 +31,7 @@ describeWithMountingMethods('options.slots', (mountingMethod) => {
 
   it('mounts component with default slot if passed component in array in slot object', () => {
     const wrapper = mountingMethod(ComponentWithSlots, { slots: { default: [Component] }})
-    if (mountingMethod.name === 'render') {
+    if (mountingMethod.name === 'renderToString') {
       expect(wrapper).contains('<div></div>')
     } else {
       expect(wrapper.contains(Component)).to.equal(true)
@@ -42,7 +41,7 @@ describeWithMountingMethods('options.slots', (mountingMethod) => {
   it('mounts component with default slot if passed object with template prop in slot object', () => {
     const compiled = compileToFunctions('<div id="div" />')
     const wrapper = mountingMethod(ComponentWithSlots, { slots: { default: [compiled] }})
-    if (mountingMethod.name === 'render') {
+    if (mountingMethod.name === 'renderToString') {
       expect(wrapper).contains('div id="div"')
     } else {
       expect(wrapper.contains('#div')).to.equal(true)
@@ -51,7 +50,7 @@ describeWithMountingMethods('options.slots', (mountingMethod) => {
 
   it('mounts component with default slot if passed string in slot object', () => {
     const wrapper = mountingMethod(ComponentWithSlots, { slots: { default: '<span />' }})
-    if (mountingMethod.name === 'render') {
+    if (mountingMethod.name === 'renderToString') {
       expect(wrapper).contains('<span')
     } else {
       expect(wrapper.contains('span')).to.equal(true)
@@ -63,7 +62,7 @@ describeWithMountingMethods('options.slots', (mountingMethod) => {
       return
     }
     const wrapper = mountingMethod(ComponentAsAClass, { slots: { default: '<span />' }})
-    if (mountingMethod.name === 'render') {
+    if (mountingMethod.name === 'renderToString') {
       expect(wrapper).contains('<span')
     } else {
       expect(wrapper.contains('span')).to.equal(true)
@@ -81,7 +80,7 @@ describeWithMountingMethods('options.slots', (mountingMethod) => {
   })
 
   it('mounts component with default slot if passed string in slot object', () => {
-    if (mountingMethod.name === 'render') {
+    if (mountingMethod.name === 'renderToString') {
       return
     }
     const wrapper1 = mountingMethod(ComponentWithSlots, { slots: { default: 'foo<span>123</span>{{ foo }}' }})
@@ -120,7 +119,7 @@ describeWithMountingMethods('options.slots', (mountingMethod) => {
 
   it('mounts component with default slot if passed string in slot array object', () => {
     const wrapper = mountingMethod(ComponentWithSlots, { slots: { default: ['<span />'] }})
-    if (mountingMethod.name === 'render') {
+    if (mountingMethod.name === 'renderToString') {
       expect(wrapper).contains('<span')
     } else {
       expect(wrapper.contains('span')).to.equal(true)
@@ -129,7 +128,7 @@ describeWithMountingMethods('options.slots', (mountingMethod) => {
 
   it('mounts component with default slot if passed string in slot text array object', () => {
     const wrapper = mountingMethod(ComponentWithSlots, { slots: { default: ['{{ foo }}<span>1</span>', 'bar'] }})
-    if (mountingMethod.name === 'render') {
+    if (mountingMethod.name === 'renderToString') {
       expect(wrapper).contains('<main>bar<span>1</span>bar</main>')
     } else {
       expect(wrapper.find('main').html()).to.equal('<main>bar<span>1</span>bar</main>')
@@ -159,7 +158,7 @@ describeWithMountingMethods('options.slots', (mountingMethod) => {
         footer: [Component]
       }
     })
-    if (mountingMethod.name === 'render') {
+    if (mountingMethod.name === 'renderToString') {
       expect(wrapper).contains('<header><div></div></header> <main></main> <footer><div></div></footer>')
     } else {
       expect(wrapper.findAll(Component).length).to.equal(2)
@@ -172,7 +171,7 @@ describeWithMountingMethods('options.slots', (mountingMethod) => {
         header: Component
       }
     })
-    if (mountingMethod.name === 'render') {
+    if (mountingMethod.name === 'renderToString') {
       expect(wrapper).contains('<header><div></div></header>')
     } else {
       expect(wrapper.findAll(Component).length).to.equal(1)
@@ -187,8 +186,9 @@ describeWithMountingMethods('options.slots', (mountingMethod) => {
       render: (h, ctx) => h('div', ctx.data, ctx.slots().default)
     }
     const wrapper = mountingMethod(TestComponent, { slots: { default: Component }})
-    if (mountingMethod.name === 'render') {
-      expect(wrapper).contains('<div data-server-rendered="true"><div></div></div>')
+    if (mountingMethod.name === 'renderToString') {
+      const renderedAttribute = vueVersion < 2.3 ? 'server-rendered' : 'data-server-rendered'
+      expect(wrapper).contains(`<div ${renderedAttribute}="true"><div></div></div>`)
     } else {
       expect(wrapper.contains(Component)).to.equal(true)
     }
@@ -201,8 +201,9 @@ describeWithMountingMethods('options.slots', (mountingMethod) => {
       render: (h, ctx) => h('div', ctx.data, ctx.slots().default)
     }
     const wrapper = mountingMethod(TestComponent, { slots: { default: [Component] }})
-    if (mountingMethod.name === 'render') {
-      expect(wrapper).contains('<div data-server-rendered="true"><div></div></div>')
+    if (mountingMethod.name === 'renderToString') {
+      const renderedAttribute = vueVersion < 2.3 ? 'server-rendered' : 'data-server-rendered'
+      expect(wrapper).contains(`<div ${renderedAttribute}="true"><div></div></div>`)
     } else {
       expect(wrapper.contains(Component)).to.equal(true)
     }
@@ -216,7 +217,7 @@ describeWithMountingMethods('options.slots', (mountingMethod) => {
     }
     const compiled = compileToFunctions('<div id="div" />')
     const wrapper = mountingMethod(TestComponent, { slots: { default: [compiled] }})
-    if (mountingMethod.name === 'render') {
+    if (mountingMethod.name === 'renderToString') {
       expect(wrapper).contains('<div id="div">')
     } else {
       expect(wrapper.contains('#div')).to.equal(true)
@@ -230,7 +231,7 @@ describeWithMountingMethods('options.slots', (mountingMethod) => {
       render: (h, ctx) => h('div', ctx.data, ctx.slots().default)
     }
     const wrapper = mountingMethod(TestComponent, { slots: { default: '<span />' }})
-    if (mountingMethod.name === 'render') {
+    if (mountingMethod.name === 'renderToString') {
       expect(wrapper).contains('<span')
     } else {
       expect(wrapper.contains('span')).to.equal(true)
@@ -243,7 +244,7 @@ describeWithMountingMethods('options.slots', (mountingMethod) => {
       render: (h, ctx) => h('div', {}, ctx.slots().named)
     }
     const wrapper = mountingMethod(TestComponent, { slots: { named: Component }})
-    if (mountingMethod.name === 'render') {
+    if (mountingMethod.name === 'renderToString') {
       expect(wrapper).contains('<div></div>')
     } else {
       expect(wrapper.contains(Component)).to.equal(true)
@@ -256,7 +257,7 @@ describeWithMountingMethods('options.slots', (mountingMethod) => {
       render: (h, ctx) => h('div', {}, ctx.slots().named)
     }
     const wrapper = mountingMethod(TestComponent, { slots: { named: [Component] }})
-    if (mountingMethod.name === 'render') {
+    if (mountingMethod.name === 'renderToString') {
       expect(wrapper).contains('<div></div>')
     } else {
       expect(wrapper.contains(Component)).to.equal(true)
@@ -269,7 +270,7 @@ describeWithMountingMethods('options.slots', (mountingMethod) => {
       render: (h, ctx) => h('div', {}, ctx.slots().named)
     }
     const wrapper = mountingMethod(TestComponent, { slots: { named: '<span />' }})
-    if (mountingMethod.name === 'render') {
+    if (mountingMethod.name === 'renderToString') {
       expect(wrapper).contains('<span')
     } else {
       expect(wrapper.contains('span')).to.equal(true)
@@ -282,7 +283,7 @@ describeWithMountingMethods('options.slots', (mountingMethod) => {
       render: (h, ctx) => h('div', {}, ctx.slots().named)
     }
     const wrapper = mountingMethod(TestComponent, { slots: { named: ['<span />'] }})
-    if (mountingMethod.name === 'render') {
+    if (mountingMethod.name === 'renderToString') {
       expect(wrapper).contains('<span')
     } else {
       expect(wrapper.contains('span')).to.equal(true)

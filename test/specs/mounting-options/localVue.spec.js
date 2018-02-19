@@ -14,12 +14,12 @@ describeWithMountingMethods('options.localVue', (mountingMethod) => {
       localVue: localVue,
       mocks: { test: 'some value' }
     })
-    const HTML = mountingMethod.name === 'render'
+    const HTML = mountingMethod.name === 'renderToString'
     ? wrapper
     : wrapper.html()
     expect(HTML).to.contain('some value')
     const freshWrapper = mountingMethod(TestComponent)
-    const freshHTML = mountingMethod.name === 'render'
+    const freshHTML = mountingMethod.name === 'renderToString'
     ? freshWrapper
     : freshWrapper.html()
     expect(freshHTML).to.not.contain('some value')

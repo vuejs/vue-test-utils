@@ -1,6 +1,6 @@
 import shallow from './shallow'
 import mount from './mount'
-import render from './render'
+import renderToString from './renderToString'
 import createLocalVue from './create-local-vue'
 import TransitionStub from './components/TransitionStub'
 import TransitionGroupStub from './components/TransitionGroupStub'
@@ -12,7 +12,7 @@ export default {
   config,
   mount,
   shallow,
-  render,
+  renderToString,
   TransitionStub,
   TransitionGroupStub,
   RouterLinkStub

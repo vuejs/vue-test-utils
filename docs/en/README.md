@@ -18,6 +18,7 @@
 * [API](api/README.md)
   * [mount](api/mount.md)
   * [shallow](api/shallow.md)
+  * [renderToString](api/renderToString.md)
   * [Mounting Options](api/options.md)
     - [context](api/options.md#context)
     - [slots](api/options.md#slots)

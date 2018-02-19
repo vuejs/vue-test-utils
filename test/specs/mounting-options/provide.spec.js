@@ -13,7 +13,7 @@ describeWithMountingMethods('options.provide', (mountingMethod) => {
       const wrapper = mountingMethod(ComponentWithInject, {
         provide: { fromMount: 'objectValue' }
       })
-      const HTML = mountingMethod.name === 'render'
+      const HTML = mountingMethod.name === 'renderToString'
     ? wrapper
     : wrapper.html()
       expect(HTML).to.contain('objectValue')
@@ -28,13 +28,13 @@ describeWithMountingMethods('options.provide', (mountingMethod) => {
         }
       }
     })
-    const HTML = mountingMethod.name === 'render'
+    const HTML = mountingMethod.name === 'renderToString'
     ? wrapper
     : wrapper.html()
     expect(HTML).to.contain('functionValue')
   })
 
-  itDoNotRunIf(!injectSupported() || mountingMethod.name === 'render',
+  itDoNotRunIf(!injectSupported() || mountingMethod.name === 'renderToString',
     'supports beforeCreate in component', () => {
       if (!injectSupported()) return
 

@@ -13,7 +13,6 @@ describeWithShallowAndMount('hasStyle', (mountingMethod) => {
     if (navigator.userAgent.includes && navigator.userAgent.includes('jsdom')) {
       return
     }
-    console.log(navigator.userAgent.includes('jsdom'))
     const wrapper = mountingMethod(ComponentWithStyle)
     expect(wrapper.find('div').hasStyle('color', 'red')).to.equal(true)
   })

@@ -6,7 +6,7 @@ import {
  } from '~resources/test-utils'
 
 describeWithMountingMethods('options.attrs', (mountingMethod) => {
-  itSkipIf(mountingMethod.name === 'render',
+  itSkipIf(mountingMethod.name === 'renderToString',
   'handles inherit attrs', () => {
     if (!attrsSupported()) return
     const wrapper = mountingMethod(compileToFunctions('<p :id="anAttr" />'), {
@@ -19,7 +19,7 @@ describeWithMountingMethods('options.attrs', (mountingMethod) => {
     expect(wrapper.vm.$attrs.anAttr).to.equal('an attribute')
   })
 
-  itSkipIf(mountingMethod.name === 'render',
+  itSkipIf(mountingMethod.name === 'renderToString',
   'defines attrs as empty object even when not passed', () => {
     const wrapper = mountingMethod(compileToFunctions('<p />'))
     expect(wrapper.vm.$attrs).to.deep.equal({})

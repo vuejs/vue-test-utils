@@ -68,7 +68,7 @@ describeWithMountingMethods('options.context', (mountingMethod) => {
       render: (h, { props }) => h('div', props.testProp)
     }
     const wrapper = mountingMethod(Component)
-    const HTML = mountingMethod.name === 'render'
+    const HTML = mountingMethod.name === 'renderToString'
     ? wrapper
     : wrapper.html()
     expect(HTML).to.contain(defaultValue)
@@ -86,7 +86,7 @@ describeWithMountingMethods('options.context', (mountingMethod) => {
         children: ['render text']
       }
     })
-    const HTML = mountingMethod.name === 'render'
+    const HTML = mountingMethod.name === 'renderToString'
     ? wrapper
     : wrapper.html()
     expect(HTML).to.contain('render text')
@@ -104,7 +104,7 @@ describeWithMountingMethods('options.context', (mountingMethod) => {
         children: [h => h('div', 'render component')]
       }
     })
-    const HTML = mountingMethod.name === 'render'
+    const HTML = mountingMethod.name === 'renderToString'
     ? wrapper
     : wrapper.html()
     expect(HTML).to.contain('render component')
