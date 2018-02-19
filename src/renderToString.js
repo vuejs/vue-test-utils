@@ -10,7 +10,7 @@ Vue.config.productionTip = false
 Vue.config.devtools = false
 
 export default function renderToString (component: Component, options: Options = {}): string {
-  if (runningInNode) {
+  if (!runningInNode) {
     throwError('renderToString must be run in node. It cannot be run in a browser')
   }
   const renderer = require('vue-server-renderer').createRenderer()
