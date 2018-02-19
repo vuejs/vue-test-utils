@@ -24,6 +24,4 @@ export const hyphenate = (str: string): string => str.replace(hyphenateRE, '-$1'
 
 export const runningInNode = typeof require === 'function' &&
     typeof Buffer === 'function' &&
-    typeof Buffer.byteLength === 'function' &&
-    typeof Buffer.prototype !== 'undefined' &&
-    typeof Buffer.prototype.write === 'function'
+    typeof Buffer.byteLength === 'function'
