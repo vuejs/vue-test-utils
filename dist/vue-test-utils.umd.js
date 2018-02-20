@@ -39,6 +39,115 @@ if (typeof window === 'undefined') {
 }
 
 // 
+function isDomSelector (selector) {
+  if (typeof selector !== 'string') {
+    return false
+  }
+
+  try {
+    if (typeof document === 'undefined') {
+      throwError('mount must be run in a browser environment like PhantomJS, jsdom or chrome');
+    }
+  } catch (error) {
+    throwError('mount must be run in a browser environment like PhantomJS, jsdom or chrome');
+  }
+
+  try {
+    document.querySelector(selector);
+    return true
+  } catch (error) {
+    return false
+  }
+}
+
+function isVueComponent$1 (component) {
+  if (typeof component === 'function' && component.options) {
+    return true
+  }
+
+  if (component === null) {
+    return false
+  }
+
+  if (typeof component !== 'object') {
+    return false
+  }
+
+  if (component.extends) {
+    return true
+  }
+
+  if (component._Ctor) {
+    return true
+  }
+
+  return typeof component.render === 'function'
+}
+
+function componentNeedsCompiling (component) {
+  return component &&
+    !component.render &&
+    (component.template || component.extends) &&
+    !component.functional
+}
+
+
+
+function isRefSelector (refOptionsObject) {
+  if (typeof refOptionsObject !== 'object') {
+    return false
+  }
+
+  if (refOptionsObject === null) {
+    return false
+  }
+
+  var validFindKeys = ['ref'];
+  var keys = Object.keys(refOptionsObject);
+  if (!keys.length) {
+    return false
+  }
+
+  var isValid = Object.keys(refOptionsObject).every(function (key) {
+    return validFindKeys.includes(key) &&
+      typeof refOptionsObject[key] === 'string'
+  });
+
+  return isValid
+}
+
+function isNameSelector (nameOptionsObject) {
+  if (typeof nameOptionsObject !== 'object') {
+    return false
+  }
+
+  if (nameOptionsObject === null) {
+    return false
+  }
+
+  return !!nameOptionsObject.name
+}
+
+// 
+
+function compileTemplate (component) {
+  if (component.components) {
+    Object.keys(component.components).forEach(function (c) {
+      var cmp = component.components[c];
+      if (!cmp.render) {
+        compileTemplate(cmp);
+      }
+    });
+  }
+  if (component.extends) {
+    compileTemplate(component.extends);
+  }
+  if (component.template) {
+    Object.assign(component, vueTemplateCompiler.compileToFunctions(component.template));
+  }
+}
+
+// 
 
 function isVueComponent (comp) {
   return comp && (comp.render || comp.template || comp.options)
@@ -69,7 +178,8 @@ function getCoreProperties (component) {
     staticStyle: component.staticStyle,
     style: component.style,
     normalizedStyle: component.normalizedStyle,
-    nativeOn: component.nativeOn
+    nativeOn: component.nativeOn,
+    functional: component.functional
   }
 }
 function createStubFromString (templateString, originalComponent) {
@@ -82,7 +192,7 @@ function createStubFromString (templateString, originalComponent) {
 
 function createBlankStub (originalComponent) {
   return Object.assign({}, getCoreProperties(originalComponent),
-    {render: function () {}})
+    {render: function (h) { return h(''); }})
 }
 
 function createComponentStubs (originalComponents, stubs) {
@@ -115,6 +225,11 @@ function createComponentStubs (originalComponents, stubs) {
         components[stub] = createBlankStub({});
         return
       }
+
+      if (componentNeedsCompiling(stubs[stub])) {
+        compileTemplate(stubs[stub]);
+      }
+
       if (originalComponents[stub]) {
         // Remove cached constructor
         delete originalComponents[stub]._Ctor;
@@ -195,89 +310,6 @@ function createComponentStubsForGlobals (instance) {
     delete components[c]._Ctor; // eslint-disable-line no-param-reassign
   });
   return components
-}
-
-// 
-function isDomSelector (selector) {
-  if (typeof selector !== 'string') {
-    return false
-  }
-
-  try {
-    if (typeof document === 'undefined') {
-      throwError('mount must be run in a browser environment like PhantomJS, jsdom or chrome');
-    }
-  } catch (error) {
-    throwError('mount must be run in a browser environment like PhantomJS, jsdom or chrome');
-  }
-
-  try {
-    document.querySelector(selector);
-    return true
-  } catch (error) {
-    return false
-  }
-}
-
-function isVueComponent$1 (component) {
-  if (typeof component === 'function' && component.options) {
-    return true
-  }
-
-  if (component === null) {
-    return false
-  }
-
-  if (typeof component !== 'object') {
-    return false
-  }
-
-  if (component.extends) {
-    return true
-  }
-
-  if (component._Ctor) {
-    return true
-  }
-
-  return typeof component.render === 'function'
-}
-
-
-
-function isRefSelector (refOptionsObject) {
-  if (typeof refOptionsObject !== 'object') {
-    return false
-  }
-
-  if (refOptionsObject === null) {
-    return false
-  }
-
-  var validFindKeys = ['ref'];
-  var keys = Object.keys(refOptionsObject);
-  if (!keys.length) {
-    return false
-  }
-
-  var isValid = Object.keys(refOptionsObject).every(function (key) {
-    return validFindKeys.includes(key) &&
-      typeof refOptionsObject[key] === 'string'
-  });
-
-  return isValid
-}
-
-function isNameSelector (nameOptionsObject) {
-  if (typeof nameOptionsObject !== 'object') {
-    return false
-  }
-
-  if (nameOptionsObject === null) {
-    return false
-  }
-
-  return !!nameOptionsObject.name
 }
 
 var NAME_SELECTOR = 'NAME_SELECTOR';
@@ -366,15 +398,20 @@ function findAllFunctionalComponentsFromVnode (
 }
 
 function vmCtorMatchesName (vm, name) {
-  return (vm.$vnode && vm.$vnode.componentOptions &&
+  return !!((vm.$vnode && vm.$vnode.componentOptions &&
     vm.$vnode.componentOptions.Ctor.options.name === name) ||
-    (vm._vnode && vm._vnode.functionalOptions &&
-      vm._vnode.functionalOptions.name === name) ||
-        vm.$options && vm.$options.name === name
+    (vm._vnode &&
+    vm._vnode.functionalOptions &&
+    vm._vnode.functionalOptions.name === name) ||
+    vm.$options && vm.$options.name === name ||
+    vm.options && vm.options.name === name)
 }
 
 function vmCtorMatchesSelector (component, selector) {
-  var Ctor = selector._Ctor || selector.options && selector.options._Ctor;
+  var Ctor = selector._Ctor || (selector.options && selector.options._Ctor);
+  if (!Ctor) {
+    return false
+  }
   var Ctors = Object.keys(Ctor);
   return Ctors.some(function (c) { return Ctor[c] === component.__proto__.constructor; })
 }
@@ -382,6 +419,10 @@ function vmCtorMatchesSelector (component, selector) {
 function vmFunctionalCtorMatchesSelector (component, Ctor) {
   if (VUE_VERSION < 2.3) {
     throwError('find for functional components is not support in Vue < 2.3');
+  }
+
+  if (!Ctor) {
+    return false
   }
 
   if (!component[FUNCTIONAL_OPTIONS]) {
@@ -400,8 +441,11 @@ function findVueComponents (
     var nodes = root._vnode
     ? findAllFunctionalComponentsFromVnode(root._vnode)
     : findAllFunctionalComponentsFromVnode(root);
-    return nodes.filter(function (node) { return vmFunctionalCtorMatchesSelector(node, selector._Ctor); })
+    return nodes.filter(function (node) { return vmFunctionalCtorMatchesSelector(node, selector._Ctor) ||
+      node[FUNCTIONAL_OPTIONS].name === selector.name; }
+    )
   }
+  var nameSelector = typeof selector === 'function' ? selector.options.name : selector.name;
   var components = root._isVue
     ? findAllVueComponentsFromVm(root)
     : findAllVueComponentsFromVnode(root);
@@ -409,9 +453,7 @@ function findVueComponents (
     if (!component.$vnode && !component.$options.extends) {
       return false
     }
-    return selectorType === COMPONENT_SELECTOR
-      ? vmCtorMatchesSelector(component, selector)
-      : vmCtorMatchesName(component, selector.name)
+    return vmCtorMatchesSelector(component, selector) || vmCtorMatchesName(component, nameSelector)
   })
 }
 
@@ -974,6 +1016,8 @@ Wrapper.prototype.filter = function filter () {
  * Utility to check wrapper is visible. Returns false if a parent element has display: none or visibility: hidden style.
  */
 Wrapper.prototype.visible = function visible () {
+  warn('visible has been deprecated and will be removed in version 1, use isVisible instead');
+
   var element = this.element;
 
   if (!element) {
@@ -1173,6 +1217,26 @@ Wrapper.prototype.isEmpty = function isEmpty () {
 };
 
 /**
+ * Checks if node is visible
+ */
+Wrapper.prototype.isVisible = function isVisible () {
+  var element = this.element;
+
+  if (!element) {
+    return false
+  }
+
+  while (element) {
+    if (element.style && (element.style.visibility === 'hidden' || element.style.display === 'none')) {
+      return false
+    }
+    element = element.parentElement;
+  }
+
+  return true
+};
+
+/**
  * Checks if wrapper is a vue instance
  */
 Wrapper.prototype.isVueInstance = function isVueInstance () {
@@ -1310,6 +1374,12 @@ Wrapper.prototype.setProps = function setProps (data) {
     this.vm.$options.propsData = {};
   }
   Object.keys(data).forEach(function (key) {
+    // Ignore properties that were not specified in the component options
+    // $FlowIgnore : Problem with possibly null this.vm
+    if (!this$1.vm.$options._propKeys.includes(key)) {
+      return
+    }
+
     // $FlowIgnore : Problem with possibly null this.vm
     if (this$1.vm._props) {
       this$1.vm._props[key] = data[key];
@@ -1372,6 +1442,11 @@ Wrapper.prototype.trigger = function trigger (type, options) {
 
   if (options.target) {
     throwError('you cannot set the target value of an event. See the notes section of the docs for more details—https://vue-test-utils.vuejs.org/en/api/wrapper/trigger.html');
+  }
+
+  // Don't fire event on a disabled element
+  if (this.attributes().disabled) {
+    return
   }
 
   var modifiers = {
@@ -1476,6 +1551,9 @@ function addSlots (vm, slots) {
 
     if (Array.isArray(slots[key])) {
       slots[key].forEach(function (slotValue) {
+        if (!isValidSlot(slotValue)) {
+          throwError('slots[key] must be a Component, string or an array of Components');
+        }
         addSlotToVm(vm, key, slotValue);
       });
     } else {
@@ -4086,25 +4164,25 @@ function addMocks (mockedProperties, Vue$$1) {
 }
 
 function addAttrs (vm, attrs) {
-  var originalVueConfig = Vue.config;
+  var originalSilent = Vue.config.silent;
   Vue.config.silent = true;
   if (attrs) {
     vm.$attrs = attrs;
   } else {
     vm.$attrs = {};
   }
-  Vue.config.silent = originalVueConfig.silent;
+  Vue.config.silent = originalSilent;
 }
 
 function addListeners (vm, listeners) {
-  var originalVueConfig = Vue.config;
+  var originalSilent = Vue.config.silent;
   Vue.config.silent = true;
   if (listeners) {
     vm.$listeners = listeners;
   } else {
     vm.$listeners = {};
   }
-  Vue.config.silent = originalVueConfig.silent;
+  Vue.config.silent = originalSilent;
 }
 
 function addProvide (component, optionProvide, options) {
@@ -4141,25 +4219,6 @@ function addEventLogger (vue) {
       logEvents(this, this.__emitted, this.__emittedByOrder);
     }
   });
-}
-
-// 
-
-function compileTemplate (component) {
-  if (component.components) {
-    Object.keys(component.components).forEach(function (c) {
-      var cmp = component.components[c];
-      if (!cmp.render) {
-        compileTemplate(cmp);
-      }
-    });
-  }
-  if (component.extends) {
-    compileTemplate(component.extends);
-  }
-  if (component.template) {
-    Object.assign(component, vueTemplateCompiler.compileToFunctions(component.template));
-  }
 }
 
 function errorHandler (errorOrString, vm) {
@@ -4202,6 +4261,9 @@ function createLocalVue () {
   instance.options._base = instance;
 
   // compat for vue-router < 2.7.1 where it does not allow multiple installs
+  if (instance._installedPlugins && instance._installedPlugins.length) {
+    instance._installedPlugins.length = 0;
+  }
   var use = instance.use;
   instance.use = function (plugin) {
     var rest = [], len = arguments.length - 1;
@@ -4257,26 +4319,7 @@ function isPrimitive (value) {
 function isAsyncPlaceholder (node) {
   return node.isComment && node.asyncFactory
 }
-var camelizeRE$1 = /-(\w)/g;
-var camelize$1 = function (str) {
-  return str.replace(camelizeRE$1, function (_, c) { return c ? c.toUpperCase() : ''; })
-};
 
-function extractTransitionData (comp) {
-  var data = {};
-  var options = comp.$options;
-  // props
-  for (var key in options.propsData) {
-    data[key] = comp[key];
-  }
-  // events.
-  // extract listeners and pass them directly to the transition methods
-  var listeners = options._parentListeners;
-  for (var key$1 in listeners) {
-    data[camelize$1(key$1)] = listeners[key$1];
-  }
-  return data
-}
 
 function hasParentTransition (vnode) {
   while ((vnode = vnode.parent)) {
@@ -4343,7 +4386,7 @@ var TransitionStub = {
         ? (String(child.key).indexOf(id) === 0 ? child.key : id + child.key)
         : child.key;
 
-    var data = (child.data || (child.data = {})).transition = extractTransitionData(this);
+    var data = (child.data || (child.data = {}));
     var oldRawChild = this._vnode;
     var oldChild = getRealChild(oldRawChild);
     if (child.data.directives && child.data.directives.some(function (d) { return d.name === 'show'; })) {
@@ -4511,9 +4554,7 @@ function createConstructor (
     addProvide(component, mountingOptions.provide, options);
   }
 
-  if (!component.render &&
-    (component.template || component.extends) &&
-    !component.functional) {
+  if (componentNeedsCompiling(component)) {
     compileTemplate(component);
   }
 
@@ -4602,8 +4643,8 @@ if (typeof Object.assign !== 'function') {
 // 
 
 Vue.config.productionTip = false;
-Vue.config.errorHandler = errorHandler;
 Vue.config.devtools = false;
+Vue.config.errorHandler = errorHandler;
 
 function mount (component, options) {
   if ( options === void 0 ) options = {};
@@ -4619,8 +4660,10 @@ function mount (component, options) {
     vm.$mount();
   }
 
-  if (vm._error) {
-    throw (vm._error)
+  var componentsWithError = findAllVueComponentsFromVm(vm).filter(function (c) { return c._error; });
+
+  if (componentsWithError.length > 0) {
+    throw (componentsWithError[0]._error)
   }
 
   return new VueWrapper(vm, { attachedToDocument: !!options.attachToDocument })
@@ -4649,6 +4692,43 @@ function shallow (
   return mount(component, Object.assign({}, options,
     {components: Object.assign({}, stubbedGlobalComponents,
       stubbedComponents)}))
+}
+
+// 
+
+Vue.config.productionTip = false;
+Vue.config.devtools = false;
+
+function renderToString (component, options) {
+  if ( options === void 0 ) options = {};
+
+  var renderer;
+  try {
+    renderer = require('vue-server-renderer').createRenderer();
+  } catch (e) {}
+
+  if (!renderer) {
+    throwError('renderToString must be run in node. It cannot be run in a browser');
+  }
+  // Remove cached constructor
+  delete component._Ctor;
+
+  if (options.attachToDocument) {
+    throwError('you cannot use attachToDocument with renderToString');
+  }
+
+  var vm = createConstructor(component, options);
+
+  var renderedString = '';
+
+  // $FlowIgnore
+  renderer.renderToString(vm, function (err, res) {
+    if (err) {
+      console.log(err);
+    }
+    renderedString = res;
+  });
+  return renderedString
 }
 
 // 
@@ -4686,6 +4766,7 @@ var index = {
   config: config,
   mount: mount,
   shallow: shallow,
+  renderToString: renderToString,
   TransitionStub: TransitionStub,
   TransitionGroupStub: TransitionGroupStub,
   RouterLinkStub: RouterLinkStub
