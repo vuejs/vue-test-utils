@@ -54,6 +54,9 @@ function addSlots (vm: Component, slots: Object): void {
 
     if (Array.isArray(slots[key])) {
       slots[key].forEach((slotValue) => {
+        if (!isValidSlot(slotValue)) {
+          throwError('slots[key] must be a Component, string or an array of Components')
+        }
         addSlotToVm(vm, key, slotValue)
       })
     } else {

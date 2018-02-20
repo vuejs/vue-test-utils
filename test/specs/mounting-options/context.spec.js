@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import { vueVersion } from '~resources/test-utils'
-import { describeWithShallowAndMount } from '~resources/test-utils'
+import { describeWithMountingMethods } from '~resources/test-utils'
 
-describeWithShallowAndMount('options.context', (mountingMethod) => {
+describeWithMountingMethods('options.context', (mountingMethod) => {
   it('mounts functional component when passed context object', () => {
     if (vueVersion <= 2.2) {
       console.log('WARN: no current way to test functional component is component in v2.1.x')
@@ -21,8 +21,7 @@ describeWithShallowAndMount('options.context', (mountingMethod) => {
       props: { show: true }
     }
 
-    const wrapper = mountingMethod(Component, { context })
-    expect(wrapper.is(Component)).to.equal(true)
+    mountingMethod(Component, { context })
   })
 
   it('throws error if non functional component is passed with context option', () => {
@@ -69,7 +68,10 @@ describeWithShallowAndMount('options.context', (mountingMethod) => {
       render: (h, { props }) => h('div', props.testProp)
     }
     const wrapper = mountingMethod(Component)
-    expect(wrapper.element.textContent).to.equal(defaultValue)
+    const HTML = mountingMethod.name === 'renderToString'
+    ? wrapper
+    : wrapper.html()
+    expect(HTML).to.contain(defaultValue)
   })
 
   it('mounts functional component with a defined context.children text', () => {
@@ -84,7 +86,10 @@ describeWithShallowAndMount('options.context', (mountingMethod) => {
         children: ['render text']
       }
     })
-    expect(wrapper.text()).to.equal('render text')
+    const HTML = mountingMethod.name === 'renderToString'
+    ? wrapper
+    : wrapper.html()
+    expect(HTML).to.contain('render text')
   })
 
   it('mounts functional component with a defined context.children element', () => {
@@ -99,6 +104,9 @@ describeWithShallowAndMount('options.context', (mountingMethod) => {
         children: [h => h('div', 'render component')]
       }
     })
-    expect(wrapper.text()).to.equal('render component')
+    const HTML = mountingMethod.name === 'renderToString'
+    ? wrapper
+    : wrapper.html()
+    expect(HTML).to.contain('render component')
   })
 })

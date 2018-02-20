@@ -15,3 +15,7 @@ declare module 'lodash/cloneDeep' {
 declare module 'vue-template-compiler' {
   declare module.exports: any;
 }
+
+declare module 'vue-server-renderer' {
+  declare module.exports: any;
+}

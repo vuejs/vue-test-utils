@@ -138,5 +138,10 @@ export declare function shallow<V extends Vue> (component: VueClass<V>, options?
 export declare function shallow<V extends Vue> (component: ComponentOptions<V>, options?: ThisTypedShallowOptions<V>): Wrapper<V>
 export declare function shallow (component: FunctionalComponentOptions, options?: ShallowOptions<Vue>): Wrapper<Vue>
 
+
+export declare function renderToString<V extends Vue> (component: VueClass<V>, options?: ThisTypedShallowOptions<V>): string
+export declare function renderToString<V extends Vue> (component: ComponentOptions<V>, options?: ThisTypedShallowOptions<V>): string
+export declare function renderToString (component: FunctionalComponentOptions, options?: ShallowOptions<Vue>): string
+
 export declare let TransitionStub: Component | string | true
 export declare let TransitionGroupStub: Component | string | true
