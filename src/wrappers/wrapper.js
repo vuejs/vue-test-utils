@@ -30,6 +30,7 @@ export default class Wrapper implements BaseWrapper {
   update: Function;
   options: WrapperOptions;
   version: number
+  isFunctionalComponent: boolean
 
   constructor (node: VNode | Element, update: Function, options: WrapperOptions) {
     if (node instanceof Element) {

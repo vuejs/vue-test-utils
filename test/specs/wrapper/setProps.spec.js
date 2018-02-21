@@ -1,7 +1,10 @@
 import { compileToFunctions } from 'vue-template-compiler'
 import ComponentWithProps from '~resources/components/component-with-props.vue'
 import ComponentWithWatch from '~resources/components/component-with-watch.vue'
-import { describeWithShallowAndMount } from '~resources/test-utils'
+import {
+  describeWithShallowAndMount,
+  vueVersion
+} from '~resources/test-utils'
 
 describeWithShallowAndMount('setProps', (mountingMethod) => {
   let info
@@ -41,6 +44,10 @@ describeWithShallowAndMount('setProps', (mountingMethod) => {
     const message = '[vue-test-utils]: wrapper.setProps() canot be called on a functional component'
     const fn = () => mountingMethod(AFunctionalComponent).setProps({ prop1: 'prop' })
     expect(fn).to.throw().with.property('message', message)
+    // find on functional components isn't supported in Vue < 2.3
+    if (vueVersion < 2.3) {
+      return
+    }
     const TestComponent = {
       template: '<div><a-functional-component /></div>',
       components: {
