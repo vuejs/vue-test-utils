@@ -53,6 +53,7 @@ export default function createFunctionalComponent (component: Component, mountin
         (mountingOptions.context && mountingOptions.context.children && mountingOptions.context.children.map(x => typeof x === 'function' ? x(h) : x)) || createFunctionalSlots(mountingOptions.slots, h)
       )
     },
-    name: component.name
+    name: component.name,
+    _isFunctionalContainer: true
   }
 }

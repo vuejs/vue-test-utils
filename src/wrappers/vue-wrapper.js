@@ -45,6 +45,7 @@ export default class VueWrapper extends Wrapper implements BaseWrapper {
     }))
     this.vm = vm
     this.isVueComponent = true
+    this.isFunctionalComponent = vm.$options._isFunctionalContainer
     this._emitted = vm.__emitted
     this._emittedByOrder = vm.__emittedByOrder
   }

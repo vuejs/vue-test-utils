@@ -24,6 +24,33 @@ describeWithShallowAndMount('setProps', (mountingMethod) => {
     expect(wrapper.find('.prop-2').element.textContent).to.equal(prop2)
   })
 
+  it('throws error if component does not include props key', () => {
+    const TestComponent = {
+      template: '<div></div>'
+    }
+    const message = '[vue-test-utils]: wrapper.setProps() called with prop1 property which is not defined on component'
+    const fn = () => mountingMethod(TestComponent).setProps({ prop1: 'prop' })
+    expect(fn).to.throw().with.property('message', message)
+  })
+
+  it('throws error when called on functional vnode', () => {
+    const AFunctionalComponent = {
+      render: (h, context) => h('div', context.prop1),
+      functional: true
+    }
+    const message = '[vue-test-utils]: wrapper.setProps() canot be called on a functional component'
+    const fn = () => mountingMethod(AFunctionalComponent).setProps({ prop1: 'prop' })
+    expect(fn).to.throw().with.property('message', message)
+    const TestComponent = {
+      template: '<div><a-functional-component /></div>',
+      components: {
+        AFunctionalComponent
+      }
+    }
+    const fn2 = () => mountingMethod(TestComponent).find(AFunctionalComponent).setProps({ prop1: 'prop' })
+    expect(fn2).to.throw().with.property('message', message)
+  })
+
   it('sets component props, and updates DOM when propsData was not initially passed', () => {
     const prop1 = 'prop 1'
     const prop2 = 'prop s'
@@ -31,13 +58,6 @@ describeWithShallowAndMount('setProps', (mountingMethod) => {
     wrapper.setProps({ prop1, prop2 })
     expect(wrapper.find('.prop-1').element.textContent).to.equal(prop1)
     expect(wrapper.find('.prop-2').element.textContent).to.equal(prop2)
-  })
-
-  it('does not add properties not defined in component', () => {
-    const undefinedProp = 'some value'
-    const wrapper = mountingMethod(ComponentWithProps)
-    wrapper.setProps({ undefinedProp })
-    expect(wrapper.props().undefinedProp).to.be.undefined
   })
 
   it('runs watch function when prop is updated', () => {
