@@ -5,7 +5,8 @@ import getSelectorTypeOrThrow from '../lib/get-selector-type'
 import {
   REF_SELECTOR,
   COMPONENT_SELECTOR,
-  NAME_SELECTOR
+  NAME_SELECTOR,
+  FUNCTIONAL_OPTIONS
 } from '../lib/consts'
 import {
   vmCtorMatchesName,
@@ -29,6 +30,7 @@ export default class Wrapper implements BaseWrapper {
   update: Function;
   options: WrapperOptions;
   version: number
+  isFunctionalComponent: boolean
 
   constructor (node: VNode | Element, update: Function, options: WrapperOptions) {
     if (node instanceof Element) {
@@ -37,6 +39,9 @@ export default class Wrapper implements BaseWrapper {
     } else {
       this.vnode = node
       this.element = node.elm
+    }
+    if (this.vnode && (this.vnode[FUNCTIONAL_OPTIONS] || this.vnode.functionalContext)) {
+      this.isFunctionalComponent = true
     }
     this.update = update
     this.options = options
@@ -394,6 +399,10 @@ export default class Wrapper implements BaseWrapper {
    * Sets vm data
    */
   setData (data: Object) {
+    if (this.isFunctionalComponent) {
+      throwError('wrapper.setData() canot be called on a functional component')
+    }
+
     if (!this.vm) {
       throwError('wrapper.setData() can only be called on a Vue instance')
     }
@@ -475,6 +484,9 @@ export default class Wrapper implements BaseWrapper {
    * Sets vm props
    */
   setProps (data: Object) {
+    if (this.isFunctionalComponent) {
+      throwError('wrapper.setProps() canot be called on a functional component')
+    }
     if (!this.isVueComponent || !this.vm) {
       throwError('wrapper.setProps() can only be called on a Vue instance')
     }
@@ -484,8 +496,8 @@ export default class Wrapper implements BaseWrapper {
     Object.keys(data).forEach((key) => {
       // Ignore properties that were not specified in the component options
       // $FlowIgnore : Problem with possibly null this.vm
-      if (!this.vm.$options._propKeys.includes(key)) {
-        return
+      if (!this.vm.$options._propKeys || !this.vm.$options._propKeys.includes(key)) {
+        throwError(`wrapper.setProps() called with ${key} property which is not defined on component`)
       }
 
       // $FlowIgnore : Problem with possibly null this.vm
