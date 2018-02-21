@@ -20,6 +20,8 @@ shallow(Component, {
 })
 ```
 
+> Vue Router を localVue にインストールすると `$route` と `$router` が読み取り専用プロパティーとして localVue に追加されます。これは VueRouter をインストールした localVue を使用しているコンポーネントをマウントする時、 `mock` オプションで `$route` と `$router` を上書きすることができないことを意味します。
+
 ## `router-link` または `router-view` を使用するコンポーネントテスト
 
 Vue Router をインストールする時、`router-link` と `router-view` コンポーネントが登録されます。これは、それらをアプリケーションにインポートする必要がなく、アプリケーションのどこでも使用することができます。

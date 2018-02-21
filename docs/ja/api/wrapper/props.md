@@ -9,15 +9,14 @@
 - **例:**
 
 ```js
+import { mount } from '@vue/test-utils'
+import { expect } from 'chai'
 import Foo from './Foo.vue'
-import Bar from './Bar.vue'
 
-const wrapper = mount(Component, {
-  context: {
-    props: { show: true },
-    children: [Foo, Bar]
+const wrapper = mount(Foo, {
+  propsData: {
+    bar: 'baz'
   }
 })
-
-expect(wrapper.is(Component)).toBe(true)
+expect(wrapper.props().bar).toBe('baz')
 ```
