@@ -33,7 +33,6 @@ export default {
 
 ```js
 import { shallow } from '@vue/test-utils'
-import { expect } from 'chai'
 import Foo from './Foo.vue'
 
 const wrapper = shallow(Foo)
