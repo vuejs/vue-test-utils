@@ -47,8 +47,6 @@ wrapper.emitted() retorna o objeto a seguir:
 Então você pode criar asserções baseadas nesses dados:
 
 ``` js
-import { expect } from 'chai'
-
 // verifica se o evento 'foo' foi emitido
 expect(wrapper.emitted().foo).toBeTruthy()
 

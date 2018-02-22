@@ -150,27 +150,27 @@ import { mount } from '@vue/test-utils'
 describe('Tests événement clavier', () => {
   it('La quantité est zéro par défaut', () => {
     const wrapper = mount(QuantityComponent)
-    expect(wrapper.vm.quantity).to.equal(0)
+    expect(wrapper.vm.quantity).toBe(0)
   })
 
   it('La flèche du haut positionne la quantité à 1', () => {
     const wrapper = mount(QuantityComponent)
     wrapper.trigger('keydown.up')
-    expect(wrapper.vm.quantity).to.equal(1)
+    expect(wrapper.vm.quantity).toBe(1)
   })
 
   it('La flèche du bas réduit la quantité de 1', () => {
     const wrapper = mount(QuantityComponent)
     wrapper.vm.quantity = 5
     wrapper.trigger('keydown.down')
-    expect(wrapper.vm.quantity).to.equal(4)
+    expect(wrapper.vm.quantity).toBe(4)
   })
 
   it('La touche Échap positionne la quantité à 0', () => {
     const wrapper = mount(QuantityComponent)
     wrapper.vm.quantity = 5
     wrapper.trigger('keydown.esc')
-    expect(wrapper.vm.quantity).to.equal(0)
+    expect(wrapper.vm.quantity).toBe(0)
   })
 
   it('Le caractère magique `a` positionne la quantité à 13', () => {
@@ -178,7 +178,7 @@ describe('Tests événement clavier', () => {
     wrapper.trigger('keydown', {
       which: 65
     })
-    expect(wrapper.vm.quantity).to.equal(13)
+    expect(wrapper.vm.quantity).toBe(13)
   })
 })
 

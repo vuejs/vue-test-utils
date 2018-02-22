@@ -42,7 +42,6 @@ Forneça um objeto do slot para o componente. A chave corresponde ao nome do slo
 Exemplo:
 
 ```js
-import { expect } from 'chai'
 import Foo from './Foo.vue'
 import Bar from './Bar.vue'
 
@@ -90,7 +89,6 @@ Adiciona uma propriedade adicional à instância. Ótimo para simular injeções
 Exemplo:
 
 ```js
-import { expect } from 'chai'
 
 const $route = { path: 'http://www.meusite.com.br' }
 const wrapper = shallow(Component, {
@@ -112,7 +110,6 @@ Exemplo:
 ```js
 import { createLocalVue, mount } from '@vue/test-utils'
 import VueRouter from 'vue-router'
-import { expect } from 'chai'
 import Foo from './Foo.vue'
 
 const localVue = createLocalVue()

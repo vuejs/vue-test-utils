@@ -45,8 +45,6 @@ wrapper.vm.$emit('foo', 123)
 
 Vous pouvez ensuite réaliser des assertions sur ces données :
 ``` js
-import { expect } from 'chai'
-
 // asserte que l'évènement est bien émit
 expect(wrapper.emitted().foo).toBeTruthy()
 

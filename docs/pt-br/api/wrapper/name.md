@@ -8,7 +8,6 @@ Retorna o nome do componente se o wrapper for uma instância do Vue, ou então o
 
 ```js
 import { mount } from '@vue/test-utils'
-import { expect } from 'chai'
 import Foo from './Foo.vue'
 
 const wrapper = mount(Foo)

@@ -21,7 +21,6 @@ Use any valid [selector](selectors.md).
 
 ```js
 import { mount } from '@vue/test-utils'
-import { expect } from 'chai'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {
@@ -36,7 +35,6 @@ describe('Foo', () => {
 
 ```js
 import { mount } from '@vue/test-utils'
-import { expect } from 'chai'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {
@@ -55,7 +53,6 @@ describe('Foo', () => {
 
 ```js
 import { mount } from '@vue/test-utils'
-import { expect } from 'chai'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {
@@ -71,7 +68,6 @@ describe('Foo', () => {
 
 ```js
 import { mount } from '@vue/test-utils'
-import { expect } from 'chai'
 import Foo from './Foo.vue'
 import Bar from './Bar.vue'
 import FooBar from './FooBar.vue'
@@ -94,7 +90,6 @@ describe('Foo', () => {
 
 ```js
 import { mount } from '@vue/test-utils'
-import { expect } from 'chai'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {
@@ -114,7 +109,6 @@ describe('Foo', () => {
 
 ```js
 import { mount } from '@vue/test-utils'
-import { expect } from 'chai'
 import Foo from './Foo.vue'
 import Bar from './Bar.vue'
 import Faz from './Faz.vue'

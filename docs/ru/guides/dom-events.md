@@ -149,27 +149,27 @@ import { mount } from '@vue/test-utils'
 describe('Тестирование событий клавиш', () => {
   it('Quantity по умолчанию равно нулю', () => {
     const wrapper = mount(QuantityComponent)
-    expect(wrapper.vm.quantity).to.equal(0)
+    expect(wrapper.vm.quantity).toBe(0)
   })
 
   it('Клавиша вверх устанавливает quantity равным 1', () => {
     const wrapper = mount(QuantityComponent)
     wrapper.trigger('keydown.up')
-    expect(wrapper.vm.quantity).to.equal(1)
+    expect(wrapper.vm.quantity).toBe(1)
   })
 
   it('Клавиша вниз уменьшает quantity на 1', () => {
     const wrapper = mount(QuantityComponent)
     wrapper.vm.quantity = 5
     wrapper.trigger('keydown.down')
-    expect(wrapper.vm.quantity).to.equal(4)
+    expect(wrapper.vm.quantity).toBe(4)
   })
 
   it('Escape устанавливает quantity равным 0', () => {
     const wrapper = mount(QuantityComponent)
     wrapper.vm.quantity = 5
     wrapper.trigger('keydown.esc')
-    expect(wrapper.vm.quantity).to.equal(0)
+    expect(wrapper.vm.quantity).toBe(0)
   })
 
   it('Магический символ "a" устанавливает quantity равным 13', () => {
@@ -177,7 +177,7 @@ describe('Тестирование событий клавиш', () => {
     wrapper.trigger('keydown', {
       which: 65
     })
-    expect(wrapper.vm.quantity).to.equal(13)
+    expect(wrapper.vm.quantity).toBe(13)
   })
 })
 

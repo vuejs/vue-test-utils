@@ -46,8 +46,6 @@ wrapper.vm.$emit('foo', 123)
 Затем вы можете добавить проверки на основе этих данных:
 
 ``` js
-import { expect } from 'chai'
-
 // проверка, что событие было вызвано
 expect(wrapper.emitted().foo).toBeTruthy()
 
