@@ -14,8 +14,7 @@
 - **示例：**
 
 ```js
-import { shallow } from 'vue-test-utils'
-import { expect } from 'chai'
+import { shallow } from '@vue/test-utils'
 import Foo from './Foo.vue'
 
 const wrapper = shallow(Foo)
