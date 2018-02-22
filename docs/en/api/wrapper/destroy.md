@@ -15,5 +15,5 @@ mount({
     spy()
   }
 }).destroy()
-expect(spy.calledOnce).toEqual(true)
+expect(spy.calledOnce).toBe(true)
 ```

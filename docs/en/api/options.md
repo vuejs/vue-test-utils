@@ -193,5 +193,5 @@ const options = {
   }
 }
 const wrapper = mount(Component, options)
-expect(wrapper.text()).to.equal('aBC')
+expect(wrapper.text()).toBe('aBC')
 ```

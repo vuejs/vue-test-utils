@@ -15,7 +15,7 @@ import Foo from './Foo.vue'
 
 const wrapper = mount(Foo)
 wrapper.setProps({ foo: 'bar' })
-expect(wrapper.vm.foo).toEqual('bar')
+expect(wrapper.vm.foo).toBe('bar')
 ```
 
 You can also pass a `propsData` object, which will initialize the Vue instance with passed values.
@@ -42,5 +42,5 @@ const wrapper = mount(Foo, {
   }
 })
 
-expect(wrapper.vm.foo).toEqual('bar')
+expect(wrapper.vm.foo).toBe('bar')
 ```
