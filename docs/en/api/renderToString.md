@@ -29,7 +29,6 @@ Renders a component to HTML.
 
 ```js
 import { renderToString } from '@vue/test-utils'
-import { expect } from 'chai'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {

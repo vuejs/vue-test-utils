@@ -45,7 +45,6 @@ Provide an object of slot contents to the component. The key corresponds to the 
 Example:
 
 ```js
-import { expect } from 'chai'
 import Foo from './Foo.vue'
 import Bar from './Bar.vue'
 
@@ -102,8 +101,6 @@ Add additional properties to the instance. Useful for mocking global injections.
 Example:
 
 ```js
-import { expect } from 'chai'
-
 const $route = { path: 'http://www.example-path.com' }
 const wrapper = shallow(Component, {
   mocks: {
@@ -124,7 +121,6 @@ Example:
 ```js
 import { createLocalVue, mount } from '@vue/test-utils'
 import VueRouter from 'vue-router'
-import { expect } from 'chai'
 import Foo from './Foo.vue'
 
 const localVue = createLocalVue()
