@@ -8,7 +8,6 @@
 
 ```js
 import { mount } from '@vue/test-utils'
-import { expect } from 'chai'
 
 const wrapper = mount(Component)
 
@@ -29,7 +28,7 @@ expect(wrapper.emitted().foo).toBeTruthy()
 expect(wrapper.emitted().foo.length).toBe(2)
 
 // イベントのペイロードを検証します
-expect(wrapper.emitted().foo[1]).toEqual([123])
+expect(wrapper.emitted().foo[1]).toBe([123])
 ```
 
 別の構文があります。

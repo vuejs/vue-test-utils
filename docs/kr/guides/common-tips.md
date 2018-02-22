@@ -46,8 +46,6 @@ wrapper.emitted() 는 다음 객체를 반환합니다.
 그런 다음 위 데이터 기반으로 검증할 수 있습니다.
 
 ``` js
-import { expect } from 'chai'
-
 // 방출된 이벤트 검증
 expect(wrapper.emitted().foo).toBeTruthy()
 

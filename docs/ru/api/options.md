@@ -45,7 +45,6 @@ expect(wrapper.is(Component)).toBe(true)
 Пример:
 
 ```js
-import { expect } from 'chai'
 import Foo from './Foo.vue'
 import Bar from './Bar.vue'
 
@@ -102,8 +101,6 @@ shallow(Component, {
 Пример:
 
 ```js
-import { expect } from 'chai'
-
 const $route = { path: 'http://www.example-path.com' }
 const wrapper = shallow(Component, {
   mocks: {
@@ -124,7 +121,6 @@ expect(wrapper.vm.$route.path).toBe($route.path)
 ```js
 import { createLocalVue, mount } from '@vue/test-utils'
 import VueRouter from 'vue-router'
-import { expect } from 'chai'
 import Foo from './Foo.vue'
 
 const localVue = createLocalVue()
@@ -197,5 +193,5 @@ const options = {
   }
 }
 const wrapper = mount(Component, options)
-expect(wrapper.text()).to.equal('aBC')
+expect(wrapper.text()).toBe('aBC')
 ```
