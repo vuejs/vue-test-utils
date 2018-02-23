@@ -1,8 +1,8 @@
 # 挂载选项
 
-即 `mount` 和 `shallow` 的选项。该对象同时包含了 `vue-test-utils` 挂载选项和其它选项。
+即 `mount` 和 `shallow` 的选项。该对象同时包含了 Vue Test Utils 挂载选项和其它选项。
 
-## `vue-test-utils` 特定的挂载选项
+## Vue Test Utils 特定的挂载选项
 
 - [`context`](#context)
 - [`slots`](#slots)

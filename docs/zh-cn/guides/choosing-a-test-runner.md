@@ -2,7 +2,7 @@
 
 测试运行器 (test runner) 就是运行测试的程序。
 
-主流的 JavaScript 测试运行器有很多，但 `vue-test-utils` 都能够支持。它是测试运行器无关的。
+主流的 JavaScript 测试运行器有很多，但 Vue Test Utils 都能够支持。它是测试运行器无关的。
 
 当然在我们选用测试运行器的时候也需要考虑一些事项：功能集合、性能和对单文件组件预编译的支持等。在仔细比对现有的库之后，我们推荐其中的两个测试运行器：
 
@@ -12,7 +12,7 @@
 
 ## 浏览器环境
 
-`vue-test-utils` 依赖浏览器环境。技术上讲你可以将其运行在一个真实的浏览器，但是我们并不推荐，因为在不同的平台上都启动真实的浏览器是很复杂的。我们推荐取而代之的是用 [JSDOM](https://github.com/tmpvar/jsdom) 在 Node 虚拟浏览器环境运行测试。
+Vue Test Utils 依赖浏览器环境。技术上讲你可以将其运行在一个真实的浏览器，但是我们并不推荐，因为在不同的平台上都启动真实的浏览器是很复杂的。我们推荐取而代之的是用 [JSDOM](https://github.com/tmpvar/jsdom) 在 Node 虚拟浏览器环境运行测试。
 
 Jest 测试运行器自动设置了 JSDOM。对于其它测试运行器来说，你可以在你的测试入口处使用 [jsdom-global](https://github.com/rstacruz/jsdom-global) 手动设置 JSDOM。
 

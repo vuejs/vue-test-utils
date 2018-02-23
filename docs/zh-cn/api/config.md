@@ -1,8 +1,8 @@
 # 配置
 
-`vue-test-utils` 包含了一个定义其选项的配置对象。
+Vue Test Utils 包含了一个定义其选项的配置对象。
 
-## `vue-test-utils` 配置选项
+## Vue Test Utils 配置选项
 
 ### `stubs`
 
