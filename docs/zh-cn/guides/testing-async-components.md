@@ -1,10 +1,10 @@
-# Testing Asynchronous Behavior
+# 测试异步行为
 
-To simplify testing, `vue-test-utils` applies DOM updates _synchronously_. However, there are some techniques you need to be aware of when testing a component with asynchronous behavior such as callbacks or promises.
+为了让测试变得简单，`vue-test-utils` _同步_应用 DOM 更新。不过当测试一个带有回调或 Promise 等异步行为的组件时，你需要留意一些技巧。
 
-One of the most common asynchronous behaviors is API calls and Vuex actions. The following examples shows how to test a method that makes an API call. This example uses Jest to run the test and to mock the HTTP library `axios`. More about Jest manual mocks can be found [here](https://facebook.github.io/jest/docs/en/manual-mocks.html#content).
+API 调用和 Vuex action 都是最常见的异步行为之一。下列例子展示了如何测试一个会调用到 API 的方法。这个例子使用 Jest 运行测试用例同时模拟了 HTTP 库 `axios`。更多关于 Jest 的手动模拟的介绍可移步[这里](https://facebook.github.io/jest/docs/en/manual-mocks.html#content)。
 
-The implementation of the `axios` mock looks like this:
+`axios` 的模拟实现大概是这个样子的：
 
 ``` js
 export default {
@@ -14,7 +14,7 @@ export default {
 }
 ```
 
-The below component makes an API call when a button is clicked, then assigns the response to `value`.
+下面的组件在按钮被点击的时候会调用一个 API，然后将响应的值赋给 `value`。
 
 ``` html
 <template>
@@ -41,10 +41,10 @@ The below component makes an API call when a button is clicked, then assigns the
 </script>
 ```
 
-A test can be written like this:
+测试用例可以写成像这样：
 
 ``` js
-import { shallow } from '@vue/test-utils'
+import { shallow } from 'vue-test-utils'
 import Foo from './Foo'
 jest.mock('axios')
 
@@ -57,7 +57,7 @@ test('Foo', () => {
 })
 ```
 
-This test currently fails because the assertion is called before the promise in `fetchResults` resolves. Most unit test libraries provide a callback to let the runner know when the test is complete. Jest and Mocha both use `done`. We can use `done` in combination with `$nextTick` or `setTimeout` to ensure any promises resolve before the assertion is made. 
+现在这则测试用例会失败，因为断言在 `fetchResults` 中的 Promise 完成之前就被调用了。大多数单元测试库都提供一个回调来使得运行期知道测试用例的完成时机。Jest 和 Mocha 都是用了 `done`。我们可以和 `$nectTick` 或 `setTimeout` 结合使用 `done` 来确保任何 Promise 都会在断言之前完成。
 
 ``` js
 test('Foo', () => {
@@ -72,14 +72,14 @@ test('Foo', () => {
 })
 ```
 
-The reason `$nextTick` or `setTimeout` allow the test to pass is because the microtask queue where promise callbacks are processed run before the task queue, where `$nextTick` and `setTimeout` are processed. This means by the time the `$nexTick` and `setTimeout` run, any promise callbacks on the microtask queue will have been executed. See [here](https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/) for a more detailed explanation.
+`$nextTick` 或 `setTimeout` 允许测试通过的原因是 Promise 回调的 microtask 队列会在处理 `$nextTick` 和 `setTimeout` 的任务队列之前先被处理。也就是说在 `$nextTick` 和 `setTimeout` 运行的时候，任何 microtask 队列上的 Promise 回调都已经执行过了。更多的解释请移步[这里](https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/)。
 
-Another solution is to use an `async` function and the npm package `flush-promises`. `flush-promises` flushes all pending resolved promise handlers. You can `await` the call of `flushPromises` to flush pending promises and improve the readability of your test.
+另一个解决方案时使用一个 `async` 函数配合 npm 包 `flush-promises`。`flush-promises` 会清除所有等待完成的 Promise 具柄。你可以 `await` 该 `flushPromiese` 调用，以此清除等待中的 Promise 并改进你的测试用例的可读性。
 
 The updated test looks like this:
 
 ``` js
-import { shallow } from '@vue/test-utils'
+import { shallow } from 'vue-test-utils'
 import flushPromises from 'flush-promises'
 import Foo from './Foo'
 jest.mock('axios')
@@ -94,4 +94,4 @@ test('Foo', () => {
 })
 ```
 
-This same technique can be applied to Vuex actions, which return a promise by default.
+相同的技巧可以被运用在同样默认返回一个 Promise 的 Vuex action 中。
