@@ -13,7 +13,6 @@ describe('hasStyle', () => {
     if (navigator.userAgent.includes && navigator.userAgent.includes('jsdom')) {
       return
     }
-    console.log(navigator.userAgent.includes('jsdom'))
     const wrapper = mount(ComponentWithStyle)
     expect(wrapper.findAll('div').hasStyle('color', 'red')).to.equal(true)
   })

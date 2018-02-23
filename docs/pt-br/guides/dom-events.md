@@ -149,27 +149,27 @@ import { mount } from '@vue/test-utils'
 describe('Testes de eventos de tecla', () => {
   it('Contador é zero por padrão', () => {
     const wrapper = mount(ContadorComponente)
-    expect(wrapper.vm.contador).to.equal(0)
+    expect(wrapper.vm.contador).toBe(0)
   })
 
   it('Tecla para cima incrementa contador para um', () => {
     const wrapper = mount(ContadorComponente)
     wrapper.trigger('keydown.up')
-    expect(wrapper.vm.contador).to.equal(1)
+    expect(wrapper.vm.contador).toBe(1)
   })
 
   it('Tecla para baixo decrementa contador para quatro', () => {
     const wrapper = mount(ContadorComponente)
     wrapper.vm.contador = 5
     wrapper.trigger('keydown.down')
-    expect(wrapper.vm.contador).to.equal(4)
+    expect(wrapper.vm.contador).toBe(4)
   })
 
   it('Tecla esc volta o contador para zero', () => {
     const wrapper = mount(ContadorComponente)
     wrapper.vm.contador = 5
     wrapper.trigger('keydown.esc')
-    expect(wrapper.vm.contador).to.equal(0)
+    expect(wrapper.vm.contador).toBe(0)
   })
 
   it('Tecla A define o contador para 13', () => {
@@ -177,7 +177,7 @@ describe('Testes de eventos de tecla', () => {
     wrapper.trigger('keydown', {
       which: 65
     })
-    expect(wrapper.vm.contador).to.equal(13)
+    expect(wrapper.vm.contador).toBe(13)
   })
 })
 

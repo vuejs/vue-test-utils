@@ -9,7 +9,6 @@ Vue 컴포넌트 래퍼 배열에서 호출되면 각 Vue 컴포넌트가 강제
 
 ```js
 import { mount } from '@vue/test-utils'
-import { expect } from 'chai'
 import Foo from './Foo.vue'
 
 const wrapper = mount(Foo)

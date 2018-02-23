@@ -8,7 +8,6 @@ Retorna um Array contendo os eventos customizados emitidos pelo `vm` do wrapper.
 
 ```js
 import { mount } from '@vue/test-utils'
-import { expect } from 'chai'
 
 const wrapper = mount(Component)
 

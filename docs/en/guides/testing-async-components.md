@@ -52,7 +52,7 @@ test('Foo', () => {
   it('fetches async when a button is clicked', () => {
     const wrapper = shallow(Foo)
     wrapper.find('button').trigger('click')
-    expect(wrapper.vm.value).toEqual('value')
+    expect(wrapper.vm.value).toBe('value')
   })
 })
 ```
@@ -65,7 +65,7 @@ test('Foo', () => {
     const wrapper = shallow(Foo)
     wrapper.find('button').trigger('click')
     wrapper.vm.$nextTick(() => {
-      expect(wrapper.vm.value).toEqual('value')
+      expect(wrapper.vm.value).toBe('value')
       done()
     })
   })
@@ -89,7 +89,7 @@ test('Foo', () => {
     const wrapper = shallow(Foo)
     wrapper.find('button').trigger('click')
     await flushPromises()
-    expect(wrapper.vm.value).toEqual('value')
+    expect(wrapper.vm.value).toBe('value')
   })
 })
 ```

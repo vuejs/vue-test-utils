@@ -38,5 +38,8 @@ module.exports = {
     devtoolModuleFilenameTemplate: '[absolute-resource-path]',
     devtoolFallbackModuleFilenameTemplate: '[absolute-resource-path]?[hash]'
   },
-  devtool: '#inline-cheap-module-source-map'
+  devtool: '#inline-cheap-module-source-map',
+  node: {
+    fs: 'empty'
+  }
 }

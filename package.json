@@ -1,6 +1,6 @@
 {
   "name": "@vue/test-utils",
-  "version": "1.0.0-beta.11",
+  "version": "1.0.0-beta.12",
   "description": "Utilities for testing Vue components.",
   "main": "dist/vue-test-utils.js",
   "types": "types/index.d.ts",
@@ -88,6 +88,7 @@
     "vue-class-component": "^6.1.2",
     "vue-loader": "^13.6.2",
     "vue-router": "^3.0.1",
+    "vue-server-renderer": "2.5.13",
     "vue-template-compiler": "^2.5.13",
     "vuetify": "^0.16.9",
     "vuex": "^3.0.1",
@@ -96,6 +97,7 @@
   },
   "peerDependencies": {
     "vue": "2.x",
+    "vue-server-renderer": "2.x",
     "vue-template-compiler": "^2.x"
   },
   "dependencies": {

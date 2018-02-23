@@ -14,7 +14,6 @@ Retorna `true` se o wrapper contém o atributo.
 
 ```js
 import { mount } from '@vue/test-utils'
-import { expect } from 'chai'
 import Foo from './Foo.vue'
 
 // Exemplo <div class="foo">...</div>
@@ -28,7 +27,6 @@ Você poderia obter o atributo do `Wrapper.element` para então verificar basead
 
 ```js
 import { mount } from '@vue/test-utils'
-import { expect } from 'chai'
 import Foo from './Foo.vue'
 
 const wrapper = mount(Foo)

@@ -12,7 +12,6 @@ style が `display: none` か `visibility: hidden` の親要素がある場合�
 
 ```js
 import { mount } from 'vue-test-utils'
-import { expect } from 'chai'
 import Foo from './Foo.vue'
 
 const wrapper = mount(Foo)

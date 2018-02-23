@@ -11,7 +11,6 @@ Use it with `options.localVue`:
 
 ```js
 import { createLocalVue, shallow } from '@vue/test-utils'
-import { expect } from 'chai'
 import Foo from './Foo.vue'
 
 const localVue = createLocalVue()

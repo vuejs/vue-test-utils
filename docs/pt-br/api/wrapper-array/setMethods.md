@@ -11,7 +11,6 @@ Define os métodos do componente e força sua atualização para cada wrapper no
 
 ```js
 import { mount } from '@vue/test-utils'
-import { expect } from 'chai'
 import sinon from 'sinon'
 import Foo from './Foo.vue'
 import Bar from './Bar.vue'

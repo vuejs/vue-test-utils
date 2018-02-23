@@ -12,11 +12,15 @@ import VueRouter from 'vue-router'
 
 const localVue = createLocalVue()
 localVue.use(VueRouter)
+const router = new VueRouter()
 
 shallow(Component, {
-  localVue
+  localVue,
+  router
 })
 ```
+
+> Vue Router を localVue にインストールすると `$route` と `$router` が読み取り専用プロパティーとして localVue に追加されます。これは VueRouter をインストールした localVue を使用しているコンポーネントをマウントする時、 `mock` オプションで `$route` と `$router` を上書きすることができないことを意味します。
 
 ## `router-link` または `router-view` を使用するコンポーネントテスト
 

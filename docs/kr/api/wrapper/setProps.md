@@ -11,12 +11,11 @@
 
 ```js
 import { mount } from '@vue/test-utils'
-import { expect } from 'chai'
 import Foo from './Foo.vue'
 
 const wrapper = mount(Foo)
 wrapper.setProps({ foo: 'bar' })
-expect(wrapper.vm.foo).to.equal('bar')
+expect(wrapper.vm.foo).toBe('bar')
 ```
 
 전달받은 값으로 Vue 인스턴스를 초기화하는 `propsData` 객체를 전달할 수 있습니다.
@@ -35,7 +34,6 @@ export default {
 
 ``` js
 import { mount } from '@vue/test-utils'
-import { expect } from 'chai'
 import Foo from './Foo.vue'
 
 const wrapper = mount(Foo, {
@@ -44,5 +42,5 @@ const wrapper = mount(Foo, {
   }
 })
 
-expect(wrapper.vm.foo).to.equal('bar')
+expect(wrapper.vm.foo).toBe('bar')
 ```

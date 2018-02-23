@@ -2,51 +2,64 @@ import { createLocalVue } from '~vue-test-utils'
 import Component from '~resources/components/component.vue'
 import ComponentWithVuex from '~resources/components/component-with-vuex.vue'
 import {
-  describeWithShallowAndMount,
+  describeWithMountingMethods,
   itDoNotRunIf
  } from '~resources/test-utils'
 
-describeWithShallowAndMount('options.mocks', (mountingMethod) => {
-  it('adds variables to vm when passed as mocks object', () => {
+describeWithMountingMethods('options.mocks', (mountingMethod) => {
+  it('adds variables to vm when passed', () => {
+    const TestComponent = {
+      template: `
+        <div>
+          {{$store.store}}
+          {{$route.path}}
+        </div>
+      `
+    }
     const $store = { store: true }
     const $route = { path: 'http://test.com' }
-    const wrapper = mountingMethod(Component, {
+    const wrapper = mountingMethod(TestComponent, {
       mocks: {
         $store,
         $route
       }
     })
-    expect(wrapper.vm.$store).to.equal($store)
-    expect(wrapper.vm.$route).to.equal($route)
+    const HTML = mountingMethod.name === 'renderToString'
+    ? wrapper
+    : wrapper.html()
+    expect(HTML).contains('true')
+    expect(HTML).contains('http://test.com')
   })
 
-  it('adds variables to vm when passed as mocks object', () => {
-    const stub = sinon.stub()
-    const $reactiveMock = { value: 'value' }
-    const wrapper = mountingMethod({
-      template: `
+  // render returns a string so reactive does not apply
+  itDoNotRunIf(mountingMethod.name === 'renderToString',
+     'adds variables as reactive properties to vm when passed', () => {
+       const stub = sinon.stub()
+       const $reactiveMock = { value: 'value' }
+       const wrapper = mountingMethod({
+         template: `
         <div>
           {{value}}
         </div>
       `,
-      computed: {
-        value () {
-          return this.$reactiveMock.value
-        }
-      },
-      watch: {
-        value () {
-          stub()
-        }
-      }
-    }, {
-      mocks: { $reactiveMock }
-    })
-    expect(wrapper.text()).to.contain('value')
-    $reactiveMock.value = 'changed value'
-    wrapper.update()
-    expect(wrapper.text()).to.contain('changed value')
-  })
+         computed: {
+           value () {
+             return this.$reactiveMock.value
+           }
+         },
+         watch: {
+           value () {
+             stub()
+           }
+         }
+       }, {
+         mocks: { $reactiveMock }
+       })
+       expect(wrapper.text()).to.contain('value')
+       $reactiveMock.value = 'changed value'
+       wrapper.update()
+       expect(wrapper.text()).to.contain('changed value')
+     })
 
   itDoNotRunIf(mountingMethod.name === 'shallow',
     'adds variables available to nested vms', () => {
@@ -59,7 +72,10 @@ describeWithShallowAndMount('options.mocks', (mountingMethod) => {
       }, {
         mocks: { $store: { state: { count, foo: {}}}}
       })
-      expect(wrapper.text()).contains(count)
+      const HTML = mountingMethod.name === 'renderToString'
+      ? wrapper
+      : wrapper.html()
+      expect(HTML).contains(count)
     })
 
   itDoNotRunIf(mountingMethod.name === 'shallow',
@@ -75,10 +91,14 @@ describeWithShallowAndMount('options.mocks', (mountingMethod) => {
       mocks: { $store: { state: { count, foo: {}}}},
       localVue
     })
-    expect(wrapper.text()).contains(count)
+    const HTML = mountingMethod.name === 'renderToString'
+    ? wrapper
+    : wrapper.html()
+    expect(HTML).contains(count)
   })
 
-  it('does not affect global vue class when passed as mocks object', () => {
+  itDoNotRunIf(mountingMethod.name === 'renderToString',
+  'does not affect global vue class when passed as mocks object', () => {
     const $store = { store: true }
     const wrapper = mountingMethod(Component, {
       mocks: {

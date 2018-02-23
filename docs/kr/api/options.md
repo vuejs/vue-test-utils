@@ -42,7 +42,6 @@ expect(wrapper.is(Component)).toBe(true)
 예:
 
 ```js
-import { expect } from 'chai'
 import Foo from './Foo.vue'
 import Bar from './Bar.vue'
 
@@ -90,8 +89,6 @@ shallow(Component, {
 예:
 
 ```js
-import { expect } from 'chai'
-
 const $route = { path: 'http://www.example-path.com' }
 const wrapper = shallow(Component, {
   mocks: {
@@ -112,7 +109,6 @@ localVue는 [createLocalVue](./createLocalVue.md)에 의해 생성된 Vue의 로
 ```js
 import { createLocalVue, mount } from '@vue/test-utils'
 import VueRouter from 'vue-router'
-import { expect } from 'chai'
 import Foo from './Foo.vue'
 
 const localVue = createLocalVue()

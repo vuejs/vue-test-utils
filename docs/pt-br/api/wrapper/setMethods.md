@@ -11,7 +11,6 @@ Define os métodos do `vm` do wrapper e força sua atualização.
 
 ```js
 import { mount } from '@vue/test-utils'
-import { expect } from 'chai'
 import sinon from 'sinon'
 import Foo from './Foo.vue'
 
