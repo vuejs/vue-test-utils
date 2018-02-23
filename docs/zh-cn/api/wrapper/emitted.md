@@ -8,7 +8,6 @@
 
 ```js
 import { mount } from '@vue/test-utils'
-import { expect } from 'chai'
 
 const wrapper = mount(Component)
 

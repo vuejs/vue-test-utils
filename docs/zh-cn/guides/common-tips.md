@@ -46,8 +46,6 @@ wrapper.vm.$emit('foo', 123)
 然后你可以基于这些数据来设置断言：
 
 ``` js
-import { expect } from 'chai'
-
 // 断言事件已经被触发
 expect(wrapper.emitted().foo).toBeTruthy()
 
