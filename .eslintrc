@@ -2,8 +2,7 @@
   "globals": {
     "wrapper": true,
     "expect": true,
-    "Element": true,
-    "SVGAnimatedString": true
+    "Element": true
   },
   "root": true,
   "plugins": [
