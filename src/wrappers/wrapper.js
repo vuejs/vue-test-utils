@@ -69,7 +69,12 @@ export default class Wrapper implements BaseWrapper {
    * Returns an Array containing all the classes on the element
    */
   classes (): Array<string> {
-    let classes = this.element.className ? this.element.className.split(' ') : []
+    let classes = this.element.className;
+    if (classes instanceof SVGAnimatedString) {
+      classes = this.element.getAttribute('class') || [];
+    } else {
+      classes = this.element.className ? this.element.className.split(' ') : [];
+    }
     // Handle converting cssmodules identifiers back to the original class name
     if (this.vm && this.vm.$style) {
       const cssModuleIdentifiers = {}
