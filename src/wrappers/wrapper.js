@@ -70,9 +70,8 @@ export default class Wrapper implements BaseWrapper {
    */
   classes (): Array<string> {
     // works for HTML Element and SVG Element
-    let className = this.element.getAttribute('class')
-    let classes = className ? className.split(' ') : []
-    
+    const className = this.element.getAttribute('class')
+    let classes = className ? className.split(' ') : []    
     // Handle converting cssmodules identifiers back to the original class name
     if (this.vm && this.vm.$style) {
       const cssModuleIdentifiers = {}
