@@ -20,4 +20,12 @@ describeWithShallowAndMount('classes', (mountingMethod) => {
     const wrapper = mountingMethod(ComponentWithCssModules)
     expect(wrapper.classes()).to.eql(['extension', 'color-red'])
   })
+
+  it('returns array of class names for svg element', () => {
+    const compiled = compileToFunctions('<svg class="a-class b-class"><text class="c-class"/></svg>')
+    const wrapper = mountingMethod(compiled)
+    expect(wrapper.classes()).to.contain('a-class')
+    expect(wrapper.classes()).to.contain('b-class')
+    expect(wrapper.find('text').classes()).to.contain('c-class')
+  })
 })
