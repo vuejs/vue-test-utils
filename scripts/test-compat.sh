@@ -4,7 +4,7 @@ set -e
 
 test_version_number(){
   echo "running unit tests with Vue $1"
-  yarn add vue@$1 vue-template-compiler@$1 vue-server-renderer@$1
+  yarn add vue@$1 vue-template-compiler@$1 vue-server-renderer@$1 -W
   yarn test:unit
   yarn test:unit:karma
 }

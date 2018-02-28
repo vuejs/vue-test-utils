@@ -25,4 +25,4 @@ tmp*
 # Vim
 *.sw[po]
 
-yarn.lock
+package-lock.json
