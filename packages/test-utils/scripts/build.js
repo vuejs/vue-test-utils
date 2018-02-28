@@ -19,26 +19,23 @@ const rollupOptionsBuild = [
     file: 'dist/vue-test-utils.js',
     format: 'cjs'
   },
-  // {
-  //   name: 'globals',
-  //   dir: resolve('dist'),
-  //   file: 'vue-test-utils.iife.js',
-  //   format: 'iife',
-  //   globals: {
-  //     'vue': 'Vue',
-  //     'vue-template-compiler': 'VueTemplateCompiler'
-  //   }
-  // },
-  // {
-  //   dir: resolve('dist'),
-  //   file: 'vue-test-utils.umd.js',
-  //   format: 'umd',
-  //   globals: {
-  //     'vue': 'Vue',
-  //     'vue-template-compiler': 'VueTemplateCompiler'
-  //   },
-  //   moduleName: 'vueTestUtils'
-  // }
+  {
+    file: 'dist/vue-test-utils.iife.js',
+    format: 'iife',
+    globals: {
+      'vue': 'Vue',
+      'vue-template-compiler': 'VueTemplateCompiler'
+    }
+  },
+  {
+    file: 'dist/vue-test-utils.umd.js',
+    format: 'umd',
+    globals: {
+      'vue': 'Vue',
+      'vue-template-compiler': 'VueTemplateCompiler'
+    },
+    moduleName: 'vueTestUtils'
+  }
 ]
 
 const rollupOptionsTest = [

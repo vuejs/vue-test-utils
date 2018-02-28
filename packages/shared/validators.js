@@ -1,7 +1,7 @@
 // @flow
 import { throwError } from './util'
 
-export function isDomSelector (selector) {
+export function isDomSelector (selector: any) {
   if (typeof selector !== 'string') {
     return false
   }
@@ -22,7 +22,7 @@ export function isDomSelector (selector) {
   }
 }
 
-export function isVueComponent (component) {
+export function isVueComponent (component: any) {
   if (typeof component === 'function' && component.options) {
     return true
   }
@@ -46,14 +46,14 @@ export function isVueComponent (component) {
   return typeof component.render === 'function'
 }
 
-export function componentNeedsCompiling (component) {
+export function componentNeedsCompiling (component: Component) {
   return component &&
     !component.render &&
     (component.template || component.extends) &&
     !component.functional
 }
 
-export function isValidSelector (selector) {
+export function isValidSelector (selector: any) {
   if (isDomSelector(selector)) {
     return true
   }
@@ -69,7 +69,7 @@ export function isValidSelector (selector) {
   return isRefSelector(selector)
 }
 
-export function isRefSelector (refOptionsObject) {
+export function isRefSelector (refOptionsObject: any) {
   if (typeof refOptionsObject !== 'object') {
     return false
   }
@@ -92,7 +92,7 @@ export function isRefSelector (refOptionsObject) {
   return isValid
 }
 
-export function isNameSelector (nameOptionsObject) {
+export function isNameSelector (nameOptionsObject: any) {
   if (typeof nameOptionsObject !== 'object') {
     return false
   }

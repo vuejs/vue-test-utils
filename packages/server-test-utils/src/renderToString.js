@@ -5,7 +5,8 @@ import createInstance from 'create-instance'
 import { throwError } from 'shared/util'
 import { createRenderer } from 'vue-server-renderer'
 import testUtils from '@vue/test-utils'
-import {mergeOptions} from 'shared/merge-options'
+import { mergeOptions } from 'shared/merge-options'
+import config from './config'
 
 Vue.config.productionTip = false
 Vue.config.devtools = false
@@ -23,7 +24,7 @@ export default function renderToString (component: Component, options: Options =
     throwError('you cannot use attachToDocument with renderToString')
   }
   const vueClass = options.localVue || testUtils.createLocalVue()
-  const vm = createInstance(component, mergeOptions(options, testUtils.config), vueClass)
+  const vm = createInstance(component, mergeOptions(options, config), vueClass)
   let renderedString = ''
 
   // $FlowIgnore

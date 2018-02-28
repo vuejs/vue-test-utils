@@ -1,4 +1,5 @@
 // @flow
+
 import { throwError } from 'shared/util'
 
 export default class ErrorWrapper implements BaseWrapper {

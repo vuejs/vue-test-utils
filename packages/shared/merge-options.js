@@ -1,9 +1,12 @@
 // @flow
 
 function getStubs (optionStubs, config) {
-  if (optionStubs || Object.keys(config.stubs).length > 0) {
+  if (optionStubs ||
+    (config.stubs && Object.keys(config.stubs).length > 0)) {
     if (Array.isArray(optionStubs)) {
-      return [...optionStubs, ...Object.keys(config.stubs)]
+      return [
+        ...optionStubs,
+        ...Object.keys(config.stubs || {})]
     } else {
       return {
         ...config.stubs,

@@ -1,11 +1,6 @@
 {
   "name": "create-instance",
   "version": "1.0.0",
-  "main": "src/index.js",
-  "private": true,
-  "devDependencies": {
-    "babel": "^6.23.0",
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.0"
-  }
+  "main": "create-instance.js",
+  "private": true
 }

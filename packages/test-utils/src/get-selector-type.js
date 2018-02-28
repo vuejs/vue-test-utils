@@ -4,7 +4,7 @@ import {
   isDomSelector,
   isNameSelector,
   isRefSelector,
-  isVueComponent,
+  isVueComponent
 } from 'shared/validators'
 import {
   throwError

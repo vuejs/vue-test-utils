@@ -1,5 +1,0 @@
-{
-  "presets": ["env", "stage-2", "flow-vue"],
-  "plugins": ["transform-decorators-legacy"],
-  "comments": false
-}

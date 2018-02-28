@@ -2,7 +2,7 @@
 
 import { compileToFunctions } from 'vue-template-compiler'
 
-export function compileTemplate (component) {
+export function compileTemplate (component: Component) {
   if (component.components) {
     Object.keys(component.components).forEach((c) => {
       const cmp = component.components[c]
