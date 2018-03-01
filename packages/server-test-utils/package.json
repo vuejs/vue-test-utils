@@ -1,6 +1,6 @@
 {
   "name": "@vue/server-test-utils",
-  "version": "1.0.0-beta.13",
+  "version": "1.0.0",
   "description": "Utilities for testing Vue components.",
   "main": "dist/vue-server-test-utils.js",
   "types": "types/index.d.ts",
@@ -10,7 +10,8 @@
   ],
   "scripts": {
     "build": "node scripts/build.js",
-    "build:test": "cross-env NODE_ENV=test node scripts/build.js"
+    "build:test": "cross-env NODE_ENV=test node scripts/build.js",
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,9 @@
     "url": "https://github.com/vuejs/vue-test-utils/issues"
   },
   "homepage": "https://github.com/vuejs/vue-test-utils#readme",
+  "dependencies": {
+    "@vue/test-utils": "^1.0.0"
+  },
   "devDependencies": {
     "chalk": "^2.1.0",
     "conventional-changelog": "^1.1.3",
