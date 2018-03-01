@@ -2,10 +2,14 @@
   "name": "vue-test-utils",
   "private": true,
   "version": "1.0.0-beta.12",
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
     "build:test": "lerna run build:test",
+    "clean": "lerna clean --yes",
     "coverage": "cross-env NODE_ENV=coverage nyc --reporter=lcov --reporter=text npm run test:unit",
     "docs": "cd docs && gitbook install && gitbook serve",
     "docs:deploy": "scripts/update-docs.sh",
@@ -22,9 +26,6 @@
     "release": "bash scripts/release.sh",
     "release:note": "node scripts/gen-release-note.js"
   },
-  "workspaces": [
-    "packages/*"
-  ],
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.2",
