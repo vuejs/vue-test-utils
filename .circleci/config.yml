@@ -8,12 +8,6 @@ jobs:
     steps:
       - checkout
       - run: yarn --version
-
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "yarn.lock" }}
-          - v1-dependencies-
-
       - run: yarn
       - run: yarn bootstrap
       - run: yarn test
