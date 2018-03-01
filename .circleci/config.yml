@@ -13,7 +13,6 @@ jobs:
       - run: yarn build:test
       - run: yarn test
       - run: yarn test:compat
-      - run: yarn test:coverage
 
       - save_cache:
           paths:
