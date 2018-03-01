@@ -145,4 +145,4 @@ export declare function renderToString (component: FunctionalComponentOptions, o
 
 export declare let TransitionStub: Component | string | true
 export declare let TransitionGroupStub: Component | string | true
-export declare let RouterLinkStub: Component | string | true
+export declare let RouterLinkStub: VueClass<Vue>
