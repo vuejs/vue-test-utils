@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0-beta.12",
   "scripts": {
-    "bootstrap": "lerna bootstrap --hoist",
+    "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
     "build:test": "lerna run build:test",
     "coverage": "cross-env NODE_ENV=coverage nyc --reporter=lcov --reporter=text npm run test:unit",
