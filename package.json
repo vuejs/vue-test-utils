@@ -55,7 +55,7 @@
     "karma-sourcemap-loader": "^0.3.7",
     "karma-spec-reporter": "^0.0.31",
     "karma-webpack": "^2.0.3",
-    "lerna": "3.0.0-alpha.1",
+    "lerna": "2",
     "mocha": "^3.5.0",
     "mocha-webpack": "^1.0.1",
     "nyc": "^11.4.1",
