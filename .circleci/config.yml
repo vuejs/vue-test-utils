@@ -9,9 +9,8 @@ jobs:
       - checkout
       - run: yarn --version
       - run: yarn
-      - run: yarn clean
-      - run: yarn
       - run: yarn bootstrap
+      - run: yarn build:test
       - run: yarn test
       - run: yarn test:compat
       - run: yarn test:coverage
