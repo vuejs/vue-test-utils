@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: node:6-browsers
+      - image: node:6.12.3-browsers
     working_directory: ~/repo
 
     steps:
