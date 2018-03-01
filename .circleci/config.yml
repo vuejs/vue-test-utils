@@ -8,8 +8,8 @@ jobs:
     steps:
       - checkout
       - run: yarn --version
-      - run: yarn
       - run: yarn clean
+      - run: yarn
       - run: yarn bootstrap
       - run: yarn test
       - run: yarn test:compat
