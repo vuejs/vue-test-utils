@@ -5,6 +5,5 @@
   ],
   "npmClient": "yarn",
   "useWorkspaces": true,
-  "version": "independent",
-  "independent": true
+  "version": "1.0.0-beta.13"
 }
