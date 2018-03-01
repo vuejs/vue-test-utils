@@ -2,10 +2,10 @@ machine:
   node:
     version: 6.12.3
 dependencies:
-  pre:
-    - npm install -g npm@5.2.0
+  override:
+    - yarn
 test:
   override:
-    - npm run test
-    - npm run test:compat
-    - npm run coverage
+    - yarn test
+    - yarn test:compat
+    - yarn coverage
