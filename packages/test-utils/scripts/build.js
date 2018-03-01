@@ -22,6 +22,7 @@ const rollupOptionsBuild = [
   {
     file: 'dist/vue-test-utils.iife.js',
     format: 'iife',
+    name: 'VueTestUtils',
     globals: {
       'vue': 'Vue',
       'vue-template-compiler': 'VueTemplateCompiler'
@@ -30,6 +31,7 @@ const rollupOptionsBuild = [
   {
     file: 'dist/vue-test-utils.umd.js',
     format: 'umd',
+    name: 'VueTestUtils',
     globals: {
       'vue': 'Vue',
       'vue-template-compiler': 'VueTemplateCompiler'
@@ -51,7 +53,7 @@ const rollupOptions = process.env.NODE_ENV === 'test' ? rollupOptionsTest : roll
 rollupOptions.forEach(options => {
   rollup({
     input: resolve('src/index.js'),
-    external: ['vue', 'vue-template-compiler', '@vue/test-utils'],
+    external: ['vue', 'vue-template-compiler'],
     plugins: [
       flow(),
       buble({
