@@ -23,7 +23,7 @@ function createLocalVue (): Component {
   instance.config.errorHandler = errorHandler
 
   // option merge strategies need to be exposed by reference
-  // so that merge strats registered by plguins can work properly
+  // so that merge strats registered by plugins can work properly
   instance.config.optionMergeStrategies = Vue.config.optionMergeStrategies
 
   // make sure all extends are based on this instance.
