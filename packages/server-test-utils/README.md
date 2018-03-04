@@ -1,22 +1,22 @@
-# Vue Test Utils [![Build Status](https://circleci.com/gh/vuejs/vue-test-utils/tree/dev.png?style=shield)](https://circleci.com/gh/vuejs/vue-test-utils)
+# Vue Server Test Utils [![Build Status](https://circleci.com/gh/vuejs/vue-test-utils/tree/dev.png?style=shield)](https://circleci.com/gh/vuejs/vue-test-utils)
 
 ## Currently in beta
-To use Vue Test Utils beta:
+To use Vue Server Test Utils beta:
 ```
 // npm
-npm install --save-dev @vue/test-utils
+npm install --save-dev @vue/server-test-utils
 
 // yarn
-yarn add --dev @vue/test-utils
+yarn add --dev @vue/server-test-utils
 ```
 
 ## Intro
 
-Vue Test Utils is the official test library for [Vue.js](http://vuejs.org). It provides methods for unit testing Vue components.
+Vue Server Test Utils is the official test library for [Vue.js](http://vuejs.org). It provides methods for unit testing Vue components.
 
 ## Documentation
 
-Refer to the [documentation](https://vue-test-utils.vuejs.org/)
+Refer to [documentation](https://vue-test-utils.vuejs.org/)
 
 ## Examples
 

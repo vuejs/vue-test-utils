@@ -33,6 +33,18 @@ For questions and support please use the [Discord chat room](https://vue-land.js
 
 Please make sure to read the [Issue Reporting Checklist](https://github.com/vuejs/vue/blob/dev/.github/CONTRIBUTING.md#issue-reporting-guidelines) before opening an issue. Issues not conforming to the guidelines may be closed immediately.
 
+## Contribution
+
+Please make sure to read the [Contributing Guide](https://github.com/vuejs/vue/blob/dev/.github/CONTRIBUTING.md) before making a pull request.
+
+## Changelog
+
+Changes for each release are documented in the [release notes](https://github.com/vuejs/vue-test-utils/releases).
+
+## Stay In Touch
+
+For the latest releases and announcements, follow on Twitter: [@vuejs](https://twitter.com/vuejs)
+
 ## License
 
 [MIT](http://opensource.org/licenses/MIT)
