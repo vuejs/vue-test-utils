@@ -1,6 +1,6 @@
 # Using with Vuex
 
-In this guide, we'll see how to test Vuex in components with `vue-test-utils`, and how to approach testing a Vuex store.
+In this guide, we'll see how to test Vuex in components with Vue Test Utils, and how to approach testing a Vuex store.
 
 ## Testing Vuex in components
 
@@ -105,7 +105,7 @@ Now the way we define the store might look a bit foreign to you.
 
 We’re using `beforeEach` to ensure we have a clean store before each test. `beforeEach` is a mocha hook that’s called before each test. In our test, we are reassigning the store variables value. If we didn’t do this, the mock functions would need to be automatically reset. It also lets us change the state in our tests, without it affecting later tests.
 
-The most important thing to note in this test is that **we create a mock Vuex store and then pass it to `vue-test-utils`**.
+The most important thing to note in this test is that **we create a mock Vuex store and then pass it to Vue Test Utils**.
 
 Great, so now we can mock actions, let’s look at mocking getters.
 
@@ -285,7 +285,7 @@ export default {
 
 ### Testing getters, mutations, and actions separately
 
-Getters, mutations, and actions are all JavaScript functions, so we can test them without using `vue-test-utils` and Vuex.
+Getters, mutations, and actions are all JavaScript functions, so we can test them without using Vue Test Utils and Vuex.
 
 The benefit to testing getters, mutations, and actions separately is that your unit tests are detailed. When they fail, you know exactly what is wrong with your code. The downside is that you will need to mock Vuex funtions, like `commit` and `dispatch`. This can lead to a situation where your unit tests pass, but your production code fails because your mocks are incorrect.
 

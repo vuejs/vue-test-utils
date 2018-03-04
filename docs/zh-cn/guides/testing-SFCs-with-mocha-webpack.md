@@ -78,7 +78,7 @@ module.exports = {
 
 ### 设置浏览器环境
 
-`vue-test-utils` 需要在浏览器环境中运行。我们可以在 Node 中使用 `jsdom-global` 进行模拟：
+Vue Test Utils 需要在浏览器环境中运行。我们可以在 Node 中使用 `jsdom-global` 进行模拟：
 
 ```bash
 npm install --save-dev jsdom jsdom-global
@@ -90,7 +90,7 @@ npm install --save-dev jsdom jsdom-global
 require('jsdom-global')()
 ```
 
-这行代码会在 Node 中添加一个浏览器环境，这样 `vue-test-utils` 就可以正确运行了。
+这行代码会在 Node 中添加一个浏览器环境，这样 Vue Test Utils 就可以正确运行了。
 
 ### 选用一个断言库
 

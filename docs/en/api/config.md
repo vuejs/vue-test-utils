@@ -1,8 +1,8 @@
 # Config
 
-vue-test-utils includes a config object to defined options used by vue-test-utils.
+Vue Test Utils includes a config object to defined options used by Vue Test Utils.
 
-## `vue-test-utils` Config Options
+## Vue Test Utils Config Options
 
 ### `stubs`
 

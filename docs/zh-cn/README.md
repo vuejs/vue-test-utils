@@ -1,6 +1,6 @@
-# vue-test-utils
+# Vue Test Utils
 
-`vue-test-utils` 是 Vue.js 官方的单元测试实用工具库。
+Vue Test Utils 是 Vue.js 官方的单元测试实用工具库。
 
 ## 目录
 
