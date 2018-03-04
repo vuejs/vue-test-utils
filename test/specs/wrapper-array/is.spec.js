@@ -1,5 +1,5 @@
 import { compileToFunctions } from 'vue-template-compiler'
-import { mount } from '~vue-test-utils'
+import { mount } from '~vue/test-utils'
 import ComponentWithChild from '~resources/components/component-with-child.vue'
 import Component from '~resources/components/component.vue'
 

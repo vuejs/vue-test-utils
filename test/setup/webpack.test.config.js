@@ -17,8 +17,7 @@ const rules = [].concat(
   {
     test: /\.js$/,
     loader: 'babel-loader',
-    include: [projectRoot],
-    exclude: /node_modules/
+    exclude: /node_modules\/(?!(shared|create-instance)\/).*/
   }
 )
 
@@ -29,9 +28,9 @@ module.exports = {
   externals: !browser ? [nodeExternals()] : undefined,
   resolve: {
     alias: {
-      '~src': `${projectRoot}/src`,
-      '~resources': `${projectRoot}/test/resources`,
-      '~vue-test-utils': `${projectRoot}/dist/vue-test-utils`
+      '~vue/server-test-utils': `${projectRoot}/packages/server-test-utils/dist/vue-server-test-utils.js`,
+      '~vue/test-utils': `${projectRoot}/packages/test-utils/dist/vue-test-utils.js`,
+      '~resources': `${projectRoot}/test/resources`
     }
   },
   output: {
@@ -40,6 +39,7 @@ module.exports = {
   },
   devtool: '#inline-cheap-module-source-map',
   node: {
-    fs: 'empty'
+    fs: 'empty',
+    module: 'empty'
   }
 }

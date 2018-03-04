@@ -1,5 +1,5 @@
-import { createLocalVue } from '~vue-test-utils'
-import { describeWithShallowAndMount } from '~resources/test-utils'
+import { createLocalVue } from '~vue/test-utils'
+import { describeWithShallowAndMount } from '~resources/utils'
 
 describeWithShallowAndMount('emitted', (mountingMethod) => {
   it('captures emitted events with a different api', () => {

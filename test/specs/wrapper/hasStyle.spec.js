@@ -1,6 +1,6 @@
 import { compileToFunctions } from 'vue-template-compiler'
 import ComponentWithStyle from '~resources/components/component-with-style.vue'
-import { describeWithShallowAndMount } from '~resources/test-utils'
+import { describeWithShallowAndMount } from '~resources/utils'
 
 describeWithShallowAndMount('hasStyle', (mountingMethod) => {
   it('returns true when element contains styles, set inline', () => {

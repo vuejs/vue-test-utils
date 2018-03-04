@@ -1,9 +1,9 @@
 import { compileToFunctions } from 'vue-template-compiler'
-import { createLocalVue } from '~vue-test-utils'
+import { createLocalVue } from '~vue/test-utils'
 import Vuex, { mapGetters } from 'vuex'
 import ComponentWithComputed from '~resources/components/component-with-computed.vue'
 import ComponentWithWatch from '~resources/components/component-with-watch.vue'
-import { describeWithShallowAndMount } from '~resources/test-utils'
+import { describeWithShallowAndMount } from '~resources/utils'
 
 describeWithShallowAndMount('setComputed', (mountingMethod) => {
   let info

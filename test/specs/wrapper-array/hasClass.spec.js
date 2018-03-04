@@ -1,5 +1,5 @@
 import { compileToFunctions } from 'vue-template-compiler'
-import { mount } from '~vue-test-utils'
+import { mount } from '~vue/test-utils'
 
 describe('hasClass', () => {
   it('returns true if every item has class name', () => {

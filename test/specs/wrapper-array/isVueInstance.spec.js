@@ -1,4 +1,4 @@
-import { mount } from '~vue-test-utils'
+import { mount } from '~vue/test-utils'
 import { compileToFunctions } from 'vue-template-compiler'
 import ComponentWithChild from '~resources/components/component-with-child.vue'
 import Component from '~resources/components/component.vue'

@@ -1,4 +1,4 @@
-import { mount } from '~vue-test-utils'
+import { mount } from '~vue/test-utils'
 import { compileToFunctions } from 'vue-template-compiler'
 
 describe('ErrorWrapper', () => {

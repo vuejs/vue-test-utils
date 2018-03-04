@@ -1,5 +1,5 @@
 import { compileToFunctions } from 'vue-template-compiler'
-import { createLocalVue } from '~vue-test-utils'
+import { createLocalVue } from '~vue/test-utils'
 import ComponentWithChild from '~resources/components/component-with-child.vue'
 import ComponentWithoutName from '~resources/components/component-without-name.vue'
 import ComponentWithSlots from '~resources/components/component-with-slots.vue'
@@ -11,7 +11,7 @@ import {
   functionalSFCsSupported,
   vueVersion,
   describeWithShallowAndMount
-} from '~resources/test-utils'
+} from '~resources/utils'
 
 describeWithShallowAndMount('find', (mountingMethod) => {
   it('returns a Wrapper matching tag selector passed', () => {

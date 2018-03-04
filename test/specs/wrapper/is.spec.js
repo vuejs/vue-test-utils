@@ -4,7 +4,7 @@ import Component from '~resources/components/component.vue'
 import ComponentWithoutName from '~resources/components/component-without-name.vue'
 import FunctionalComponent from '~resources/components/functional-component.vue'
 import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
-import { functionalSFCsSupported, describeWithShallowAndMount } from '~resources/test-utils'
+import { functionalSFCsSupported, describeWithShallowAndMount } from '~resources/utils'
 
 describeWithShallowAndMount('is', (mountingMethod) => {
   it('returns true if root node matches tag selector', () => {

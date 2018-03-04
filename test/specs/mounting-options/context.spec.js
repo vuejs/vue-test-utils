@@ -1,6 +1,6 @@
 import Vue from 'vue'
-import { vueVersion } from '~resources/test-utils'
-import { describeWithMountingMethods } from '~resources/test-utils'
+import { vueVersion } from '~resources/utils'
+import { describeWithMountingMethods } from '~resources/utils'
 
 describeWithMountingMethods('options.context', (mountingMethod) => {
   it('mounts functional component when passed context object', () => {
@@ -69,8 +69,8 @@ describeWithMountingMethods('options.context', (mountingMethod) => {
     }
     const wrapper = mountingMethod(Component)
     const HTML = mountingMethod.name === 'renderToString'
-    ? wrapper
-    : wrapper.html()
+      ? wrapper
+      : wrapper.html()
     expect(HTML).to.contain(defaultValue)
   })
 
@@ -87,8 +87,8 @@ describeWithMountingMethods('options.context', (mountingMethod) => {
       }
     })
     const HTML = mountingMethod.name === 'renderToString'
-    ? wrapper
-    : wrapper.html()
+      ? wrapper
+      : wrapper.html()
     expect(HTML).to.contain('render text')
   })
 
@@ -105,8 +105,8 @@ describeWithMountingMethods('options.context', (mountingMethod) => {
       }
     })
     const HTML = mountingMethod.name === 'renderToString'
-    ? wrapper
-    : wrapper.html()
+      ? wrapper
+      : wrapper.html()
     expect(HTML).to.contain('render component')
   })
 })

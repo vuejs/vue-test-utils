@@ -1,5 +1,5 @@
 import { compileToFunctions } from 'vue-template-compiler'
-import { describeWithShallowAndMount } from '~resources/test-utils'
+import { describeWithShallowAndMount } from '~resources/utils'
 
 describeWithShallowAndMount('text', (mountingMethod) => {
   it('returns text content of wrapper node', () => {

@@ -1,9 +1,10 @@
 import ComponentWithTransition from '~resources/components/component-with-transition.vue'
-import TransitionStub from '~src/components/TransitionStub'
-import { describeWithShallowAndMount } from '~resources/test-utils'
+import { describeWithShallowAndMount } from '~resources/utils'
+import { TransitionStub } from '~vue/test-utils'
 
 describeWithShallowAndMount('TransitionStub', (mountingMethod) => {
   it('update synchronously when used as stubs for Transition', () => {
+    console.log(TransitionStub)
     const wrapper = mountingMethod(ComponentWithTransition, {
       stubs: {
         'transition': TransitionStub

@@ -6,7 +6,7 @@ import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
 import {
   functionalSFCsSupported,
   describeWithShallowAndMount
-} from '~resources/test-utils'
+} from '~resources/utils'
 import ComponentWithoutName from '~resources/components/component-without-name.vue'
 
 describeWithShallowAndMount('contains', (mountingMethod) => {

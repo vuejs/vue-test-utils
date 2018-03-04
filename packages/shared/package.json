@@ -1,0 +1,9 @@
+{
+  "name": "shared",
+  "version": "1.0.0",
+  "private": true,
+  "peerDependencies": {
+    "vue": "2.x",
+    "vue-template-compiler": "^2.x"
+  }
+}

@@ -1,5 +1,5 @@
 import { compileToFunctions } from 'vue-template-compiler'
-import { mount } from '~vue-test-utils'
+import { mount } from '~vue/test-utils'
 import ComponentWithEvents from '~resources/components/component-with-events.vue'
 
 describe('trigger', () => {

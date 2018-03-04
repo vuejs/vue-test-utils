@@ -9,7 +9,7 @@ import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
 import {
   functionalSFCsSupported,
   describeWithShallowAndMount
-} from '~resources/test-utils'
+} from '~resources/utils'
 
 describeWithShallowAndMount('findAll', (mountingMethod) => {
   it('returns an WrapperArray of elements matching tag selector passed', () => {

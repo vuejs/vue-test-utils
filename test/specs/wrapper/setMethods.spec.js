@@ -1,6 +1,6 @@
 import { compileToFunctions } from 'vue-template-compiler'
 import ComponentWithMethods from '~resources/components/component-with-methods.vue'
-import { describeWithShallowAndMount } from '~resources/test-utils'
+import { describeWithShallowAndMount } from '~resources/utils'
 
 describeWithShallowAndMount('setMethods', (mountingMethod) => {
   it('sets component data and updates nested vm nodes when called on Vue instance', () => {

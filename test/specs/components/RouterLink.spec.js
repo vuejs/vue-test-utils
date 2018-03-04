@@ -1,4 +1,4 @@
-import { mount, RouterLinkStub } from '~vue-test-utils'
+import { mount, RouterLinkStub } from '~vue/test-utils'
 
 describe('RouterLinkStub', () => {
   it('takes correct props', () => {

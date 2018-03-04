@@ -1,6 +1,6 @@
 import { compileToFunctions } from 'vue-template-compiler'
-import { listenersSupported } from '~resources/test-utils'
-import { describeWithShallowAndMount } from '~resources/test-utils'
+import { listenersSupported } from '~resources/utils'
+import { describeWithShallowAndMount } from '~resources/utils'
 
 describeWithShallowAndMount('options.listeners', (mountingMethod) => {
   it('handles inherit listeners', () => {

@@ -1,11 +1,10 @@
 import Vue from 'vue'
 import { compileToFunctions } from 'vue-template-compiler'
-import { mount } from '~vue-test-utils'
+import { mount, createLocalVue } from '~vue/test-utils'
 import Component from '~resources/components/component.vue'
 import ComponentWithProps from '~resources/components/component-with-props.vue'
 import ComponentWithMixin from '~resources/components/component-with-mixin.vue'
-import { createLocalVue } from '~vue-test-utils'
-import { injectSupported, vueVersion } from '~resources/test-utils'
+import { injectSupported, vueVersion } from '~resources/utils'
 
 describe('mount', () => {
   it('returns new VueWrapper with mounted Vue instance if no options are passed', () => {
@@ -127,7 +126,6 @@ describe('mount', () => {
       provide: {
         'prop': 'val'
       },
-      custom: 'custom',
       attachToDocument: 'attachToDocument',
       mocks: {
         'prop': 'val'
@@ -155,7 +153,6 @@ describe('mount', () => {
       }
     }
 
-    expect(wrapper.vm.$options.custom).to.equal(undefined)
     expect(wrapper.vm.$options.attachToDocument).to.equal(undefined)
     expect(wrapper.vm.$options.mocks).to.equal(undefined)
     expect(wrapper.vm.$options.slots).to.equal(undefined)

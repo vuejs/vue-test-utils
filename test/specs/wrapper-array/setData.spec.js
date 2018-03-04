@@ -1,5 +1,5 @@
 import { compileToFunctions } from 'vue-template-compiler'
-import { mount } from '~vue-test-utils'
+import { mount } from '~vue/test-utils'
 import ComponentWithVIf from '~resources/components/component-with-v-if.vue'
 
 describe('setData', () => {

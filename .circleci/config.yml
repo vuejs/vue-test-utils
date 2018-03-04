@@ -1,0 +1,20 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:6.13.0-stretch-browsers
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+      - run: yarn --version
+      - run: yarn
+      - run: yarn bootstrap
+      - run: yarn build:test
+      - run: yarn test
+      - run: yarn test:compat
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "yarn.lock" }}

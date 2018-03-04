@@ -1,6 +1,6 @@
 import { compileToFunctions } from 'vue-template-compiler'
 import Component from '~resources/components/component.vue'
-import { describeWithShallowAndMount } from '~resources/test-utils'
+import { describeWithShallowAndMount } from '~resources/utils'
 
 describeWithShallowAndMount('name', (mountingMethod) => {
   it('returns the name of the component it was called on', () => {

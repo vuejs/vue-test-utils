@@ -2,8 +2,8 @@ import { compileToFunctions } from 'vue-template-compiler'
 import {
   describeWithShallowAndMount,
   isRunningJSDOM
-} from '~resources/test-utils'
-import { renderToString } from '~vue-test-utils'
+} from '~resources/utils'
+import { renderToString } from '@vue/server-test-utils'
 
 describeWithShallowAndMount('options.attachToDocument', (mountingMethod) => {
   it('returns VueWrapper with attachedToDocument set to true when passed attachToDocument in options', () => {

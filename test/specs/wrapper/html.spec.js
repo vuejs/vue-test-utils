@@ -1,7 +1,7 @@
 import { compileToFunctions } from 'vue-template-compiler'
 import Component from '~resources/components/component.vue'
 import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
-import { vueVersion, describeWithShallowAndMount } from '~resources/test-utils'
+import { vueVersion, describeWithShallowAndMount } from '~resources/utils'
 
 describeWithShallowAndMount('html', (mountingMethod) => {
   it('returns a VueWrappers HTML as a string', () => {

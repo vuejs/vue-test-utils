@@ -1,6 +1,6 @@
 import { compileToFunctions } from 'vue-template-compiler'
 import ComponentWithVIf from '~resources/components/component-with-v-if.vue'
-import { describeWithShallowAndMount } from '~resources/test-utils'
+import { describeWithShallowAndMount } from '~resources/utils'
 
 describeWithShallowAndMount('update', (mountingMethod) => {
   it('causes vm to re render', () => {

@@ -1,5 +1,5 @@
 import ComponentWithEvents from '~resources/components/component-with-events.vue'
-import { describeWithShallowAndMount } from '~resources/test-utils'
+import { describeWithShallowAndMount } from '~resources/utils'
 
 describeWithShallowAndMount('trigger', (mountingMethod) => {
   let info

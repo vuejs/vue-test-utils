@@ -4,7 +4,7 @@ import ComponentWithWatch from '~resources/components/component-with-watch.vue'
 import {
   describeWithShallowAndMount,
   vueVersion
-} from '~resources/test-utils'
+} from '~resources/utils'
 
 describeWithShallowAndMount('setProps', (mountingMethod) => {
   let info

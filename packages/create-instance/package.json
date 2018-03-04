@@ -1,0 +1,6 @@
+{
+  "name": "create-instance",
+  "version": "1.0.0",
+  "main": "create-instance.js",
+  "private": true
+}

@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { describeWithShallowAndMount } from '~resources/test-utils'
+import { describeWithShallowAndMount } from '~resources/utils'
 
 describeWithShallowAndMount('emittedByOrder', (mountingMethod) => {
   it('captures emitted events in order', () => {

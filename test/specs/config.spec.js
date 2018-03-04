@@ -3,7 +3,7 @@ import {
   config,
   TransitionStub,
   TransitionGroupStub
-} from '~vue-test-utils'
+} from '~vue/test-utils'
 
 describe('config', () => {
   beforeEach(() => {

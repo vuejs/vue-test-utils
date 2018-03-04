@@ -1,6 +1,6 @@
 import ComponentWithCssModules from '~resources/components/component-with-css-modules.vue'
 import { compileToFunctions } from 'vue-template-compiler'
-import { describeWithShallowAndMount } from '~resources/test-utils'
+import { describeWithShallowAndMount } from '~resources/utils'
 
 describeWithShallowAndMount('hasClass', (mountingMethod) => {
   it('returns true if wrapper has class name', () => {

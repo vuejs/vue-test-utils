@@ -1,4 +1,4 @@
-import { describeWithShallowAndMount } from '~resources/test-utils'
+import { describeWithShallowAndMount } from '~resources/utils'
 import { compileToFunctions } from 'vue-template-compiler'
 import ComponentWithCssModules from '~resources/components/component-with-css-modules.vue'
 

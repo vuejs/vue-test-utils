@@ -1,5 +1,5 @@
 import { compileToFunctions } from 'vue-template-compiler'
-import { describeWithShallowAndMount } from '~resources/test-utils'
+import { describeWithShallowAndMount } from '~resources/utils'
 
 describeWithShallowAndMount('exists', (mountingMethod) => {
   it('returns true if called on Wrapper', () => {

@@ -1,6 +1,6 @@
 import { compileToFunctions } from 'vue-template-compiler'
 import Vue from 'vue'
-import { mount, shallow } from '~vue-test-utils'
+import { mount, shallow } from '~vue/test-utils'
 import Component from '~resources/components/component.vue'
 import ComponentWithChild from '~resources/components/component-with-child.vue'
 import ComponentWithNestedChildren from '~resources/components/component-with-nested-children.vue'
@@ -8,7 +8,7 @@ import ComponentWithLifecycleHooks from '~resources/components/component-with-li
 import ComponentWithoutName from '~resources/components/component-without-name.vue'
 import ComponentAsAClassWithChild from '~resources/components/component-as-a-class-with-child.vue'
 import RecursiveComponent from '~resources/components/recursive-component.vue'
-import { vueVersion } from '~resources/test-utils'
+import { vueVersion } from '~resources/utils'
 
 describe('shallow', () => {
   let info

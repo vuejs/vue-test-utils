@@ -1,5 +1,5 @@
 import { compileToFunctions } from 'vue-template-compiler'
-import { describeWithShallowAndMount } from '~resources/test-utils'
+import { describeWithShallowAndMount } from '~resources/utils'
 
 describeWithShallowAndMount('isEmpty', (mountingMethod) => {
   it('returns true if node is empty', () => {
