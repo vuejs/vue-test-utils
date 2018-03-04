@@ -140,3 +140,4 @@ export declare function shallow (component: FunctionalComponentOptions, options?
 
 export declare let TransitionStub: Component | string | true
 export declare let TransitionGroupStub: Component | string | true
+export declare let RouterLinkStub: VueClass<Vue>

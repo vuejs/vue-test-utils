@@ -2,6 +2,7 @@
 
 * [mount](./mount.md)
 * [shallow](./shallow.md)
+* [renderToString](./renderToString.md)
 * [マウンティングオプション](./options.md)
   - [context](./options.md#context)
   - [slots](./options.md#slots)

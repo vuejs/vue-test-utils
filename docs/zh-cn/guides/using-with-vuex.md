@@ -1,6 +1,6 @@
 # 配合 Vuex 使用
 
-在本教程中，我们将会看到如何用 `vue-test-utils` 测试组件中的 Vuex，以及如何测试一个 Vuex store。
+在本教程中，我们将会看到如何用 Vue Test Utils 测试组件中的 Vuex，以及如何测试一个 Vuex store。
 
 ## 在组件中测试 Vuex
 
@@ -105,7 +105,7 @@ describe('Actions.vue', () => {
 
 我们使用 `beforeEach` 来确认我们在每项测试之前已经拥有一个干净的 store。`beforeEach` 是一个 mocha 的钩子，会在每项测试之前被调用。我们在测试中会重新为 store 的变量赋值。如果我们没有这样做，伪造函数就需要被自动重置。它还需要我们改变测试中的 state，而不会影响后面的其它测试。
 
-该测试中最重要的注意事项是：**我们创建了一个伪造的 Vuex store 并将其传递给 `vue-test-utils`**。
+该测试中最重要的注意事项是：**我们创建了一个伪造的 Vuex store 并将其传递给 Vue Test Utils**。
 
 好的，现在我们可以伪造 action 了，我们再来看看伪造 getter。
 
@@ -286,7 +286,7 @@ export default {
 
 ### 分别测试 getter、mutation 和 action
 
-Getter、mutation 和 action 全部是 JavaScript 函数，所以我们可以不通过 `vue-test-utils` 和 Vuex 测试它们。
+Getter、mutation 和 action 全部是 JavaScript 函数，所以我们可以不通过 Vue Test Utils 和 Vuex 测试它们。
 
 分别测试 getter、mutation 和 action 的好处是你的单元测试是非常详细的。当它们失败时，你完全知道你代码的问题是什么。当然另外一方面你需要伪造诸如 `commit` 和 `dispatch` 的 Vuex 函数。这会导致在一些情况下你伪造错了东西，导致单元测试通过，生产环境的代码缺失败了。
 

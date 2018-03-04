@@ -1,8 +1,8 @@
 # Mounting Options
 
-Options for `mount` and `shallow`. The options object can contain both `vue-test-utils` mounting options and other options.
+Options for `mount` and `shallow`. The options object can contain both Vue Test Utils mounting options and other options.
 
-## `vue-test-utils` Specific Mounting Options
+## Vue Test Utils Specific Mounting Options
 
 - [`context`](#context)
 - [`slots`](#slots)
