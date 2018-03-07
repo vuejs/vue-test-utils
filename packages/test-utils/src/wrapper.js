@@ -385,6 +385,9 @@ export default class Wrapper implements BaseWrapper {
    * Returns an Object containing the prop name/value pairs on the element
    */
   props (): { [name: string]: any } {
+    if (this.isFunctionalComponent) {
+      throwError('wrapper.props() cannot be called on a mounted functional component.')
+    }
     if (!this.vm) {
       throwError('wrapper.props() must be called on a Vue instance')
     }

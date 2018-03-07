@@ -32,6 +32,29 @@ describeWithShallowAndMount('props', (mountingMethod) => {
     expect(wrapper.props()).to.eql({ prop1: {}, prop2: 'val2' }) // fail
   })
 
+  it('works correctly a functional component', () => {
+    const FunctionalComponent = {
+      render: h => h('div'),
+      functional: true,
+      props: ['prop1']
+    }
+    const TestComponent = {
+      template: '<div><functional-component /></div>',
+      components: { FunctionalComponent }
+    }
+    const prop1 = 'some prop'
+    const wrapper = mountingMethod(TestComponent, {
+      propsData: {
+        prop1
+      }
+    })
+    if (mountingMethod.name === 'mount') {
+      const message = '[vue-test-utils]: wrapper.props() cannot be called on a mounted functional component.'
+      const fn = () => wrapper.find(FunctionalComponent).props()
+      expect(fn).to.throw().with.property('message', message)
+    }
+  })
+
   it('throws an error if called on a non vm wrapper', () => {
     const compiled = compileToFunctions('<div><p /></div>')
     const p = mountingMethod(compiled).findAll('p').at(0)
