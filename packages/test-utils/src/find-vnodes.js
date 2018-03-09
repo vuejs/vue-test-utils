@@ -24,14 +24,7 @@ function findAllVNodes (vnode: VNode, nodes: Array<VNode> = []): Array<VNode> {
 }
 
 function removeDuplicateNodes (vNodes: Array<VNode>): Array<VNode> {
-  const uniqueNodes = []
-  vNodes.forEach((vNode) => {
-    const exists = uniqueNodes.some(node => vNode.elm === node.elm)
-    if (!exists) {
-      uniqueNodes.push(vNode)
-    }
-  })
-  return uniqueNodes
+  return vNodes.filter((vNode, index) => index === vNodes.findIndex(node => vNode.elm === node.elm))
 }
 
 function nodeMatchesRef (node: VNode, refName: string): boolean {
