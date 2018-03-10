@@ -4,9 +4,6 @@ import Vue from 'vue'
 import { shallow, mount } from '~vue/test-utils'
 import { renderToString } from '~vue/server-test-utils'
 
-export const VUE_TEST_UTILS_PATH = '../../packages/test-utils'
-export const VUE_TEST_UTILS_SERVER_PATH = '../../packages/server-test-utils'
-
 export const vueVersion = Number(`${Vue.version.split('.')[0]}.${Vue.version.split('.')[1]}`)
 
 export const isRunningJSDOM = navigator.userAgent.includes && navigator.userAgent.includes('jsdom')
