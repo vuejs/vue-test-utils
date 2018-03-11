@@ -118,6 +118,12 @@ export default class WrapperArray implements BaseWrapper {
     return this.wrappers.every(wrapper => wrapper.isEmpty())
   }
 
+  isVisible (): boolean {
+    this.throwErrorIfWrappersIsEmpty('isVisible')
+
+    return this.wrappers.every(wrapper => wrapper.isVisible())
+  }
+
   isVueInstance (): boolean {
     this.throwErrorIfWrappersIsEmpty('isVueInstance')
 
