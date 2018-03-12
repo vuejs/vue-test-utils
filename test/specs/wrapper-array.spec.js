@@ -32,7 +32,7 @@ describe('WrapperArray', () => {
   })
 
   const methods = ['at', 'attributes', 'classes', 'contains', 'emitted', 'emittedByOrder', 'hasAttribute',
-    'hasClass', 'hasProp', 'hasStyle', 'find', 'findAll', 'html', 'text', 'is', 'isEmpty', 'isVueInstance',
+    'hasClass', 'hasProp', 'hasStyle', 'find', 'findAll', 'html', 'text', 'is', 'isEmpty', 'isVisible', 'isVueInstance',
     'name', 'props', 'setComputed', 'setMethods', 'setData', 'setProps', 'trigger', 'update', 'destroy']
   methods.forEach((method) => {
     it(`throws error if ${method} is called when there are no items in wrapper array`, () => {
@@ -46,7 +46,7 @@ describe('WrapperArray', () => {
     })
 
     it(`${method} throws error if called when there are items in wrapper array`, () => {
-      if (['at', 'contains', 'hasAttribute', 'hasClass', 'hasProp', 'hasStyle', 'is', 'isEmpty', 'isVueInstance',
+      if (['at', 'contains', 'hasAttribute', 'hasClass', 'hasProp', 'hasStyle', 'is', 'isEmpty', 'isVisible', 'isVueInstance',
         'setComputed', 'setMethods', 'setData', 'setProps', 'trigger', 'update', 'destroy'].includes(method)) {
         return
       }
@@ -174,6 +174,16 @@ describe('WrapperArray', () => {
   it('isEmpty returns false if not every wrapper.isEmpty() returns true', () => {
     const wrapperArray = getWrapperArray([{ isEmpty: () => true }, { isEmpty: () => false }])
     expect(wrapperArray.isEmpty()).to.equal(false)
+  })
+
+  it('isVisible returns true if every wrapper.isVisible() returns true', () => {
+    const wrapperArray = getWrapperArray([{ isVisible: () => true }, { isVisible: () => true }])
+    expect(wrapperArray.isVisible()).to.equal(true)
+  })
+
+  it('isVisible returns false if not every wrapper.isVisible() returns true', () => {
+    const wrapperArray = getWrapperArray([{ isVisible: () => true }, { isVisible: () => false }])
+    expect(wrapperArray.isVisible()).to.equal(false)
   })
 
   it('isVueInstance returns true if every wrapper.isVueInstance() returns true', () => {

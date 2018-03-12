@@ -81,6 +81,10 @@ export default class ErrorWrapper implements BaseWrapper {
     throwError(`find did not return ${this.selector}, cannot call isEmpty() on empty Wrapper`)
   }
 
+  isVisible (): void {
+    throwError(`find did not return ${this.selector}, cannot call isVisible() on empty Wrapper`)
+  }
+
   isVueInstance (): void {
     throwError(`find did not return ${this.selector}, cannot call isVueInstance() on empty Wrapper`)
   }
