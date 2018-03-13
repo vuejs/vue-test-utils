@@ -44,7 +44,7 @@ describe('Foo', () => {
         cor: 'vermelha'
       }
     })
-    expect(wrapper.hasProp('cor', 'vermelha')).toBe(true)
+    expect(wrapper.props().cor).toBe('vermelha')
   })
 })
 ```
