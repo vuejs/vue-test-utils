@@ -13,6 +13,10 @@ A primeira coisa para se fazer é instalar o Jest e o `vue-test-utils`:
 ```bash
 $ npm install --save-dev jest vue-test-utils
 ```
+Ou
+```bash
+$ npm install --save-dev jest @vue/test-utils
+```
 
 Posteriormente, devemos definir um script novo no `package.json`:
 
@@ -49,7 +53,6 @@ Agora, crie um bloco chamado `jest` no `package.json`:
       // processa arquivos vue com o vue-jest
       ".*\\.(vue)$": "<rootDir>/node_modules/vue-jest"
     },
-    "mapCoverage": true
   }
 }
 ```
@@ -165,7 +168,7 @@ import Componente from './componente'
 describe('Componente', () => {
   test('é uma instância do Vue', () => {
     const wrapper = mount(Componente)
-    expect(wrapper.ehInstanciaVue()).toBeTruthy()
+    expect(wrapper.isVueInstance().toBeTruthy()
   })
 })
 ```
