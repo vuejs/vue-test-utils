@@ -139,7 +139,7 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 - 型: `boolean`
 - デフォルト: `false`
 
-`true` に設定されている場合、描画時にコンポーネントは DOM にアタッチされます。これは複数の要素や CSS セレクタをチェックするための [`hasStyle`](./wrapper/hasStyle.md) とも使用できます。
+`true` に設定されている場合、描画時にコンポーネントは DOM にアタッチされます。
 
 ### `attrs`
 

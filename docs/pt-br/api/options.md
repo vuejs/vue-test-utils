@@ -135,7 +135,7 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 - tipo: `Boolean`
 - padrão: `false`
 
-O componente será anexado ao DOM quando  configurado como `true`. Isso pode ser usado com o [`hasStyle`](wrapper/hasStyle.md) para verificar os seletores do CSS de vários elementos.
+O componente será anexado ao DOM quando  configurado como `true`.
 
 ### `attrs`
 

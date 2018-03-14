@@ -135,7 +135,7 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 - type: `boolean`
 - default: `false`
 
-Component will be attach to DOM when rendered if set to `true`. This can be used with [`hasStyle`](wrapper/hasStyle.md) to check multi element CSS selectors.
+Component will be attach to DOM when rendered if set to `true`.
 
 ### `attrs`
 

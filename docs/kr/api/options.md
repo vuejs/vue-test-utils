@@ -134,7 +134,7 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 - 타입: `boolean`
 - default: `false`
 
-`true`로 설정된 경우 렌더링될 때 컴포넌트는 DOM에 연결됩니다. 이는 여러 엘리먼트를 반환하는 CSS 셀렉터를 검사하기 위해 [`hasStyle`](wrapper/hasStyle.md)와 함께 사용할 수 있습니다.
+`true`로 설정된 경우 렌더링될 때 컴포넌트는 DOM에 연결됩니다.
 
 ### `attrs`
 
