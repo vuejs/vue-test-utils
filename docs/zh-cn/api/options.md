@@ -146,7 +146,7 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 - 类型：`boolean`
 - 默认值：`false`
 
-当设为 `true` 时，组件在渲染时将会挂载到 DOM 上。可以配合 [`hasStyle`](wrapper/hasStyle.md) 检查 CSS 的多元素选择器。
+当设为 `true` 时，组件在渲染时将会挂载到 DOM 上。
 
 ### `attrs`
 
