@@ -78,7 +78,7 @@ describeWithShallowAndMount('setProps', (mountingMethod) => {
     const wrapper = mountingMethod(ComponentWithWatch)
     const prop1 = 'testest'
     wrapper.setProps({ prop2: 'newProp', prop1 })
-    expect(info.args[0][0]).to.equal(prop1)
+    expect(info.args[1][0]).to.equal(prop1)
   })
 
   it('should not run watchers if prop updated is null', () => {

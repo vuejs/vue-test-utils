@@ -31,7 +31,6 @@ const arr: Array<any> = emitted.hello
 const emittedByOrder = wrapper.emittedByOrder()
 const name: string = emittedByOrder[0].name
 
-wrapper.update()
 wrapper.setComputed({computedProp: true})
 wrapper.setData({ foo: 'bar' })
 wrapper.setMethods({checked: true})

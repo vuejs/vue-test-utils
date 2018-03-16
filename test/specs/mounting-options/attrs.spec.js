@@ -15,7 +15,6 @@ describeWithMountingMethods('options.attrs', (mountingMethod) => {
         }
       })
       expect(wrapper.vm.$attrs.anAttr).to.equal('an attribute')
-      wrapper.update()
       expect(wrapper.vm.$attrs.anAttr).to.equal('an attribute')
     })
 

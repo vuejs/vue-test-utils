@@ -34,7 +34,7 @@ export default class Wrapper implements BaseWrapper {
   version: number;
   isFunctionalComponent: boolean;
 
-  constructor (node: VNode | Element, update: Function, options: WrapperOptions) {
+  constructor (node: VNode | Element, options: WrapperOptions) {
     if (node instanceof Element) {
       this.element = node
       this.vnode = null
@@ -45,7 +45,6 @@ export default class Wrapper implements BaseWrapper {
     if (this.vnode && (this.vnode[FUNCTIONAL_OPTIONS] || this.vnode.functionalContext)) {
       this.isFunctionalComponent = true
     }
-    this.update = update
     this.options = options
     this.version = Number(`${Vue.version.split('.')[0]}.${Vue.version.split('.')[1]}`)
   }
@@ -271,7 +270,7 @@ export default class Wrapper implements BaseWrapper {
       }
       return new ErrorWrapper(typeof selector === 'string' ? selector : 'Component')
     }
-    return createWrapper(nodes[0], this.update, this.options)
+    return createWrapper(nodes[0], this.options)
   }
 
   /**
@@ -281,7 +280,7 @@ export default class Wrapper implements BaseWrapper {
     getSelectorTypeOrThrow(selector, 'findAll')
     const nodes = findAll(this.vm, this.vnode, this.element, selector)
     const wrappers = nodes.map(node =>
-      createWrapper(node, this.update, this.options)
+      createWrapper(node, this.options)
     )
     return new WrapperArray(wrappers)
   }
@@ -418,8 +417,6 @@ export default class Wrapper implements BaseWrapper {
       // $FlowIgnore : Problem with possibly null this.vm
       this.vm.$set(this.vm, [key], data[key])
     })
-
-    this.update(data)
   }
 
   /**
@@ -468,7 +465,10 @@ export default class Wrapper implements BaseWrapper {
         })
       }
     })
-    this.update()
+    // $FlowIgnore : Problem with possibly null this.vm
+    this.vm._watchers.forEach((watcher) => {
+      watcher.run()
+    })
   }
 
   /**
@@ -484,7 +484,6 @@ export default class Wrapper implements BaseWrapper {
       // $FlowIgnore : Problem with possibly null this.vm
       this.vm.$options.methods[key] = methods[key]
     })
-    this.update()
   }
 
   /**
@@ -522,7 +521,6 @@ export default class Wrapper implements BaseWrapper {
       }
     })
 
-    this.update(data)
     // $FlowIgnore : Problem with possibly null this.vm
     this.vnode = this.vm._vnode
   }
@@ -620,6 +618,9 @@ export default class Wrapper implements BaseWrapper {
     }
 
     this.element.dispatchEvent(eventObject)
-    this.update()
+  }
+
+  update () {
+    warn('update has been removed from vue-test-utils. All updates are now synchronous by default')
   }
 }

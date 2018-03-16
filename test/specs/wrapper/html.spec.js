@@ -21,7 +21,6 @@ describeWithShallowAndMount('html', (mountingMethod) => {
       }
     })
     const expectedHtml = '<div>1<div class="tester">test</div></div>'
-    wrapper.update()
     expect(wrapper.html()).to.equal(expectedHtml)
   })
 

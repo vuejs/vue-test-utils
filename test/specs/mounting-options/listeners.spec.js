@@ -13,7 +13,6 @@ describeWithShallowAndMount('options.listeners', (mountingMethod) => {
     })
 
     expect(wrapper.vm.$listeners.aListener).to.equal(aListener)
-    wrapper.update()
     expect(wrapper.vm.$listeners.aListener).to.equal(aListener)
   })
 
