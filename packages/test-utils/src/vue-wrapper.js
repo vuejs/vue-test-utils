@@ -18,7 +18,9 @@ export default class VueWrapper extends Wrapper implements BaseWrapper {
       set: () => {}
     }))
     this.vm = vm
-    setWatchersToSync(vm)
+    if (options.sync) {
+      setWatchersToSync(vm)
+    }
     this.isVueComponent = true
     this.isFunctionalComponent = vm.$options._isFunctionalContainer
     this._emitted = vm.__emitted
