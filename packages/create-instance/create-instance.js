@@ -1,6 +1,6 @@
 // @flow
 
-import { addSlots } from 'shared/add-slots'
+import { addSlots } from './add-slots'
 import addMocks from './add-mocks'
 import addAttrs from './add-attrs'
 import addListeners from './add-listeners'
