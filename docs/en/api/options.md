@@ -13,6 +13,7 @@ Options for `mount` and `shallow`. The options object can contain both Vue Test 
 - [`attrs`](#attrs)
 - [`listeners`](#listeners)
 - [`provide`](#provide)
+- [`sync`](#sync)
 
 ### `context`
 
@@ -165,6 +166,13 @@ Set the component instance's `$listeners` object.
 - type: `Object`
 
 Pass properties for components to use in injection. See [provide/inject](https://vuejs.org/v2/api/#provide-inject).
+
+### `sync`
+
+- type: `boolean`
+- default: `true`
+
+Sets all watchers to run synchronously. 
 
 ## Other options
 

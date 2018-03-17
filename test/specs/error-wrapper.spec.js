@@ -4,7 +4,7 @@ import { compileToFunctions } from 'vue-template-compiler'
 describe('ErrorWrapper', () => {
   const methods = ['at', 'attributes', 'classes', 'contains', 'emitted', 'emittedByOrder', 'hasAttribute',
     'hasClass', 'hasProp', 'hasStyle', 'find', 'findAll', 'filter', 'html', 'text', 'is', 'isEmpty', 'isVisible', 'isVueInstance',
-    'name', 'props', 'setComputed', 'setMethods', 'setData', 'setProps', 'trigger', 'update', 'destroy']
+    'name', 'props', 'setComputed', 'setMethods', 'setData', 'setProps', 'trigger', 'destroy']
   methods.forEach((method) => {
     it(`${method} throws error when called`, () => {
       const compiled = compileToFunctions('<p />')

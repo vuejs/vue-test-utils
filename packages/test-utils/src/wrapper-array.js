@@ -2,7 +2,10 @@
 
 import type Wrapper from './wrapper'
 import type VueWrapper from './vue-wrapper'
-import { throwError } from 'shared/util'
+import {
+  throwError,
+  warn
+} from 'shared/util'
 
 export default class WrapperArray implements BaseWrapper {
   wrappers: Array<Wrapper | VueWrapper>;
@@ -186,8 +189,7 @@ export default class WrapperArray implements BaseWrapper {
 
   update (): void {
     this.throwErrorIfWrappersIsEmpty('update')
-
-    this.wrappers.forEach(wrapper => wrapper.update())
+    warn('update has been removed. All changes are now synchrnous without calling update')
   }
 
   destroy (): void {

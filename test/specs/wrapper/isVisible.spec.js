@@ -28,7 +28,6 @@ describeWithShallowAndMount('isVisible', (mountingMethod) => {
   it('returns true if element has v-show true', () => {
     const wrapper = mountingMethod(ComponentWithVShow)
     wrapper.vm.$set(wrapper.vm, 'ready', true)
-    wrapper.update()
 
     const notReadyElement = wrapper.find('.not-ready')
     expect(notReadyElement.isVisible()).to.equal(false)
@@ -40,7 +39,6 @@ describeWithShallowAndMount('isVisible', (mountingMethod) => {
   it('returns false if element has v-show true', () => {
     const wrapper = mountingMethod(ComponentWithVShow)
     wrapper.vm.$set(wrapper.vm, 'ready', true)
-    wrapper.update()
 
     const notReadyElement = wrapper.find('.not-ready')
     expect(notReadyElement.isVisible()).to.equal(false)
@@ -52,7 +50,6 @@ describeWithShallowAndMount('isVisible', (mountingMethod) => {
   it('returns true if parent element has v-show true', () => {
     const wrapper = mountingMethod(ComponentWithVShow)
     wrapper.vm.$set(wrapper.vm, 'ready', true)
-    wrapper.update()
 
     const notReadyElement = wrapper.find('.not-ready')
     expect(notReadyElement.isVisible()).to.equal(false)
@@ -64,7 +61,6 @@ describeWithShallowAndMount('isVisible', (mountingMethod) => {
   it('returns false if parent element has v-show false', () => {
     const wrapper = mountingMethod(ComponentWithVShow)
     wrapper.vm.$set(wrapper.vm, 'ready', true)
-    wrapper.update()
 
     const notReadyElement = wrapper.find('.not-ready')
     expect(notReadyElement.isVisible()).to.equal(false)
@@ -77,7 +73,6 @@ describeWithShallowAndMount('isVisible', (mountingMethod) => {
     const wrapper = mountingMethod(ComponentWithVShow)
     wrapper.vm.$set(wrapper.vm, 'ready', true)
     wrapper.vm.$set(wrapper.vm, 'rootReady', false)
-    wrapper.update()
 
     const notReadyElement = wrapper.find('.not-ready')
     expect(notReadyElement.isVisible()).to.equal(false)
@@ -90,7 +85,6 @@ describeWithShallowAndMount('isVisible', (mountingMethod) => {
     const wrapper = mountingMethod(ComponentWithVShow)
     wrapper.vm.$set(wrapper.vm, 'ready', false)
     wrapper.vm.$set(wrapper.vm, 'rootReady', true)
-    wrapper.update()
 
     const notReadyElement = wrapper.find('.not-ready')
     expect(notReadyElement.isVisible()).to.equal(true)
@@ -103,7 +97,6 @@ describeWithShallowAndMount('isVisible', (mountingMethod) => {
     const wrapper = mountingMethod(ComponentWithVShow)
     wrapper.vm.$set(wrapper.vm, 'ready', true)
     wrapper.vm.$set(wrapper.vm, 'rootReady', true)
-    wrapper.update()
 
     const readyChildElement = wrapper.find('.ready')
     expect(readyChildElement.isVisible()).to.equal(true)
@@ -113,7 +106,6 @@ describeWithShallowAndMount('isVisible', (mountingMethod) => {
     const wrapper = mountingMethod(ComponentWithVShow)
     wrapper.vm.$set(wrapper.vm, 'ready', true)
     wrapper.vm.$set(wrapper.vm, 'rootReady', true)
-    wrapper.update()
 
     const readyChildElement = wrapper.find('.ready, .not-ready')
     expect(readyChildElement.isVisible()).to.equal(false)
@@ -122,7 +114,6 @@ describeWithShallowAndMount('isVisible', (mountingMethod) => {
   it('fails if one element is absent', () => {
     const wrapper = mountingMethod(ComponentWithVIf)
     wrapper.vm.$set(wrapper.vm, 'ready', false)
-    wrapper.update()
 
     const fn = () => wrapper.find('.child.ready').isVisible()
     expect(fn).to.throw()
@@ -131,7 +122,7 @@ describeWithShallowAndMount('isVisible', (mountingMethod) => {
   it('returns true if one element is present', () => {
     const wrapper = mountingMethod(ComponentWithVIf)
     wrapper.vm.$set(wrapper.vm, 'ready', true)
-    wrapper.update()
+
     expect(wrapper.find('.child.ready').isVisible()).to.equal(true)
   })
 })

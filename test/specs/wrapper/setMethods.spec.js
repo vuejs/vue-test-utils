@@ -14,7 +14,6 @@ describeWithShallowAndMount('setMethods', (mountingMethod) => {
     const wrapper = mountingMethod(ComponentWithMethods)
     const someMethod = () => console.log('hey')
     wrapper.setMethods({ someMethod })
-    wrapper.update()
     expect(wrapper.vm.someMethod).to.equal(someMethod)
   })
 

@@ -122,7 +122,7 @@ export default class ErrorWrapper implements BaseWrapper {
   }
 
   update (): void {
-    throwError(`find did not return ${this.selector}, cannot call update() on empty Wrapper`)
+    throwError(`update has been removed from vue-test-utils. All updates are now synchronous by default`)
   }
 
   destroy (): void {

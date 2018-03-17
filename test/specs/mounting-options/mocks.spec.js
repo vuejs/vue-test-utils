@@ -57,7 +57,6 @@ describeWithMountingMethods('options.mocks', (mountingMethod) => {
       })
       expect(wrapper.text()).to.contain('value')
       $reactiveMock.value = 'changed value'
-      wrapper.update()
       expect(wrapper.text()).to.contain('changed value')
     })
 

@@ -34,11 +34,11 @@ declare interface BaseWrapper { // eslint-disable-line no-undef
     setMethods(methods: Object): void,
     setProps(data: Object): void,
     trigger(type: string, options: Object): void,
-    update(): void,
     destroy(): void
 }
 
 declare type WrapperOptions = { // eslint-disable-line no-undef
     attachedToDocument: boolean,
+    sync: boolean,
     error?: string
 }

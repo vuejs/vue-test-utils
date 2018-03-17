@@ -242,13 +242,6 @@ describe('WrapperArray', () => {
     expect(trigger.calledWith(event, options)).to.equal(true)
   })
 
-  it('update calls update on each wrapper', () => {
-    const update = sinon.stub()
-    const wrapperArray = getWrapperArray([{ update }, { update }])
-    wrapperArray.update()
-    expect(update.calledTwice).to.equal(true)
-  })
-
   it('destroy calls destroy on each wrapper', () => {
     const destroy = sinon.stub()
     const wrapperArray = getWrapperArray([{ destroy }, { destroy }])

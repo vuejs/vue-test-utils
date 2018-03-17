@@ -35,7 +35,6 @@ describeWithShallowAndMount('setData', (mountingMethod) => {
     }
     const wrapper = mountingMethod(Component)
     wrapper.setData({ show: true })
-    wrapper.update()
     expect(wrapper.element).to.equal(wrapper.vm.$el)
     expect(wrapper.hasClass('some-class')).to.be.true
   })
@@ -51,7 +50,7 @@ describeWithShallowAndMount('setData', (mountingMethod) => {
     const wrapper = mountingMethod(ComponentWithWatch)
     const data1 = 'testest'
     wrapper.setData({ data2: 'newProp', data1 })
-    expect(info.args[0][0]).to.equal(data1)
+    expect(info.args[1][0]).to.equal(data1)
   })
 
   it('throws error if node is not a Vue instance', () => {
