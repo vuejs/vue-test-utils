@@ -9,6 +9,12 @@ describeWithShallowAndMount('isEmpty', (mountingMethod) => {
     expect(wrapper.isEmpty()).to.equal(true)
   })
 
+  it('returns true if node contains comment', () => {
+    const compiled = compileToFunctions('<div><div v-if="false"></div></div>')
+    const wrapper = mountingMethod(compiled)
+    expect(wrapper.isEmpty()).to.equal(true)
+  })
+
   it('returns true if innerHTML is empty', () => {
     const TestComponent = {
       render (createElement) {

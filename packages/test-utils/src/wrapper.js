@@ -335,6 +335,9 @@ export default class Wrapper implements BaseWrapper {
     if (!this.vnode) {
       return this.element.innerHTML === ''
     }
+    if (this.vnode.children) {
+      return this.vnode.children.every(vnode => vnode.isComment)
+    }
     return this.vnode.children === undefined || this.vnode.children.length === 0
   }
 
