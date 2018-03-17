@@ -43,7 +43,6 @@
     * [setProps](api/wrapper/setProps.md)
     * [text](api/wrapper/text.md)
     * [trigger](api/wrapper/trigger.md)
-    * [update](api/wrapper/update.md)
   * [WrapperArray](api/wrapper-array/README.md)
     * [at](api/wrapper-array/at.md)
     * [contains](api/wrapper-array/contains.md)
