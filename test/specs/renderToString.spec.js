@@ -5,7 +5,7 @@ import {
   itDoNotRunIf
 } from '~resources/utils'
 
-describe('renderToString', () => {
+describe.skip('renderToString', () => {
   itDoNotRunIf(isRunningJSDOM,
     'throws error when not run in node', () => {
       const fn = () => renderToString(Component)
