@@ -45,6 +45,7 @@ type RefSelector = {
 interface BaseWrapper {
   contains (selector: Selector): boolean
   exists (): boolean
+  isVisible (): boolean
   visible (): boolean
 
   attributes(): { [name: string]: string }
