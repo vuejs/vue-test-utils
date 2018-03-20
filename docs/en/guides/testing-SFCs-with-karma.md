@@ -79,10 +79,10 @@ Create a file in `src` named `Counter.vue`:
 
 ``` html
 <template>
-	<div>
-	  {{ count }}
-	  <button @click="increment">Increment</button>
-	</div>
+  <div>
+    {{ count }}
+    <button @click="increment">Increment</button>
+  </div>
 </template>
 
 <script>
