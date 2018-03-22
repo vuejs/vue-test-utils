@@ -168,7 +168,7 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 
 ## 其它选项
 
-当 `mount` 和 `shallow` 的选项包含了挂载选项之外的选项时，则会将它们通过[扩展](https://vuejs.org/v2/api/#extends)复写到其组件选项。
+当 `mount` 和 `shallow` 的选项包含了挂载选项之外的选项时，则会将它们通过[扩展](https://vuejs.org/v2/api/#extends)覆写到其组件选项。
 
 ```js
 const Component = {
