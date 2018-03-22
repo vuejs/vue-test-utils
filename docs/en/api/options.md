@@ -172,7 +172,7 @@ Pass properties for components to use in injection. See [provide/inject](https:/
 - type: `boolean`
 - default: `true`
 
-Sets all watchers to run synchronously. 
+Sets all watchers to run synchronously.
 
 ## Other options
 

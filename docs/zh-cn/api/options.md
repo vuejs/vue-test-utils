@@ -13,6 +13,7 @@
 - [`attrs`](#attrs)
 - [`listeners`](#listeners)
 - [`provide`](#provide)
+- [`sync`](#sync)
 
 ### `context`
 
@@ -165,6 +166,13 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 - 类型：`Object`
 
 为组件传递用于注入的属性。可查阅 [provie/inject](https://cn.vuejs.org/v2/api/#provide-inject) 了解更多。
+
+### `sync`
+
+- 类型：`boolean`
+- 默认值：`true`
+
+将所有的侦听器都设置为同步执行。
 
 ## 其它选项
 
