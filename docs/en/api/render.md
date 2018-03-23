@@ -1,4 +1,4 @@
-# `renderToString(component {, options}])`
+# `render(component {, options}])`
 
 - **Arguments:**
 
@@ -13,7 +13,7 @@
     - `{Object|Array<string>} stubs`
     - `{Vue} localVue`
 
-- **Returns:** `{string}`
+- **Returns:** `{CheerioWrapper}`
 
 - **Options:**
 
@@ -21,22 +21,24 @@ See [options](./options.md)
 
 - **Usage:**
 
-Renders a component to HTML.
+Renders an object to a string and returns a [cheerio wrapper](https://github.com/cheeriojs/cheerio).
 
-`renderToString` uses [`vue-server-renderer`](https://ssr.vuejs.org/en/basic.html) under the hood, to render a component to HTML.
+Cheerio is a node implementation of the jQuery library. It has a similar API to the Vue Test Utils [`Wrapper`](wrapper/README.md).
 
-`renderToString` is exported from the `@vue/server-test-utils` package.
+`render` uses [`vue-server-renderer`](https://ssr.vuejs.org/en/basic.html) under the hood, to render a component to static HTML.
+
+`render` is exported from the `@vue/server-test-utils` package.
 
 **Without options:**
 
 ```js
-import { renderToString } from '@vue/server-test-utils'
+import { render } from '@vue/server-test-utils'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {
   it('renders a div', () => {
-    const renderedString = renderToString(Foo)
-    expect(renderedString).toContain('<div></div>')
+    const wrapper = render(Foo)
+    expect(wrapper.text()).toContain('<div></div>')
   })
 })
 ```
@@ -44,17 +46,17 @@ describe('Foo', () => {
 **With Vue options:**
 
 ```js
-import { renderToString } from '@vue/server-test-utils'
+import { render } from '@vue/server-test-utils'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {
   it('renders a div', () => {
-    const renderedString = renderToString(Foo, {
+    const wrapper = render(Foo, {
       propsData: {
         color: 'red'
       }
     })
-    expect(renderedString).toContain('red')
+    expect(wrapper.text()).toContain('red')
   })
 })
 ```
@@ -62,21 +64,21 @@ describe('Foo', () => {
 **Default and named slots:**
 
 ```js
-import { renderToString } from '@vue/server-test-utils'
+import { render } from '@vue/server-test-utils'
 import Foo from './Foo.vue'
 import Bar from './Bar.vue'
 import FooBar from './FooBar.vue'
 
 describe('Foo', () => {
   it('renders a div', () => {
-    const renderedString = renderToString(Foo, {
+    const wrapper = render(Foo, {
       slots: {
         default: [Bar, FooBar],
         fooBar: FooBar, // Will match <slot name="FooBar" />,
         foo: '<div />'
       }
     })
-    expect(renderedString).toContain('<div></div>')
+    expect(wrapper.text()).toContain('<div></div>')
   })
 })
 ```
@@ -84,18 +86,18 @@ describe('Foo', () => {
 **Stubbing global properties:**
 
 ```js
-import { renderToString } from '@vue/server-test-utils'
+import { render } from '@vue/server-test-utils'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {
   it('renders a div', () => {
     const $route = { path: 'http://www.example-path.com' }
-    const renderedString = renderToString(Foo, {
+    const wrapper = render(Foo, {
       mocks: {
         $route
       }
     })
-    expect(renderedString).toContain($route.path)
+    expect(wrapper.text()).toContain($route.path)
   })
 })
 ```
