@@ -23,7 +23,7 @@ See [options](./options.md)
 
 Renders an object to a string and returns a [cheerio wrapper](https://github.com/cheeriojs/cheerio).
 
-Cheerio is a node implementation of the jQuery library. It has a similar API to the Vue Test Utils [`Wrapper`](wrapper/README.md).
+Cheerio is a jQuery-like library to traverse the DOM in Node.js. It has a similar API to the Vue Test Utils [`Wrapper`](wrapper/README.md).
 
 `render` uses [`vue-server-renderer`](https://ssr.vuejs.org/en/basic.html) under the hood, to render a component to static HTML.
 
