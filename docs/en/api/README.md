@@ -2,6 +2,7 @@
 
 * [mount](./mount.md)
 * [shallow](./shallow.md)
+* [render](./render.md)
 * [renderToString](./renderToString.md)
 * [Mounting Options](./options.md)
   - [context](./options.md#context)
