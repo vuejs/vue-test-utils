@@ -4,15 +4,16 @@
 
 ## `vue-test-utils` の詳細なマウンティングオプション
 
-- [context](#context)
-- [slots](#slots)
-- [stubs](#stubs)
-- [mocks](#mocks)
-- [localVue](#localvue)
-- [attachToDocument](#attachtodocument)
-- [attrs](#attrs)
-- [listeners](#listeners)
-- [provide](#provide)
+- [`context`](#context)
+- [`slots`](#slots)
+- [`stubs`](#stubs)
+- [`mocks`](#mocks)
+- [`localVue`](#localvue)
+- [`attachToDocument`](#attachtodocument)
+- [`attrs`](#attrs)
+- [`listeners`](#listeners)
+- [`provide`](#provide)
+- [`sync`](#sync)
 
 ### `context`
 
@@ -158,6 +159,14 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 - 型: `Object`
 
 コンポーネントに指定したプロパティを注入します。[provide/inject](https://vuejs.org/v2/api/#provide-inject) を参照してください。
+
+### `sync`
+
+- 型: `boolean`
+- デフォルト: `true`
+
+`sync` を `true` にすると、Vue コンポーネントは同期的に描画されます。  
+`sync` を `false` にすると、Vue コンポーネントは非同期的に描画されます。  
 
 ## その他のオプション
 

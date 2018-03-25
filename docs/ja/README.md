@@ -27,6 +27,7 @@
     - [attrs](api/options.md#attrs)
     - [listeners](api/options.md#listeners)
     - [provide](api/options.md#provide)
+    - [sync](api/options.md#sync)
     - [その他のオプション](api/options.md#その他のオプション)
   * [Wrapper](api/wrapper/README.md)
     * [attributes](api/wrapper/attributes.md)

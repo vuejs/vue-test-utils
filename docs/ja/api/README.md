@@ -13,6 +13,7 @@
   - [attrs](./options.md#attrs)
   - [listeners](./options.md#listeners)
   - [provide](./options.md#provide)
+  - [sync](./options.md#sync)
   - [その他のオプション](./options.md#その他のオプション)
 * [Wrapper](./wrapper/README.md)
   * [attributes](./wrapper/attributes.md)
