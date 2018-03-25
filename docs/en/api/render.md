@@ -27,7 +27,7 @@ Cheerio is a jQuery-like library to traverse the DOM in Node.js. It has a simila
 
 `render` uses [`vue-server-renderer`](https://ssr.vuejs.org/en/basic.html) under the hood, to render a component to static HTML.
 
-`render` is exported from the `@vue/server-test-utils` package.
+`render` is included in the `@vue/server-test-utils` package.
 
 **Without options:**
 

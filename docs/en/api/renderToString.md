@@ -25,7 +25,7 @@ Renders a component to HTML.
 
 `renderToString` uses [`vue-server-renderer`](https://ssr.vuejs.org/en/basic.html) under the hood, to render a component to HTML.
 
-`renderToString` is exported from the `@vue/server-test-utils` package.
+`renderToString` is included in the `@vue/server-test-utils` package.
 
 **Without options:**
 
