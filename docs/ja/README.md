@@ -16,6 +16,7 @@
 * [API](api/README.md)
   * [mount](api/mount.md)
   * [shallow](api/shallow.md)
+  * [render](api/render.md)
   * [renderToString](api/renderToString.md)
   * [マウンティングオプション](api/options.md)
     - [context](api/options.md#context)
