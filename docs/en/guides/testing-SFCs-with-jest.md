@@ -48,8 +48,7 @@ Next, create a `jest` block in `package.json`:
     "transform": {
       // process `*.vue` files with `vue-jest`
       ".*\\.(vue)$": "<rootDir>/node_modules/vue-jest"
-    },
-    "collectCoverage": true
+    }
   }
 }
 ```
