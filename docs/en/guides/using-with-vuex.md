@@ -265,7 +265,7 @@ describe('Modules.vue', () => {
 
 There are two approaches to testing a Vuex store. The first approach is to unit test the getters, mutations, and actions separately. The second approach is to create a store and test against that. We'll look at both approaches.
 
-To see how to test a Vuex store, we're going to create a simple counter store. The store will have an `increment` mutation and a `counter` getter.
+To see how to test a Vuex store, we're going to create a simple counter store. The store will have an `increment` mutation and an `evenOrOdd` getter.
 
 ```js
 // mutations.js
@@ -321,7 +321,7 @@ test('evenOrOdd returns even if state.count is even', () => {
   expect(getters.evenOrOdd(state)).toBe('even')
 })
 
-test('evenOrOdd returns odd if state.count is even', () => {
+test('evenOrOdd returns odd if state.count is odd', () => {
   const state = {
     count: 1
   }
