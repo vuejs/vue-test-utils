@@ -70,54 +70,52 @@ interface BaseWrapper {
   destroy (): void
 }
 
-declare global {
-  interface Wrapper<V extends Vue> extends BaseWrapper {
-    readonly vm: V
-    readonly element: HTMLElement
-    readonly options: WrapperOptions
-  
-    find<R extends Vue> (selector: VueClass<R>): Wrapper<R>
-    find<R extends Vue> (selector: ComponentOptions<R>): Wrapper<R>
-    find (selector: FunctionalComponentOptions): Wrapper<Vue>
-    find (selector: string): Wrapper<Vue>
-    find (selector: RefSelector): Wrapper<Vue>
-  
-    findAll<R extends Vue> (selector: VueClass<R>): WrapperArray<R>
-    findAll<R extends Vue> (selector: ComponentOptions<R>): WrapperArray<R>
-    findAll (selector: FunctionalComponentOptions): WrapperArray<Vue>
-    findAll (selector: string): WrapperArray<Vue>
-    findAll (selector: RefSelector): WrapperArray<Vue>
-  
-    html (): string
-    text (): string
-    name (): string
-  
-    emitted (event?: string): { [name: string]: Array<Array<any>> }
-    emittedByOrder (): Array<{ name: string, args: Array<any> }>
-  }
-  
-  interface WrapperArray<V extends Vue> extends BaseWrapper {
-    readonly length: number
-    readonly wrappers: Array<Wrapper<V>>
-  
-    at (index: number): Wrapper<V>
-    filter (predicate: Function): WrapperArray<Vue>
-  }
+export interface Wrapper<V extends Vue> extends BaseWrapper {
+  readonly vm: V
+  readonly element: HTMLElement
+  readonly options: WrapperOptions
 
-  interface WrapperOptions {
-    attachedToDocument: boolean
-  }
-  
-  interface MountOptions<V extends Vue> extends ComponentOptions<V> {
-    attachToDocument?: boolean
-    context?: VNodeData
-    localVue?: typeof Vue
-    mocks?: object
-    slots?: Slots
-    stubs?: Stubs,
-    attrs?: object
-    listeners?: object
-  }
+  find<R extends Vue>(selector: VueClass<R>): Wrapper<R>
+  find<R extends Vue>(selector: ComponentOptions<R>): Wrapper<R>
+  find(selector: FunctionalComponentOptions): Wrapper<Vue>
+  find(selector: string): Wrapper<Vue>
+  find(selector: RefSelector): Wrapper<Vue>
+
+  findAll<R extends Vue>(selector: VueClass<R>): WrapperArray<R>
+  findAll<R extends Vue>(selector: ComponentOptions<R>): WrapperArray<R>
+  findAll(selector: FunctionalComponentOptions): WrapperArray<Vue>
+  findAll(selector: string): WrapperArray<Vue>
+  findAll(selector: RefSelector): WrapperArray<Vue>
+
+  html(): string
+  text(): string
+  name(): string
+
+  emitted(event?: string): { [name: string]: Array<Array<any>> }
+  emittedByOrder(): Array<{ name: string; args: Array<any> }>
+}
+
+export interface WrapperArray<V extends Vue> extends BaseWrapper {
+  readonly length: number
+  readonly wrappers: Array<Wrapper<V>>
+
+  at(index: number): Wrapper<V>
+  filter(predicate: Function): WrapperArray<Vue>
+}
+
+interface WrapperOptions {
+  attachedToDocument: boolean
+}
+
+interface MountOptions<V extends Vue> extends ComponentOptions<V> {
+  attachToDocument?: boolean
+  context?: VNodeData
+  localVue?: typeof Vue
+  mocks?: object
+  slots?: Slots
+  stubs?: Stubs
+  attrs?: object
+  listeners?: object
 }
 
 type ThisTypedMountOptions<V extends Vue> = MountOptions<V> & ThisType<V>
