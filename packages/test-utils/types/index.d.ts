@@ -75,32 +75,32 @@ export interface Wrapper<V extends Vue> extends BaseWrapper {
   readonly element: HTMLElement
   readonly options: WrapperOptions
 
-  find<R extends Vue>(selector: VueClass<R>): Wrapper<R>
-  find<R extends Vue>(selector: ComponentOptions<R>): Wrapper<R>
-  find(selector: FunctionalComponentOptions): Wrapper<Vue>
-  find(selector: string): Wrapper<Vue>
-  find(selector: RefSelector): Wrapper<Vue>
+  find<R extends Vue> (selector: VueClass<R>): Wrapper<R>
+  find<R extends Vue> (selector: ComponentOptions<R>): Wrapper<R>
+  find (selector: FunctionalComponentOptions): Wrapper<Vue>
+  find (selector: string): Wrapper<Vue>
+  find (selector: RefSelector): Wrapper<Vue>
 
-  findAll<R extends Vue>(selector: VueClass<R>): WrapperArray<R>
-  findAll<R extends Vue>(selector: ComponentOptions<R>): WrapperArray<R>
-  findAll(selector: FunctionalComponentOptions): WrapperArray<Vue>
-  findAll(selector: string): WrapperArray<Vue>
-  findAll(selector: RefSelector): WrapperArray<Vue>
+  findAll<R extends Vue> (selector: VueClass<R>): WrapperArray<R>
+  findAll<R extends Vue> (selector: ComponentOptions<R>): WrapperArray<R>
+  findAll (selector: FunctionalComponentOptions): WrapperArray<Vue>
+  findAll (selector: string): WrapperArray<Vue>
+  findAll (selector: RefSelector): WrapperArray<Vue>
 
-  html(): string
-  text(): string
-  name(): string
+  html (): string
+  text (): string
+  name (): string
 
-  emitted(event?: string): { [name: string]: Array<Array<any>> }
-  emittedByOrder(): Array<{ name: string; args: Array<any> }>
+  emitted (event?: string): { [name: string]: Array<Array<any>> }
+  emittedByOrder (): Array<{ name: string, args: Array<any> }>
 }
 
 export interface WrapperArray<V extends Vue> extends BaseWrapper {
   readonly length: number
   readonly wrappers: Array<Wrapper<V>>
 
-  at(index: number): Wrapper<V>
-  filter(predicate: Function): WrapperArray<Vue>
+  at (index: number): Wrapper<V>
+  filter (predicate: Function): WrapperArray<Vue>
 }
 
 interface WrapperOptions {
@@ -113,7 +113,7 @@ interface MountOptions<V extends Vue> extends ComponentOptions<V> {
   localVue?: typeof Vue
   mocks?: object
   slots?: Slots
-  stubs?: Stubs
+  stubs?: Stubs,
   attrs?: object
   listeners?: object
 }
