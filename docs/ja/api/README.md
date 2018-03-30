@@ -2,6 +2,7 @@
 
 * [mount](./mount.md)
 * [shallow](./shallow.md)
+* [render](./render.md)
 * [renderToString](./renderToString.md)
 * [マウンティングオプション](./options.md)
   - [context](./options.md#context)
@@ -13,6 +14,7 @@
   - [attrs](./options.md#attrs)
   - [listeners](./options.md#listeners)
   - [provide](./options.md#provide)
+  - [sync](./options.md#sync)
   - [その他のオプション](./options.md#その他のオプション)
 * [Wrapper](./wrapper/README.md)
   * [attributes](./wrapper/attributes.md)

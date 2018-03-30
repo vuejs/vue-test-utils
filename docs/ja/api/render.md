@@ -1,4 +1,4 @@
-# `renderToString(component {, options}])`
+# `render(component {, options}])`
 
 - **引数:**
 
@@ -13,7 +13,7 @@
     - `{Object|Array<string>} stubs`
     - `{Vue} localVue`
 
-- **戻り値:** `{string}`
+- **戻り値:** `{CheerioWrapper}`
 
 - **オプション:**
 
@@ -21,22 +21,25 @@
 
 - **使い方:**
 
-コンポーネントをHTMLにレンダリングします。
+オブジェクトを文字列にレンダリングして [cheerio wrapper](https://github.com/cheeriojs/cheerio) を返します。
 
-コンポーネントをHTMLにレンダリングするために、`renderToString` は内部で [`vue-server-renderer`](https://ssr.vuejs.org/en/basic.html) を使用します。
+Cheerio は Node.js で jQuery のように DOM をスキャンするためのライブラリです。  
+これは Vue Test Utils の [`Wrapper`](wrapper/README.md) に似ているAPIを持っています。
 
-`renderToString` は `@vue/server-test-utils` パッケージに含まれています。
+コンポーネントを静的なHTMLにレンダリングするために、`render` は内部で [`vue-server-renderer`](https://ssr.vuejs.org/en/basic.html) を使用します。
+
+`render` は `@vue/server-test-utils` パッケージに含まれています。
 
 **オプションなし:**
 
 ```js
-import { renderToString } from '@vue/server-test-utils'
+import { render } from '@vue/server-test-utils'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {
   it('renders a div', () => {
-    const renderedString = renderToString(Foo)
-    expect(renderedString).toContain('<div></div>')
+    const wrapper = render(Foo)
+    expect(wrapper.text()).toContain('<div></div>')
   })
 })
 ```
@@ -44,17 +47,17 @@ describe('Foo', () => {
 **Vueオプションを使用:**
 
 ```js
-import { renderToString } from '@vue/server-test-utils'
+import { render } from '@vue/server-test-utils'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {
   it('renders a div', () => {
-    const renderedString = renderToString(Foo, {
+    const wrapper = render(Foo, {
       propsData: {
         color: 'red'
       }
     })
-    expect(renderedString).toContain('red')
+    expect(wrapper.text()).toContain('red')
   })
 })
 ```
@@ -62,21 +65,21 @@ describe('Foo', () => {
 **デフォルトおよび名前付きスロット:**
 
 ```js
-import { renderToString } from '@vue/server-test-utils'
+import { render } from '@vue/server-test-utils'
 import Foo from './Foo.vue'
 import Bar from './Bar.vue'
 import FooBar from './FooBar.vue'
 
 describe('Foo', () => {
   it('renders a div', () => {
-    const renderedString = renderToString(Foo, {
+    const wrapper = render(Foo, {
       slots: {
         default: [Bar, FooBar],
         fooBar: FooBar, // <slot name="FooBar" /> にマッチします。
         foo: '<div />'
       }
     })
-    expect(renderedString).toContain('<div></div>')
+    expect(wrapper.text()).toContain('<div></div>')
   })
 })
 ```
@@ -84,18 +87,18 @@ describe('Foo', () => {
 **グローバルプロパティをスタブする:**
 
 ```js
-import { renderToString } from '@vue/server-test-utils'
+import { render } from '@vue/server-test-utils'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {
   it('renders a div', () => {
     const $route = { path: 'http://www.example-path.com' }
-    const renderedString = renderToString(Foo, {
+    const wrapper = render(Foo, {
       mocks: {
         $route
       }
     })
-    expect(renderedString).toContain($route.path)
+    expect(wrapper.text()).toContain($route.path)
   })
 })
 ```

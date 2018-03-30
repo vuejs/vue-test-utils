@@ -70,7 +70,7 @@ interface BaseWrapper {
   destroy (): void
 }
 
-interface Wrapper<V extends Vue> extends BaseWrapper {
+export interface Wrapper<V extends Vue> extends BaseWrapper {
   readonly vm: V
   readonly element: HTMLElement
   readonly options: WrapperOptions
@@ -95,7 +95,7 @@ interface Wrapper<V extends Vue> extends BaseWrapper {
   emittedByOrder (): Array<{ name: string, args: Array<any> }>
 }
 
-interface WrapperArray<V extends Vue> extends BaseWrapper {
+export interface WrapperArray<V extends Vue> extends BaseWrapper {
   readonly length: number
   readonly wrappers: Array<Wrapper<V>>
 

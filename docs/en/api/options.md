@@ -174,6 +174,9 @@ Pass properties for components to use in injection. See [provide/inject](https:/
 
 Sets all watchers to run synchronously.
 
+When `sync` is `true`, the Vue component is rendered synchronously.  
+When `sync` is `false`, the Vue component is rendered asynchronously.
+
 ## Other options
 
 When the options for `mount` and `shallow` contain the options other than the mounting options, the component options are overwritten with those using [extends](https://vuejs.org/v2/api/#extends).

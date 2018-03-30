@@ -11,7 +11,6 @@ import { throwError } from 'shared/util'
 import { compileTemplate } from './compile-template'
 import deleteoptions from './delete-mounting-options'
 import createFunctionalComponent from './create-functional-component'
-import cloneDeep from 'lodash/cloneDeep'
 import { componentNeedsCompiling } from 'shared/validators'
 
 export default function createInstance (
@@ -57,9 +56,6 @@ export default function createInstance (
 
   addAttrs(vm, options.attrs)
   addListeners(vm, options.listeners)
-
-  vm.$_mountingOptionsSlots = options.slots
-  vm.$_originalSlots = cloneDeep(vm.$slots)
 
   if (options.slots) {
     addSlots(vm, options.slots)
