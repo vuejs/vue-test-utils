@@ -8,6 +8,13 @@ They are currently in beta.
 * [Vue Test Utils](./packages/test-utils)
 * [Vue Server Test Utils](./packages/server-test-utils)
 
+You can install these packages by the following command.
+
+```
+npm install --save-dev @vue/test-utils
+npm install --save-dev @vue/server-test-utils
+```
+
 ## Documentation
 
 Refer to the [documentation](https://vue-test-utils.vuejs.org/)
