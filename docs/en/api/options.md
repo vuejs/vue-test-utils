@@ -172,6 +172,8 @@ Pass properties for components to use in injection. See [provide/inject](https:/
 - type: `boolean`
 - default: `true`
 
+Sets all watchers to run synchronously.
+
 When `sync` is `true`, the Vue component is rendered synchronously.  
 When `sync` is `false`, the Vue component is rendered asynchronously.
 
