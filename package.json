@@ -23,6 +23,7 @@
     "test:compat": "scripts/test-compat.sh",
     "test:unit": "npm run build:test && npm run test:unit:only",
     "test:unit:only": "cross-env BABEL_ENV=test && mocha-webpack --webpack-config test/setup/webpack.test.config.js test/specs --recursive --require test/setup/mocha.setup.js",
+    "test:unit:debug": "npm run build:test && cross-env BABEL_ENV=test && node --inspect-brk node_modules/.bin/mocha-webpack --webpack-config test/setup/webpack.test.config.js test/specs --recursive --require test/setup/mocha.setup.js",
     "test:unit:karma": "npm run build:test && cross-env BABEL_ENV=test TARGET=browser karma start test/setup/karma.conf.js --single-run",
     "test:types": "tsc -p packages/test-utils/types && tsc -p packages/server-test-utils/types"
   },

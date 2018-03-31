@@ -5,6 +5,7 @@ const buble = require('rollup-plugin-buble')
 const nodeResolve = require('rollup-plugin-node-resolve')
 const commonjs = require('rollup-plugin-commonjs')
 const chalk = require('chalk')
+const json = require('rollup-plugin-json')
 
 function success (text) {
   console.log(chalk.green(`${text} ✔`))
@@ -56,6 +57,7 @@ rollupOptions.forEach(options => {
     external: ['vue', 'vue-template-compiler'],
     plugins: [
       flow(),
+      json(),
       buble({
         objectAssign: 'Object.assign'
       }),
