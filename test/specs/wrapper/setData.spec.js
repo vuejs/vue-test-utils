@@ -83,7 +83,35 @@ describeWithShallowAndMount('setData', (mountingMethod) => {
     expect(fn2).to.throw().with.property('message', message)
   })
 
-  it('should not run watchers if data updated is null', () => {
+  it('updates watchers if computed is updated', () => {
+    const TestComponent = {
+      template: `
+        <em>{{ computedText }}</em>
+        `,
+      data () {
+        return {
+          text: '',
+          basket: []
+        }
+      },
+      computed: {
+        computedText () {
+          return this.text
+        }
+      },
+      watch: {
+        text () {
+          this.basket.push(this.computedText)
+        }
+      }
+    }
+    const wrapper = mountingMethod(TestComponent)
+
+    wrapper.setData({ text: 'hello' })
+    expect(wrapper.vm.basket[0]).to.equal('hello')
+  })
+
+  it('should update watchers correctly', () => {
     const TestComponent = {
       template: `
       <div>
