@@ -44,15 +44,13 @@ function createStubFromString (templateString: string, originalComponent: Compon
   if (!compileToFunctions) {
     throwError('vueTemplateCompiler is undefined, you must pass components explicitly if vue-template-compiler is undefined')
   }
-  if (templateString.indexOf(hyphenate(originalComponent.name)) !== -1) {
+
+  if (templateString.indexOf(hyphenate(originalComponent.name)) !== -1 ||
+  templateString.indexOf(capitalize(originalComponent.name)) !== -1 ||
+  templateString.indexOf(camelize(originalComponent.name)) !== -1) {
     throwError('options.stub cannot contain a circular reference')
   }
-  if (templateString.indexOf(capitalize(originalComponent.name)) !== -1) {
-    throwError('options.stub cannot contain a circular reference')
-  }
-  if (templateString.indexOf(camelize(originalComponent.name)) !== -1) {
-    throwError('options.stub cannot contain a circular reference')
-  }
+
   return {
     ...getCoreProperties(originalComponent),
     ...compileToFunctions(templateString)

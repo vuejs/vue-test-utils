@@ -6,17 +6,17 @@ import {
 } from '~vue/test-utils'
 
 describe('config', () => {
-  let configSave
+  let configStubsSave
   beforeEach(() => {
     TransitionGroupStub.name = 'another-temp-name'
     TransitionStub.name = 'a-temp-name'
-    configSave = config.stubs
+    configStubsSave = config.stubs
   })
 
   afterEach(() => {
     TransitionGroupStub.name = 'transition-group'
     TransitionStub.name = 'transition'
-    config.stubs = configSave
+    config.stubs = configStubsSave
   })
 
   it('stubs transition and transition-group by default', () => {
