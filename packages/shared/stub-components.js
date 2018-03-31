@@ -5,6 +5,7 @@ import { compileToFunctions } from 'vue-template-compiler'
 import { throwError } from './util'
 import { componentNeedsCompiling } from './validators'
 import { compileTemplate } from './compile-template'
+import { capitalize, camelize, hyphenate } from './util'
 
 function isVueComponent (comp) {
   return comp && (comp.render || comp.template || comp.options)
@@ -43,6 +44,13 @@ function createStubFromString (templateString: string, originalComponent: Compon
   if (!compileToFunctions) {
     throwError('vueTemplateCompiler is undefined, you must pass components explicitly if vue-template-compiler is undefined')
   }
+
+  if (templateString.indexOf(hyphenate(originalComponent.name)) !== -1 ||
+  templateString.indexOf(capitalize(originalComponent.name)) !== -1 ||
+  templateString.indexOf(camelize(originalComponent.name)) !== -1) {
+    throwError('options.stub cannot contain a circular reference')
+  }
+
   return {
     ...getCoreProperties(originalComponent),
     ...compileToFunctions(templateString)

@@ -6,14 +6,17 @@ import {
 } from '~vue/test-utils'
 
 describe('config', () => {
+  let configStubsSave
   beforeEach(() => {
     TransitionGroupStub.name = 'another-temp-name'
     TransitionStub.name = 'a-temp-name'
+    configStubsSave = config.stubs
   })
 
   afterEach(() => {
     TransitionGroupStub.name = 'transition-group'
     TransitionStub.name = 'transition'
+    config.stubs = configStubsSave
   })
 
   it('stubs transition and transition-group by default', () => {
@@ -57,7 +60,6 @@ describe('config', () => {
   })
 
   it('doesn\'t stub transition when config.stubs is set to false', () => {
-    const configStubsSave = config.stubs
     config.stubs = false
     const testComponent = {
       template: `
@@ -69,11 +71,9 @@ describe('config', () => {
     const wrapper = mount(testComponent)
     expect(wrapper.contains(TransitionGroupStub)).to.equal(false)
     expect(wrapper.contains(TransitionStub)).to.equal(false)
-    config.stubs = configStubsSave
   })
 
   it('doesn\'t stub transition when config.stubs is set to a string', () => {
-    const configStubsSave = config.stubs
     config.stubs = 'a string'
     const testComponent = {
       template: `
@@ -85,6 +85,5 @@ describe('config', () => {
     const wrapper = mount(testComponent)
     expect(wrapper.contains(TransitionGroupStub)).to.equal(false)
     expect(wrapper.contains(TransitionStub)).to.equal(false)
-    config.stubs = configStubsSave
   })
 })
