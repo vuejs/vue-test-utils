@@ -4,24 +4,28 @@ jobs:
     docker:
       - image: "circleci/node:6.13.0-stretch-browsers"
     working_directory: ~/repo
-  steps:
-    - checkout
-    - run: "yarn --version"
-    - run: yarn
-    - run: "yarn bootstrap"
-    - run: "yarn build:test"
-    - save_cache:
-        key: "v1-dependencies-{{ checksum \"yarn.lock\" }}"
-        paths:
-          - node_modules
+    steps:
+      - checkout
+      - run: "yarn --version"
+      - run: yarn
+      - run: "yarn bootstrap"
+      - run: "yarn build:test"
+      - save_cache:
+          key: "v1-dependencies-{{ checksum \"yarn.lock\" }}"
+          paths:
+            - node_modules
   test:
     docker:
       - image: "circleci/node:6.13.0-stretch-browsers"
+    requires:
+      - build
     steps:
       - run: "yarn test"
   test_2.0:
     docker:
       - image: "circleci/node:6.13.0-stretch-browsers"
+    requires:
+      - build
     steps:
       - run: "yarn add vue@2.0.8 vue-template-compiler@2.0.8 vue-server-renderer@2.0.8"
       - run: "yarn test:unit"
@@ -36,6 +40,8 @@ jobs:
   test_2.2:
     docker:
       - image: "circleci/node:6.13.0-stretch-browsers"
+    requires:
+      - build
     steps:
       - run: "yarn add vue@2.2.6 vue-template-compiler@2.2.6 vue-server-renderer@2.2.6"
       - run: "yarn test:unit"
@@ -43,6 +49,8 @@ jobs:
   test_2.3:
     docker:
       - image: "circleci/node:6.13.0-stretch-browsers"
+    requires:
+      - build
     steps:
       - run: "yarn add vue@2.3.4 vue-template-compiler@2.3.4 vue-server-renderer@2.3.4"
       - run: "yarn test:unit"
@@ -50,6 +58,8 @@ jobs:
   test_2.4:
     docker:
       - image: "circleci/node:6.13.0-stretch-browsers"
+    requires:
+      - build
     steps:
       - run: "yarn add vue@2.4.2 vue-template-compiler@2.4.2 vue-server-renderer@2.4.2"
       - run: "yarn test:unit"
@@ -57,6 +67,8 @@ jobs:
   test_2.5:
     docker:
       - image: "circleci/node:6.13.0-stretch-browsers"
+    requires:
+      - build
     steps:
       - run: "yarn add vue@2.5.16 vue-template-compiler@2.5.16 vue-server-renderer@2.5.16"
       - run: "yarn test:unit"
