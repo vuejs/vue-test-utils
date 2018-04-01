@@ -35,8 +35,9 @@ export default function createFunctionalComponent (component: Component, mountin
   if (mountingOptions.context && typeof mountingOptions.context !== 'object') {
     throwError('mount.context must be an object')
   }
-
-  validateSlots(mountingOptions.slots)
+  if (mountingOptions.slots) {
+    validateSlots(mountingOptions.slots)
+  }
 
   return {
     render (h: Function) {
