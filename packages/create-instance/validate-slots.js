@@ -1,6 +1,5 @@
 // @flow
 
-import { compileToFunctions } from 'vue-template-compiler'
 import { throwError } from 'shared/util'
 
 function isValidSlot (slot: any): boolean {
