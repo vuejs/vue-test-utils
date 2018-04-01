@@ -2,10 +2,7 @@
 
 import { compileToFunctions } from 'vue-template-compiler'
 import { throwError } from 'shared/util'
-
-function isValidSlot (slot: any): boolean {
-  return Array.isArray(slot) || (slot !== null && typeof slot === 'object') || typeof slot === 'string'
-}
+import { validateSlots } from './validate-slots'
 
 function createFunctionalSlots (slots = {}, h) {
   if (Array.isArray(slots.default)) {
@@ -19,18 +16,12 @@ function createFunctionalSlots (slots = {}, h) {
   Object.keys(slots).forEach(slotType => {
     if (Array.isArray(slots[slotType])) {
       slots[slotType].forEach(slot => {
-        if (!isValidSlot(slot)) {
-          throwError('slots[key] must be a Component, string or an array of Components')
-        }
         const component = typeof slot === 'string' ? compileToFunctions(slot) : slot
         const newSlot = h(component)
         newSlot.data.slot = slotType
         children.push(newSlot)
       })
     } else {
-      if (!isValidSlot(slots[slotType])) {
-        throwError('slots[key] must be a Component, string or an array of Components')
-      }
       const component = typeof slots[slotType] === 'string' ? compileToFunctions(slots[slotType]) : slots[slotType]
       const slot = h(component)
       slot.data.slot = slotType
@@ -43,6 +34,9 @@ function createFunctionalSlots (slots = {}, h) {
 export default function createFunctionalComponent (component: Component, mountingOptions: Options) {
   if (mountingOptions.context && typeof mountingOptions.context !== 'object') {
     throwError('mount.context must be an object')
+  }
+  if (mountingOptions.slots) {
+    validateSlots(mountingOptions.slots)
   }
 
   return {
