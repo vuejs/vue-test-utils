@@ -2,10 +2,7 @@
 
 import { compileToFunctions } from 'vue-template-compiler'
 import { throwError } from 'shared/util'
-
-function isValidSlot (slot: any): boolean {
-  return true
-}
+import { validateSlots } from './validate-slots'
 
 function addSlotToVm (vm: Component, slotName: string, slotValue: Component | string | Array<Component> | Array<string>): void {
   let elem
@@ -47,16 +44,10 @@ function addSlotToVm (vm: Component, slotName: string, slotValue: Component | st
 }
 
 export function addSlots (vm: Component, slots: Object): void {
+  validateSlots(slots)
   Object.keys(slots).forEach((key) => {
-    if (!isValidSlot(slots[key])) {
-      throwError('slots[key] must be a Component, string or an array of Components')
-    }
-
     if (Array.isArray(slots[key])) {
       slots[key].forEach((slotValue) => {
-        if (!isValidSlot(slotValue)) {
-          throwError('slots[key] must be a Component, string or an array of Components')
-        }
         addSlotToVm(vm, key, slotValue)
       })
     } else {
