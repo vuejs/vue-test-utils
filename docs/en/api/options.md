@@ -6,6 +6,7 @@ Options for `mount` and `shallow`. The options object can contain both Vue Test 
 
 - [`context`](#context)
 - [`slots`](#slots)
+- [`scopedSlots`](#scopedslots)
 - [`stubs`](#stubs)
 - [`mocks`](#mocks)
 - [`localVue`](#localvue)
@@ -67,6 +68,28 @@ There is a limitation to this.
 
 This does not support PhantomJS.  
 Please use [Puppeteer](https://github.com/karma-runner/karma-chrome-launcher#headless-chromium-with-puppeteer).
+
+### `scopedSlots`
+
+- type: `{ [name: string]: string }`
+
+Provide an object of scoped slots contents to the component. The key corresponds to the slot name. The value can be a template string.  
+There is two limitations.  
+
+* This supports vue@2.5+.
+
+* You can not set a `template` tag to top of `scopedSlots` option.
+
+Example:
+
+```js
+const wrapper = shallow(Component, {
+  scopedSlots: {
+    bar: '<p slot="item" slot-scope="props">{{props.index}},{{props.text}}</p>'
+  }
+})
+expect(wrapper.html()).toBe('<div><p>0,text1</p><p>1,text2</p><p>2,text3</p></div>')
+```
 
 ### `stubs`
 
