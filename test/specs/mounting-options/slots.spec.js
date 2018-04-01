@@ -5,7 +5,8 @@ import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
 import {
   describeWithMountingMethods,
   vueVersion,
-  itSkipIf
+  itSkipIf,
+  itDoNotRunIf
 } from '~resources/utils'
 
 describeWithMountingMethods('options.slots', (mountingMethod) => {
@@ -356,5 +357,34 @@ describeWithMountingMethods('options.slots', (mountingMethod) => {
         throw err
       }
       require.cache[require.resolve('vue-template-compiler')].exports.compileToFunctions = compilerSave
+    })
+
+  itDoNotRunIf(mountingMethod.name === 'renderToString',
+    'afd', () => {
+      const Parent = {
+        name: 'Parent',
+        template: `
+        <Child>
+          <template slot-scope="props">
+            <slot name="content"></slot>
+          </template>
+        </Child>
+      `
+      }
+
+      const Child = {
+        name: 'Child',
+        template: `
+        <div>
+          <slot val="123"></slot>
+        </div>
+      `
+      }
+
+      const wrapper = mountingMethod(Parent, {
+        slots: { content: '*parent content!*' },
+        stubs: { Child }
+      })
+      wrapper.find('div').trigger('click')
     })
 })
