@@ -624,7 +624,9 @@ export default class Wrapper implements BaseWrapper {
     }
 
     this.element.dispatchEvent(eventObject)
-    orderWatchers(this.vm || this.vnode.context.$root)
+    if (this.vnode) {
+      orderWatchers(this.vm || this.vnode.context.$root)
+    }
   }
 
   update () {
