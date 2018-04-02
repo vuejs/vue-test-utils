@@ -21,6 +21,9 @@ import {
 } from 'shared/util'
 import findAll from './find'
 import createWrapper from './create-wrapper'
+import {
+  orderWatchers
+} from './order-watchers'
 
 export default class Wrapper implements BaseWrapper {
   vnode: VNode | null;
@@ -621,6 +624,7 @@ export default class Wrapper implements BaseWrapper {
     }
 
     this.element.dispatchEvent(eventObject)
+    orderWatchers(this.vm || this.vnode.context.$root)
   }
 
   update () {
