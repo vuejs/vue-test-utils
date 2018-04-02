@@ -1,5 +1,4 @@
 function setDepsSync (dep) {
-  dep.subs = dep.subs.sort((a, b) => a.id - b.id)
   dep.subs.forEach(setWatcherSync)
 }
 

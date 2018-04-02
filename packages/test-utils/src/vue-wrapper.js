@@ -2,6 +2,7 @@
 
 import Wrapper from './wrapper'
 import { setWatchersToSync } from './set-watchers-to-sync'
+import { orderWatchers } from './order-watchers'
 
 export default class VueWrapper extends Wrapper implements BaseWrapper {
   constructor (vm: Component, options: WrapperOptions) {
@@ -20,6 +21,7 @@ export default class VueWrapper extends Wrapper implements BaseWrapper {
     this.vm = vm
     if (options.sync) {
       setWatchersToSync(vm)
+      orderWatchers(vm)
     }
     this.isVueComponent = true
     this.isFunctionalComponent = vm.$options._isFunctionalContainer
