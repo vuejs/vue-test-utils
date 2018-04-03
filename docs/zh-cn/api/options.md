@@ -62,10 +62,10 @@ expect(wrapper.find('div')).toBe(true)
 
 #### 传递文本
 
-你可以传递文本到 `slots`。
+你可以传递文本到 `slots`。  
 这里有一处限制。
 
-我们不支持 PhantomJS。
+我们不支持 PhantomJS。  
 请使用 [Puppeteer](https://github.com/karma-runner/karma-chrome-launcher#headless-chromium-with-puppeteer)。
 
 ### `stubs`
