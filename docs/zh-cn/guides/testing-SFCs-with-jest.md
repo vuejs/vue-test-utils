@@ -48,13 +48,12 @@ npm install --save-dev vue-jest
     "transform": {
       // 用 `vue-jest` 处理 `*.vue` 文件
       ".*\\.(vue)$": "<rootDir>/node_modules/vue-jest"
-    },
-    "mapCoverage": true
+    }
   }
 }
 ```
 
-> **注意：**`vue-jest` 目前并不支持 `vue-loader` 所有的功能，比如自定义块和样式加载。额外的，诸如代码分隔等 webpack 特有的功能也是不支持的。如果要使用它们，请阅读教程里的[用 Mocha + webpack 测试单文件组件](./testing-SFCs-with-mocha-webpack.md)。
+> **注意：**`vue-jest` 目前并不支持 `vue-loader` 所有的功能，比如自定义块和样式加载。额外的，诸如代码分隔等 webpack 特有的功能也是不支持的。如果要使用这些不支持的特性，你需要用 Mocha 取代 Jest 来运行你的测试，同时用 webpack 来编译你的组件。想知道如何起步，请阅读教程里的[用 Mocha + webpack 测试单文件组件](./testing-SFCs-with-mocha-webpack.md)。
 
 ## 处理 webpack 别名
 
@@ -158,7 +157,7 @@ Jest 推荐你在被测试代码的所在目录下创建一个 `__tests__` 目�
 
 Jest 可以被用来生成多种格式的测试覆盖率报告。以下是一个简单的起步的例子：
 
-扩展你的 `jest` 配置 (通常在 `package.json` 或 `jest.config.js` 中) 的 [`collectCoverage`](https://facebook.github.io/jest/docs/en/configuration.html#collectcoverage-boolean) 选项，然后添加 [`collectCoverageFrom`](https://facebook.github.io/jest/docs/en/configuration.html#collectcoveragefrom-array) 数组来定义需要收集测试覆盖率信息的文件。你还需要设置 [`mapCoverage`](https://facebook.github.io/jest/docs/en/configuration.html#mapcoverage-boolean) 为 `true`，以确保测试覆盖率数据的精准。
+扩展你的 `jest` 配置 (通常在 `package.json` 或 `jest.config.js` 中) 的 [`collectCoverage`](https://facebook.github.io/jest/docs/en/configuration.html#collectcoverage-boolean) 选项，然后添加 [`collectCoverageFrom`](https://facebook.github.io/jest/docs/en/configuration.html#collectcoveragefrom-array) 数组来定义需要收集测试覆盖率信息的文件。
 
 ```json
 {
@@ -168,8 +167,7 @@ Jest 可以被用来生成多种格式的测试覆盖率报告。以下是一个
     "collectCoverageFrom": [
       "**/*.{js,vue}",
       "!**/node_modules/**"
-    ],
-    "mapCoverage": true
+    ]
   }
 }
 ```

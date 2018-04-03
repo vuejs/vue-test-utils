@@ -62,10 +62,10 @@ expect(wrapper.find('div')).toBe(true)
 
 #### 传递文本
 
-你可以传递文本到 `slots`。  
+你可以传递文本到 `slots`。
 这里有一处限制。
 
-我们不支持 PhantomJS。  
+我们不支持 PhantomJS。
 请使用 [Puppeteer](https://github.com/karma-runner/karma-chrome-launcher#headless-chromium-with-puppeteer)。
 
 ### `stubs`
@@ -173,6 +173,9 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 - 默认值：`true`
 
 将所有的侦听器都设置为同步执行。
+
+当 `sync` 是 `true` 时，这个 Vue 组件会被同步渲染。  
+当 `sync` 是 `false` 时，这个 Vue 组件会被异步渲染。
 
 ## 其它选项
 

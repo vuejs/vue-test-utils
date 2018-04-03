@@ -265,7 +265,7 @@ describe('Modules.vue', () => {
 
 这里有两个测试 Vuex store 的方式。第一个方式是分别单元化测试 getter、mutation 和 action。第二个方式是创建一个 store 并针对其进行测试。我们接下来看看这两种方式如何。
 
-为了弄清楚如果测试一个 Vuex store，我们会创建一个简单的计数器 store。该 store 会有一个 `increment` mutation 和一个 `counter` getter。
+为了弄清楚如果测试一个 Vuex store，我们会创建一个简单的计数器 store。该 store 会有一个 `increment` mutation 和一个 `evenOrOdd` getter。
 
 ```js
 // mutations.js
@@ -322,7 +322,7 @@ test('evenOrOdd returns even if state.count is even', () => {
   expect(getters.evenOrOdd(state)).toBe('even')
 })
 
-test('evenOrOdd returns odd if state.count is even', () => {
+test('evenOrOdd returns odd if state.count is odd', () => {
   const state = {
     count: 1
   }

@@ -2,6 +2,7 @@
 
 * [mount](./mount.md)
 * [shallow](./shallow.md)
+* [render](./render.md)
 * [renderToString](./renderToString.md)
 * [挂载选项](./options.md)
   - [context](./options.md#context)
@@ -13,6 +14,7 @@
   - [attrs](./options.md#attrs)
   - [listeners](./options.md#listeners)
   - [provide](./options.md#provide)
+  - [sync](./options.md#sync)
   - [其它选项](./options.md#other-options)
 * [Wrapper](./wrapper/README.md)
   * [attributes](./wrapper/attributes.md)
