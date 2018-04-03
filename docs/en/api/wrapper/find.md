@@ -27,8 +27,8 @@ expect(bar.is(Bar)).toBe(true)
 const barByName = wrapper.find({ name: 'bar' })
 expect(barByName.is(Bar)).toBe(true)
 
-const barRef = wrapper.find({ ref: 'bar' })
-expect(barRef.is(Bar)).toBe(true)
+const fooRef = wrapper.find({ ref: 'foo' })
+expect(fooRef.is(Foo)).toBe(true)
 ```
 
 - **See also:** [Wrapper](README.md)
