@@ -1,5 +1,5 @@
 // @flow
-//
+
 import Vue from 'vue'
 import { addSlots } from './add-slots'
 import { addScopedSlots } from './add-scoped-slots'

@@ -9,7 +9,9 @@ describeWithShallowAndMount('scopedSlots', (mountingMethod) => {
           'item': '<p slot="item" slot-scope="props">{{props.index}},{{props.text}}</p>'
         }
       })
-      expect(wrapper.html()).to.equal('<div><p>0,text1</p><p>1,text2</p><p>2,text3</p></div>')
+      expect(wrapper.html()).to.equal('<div><p>0,a1</p><p>1,a2</p><p>2,a3</p></div>')
+      wrapper.vm.items = [{ text: 'b1' }, { text: 'b2' }, { text: 'b3' }]
+      expect(wrapper.html()).to.equal('<div><p>0,b1</p><p>1,b2</p><p>2,b3</p></div>')
     })
     it('throws exception when it is seted to template tag at top', () => {
       const fn = () => {

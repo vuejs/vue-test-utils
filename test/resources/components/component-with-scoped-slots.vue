@@ -13,17 +13,7 @@
     name: 'component-with-scoped-slots',
     data () {
       return {
-        items: [
-          {
-            text: 'text1'
-          },
-          {
-            text: 'text2'
-          },
-          {
-            text: 'text3'
-          }
-        ]
+        items: [{ text: 'a1' }, { text: 'a2' }, { text: 'a3' }]
       }
     }
   }
