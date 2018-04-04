@@ -15,13 +15,6 @@ import deleteoptions from './delete-mounting-options'
 import createFunctionalComponent from './create-functional-component'
 import { componentNeedsCompiling } from 'shared/validators'
 
-function extend (to: Object, _from: ?Object): Object {
-  for (const key in _from) {
-    to[key] = _from[key]
-  }
-  return to
-}
-
 export default function createInstance (
   component: Component,
   options: Options,
@@ -74,7 +67,7 @@ export default function createInstance (
       vm._renderProxy._t = function (name, feedback, props, bindObject) {
         const scopedSlotFn = vm.$_VueTestUtils_scopedSlots[name]
         if (scopedSlotFn) {
-          props = extend(extend({}, bindObject), props)
+          props = Object.assign(Object.assign({}, bindObject), props)
           vm._renderProxy.props = props
           return scopedSlotFn.call(vm._renderProxy)
         } else {
