@@ -9,6 +9,6 @@ export function addScopedSlots (vm: Component, scopedSlots: Object): void {
     if (template.substr(0, 9) === '<template') {
       throwError('scopedSlots option does not support template tag.')
     }
-    vm.$_VueTestUtils_scopedSlots[key] = compileToFunctions(template).render
+    vm.$_vueTestUtils_scopedSlots[key] = compileToFunctions(template).render
   })
 }

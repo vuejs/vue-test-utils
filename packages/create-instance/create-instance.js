@@ -62,10 +62,10 @@ export default function createInstance (
   if (options.scopedSlots) {
     const vueVersion = Number(`${Vue.version.split('.')[0]}.${Vue.version.split('.')[1]}`)
     if (vueVersion >= 2.5) {
-      vm.$_VueTestUtils_scopedSlots = {}
+      vm.$_vueTestUtils_scopedSlots = {}
       const renderSlot = vm._renderProxy._t
       vm._renderProxy._t = function (name, feedback, props, bindObject) {
-        const scopedSlotFn = vm.$_VueTestUtils_scopedSlots[name]
+        const scopedSlotFn = vm.$_vueTestUtils_scopedSlots[name]
         if (scopedSlotFn) {
           props = Object.assign({}, bindObject, props)
           vm._renderProxy.props = props
