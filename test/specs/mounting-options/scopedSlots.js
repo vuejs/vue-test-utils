@@ -5,13 +5,15 @@ describeWithShallowAndMount('scopedSlots', (mountingMethod) => {
   itDoNotRunIf(vueVersion < 2.5,
     'mounts component scoped slots', () => {
       const wrapper = mountingMethod(ComponentWithScopedSlots, {
+        slots: { default: '<span>123</span>' },
         scopedSlots: {
           'item': '<p slot-scope="props">{{props.index}},{{props.text}}</p>'
         }
       })
-      expect(wrapper.html()).to.equal('<div><p>0,a1</p><p>1,a2</p><p>2,a3</p></div>')
+      expect(wrapper.find('#slots').html()).to.equal('<div id="slots"><span>123</span></div>')
+      expect(wrapper.find('#scopedSlots').html()).to.equal('<div id="scopedSlots"><p>0,a1</p><p>1,a2</p><p>2,a3</p></div>')
       wrapper.vm.items = [{ text: 'b1' }, { text: 'b2' }, { text: 'b3' }]
-      expect(wrapper.html()).to.equal('<div><p>0,b1</p><p>1,b2</p><p>2,b3</p></div>')
+      expect(wrapper.find('#scopedSlots').html()).to.equal('<div id="scopedSlots"><p>0,b1</p><p>1,b2</p><p>2,b3</p></div>')
     }
   )
 

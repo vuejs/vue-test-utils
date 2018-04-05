@@ -71,7 +71,7 @@ export default function createInstance (
           vm._renderProxy.props = props
           return scopedSlotFn.call(vm._renderProxy)
         } else {
-          return renderSlot(name, feedback, props, bindObject)
+          return renderSlot.call(vm._renderProxy, name, feedback, props, bindObject)
         }
       }
       // $FlowIgnore

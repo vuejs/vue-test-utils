@@ -1,10 +1,15 @@
 <template>
   <div>
-    <slot name="item"
-          v-for="(item, index) in items"
-          :text="item.text"
-          :index="index">
-    </slot>
+    <div id="scopedSlots">
+      <slot name="item"
+            v-for="(item, index) in items"
+            :text="item.text"
+            :index="index">
+      </slot>
+    </div>
+    <div id="slots">
+      <slot></slot>
+    </div>
   </div>
 </template>
 
