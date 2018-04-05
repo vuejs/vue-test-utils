@@ -67,7 +67,7 @@ export default function createInstance (
       vm._renderProxy._t = function (name, feedback, props, bindObject) {
         const scopedSlotFn = vm.$_VueTestUtils_scopedSlots[name]
         if (scopedSlotFn) {
-          props = Object.assign(Object.assign({}, bindObject), props)
+          props = Object.assign({}, bindObject, props)
           vm._renderProxy.props = props
           return scopedSlotFn.call(vm._renderProxy)
         } else {
