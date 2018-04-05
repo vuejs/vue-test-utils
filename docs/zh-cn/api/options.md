@@ -174,6 +174,9 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 
 将所有的侦听器都设置为同步执行。
 
+当 `sync` 是 `true` 时，这个 Vue 组件会被同步渲染。  
+当 `sync` 是 `false` 时，这个 Vue 组件会被异步渲染。
+
 ## 其它选项
 
 当 `mount` 和 `shallow` 的选项包含了挂载选项之外的选项时，则会将它们通过[扩展](https://vuejs.org/v2/api/#extends)覆写到其组件选项。
