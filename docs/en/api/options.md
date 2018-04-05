@@ -73,7 +73,8 @@ Please use [Puppeteer](https://github.com/karma-runner/karma-chrome-launcher#hea
 
 - type: `{ [name: string]: string }`
 
-Provide an object of scoped slots contents to the component. The key corresponds to the slot name. The value can be a template string.  
+Provide an object of scoped slots contents to the component. The key corresponds to the slot name. The value can be a template string.
+
 There is two limitations.  
 
 * This supports vue@2.5+.
@@ -85,10 +86,10 @@ Example:
 ```js
 const wrapper = shallow(Component, {
   scopedSlots: {
-    bar: '<p slot-scope="props">{{props.index}},{{props.text}}</p>'
+    foo: '<p slot-scope="props">{{props.index}},{{props.text}}</p>'
   }
 })
-expect(wrapper.html()).toBe('<div><p>0,text1</p><p>1,text2</p><p>2,text3</p></div>')
+expect(wrapper.find('#fooWrapper').html()).toBe('<div id="fooWrapper"><p>0,text1</p><p>1,text2</p><p>2,text3</p></div>')
 ```
 
 ### `stubs`
