@@ -85,7 +85,7 @@ Example:
 ```js
 const wrapper = shallow(Component, {
   scopedSlots: {
-    bar: '<p slot="item" slot-scope="props">{{props.index}},{{props.text}}</p>'
+    bar: '<p slot-scope="props">{{props.index}},{{props.text}}</p>'
   }
 })
 expect(wrapper.html()).toBe('<div><p>0,text1</p><p>1,text2</p><p>2,text3</p></div>')
