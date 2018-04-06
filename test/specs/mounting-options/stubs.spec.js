@@ -2,13 +2,18 @@ import ComponentWithChild from '~resources/components/component-with-child.vue'
 import ComponentWithNestedChildren from '~resources/components/component-with-nested-children.vue'
 import Component from '~resources/components/component.vue'
 import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
-import { createLocalVue, config } from '~vue/test-utils'
+import { createLocalVue, config, mount } from '~vue/test-utils'
 import { config as serverConfig } from '~vue/server-test-utils'
 import Vue from 'vue'
 import {
   describeWithMountingMethods,
   itDoNotRunIf
 } from '~resources/utils'
+
+it('Allow to find stubbed children component', () => {
+  const wrapper = mount(ComponentWithChild, { stubs: ['child-component']})
+  expect(wrapper.contains(Component)).to.be.true
+})
 
 describeWithMountingMethods('options.stub', (mountingMethod) => {
   let info
