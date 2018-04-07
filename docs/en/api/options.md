@@ -75,7 +75,7 @@ Please use [Puppeteer](https://github.com/karma-runner/karma-chrome-launcher#hea
 
 Provide an object of scoped slots contents to the component. The key corresponds to the slot name. The value can be a template string.
 
-There are two limitations.  
+There are two limitations.
 
 * This option is only supported in vue@2.5+.
 

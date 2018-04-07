@@ -26,7 +26,7 @@ describeWithShallowAndMount('scopedSlots', (mountingMethod) => {
           }
         })
       }
-      const message = '[vue-test-utils]: scopedSlots option does not support template tag.'
+      const message = '[vue-test-utils]: the scopedSlots option does not support a template tag as the root element.'
       expect(fn).to.throw().with.property('message', message)
     }
   )
@@ -40,7 +40,7 @@ describeWithShallowAndMount('scopedSlots', (mountingMethod) => {
           }
         })
       }
-      const message = '[vue-test-utils]: scopedSlots option supports vue@2.5+.'
+      const message = '[vue-test-utils]: the scopedSlots option is only supported in vue@2.5+.'
       expect(fn).to.throw().with.property('message', message)
     }
   )

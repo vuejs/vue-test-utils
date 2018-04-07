@@ -77,7 +77,7 @@ export default function createInstance (
       // $FlowIgnore
       addScopedSlots(vm, options.scopedSlots)
     } else {
-      throwError('scopedSlots option supports vue@2.5+.')
+      throwError('the scopedSlots option is only supported in vue@2.5+.')
     }
   }
 
