@@ -27,19 +27,11 @@ export function isVueComponent (component: any) {
     return true
   }
 
-  if (component === null) {
+  if (component === null || typeof component !== 'object') {
     return false
   }
 
-  if (typeof component !== 'object') {
-    return false
-  }
-
-  if (component.extends) {
-    return true
-  }
-
-  if (component._Ctor) {
+  if (component.extends || component._Ctor) {
     return true
   }
 
@@ -53,51 +45,18 @@ export function componentNeedsCompiling (component: Component) {
     !component.functional
 }
 
-export function isValidSelector (selector: any) {
-  if (isDomSelector(selector)) {
-    return true
-  }
-
-  if (isVueComponent(selector)) {
-    return true
-  }
-
-  if (isNameSelector(selector)) {
-    return true
-  }
-
-  return isRefSelector(selector)
-}
-
 export function isRefSelector (refOptionsObject: any) {
-  if (typeof refOptionsObject !== 'object') {
+  if (typeof refOptionsObject !== 'object' || !Object.keys(refOptionsObject || {}).length) {
     return false
   }
 
-  if (refOptionsObject === null) {
-    return false
-  }
-
-  const validFindKeys = ['ref']
-  const keys = Object.keys(refOptionsObject)
-  if (!keys.length) {
-    return false
-  }
-
-  const isValid = Object.keys(refOptionsObject).every((key) => {
-    return validFindKeys.includes(key) &&
-      typeof refOptionsObject[key] === 'string'
-  })
-
-  return isValid
+  return Object
+    .keys(refOptionsObject)
+    .every(key => ['ref'].includes(key) && typeof refOptionsObject[key] === 'string')
 }
 
 export function isNameSelector (nameOptionsObject: any) {
-  if (typeof nameOptionsObject !== 'object') {
-    return false
-  }
-
-  if (nameOptionsObject === null) {
+  if (typeof nameOptionsObject !== 'object' || nameOptionsObject === null) {
     return false
   }
 
