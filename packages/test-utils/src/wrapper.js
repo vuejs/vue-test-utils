@@ -17,7 +17,9 @@ import WrapperArray from './wrapper-array'
 import ErrorWrapper from './error-wrapper'
 import {
   throwError,
-  warn
+  warn,
+  isString,
+  isFunction
 } from 'shared/util'
 import findAll from './find'
 import createWrapper from './create-wrapper'
@@ -168,11 +170,11 @@ export default class Wrapper implements BaseWrapper {
   hasAttribute (attribute: string, value: string) {
     warn('hasAttribute() has been deprecated and will be removed in version 1.0.0. Use attributes() instead—https://vue-test-utils.vuejs.org/en/api/wrapper/attributes')
 
-    if (typeof attribute !== 'string') {
+    if (!isString(attribute)) {
       throwError('wrapper.hasAttribute() must be passed attribute as a string')
     }
 
-    if (typeof value !== 'string') {
+    if (!isString(value)) {
       throwError('wrapper.hasAttribute() must be passed value as a string')
     }
 
@@ -186,7 +188,7 @@ export default class Wrapper implements BaseWrapper {
     warn('hasClass() has been deprecated and will be removed in version 1.0.0. Use classes() instead—https://vue-test-utils.vuejs.org/en/api/wrapper/classes')
     let targetClass = className
 
-    if (typeof targetClass !== 'string') {
+    if (!isString(targetClass)) {
       throwError('wrapper.hasClass() must be passed a string')
     }
 
@@ -211,7 +213,7 @@ export default class Wrapper implements BaseWrapper {
     if (!this.isVueComponent) {
       throwError('wrapper.hasProp() must be called on a Vue instance')
     }
-    if (typeof prop !== 'string') {
+    if (!isString(prop)) {
       throwError('wrapper.hasProp() must be passed prop as a string')
     }
 
@@ -229,11 +231,11 @@ export default class Wrapper implements BaseWrapper {
   hasStyle (style: string, value: string) {
     warn('hasStyle() has been deprecated and will be removed in version 1.0.0. Use wrapper.element.style instead')
 
-    if (typeof style !== 'string') {
+    if (!isString(style)) {
       throwError('wrapper.hasStyle() must be passed style as a string')
     }
 
-    if (typeof value !== 'string') {
+    if (!isString(value)) {
       throwError('wrapper.hasClass() must be passed value as string')
     }
 
@@ -561,7 +563,7 @@ export default class Wrapper implements BaseWrapper {
    * Dispatches a DOM event on wrapper
    */
   trigger (type: string, options: Object = {}) {
-    if (typeof type !== 'string') {
+    if (!isString(type)) {
       throwError('wrapper.trigger() must be passed a string')
     }
 
@@ -601,7 +603,7 @@ export default class Wrapper implements BaseWrapper {
     let eventObject
 
     // Fallback for IE10,11 - https://stackoverflow.com/questions/26596123
-    if (typeof (window.Event) === 'function') {
+    if (isFunction(window.Event)) {
       eventObject = new window.Event(event[0], {
         bubbles: true,
         cancelable: true
