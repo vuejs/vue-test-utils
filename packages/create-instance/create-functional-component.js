@@ -1,7 +1,7 @@
 // @flow
 
 import { compileToFunctions } from 'vue-template-compiler'
-import { throwError } from 'shared/util'
+import { throwError, isFunction, isString } from 'shared/util'
 import { validateSlots } from './validate-slots'
 
 function createFunctionalSlots (slots = {}, h) {
@@ -16,7 +16,7 @@ function createFunctionalSlots (slots = {}, h) {
   Object.keys(slots).forEach(slotType => {
     if (Array.isArray(slots[slotType])) {
       slots[slotType].forEach(slot => {
-        const component = typeof slot === 'string' ? compileToFunctions(slot) : slot
+        const component = isString(slot) ? compileToFunctions(slot) : slot
         const newSlot = h(component)
         newSlot.data.slot = slotType
         children.push(newSlot)
@@ -44,7 +44,7 @@ export default function createFunctionalComponent (component: Component, mountin
       return h(
         component,
         mountingOptions.context || component.FunctionalRenderContext,
-        (mountingOptions.context && mountingOptions.context.children && mountingOptions.context.children.map(x => typeof x === 'function' ? x(h) : x)) || createFunctionalSlots(mountingOptions.slots, h)
+        (mountingOptions.context && mountingOptions.context.children && mountingOptions.context.children.map(x => isFunction(x) ? x(h) : x)) || createFunctionalSlots(mountingOptions.slots, h)
       )
     },
     name: component.name,

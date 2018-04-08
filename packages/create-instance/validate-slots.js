@@ -1,9 +1,9 @@
 // @flow
 
-import { throwError } from 'shared/util'
+import { throwError, isString } from 'shared/util'
 
 function isValidSlot (slot: any): boolean {
-  return Array.isArray(slot) || (slot !== null && typeof slot === 'object') || typeof slot === 'string'
+  return Array.isArray(slot) || (slot !== null && typeof slot === 'object') || isString(slot)
 }
 
 export function validateSlots (slots: Object): void {
