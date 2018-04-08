@@ -61,7 +61,7 @@ describeWithShallowAndMount('scopedSlots', (mountingMethod) => {
     }
   )
 
-  itDoNotRunIf(!window.navigator.userAgent.match(/PhantomJS/i),
+  itDoNotRunIf(vueVersion < 2.5,
     'throws exception when using PhantomJS', () => {
       if (window.navigator.userAgent.match(/Chrome/i)) {
         return
