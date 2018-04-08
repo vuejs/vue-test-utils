@@ -76,7 +76,7 @@ describeWithMountingMethods('options.slots', (mountingMethod) => {
       return
     }
     window = { navigator: { userAgent: 'PhantomJS' }} // eslint-disable-line no-native-reassign
-    const message = '[vue-test-utils]: option.slots does not support strings in PhantomJS. Please use Puppeteer, or pass a component'
+    const message = '[vue-test-utils]: the slots option does not support strings in PhantomJS. Please use Puppeteer, or pass a component.'
     const fn = () => mountingMethod(ComponentWithSlots, { slots: { default: 'foo' }})
     expect(fn).to.throw().with.property('message', message)
   })

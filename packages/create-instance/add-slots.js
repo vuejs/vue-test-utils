@@ -11,7 +11,7 @@ function addSlotToVm (vm: Component, slotName: string, slotValue: Component | st
       throwError('vueTemplateCompiler is undefined, you must pass components explicitly if vue-template-compiler is undefined')
     }
     if (window.navigator.userAgent.match(/PhantomJS/i)) {
-      throwError('option.slots does not support strings in PhantomJS. Please use Puppeteer, or pass a component')
+      throwError('the slots option does not support strings in PhantomJS. Please use Puppeteer, or pass a component.')
     }
     const domParser = new window.DOMParser()
     const document = domParser.parseFromString(slotValue, 'text/html')

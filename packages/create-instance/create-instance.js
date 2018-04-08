@@ -60,20 +60,33 @@ export default function createInstance (
   addListeners(vm, options.listeners)
 
   if (options.scopedSlots) {
+    if (window.navigator.userAgent.match(/PhantomJS/i)) {
+      throwError('the scopedSlots option does not support strings in PhantomJS. Please use Puppeteer, or pass a component.')
+    }
     const vueVersion = Number(`${Vue.version.split('.')[0]}.${Vue.version.split('.')[1]}`)
     if (vueVersion >= 2.5) {
       vm.$_vueTestUtils_scopedSlots = {}
+      vm.$_vueTestUtils_slotScopes = {}
       const renderSlot = vm._renderProxy._t
+
       vm._renderProxy._t = function (name, feedback, props, bindObject) {
         const scopedSlotFn = vm.$_vueTestUtils_scopedSlots[name]
+        const slotScope = vm.$_vueTestUtils_slotScopes[name]
         if (scopedSlotFn) {
           props = { ...bindObject, ...props }
-          vm._renderProxy.props = props
-          return scopedSlotFn.call(vm._renderProxy)
+          const proxy = {}
+          Object.keys(vm._renderProxy).concat(Object.keys(Vue.prototype)).forEach((key) => {
+            if (key[0] === '_') {
+              proxy[key] = vm._renderProxy[key]
+            }
+          })
+          proxy[slotScope] = props
+          return scopedSlotFn.call(proxy)
         } else {
           return renderSlot.call(vm._renderProxy, name, feedback, props, bindObject)
         }
       }
+
       // $FlowIgnore
       addScopedSlots(vm, options.scopedSlots)
     } else {

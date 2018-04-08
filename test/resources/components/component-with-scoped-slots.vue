@@ -1,8 +1,15 @@
 <template>
   <div>
-    <div id="scopedSlots">
-      <slot name="item"
-            v-for="(item, index) in items"
+    <div id="foo">
+      <slot name="foo"
+            v-for="(item, index) in foo"
+            :text="item.text"
+            :index="index">
+      </slot>
+    </div>
+    <div id="bar">
+      <slot name="bar"
+            v-for="(item, index) in bar"
             :text="item.text"
             :index="index">
       </slot>
@@ -18,7 +25,8 @@
     name: 'component-with-scoped-slots',
     data () {
       return {
-        items: [{ text: 'a1' }, { text: 'a2' }, { text: 'a3' }]
+        foo: [{ text: 'a1' }, { text: 'a2' }, { text: 'a3' }],
+        bar: [{ text: 'A1' }, { text: 'A2' }, { text: 'A3' }]
       }
     }
   }
