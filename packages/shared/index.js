@@ -1,4 +1,3 @@
-export * from './add-slots'
 export * from './compile-template'
 export * from './stub-components'
 export * from './util'
