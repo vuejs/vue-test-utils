@@ -5,17 +5,14 @@ import { compileToFunctions } from 'vue-template-compiler'
 import { throwError } from './util'
 import { componentNeedsCompiling } from './validators'
 import { compileTemplate } from './compile-template'
-import { capitalize, camelize, hyphenate } from './util'
+import { capitalize, camelize, hyphenate, isString } from './util'
 
 function isVueComponent (comp) {
   return comp && (comp.render || comp.template || comp.options)
 }
 
 function isValidStub (stub: any) {
-  return !!stub &&
-      typeof stub === 'string' ||
-      (stub === true) ||
-      (isVueComponent(stub))
+  return isString(stub) || (stub === true) || isVueComponent(stub)
 }
 
 function isRequiredComponent (name) {

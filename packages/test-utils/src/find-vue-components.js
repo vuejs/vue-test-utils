@@ -4,7 +4,8 @@ import {
   VUE_VERSION
 } from './consts'
 import {
-  throwError
+  throwError,
+  isFunction
 } from 'shared/util'
 
 export function findAllVueComponentsFromVm (
@@ -99,7 +100,7 @@ export default function findVueComponents (
       node[FUNCTIONAL_OPTIONS].name === selector.name
     )
   }
-  const nameSelector = typeof selector === 'function' ? selector.options.name : selector.name
+  const nameSelector = isFunction(selector) ? selector.options.name : selector.name
   const components = root._isVue
     ? findAllVueComponentsFromVm(root)
     : findAllVueComponentsFromVnode(root)

@@ -1,5 +1,5 @@
 // @flow
-import { throwError } from './util'
+import { throwError, isFunction } from './util'
 
 export function isDomSelector (selector: any) {
   if (typeof selector !== 'string') {
@@ -23,7 +23,7 @@ export function isDomSelector (selector: any) {
 }
 
 export function isVueComponent (component: any) {
-  if (typeof component === 'function' && component.options) {
+  if (isFunction(component) && component.options) {
     return true
   }
 
@@ -35,7 +35,7 @@ export function isVueComponent (component: any) {
     return true
   }
 
-  return typeof component.render === 'function'
+  return isFunction(component.render)
 }
 
 export function componentNeedsCompiling (component: Component) {

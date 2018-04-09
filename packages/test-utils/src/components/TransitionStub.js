@@ -1,6 +1,6 @@
 // @flow
 
-import { warn } from 'shared/util'
+import { warn, isString } from 'shared/util'
 
 function getRealChild (vnode: ?VNode): ?VNode {
   const compOptions = vnode && vnode.componentOptions
@@ -28,7 +28,7 @@ function getFirstComponentChild (children: ?Array<VNode>): ?VNode {
 
 function isPrimitive (value: any): boolean {
   return (
-    typeof value === 'string' ||
+    isString(value) ||
     typeof value === 'number' ||
     // $FlowIgnore
     typeof value === 'symbol' ||

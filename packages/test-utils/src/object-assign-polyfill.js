@@ -1,4 +1,6 @@
-if (typeof Object.assign !== 'function') {
+import { isFunction } from 'shared/util'
+
+if (!isFunction(Object.assign)) {
   (function () {
     Object.assign = function (target) {
       'use strict'
