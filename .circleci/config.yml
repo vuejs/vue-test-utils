@@ -70,7 +70,7 @@ jobs:
           command: yarn test:compat
 workflows:
   version: 2
-  install-lint-test:
+  install-tests:
     jobs:
       - install
       - bootstrap:
@@ -85,4 +85,3 @@ workflows:
       - test_compat:
           requires:
             - install
-
