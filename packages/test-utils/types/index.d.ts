@@ -39,6 +39,13 @@ type RefSelector = {
 }
 
 /**
+ * Utility type for name options object that can be used as a Selector
+ */
+type NameSelector = {
+  name: string
+}
+
+/**
  * Base class of Wrapper and WrapperArray
  * It has common methods on both Wrapper and WrapperArray
  */
@@ -61,7 +68,6 @@ interface BaseWrapper {
   isEmpty (): boolean
   isVueInstance (): boolean
 
-  update (): void
   setComputed (computed: object): void
   setData (data: object): void
   setMethods (data: object): void
@@ -80,12 +86,14 @@ export interface Wrapper<V extends Vue> extends BaseWrapper {
   find (selector: FunctionalComponentOptions): Wrapper<Vue>
   find (selector: string): Wrapper<Vue>
   find (selector: RefSelector): Wrapper<Vue>
+  find (selector: NameSelector): Wrapper<Vue>
 
   findAll<R extends Vue> (selector: VueClass<R>): WrapperArray<R>
   findAll<R extends Vue> (selector: ComponentOptions<R>): WrapperArray<R>
   findAll (selector: FunctionalComponentOptions): WrapperArray<Vue>
   findAll (selector: string): WrapperArray<Vue>
   findAll (selector: RefSelector): WrapperArray<Vue>
+  findAll (selector: NameSelector): WrapperArray<Vue>
 
   html (): string
   text (): string
@@ -116,6 +124,7 @@ interface MountOptions<V extends Vue> extends ComponentOptions<V> {
   stubs?: Stubs,
   attrs?: object
   listeners?: object
+  sync?: boolean
 }
 
 type ThisTypedMountOptions<V extends Vue> = MountOptions<V> & ThisType<V>

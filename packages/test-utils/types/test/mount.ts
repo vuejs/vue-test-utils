@@ -44,7 +44,8 @@ mount(ClassComponent, {
   },
   listeners: {
     listener: () => {}
-  }
+  },
+  sync: true
 })
 
 mount(functionalOptions, {
