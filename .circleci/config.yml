@@ -1,20 +1,88 @@
 version: 2
-jobs:
-  build:
-    docker:
-      - image: circleci/node:6.13.0-stretch-browsers
-    working_directory: ~/repo
 
+defaults: &defaults
+  working_directory: ~/repo/vue-test-utils
+  docker:
+    - image: circleci/node:6.13.0-stretch-browsers
+restore_node_modules: &restore_node_modules
+  restore_cache:
+    name: Restore node_modules cache
+    keys:
+      - v1-dependencies-{{ .Branch }}-{{ checksum "yarn.lock" }}
+      - v1-dependencies-{{ .Branch }}-
+      - v1-dependencies-
+jobs:
+  install:
+    <<: *defaults
     steps:
       - checkout
-      - run: yarn --version
-      - run: yarn
-      - run: yarn bootstrap
-      - run: yarn build:test
-      - run: yarn test
-      - run: yarn test:compat
-
+      - *restore_node_modules
+      - run:
+          name: yarn --version
+          command: yarn --version
+      - run:
+          name: yarn install
+          command: yarn install
       - save_cache:
+          name: Save dependencies cache
+          key: v1-dependencies-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "yarn.lock" }}
+            - node_modules/
+      - persist_to_workspace:
+          root: ~/repo
+          paths:
+            - vue-test-utils/
+  bootstrap:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - *restore_node_modules
+      - run:
+          name: yarn bootstrap
+          command: yarn bootstrap
+  build_test:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - *restore_node_modules
+      - run:
+          name: yarn build:test
+          command: yarn build:test
+  test:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - *restore_node_modules
+      - run:
+          name: yarn test
+          command: yarn test
+  test_compat:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - *restore_node_modules
+      - run:
+          name: yarn test:compat
+          command: yarn test:compat
+workflows:
+  version: 2
+  install-lint-test:
+    jobs:
+      - install
+      - bootstrap:
+          requires:
+            - install
+      - build_test:
+          requires:
+            - install
+      - test:
+          requires:
+            - install
+      - test_compat:
+          requires:
+            - install
+
