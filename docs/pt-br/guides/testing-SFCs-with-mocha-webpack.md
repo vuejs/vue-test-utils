@@ -165,7 +165,7 @@ describe('Contador.vue', () => {
 Agora nós podemos executar o teste usando:
 
 ```
-npm run unit
+npm run test
 ```
 
 Woohoo :o, nossos testes estão rodando!
