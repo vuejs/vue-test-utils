@@ -147,7 +147,7 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 - type: `boolean`
 - default: `false`
 
-Component will be attach to DOM when rendered if set to `true`.
+Component will be attached to DOM when rendered if set to `true`.
 
 ### `attrs`
 
