@@ -27,7 +27,4 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
   # publish
   git push
   npm publish
-
-  # generate release note
-  VERSION=$VERSION npm run release:note
 fi
