@@ -7,6 +7,7 @@
 * [Mounting Options](./options.md)
   - [context](./options.md#context)
   - [slots](./options.md#slots)
+  - [scopedSlots](./options.md#scopedslots)
   - [stubs](./options.md#stubs)
   - [mocks](./options.md#mocks)
   - [localVue](./options.md#localvue)

@@ -1,6 +1,8 @@
 // @flow
 
+import Vue from 'vue'
 import { addSlots } from './add-slots'
+import { addScopedSlots } from './add-scoped-slots'
 import addMocks from './add-mocks'
 import addAttrs from './add-attrs'
 import addListeners from './add-listeners'
@@ -56,6 +58,40 @@ export default function createInstance (
 
   addAttrs(vm, options.attrs)
   addListeners(vm, options.listeners)
+
+  if (options.scopedSlots) {
+    if (window.navigator.userAgent.match(/PhantomJS/i)) {
+      throwError('the scopedSlots option does not support PhantomJS. Please use Puppeteer, or pass a component.')
+    }
+    const vueVersion = Number(`${Vue.version.split('.')[0]}.${Vue.version.split('.')[1]}`)
+    if (vueVersion >= 2.5) {
+      vm.$_vueTestUtils_scopedSlots = {}
+      vm.$_vueTestUtils_slotScopes = {}
+      const renderSlot = vm._renderProxy._t
+
+      vm._renderProxy._t = function (name, feedback, props, bindObject) {
+        const scopedSlotFn = vm.$_vueTestUtils_scopedSlots[name]
+        const slotScope = vm.$_vueTestUtils_slotScopes[name]
+        if (scopedSlotFn) {
+          props = { ...bindObject, ...props }
+          const proxy = {}
+          const helpers = ['_c', '_o', '_n', '_s', '_l', '_t', '_q', '_i', '_m', '_f', '_k', '_b', '_v', '_e', '_u', '_g']
+          helpers.forEach((key) => {
+            proxy[key] = vm._renderProxy[key]
+          })
+          proxy[slotScope] = props
+          return scopedSlotFn.call(proxy)
+        } else {
+          return renderSlot.call(vm._renderProxy, name, feedback, props, bindObject)
+        }
+      }
+
+      // $FlowIgnore
+      addScopedSlots(vm, options.scopedSlots)
+    } else {
+      throwError('the scopedSlots option is only supported in vue@2.5+.')
+    }
+  }
 
   if (options.slots) {
     addSlots(vm, options.slots)

@@ -33,6 +33,9 @@ mount(ClassComponent, {
     foo: [normalOptions, functionalOptions],
     bar: ClassComponent
   },
+  scopedSlots: {
+    baz: `<div>Baz</div>`
+  },
   stubs: {
     foo: normalOptions,
     bar: functionalOptions,
