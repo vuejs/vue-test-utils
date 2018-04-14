@@ -74,7 +74,7 @@ describeWithShallowAndMount('scopedSlots', (mountingMethod) => {
           }
         })
       }
-      const message = '[vue-test-utils]: the scopedSlots option does not support in PhantomJS. Please use Puppeteer, or pass a component.'
+      const message = '[vue-test-utils]: the scopedSlots option does not support PhantomJS. Please use Puppeteer, or pass a component.'
       expect(fn).to.throw().with.property('message', message)
     }
   )
