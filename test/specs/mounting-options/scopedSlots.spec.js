@@ -34,7 +34,7 @@ describeWithShallowAndMount('scopedSlots', (mountingMethod) => {
   )
 
   itDoNotRunIf(vueVersion < 2.5,
-    'throws exception when it is seted to template tag at top', () => {
+    'throws exception when it is seted to a template tag at top', () => {
       const fn = () => {
         mountingMethod(ComponentWithScopedSlots, {
           scopedSlots: {
@@ -74,7 +74,7 @@ describeWithShallowAndMount('scopedSlots', (mountingMethod) => {
           }
         })
       }
-      const message = '[vue-test-utils]: the scopedSlots option does not support strings in PhantomJS. Please use Puppeteer, or pass a component.'
+      const message = '[vue-test-utils]: the scopedSlots option does not support in PhantomJS. Please use Puppeteer, or pass a component.'
       expect(fn).to.throw().with.property('message', message)
     }
   )

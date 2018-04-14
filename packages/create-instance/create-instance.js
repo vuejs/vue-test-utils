@@ -61,7 +61,7 @@ export default function createInstance (
 
   if (options.scopedSlots) {
     if (window.navigator.userAgent.match(/PhantomJS/i)) {
-      throwError('the scopedSlots option does not support strings in PhantomJS. Please use Puppeteer, or pass a component.')
+      throwError('the scopedSlots option does not support in PhantomJS. Please use Puppeteer, or pass a component.')
     }
     const vueVersion = Number(`${Vue.version.split('.')[0]}.${Vue.version.split('.')[1]}`)
     if (vueVersion >= 2.5) {

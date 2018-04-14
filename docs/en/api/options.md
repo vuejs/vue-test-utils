@@ -67,7 +67,7 @@ You can pass text to `slots`.
 There is a limitation to this.
 
 This does not support PhantomJS.  
-Please use [Puppeteer](https://github.com/karma-runner/karma-chrome-launcher#headless-chromium-with-puppeteer).
+You can use [Puppeteer](https://github.com/karma-runner/karma-chrome-launcher#headless-chromium-with-puppeteer) as an alternative.
 
 ### `scopedSlots`
 
@@ -82,7 +82,7 @@ There are three limitations.
 * You can not use `<template>` tag as the root element in the `scopedSlots` option.
 
 * This does not support PhantomJS.  
-Please use [Puppeteer](https://github.com/karma-runner/karma-chrome-launcher#headless-chromium-with-puppeteer).
+You can use [Puppeteer](https://github.com/karma-runner/karma-chrome-launcher#headless-chromium-with-puppeteer) as an alternative.
 
 Example:
 
