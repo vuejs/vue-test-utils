@@ -266,7 +266,7 @@ describe('Modules.vue', () => {
 
 Vuex ストアをテストする方法が2つあります。1つ目はゲッタとミューテーションとアクションを別々に単体テストする方法です。2つ目はストアを生成してそれをテストする方法です。
 
-Vuex ストアをテストする方法を説明するためにシンプルなカウンターストアを用意します。このストアには `increment` ミューテーションと `counter` ゲッタがあります。
+Vuex ストアをテストする方法を説明するためにシンプルなカウンターストアを用意します。このストアには `increment` ミューテーションと `evenOrOdd` ゲッタがあります。
 
 ```js
 // mutations.js
@@ -322,7 +322,7 @@ test('evenOrOdd returns even if state.count is even', () => {
   expect(getters.evenOrOdd(state)).toBe('even')
 })
 
-test('evenOrOdd returns odd if state.count is even', () => {
+test('evenOrOdd returns odd if state.count is odd', () => {
   const state = {
     count: 1
   }

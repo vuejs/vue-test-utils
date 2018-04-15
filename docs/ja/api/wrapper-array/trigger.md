@@ -1,11 +1,12 @@
-# trigger(eventName)
+# trigger(eventName [, options])
 
 `WrapperArray` の DOM ノードのすべての `Wrapper` でイベントを発火します。
 
 **すべての `Wrapper` は Vue インスタンスを含んでいなければならないことに注意してください。**
 
 - **引数:**
-  - `{string} eventName
+  - `{string} eventName` **必須**
+  - `{Object} options` **オプション**
 
 - **例:**
 

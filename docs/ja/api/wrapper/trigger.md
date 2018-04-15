@@ -1,12 +1,12 @@
-# trigger(eventName)
+# trigger(eventType [, options ])
 
 `Wrapper` DOM ノードのイベントを発火します。
 
 Triggerは `options` オブジェクト形式で行います。`options` オブジェクトのプロパティがイベントに追加されます。
 
 - **引数:**
-  - `{string} eventName`
-  - `{Object} options`
+  - `{string} eventName` **必須**
+  - `{Object} options` **オプション**
 
 - **例:**
 
