@@ -1,12 +1,12 @@
-# `trigger(eventName)`
+# `trigger(eventType [, options ])`
 
 Triggers an event on the `Wrapper` DOM node.
 
 `trigger` takes an optional `options` object. The properties in the `options` object are added to the Event.
 
 - **Arguments:**
-  - `{string} eventName`
-  - `{Object} options`
+  - `{string} eventType` **required**
+  - `{Object} options`  **optional**
 
 - **Example:**
 
