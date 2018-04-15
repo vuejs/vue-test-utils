@@ -37,7 +37,7 @@ Example:
 ```js
 import VueTestUtils from '@vue/test-utils'
 
-VueTestUtils.config.stubs['$store'] = {
+VueTestUtils.config.mocks['$store'] = {
   state: {
     id: 1
   }
