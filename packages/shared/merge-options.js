@@ -1,32 +1,16 @@
 // @flow
 
-function getStubs (optionStubs, config) {
-  if (optionStubs ||
-    (config.stubs && Object.keys(config.stubs).length > 0)) {
-    if (Array.isArray(optionStubs)) {
+function getOptions (key, options, config) {
+  if (options ||
+    (config[key] && Object.keys(config[key]).length > 0)) {
+    if (Array.isArray(options)) {
       return [
-        ...optionStubs,
-        ...Object.keys(config.stubs || {})]
+        ...options,
+        ...Object.keys(config[key] || {})]
     } else {
       return {
-        ...config.stubs,
-        ...optionStubs
-      }
-    }
-  }
-}
-
-function getMocks (optionMocks, config) {
-  if (optionMocks ||
-    (config.mocks && Object.keys(config.mocks).length > 0)) {
-    if (Array.isArray(optionMocks)) {
-      return [
-        ...optionMocks,
-        ...Object.keys(config.mocks || {})]
-    } else {
-      return {
-        ...config.mocks,
-        ...optionMocks
+        ...config[key],
+        ...options
       }
     }
   }
@@ -38,7 +22,8 @@ export function mergeOptions (
 ): Options {
   return {
     ...options,
-    stubs: getStubs(options.stubs, config),
-    mocks: getMocks(options.mocks, config)
+    stubs: getOptions('stubs', options.stubs, config),
+    mocks: getOptions('mocks', options.mocks, config)
   }
 }
+
