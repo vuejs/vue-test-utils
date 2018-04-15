@@ -16,12 +16,29 @@ function getStubs (optionStubs, config) {
   }
 }
 
+function getMocks (optionMocks, config) {
+  if (optionMocks ||
+    (config.mocks && Object.keys(config.mocks).length > 0)) {
+    if (Array.isArray(optionMocks)) {
+      return [
+        ...optionMocks,
+        ...Object.keys(config.mocks || {})]
+    } else {
+      return {
+        ...config.mocks,
+        ...optionMocks
+      }
+    }
+  }
+}
+
 export function mergeOptions (
   options: Options,
   config: Options
 ): Options {
   return {
     ...options,
-    stubs: getStubs(options.stubs, config)
+    stubs: getStubs(options.stubs, config),
+    mocks: getMocks(options.mocks, config)
   }
 }
