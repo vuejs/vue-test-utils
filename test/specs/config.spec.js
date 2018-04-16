@@ -57,6 +57,21 @@ describe('config', () => {
     localVue.prototype.$t = undefined
   })
 
+  it('overrides a method', () => {
+    const testComponent = {
+      template: `
+        <div>{{ val() }}</div>
+      `
+    }
+
+    config.methods['val'] = () => 'method'
+
+    const wrapper = mount(testComponent)
+
+    expect(wrapper.vm.val()).to.equal('method')
+    expect(wrapper.text()).to.equal('method')
+  })
+
   it('doesn\'t stub transition when config.stubs.transition is set to false', () => {
     const testComponent = {
       template: `

@@ -23,7 +23,8 @@ export function mergeOptions (
   return {
     ...options,
     stubs: getOptions('stubs', options.stubs, config),
-    mocks: getOptions('mocks', options.mocks, config)
+    mocks: getOptions('mocks', options.mocks, config),
+    methods: getOptions('methods', options.methods, config)
   }
 }
 

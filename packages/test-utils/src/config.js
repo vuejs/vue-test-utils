@@ -6,5 +6,6 @@ export default {
     transition: TransitionStub,
     'transition-group': TransitionGroupStub
   },
-  mocks: {}
+  mocks: {},
+  methods: {}
 }
