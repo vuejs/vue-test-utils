@@ -92,7 +92,7 @@ expect(wrapper.find('#fooWrapper').html()).toBe('<div id="fooWrapper"><p>0,text1
 
 - type: `{ [name: string]: Component | boolean } | Array<string>`
 
-子のコンポーネントをスタブします。スタブまたはオブジェクトに対するコンポーネント名の配列になります。  
+子コンポーネントをスタブします。スタブまたはオブジェクトに対するコンポーネント名の配列になります。  
 `stubs` が配列の場合、すべてのスタブは `<!---->` になります。
 
 例:
