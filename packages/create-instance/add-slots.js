@@ -1,12 +1,12 @@
 // @flow
 
 import { compileToFunctions } from 'vue-template-compiler'
-import { throwError } from 'shared/util'
+import { throwError, isString } from 'shared/util'
 import { validateSlots } from './validate-slots'
 
 function addSlotToVm (vm: Component, slotName: string, slotValue: Component | string | Array<Component> | Array<string>): void {
   let elem
-  if (typeof slotValue === 'string') {
+  if (isString(slotValue)) {
     if (!compileToFunctions) {
       throwError('vueTemplateCompiler is undefined, you must pass components explicitly if vue-template-compiler is undefined')
     }
