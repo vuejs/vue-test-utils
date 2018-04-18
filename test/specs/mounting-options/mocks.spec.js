@@ -7,19 +7,15 @@ import {
 } from '~resources/utils'
 
 describeWithMountingMethods('options.mocks', (mountingMethod) => {
-  let configStubsSave
-  // let serverConfigSave
+  let configMocksSave
 
   beforeEach(() => {
-    configStubsSave = config.stubs
-    // serverConfigSave = serverConfig.stubs
-    config.stubs = {}
-    // serverConfig.stubs = {}
+    configMocksSave = config.mocks
+    config.mocks = {}
   })
 
   afterEach(() => {
-    config.stubs = configStubsSave
-    // serverConfig.stubs = serverConfigSave
+    config.mocks = configMocksSave
   })
 
   it('adds variables to vm when passed', () => {
@@ -145,7 +141,6 @@ describeWithMountingMethods('options.mocks', (mountingMethod) => {
   it('prioritize mounting options over config', () => {
     config.mocks['$global'] = 'globallyMockedValue'
 
-    const localVue = createLocalVue()
     const TestComponent = {
       template: `
         <div>{{ $global }}</div>
@@ -153,7 +148,6 @@ describeWithMountingMethods('options.mocks', (mountingMethod) => {
     }
 
     const wrapper = mountingMethod(TestComponent, {
-      localVue,
       mocks: {
         '$global': 'locallyMockedValue'
       }
