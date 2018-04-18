@@ -7,6 +7,7 @@
 * [挂载选项](./options.md)
   - [context](./options.md#context)
   - [slots](./options.md#slots)
+  - [scopedSlots](api/options.md#scopedslots)
   - [stubs](./options.md#stubs)
   - [mocks](./options.md#mocks)
   - [localVue](./options.md#localvue)
