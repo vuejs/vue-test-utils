@@ -2,7 +2,8 @@ import {
   mount,
   config,
   TransitionStub,
-  TransitionGroupStub
+  TransitionGroupStub,
+  createLocalVue
 } from '~vue/test-utils'
 
 describe('config', () => {
@@ -31,6 +32,44 @@ describe('config', () => {
     const wrapper = mount(testComponent)
     expect(wrapper.contains(TransitionStub)).to.equal(true)
     expect(wrapper.contains(TransitionGroupStub)).to.equal(true)
+  })
+
+  it('mocks a global variable', () => {
+    const localVue = createLocalVue()
+    const t = 'real value'
+    localVue.prototype.$t = t
+
+    const testComponent = {
+      template: `
+        <div>{{ $t }}</div>
+      `
+    }
+
+    config.mocks['$t'] = 'mock value'
+
+    const wrapper = mount(testComponent, {
+      localVue, t
+    })
+
+    expect(wrapper.vm.$t).to.equal('mock value')
+    expect(wrapper.text()).to.equal('mock value')
+
+    localVue.prototype.$t = undefined
+  })
+
+  it('overrides a method', () => {
+    const testComponent = {
+      template: `
+        <div>{{ val() }}</div>
+      `
+    }
+
+    config.methods['val'] = () => 'method'
+
+    const wrapper = mount(testComponent)
+
+    expect(wrapper.vm.val()).to.equal('method')
+    expect(wrapper.text()).to.equal('method')
   })
 
   it('doesn\'t stub transition when config.stubs.transition is set to false', () => {

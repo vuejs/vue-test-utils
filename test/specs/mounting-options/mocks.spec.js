@@ -1,4 +1,4 @@
-import { createLocalVue } from '~vue/test-utils'
+import { createLocalVue, config } from '~vue/test-utils'
 import Component from '~resources/components/component.vue'
 import ComponentWithVuex from '~resources/components/component-with-vuex.vue'
 import {
@@ -7,6 +7,17 @@ import {
 } from '~resources/utils'
 
 describeWithMountingMethods('options.mocks', (mountingMethod) => {
+  let configMocksSave
+
+  beforeEach(() => {
+    configMocksSave = config.mocks
+    config.mocks = {}
+  })
+
+  afterEach(() => {
+    config.mocks = configMocksSave
+  })
+
   it('adds variables to vm when passed', () => {
     const TestComponent = {
       template: `
@@ -125,6 +136,27 @@ describeWithMountingMethods('options.mocks', (mountingMethod) => {
     const msg = '[vue-test-utils]: could not overwrite property $store, this usually caused by a plugin that has added the property as a read-only value'
     expect(error.calledWith(msg)).to.equal(true)
     error.restore()
+  })
+
+  it('prioritize mounting options over config', () => {
+    config.mocks['$global'] = 'globallyMockedValue'
+
+    const TestComponent = {
+      template: `
+        <div>{{ $global }}</div>
+      `
+    }
+
+    const wrapper = mountingMethod(TestComponent, {
+      mocks: {
+        '$global': 'locallyMockedValue'
+      }
+    })
+    const HTML = mountingMethod.name === 'renderToString'
+      ? wrapper
+      : wrapper.html()
+    console.log(wrapper)
+    expect(HTML).to.contain('locallyMockedValue')
   })
 
   it('logs that a property cannot be overwritten if there are problems writing', () => {
