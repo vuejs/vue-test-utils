@@ -43,3 +43,20 @@ VueTestUtils.config.mocks['$store'] = {
   }
 }
 ```
+
+### `methods`
+
+- type: `Object`
+- default: `{}`
+
+You can configure default methods using the `config` object. This can be useful for plugins that inject methods to components, like [VeeValidate](https://vee-validate.logaretm.com/). You can override methods set in `config` by passing `methods` in the mounting options.
+
+Example:
+
+```js
+import VueTestUtils from '@vue/test-utils'
+
+VueTestUtils.config.methods['errors'] = () => {
+  any: () => false
+}  
+```
