@@ -46,13 +46,11 @@ export function componentNeedsCompiling (component: Component) {
 }
 
 export function isRefSelector (refOptionsObject: any) {
-  if (typeof refOptionsObject !== 'object' || !Object.keys(refOptionsObject || {}).length) {
+  if (typeof refOptionsObject !== 'object' || Object.keys(refOptionsObject || {}).length !== 1) {
     return false
   }
 
-  return Object
-    .keys(refOptionsObject)
-    .every(key => ['ref'].includes(key) && typeof refOptionsObject[key] === 'string')
+  return typeof refOptionsObject.ref === 'string'
 }
 
 export function isNameSelector (nameOptionsObject: any) {
