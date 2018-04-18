@@ -58,5 +58,5 @@ import VueTestUtils from '@vue/test-utils'
 
 VueTestUtils.config.methods['errors'] = () => {
   any: () => false
-}  
+}
 ```
