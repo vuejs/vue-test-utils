@@ -1,15 +1,11 @@
 const nodeExternals = require('webpack-node-externals')
+const webpack = require('webpack')
 const browser = process.env.TARGET === 'browser'
 const path = require('path')
 
 const projectRoot = path.resolve(__dirname, '../../')
-const isCoverage = process.env.NODE_ENV === 'coverage'
+
 const rules = [].concat(
-  isCoverage ? {
-    test: /\.js/,
-    include: path.resolve('dist'),
-    loader: 'istanbul-instrumenter-loader'
-  } : [],
   {
     test: /\.vue$/,
     loader: 'vue-loader'
@@ -41,5 +37,8 @@ module.exports = {
   node: {
     fs: 'empty',
     module: 'empty'
-  }
+  },
+  plugins: [
+    new webpack.EnvironmentPlugin(['TEST_ENV'])
+  ]
 }

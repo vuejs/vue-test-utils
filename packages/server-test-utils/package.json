@@ -37,6 +37,9 @@
     "rollup-plugin-node-resolve": "^3.0.3",
     "typescript": "^2.6.2"
   },
+  "dependencies": {
+    "@vue/test-utils": "1.0.0-beta.14"
+  },
   "peerDependencies": {
     "vue": "2.x",
     "vue-server-renderer": "2.x",

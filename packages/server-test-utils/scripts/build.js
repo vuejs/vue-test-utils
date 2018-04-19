@@ -35,7 +35,13 @@ const rollupOptions = process.env.NODE_ENV === 'test' ? rollupOptionsTest : roll
 rollupOptions.forEach(options => {
   rollup({
     input: resolve('src/index.js'),
-    external: ['vue', 'vue-template-compiler', 'vue-server-renderer', 'cheerio'],
+    external: [
+      'vue',
+      'vue-template-compiler',
+      'vue-server-renderer',
+      'cheerio',
+      '@vue/test-utils'
+    ],
     plugins: [
       flow(),
       json(),

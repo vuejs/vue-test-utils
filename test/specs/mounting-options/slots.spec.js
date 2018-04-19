@@ -9,15 +9,17 @@ import {
   itDoNotRunIf
 } from '~resources/utils'
 
-describeWithMountingMethods('options.slots', (mountingMethod) => {
+describeWithMountingMethods.only('options.slots', (mountingMethod) => {
   let _window
 
   beforeEach(() => {
-    _window = window
+    if (typeof window !== 'undefined') {
+      _window = window
+    }
   })
 
   afterEach(() => {
-    if (!window.navigator.userAgent.match(/Chrome/i)) {
+    if (typeof window !== 'undefined' && !window.navigator.userAgent.match(/Chrome/i)) {
       window = _window // eslint-disable-line no-native-reassign
     }
   })
@@ -50,36 +52,44 @@ describeWithMountingMethods('options.slots', (mountingMethod) => {
     }
   })
 
-  it('mounts component with default slot if passed string in slot object', () => {
-    const wrapper = mountingMethod(ComponentWithSlots, { slots: { default: '<span />' }})
-    if (mountingMethod.name === 'renderToString') {
-      expect(wrapper).contains('<span')
-    } else {
-      expect(wrapper.contains('span')).to.equal(true)
-    }
-  })
+  itDoNotRunIf(
+    process.env.TEST_ENV === 'node',
+    'mounts component with default slot if passed string in slot object', () => {
+      const wrapper = mountingMethod(ComponentWithSlots, { slots: { default: '<span />' }})
+      if (mountingMethod.name === 'renderToString') {
+        expect(wrapper).contains('<span')
+      } else {
+        expect(wrapper.contains('span')).to.equal(true)
+      }
+    })
 
-  it('works correctly with class component', () => {
-    if (vueVersion < 2.3) {
-      return
-    }
-    const wrapper = mountingMethod(ComponentAsAClass, { slots: { default: '<span />' }})
-    if (mountingMethod.name === 'renderToString') {
-      expect(wrapper).contains('<span')
-    } else {
-      expect(wrapper.contains('span')).to.equal(true)
-    }
-  })
+  itDoNotRunIf(
+    process.env.TEST_ENV === 'node' || vueVersion < 2.3,
+    'works correctly with class component', () => {
+      const wrapper = mountingMethod(ComponentAsAClass, { slots: { default: '<span />' }})
+      if (mountingMethod.name === 'renderToString') {
+        expect(wrapper).contains('<span')
+      } else {
+        expect(wrapper.contains('span')).to.equal(true)
+      }
+    })
 
-  it('throws error if the UserAgent is PhantomJS when passed string is in slot object', () => {
-    if (window.navigator.userAgent.match(/Chrome/i)) {
-      return
-    }
-    window = { navigator: { userAgent: 'PhantomJS' }} // eslint-disable-line no-native-reassign
-    const message = '[vue-test-utils]: the slots option does not support strings in PhantomJS. Please use Puppeteer, or pass a component.'
-    const fn = () => mountingMethod(ComponentWithSlots, { slots: { default: 'foo' }})
-    expect(fn).to.throw().with.property('message', message)
-  })
+  itDoNotRunIf(
+    typeof window === 'undefined' || window.navigator.userAgent.match(/Chrome/i),
+    'throws error if the UserAgent is PhantomJS when passed string is in slot object', () => {
+      window = { navigator: { userAgent: 'PhantomJS' }} // eslint-disable-line no-native-reassign
+      const message = '[vue-test-utils]: the slots option does not support strings in PhantomJS. Please use Puppeteer, or pass a component.'
+      const fn = () => mountingMethod(ComponentWithSlots, { slots: { default: 'foo' }})
+      expect(fn).to.throw().with.property('message', message)
+    })
+
+  itDoNotRunIf(
+    process.env.TEST_ENV !== 'node',
+    'throws error passed string is in slot object', () => {
+      const message = '[vue-test-utils]: the slots string option does not support strings in server-test-uitls.'
+      const fn = () => mountingMethod(ComponentWithSlots, { slots: { default: 'foo' }})
+      expect(fn).to.throw().with.property('message', message)
+    })
 
   it('mounts component with default slot if passed string in slot object', () => {
     if (mountingMethod.name === 'renderToString') {
@@ -119,23 +129,27 @@ describeWithMountingMethods('options.slots', (mountingMethod) => {
       require.cache[require.resolve('vue-template-compiler')].exports.compileToFunctions = compilerSave
     })
 
-  it('mounts component with default slot if passed string in slot array object', () => {
-    const wrapper = mountingMethod(ComponentWithSlots, { slots: { default: ['<span />'] }})
-    if (mountingMethod.name === 'renderToString') {
-      expect(wrapper).contains('<span')
-    } else {
-      expect(wrapper.contains('span')).to.equal(true)
-    }
-  })
+  itDoNotRunIf(
+    process.env.TEST_ENV === 'node',
+    'mounts component with default slot if passed string in slot array object', () => {
+      const wrapper = mountingMethod(ComponentWithSlots, { slots: { default: ['<span />'] }})
+      if (mountingMethod.name === 'renderToString') {
+        expect(wrapper).contains('<span')
+      } else {
+        expect(wrapper.contains('span')).to.equal(true)
+      }
+    })
 
-  it('mounts component with default slot if passed string in slot text array object', () => {
-    const wrapper = mountingMethod(ComponentWithSlots, { slots: { default: ['{{ foo }}<span>1</span>', 'bar'] }})
-    if (mountingMethod.name === 'renderToString') {
-      expect(wrapper).contains('<main>bar<span>1</span>bar</main>')
-    } else {
-      expect(wrapper.find('main').html()).to.equal('<main>bar<span>1</span>bar</main>')
-    }
-  })
+  itDoNotRunIf(
+    process.env.TEST_ENV === 'node',
+    'mounts component with default slot if passed string in slot text array object', () => {
+      const wrapper = mountingMethod(ComponentWithSlots, { slots: { default: ['{{ foo }}<span>1</span>', 'bar'] }})
+      if (mountingMethod.name === 'renderToString') {
+        expect(wrapper).contains('<main>bar<span>1</span>bar</main>')
+      } else {
+        expect(wrapper.find('main').html()).to.equal('<main>bar<span>1</span>bar</main>')
+      }
+    })
 
   itSkipIf(mountingMethod.name === 'renderToString',
     'throws error if passed string in default slot array vue-template-compiler is undefined', () => {
@@ -227,71 +241,80 @@ describeWithMountingMethods('options.slots', (mountingMethod) => {
     }
   })
 
-  it('mounts component with default slot if passed string in slot object', () => {
-    const TestComponent = {
-      name: 'component-with-slots',
-      functional: true,
-      render: (h, ctx) => h('div', ctx.data, ctx.slots().default)
-    }
-    const wrapper = mountingMethod(TestComponent, { slots: { default: '<span />' }})
-    if (mountingMethod.name === 'renderToString') {
-      expect(wrapper).contains('<span')
-    } else {
-      expect(wrapper.contains('span')).to.equal(true)
-    }
-  })
+  itDoNotRunIf(process.env.TEST_ENV === 'node',
+    'mounts component with default slot if passed string in slot object', () => {
+      const TestComponent = {
+        name: 'component-with-slots',
+        functional: true,
+        render: (h, ctx) => h('div', ctx.data, ctx.slots().default)
+      }
+      const wrapper = mountingMethod(TestComponent, { slots: { default: '<span />' }})
+      if (mountingMethod.name === 'renderToString') {
+        expect(wrapper).contains('<span')
+      } else {
+        expect(wrapper.contains('span')).to.equal(true)
+      }
+    })
 
-  it('mounts component with named slot if passed string in slot object', () => {
-    const TestComponent = {
-      functional: true,
-      render: (h, ctx) => h('div', {}, ctx.slots().named)
-    }
-    const wrapper = mountingMethod(TestComponent, { slots: { named: Component }})
-    if (mountingMethod.name === 'renderToString') {
-      expect(wrapper).contains('<div></div>')
-    } else {
-      expect(wrapper.contains(Component)).to.equal(true)
-    }
-  })
+  itDoNotRunIf(
+    process.env.TEST_ENV === 'node',
+    'mounts component with named slot if passed string in slot object', () => {
+      const TestComponent = {
+        functional: true,
+        render: (h, ctx) => h('div', {}, ctx.slots().named)
+      }
+      const wrapper = mountingMethod(TestComponent, { slots: { named: Component }})
+      if (mountingMethod.name === 'renderToString') {
+        expect(wrapper).contains('<div></div>')
+      } else {
+        expect(wrapper.contains(Component)).to.equal(true)
+      }
+    })
 
-  it('mounts component with named slot if passed string in slot object in array', () => {
-    const TestComponent = {
-      functional: true,
-      render: (h, ctx) => h('div', {}, ctx.slots().named)
-    }
-    const wrapper = mountingMethod(TestComponent, { slots: { named: [Component] }})
-    if (mountingMethod.name === 'renderToString') {
-      expect(wrapper).contains('<div></div>')
-    } else {
-      expect(wrapper.contains(Component)).to.equal(true)
-    }
-  })
+  itDoNotRunIf(
+    process.env.TEST_ENV === 'node',
+    'mounts component with named slot if passed string in slot object in array', () => {
+      const TestComponent = {
+        functional: true,
+        render: (h, ctx) => h('div', {}, ctx.slots().named)
+      }
+      const wrapper = mountingMethod(TestComponent, { slots: { named: [Component] }})
+      if (mountingMethod.name === 'renderToString') {
+        expect(wrapper).contains('<div></div>')
+      } else {
+        expect(wrapper.contains(Component)).to.equal(true)
+      }
+    })
 
-  it('mounts component with named slot if passed string in slot object in array', () => {
-    const TestComponent = {
-      functional: true,
-      render: (h, ctx) => h('div', {}, ctx.slots().named)
-    }
-    const wrapper = mountingMethod(TestComponent, { slots: { named: '<span />' }})
-    if (mountingMethod.name === 'renderToString') {
-      expect(wrapper).contains('<span')
-    } else {
-      expect(wrapper.contains('span')).to.equal(true)
-    }
-  })
+  itDoNotRunIf(
+    process.env.TEST_ENV === 'node',
+    'mounts component with named slot if passed string in slot object in array', () => {
+      const TestComponent = {
+        functional: true,
+        render: (h, ctx) => h('div', {}, ctx.slots().named)
+      }
+      const wrapper = mountingMethod(TestComponent, { slots: { named: '<span />' }})
+      if (mountingMethod.name === 'renderToString') {
+        expect(wrapper).contains('<span')
+      } else {
+        expect(wrapper.contains('span')).to.equal(true)
+      }
+    })
 
-  it('mounts component with named slot if passed string in slot object in array', () => {
-    const TestComponent = {
-      functional: true,
-      render: (h, ctx) => h('div', {}, ctx.slots().named)
-    }
-    const wrapper = mountingMethod(TestComponent, { slots: { named: ['<span />'] }})
-    if (mountingMethod.name === 'renderToString') {
-      expect(wrapper).contains('<span')
-    } else {
-      expect(wrapper.contains('span')).to.equal(true)
-    }
-  })
+  itDoNotRunIf(
+    process.env.TEST_ENV === 'node',
+    'mounts component with named slot if passed string in slot object in array', () => {
+      const TestComponent = {
+        functional: true,
+        render: (h, ctx) => h('div', {}, ctx.slots().named)
+      }
+      const wrapper = mountingMethod(TestComponent, { slots: { named: ['<span />'] }})
+      if (mountingMethod.name === 'renderToString') {
+        expect(wrapper).contains('<span')
+      } else {
+        expect(wrapper.contains('span')).to.equal(true)
+      }
+    })
 
   it('throws error if passed false for named slots', () => {
     const TestComponent = {

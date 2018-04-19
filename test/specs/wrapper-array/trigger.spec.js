@@ -1,11 +1,11 @@
 import { compileToFunctions } from 'vue-template-compiler'
-import { mount } from '~vue/test-utils'
 import ComponentWithEvents from '~resources/components/component-with-events.vue'
+import { describeWithShallowAndMount } from '~resources/utils'
 
-describe('trigger', () => {
+describeWithShallowAndMount('trigger', (mountingMethod) => {
   it('causes click handler to fire when wrapper.trigger("click") is called on a Component', () => {
     const clickHandler = sinon.stub()
-    const wrapper = mount(ComponentWithEvents, {
+    const wrapper = mountingMethod(ComponentWithEvents, {
       propsData: { clickHandler }
     })
     const buttonArr = wrapper.findAll('.click')
@@ -16,7 +16,7 @@ describe('trigger', () => {
 
   it('causes keydown handler to fire when wrapper.trigger("keydown") is fired on a Component', () => {
     const keydownHandler = sinon.stub()
-    const wrapper = mount(ComponentWithEvents, {
+    const wrapper = mountingMethod(ComponentWithEvents, {
       propsData: { keydownHandler }
     })
     wrapper.findAll('.keydown').trigger('keydown')
@@ -26,7 +26,7 @@ describe('trigger', () => {
 
   it('causes keydown handler to fire when wrapper.trigger("keydown.enter") is fired on a Component', () => {
     const keydownHandler = sinon.stub()
-    const wrapper = mount(ComponentWithEvents, {
+    const wrapper = mountingMethod(ComponentWithEvents, {
       propsData: { keydownHandler }
     })
     wrapper.findAll('.keydown-enter').trigger('keydown.enter')
@@ -35,7 +35,7 @@ describe('trigger', () => {
   })
 
   it('causes DOM to update after clickHandler method that changes components data is called', () => {
-    const wrapper = mount(ComponentWithEvents)
+    const wrapper = mountingMethod(ComponentWithEvents)
     const toggleArr = wrapper.findAll('.toggle')
     expect(toggleArr.hasClass('active')).to.equal(false)
     toggleArr.trigger('click')
@@ -43,7 +43,7 @@ describe('trigger', () => {
   })
 
   it('throws an error if type is not a string', () => {
-    const wrapper = mount(ComponentWithEvents)
+    const wrapper = mountingMethod(ComponentWithEvents)
     const invalidSelectors = [
       undefined, null, NaN, 0, 2, true, false, () => {}, {}, []
     ]
@@ -57,7 +57,7 @@ describe('trigger', () => {
   it('throws error if wrapper array contains no items', () => {
     const compiled = compileToFunctions('<div />')
     const message = '[vue-test-utils]: trigger cannot be called on 0 items'
-    const fn = () => mount(compiled).findAll('p').trigger('p')
+    const fn = () => mountingMethod(compiled).findAll('p').trigger('p')
     expect(fn).to.throw().with.property('message', message)
   })
 })

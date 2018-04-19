@@ -2,12 +2,16 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import Vuetify from 'vuetify'
 import VueRouter from 'vue-router'
-import { mount, createLocalVue } from '~vue/test-utils'
+import { createLocalVue } from '~vue/test-utils'
 import Component from '~resources/components/component.vue'
 import ComponentWithVuex from '~resources/components/component-with-vuex.vue'
 import ComponentWithRouter from '~resources/components/component-with-router.vue'
+import {
+  describeWithShallowAndMount,
+  itDoNotRunIf
+} from '~resources/utils'
 
-describe('createLocalVue', () => {
+describeWithShallowAndMount('createLocalVue', (mountingMethod) => {
   it('installs Vuex without polluting global Vue', () => {
     const localVue = createLocalVue()
     localVue.use(Vuex)
@@ -19,9 +23,9 @@ describe('createLocalVue', () => {
         increment () {}
       }
     })
-    const wrapper = mount(Component, { localVue, store })
+    const wrapper = mountingMethod(Component, { localVue, store })
     expect(wrapper.vm.$store).to.be.an('object')
-    const freshWrapper = mount(Component)
+    const freshWrapper = mountingMethod(Component)
     expect(typeof freshWrapper.vm.$store).to.equal('undefined')
   })
 
@@ -43,7 +47,7 @@ describe('createLocalVue', () => {
         }
       }
     })
-    const wrapper = mount(ComponentWithVuex, { localVue, store })
+    const wrapper = mountingMethod(ComponentWithVuex, { localVue, store })
     expect(wrapper.vm.$store).to.be.an('object')
     expect(wrapper.text()).to.equal('0 1')
     wrapper.trigger('click')
@@ -59,43 +63,45 @@ describe('createLocalVue', () => {
     const router = new VueRouter({
       routes
     })
-    const wrapper = mount(Component, { localVue, router })
+    const wrapper = mountingMethod(Component, { localVue, router })
     expect(wrapper.vm.$route).to.be.an('object')
-    const freshWrapper = mount(Component)
+    const freshWrapper = mountingMethod(Component)
     expect(typeof freshWrapper.vm.$route).to.equal('undefined')
   })
 
-  it('Router should work properly with local Vue', () => {
-    const localVue = createLocalVue()
-    localVue.use(VueRouter)
-    const routes = [
-      {
-        path: '/',
-        component: {
-          render: h => h('div', 'home')
+  itDoNotRunIf(
+    mountingMethod.name === 'shallow',
+    'Router should work properly with local Vue', () => {
+      const localVue = createLocalVue()
+      localVue.use(VueRouter)
+      const routes = [
+        {
+          path: '/',
+          component: {
+            render: h => h('div', 'home')
+          }
+        },
+        {
+          path: '/foo',
+          component: {
+            render: h => h('div', 'foo')
+          }
         }
-      },
-      {
-        path: '/foo',
-        component: {
-          render: h => h('div', 'foo')
-        }
-      }
-    ]
-    const router = new VueRouter({
-      routes
+      ]
+      const router = new VueRouter({
+        routes
+      })
+      const wrapper = mountingMethod(ComponentWithRouter, { localVue, router })
+      expect(wrapper.vm.$route).to.be.an('object')
+
+      expect(wrapper.text()).to.contain('home')
+
+      wrapper.find('a').trigger('click')
+      expect(wrapper.text()).to.contain('foo')
+
+      const freshWrapper = mountingMethod(Component)
+      expect(typeof freshWrapper.vm.$route).to.equal('undefined')
     })
-    const wrapper = mount(ComponentWithRouter, { localVue, router })
-    expect(wrapper.vm.$route).to.be.an('object')
-
-    expect(wrapper.text()).to.contain('home')
-
-    wrapper.find('a').trigger('click')
-    expect(wrapper.text()).to.contain('foo')
-
-    const freshWrapper = mount(Component)
-    expect(typeof freshWrapper.vm.$route).to.equal('undefined')
-  })
 
   it('use can take additional arguments', () => {
     const localVue = createLocalVue()

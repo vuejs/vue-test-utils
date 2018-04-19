@@ -1,4 +1,4 @@
-if (!Element.prototype.matches) {
+if (typeof Element !== 'undefined' && !Element.prototype.matches) {
   Element.prototype.matches =
         Element.prototype.matchesSelector ||
         Element.prototype.mozMatchesSelector ||

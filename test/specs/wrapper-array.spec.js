@@ -1,10 +1,10 @@
-import { mount } from '~vue/test-utils'
 import { compileToFunctions } from 'vue-template-compiler'
+import { describeWithShallowAndMount } from '~resources/utils'
 
-describe('WrapperArray', () => {
+describeWithShallowAndMount('WrapperArray', (mountingMethod) => {
   function getWrapperArray (wrappers) {
     const compiled = compileToFunctions('<div><p>1</p><p>2</p><p>3</p></div>')
-    const wrapper = mount(compiled)
+    const wrapper = mountingMethod(compiled)
     const wrapperArray = wrapper.findAll('p')
     expect(wrapperArray.constructor.name).to.equal('WrapperArray')
     if (wrappers) {
