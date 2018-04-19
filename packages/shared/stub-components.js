@@ -31,7 +31,7 @@ function createBlankStubs (components, addToIgnored = false) {
   return (Array.isArray(components) ? components : Object.keys(components || {}))
     .filter(name => !['KeepAlive', 'Transition', 'TransitionGroup'].includes(name))
     .reduce((stubs, name) => {
-      stubs[name] = createStub(components[name])
+      stubs[name] = createBlankStub(components[name])
       if (addToIgnored) addToIgnoredElements(name)
       return stubs
     }, {})
@@ -45,19 +45,18 @@ function createStubsFromObject (stubOptions, components) {
       const component = components[name] || {}
 
       if (stubValue === true) {
-        stubs[name] = createStub(component)
+        stubs[name] = createBlankStub(component)
       } else if (typeof stubValue === 'string') {
-        stubs[name] = createStub(component, compileToFunctions(stubValue))
+        stubs[name] = createStubFromTemplate(component, stubValue)
       } else {
-        if (componentNeedsCompiling(stubValue)) compileTemplate(stubValue)
-        stubs[name] = Object.assign({}, stubValue, component.name ? { name: component.name } : {})
+        stubs[name] = createStubFromComponent(stubValue, component.name)
       }
       addToIgnoredElements(name)
       return stubs
     }, {})
 }
 
-function createStub (component = {}, properties = {}) {
+function createBlankStub (component = {}) {
   return {
     attrs: component.attrs,
     name: component.name,
@@ -73,9 +72,20 @@ function createStub (component = {}, properties = {}) {
     normalizedStyle: component.normalizedStyle,
     nativeOn: component.nativeOn,
     functional: component.functional,
-    render: h => h(''),
-    ...properties
+    render: h => h('')
   }
+}
+
+function createStubFromTemplate (component, template) {
+  return {
+    ...createBlankStub(component),
+    ...compileToFunctions(template)
+  }
+}
+
+function createStubFromComponent (component, name) {
+  if (componentNeedsCompiling(component)) compileTemplate(component)
+  return Object.assign({}, component, name ? { name } : {})
 }
 
 function addToIgnoredElements (name) {
