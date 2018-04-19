@@ -17,10 +17,18 @@ import Foo from './Foo.vue'
 import Bar from './Bar.vue'
 
 const wrapper = mount(Foo)
+
 const div = wrapper.find('div')
 expect(div.is('div')).toBe(true)
+
 const bar = wrapper.find(Bar)
 expect(bar.is(Bar)).toBe(true)
+
+const barByName = wrapper.find({ name: 'bar' })
+expect(barByName.is(Bar)).toBe(true)
+
+const fooRef = wrapper.find({ ref: 'foo' })
+expect(fooRef.is(Foo)).toBe(true)
 ```
 
 - **延伸阅读：**[Wrapper](README.md)
