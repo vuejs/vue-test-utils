@@ -85,7 +85,7 @@ function createStubFromTemplate (component, template) {
 
 function createStubFromComponent (component, name) {
   if (componentNeedsCompiling(component)) compileTemplate(component)
-  return Object.assign({}, component, name ? { name } : {})
+  return name ? { ...component, name } : component
 }
 
 function addToIgnoredElements (name) {
