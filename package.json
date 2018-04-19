@@ -38,6 +38,7 @@
     "babel-preset-flow-vue": "^1.0.0",
     "babel-preset-stage-2": "^6.24.1",
     "chai": "^4.0.0",
+    "cheerio": "^1.0.0-rc.2",
     "cross-env": "^5.0.0",
     "css-loader": "^0.28.4",
     "eslint": "^4.18.1",
