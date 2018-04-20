@@ -9,7 +9,7 @@ import {
   itDoNotRunIf
 } from '~resources/utils'
 
-describeWithMountingMethods.only('options.slots', (mountingMethod) => {
+describeWithMountingMethods('options.slots', (mountingMethod) => {
   let _window
 
   beforeEach(() => {
