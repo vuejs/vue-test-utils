@@ -1,12 +1,7 @@
-import {
-  mount,
-  config,
-  TransitionStub,
-  TransitionGroupStub,
-  createLocalVue
-} from '~vue/test-utils'
+import { describeWithShallowAndMount, itDoNotRunIf } from '~resources/utils'
+import { config, TransitionStub, TransitionGroupStub, createLocalVue } from '~vue/test-utils'
 
-describe('config', () => {
+describeWithShallowAndMount('config', (mountingMethod) => {
   let configStubsSave
   beforeEach(() => {
     TransitionGroupStub.name = 'another-temp-name'
@@ -20,19 +15,20 @@ describe('config', () => {
     config.stubs = configStubsSave
   })
 
-  it('stubs transition and transition-group by default', () => {
-    const testComponent = {
-      template: `
+  itDoNotRunIf(mountingMethod.name === 'shallow',
+    'stubs transition and transition-group by default', () => {
+      const testComponent = {
+        template: `
         <div>
           <transition><p /></transition>
           <transition-group><p /><p /></transition-group>
         </div>
       `
-    }
-    const wrapper = mount(testComponent)
-    expect(wrapper.contains(TransitionStub)).to.equal(true)
-    expect(wrapper.contains(TransitionGroupStub)).to.equal(true)
-  })
+      }
+      const wrapper = mountingMethod(testComponent)
+      expect(wrapper.contains(TransitionStub)).to.equal(true)
+      expect(wrapper.contains(TransitionGroupStub)).to.equal(true)
+    })
 
   it('mocks a global variable', () => {
     const localVue = createLocalVue()
@@ -47,7 +43,7 @@ describe('config', () => {
 
     config.mocks['$t'] = 'mock value'
 
-    const wrapper = mount(testComponent, {
+    const wrapper = mountingMethod(testComponent, {
       localVue, t
     })
 
@@ -66,7 +62,7 @@ describe('config', () => {
 
     config.methods['val'] = () => 'method'
 
-    const wrapper = mount(testComponent)
+    const wrapper = mountingMethod(testComponent)
 
     expect(wrapper.vm.val()).to.equal('method')
     expect(wrapper.text()).to.equal('method')
@@ -81,7 +77,7 @@ describe('config', () => {
       `
     }
     config.stubs.transition = false
-    const wrapper = mount(testComponent)
+    const wrapper = mountingMethod(testComponent)
     expect(wrapper.contains(TransitionStub)).to.equal(false)
   })
 
@@ -94,7 +90,7 @@ describe('config', () => {
       `
     }
     config.stubs['transition-group'] = false
-    const wrapper = mount(testComponent)
+    const wrapper = mountingMethod(testComponent)
     expect(wrapper.contains(TransitionGroupStub)).to.equal(false)
   })
 
@@ -107,7 +103,7 @@ describe('config', () => {
         </div>
       `
     }
-    const wrapper = mount(testComponent)
+    const wrapper = mountingMethod(testComponent)
     expect(wrapper.contains(TransitionGroupStub)).to.equal(false)
     expect(wrapper.contains(TransitionStub)).to.equal(false)
   })
@@ -121,7 +117,7 @@ describe('config', () => {
         </div>
       `
     }
-    const wrapper = mount(testComponent)
+    const wrapper = mountingMethod(testComponent)
     expect(wrapper.contains(TransitionGroupStub)).to.equal(false)
     expect(wrapper.contains(TransitionStub)).to.equal(false)
   })

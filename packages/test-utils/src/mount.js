@@ -1,6 +1,5 @@
 // @flow
 
-import './warn-if-no-window'
 import './matches-polyfill'
 import './object-assign-polyfill'
 import Vue from 'vue'
@@ -12,12 +11,14 @@ import errorHandler from './error-handler'
 import { findAllVueComponentsFromVm } from './find-vue-components'
 import { mergeOptions } from 'shared/merge-options'
 import config from './config'
+import warnIfNoWindow from './warn-if-no-window'
 
 Vue.config.productionTip = false
 Vue.config.devtools = false
 Vue.config.errorHandler = errorHandler
 
 export default function mount (component: Component, options: Options = {}): VueWrapper {
+  warnIfNoWindow()
   // Remove cached constructor
   delete component._Ctor
   const vueClass = options.localVue || createLocalVue()

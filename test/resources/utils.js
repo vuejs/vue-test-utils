@@ -6,7 +6,10 @@ import { renderToString } from '~vue/server-test-utils'
 
 export const vueVersion = Number(`${Vue.version.split('.')[0]}.${Vue.version.split('.')[1]}`)
 
-export const isRunningJSDOM = navigator.userAgent.includes && navigator.userAgent.includes('jsdom')
+export const isRunningJSDOM =
+  typeof navigator !== 'undefined' &&
+  navigator.userAgent.includes &&
+  navigator.userAgent.includes('jsdom')
 
 export function injectSupported () {
   return vueVersion > 2.2
@@ -24,15 +27,20 @@ export function functionalSFCsSupported () {
   return vueVersion >= 2.5
 }
 
-const shallowAndMount = [mount, shallow]
-const shallowMountAndRender = isRunningJSDOM
-  ? [mount, shallow, renderToString]
+const shallowAndMount = process.env.TEST_ENV === 'node'
+  ? []
+  : [mount, shallow]
+console.log(shallowAndMount)
+const shallowMountAndRender = process.env.TEST_ENV === 'node'
+  ? [renderToString]
   : [mount, shallow]
 
 export function describeWithShallowAndMount (spec, cb) {
-  shallowAndMount.forEach(method => {
-    describe(`${spec} with ${method.name}`, () => cb(method))
-  })
+  if (shallowAndMount.length > 0) {
+    shallowAndMount.forEach(method => {
+      describe(`${spec} with ${method.name}`, () => cb(method))
+    })
+  }
 }
 
 describeWithShallowAndMount.skip = function (spec, cb) {
@@ -78,5 +86,11 @@ export function itDoNotRunIf (predicate, spec, cb) {
     () => {}
   } else {
     it(spec, cb)
+  }
+}
+
+export function describeIf (predicate, spec, cb) {
+  if (predicate) {
+    describe(spec, cb)
   }
 }

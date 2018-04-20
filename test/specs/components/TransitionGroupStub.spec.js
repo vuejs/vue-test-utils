@@ -1,9 +1,10 @@
 import ComponentWithTransitionGroup from '~resources/components/component-with-transition-group.vue'
-import { mount, TransitionGroupStub } from '~vue/test-utils'
+import { TransitionGroupStub } from '~vue/test-utils'
+import { describeWithShallowAndMount } from '~resources/utils'
 
-describe('TransitionGroupStub', () => {
+describeWithShallowAndMount('TransitionGroupStub', (mountingMethod) => {
   it('update synchronously when used as stubs for Transition', () => {
-    const wrapper = mount(ComponentWithTransitionGroup, {
+    const wrapper = mountingMethod(ComponentWithTransitionGroup, {
       stubs: {
         'transition-group': TransitionGroupStub
       }
@@ -34,7 +35,7 @@ describe('TransitionGroupStub', () => {
      </transition-group>
     `
     }
-    const wrapper = mount(TestComponent, {
+    const wrapper = mountingMethod(TestComponent, {
       stubs: {
         'transition-group': TransitionGroupStub
       }

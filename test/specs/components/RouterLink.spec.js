@@ -1,6 +1,7 @@
-import { mount, RouterLinkStub } from '~vue/test-utils'
+import { RouterLinkStub } from '~vue/test-utils'
+import { describeWithShallowAndMount } from '~resources/utils'
 
-describe('RouterLinkStub', () => {
+describeWithShallowAndMount('RouterLinkStub', (mountingMethod) => {
   it('takes correct props', () => {
     const TestComponent = {
       template: `
@@ -18,7 +19,7 @@ describe('RouterLinkStub', () => {
         </div>
       `
     }
-    const wrapper = mount(TestComponent, {
+    const wrapper = mountingMethod(TestComponent, {
       stubs: {
         RouterLink: RouterLinkStub
       }
@@ -42,7 +43,7 @@ describe('RouterLinkStub', () => {
         </div>
       `
     }
-    const wrapper = mount(TestComponent, {
+    const wrapper = mountingMethod(TestComponent, {
       stubs: {
         RouterLink: RouterLinkStub
       }
