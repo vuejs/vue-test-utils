@@ -38,8 +38,7 @@ expect(wrapper.is(Component)).toBe(true)
 
 - 型: `{ [name: string]: Array<Component>|Component|string }`
 
-コンポーネントにスロットコンテンツのオブジェクトを渡します。key はスロット名に対応します。  
-値は、コンポーネント、コンポーネントの配列、またはテンプレート文字列のいずれかになります。
+コンポーネントにスロットコンテンツのオブジェクトを渡します。key はスロット名に対応します。値は、コンポーネント、コンポーネントの配列、またはテンプレート文字列のいずれかになります。
 
 例:
 
@@ -60,14 +59,14 @@ expect(wrapper.find('div')).toBe(true)
 #### テキストを渡す
 
 テキストを値として `slots` に渡すことはできますが、1つ制限事項があります。  
-PhantomJS をサポートしません。代わりに [Puppeteer](https://github.com/karma-runner/karma-chrome-launcher#headless-chromium-with-puppeteer) を使用してください。
+PhantomJS をサポートしません。  
+代わりに [Puppeteer](https://github.com/karma-runner/karma-chrome-launcher#headless-chromium-with-puppeteer) を使用してください。
 
 ### `scopedSlots`
 
 - 型: `{ [name: string]: string }`
 
-コンポーネントにスコープ付きスロットのコンテンツのオブジェクトを渡します。key はスロット名に対応します。  
-値はテンプレート文字列を指定します。
+コンポーネントにスコープ付きスロットのコンテンツのオブジェクトを渡します。key はスロット名に対応します。値はテンプレート文字列を指定します。
 
 3つ制限事項があります。
 
@@ -75,7 +74,8 @@ PhantomJS をサポートしません。代わりに [Puppeteer](https://github.
 
 * `<template>` タグを `scopedSlots` オプションのルート要素として使用することはできません。
 
-* PhantomJS をサポートしません。代わりに [Puppeteer](https://github.com/karma-runner/karma-chrome-launcher#headless-chromium-with-puppeteer) を使用してください。
+* PhantomJS をサポートしません。  
+代わりに [Puppeteer](https://github.com/karma-runner/karma-chrome-launcher#headless-chromium-with-puppeteer) を使用してください。
 
 例:
 
@@ -92,8 +92,7 @@ expect(wrapper.find('#fooWrapper').html()).toBe('<div id="fooWrapper"><p>0,text1
 
 - type: `{ [name: string]: Component | boolean } | Array<string>`
 
-子コンポーネントをスタブします。スタブまたはオブジェクトに対するコンポーネント名の配列になります。  
-`stubs` が配列の場合、すべてのスタブは `<!---->` になります。
+子コンポーネントをスタブします。スタブまたはオブジェクトに対するコンポーネント名の配列になります。`stubs` が配列の場合、すべてのスタブは `<!---->` になります。
 
 例:
 
@@ -136,8 +135,7 @@ expect(wrapper.vm.$route.path).toBe($route.path)
 
 - 型: `Vue`
 
-コンポーネントのマウント時に使用する [createLocalVue](./createLocalVue.md) によって作成された Vue のローカルコピーです。  
-この Vue のコピーにプラグインをインストールすると、元の `Vue` コピーが汚染されなくなります。
+コンポーネントのマウント時に使用する [createLocalVue](./createLocalVue.md) によって作成された Vue のローカルコピーです。この Vue のコピーにプラグインをインストールすると、元の `Vue` コピーが汚染されなくなります。
 
 例:
 
