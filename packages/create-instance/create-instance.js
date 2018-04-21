@@ -22,8 +22,8 @@ function isDestructuringSlotScope (slotScope: string): boolean {
 function getVueTemplateCompilerHelpers (proxy: Object): Object {
   const helpers = {}
   const names = ['_c', '_o', '_n', '_s', '_l', '_t', '_q', '_i', '_m', '_f', '_k', '_b', '_v', '_e', '_u', '_g']
-  names.forEach((key) => {
-    helpers[key] = proxy[key]
+  names.forEach((name) => {
+    helpers[name] = proxy[name]
   })
   return helpers
 }
