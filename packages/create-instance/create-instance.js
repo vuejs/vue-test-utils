@@ -15,6 +15,19 @@ import deleteoptions from './delete-mounting-options'
 import createFunctionalComponent from './create-functional-component'
 import { componentNeedsCompiling } from 'shared/validators'
 
+function isDestructuringSlotScope (slotScope: string): boolean {
+  return slotScope[0] === '{' && slotScope[slotScope.length - 1] === '}'
+}
+
+function getVueTemplateCompilerHelpers (proxy: Object): Object {
+  const helpers = {}
+  const names = ['_c', '_o', '_n', '_s', '_l', '_t', '_q', '_i', '_m', '_f', '_k', '_b', '_v', '_e', '_u', '_g']
+  names.forEach((name) => {
+    helpers[name] = proxy[name]
+  })
+  return helpers
+}
+
 export default function createInstance (
   component: Component,
   options: Options,
@@ -74,12 +87,13 @@ export default function createInstance (
         const slotScope = vm.$_vueTestUtils_slotScopes[name]
         if (scopedSlotFn) {
           props = { ...bindObject, ...props }
-          const proxy = {}
-          const helpers = ['_c', '_o', '_n', '_s', '_l', '_t', '_q', '_i', '_m', '_f', '_k', '_b', '_v', '_e', '_u', '_g']
-          helpers.forEach((key) => {
-            proxy[key] = vm._renderProxy[key]
-          })
-          proxy[slotScope] = props
+          const helpers = getVueTemplateCompilerHelpers(vm._renderProxy)
+          let proxy = { ...helpers }
+          if (isDestructuringSlotScope(slotScope)) {
+            proxy = { ...helpers, ...props }
+          } else {
+            proxy[slotScope] = props
+          }
           return scopedSlotFn.call(proxy)
         } else {
           return renderSlot.call(vm._renderProxy, name, feedback, props, bindObject)
