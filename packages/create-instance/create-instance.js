@@ -90,7 +90,7 @@ export default function createInstance (
           const helpers = getVueTemplateCompilerHelpers(vm._renderProxy)
           let proxy = { ...helpers }
           if (isDestructuringSlotScope(slotScope)) {
-            proxy = { ...props, ...helpers }
+            proxy = { ...helpers, ...props }
           } else {
             proxy[slotScope] = props
           }
