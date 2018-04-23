@@ -299,9 +299,9 @@ describeWithMountingMethods('options.stub', (mountingMethod) => {
     expect(HTML).contains('No render function')
   })
 
-  const invalidValues = ['child-component', 'ChildComponent', 'childComponent']
-  invalidValues.forEach(invalidValue => {
-    it('throws an error when passed a circular reference', () => {
+  it.skip('throws an error when passed a circular reference', () => {
+    const invalidValues = ['child-component', 'ChildComponent', 'childComponent']
+    invalidValues.forEach(invalidValue => {
       const error = '[vue-test-utils]: options.stub cannot contain a circular reference'
       const fn = () => mountingMethod(ComponentWithChild, {
         stubs: {
