@@ -287,7 +287,7 @@ export default {
 
 Getters, mutations, and actions are all JavaScript functions, so we can test them without using Vue Test Utils and Vuex.
 
-The benefit to testing getters, mutations, and actions separately is that your unit tests are detailed. When they fail, you know exactly what is wrong with your code. The downside is that you will need to mock Vuex funtions, like `commit` and `dispatch`. This can lead to a situation where your unit tests pass, but your production code fails because your mocks are incorrect.
+The benefit to testing getters, mutations, and actions separately is that your unit tests are detailed. When they fail, you know exactly what is wrong with your code. The downside is that you will need to mock Vuex functions, like `commit` and `dispatch`. This can lead to a situation where your unit tests pass, but your production code fails because your mocks are incorrect.
 
 We'll create two test files, `mutations.spec.js` and `getters.spec.js`:
 
