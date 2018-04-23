@@ -30,15 +30,17 @@ var capitalize = function (str) { return str.charAt(0).toUpperCase() + str.slice
 var hyphenateRE = /\B([A-Z])/g;
 var hyphenate = function (str) { return str.replace(hyphenateRE, '-$1').toLowerCase(); };
 
-if (typeof window === 'undefined') {
-  throwError(
-    'window is undefined, vue-test-utils needs to be run in a browser environment.\n' +
-    'You can run the tests in node using jsdom + jsdom-global.\n' +
-    'See https://vue-test-utils.vuejs.org/en/guides/common-tips.html for more details.'
-  );
+function warnIfNoWindow () {
+  if (typeof window === 'undefined') {
+    throwError(
+      'window is undefined, vue-test-utils needs to be run in a browser environment.\n' +
+      'You can run the tests in node using jsdom + jsdom-global.\n' +
+      'See https://vue-test-utils.vuejs.org/en/guides/common-tips.html for more details.'
+    );
+  }
 }
 
-if (!Element.prototype.matches) {
+if (typeof Element !== 'undefined' && !Element.prototype.matches) {
   Element.prototype.matches =
         Element.prototype.matchesSelector ||
         Element.prototype.mozMatchesSelector ||
@@ -125,13 +127,11 @@ function componentNeedsCompiling (component) {
 }
 
 function isRefSelector (refOptionsObject) {
-  if (typeof refOptionsObject !== 'object' || !Object.keys(refOptionsObject || {}).length) {
+  if (typeof refOptionsObject !== 'object' || Object.keys(refOptionsObject || {}).length !== 1) {
     return false
   }
 
-  return Object
-    .keys(refOptionsObject)
-    .every(function (key) { return ['ref'].includes(key) && typeof refOptionsObject[key] === 'string'; })
+  return typeof refOptionsObject.ref === 'string'
 }
 
 function isNameSelector (nameOptionsObject) {
@@ -1460,13 +1460,16 @@ function addSlotToVm (vm, slotName, slotValue) {
     if (!vueTemplateCompiler.compileToFunctions) {
       throwError('vueTemplateCompiler is undefined, you must pass components explicitly if vue-template-compiler is undefined');
     }
+    if (typeof window === 'undefined') {
+      throwError('the slots string option does not support strings in server-test-uitls.');
+    }
     if (window.navigator.userAgent.match(/PhantomJS/i)) {
-      throwError('option.slots does not support strings in PhantomJS. Please use Puppeteer, or pass a component');
+      throwError('the slots option does not support strings in PhantomJS. Please use Puppeteer, or pass a component.');
     }
     var domParser = new window.DOMParser();
-    var document = domParser.parseFromString(slotValue, 'text/html');
+    var _document = domParser.parseFromString(slotValue, 'text/html');
     var _slotValue = slotValue.trim();
-    if (_slotValue[0] === '<' && _slotValue[_slotValue.length - 1] === '>' && document.body.childElementCount === 1) {
+    if (_slotValue[0] === '<' && _slotValue[_slotValue.length - 1] === '>' && _document.body.childElementCount === 1) {
       elem = vm.$createElement(vueTemplateCompiler.compileToFunctions(slotValue));
     } else {
       var compiledResult = vueTemplateCompiler.compileToFunctions(("<div>" + slotValue + "{{ }}</div>"));
@@ -1503,6 +1506,21 @@ function addSlots (vm, slots) {
     } else {
       addSlotToVm(vm, key, slots[key]);
     }
+  });
+}
+
+// 
+
+function addScopedSlots (vm, scopedSlots) {
+  Object.keys(scopedSlots).forEach(function (key) {
+    var template = scopedSlots[key].trim();
+    if (template.substr(0, 9) === '<template') {
+      throwError('the scopedSlots option does not support a template tag as the root element.');
+    }
+    var domParser = new window.DOMParser();
+    var _document = domParser.parseFromString(template, 'text/html');
+    vm.$_vueTestUtils_scopedSlots[key] = vueTemplateCompiler.compileToFunctions(template).render;
+    vm.$_vueTestUtils_slotScopes[key] = _document.body.firstChild.getAttribute('slot-scope');
   });
 }
 
@@ -1853,6 +1871,19 @@ function createFunctionalComponent (component, mountingOptions) {
 
 // 
 
+function isDestructuringSlotScope (slotScope) {
+  return slotScope[0] === '{' && slotScope[slotScope.length - 1] === '}'
+}
+
+function getVueTemplateCompilerHelpers (proxy) {
+  var helpers = {};
+  var names = ['_c', '_o', '_n', '_s', '_l', '_t', '_q', '_i', '_m', '_f', '_k', '_b', '_v', '_e', '_u', '_g'];
+  names.forEach(function (name) {
+    helpers[name] = proxy[name];
+  });
+  return helpers
+}
+
 function createInstance (
   component,
   options,
@@ -1894,6 +1925,41 @@ function createInstance (
 
   addAttrs(vm, options.attrs);
   addListeners(vm, options.listeners);
+
+  if (options.scopedSlots) {
+    if (window.navigator.userAgent.match(/PhantomJS/i)) {
+      throwError('the scopedSlots option does not support PhantomJS. Please use Puppeteer, or pass a component.');
+    }
+    var vueVersion = Number(((Vue.version.split('.')[0]) + "." + (Vue.version.split('.')[1])));
+    if (vueVersion >= 2.5) {
+      vm.$_vueTestUtils_scopedSlots = {};
+      vm.$_vueTestUtils_slotScopes = {};
+      var renderSlot = vm._renderProxy._t;
+
+      vm._renderProxy._t = function (name, feedback, props, bindObject) {
+        var scopedSlotFn = vm.$_vueTestUtils_scopedSlots[name];
+        var slotScope = vm.$_vueTestUtils_slotScopes[name];
+        if (scopedSlotFn) {
+          props = Object.assign({}, bindObject, props);
+          var helpers = getVueTemplateCompilerHelpers(vm._renderProxy);
+          var proxy = Object.assign({}, helpers);
+          if (isDestructuringSlotScope(slotScope)) {
+            proxy = Object.assign({}, helpers, props);
+          } else {
+            proxy[slotScope] = props;
+          }
+          return scopedSlotFn.call(proxy)
+        } else {
+          return renderSlot.call(vm._renderProxy, name, feedback, props, bindObject)
+        }
+      };
+
+      // $FlowIgnore
+      addScopedSlots(vm, options.scopedSlots);
+    } else {
+      throwError('the scopedSlots option is only supported in vue@2.5+.');
+    }
+  }
 
   if (options.slots) {
     addSlots(vm, options.slots);
@@ -4505,14 +4571,14 @@ function createLocalVue () {
 
 // 
 
-function getStubs (optionStubs, config) {
-  if (optionStubs ||
-    (config.stubs && Object.keys(config.stubs).length > 0)) {
-    if (Array.isArray(optionStubs)) {
-      return optionStubs.concat( Object.keys(config.stubs || {}))
+function getOptions (key, options, config) {
+  if (options ||
+    (config[key] && Object.keys(config[key]).length > 0)) {
+    if (Array.isArray(options)) {
+      return options.concat( Object.keys(config[key] || {}))
     } else {
-      return Object.assign({}, config.stubs,
-        optionStubs)
+      return Object.assign({}, config[key],
+        options)
     }
   }
 }
@@ -4522,7 +4588,9 @@ function mergeOptions (
   config
 ) {
   return Object.assign({}, options,
-    {stubs: getStubs(options.stubs, config)})
+    {stubs: getOptions('stubs', options.stubs, config),
+    mocks: getOptions('mocks', options.mocks, config),
+    methods: getOptions('methods', options.methods, config)})
 }
 
 // 
@@ -4671,7 +4739,9 @@ var config = {
   stubs: {
     transition: TransitionStub,
     'transition-group': TransitionGroupStub
-  }
+  },
+  mocks: {},
+  methods: {}
 }
 
 // 
@@ -4683,6 +4753,7 @@ Vue.config.errorHandler = errorHandler;
 function mount (component, options) {
   if ( options === void 0 ) options = {};
 
+  warnIfNoWindow();
   // Remove cached constructor
   delete component._Ctor;
   var vueClass = options.localVue || createLocalVue();
