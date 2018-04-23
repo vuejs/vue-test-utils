@@ -1,6 +1,6 @@
 {
   "name": "@vue/server-test-utils",
-  "version": "1.0.0-beta.14",
+  "version": "1.0.0-beta.15",
   "description": "Utilities for testing Vue components.",
   "main": "dist/vue-server-test-utils.js",
   "types": "types/index.d.ts",
@@ -23,8 +23,7 @@
   },
   "homepage": "https://github.com/vuejs/vue-test-utils#readme",
   "dependencies": {
-    "@vue/test-utils": "^1.0.0-beta.12",
-    "cheerio": "0.22.0"
+    "@vue/test-utils": "1.0.0-beta.15"
   },
   "devDependencies": {
     "chalk": "^2.1.0",
@@ -36,9 +35,6 @@
     "rollup-plugin-json": "^2.3.0",
     "rollup-plugin-node-resolve": "^3.0.3",
     "typescript": "^2.6.2"
-  },
-  "dependencies": {
-    "@vue/test-utils": "1.0.0-beta.14"
   },
   "peerDependencies": {
     "vue": "2.x",
