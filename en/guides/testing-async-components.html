@@ -1,0 +1,1303 @@
+
+<!DOCTYPE HTML>
+<html lang="en" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Testing Asynchronous Behavior · vue-test-utils</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-theme-vuejs/vue.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="using-with-vue-router.html" />
+    
+    
+    <link rel="prev" href="testing-SFCs-with-karma.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+<script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?zoneid=1673&serve=C6AILKT&placement=vuejs" id="_carbonads_js"></script>
+
+
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        <li class="header">Table of Contents</li>
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    Guides
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="getting-started.html">
+            
+                <a href="getting-started.html">
+            
+                    
+                    Getting Started
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="common-tips.html">
+            
+                <a href="common-tips.html">
+            
+                    
+                    Common Tips
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="dom-events.html">
+            
+                <a href="dom-events.html">
+            
+                    
+                    Mouse, Key and other DOM Events
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4" data-path="choosing-a-test-runner.html">
+            
+                <a href="choosing-a-test-runner.html">
+            
+                    
+                    Choosing a test runner
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5" data-path="testing-SFCs-with-jest.html">
+            
+                <a href="testing-SFCs-with-jest.html">
+            
+                    
+                    Testing SFCs with Jest
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6" data-path="testing-SFCs-with-mocha-webpack.html">
+            
+                <a href="testing-SFCs-with-mocha-webpack.html">
+            
+                    
+                    Testing SFCs with Mocha + webpack
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.7" data-path="testing-SFCs-with-karma.html">
+            
+                <a href="testing-SFCs-with-karma.html">
+            
+                    
+                    Testing SFCs with Karma
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.2.8" data-path="testing-async-components.html">
+            
+                <a href="testing-async-components.html">
+            
+                    
+                    Testing Asynchronous Behavior
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.9" data-path="using-with-vue-router.html">
+            
+                <a href="using-with-vue-router.html">
+            
+                    
+                    Using with Vue Router
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.10" data-path="using-with-vuex.html">
+            
+                <a href="using-with-vuex.html">
+            
+                    
+                    Using with Vuex
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../api/">
+            
+                <a href="../api/">
+            
+                    
+                    API
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../api/mount.html">
+            
+                <a href="../api/mount.html">
+            
+                    
+                    mount
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../api/shallow.html">
+            
+                <a href="../api/shallow.html">
+            
+                    
+                    shallow
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="../api/render.html">
+            
+                <a href="../api/render.html">
+            
+                    
+                    render
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4" data-path="../api/renderToString.html">
+            
+                <a href="../api/renderToString.html">
+            
+                    
+                    renderToString
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5" data-path="../api/options.html">
+            
+                <a href="../api/options.html">
+            
+                    
+                    Mounting Options
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.5.1" data-path="../api/options.html">
+            
+                <a href="../api/options.html#context">
+            
+                    
+                    context
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.2" data-path="../api/options.html">
+            
+                <a href="../api/options.html#slots">
+            
+                    
+                    slots
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.3" data-path="../api/options.html">
+            
+                <a href="../api/options.html#scopedslots">
+            
+                    
+                    scopedSlots
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.4" data-path="../api/options.html">
+            
+                <a href="../api/options.html#stubs">
+            
+                    
+                    stubs
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.5" data-path="../api/options.html">
+            
+                <a href="../api/options.html#mocks">
+            
+                    
+                    mocks
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.6" data-path="../api/options.html">
+            
+                <a href="../api/options.html#localvue">
+            
+                    
+                    localVue
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.7" data-path="../api/options.html">
+            
+                <a href="../api/options.html#attachtodocument">
+            
+                    
+                    attachToDocument
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.8" data-path="../api/options.html">
+            
+                <a href="../api/options.html#attrs">
+            
+                    
+                    attrs
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.9" data-path="../api/options.html">
+            
+                <a href="../api/options.html#listeners">
+            
+                    
+                    listeners
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.10" data-path="../api/options.html">
+            
+                <a href="../api/options.html#provide">
+            
+                    
+                    provide
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.11" data-path="../api/options.html">
+            
+                <a href="../api/options.html#sync">
+            
+                    
+                    sync
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.12" data-path="../api/options.html">
+            
+                <a href="../api/options.html#other-options">
+            
+                    
+                    other options
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6" data-path="../api/wrapper/">
+            
+                <a href="../api/wrapper/">
+            
+                    
+                    Wrapper
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.6.1" data-path="../api/wrapper/attributes.html">
+            
+                <a href="../api/wrapper/attributes.html">
+            
+                    
+                    attributes
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.2" data-path="../api/wrapper/classes.html">
+            
+                <a href="../api/wrapper/classes.html">
+            
+                    
+                    classes
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.3" data-path="../api/wrapper/contains.html">
+            
+                <a href="../api/wrapper/contains.html">
+            
+                    
+                    contains
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.4" data-path="../api/wrapper/emitted.html">
+            
+                <a href="../api/wrapper/emitted.html">
+            
+                    
+                    emitted
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.5" data-path="../api/wrapper/emittedByOrder.html">
+            
+                <a href="../api/wrapper/emittedByOrder.html">
+            
+                    
+                    emittedByOrder
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.6" data-path="../api/wrapper/exists.html">
+            
+                <a href="../api/wrapper/exists.html">
+            
+                    
+                    exists
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.7" data-path="../api/wrapper/destroy.html">
+            
+                <a href="../api/wrapper/destroy.html">
+            
+                    
+                    destroy
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.8" data-path="../api/wrapper/find.html">
+            
+                <a href="../api/wrapper/find.html">
+            
+                    
+                    find
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.9" data-path="../api/wrapper/findAll.html">
+            
+                <a href="../api/wrapper/findAll.html">
+            
+                    
+                    findAll
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.10" data-path="../api/wrapper/html.html">
+            
+                <a href="../api/wrapper/html.html">
+            
+                    
+                    html
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.11" data-path="../api/wrapper/is.html">
+            
+                <a href="../api/wrapper/is.html">
+            
+                    
+                    is
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.12" data-path="../api/wrapper/isEmpty.html">
+            
+                <a href="../api/wrapper/isEmpty.html">
+            
+                    
+                    isEmpty
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.13" data-path="../api/wrapper/isVueInstance.html">
+            
+                <a href="../api/wrapper/isVueInstance.html">
+            
+                    
+                    isVueInstance
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.14" data-path="../api/wrapper/name.html">
+            
+                <a href="../api/wrapper/name.html">
+            
+                    
+                    name
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.15" data-path="../api/wrapper/props.html">
+            
+                <a href="../api/wrapper/props.html">
+            
+                    
+                    props
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.16" data-path="../api/wrapper/setData.html">
+            
+                <a href="../api/wrapper/setData.html">
+            
+                    
+                    setData
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.17" data-path="../api/wrapper/setMethods.html">
+            
+                <a href="../api/wrapper/setMethods.html">
+            
+                    
+                    setMethods
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.18" data-path="../api/wrapper/setProps.html">
+            
+                <a href="../api/wrapper/setProps.html">
+            
+                    
+                    setProps
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.19" data-path="../api/wrapper/text.html">
+            
+                <a href="../api/wrapper/text.html">
+            
+                    
+                    text
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.20" data-path="../api/wrapper/trigger.html">
+            
+                <a href="../api/wrapper/trigger.html">
+            
+                    
+                    trigger
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.21" data-path="../api/wrapper/isVisible.html">
+            
+                <a href="../api/wrapper/isVisible.html">
+            
+                    
+                    isVisible
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7" data-path="../api/wrapper-array/">
+            
+                <a href="../api/wrapper-array/">
+            
+                    
+                    WrapperArray
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.7.1" data-path="../api/wrapper-array/at.html">
+            
+                <a href="../api/wrapper-array/at.html">
+            
+                    
+                    at
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7.2" data-path="../api/wrapper-array/contains.html">
+            
+                <a href="../api/wrapper-array/contains.html">
+            
+                    
+                    contains
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7.3" data-path="../api/wrapper/exists.html">
+            
+                <a href="../api/wrapper/exists.html">
+            
+                    
+                    exists
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7.4" data-path="../api/wrapper-array/destroy.html">
+            
+                <a href="../api/wrapper-array/destroy.html">
+            
+                    
+                    destroy
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7.5" data-path="../api/wrapper-array/filter.html">
+            
+                <a href="../api/wrapper-array/filter.html">
+            
+                    
+                    filter
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7.6" data-path="../api/wrapper-array/is.html">
+            
+                <a href="../api/wrapper-array/is.html">
+            
+                    
+                    is
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7.7" data-path="../api/wrapper-array/isEmpty.html">
+            
+                <a href="../api/wrapper-array/isEmpty.html">
+            
+                    
+                    isEmpty
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7.8" data-path="../api/wrapper-array/isVueInstance.html">
+            
+                <a href="../api/wrapper-array/isVueInstance.html">
+            
+                    
+                    isVueInstance
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7.9" data-path="../api/wrapper-array/setData.html">
+            
+                <a href="../api/wrapper-array/setData.html">
+            
+                    
+                    setData
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7.10" data-path="../api/wrapper-array/setMethods.html">
+            
+                <a href="../api/wrapper-array/setMethods.html">
+            
+                    
+                    setMethods
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7.11" data-path="../api/wrapper-array/setProps.html">
+            
+                <a href="../api/wrapper-array/setProps.html">
+            
+                    
+                    setProps
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7.12" data-path="../api/wrapper-array/trigger.html">
+            
+                <a href="../api/wrapper-array/trigger.html">
+            
+                    
+                    trigger
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7.13" data-path="../api/wrapper-array/isVisible.html">
+            
+                <a href="../api/wrapper-array/isVisible.html">
+            
+                    
+                    isVisible
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.8" data-path="../api/components/">
+            
+                <a href="../api/components/">
+            
+                    
+                    components
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.8.1" data-path="../api/components/TransitionStub.html">
+            
+                <a href="../api/components/TransitionStub.html">
+            
+                    
+                    TransitionStub
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.8.2" data-path="../api/components/TransitionGroupStub.html">
+            
+                <a href="../api/components/TransitionGroupStub.html">
+            
+                    
+                    TransitionGroupStub
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.8.3" data-path="../api/components/RouterLinkStub.html">
+            
+                <a href="../api/components/RouterLinkStub.html">
+            
+                    
+                    RouterLinkStub
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.9" data-path="../api/selectors.html">
+            
+                <a href="../api/selectors.html">
+            
+                    
+                    Selectors
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.10" data-path="../api/createLocalVue.html">
+            
+                <a href="../api/createLocalVue.html">
+            
+                    
+                    createLocalVue
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.11" data-path="../api/config.html">
+            
+                <a href="../api/config.html">
+            
+                    
+                    config
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+  
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >Testing Asynchronous Behavior</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="testing-asynchronous-behavior">Testing Asynchronous Behavior</h1>
+<p>To simplify testing, Vue Test Utils applies DOM updates <em>synchronously</em>. However, there are some techniques you need to be aware of when testing a component with asynchronous behavior such as callbacks or promises.</p>
+<p>One of the most common asynchronous behaviors is API calls and Vuex actions. The following examples shows how to test a method that makes an API call. This example uses Jest to run the test and to mock the HTTP library <code>axios</code>. More about Jest manual mocks can be found <a href="https://facebook.github.io/jest/docs/en/manual-mocks.html#content" target="_blank">here</a>.</p>
+<p>The implementation of the <code>axios</code> mock looks like this:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
+  get: () =&gt; <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(resolve =&gt; {
+    resolve({ data: <span class="hljs-string">&apos;value&apos;</span> })
+  })
+}
+</code></pre>
+<p>The below component makes an API call when a button is clicked, then assigns the response to <code>value</code>.</p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> @<span class="hljs-attr">click</span>=<span class="hljs-string">&quot;fetchResults&quot;</span> /&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+  <span class="hljs-keyword">import</span> axios <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;axios&apos;</span>
+
+  <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
+    data () {
+      <span class="hljs-keyword">return</span> {
+        value: <span class="hljs-literal">null</span>
+      }
+    },
+
+    methods: {
+      <span class="hljs-keyword">async</span> fetchResults () {
+        <span class="hljs-keyword">const</span> response = <span class="hljs-keyword">await</span> axios.get(<span class="hljs-string">&apos;mock/service&apos;</span>)
+        <span class="hljs-keyword">this</span>.value = response.data
+      }
+    }
+  }
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+</code></pre>
+<p>A test can be written like this:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">import</span> { shallow } <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;@vue/test-utils&apos;</span>
+<span class="hljs-keyword">import</span> Foo <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;./Foo&apos;</span>
+jest.mock(<span class="hljs-string">&apos;axios&apos;</span>)
+
+test(<span class="hljs-string">&apos;Foo&apos;</span>, () =&gt; {
+  it(<span class="hljs-string">&apos;fetches async when a button is clicked&apos;</span>, () =&gt; {
+    <span class="hljs-keyword">const</span> wrapper = shallow(Foo)
+    wrapper.find(<span class="hljs-string">&apos;button&apos;</span>).trigger(<span class="hljs-string">&apos;click&apos;</span>)
+    expect(wrapper.vm.value).toBe(<span class="hljs-string">&apos;value&apos;</span>)
+  })
+})
+</code></pre>
+<p>This test currently fails because the assertion is called before the promise in <code>fetchResults</code> resolves. Most unit test libraries provide a callback to let the runner know when the test is complete. Jest and Mocha both use <code>done</code>. We can use <code>done</code> in combination with <code>$nextTick</code> or <code>setTimeout</code> to ensure any promises resolve before the assertion is made. </p>
+<pre><code class="lang-js">test(<span class="hljs-string">&apos;Foo&apos;</span>, () =&gt; {
+  it(<span class="hljs-string">&apos;fetches async when a button is clicked&apos;</span>, (done) =&gt; {
+    <span class="hljs-keyword">const</span> wrapper = shallow(Foo)
+    wrapper.find(<span class="hljs-string">&apos;button&apos;</span>).trigger(<span class="hljs-string">&apos;click&apos;</span>)
+    wrapper.vm.$nextTick(() =&gt; {
+      expect(wrapper.vm.value).toBe(<span class="hljs-string">&apos;value&apos;</span>)
+      done()
+    })
+  })
+})
+</code></pre>
+<p>The reason <code>$nextTick</code> or <code>setTimeout</code> allow the test to pass is because the microtask queue where promise callbacks are processed run before the task queue, where <code>$nextTick</code> and <code>setTimeout</code> are processed. This means by the time the <code>$nexTick</code> and <code>setTimeout</code> run, any promise callbacks on the microtask queue will have been executed. See <a href="https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/" target="_blank">here</a> for a more detailed explanation.</p>
+<p>Another solution is to use an <code>async</code> function and the npm package <code>flush-promises</code>. <code>flush-promises</code> flushes all pending resolved promise handlers. You can <code>await</code> the call of <code>flushPromises</code> to flush pending promises and improve the readability of your test.</p>
+<p>The updated test looks like this:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">import</span> { shallow } <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;@vue/test-utils&apos;</span>
+<span class="hljs-keyword">import</span> flushPromises <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;flush-promises&apos;</span>
+<span class="hljs-keyword">import</span> Foo <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;./Foo&apos;</span>
+jest.mock(<span class="hljs-string">&apos;axios&apos;</span>)
+
+test(<span class="hljs-string">&apos;Foo&apos;</span>, () =&gt; {
+  it(<span class="hljs-string">&apos;fetches async when a button is clicked&apos;</span>, <span class="hljs-keyword">async</span> () =&gt; {
+    <span class="hljs-keyword">const</span> wrapper = shallow(Foo)
+    wrapper.find(<span class="hljs-string">&apos;button&apos;</span>).trigger(<span class="hljs-string">&apos;click&apos;</span>)
+    <span class="hljs-keyword">await</span> flushPromises()
+    expect(wrapper.vm.value).toBe(<span class="hljs-string">&apos;value&apos;</span>)
+  })
+})
+</code></pre>
+<p>This same technique can be applied to Vuex actions, which return a promise by default.</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+  <script src="//m.servedby-buysellads.com/monetization.js" type="text/javascript"></script>
+  <div class="bsa-cpc"></div>
+  <script>
+    (function(){
+      if(typeof _bsa !== 'undefined' && _bsa) {
+      _bsa.init('default', 'CKYD62QM', 'placement:vuejsorg', {
+        target: '.bsa-cpc',
+        align: 'horizontal',
+        disable_css: 'true'
+      });
+        }
+    })();
+  </script>
+
+            </div>
+
+            
+                
+                <a href="testing-SFCs-with-karma.html" class="navigation navigation-prev " aria-label="Previous page: Testing SFCs with Karma">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="using-with-vue-router.html" class="navigation navigation-next " aria-label="Next page: Using with Vue Router">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Testing Asynchronous Behavior","level":"1.2.8","depth":2,"next":{"title":"Using with Vue Router","level":"1.2.9","depth":2,"path":"guides/using-with-vue-router.md","ref":"guides/using-with-vue-router.md","articles":[]},"previous":{"title":"Testing SFCs with Karma","level":"1.2.7","depth":2,"path":"guides/testing-SFCs-with-karma.md","ref":"guides/testing-SFCs-with-karma.md","articles":[]},"dir":"ltr"},"config":{"plugins":["edit-link","theme-vuejs","-fontsettings","github"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit This Page","base":"https://github.com/vuejs/vue-test-utils/edit/master/docs"},"github":{"url":"https://github.com/vuejs/vue-test-utils/"},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":false,"twitter":false,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-vuejs":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"vue-test-utils","language":"en","links":{"sharing":{"facebook":false,"twitter":false}},"gitbook":"*"},"file":{"path":"guides/testing-async-components.md","mtime":"2018-03-26T12:06:15.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-04-23T17:43:36.920Z"},"basePath":"..","book":{"language":"en"}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-edit-link/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-github/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+
+    </body>
+</html>
+

@@ -1,0 +1,1323 @@
+
+<!DOCTYPE HTML>
+<html lang="kr" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Using with Vuex · vue-test-utils</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-theme-vuejs/vue.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="../api/" />
+    
+    
+    <link rel="prev" href="using-with-vue-router.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+<script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?zoneid=1673&serve=C6AILKT&placement=vuejs" id="_carbonads_js"></script>
+
+
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        <li class="header">Table of Contents</li>
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    Guides
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="getting-started.html">
+            
+                <a href="getting-started.html">
+            
+                    
+                    Getting Started
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="common-tips.html">
+            
+                <a href="common-tips.html">
+            
+                    
+                    Common Tips
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="dom-events.html">
+            
+                <a href="dom-events.html">
+            
+                    
+                    Mouse, Key and other DOM Events
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4" data-path="choosing-a-test-runner.html">
+            
+                <a href="choosing-a-test-runner.html">
+            
+                    
+                    Choosing a test runner
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5" data-path="testing-SFCs-with-jest.html">
+            
+                <a href="testing-SFCs-with-jest.html">
+            
+                    
+                    Testing SFCs with Jest
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6" data-path="testing-SFCs-with-mocha-webpack.html">
+            
+                <a href="testing-SFCs-with-mocha-webpack.html">
+            
+                    
+                    Testing SFCs with Mocha + webpack
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.7" data-path="using-with-vue-router.html">
+            
+                <a href="using-with-vue-router.html">
+            
+                    
+                    Using with Vue Router
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.2.8" data-path="using-with-vuex.html">
+            
+                <a href="using-with-vuex.html">
+            
+                    
+                    Using with Vuex
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../api/">
+            
+                <a href="../api/">
+            
+                    
+                    API
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../api/mount.html">
+            
+                <a href="../api/mount.html">
+            
+                    
+                    mount
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../api/shallow.html">
+            
+                <a href="../api/shallow.html">
+            
+                    
+                    shallow
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="../api/options.html">
+            
+                <a href="../api/options.html">
+            
+                    
+                    Mounting Options
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.3.1" data-path="../api/options.html">
+            
+                <a href="../api/options.html#context">
+            
+                    
+                    context
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3.2" data-path="../api/options.html">
+            
+                <a href="../api/options.html#slots">
+            
+                    
+                    slots
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3.3" data-path="../api/options.html">
+            
+                <a href="../api/options.html#stubs">
+            
+                    
+                    stubs
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3.4" data-path="../api/options.html">
+            
+                <a href="../api/options.html#mocks">
+            
+                    
+                    mocks
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3.5" data-path="../api/options.html">
+            
+                <a href="../api/options.html#localvue">
+            
+                    
+                    localVue
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3.6" data-path="../api/options.html">
+            
+                <a href="../api/options.html#attachtodocument">
+            
+                    
+                    attachToDocument
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3.7" data-path="../api/options.html">
+            
+                <a href="../api/options.html#attrs">
+            
+                    
+                    attrs
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3.8" data-path="../api/options.html">
+            
+                <a href="../api/options.html#listeners">
+            
+                    
+                    listeners
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4" data-path="../api/wrapper/">
+            
+                <a href="../api/wrapper/">
+            
+                    
+                    Wrapper
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.4.1" data-path="../api/wrapper/contains.html">
+            
+                <a href="../api/wrapper/contains.html">
+            
+                    
+                    contains
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.2" data-path="../api/wrapper/emitted.html">
+            
+                <a href="../api/wrapper/emitted.html">
+            
+                    
+                    emitted
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.3" data-path="../api/wrapper/emittedByOrder.html">
+            
+                <a href="../api/wrapper/emittedByOrder.html">
+            
+                    
+                    emittedByOrder
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.4" data-path="../api/wrapper/find.html">
+            
+                <a href="../api/wrapper/find.html">
+            
+                    
+                    find
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.5" data-path="../api/wrapper/findAll.html">
+            
+                <a href="../api/wrapper/findAll.html">
+            
+                    
+                    findAll
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.6" data-path="../api/wrapper/hasAttribute.html">
+            
+                <a href="../api/wrapper/hasAttribute.html">
+            
+                    
+                    hasAttribute
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.7" data-path="../api/wrapper/hasClass.html">
+            
+                <a href="../api/wrapper/hasClass.html">
+            
+                    
+                    hasClass
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.8" data-path="../api/wrapper/hasProp.html">
+            
+                <a href="../api/wrapper/hasProp.html">
+            
+                    
+                    hasProp
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.9" data-path="../api/wrapper/html.html">
+            
+                <a href="../api/wrapper/html.html">
+            
+                    
+                    html
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.10" data-path="../api/wrapper/is.html">
+            
+                <a href="../api/wrapper/is.html">
+            
+                    
+                    is
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.11" data-path="../api/wrapper/isEmpty.html">
+            
+                <a href="../api/wrapper/isEmpty.html">
+            
+                    
+                    isEmpty
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.12" data-path="../api/wrapper/isVueInstance.html">
+            
+                <a href="../api/wrapper/isVueInstance.html">
+            
+                    
+                    isVueInstance
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.13" data-path="../api/wrapper/name.html">
+            
+                <a href="../api/wrapper/name.html">
+            
+                    
+                    name
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.14" data-path="../api/wrapper/setData.html">
+            
+                <a href="../api/wrapper/setData.html">
+            
+                    
+                    setData
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.15" data-path="../api/wrapper/setMethods.html">
+            
+                <a href="../api/wrapper/setMethods.html">
+            
+                    
+                    setMethods
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.16" data-path="../api/wrapper/setProps.html">
+            
+                <a href="../api/wrapper/setProps.html">
+            
+                    
+                    setProps
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.17" data-path="../api/wrapper/text.html">
+            
+                <a href="../api/wrapper/text.html">
+            
+                    
+                    text
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.18" data-path="../api/wrapper/trigger.html">
+            
+                <a href="../api/wrapper/trigger.html">
+            
+                    
+                    trigger
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.19" data-path="../api/wrapper/destroy.html">
+            
+                <a href="../api/wrapper/destroy.html">
+            
+                    
+                    destroy
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5" data-path="../api/wrapper-array/">
+            
+                <a href="../api/wrapper-array/">
+            
+                    
+                    WrapperArray
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.5.1" data-path="../api/wrapper-array/at.html">
+            
+                <a href="../api/wrapper-array/at.html">
+            
+                    
+                    at
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.2" data-path="../api/wrapper-array/contains.html">
+            
+                <a href="../api/wrapper-array/contains.html">
+            
+                    
+                    contains
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.3" data-path="../api/wrapper-array/hasAttribute.html">
+            
+                <a href="../api/wrapper-array/hasAttribute.html">
+            
+                    
+                    hasAttribute
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.4" data-path="../api/wrapper-array/hasClass.html">
+            
+                <a href="../api/wrapper-array/hasClass.html">
+            
+                    
+                    hasClass
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.5" data-path="../api/wrapper-array/hasProp.html">
+            
+                <a href="../api/wrapper-array/hasProp.html">
+            
+                    
+                    hasProp
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.6" data-path="../api/wrapper-array/is.html">
+            
+                <a href="../api/wrapper-array/is.html">
+            
+                    
+                    is
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.7" data-path="../api/wrapper-array/isEmpty.html">
+            
+                <a href="../api/wrapper-array/isEmpty.html">
+            
+                    
+                    isEmpty
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.8" data-path="../api/wrapper-array/isVueInstance.html">
+            
+                <a href="../api/wrapper-array/isVueInstance.html">
+            
+                    
+                    isVueInstance
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.9" data-path="../api/wrapper-array/setComputed.html">
+            
+                <a href="../api/wrapper-array/setComputed.html">
+            
+                    
+                    setComputed
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.10" data-path="../api/wrapper-array/setData.html">
+            
+                <a href="../api/wrapper-array/setData.html">
+            
+                    
+                    setData
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.11" data-path="../api/wrapper-array/setMethods.html">
+            
+                <a href="../api/wrapper-array/setMethods.html">
+            
+                    
+                    setMethods
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.12" data-path="../api/wrapper-array/setProps.html">
+            
+                <a href="../api/wrapper-array/setProps.html">
+            
+                    
+                    setProps
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.13" data-path="../api/wrapper-array/trigger.html">
+            
+                <a href="../api/wrapper-array/trigger.html">
+            
+                    
+                    trigger
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.14" data-path="../api/wrapper-array/destroy.html">
+            
+                <a href="../api/wrapper-array/destroy.html">
+            
+                    
+                    destroy
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6" data-path="../api/components/">
+            
+                <a href="../api/components/">
+            
+                    
+                    components
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.6.1" data-path="../api/components/TransitionStub.html">
+            
+                <a href="../api/components/TransitionStub.html">
+            
+                    
+                    TransitionStub
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.2" data-path="../api/components/TransitionGroupStub.html">
+            
+                <a href="../api/components/TransitionGroupStub.html">
+            
+                    
+                    TransitionGroupStub
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7" data-path="../api/selectors.html">
+            
+                <a href="../api/selectors.html">
+            
+                    
+                    Selectors
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.8" data-path="../api/createLocalVue.html">
+            
+                <a href="../api/createLocalVue.html">
+            
+                    
+                    createLocalVue
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.9" data-path="../api/config.html">
+            
+                <a href="../api/config.html">
+            
+                    
+                    config
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+  
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >Using with Vuex</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="vuex-&#xC0AC;&#xC6A9;&#xD558;&#xAE30;">Vuex &#xC0AC;&#xC6A9;&#xD558;&#xAE30;</h1>
+<p>&#xC774;&#xBC88;&#xC5D0;&#xB294; <code>vue-test-utils</code>&#xC640; &#xD568;&#xAED8;, &#xCEF4;&#xD3EC;&#xB10C;&#xD2B8;&#xC5D0;&#xC11C; Vuex&#xB97C; &#xD14C;&#xC2A4;&#xD2B8;&#xD558;&#xB294; &#xBC29;&#xBC95;&#xC744; &#xC54C;&#xC544;&#xBD05;&#xB2C8;&#xB2E4;.</p>
+<h2 id="&#xC561;&#xC158;-&#xBAA9;&#xD0B9;&#xD558;&#xAE30;">&#xC561;&#xC158; &#xBAA9;&#xD0B9;&#xD558;&#xAE30;</h2>
+<p>&#xC57D;&#xAC04;&#xC758; &#xCF54;&#xB4DC;&#xB97C; &#xC0B4;&#xD3B4;&#xBCF4;&#xACA0;&#xC2B5;&#xB2C8;&#xB2E4;.</p>
+<p>&#xC774; &#xCEF4;&#xD3EC;&#xB10C;&#xD2B8;&#xB294; &#xD14C;&#xC2A4;&#xD2B8;&#xAC00; &#xD544;&#xC694;&#xD569;&#xB2C8;&#xB2E4;. Vuex&#xC758; &#xC561;&#xC158;&#xC744; &#xD638;&#xCD9C;&#xD558;&#xACE0; &#xC788;&#xC2B5;&#xB2C8;&#xB2E4;.</p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-align-center&quot;</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text&quot;</span> @<span class="hljs-attr">input</span>=<span class="hljs-string">&quot;actionInputIfTrue&quot;</span> /&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">button</span> @<span class="hljs-attr">click</span>=<span class="hljs-string">&quot;actionClick()&quot;</span>&gt;</span>Click<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+<span class="hljs-keyword">import</span> { mapActions } <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;vuex&apos;</span>
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span>{
+  methods: {
+    ...mapActions([
+      <span class="hljs-string">&apos;actionClick&apos;</span>
+    ]),
+    actionInputIfTrue: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">actionInputIfTrue</span> (<span class="hljs-params">event</span>) </span>{
+      <span class="hljs-keyword">const</span> inputValue = event.target.value
+      <span class="hljs-keyword">if</span> (inputValue === <span class="hljs-string">&apos;input&apos;</span>) {
+        <span class="hljs-keyword">this</span>.$store.dispatch(<span class="hljs-string">&apos;actionInput&apos;</span>, { inputValue })
+      }
+    }
+  }
+}
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+</code></pre>
+<p>&#xC774; &#xD14C;&#xC2A4;&#xD2B8;&#xC758; &#xBAA9;&#xC801;&#xC744; &#xC704;&#xD574;&#xC11C; &#xC561;&#xC158;(action)&#xC774; &#xBB34;&#xC5C7;&#xC778;&#xC9C0;, &#xB610;&#xB294; &#xC2A4;&#xD1A0;&#xC5B4;(store)&#xAC00; &#xC5B4;&#xB5BB;&#xAC8C; &#xAD6C;&#xC131; &#xB418;&#xC5B4; &#xC788;&#xB294;&#xC9C0; &#xC2E0;&#xACBD; &#xC4F8; &#xD544;&#xC694;&#xAC00; &#xC5C6;&#xC2B5;&#xB2C8;&#xB2E4;. &#xC6B0;&#xB9AC;&#xB294; &#xB2E8;&#xC9C0; &#xC561;&#xC158;&#xC774; &#xD544;&#xC694;&#xD560; &#xB54C; &#xD638;&#xCD9C;&#xB418;&#xACE0; &#xC788;&#xC73C;&#xBA70;, &#xAE30;&#xB300;&#xD55C; &#xAC12;&#xC73C;&#xB85C; &#xD638;&#xCD9C;&#xB41C; &#xAC83;&#xC744; &#xD655;&#xC778;&#xD574;&#xC57C;&#xD569;&#xB2C8;&#xB2E4;.</p>
+<p>&#xC774; &#xD14C;&#xC2A4;&#xD2B8;&#xC5D0;&#xC11C; &#xC595;&#xC740;(shallow) &#xC2A4;&#xD1A0;&#xC5B4;&#xC5D0; &#xBAA9;&#xD0B9;&#xB41C; &#xC2A4;&#xD1A0;&#xC5B4;&#xB97C; &#xC804;&#xB2EC;&#xD574;&#xC57C;&#xD569;&#xB2C8;&#xB2E4;.</p>
+<p>&#xC800;&#xC7A5;&#xC18C;&#xB97C; &#xBCA0;&#xC774;&#xC2A4; Vue &#xC0DD;&#xC131;&#xC790;&#xC5D0; &#xC804;&#xB2EC;&#xD558;&#xB294; &#xB300;&#xC2E0; <a href="../api/options.html#localvue">localVue</a>&#xC5D0; &#xC804;&#xB2EC;&#xD560; &#xC218; &#xC788;&#xC2B5;&#xB2C8;&#xB2E4;. localVue&#xB294; &#xAE00;&#xB85C;&#xBC8C; Vue &#xC0DD;&#xC131;&#xC790;&#xC5D0; &#xC601;&#xD5A5;&#xC744; &#xBBF8;&#xCE58;&#xC9C0; &#xC54A;&#xACE0;, &#xBCC0;&#xACBD;&#xD560; &#xC218; &#xC788;&#xB294; &#xBC94;&#xC704;&#xAC00; &#xC9C0;&#xC815;&#xB41C; Vue &#xC0DD;&#xC131;&#xC790;&#xC785;&#xB2C8;&#xB2E4;.</p>
+<p>&#xC5B4;&#xB5BB;&#xAC8C; &#xAD6C;&#xC131;&#xB418;&#xC5C8;&#xB294;&#xC9C0; &#xBCF4;&#xACA0;&#xC2B5;&#xB2C8;&#xB2E4;.</p>
+<pre><code class="lang-js"><span class="hljs-keyword">import</span> { shallow, createLocalVue } <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;@vue/test-utils&apos;</span>
+<span class="hljs-keyword">import</span> Vuex <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;vuex&apos;</span>
+<span class="hljs-keyword">import</span> Actions <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;../../../src/components/Actions&apos;</span>
+
+<span class="hljs-keyword">const</span> localVue = createLocalVue()
+
+localVue.use(Vuex)
+
+describe(<span class="hljs-string">&apos;Actions.vue&apos;</span>, () =&gt; {
+  <span class="hljs-keyword">let</span> actions
+  <span class="hljs-keyword">let</span> store
+
+  beforeEach(() =&gt; {
+    actions = {
+      actionClick: jest.fn(),
+      actionInput: jest.fn()
+    }
+    store = <span class="hljs-keyword">new</span> Vuex.Store({
+      state: {},
+      actions
+    })
+  })
+
+  it(<span class="hljs-string">&apos;calls store action actionInput when input value is input and an input event is fired&apos;</span>, () =&gt; {
+    <span class="hljs-keyword">const</span> wrapper = shallow(Actions, { store, localVue })
+    <span class="hljs-keyword">const</span> input = wrapper.find(<span class="hljs-string">&apos;input&apos;</span>)
+    input.element.value = <span class="hljs-string">&apos;input&apos;</span>
+    input.trigger(<span class="hljs-string">&apos;input&apos;</span>)
+    expect(actions.actionInput).toHaveBeenCalled()
+  })
+
+  it(<span class="hljs-string">&apos;does not call store action actionInput when input value is not input and an input event is fired&apos;</span>, () =&gt; {
+    <span class="hljs-keyword">const</span> wrapper = shallow(Actions, { store, localVue })
+    <span class="hljs-keyword">const</span> input = wrapper.find(<span class="hljs-string">&apos;input&apos;</span>)
+    input.element.value = <span class="hljs-string">&apos;not input&apos;</span>
+    input.trigger(<span class="hljs-string">&apos;input&apos;</span>)
+    expect(actions.actionInput).not.toHaveBeenCalled()
+  })
+
+  it(<span class="hljs-string">&apos;calls store action actionClick when button is clicked&apos;</span>, () =&gt; {
+    <span class="hljs-keyword">const</span> wrapper = shallow(Actions, { store, localVue })
+    wrapper.find(<span class="hljs-string">&apos;button&apos;</span>).trigger(<span class="hljs-string">&apos;click&apos;</span>)
+    expect(actions.actionClick).toHaveBeenCalled()
+  })
+})
+</code></pre>
+<p>&#xC5EC;&#xAE30;&#xC11C; &#xBB34;&#xC2A8;&#xC77C;&#xC774; &#xC77C;&#xC5B4;&#xB098;&#xACE0; &#xC788;&#xC744;&#xAE4C;&#xC694;? &#xCCAB;&#xC9F8;&#xB85C; Vue&#xC5D0;&#xAC8C; <code>Vue.use</code> &#xBA54;&#xC18C;&#xB4DC;&#xB85C; Vuex&#xB97C; &#xC0AC;&#xC6A9;&#xD558;&#xB3C4;&#xB85D; &#xC9C0;&#xC2DC;&#xD569;&#xB2C8;&#xB2E4;. &#xC774;&#xB294; <code>Vue.use</code>&#xC5D0; &#xB300;&#xD55C; &#xB798;&#xD37C;&#xC77C; &#xBFD0;&#xC785;&#xB2C8;&#xB2E4;.</p>
+<p>&#xB2E4;&#xC74C; &#xAC00;&#xC9DC; &#xAC12;&#xACFC; &#xD568;&#xAED8; <code>Vuex.store</code>&#xB97C; &#xD638;&#xCD9C;&#xD558;&#xC5EC; &#xBAA9;&#xD0B9; &#xC2A4;&#xD1A0;&#xC5B4;&#xB97C; &#xB9CC;&#xB4ED;&#xB2C8;&#xB2E4;. &#xC6B0;&#xB9AC;&#xAC00; &#xC9C0;&#xAE08; &#xC2E0;&#xACBD;&#xC368;&#xC57C; &#xD560; &#xC561;&#xC158;&#xB9CC; &#xC804;&#xB2EC;&#xD569;&#xB2C8;&#xB2E4;.</p>
+<p>&#xC561;&#xC158;&#xC740; <a href="https://facebook.github.io/jest/docs/en/mock-functions.html" target="_blank">jest &#xBAA9;&#xD0B9; &#xD568;&#xC218;</a>&#xC785;&#xB2C8;&#xB2E4;. &#xBAA9;&#xD0B9; &#xD568;&#xC218;&#xB294; &#xC561;&#xC158;&#xC774; &#xD638;&#xCD9C;&#xB418;&#xC5C8;&#xB294;&#xC9C0; &#xC544;&#xB2CC;&#xC9C0;&#xB97C; &#xAC80;&#xC99D;&#xD558;&#xB294; &#xBA54;&#xC18C;&#xB4DC;&#xB97C; &#xC81C;&#xACF5;&#xD569;&#xB2C8;&#xB2E4;.</p>
+<p>&#xADF8;&#xB7F0; &#xB2E4;&#xC74C;, &#xC6B0;&#xB9AC;&#xB294; &#xD14C;&#xC2A4;&#xD2B8;&#xC5D0;&#xC11C; &#xC561;&#xC158; &#xC2A4;&#xD141;&#xC774; &#xC608;&#xC0C1;&#xD55C; &#xC2DC;&#xC810;&#xC5D0; &#xD638;&#xCD9C;&#xB418;&#xC5C8;&#xB294;&#xC9C0; &#xAC80;&#xC99D;&#xD560; &#xC218; &#xC788;&#xC2B5;&#xB2C8;&#xB2E4;.</p>
+<p>&#xC5EC;&#xAE30;&#xC5D0;&#xC11C; &#xC774;&#xB7EC;&#xD55C; &#xC2A4;&#xD1A0;&#xC5B4;&#xB97C; &#xC815;&#xC758;&#xD558;&#xB294; &#xBC29;&#xC2DD;&#xC774; &#xC870;&#xAE08; &#xC5B4;&#xC0C9;&#xD560; &#xC218; &#xC788;&#xC2B5;&#xB2C8;&#xB2E4;.</p>
+<p><code>beforeEach</code>&#xB97C; &#xC0AC;&#xC6A9;&#xD558;&#xC5EC;, &#xAC01; &#xD14C;&#xC2A4;&#xD2B8; &#xC804;&#xC5D0; &#xAE68;&#xB057;&#xD55C; &#xC2A4;&#xD1A0;&#xC5B4;&#xB97C; &#xBCF4;&#xC7A5; &#xD558;&#xB3C4;&#xB85D; &#xD569;&#xB2C8;&#xB2E4;. <code>beforeEach</code>&#xB294; &#xAC01; &#xD14C;&#xC2A4;&#xD2B8; &#xC804;&#xC5D0; &#xD638;&#xCD9C;&#xB418;&#xB294; Mocha &#xD6C5;&#xC785;&#xB2C8;&#xB2E4;. &#xC774; &#xD14C;&#xC2A4;&#xD2B8;&#xC5D0;&#xC11C;&#xB294; &#xC2A4;&#xD1A0;&#xC5B4; &#xBCC0;&#xC218;&#xC5D0; &#xAC12;&#xC744; &#xB2E4;&#xC2DC; &#xC9C0;&#xC815;&#xD569;&#xB2C8;&#xB2E4;. &#xC774;&#xB807;&#xAC8C; &#xD558;&#xC9C0; &#xC54A;&#xC73C;&#xBA74;, &#xBAA9;&#xD0B9; &#xD568;&#xC218;&#xB97C; &#xC790;&#xB3D9;&#xC73C;&#xB85C; &#xC7AC;&#xC124;&#xC815;&#xD574; &#xC8FC;&#xC5B4;&#xC57C; &#xD569;&#xB2C8;&#xB2E4;. &#xBB3C;&#xB860; &#xD14C;&#xC2A4;&#xD2B8;&#xC5D0;&#xC11C; &#xC0C1;&#xD0DC;(state)&#xB97C; &#xBC14;&#xAFC0; &#xC218; &#xC788;&#xC2B5;&#xB2C8;&#xB2E4;&#xB9CC;, &#xC774; &#xBC29;&#xBC95;&#xC774; &#xB2E4;&#xC74C;&#xC5D0; &#xC9C4;&#xD589;&#xB418;&#xB294; &#xD14C;&#xC2A4;&#xD2B8;&#xB4E4;&#xC5D0; &#xC601;&#xD5A5;&#xC744; &#xC8FC;&#xC9C0; &#xC54A;&#xB294; &#xBC29;&#xBC95;&#xC785;&#xB2C8;&#xB2E4;.</p>
+<p>&#xD14C;&#xC2A4;&#xD2B8;&#xC5D0;&#xC11C; &#xAC00;&#xC7A5; &#xC8FC;&#xC758;&#xAE4A;&#xAC8C; &#xBD10;&#xC57C;&#xD560; &#xBD80;&#xBD84;&#xC740; <strong>&#xAC00;&#xC9DC; Vuex &#xC2A4;&#xD1A0;&#xC5B4;&#xB97C; &#xB9CC;&#xB4E0; &#xB2E4;&#xC74C;, &#xC774;&#xB97C; vue-test-utils</strong>&#xC5D0; &#xC804;&#xB2EC;&#xD558;&#xB294; &#xAC83; &#xC785;&#xB2C8;&#xB2E4;.</p>
+<p>&#xC774;&#xC81C; &#xC561;&#xC158;&#xC744; &#xBAA9;&#xD0B9;&#xD560; &#xC218; &#xC788;&#xC2B5;&#xB2C8;&#xB2E4;. getters&#xB97C; &#xBAA9;&#xD0B9;&#xD574;&#xBCF4;&#xACA0;&#xC2B5;&#xB2C8;&#xB2E4;.</p>
+<h2 id="&#xAC8C;&#xD130;-&#xBAA9;&#xD0B9;&#xD558;&#xAE30;">&#xAC8C;&#xD130; &#xBAA9;&#xD0B9;&#xD558;&#xAE30;</h2>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">v-if</span>=<span class="hljs-string">&quot;inputValue&quot;</span>&gt;</span>{{inputValue}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">v-if</span>=<span class="hljs-string">&quot;clicks&quot;</span>&gt;</span>{{clicks}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+<span class="hljs-keyword">import</span> { mapGetters } <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;vuex&apos;</span>
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span>{
+  computed: mapGetters([
+    <span class="hljs-string">&apos;clicks&apos;</span>,
+    <span class="hljs-string">&apos;inputValue&apos;</span>
+  ])
+}
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+</code></pre>
+<p>&#xC544;&#xC8FC; &#xAC04;&#xB2E8;&#xD55C; &#xCEF4;&#xD3EC;&#xB10C;&#xD2B8;&#xC785;&#xB2C8;&#xB2E4;. &#xAC8C;&#xD130;&#xB294; <code>clicks</code>&#xC640; <code>inputValue</code>&#xC758; &#xACB0;&#xACFC;&#xB97C; &#xB80C;&#xB354;&#xB9C1;&#xD569;&#xB2C8;&#xB2E4;. &#xB2E4;&#xC2DC; &#xB9D0;&#xD558;&#xC9C0;&#xB9CC;, &#xC6B0;&#xB9AC;&#xB294; &#xB2E8;&#xC9C0; &#xACB0;&#xACFC;&#xAC00; &#xC62C;&#xBC14;&#xB974;&#xAC8C; &#xB80C;&#xB354;&#xB9C1; &#xB418;&#xB294; &#xAC83; &#xC678;&#xC5D0; &#xAC8C;&#xD130;&#xAC00; &#xBC18;&#xD658;&#xD558;&#xB294; &#xAC83;&#xC744; &#xC2E0;&#xACBD;&#xC4F0;&#xC9C0; &#xC54A;&#xC2B5;&#xB2C8;&#xB2E4;.</p>
+<p>&#xD14C;&#xC2A4;&#xD2B8;&#xB97C; &#xBD05;&#xB2C8;&#xB2E4;.</p>
+<pre><code class="lang-js"><span class="hljs-keyword">import</span> { shallow, createLocalVue } <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;@vue/test-utils&apos;</span>
+<span class="hljs-keyword">import</span> Vuex <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;vuex&apos;</span>
+<span class="hljs-keyword">import</span> Actions <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;../../../src/components/Getters&apos;</span>
+
+<span class="hljs-keyword">const</span> localVue = createLocalVue()
+
+localVue.use(Vuex)
+
+describe(<span class="hljs-string">&apos;Getters.vue&apos;</span>, () =&gt; {
+  <span class="hljs-keyword">let</span> getters
+  <span class="hljs-keyword">let</span> store
+
+  beforeEach(() =&gt; {
+    getters = {
+      clicks: () =&gt; <span class="hljs-number">2</span>,
+      inputValue: () =&gt; <span class="hljs-string">&apos;input&apos;</span>
+    }
+
+    store = <span class="hljs-keyword">new</span> Vuex.Store({
+      getters
+    })
+  })
+
+  it(<span class="hljs-string">&apos;Renders state.inputValue in first p tag&apos;</span>, () =&gt; {
+    <span class="hljs-keyword">const</span> wrapper = shallow(Actions, { store, localVue })
+    <span class="hljs-keyword">const</span> p = wrapper.find(<span class="hljs-string">&apos;p&apos;</span>)
+    expect(p.text()).toBe(getters.inputValue())
+  })
+
+  it(<span class="hljs-string">&apos;Renders state.clicks in second p tag&apos;</span>, () =&gt; {
+    <span class="hljs-keyword">const</span> wrapper = shallow(Actions, { store, localVue })
+    <span class="hljs-keyword">const</span> p = wrapper.findAll(<span class="hljs-string">&apos;p&apos;</span>).at(<span class="hljs-number">1</span>)
+    expect(p.text()).toBe(getters.clicks().toString())
+  })
+})
+</code></pre>
+<p>&#xC774; &#xD14C;&#xC2A4;&#xD2B8;&#xB294; &#xC561;&#xC158; &#xD14C;&#xC2A4;&#xD2B8;&#xC640; &#xBE44;&#xC2B7;&#xD569;&#xB2C8;&#xB2E4;. &#xAC01; &#xD14C;&#xC2A4;&#xD2B8; &#xC804;&#xC5D0; &#xAC00;&#xC9DC; &#xC2A4;&#xD1A0;&#xC5B4;&#xB97C; &#xB9CC;&#xB4E4;&#xACE0; <code>shallow</code>&#xB97C; &#xD638;&#xCD9C; &#xD560; &#xB54C; &#xC635;&#xC158;&#xC744; &#xB118;&#xACA8;&#xC8FC;&#xACE0;, &#xBAA9;&#xD0B9; &#xAC8C;&#xD130;&#xC5D0; &#xC758;&#xD574; &#xBC18;&#xD658;&#xB41C; &#xAC12;&#xC774; &#xB80C;&#xB354;&#xB9C1; &#xB418;&#xB294; &#xAC83;&#xC744; &#xAC80;&#xC99D;&#xD569;&#xB2C8;&#xB2E4;.</p>
+<p>&#xC774;&#xB294; &#xD6CC;&#xB96D;&#xD558;&#xC9C0;&#xB9CC;, getter&#xAC00; &#xBA40;&#xCA61;&#xD55C; &#xC0C1;&#xD0DC;(state)&#xB97C; &#xB9AC;&#xD134;&#xD558;&#xACE0; &#xC788;&#xB294;&#xC9C0; &#xD655;&#xC778; &#xD558;&#xB824;&#xBA74; &#xC5B4;&#xB5BB;&#xAC8C; &#xD574;&#xC57C;&#xD560;&#xAE4C;&#xC694;?</p>
+<h2 id="&#xBAA8;&#xB4C8;-&#xBAA9;&#xD0B9;&#xD558;&#xAE30;">&#xBAA8;&#xB4C8; &#xBAA9;&#xD0B9;&#xD558;&#xAE30;</h2>
+<p><a href="https://vuex.vuejs.org/en/modules.html" target="_blank">&#xBAA8;&#xB4C8;</a>&#xC740; &#xC2A4;&#xD1A0;&#xC5B4;&#xB97C; &#xAD00;&#xB9AC; &#xAC00;&#xB2A5;&#xD55C; &#xB369;&#xC5B4;&#xB9AC;&#xB85C; &#xBD84;&#xB9AC;&#xD558;&#xB294;&#xB370; &#xC720;&#xC6A9;&#xD569;&#xB2C8;&#xB2E4;. &#xB610;&#xD55C; &#xAC8C;&#xD130;&#xB97C; &#xB0B4;&#xBCF4;&#xB0C5;&#xB2C8;&#xB2E4;. &#xD14C;&#xC2A4;&#xD2B8;&#xC5D0;&#xC11C; &#xC774; &#xAC83;&#xC744; &#xC0AC;&#xC6A9;&#xD560; &#xC218; &#xC788;&#xC2B5;&#xB2C8;&#xB2E4;.</p>
+<p>&#xCEF4;&#xD3EC;&#xB10C;&#xD2B8;&#xB97C; &#xC0B4;&#xD3B4;&#xBD05;&#xB2C8;&#xB2E4;.</p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">button</span> @<span class="hljs-attr">click</span>=<span class="hljs-string">&quot;moduleActionClick()&quot;</span>&gt;</span>Click<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>{{moduleClicks}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+<span class="hljs-keyword">import</span> { mapActions, mapGetters } <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;vuex&apos;</span>
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span>{
+  methods: {
+    ...mapActions([
+      <span class="hljs-string">&apos;moduleActionClick&apos;</span>
+    ])
+  },
+
+  computed: mapGetters([
+    <span class="hljs-string">&apos;moduleClicks&apos;</span>
+  ])
+}
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+</code></pre>
+<p>&#xD558;&#xB098;&#xC758; &#xC561;&#xC158;&#xACFC; &#xAC8C;&#xD130;&#xB97C; &#xD3EC;&#xD568;&#xD558;&#xB294; &#xAC04;&#xB2E8;&#xD55C; &#xCEF4;&#xD3EC;&#xB10C;&#xD2B8;&#xC785;&#xB2C8;&#xB2E4;.</p>
+<p>&#xC544;&#xB798;&#xB294; &#xD14C;&#xC2A4;&#xD2B8;&#xC785;&#xB2C8;&#xB2E4;.</p>
+<pre><code class="lang-js"><span class="hljs-keyword">import</span> { shallow, createLocalVue } <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;@vue/test-utils&apos;</span>
+<span class="hljs-keyword">import</span> Vuex <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;vuex&apos;</span>
+<span class="hljs-keyword">import</span> Modules <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;../../../src/components/Modules&apos;</span>
+<span class="hljs-keyword">import</span> <span class="hljs-built_in">module</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;../../../src/store/module&apos;</span>
+
+<span class="hljs-keyword">const</span> localVue = createLocalVue()
+
+localVue.use(Vuex)
+
+describe(<span class="hljs-string">&apos;Modules.vue&apos;</span>, () =&gt; {
+  <span class="hljs-keyword">let</span> actions
+  <span class="hljs-keyword">let</span> state
+  <span class="hljs-keyword">let</span> store
+
+  beforeEach(() =&gt; {
+    state = {
+      <span class="hljs-built_in">module</span>: {
+        clicks: <span class="hljs-number">2</span>
+      }
+    }
+
+    actions = {
+      moduleActionClick: jest.fn()
+    }
+
+    store = <span class="hljs-keyword">new</span> Vuex.Store({
+      state,
+      actions,
+      getters: <span class="hljs-built_in">module</span>.getters
+    })
+  })
+
+  it(<span class="hljs-string">&apos;calls store action moduleActionClick when button is clicked&apos;</span>, () =&gt; {
+    <span class="hljs-keyword">const</span> wrapper = shallow(Modules, { store, localVue })
+    <span class="hljs-keyword">const</span> button = wrapper.find(<span class="hljs-string">&apos;button&apos;</span>)
+    button.trigger(<span class="hljs-string">&apos;click&apos;</span>)
+    expect(actions.moduleActionClick).toHaveBeenCalled()
+  })
+
+  it(<span class="hljs-string">&apos;Renders state.inputValue in first p tag&apos;</span>, () =&gt; {
+    <span class="hljs-keyword">const</span> wrapper = shallow(Modules, { store, localVue })
+    <span class="hljs-keyword">const</span> p = wrapper.find(<span class="hljs-string">&apos;p&apos;</span>)
+    expect(p.text()).toBe(state.module.clicks.toString())
+  })
+})
+</code></pre>
+<h3 id="&#xB9AC;&#xC18C;&#xC2A4;">&#xB9AC;&#xC18C;&#xC2A4;</h3>
+<ul>
+<li><a href="https://github.com/eddyerburgh/vue-test-utils-vuex-example" target="_blank">&#xC774; &#xAC00;&#xC774;&#xB4DC;&#xC758; &#xC608;&#xC81C;</a></li>
+<li><a href="../api/options.html#localvue">localVue</a></li>
+<li><a href="../api/createLocalVue.html">createLocalVue</a></li>
+</ul>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+  <script src="//m.servedby-buysellads.com/monetization.js" type="text/javascript"></script>
+  <div class="bsa-cpc"></div>
+  <script>
+    (function(){
+      if(typeof _bsa !== 'undefined' && _bsa) {
+      _bsa.init('default', 'CKYD62QM', 'placement:vuejsorg', {
+        target: '.bsa-cpc',
+        align: 'horizontal',
+        disable_css: 'true'
+      });
+        }
+    })();
+  </script>
+
+            </div>
+
+            
+                
+                <a href="using-with-vue-router.html" class="navigation navigation-prev " aria-label="Previous page: Using with Vue Router">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="../api/" class="navigation navigation-next " aria-label="Next page: API">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Using with Vuex","level":"1.2.8","depth":2,"next":{"title":"API","level":"1.3","depth":1,"path":"api/README.md","ref":"api/README.md","articles":[{"title":"mount","level":"1.3.1","depth":2,"path":"api/mount.md","ref":"api/mount.md","articles":[]},{"title":"shallow","level":"1.3.2","depth":2,"path":"api/shallow.md","ref":"api/shallow.md","articles":[]},{"title":"Mounting Options","level":"1.3.3","depth":2,"path":"api/options.md","ref":"api/options.md","articles":[{"title":"context","level":"1.3.3.1","depth":3,"anchor":"#context","path":"api/options.md","ref":"api/options.md#context","articles":[]},{"title":"slots","level":"1.3.3.2","depth":3,"anchor":"#slots","path":"api/options.md","ref":"api/options.md#slots","articles":[]},{"title":"stubs","level":"1.3.3.3","depth":3,"anchor":"#stubs","path":"api/options.md","ref":"api/options.md#stubs","articles":[]},{"title":"mocks","level":"1.3.3.4","depth":3,"anchor":"#mocks","path":"api/options.md","ref":"api/options.md#mocks","articles":[]},{"title":"localVue","level":"1.3.3.5","depth":3,"anchor":"#localvue","path":"api/options.md","ref":"api/options.md#localvue","articles":[]},{"title":"attachToDocument","level":"1.3.3.6","depth":3,"anchor":"#attachtodocument","path":"api/options.md","ref":"api/options.md#attachtodocument","articles":[]},{"title":"attrs","level":"1.3.3.7","depth":3,"anchor":"#attrs","path":"api/options.md","ref":"api/options.md#attrs","articles":[]},{"title":"listeners","level":"1.3.3.8","depth":3,"anchor":"#listeners","path":"api/options.md","ref":"api/options.md#listeners","articles":[]}]},{"title":"Wrapper","level":"1.3.4","depth":2,"path":"api/wrapper/README.md","ref":"api/wrapper/README.md","articles":[{"title":"contains","level":"1.3.4.1","depth":3,"path":"api/wrapper/contains.md","ref":"api/wrapper/contains.md","articles":[]},{"title":"emitted","level":"1.3.4.2","depth":3,"path":"api/wrapper/emitted.md","ref":"api/wrapper/emitted.md","articles":[]},{"title":"emittedByOrder","level":"1.3.4.3","depth":3,"path":"api/wrapper/emittedByOrder.md","ref":"api/wrapper/emittedByOrder.md","articles":[]},{"title":"find","level":"1.3.4.4","depth":3,"path":"api/wrapper/find.md","ref":"api/wrapper/find.md","articles":[]},{"title":"findAll","level":"1.3.4.5","depth":3,"path":"api/wrapper/findAll.md","ref":"api/wrapper/findAll.md","articles":[]},{"title":"hasAttribute","level":"1.3.4.6","depth":3,"path":"api/wrapper/hasAttribute.md","ref":"api/wrapper/hasAttribute.md","articles":[]},{"title":"hasClass","level":"1.3.4.7","depth":3,"path":"api/wrapper/hasClass.md","ref":"api/wrapper/hasClass.md","articles":[]},{"title":"hasProp","level":"1.3.4.8","depth":3,"path":"api/wrapper/hasProp.md","ref":"api/wrapper/hasProp.md","articles":[]},{"title":"html","level":"1.3.4.9","depth":3,"path":"api/wrapper/html.md","ref":"api/wrapper/html.md","articles":[]},{"title":"is","level":"1.3.4.10","depth":3,"path":"api/wrapper/is.md","ref":"api/wrapper/is.md","articles":[]},{"title":"isEmpty","level":"1.3.4.11","depth":3,"path":"api/wrapper/isEmpty.md","ref":"api/wrapper/isEmpty.md","articles":[]},{"title":"isVueInstance","level":"1.3.4.12","depth":3,"path":"api/wrapper/isVueInstance.md","ref":"api/wrapper/isVueInstance.md","articles":[]},{"title":"name","level":"1.3.4.13","depth":3,"path":"api/wrapper/name.md","ref":"api/wrapper/name.md","articles":[]},{"title":"setData","level":"1.3.4.14","depth":3,"path":"api/wrapper/setData.md","ref":"api/wrapper/setData.md","articles":[]},{"title":"setMethods","level":"1.3.4.15","depth":3,"path":"api/wrapper/setMethods.md","ref":"api/wrapper/setMethods.md","articles":[]},{"title":"setProps","level":"1.3.4.16","depth":3,"path":"api/wrapper/setProps.md","ref":"api/wrapper/setProps.md","articles":[]},{"title":"text","level":"1.3.4.17","depth":3,"path":"api/wrapper/text.md","ref":"api/wrapper/text.md","articles":[]},{"title":"trigger","level":"1.3.4.18","depth":3,"path":"api/wrapper/trigger.md","ref":"api/wrapper/trigger.md","articles":[]},{"title":"destroy","level":"1.3.4.19","depth":3,"path":"api/wrapper/destroy.md","ref":"api/wrapper/destroy.md","articles":[]}]},{"title":"WrapperArray","level":"1.3.5","depth":2,"path":"api/wrapper-array/README.md","ref":"api/wrapper-array/README.md","articles":[{"title":"at","level":"1.3.5.1","depth":3,"path":"api/wrapper-array/at.md","ref":"api/wrapper-array/at.md","articles":[]},{"title":"contains","level":"1.3.5.2","depth":3,"path":"api/wrapper-array/contains.md","ref":"api/wrapper-array/contains.md","articles":[]},{"title":"hasAttribute","level":"1.3.5.3","depth":3,"path":"api/wrapper-array/hasAttribute.md","ref":"api/wrapper-array/hasAttribute.md","articles":[]},{"title":"hasClass","level":"1.3.5.4","depth":3,"path":"api/wrapper-array/hasClass.md","ref":"api/wrapper-array/hasClass.md","articles":[]},{"title":"hasProp","level":"1.3.5.5","depth":3,"path":"api/wrapper-array/hasProp.md","ref":"api/wrapper-array/hasProp.md","articles":[]},{"title":"is","level":"1.3.5.6","depth":3,"path":"api/wrapper-array/is.md","ref":"api/wrapper-array/is.md","articles":[]},{"title":"isEmpty","level":"1.3.5.7","depth":3,"path":"api/wrapper-array/isEmpty.md","ref":"api/wrapper-array/isEmpty.md","articles":[]},{"title":"isVueInstance","level":"1.3.5.8","depth":3,"path":"api/wrapper-array/isVueInstance.md","ref":"api/wrapper-array/isVueInstance.md","articles":[]},{"title":"setComputed","level":"1.3.5.9","depth":3,"path":"api/wrapper-array/setComputed.md","ref":"api/wrapper-array/setComputed.md","articles":[]},{"title":"setData","level":"1.3.5.10","depth":3,"path":"api/wrapper-array/setData.md","ref":"api/wrapper-array/setData.md","articles":[]},{"title":"setMethods","level":"1.3.5.11","depth":3,"path":"api/wrapper-array/setMethods.md","ref":"api/wrapper-array/setMethods.md","articles":[]},{"title":"setProps","level":"1.3.5.12","depth":3,"path":"api/wrapper-array/setProps.md","ref":"api/wrapper-array/setProps.md","articles":[]},{"title":"trigger","level":"1.3.5.13","depth":3,"path":"api/wrapper-array/trigger.md","ref":"api/wrapper-array/trigger.md","articles":[]},{"title":"destroy","level":"1.3.5.14","depth":3,"path":"api/wrapper-array/destroy.md","ref":"api/wrapper-array/destroy.md","articles":[]}]},{"title":"components","level":"1.3.6","depth":2,"path":"api/components/README.md","ref":"api/components/README.md","articles":[{"title":"TransitionStub","level":"1.3.6.1","depth":3,"path":"api/components/TransitionStub.md","ref":"api/components/TransitionStub.md","articles":[]},{"title":"TransitionGroupStub","level":"1.3.6.2","depth":3,"path":"api/components/TransitionGroupStub.md","ref":"api/components/TransitionGroupStub.md","articles":[]}]},{"title":"Selectors","level":"1.3.7","depth":2,"path":"api/selectors.md","ref":"api/selectors.md","articles":[]},{"title":"createLocalVue","level":"1.3.8","depth":2,"path":"api/createLocalVue.md","ref":"api/createLocalVue.md","articles":[]},{"title":"config","level":"1.3.9","depth":2,"path":"api/config.md","ref":"api/config.md","articles":[]}]},"previous":{"title":"Using with Vue Router","level":"1.2.7","depth":2,"path":"guides/using-with-vue-router.md","ref":"guides/using-with-vue-router.md","articles":[]},"dir":"ltr"},"config":{"plugins":["edit-link","theme-vuejs","-fontsettings","github"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit This Page","base":"https://github.com/vuejs/vue-test-utils/edit/master/docs"},"github":{"url":"https://github.com/vuejs/vue-test-utils/"},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":false,"twitter":false,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-vuejs":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"vue-test-utils","language":"kr","links":{"sharing":{"facebook":false,"twitter":false}},"gitbook":"*"},"file":{"path":"guides/using-with-vuex.md","mtime":"2018-01-27T18:56:22.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-04-23T17:43:36.920Z"},"basePath":"..","book":{"language":"kr"}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-edit-link/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-github/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+
+    </body>
+</html>
+

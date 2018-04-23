@@ -1,0 +1,1131 @@
+
+<!DOCTYPE HTML>
+<html lang="kr" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Choosing a test runner · vue-test-utils</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-theme-vuejs/vue.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="testing-SFCs-with-jest.html" />
+    
+    
+    <link rel="prev" href="dom-events.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+<script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?zoneid=1673&serve=C6AILKT&placement=vuejs" id="_carbonads_js"></script>
+
+
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        <li class="header">Table of Contents</li>
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    Guides
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="getting-started.html">
+            
+                <a href="getting-started.html">
+            
+                    
+                    Getting Started
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="common-tips.html">
+            
+                <a href="common-tips.html">
+            
+                    
+                    Common Tips
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="dom-events.html">
+            
+                <a href="dom-events.html">
+            
+                    
+                    Mouse, Key and other DOM Events
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.2.4" data-path="choosing-a-test-runner.html">
+            
+                <a href="choosing-a-test-runner.html">
+            
+                    
+                    Choosing a test runner
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5" data-path="testing-SFCs-with-jest.html">
+            
+                <a href="testing-SFCs-with-jest.html">
+            
+                    
+                    Testing SFCs with Jest
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6" data-path="testing-SFCs-with-mocha-webpack.html">
+            
+                <a href="testing-SFCs-with-mocha-webpack.html">
+            
+                    
+                    Testing SFCs with Mocha + webpack
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.7" data-path="using-with-vue-router.html">
+            
+                <a href="using-with-vue-router.html">
+            
+                    
+                    Using with Vue Router
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.8" data-path="using-with-vuex.html">
+            
+                <a href="using-with-vuex.html">
+            
+                    
+                    Using with Vuex
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../api/">
+            
+                <a href="../api/">
+            
+                    
+                    API
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../api/mount.html">
+            
+                <a href="../api/mount.html">
+            
+                    
+                    mount
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../api/shallow.html">
+            
+                <a href="../api/shallow.html">
+            
+                    
+                    shallow
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="../api/options.html">
+            
+                <a href="../api/options.html">
+            
+                    
+                    Mounting Options
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.3.1" data-path="../api/options.html">
+            
+                <a href="../api/options.html#context">
+            
+                    
+                    context
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3.2" data-path="../api/options.html">
+            
+                <a href="../api/options.html#slots">
+            
+                    
+                    slots
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3.3" data-path="../api/options.html">
+            
+                <a href="../api/options.html#stubs">
+            
+                    
+                    stubs
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3.4" data-path="../api/options.html">
+            
+                <a href="../api/options.html#mocks">
+            
+                    
+                    mocks
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3.5" data-path="../api/options.html">
+            
+                <a href="../api/options.html#localvue">
+            
+                    
+                    localVue
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3.6" data-path="../api/options.html">
+            
+                <a href="../api/options.html#attachtodocument">
+            
+                    
+                    attachToDocument
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3.7" data-path="../api/options.html">
+            
+                <a href="../api/options.html#attrs">
+            
+                    
+                    attrs
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3.8" data-path="../api/options.html">
+            
+                <a href="../api/options.html#listeners">
+            
+                    
+                    listeners
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4" data-path="../api/wrapper/">
+            
+                <a href="../api/wrapper/">
+            
+                    
+                    Wrapper
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.4.1" data-path="../api/wrapper/contains.html">
+            
+                <a href="../api/wrapper/contains.html">
+            
+                    
+                    contains
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.2" data-path="../api/wrapper/emitted.html">
+            
+                <a href="../api/wrapper/emitted.html">
+            
+                    
+                    emitted
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.3" data-path="../api/wrapper/emittedByOrder.html">
+            
+                <a href="../api/wrapper/emittedByOrder.html">
+            
+                    
+                    emittedByOrder
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.4" data-path="../api/wrapper/find.html">
+            
+                <a href="../api/wrapper/find.html">
+            
+                    
+                    find
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.5" data-path="../api/wrapper/findAll.html">
+            
+                <a href="../api/wrapper/findAll.html">
+            
+                    
+                    findAll
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.6" data-path="../api/wrapper/hasAttribute.html">
+            
+                <a href="../api/wrapper/hasAttribute.html">
+            
+                    
+                    hasAttribute
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.7" data-path="../api/wrapper/hasClass.html">
+            
+                <a href="../api/wrapper/hasClass.html">
+            
+                    
+                    hasClass
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.8" data-path="../api/wrapper/hasProp.html">
+            
+                <a href="../api/wrapper/hasProp.html">
+            
+                    
+                    hasProp
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.9" data-path="../api/wrapper/html.html">
+            
+                <a href="../api/wrapper/html.html">
+            
+                    
+                    html
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.10" data-path="../api/wrapper/is.html">
+            
+                <a href="../api/wrapper/is.html">
+            
+                    
+                    is
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.11" data-path="../api/wrapper/isEmpty.html">
+            
+                <a href="../api/wrapper/isEmpty.html">
+            
+                    
+                    isEmpty
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.12" data-path="../api/wrapper/isVueInstance.html">
+            
+                <a href="../api/wrapper/isVueInstance.html">
+            
+                    
+                    isVueInstance
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.13" data-path="../api/wrapper/name.html">
+            
+                <a href="../api/wrapper/name.html">
+            
+                    
+                    name
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.14" data-path="../api/wrapper/setData.html">
+            
+                <a href="../api/wrapper/setData.html">
+            
+                    
+                    setData
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.15" data-path="../api/wrapper/setMethods.html">
+            
+                <a href="../api/wrapper/setMethods.html">
+            
+                    
+                    setMethods
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.16" data-path="../api/wrapper/setProps.html">
+            
+                <a href="../api/wrapper/setProps.html">
+            
+                    
+                    setProps
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.17" data-path="../api/wrapper/text.html">
+            
+                <a href="../api/wrapper/text.html">
+            
+                    
+                    text
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.18" data-path="../api/wrapper/trigger.html">
+            
+                <a href="../api/wrapper/trigger.html">
+            
+                    
+                    trigger
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.19" data-path="../api/wrapper/destroy.html">
+            
+                <a href="../api/wrapper/destroy.html">
+            
+                    
+                    destroy
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5" data-path="../api/wrapper-array/">
+            
+                <a href="../api/wrapper-array/">
+            
+                    
+                    WrapperArray
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.5.1" data-path="../api/wrapper-array/at.html">
+            
+                <a href="../api/wrapper-array/at.html">
+            
+                    
+                    at
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.2" data-path="../api/wrapper-array/contains.html">
+            
+                <a href="../api/wrapper-array/contains.html">
+            
+                    
+                    contains
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.3" data-path="../api/wrapper-array/hasAttribute.html">
+            
+                <a href="../api/wrapper-array/hasAttribute.html">
+            
+                    
+                    hasAttribute
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.4" data-path="../api/wrapper-array/hasClass.html">
+            
+                <a href="../api/wrapper-array/hasClass.html">
+            
+                    
+                    hasClass
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.5" data-path="../api/wrapper-array/hasProp.html">
+            
+                <a href="../api/wrapper-array/hasProp.html">
+            
+                    
+                    hasProp
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.6" data-path="../api/wrapper-array/is.html">
+            
+                <a href="../api/wrapper-array/is.html">
+            
+                    
+                    is
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.7" data-path="../api/wrapper-array/isEmpty.html">
+            
+                <a href="../api/wrapper-array/isEmpty.html">
+            
+                    
+                    isEmpty
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.8" data-path="../api/wrapper-array/isVueInstance.html">
+            
+                <a href="../api/wrapper-array/isVueInstance.html">
+            
+                    
+                    isVueInstance
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.9" data-path="../api/wrapper-array/setComputed.html">
+            
+                <a href="../api/wrapper-array/setComputed.html">
+            
+                    
+                    setComputed
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.10" data-path="../api/wrapper-array/setData.html">
+            
+                <a href="../api/wrapper-array/setData.html">
+            
+                    
+                    setData
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.11" data-path="../api/wrapper-array/setMethods.html">
+            
+                <a href="../api/wrapper-array/setMethods.html">
+            
+                    
+                    setMethods
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.12" data-path="../api/wrapper-array/setProps.html">
+            
+                <a href="../api/wrapper-array/setProps.html">
+            
+                    
+                    setProps
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.13" data-path="../api/wrapper-array/trigger.html">
+            
+                <a href="../api/wrapper-array/trigger.html">
+            
+                    
+                    trigger
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.14" data-path="../api/wrapper-array/destroy.html">
+            
+                <a href="../api/wrapper-array/destroy.html">
+            
+                    
+                    destroy
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6" data-path="../api/components/">
+            
+                <a href="../api/components/">
+            
+                    
+                    components
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.6.1" data-path="../api/components/TransitionStub.html">
+            
+                <a href="../api/components/TransitionStub.html">
+            
+                    
+                    TransitionStub
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.2" data-path="../api/components/TransitionGroupStub.html">
+            
+                <a href="../api/components/TransitionGroupStub.html">
+            
+                    
+                    TransitionGroupStub
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7" data-path="../api/selectors.html">
+            
+                <a href="../api/selectors.html">
+            
+                    
+                    Selectors
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.8" data-path="../api/createLocalVue.html">
+            
+                <a href="../api/createLocalVue.html">
+            
+                    
+                    createLocalVue
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.9" data-path="../api/config.html">
+            
+                <a href="../api/config.html">
+            
+                    
+                    config
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+  
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >Choosing a test runner</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="&#xD14C;&#xC2A4;&#xD2B8;-&#xB7EC;&#xB108;-&#xC120;&#xD0DD;&#xD558;&#xAE30;">&#xD14C;&#xC2A4;&#xD2B8; &#xB7EC;&#xB108; &#xC120;&#xD0DD;&#xD558;&#xAE30;</h1>
+<p>&#xD14C;&#xC2A4;&#xD2B8; &#xB7EC;&#xB108;&#xB294; &#xD14C;&#xC2A4;&#xD2B8;&#xB97C; &#xC2E4;&#xD589;&#xD558;&#xB294; &#xD504;&#xB85C;&#xADF8;&#xB7A8;&#xC785;&#xB2C8;&#xB2E4;.</p>
+<p>JavaScript &#xC5D0;&#xB294; &#xC720;&#xBA85;&#xD55C; &#xD14C;&#xC2A4;&#xD2B8; &#xB7EC;&#xB108;&#xAC00; &#xB9CE;&#xC774; &#xC788;&#xC2B5;&#xB2C8;&#xB2E4;. <code>vue-test-utils</code>&#xB294; &#xBAA8;&#xB4E0; &#xD14C;&#xC2A4;&#xD2B8; &#xB7EC;&#xB108;&#xC640; &#xD568;&#xAED8; &#xC0AC;&#xC6A9;&#xD560; &#xC218; &#xC788;&#xC2B5;&#xB2C8;&#xB2E4;. &#xC774;&#xB294; &#xD14C;&#xC2A4;&#xD2B8; &#xB7EC;&#xB108; &#xC885;&#xB958;&#xC640;&#xB294; &#xC0C1;&#xAD00;&#xC5C6;&#xC2B5;&#xB2C8;&#xB2E4;.</p>
+<p>&#xD14C;&#xC2A4;&#xD2B8; &#xB7EC;&#xB108;&#xB97C; &#xC120;&#xD0DD;&#xD560; &#xB54C;&#xB294; &#xAE30;&#xB2A5; &#xC138;&#xD2B8;, &#xC131;&#xB2A5; &#xBC0F; &#xC2F1;&#xAE00; &#xD30C;&#xC77C; &#xCEF4;&#xD3EC;&#xB10C;&#xD2B8;, &#xC0AC;&#xC804; &#xCEF4;&#xD30C;&#xC77C; &#xC9C0;&#xC6D0; &#xB4F1;&#xC744; &#xC9C0;&#xC6D0;&#xD558;&#xB294;&#xC9C0; &#xB4F1; &#xBA87; &#xAC00;&#xC9C0; &#xC0AC;&#xD56D;&#xC744; &#xACE0;&#xB824;&#xD574;&#xC57C; &#xD569;&#xB2C8;&#xB2E4;. &#xAE30;&#xC874; &#xB77C;&#xC774;&#xBE0C;&#xB7EC;&#xB9AC;&#xB4E4;&#xC744; &#xC2E0;&#xC911;&#xD558;&#xAC8C; &#xBE44;&#xAD50;&#xD55C; &#xACB0;&#xACFC;, &#xB2E4;&#xC74C; &#xB450; &#xAC00;&#xC9C0; &#xD14C;&#xC2A4;&#xD2B8; &#xB7EC;&#xB108;&#xB97C; &#xAD8C;&#xC7A5;&#xD569;&#xB2C8;&#xB2E4;:</p>
+<ul>
+<li><p><a href="https://facebook.github.io/jest/docs/en/getting-started.html#content" target="_blank">Jest</a>&#xB294; &#xC644;&#xBCBD;&#xD55C; &#xAE30;&#xB2A5;&#xC744; &#xAC16;&#xCD98; &#xD14C;&#xC2A4;&#xD2B8; &#xB7EC;&#xB108;&#xC785;&#xB2C8;&#xB2E4;. &#xCD5C;&#xC18C;&#xD55C;&#xC758; &#xC124;&#xC815;&#xC774; &#xD544;&#xC694;&#xD558;&#xBA70;, &#xAE30;&#xBCF8;&#xC801;&#xC73C;&#xB85C; JSDOM&#xC744; &#xAC16;&#xCD94;&#xC5C8;&#xACE0;, &#xB0B4;&#xC7A5;&#xB41C; &#xAC80;&#xC99D; &#xB3C4;&#xAD6C;&#xB97C; &#xC81C;&#xACF5;&#xD558;&#xBA70;, &#xCEE4;&#xB9E8;&#xB4DC; &#xB77C;&#xC778; &#xC0AC;&#xC6A9;&#xC131;&#xC774; &#xB6F0;&#xC5B4;&#xB0A9;&#xB2C8;&#xB2E4;. &#xADF8;&#xB7EC;&#xB098; &#xD14C;&#xC2A4;&#xD2B8;&#xC5D0;&#xC11C; &#xC2F1;&#xAE00; &#xD30C;&#xC77C; &#xCEF4;&#xD3EC;&#xB10C;&#xD2B8;(SFC: single-file component)&#xB97C; &#xAC00;&#xC838;&#xC624;&#xB824;&#xBA74; &#xD504;&#xB9AC; &#xD504;&#xB85C;&#xC138;&#xC11C;(&#xC0AC;&#xC804; &#xCC98;&#xB9AC; &#xACFC;&#xC815;)&#xAC00; &#xD544;&#xC694;&#xD569;&#xB2C8;&#xB2E4;. &#xC6B0;&#xB9AC;&#xB294; &#xC77C;&#xBC18;&#xC801;&#xC778; &#xC2F1;&#xAE00; &#xD30C;&#xC77C; &#xCEF4;&#xD3EC;&#xB10C;&#xD2B8;&#xB97C; &#xCC98;&#xB9AC;&#xD560; &#xC218; &#xC788;&#xB3C4;&#xB85D; <code>vue-jest</code> &#xD504;&#xB9AC;&#xD504;&#xB85C;&#xC138;&#xC11C;&#xB97C; &#xB9CC;&#xB4E4;&#xC5C8;&#xC2B5;&#xB2C8;&#xB2E4;. &#xD558;&#xC9C0;&#xB9CC; vue-loader&#xC640; &#xAE30;&#xB2A5;&#xC801;&#xC73C;&#xB85C; 100% &#xAC19;&#xC9C0;&#xB294; &#xC54A;&#xC2B5;&#xB2C8;&#xB2E4;.</p>
+</li>
+<li><p><a href="https://github.com/zinserjan/mocha-webpack" target="_blank">mocha-webpack</a>&#xB294; webpack + Mocha&#xC5D0; &#xB300;&#xD55C; &#xB798;&#xD37C;&#xC774;&#xC9C0;&#xB9CC; &#xAC04;&#xC18C;&#xD654;&#xB41C; &#xC778;&#xD130;&#xD398;&#xC774;&#xC2A4;&#xC640; &#xAC10;&#xC2DC; &#xBAA8;&#xB4DC;&#xB97C; &#xC81C;&#xACF5;&#xD569;&#xB2C8;&#xB2E4;. &#xC774; &#xC124;&#xC815;&#xC758; &#xC7A5;&#xC810;&#xC740; webpack + <code>vue-loader</code>&#xB97C; &#xD1B5;&#xD574; &#xC644;&#xC804;&#xD55C; &#xC2F1;&#xAE00; &#xD30C;&#xC77C; &#xCEF4;&#xD3EC;&#xB10C;&#xD2B8; &#xC9C0;&#xC6D0;&#xC744; &#xD560; &#xC218; &#xC788;&#xB2E4;&#xB294; &#xC810;&#xC785;&#xB2C8;&#xB2E4;. &#xADF8;&#xB7EC;&#xB098; &#xB354; &#xB9CE;&#xC740; &#xC124;&#xC815;&#xC774; &#xD544;&#xC694;&#xD569;&#xB2C8;&#xB2E4;.</p>
+</li>
+</ul>
+<h2 id="&#xBE0C;&#xB77C;&#xC6B0;&#xC800;-&#xD658;&#xACBD;">&#xBE0C;&#xB77C;&#xC6B0;&#xC800; &#xD658;&#xACBD;</h2>
+<p><code>vue-test-utils</code>&#xB294; &#xBE0C;&#xB77C;&#xC6B0;&#xC800; &#xD658;&#xACBD;&#xC5D0; &#xC758;&#xC874;&#xD569;&#xB2C8;&#xB2E4;. &#xAE30;&#xC220;&#xC801;&#xC73C;&#xB85C; &#xC2E4;&#xC81C; &#xBE0C;&#xB77C;&#xC6B0;&#xC800;&#xC5D0;&#xC11C; &#xC2E4;&#xD589;&#xD560; &#xC218; &#xC788;&#xC73C;&#xB098; &#xB2E4;&#xB978; &#xD50C;&#xB7AB;&#xD3FC;&#xC5D0;&#xC11C; &#xC2E4;&#xC81C; &#xBE0C;&#xB77C;&#xC6B0;&#xC800;&#xB97C; &#xC2E4;&#xD589;&#xD574;&#xC57C; &#xD558;&#xB294; &#xBCF5;&#xC7A1;&#xD568; &#xB54C;&#xBB38;&#xC5D0; &#xAD8C;&#xC7A5;&#xD558;&#xC9C0; &#xC54A;&#xC2B5;&#xB2C8;&#xB2E4;. &#xB300;&#xC2E0; <a href="https://github.com/tmpvar/jsdom" target="_blank">JSDOM</a>&#xC744; &#xC0AC;&#xC6A9;&#xD574; &#xAC00;&#xC0C1; &#xBE0C;&#xB77C;&#xC6B0;&#xC800; &#xD658;&#xACBD;&#xC5D0;&#xC11C; Node.js&#xC758; &#xD14C;&#xC2A4;&#xD2B8;&#xB97C; &#xC2E4;&#xD589;&#xD558;&#xB294; &#xAC83;&#xC774; &#xC88B;&#xC2B5;&#xB2C8;&#xB2E4;.</p>
+<p>Jest &#xD14C;&#xC2A4;&#xD2B8; &#xB7EC;&#xB108;&#xB294; JSDOM&#xC744; &#xC790;&#xB3D9;&#xC73C;&#xB85C; &#xC124;&#xC815;&#xD569;&#xB2C8;&#xB2E4;. &#xB2E4;&#xB978; &#xD14C;&#xC2A4;&#xD2B8; &#xB7EC;&#xB108;&#xC758; &#xACBD;&#xC6B0; &#xD14C;&#xC2A4;&#xD2B8; &#xD56D;&#xBAA9;&#xC5D0; <a href="https://github.com/rstacruz/jsdom-global" target="_blank">jsdom-global</a>&#xC744; &#xC0AC;&#xC6A9;&#xD558;&#xC5EC; &#xD14C;&#xC2A4;&#xD2B8;&#xC6A9; JDOM&#xC744; &#xC218;&#xB3D9;&#xC73C;&#xB85C; &#xC124;&#xC815;&#xD560; &#xC218; &#xC788;&#xC2B5;&#xB2C8;&#xB2E4;:</p>
+<pre><code class="lang-bash">npm install --save-dev jsdom jsdom-global
+</code></pre>
+<hr>
+<pre><code class="lang-js"><span class="hljs-comment">// &#xD14C;&#xC2A4;&#xD2B8; &#xC14B;&#xC5C5; / &#xC2DC;&#xC791;&#xC810;&#xC5D0;&#xC11C;</span>
+<span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;jsdom-global&apos;</span>)()
+</code></pre>
+<h2 id="&#xC2F1;&#xAE00;-&#xD30C;&#xC77C;-&#xCEF4;&#xD3EC;&#xB10C;&#xD2B8;-&#xD14C;&#xC2A4;&#xD2B8;">&#xC2F1;&#xAE00; &#xD30C;&#xC77C; &#xCEF4;&#xD3EC;&#xB10C;&#xD2B8; &#xD14C;&#xC2A4;&#xD2B8;</h2>
+<p>&#xC2F1;&#xAE00; &#xD30C;&#xC77C; Vue &#xCEF4;&#xD3EC;&#xB10C;&#xD2B8; (SFCs)&#xB294; &#xB178;&#xB4DC; &#xB610;&#xB294; &#xBE0C;&#xB77C;&#xC6B0;&#xC800;&#xC5D0;&#xC11C; &#xC2E4;&#xD589;&#xD558;&#xAE30; &#xC804;&#xC5D0; &#xBBF8;&#xB9AC; &#xCEF4;&#xD30C;&#xC77C;&#xD574;&#xC57C;&#xD569;&#xB2C8;&#xB2E4;. &#xCEF4;&#xD30C;&#xC77C;&#xD558;&#xB294; &#xB450;&#xAC00;&#xC9C0; &#xBC29;&#xBC95;&#xC744; &#xAD8C;&#xC7A5;&#xD569;&#xB2C8;&#xB2E4;. Jest &#xD504;&#xB9AC;&#xD504;&#xB85C;&#xC138;&#xC11C;&#xB97C; &#xC0AC;&#xC6A9;&#xD558;&#xAC70;&#xB098; &#xC9C1;&#xC811; webpack&#xC744; &#xC774;&#xC6A9;&#xD558;&#xC138;&#xC694;</p>
+<p><code>vue-jest</code> &#xD504;&#xB9AC;&#xD504;&#xB85C;&#xC138;&#xC11C;&#xC758; &#xACBD;&#xC6B0; &#xAE30;&#xBCF8;&#xC801;&#xC778; SFC &#xAE30;&#xB2A5;&#xC744; &#xC9C0;&#xC6D0;&#xD558;&#xB098;, &#xD604;&#xC7AC; <code>vue-loader</code>&#xB9CC; &#xC9C0;&#xC6D0;&#xD558;&#xB294; &#xC2A4;&#xD0C0;&#xC77C; &#xBE14;&#xB7ED;&#xC774;&#xB098; &#xCEE4;&#xC2A4;&#xD140; &#xBE14;&#xB7ED;&#xC744; &#xCC98;&#xB9AC;&#xD558;&#xC9C0; &#xC54A;&#xC2B5;&#xB2C8;&#xB2E4;. &#xC774;&#xB7F0; &#xAE30;&#xB2A5;&#xC774;&#xB098; &#xB2E4;&#xB978; &#xC6F9;&#xD329; &#xD2B9;&#xC815; &#xC124;&#xC815;&#xC5D0; &#xC758;&#xC874;&#xD558;&#xB294; &#xACBD;&#xC6B0; webpack + <code>vue-loader</code> &#xAE30;&#xBC18;&#xC73C;&#xB85C; &#xC124;&#xCE58;&#xD574;&#xC57C;&#xD569;&#xB2C8;&#xB2E4;.</p>
+<p>&#xC544;&#xB798; &#xB0B4;&#xC6A9;&#xC5D0; &#xB530;&#xB77C; &#xB2E4;&#xB978; &#xC124;&#xC815;&#xC744; &#xD560; &#xC218; &#xC788;&#xC2B5;&#xB2C8;&#xB2E4;.</p>
+<ul>
+<li><a href="testing-SFCs-with-jest.html">Jest&#xB85C; &#xC2F1;&#xAE00; &#xD30C;&#xC77C; &#xCEF4;&#xD3EC;&#xB10C;&#xD2B8; &#xD14C;&#xC2A4;&#xD2B8;</a></li>
+<li><a href="testing-SFCs-with-mocha-webpack.html">Mocha + webpack&#xB85C; &#xC2F1;&#xAE00; &#xD30C;&#xC77C; &#xCEF4;&#xD3EC;&#xB10C;&#xD2B8; &#xD14C;&#xC2A4;&#xD2B8;</a></li>
+</ul>
+<h2 id="&#xB9AC;&#xC18C;&#xC2A4;">&#xB9AC;&#xC18C;&#xC2A4;</h2>
+<ul>
+<li><a href="https://github.com/eddyerburgh/vue-unit-test-perf-comparison" target="_blank">&#xD14C;&#xC2A4;&#xD2B8; &#xB7EC;&#xB108; &#xD37C;&#xD3EC;&#xBA3C;&#xC2A4; &#xBE44;&#xAD50;</a></li>
+<li><a href="https://github.com/vuejs/vue-test-utils-jest-example" target="_blank">Jest &#xC608;&#xC81C;</a></li>
+<li><a href="https://github.com/vuejs/vue-test-utils-mocha-webpack-example" target="_blank">Mocha &#xC608;&#xC81C;</a></li>
+<li><a href="https://github.com/eddyerburgh/vue-test-utils-tape-example" target="_blank">tape &#xC608;&#xC81C;</a></li>
+<li><a href="https://github.com/eddyerburgh/vue-test-utils-ava-example" target="_blank">AVA &#xC608;&#xC81C;</a></li>
+</ul>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+  <script src="//m.servedby-buysellads.com/monetization.js" type="text/javascript"></script>
+  <div class="bsa-cpc"></div>
+  <script>
+    (function(){
+      if(typeof _bsa !== 'undefined' && _bsa) {
+      _bsa.init('default', 'CKYD62QM', 'placement:vuejsorg', {
+        target: '.bsa-cpc',
+        align: 'horizontal',
+        disable_css: 'true'
+      });
+        }
+    })();
+  </script>
+
+            </div>
+
+            
+                
+                <a href="dom-events.html" class="navigation navigation-prev " aria-label="Previous page: Mouse, Key and other DOM Events">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="testing-SFCs-with-jest.html" class="navigation navigation-next " aria-label="Next page: Testing SFCs with Jest">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Choosing a test runner","level":"1.2.4","depth":2,"next":{"title":"Testing SFCs with Jest","level":"1.2.5","depth":2,"path":"guides/testing-SFCs-with-jest.md","ref":"guides/testing-SFCs-with-jest.md","articles":[]},"previous":{"title":"Mouse, Key and other DOM Events","level":"1.2.3","depth":2,"path":"guides/dom-events.md","ref":"guides/dom-events.md","articles":[]},"dir":"ltr"},"config":{"plugins":["edit-link","theme-vuejs","-fontsettings","github"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit This Page","base":"https://github.com/vuejs/vue-test-utils/edit/master/docs"},"github":{"url":"https://github.com/vuejs/vue-test-utils/"},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":false,"twitter":false,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-vuejs":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"vue-test-utils","language":"kr","links":{"sharing":{"facebook":false,"twitter":false}},"gitbook":"*"},"file":{"path":"guides/choosing-a-test-runner.md","mtime":"2018-01-27T18:56:22.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-04-23T17:43:36.920Z"},"basePath":"..","book":{"language":"kr"}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-edit-link/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-github/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+
+    </body>
+</html>
+

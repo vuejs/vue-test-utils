@@ -1,0 +1,1286 @@
+
+<!DOCTYPE HTML>
+<html lang="zh-cn" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>配合 Vue Router 使用 · vue-test-utils</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-theme-vuejs/vue.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="using-with-vuex.html" />
+    
+    
+    <link rel="prev" href="testing-async-components.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="輸入並搜尋" />
+</div>
+
+            
+                <nav role="navigation">
+                
+<script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?zoneid=1673&serve=C6AILKT&placement=vuejs" id="_carbonads_js"></script>
+
+
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        <li class="header">目录</li>
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    教程
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="getting-started.html">
+            
+                <a href="getting-started.html">
+            
+                    
+                    起步
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="common-tips.html">
+            
+                <a href="common-tips.html">
+            
+                    
+                    常用技巧
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="dom-events.html">
+            
+                <a href="dom-events.html">
+            
+                    
+                    鼠标、键盘以及其它 DOM 事件
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4" data-path="choosing-a-test-runner.html">
+            
+                <a href="choosing-a-test-runner.html">
+            
+                    
+                    选择一个测试运行器
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5" data-path="testing-SFCs-with-jest.html">
+            
+                <a href="testing-SFCs-with-jest.html">
+            
+                    
+                    用 Jest 测试单文件组件
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6" data-path="testing-SFCs-with-mocha-webpack.html">
+            
+                <a href="testing-SFCs-with-mocha-webpack.html">
+            
+                    
+                    用 Mocha 和 webpack 测试单文件组件
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.7" data-path="testing-SFCs-with-karma.html">
+            
+                <a href="testing-SFCs-with-karma.html">
+            
+                    
+                    用 Karma 测试单文件组件
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.8" data-path="testing-async-components.html">
+            
+                <a href="testing-async-components.html">
+            
+                    
+                    测试异步行为
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.2.9" data-path="using-with-vue-router.html">
+            
+                <a href="using-with-vue-router.html">
+            
+                    
+                    配合 Vue Router 使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.10" data-path="using-with-vuex.html">
+            
+                <a href="using-with-vuex.html">
+            
+                    
+                    配合 Vuex 使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../api/">
+            
+                <a href="../api/">
+            
+                    
+                    API
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../api/mount.html">
+            
+                <a href="../api/mount.html">
+            
+                    
+                    mount
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../api/shallow.html">
+            
+                <a href="../api/shallow.html">
+            
+                    
+                    shallow
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="../api/render.html">
+            
+                <a href="../api/render.html">
+            
+                    
+                    render
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4" data-path="../api/renderToString.html">
+            
+                <a href="../api/renderToString.html">
+            
+                    
+                    renderToString
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5" data-path="../api/options.html">
+            
+                <a href="../api/options.html">
+            
+                    
+                    挂载选项
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.5.1" data-path="../api/options.html">
+            
+                <a href="../api/options.html#context">
+            
+                    
+                    context
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.2" data-path="../api/options.html">
+            
+                <a href="../api/options.html#slots">
+            
+                    
+                    slots
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.3" data-path="../api/options.html">
+            
+                <a href="../api/options.html#scopedslots">
+            
+                    
+                    scopedSlots
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.4" data-path="../api/options.html">
+            
+                <a href="../api/options.html#stubs">
+            
+                    
+                    stubs
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.5" data-path="../api/options.html">
+            
+                <a href="../api/options.html#mocks">
+            
+                    
+                    mocks
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.6" data-path="../api/options.html">
+            
+                <a href="../api/options.html#localvue">
+            
+                    
+                    localVue
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.7" data-path="../api/options.html">
+            
+                <a href="../api/options.html#attachtodocument">
+            
+                    
+                    attachToDocument
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.8" data-path="../api/options.html">
+            
+                <a href="../api/options.html#attrs">
+            
+                    
+                    attrs
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.9" data-path="../api/options.html">
+            
+                <a href="../api/options.html#listeners">
+            
+                    
+                    listeners
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.10" data-path="../api/options.html">
+            
+                <a href="../api/options.html#provide">
+            
+                    
+                    provide
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.11" data-path="../api/options.html">
+            
+                <a href="../api/options.html#sync">
+            
+                    
+                    sync
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.12" data-path="../api/options.html">
+            
+                <a href="../api/options.html#other-options">
+            
+                    
+                    其它选项
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6" data-path="../api/wrapper/">
+            
+                <a href="../api/wrapper/">
+            
+                    
+                    Wrapper
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.6.1" data-path="../api/wrapper/attributes.html">
+            
+                <a href="../api/wrapper/attributes.html">
+            
+                    
+                    attributes
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.2" data-path="../api/wrapper/classes.html">
+            
+                <a href="../api/wrapper/classes.html">
+            
+                    
+                    classes
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.3" data-path="../api/wrapper/contains.html">
+            
+                <a href="../api/wrapper/contains.html">
+            
+                    
+                    contains
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.4" data-path="../api/wrapper/emitted.html">
+            
+                <a href="../api/wrapper/emitted.html">
+            
+                    
+                    emitted
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.5" data-path="../api/wrapper/emittedByOrder.html">
+            
+                <a href="../api/wrapper/emittedByOrder.html">
+            
+                    
+                    emittedByOrder
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.6" data-path="../api/wrapper/exists.html">
+            
+                <a href="../api/wrapper/exists.html">
+            
+                    
+                    exists
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.7" data-path="../api/wrapper/destroy.html">
+            
+                <a href="../api/wrapper/destroy.html">
+            
+                    
+                    destroy
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.8" data-path="../api/wrapper/find.html">
+            
+                <a href="../api/wrapper/find.html">
+            
+                    
+                    find
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.9" data-path="../api/wrapper/findAll.html">
+            
+                <a href="../api/wrapper/findAll.html">
+            
+                    
+                    findAll
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.10" data-path="../api/wrapper/html.html">
+            
+                <a href="../api/wrapper/html.html">
+            
+                    
+                    html
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.11" data-path="../api/wrapper/is.html">
+            
+                <a href="../api/wrapper/is.html">
+            
+                    
+                    is
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.12" data-path="../api/wrapper/isEmpty.html">
+            
+                <a href="../api/wrapper/isEmpty.html">
+            
+                    
+                    isEmpty
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.13" data-path="../api/wrapper/isVueInstance.html">
+            
+                <a href="../api/wrapper/isVueInstance.html">
+            
+                    
+                    isVueInstance
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.14" data-path="../api/wrapper/name.html">
+            
+                <a href="../api/wrapper/name.html">
+            
+                    
+                    name
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.15" data-path="../api/wrapper/props.html">
+            
+                <a href="../api/wrapper/props.html">
+            
+                    
+                    props
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.16" data-path="../api/wrapper/setData.html">
+            
+                <a href="../api/wrapper/setData.html">
+            
+                    
+                    setData
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.17" data-path="../api/wrapper/setMethods.html">
+            
+                <a href="../api/wrapper/setMethods.html">
+            
+                    
+                    setMethods
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.18" data-path="../api/wrapper/setProps.html">
+            
+                <a href="../api/wrapper/setProps.html">
+            
+                    
+                    setProps
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.19" data-path="../api/wrapper/text.html">
+            
+                <a href="../api/wrapper/text.html">
+            
+                    
+                    text
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.20" data-path="../api/wrapper/trigger.html">
+            
+                <a href="../api/wrapper/trigger.html">
+            
+                    
+                    trigger
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.21" data-path="../api/wrapper/isVisible.html">
+            
+                <a href="../api/wrapper/isVisible.html">
+            
+                    
+                    isVisible
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7" data-path="../api/wrapper-array/">
+            
+                <a href="../api/wrapper-array/">
+            
+                    
+                    WrapperArray
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.7.1" data-path="../api/wrapper-array/at.html">
+            
+                <a href="../api/wrapper-array/at.html">
+            
+                    
+                    at
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7.2" data-path="../api/wrapper-array/contains.html">
+            
+                <a href="../api/wrapper-array/contains.html">
+            
+                    
+                    contains
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7.3" data-path="../api/wrapper/exists.html">
+            
+                <a href="../api/wrapper/exists.html">
+            
+                    
+                    exists
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7.4" data-path="../api/wrapper-array/destroy.html">
+            
+                <a href="../api/wrapper-array/destroy.html">
+            
+                    
+                    destroy
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7.5" data-path="../api/wrapper-array/filter.html">
+            
+                <a href="../api/wrapper-array/filter.html">
+            
+                    
+                    filter
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7.6" data-path="../api/wrapper-array/is.html">
+            
+                <a href="../api/wrapper-array/is.html">
+            
+                    
+                    is
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7.7" data-path="../api/wrapper-array/isEmpty.html">
+            
+                <a href="../api/wrapper-array/isEmpty.html">
+            
+                    
+                    isEmpty
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7.8" data-path="../api/wrapper-array/isVueInstance.html">
+            
+                <a href="../api/wrapper-array/isVueInstance.html">
+            
+                    
+                    isVueInstance
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7.9" data-path="../api/wrapper-array/setData.html">
+            
+                <a href="../api/wrapper-array/setData.html">
+            
+                    
+                    setData
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7.10" data-path="../api/wrapper-array/setMethods.html">
+            
+                <a href="../api/wrapper-array/setMethods.html">
+            
+                    
+                    setMethods
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7.11" data-path="../api/wrapper-array/setProps.html">
+            
+                <a href="../api/wrapper-array/setProps.html">
+            
+                    
+                    setProps
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7.12" data-path="../api/wrapper-array/trigger.html">
+            
+                <a href="../api/wrapper-array/trigger.html">
+            
+                    
+                    trigger
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7.13" data-path="../api/wrapper-array/isVisible.html">
+            
+                <a href="../api/wrapper-array/isVisible.html">
+            
+                    
+                    isVisible
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.8" data-path="../api/components/">
+            
+                <a href="../api/components/">
+            
+                    
+                    组件
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.8.1" data-path="../api/components/TransitionStub.html">
+            
+                <a href="../api/components/TransitionStub.html">
+            
+                    
+                    TransitionStub
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.8.2" data-path="../api/components/TransitionGroupStub.html">
+            
+                <a href="../api/components/TransitionGroupStub.html">
+            
+                    
+                    TransitionGroupStub
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.8.3" data-path="../api/components/RouterLinkStub.html">
+            
+                <a href="../api/components/RouterLinkStub.html">
+            
+                    
+                    RouterLinkStub
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.9" data-path="../api/selectors.html">
+            
+                <a href="../api/selectors.html">
+            
+                    
+                    选择器
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.10" data-path="../api/createLocalVue.html">
+            
+                <a href="../api/createLocalVue.html">
+            
+                    
+                    createLocalVue
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.11" data-path="../api/config.html">
+            
+                <a href="../api/config.html">
+            
+                    
+                    配置
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            本書使用 GitBook 釋出
+        </a>
+    </li>
+</ul>
+
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+  
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >配合 Vue Router 使用</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="&#x914D;&#x5408;-vue-router-&#x4F7F;&#x7528;">&#x914D;&#x5408; Vue Router &#x4F7F;&#x7528;</h1>
+<h2 id="&#x5728;&#x6D4B;&#x8BD5;&#x4E2D;&#x5B89;&#x88C5;-vue-router">&#x5728;&#x6D4B;&#x8BD5;&#x4E2D;&#x5B89;&#x88C5; Vue Router</h2>
+<p>&#x5728;&#x6D4B;&#x8BD5;&#x4E2D;&#xFF0C;&#x4F60;&#x5E94;&#x8BE5;&#x675C;&#x7EDD;&#x5728;&#x57FA;&#x672C;&#x7684; Vue &#x6784;&#x9020;&#x51FD;&#x6570;&#x4E2D;&#x5B89;&#x88C5; Vue Router&#x3002;&#x5B89;&#x88C5; Vue Router &#x4E4B;&#x540E; Vue &#x7684;&#x539F;&#x578B;&#x4E0A;&#x4F1A;&#x589E;&#x52A0; <code>$route</code> &#x548C; <code>$router</code> &#x8FD9;&#x4E24;&#x4E2A;&#x53EA;&#x8BFB;&#x5C5E;&#x6027;&#x3002;</p>
+<p>&#x4E3A;&#x4E86;&#x907F;&#x514D;&#x8FD9;&#x6837;&#x7684;&#x4E8B;&#x60C5;&#x53D1;&#x751F;&#xFF0C;&#x6211;&#x4EEC;&#x521B;&#x5EFA;&#x4E86;&#x4E00;&#x4E2A; <code>localVue</code> &#x5E76;&#x5BF9;&#x5176;&#x5B89;&#x88C5; Vue Router&#x3002;</p>
+<pre><code class="lang-js"><span class="hljs-keyword">import</span> { shallow, createLocalVue } <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;@vue/test-utils&apos;</span>
+<span class="hljs-keyword">import</span> VueRouter <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;vue-router&apos;</span>
+
+<span class="hljs-keyword">const</span> localVue = createLocalVue()
+localVue.use(VueRouter)
+<span class="hljs-keyword">const</span> router = <span class="hljs-keyword">new</span> VueRouter()
+
+shallow(Component, {
+  localVue,
+  router
+})
+</code></pre>
+<blockquote>
+<p><strong>&#x6CE8;&#x610F;&#xFF1A;</strong>&#x5728;&#x4E00;&#x4E2A; <code>localVue</code> &#x4E0A;&#x5B89;&#x88C5; Vue Router &#x65F6;&#x4E5F;&#x4F1A;&#x5C06; <code>$route</code> &#x548C; <code>$router</code> &#x4F5C;&#x4E3A;&#x4E24;&#x4E2A;&#x53EA;&#x8BFB;&#x5C5E;&#x6027;&#x6DFB;&#x52A0;&#x7ED9;&#x8BE5; <code>localVue</code>&#x3002;&#x8FD9;&#x610F;&#x5473;&#x7740;&#x5982;&#x679C;&#x4F60;&#x4F7F;&#x7528;&#x5B89;&#x88C5;&#x4E86; Vue Router &#x7684; <code>localVue</code>&#xFF0C;&#x5219;&#x4E0D;&#x80FD;&#x5728;&#x6302;&#x5728;&#x4E00;&#x4E2A;&#x7EC4;&#x4EF6;&#x65F6;&#x4F7F;&#x7528; <code>mocks</code> &#x9009;&#x9879;&#x6765;&#x8986;&#x5199; <code>$route</code> &#x548C; <code>$router</code>&#x3002;</p>
+</blockquote>
+<h2 id="&#x6D4B;&#x8BD5;&#x4F7F;&#x7528;&#x4E86;-router-link-&#x6216;-router-view-&#x7684;&#x7EC4;&#x4EF6;">&#x6D4B;&#x8BD5;&#x4F7F;&#x7528;&#x4E86; <code>router-link</code> &#x6216; <code>router-view</code> &#x7684;&#x7EC4;&#x4EF6;</h2>
+<p>&#x5F53;&#x4F60;&#x5B89;&#x88C5; Vue Router &#x7684;&#x65F6;&#x5019;&#xFF0C;<code>router-link</code> &#x548C; <code>router-view</code> &#x7EC4;&#x4EF6;&#x5C31;&#x88AB;&#x6CE8;&#x518C;&#x4E86;&#x3002;&#x8FD9;&#x610F;&#x5473;&#x7740;&#x6211;&#x4EEC;&#x65E0;&#x9700;&#x518D;&#x5BFC;&#x5165;&#x53EF;&#x4EE5;&#x5728;&#x5E94;&#x7528;&#x7684;&#x4EFB;&#x610F;&#x5730;&#x65B9;&#x4F7F;&#x7528;&#x5B83;&#x4EEC;&#x3002;</p>
+<p>&#x5F53;&#x6211;&#x4EEC;&#x8FD0;&#x884C;&#x6D4B;&#x8BD5;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x9700;&#x8981;&#x4EE4; Vue Router &#x76F8;&#x5173;&#x7EC4;&#x4EF6;&#x5728;&#x6211;&#x4EEC;&#x6302;&#x8F7D;&#x7684;&#x7EC4;&#x4EF6;&#x4E2D;&#x53EF;&#x7528;&#x3002;&#x6709;&#x4EE5;&#x4E0B;&#x4E24;&#x79CD;&#x505A;&#x6CD5;&#xFF1A;</p>
+<h3 id="&#x4F7F;&#x7528;&#x5B58;&#x6839;">&#x4F7F;&#x7528;&#x5B58;&#x6839;</h3>
+<pre><code class="lang-js"><span class="hljs-keyword">import</span> { shallow } <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;@vue/test-utils&apos;</span>
+
+shallow(Component, {
+  stubs: [<span class="hljs-string">&apos;router-link&apos;</span>, <span class="hljs-string">&apos;router-view&apos;</span>]
+})
+</code></pre>
+<h3 id="&#x4E3A;-localvue-&#x5B89;&#x88C5;-vue-router">&#x4E3A; localVue &#x5B89;&#x88C5; Vue Router</h3>
+<pre><code class="lang-js"><span class="hljs-keyword">import</span> { shallow, createLocalVue } <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;@vue/test-utils&apos;</span>
+<span class="hljs-keyword">import</span> VueRouter <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;vue-router&apos;</span>
+
+<span class="hljs-keyword">const</span> localVue = createLocalVue()
+localVue.use(VueRouter)
+
+shallow(Component, {
+  localVue
+})
+</code></pre>
+<h2 id="&#x4F2A;&#x9020;-route-&#x548C;-router">&#x4F2A;&#x9020; <code>$route</code> &#x548C; <code>$router</code></h2>
+<p>&#x6709;&#x7684;&#x65F6;&#x5019;&#x4F60;&#x60F3;&#x8981;&#x6D4B;&#x8BD5;&#x4E00;&#x4E2A;&#x7EC4;&#x4EF6;&#x5728;&#x914D;&#x5408; <code>$route</code> &#x548C; <code>$router</code> &#x5BF9;&#x8C61;&#x7684;&#x53C2;&#x6570;&#x65F6;&#x7684;&#x884C;&#x4E3A;&#x3002;&#x8FD9;&#x65F6;&#x5019;&#x4F60;&#x53EF;&#x4EE5;&#x4F20;&#x9012;&#x81EA;&#x5B9A;&#x4E49;&#x5047;&#x6570;&#x636E;&#x7ED9; Vue &#x5B9E;&#x4F8B;&#x3002;</p>
+<pre><code class="lang-js"><span class="hljs-keyword">import</span> { shallow } <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;@vue/test-utils&apos;</span>
+
+<span class="hljs-keyword">const</span> $route = {
+  path: <span class="hljs-string">&apos;/some/path&apos;</span>
+}
+
+<span class="hljs-keyword">const</span> wrapper = shallow(Component, {
+  mocks: {
+    $route
+  }
+})
+
+wrapper.vm.$router.path <span class="hljs-comment">// /some/path</span>
+</code></pre>
+<h2 id="&#x5E38;&#x8BC6;">&#x5E38;&#x8BC6;</h2>
+<p>&#x5B89;&#x88C5; Vue Router &#x4F1A;&#x5728; Vue &#x7684;&#x539F;&#x578B;&#x4E0A;&#x6DFB;&#x52A0; <code>$route</code> &#x548C; <code>$router</code> &#x53EA;&#x8BFB;&#x5C5E;&#x6027;&#x3002;</p>
+<p>&#x8FD9;&#x610F;&#x5473;&#x7740;&#x5728;&#x672A;&#x6765;&#x7684;&#x4EFB;&#x4F55;&#x6D4B;&#x8BD5;&#x4E2D;&#xFF0C;&#x4F2A;&#x9020; <code>$route</code> &#x6216; <code>$router</code> &#x90FD;&#x4F1A;&#x5931;&#x6548;&#x3002;</p>
+<p>&#x8981;&#x60F3;&#x56DE;&#x907F;&#x8FD9;&#x4E2A;&#x95EE;&#x9898;&#xFF0C;&#x5C31;&#x4E0D;&#x8981;&#x5728;&#x8FD0;&#x884C;&#x6D4B;&#x8BD5;&#x7684;&#x65F6;&#x5019;&#x5168;&#x5C40;&#x5B89;&#x88C5; Vue Router&#xFF0C;&#x800C;&#x7528;&#x4E0A;&#x8FF0;&#x7684; <code>localVue</code> &#x7528;&#x6CD5;&#x3002;</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+  <script src="//m.servedby-buysellads.com/monetization.js" type="text/javascript"></script>
+  <div class="bsa-cpc"></div>
+  <script>
+    (function(){
+      if(typeof _bsa !== 'undefined' && _bsa) {
+      _bsa.init('default', 'CKYD62QM', 'placement:vuejsorg', {
+        target: '.bsa-cpc',
+        align: 'horizontal',
+        disable_css: 'true'
+      });
+        }
+    })();
+  </script>
+
+            </div>
+
+            
+                
+                <a href="testing-async-components.html" class="navigation navigation-prev " aria-label="Previous page: 测试异步行为">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="using-with-vuex.html" class="navigation navigation-next " aria-label="Next page: 配合 Vuex 使用">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"配合 Vue Router 使用","level":"1.2.9","depth":2,"next":{"title":"配合 Vuex 使用","level":"1.2.10","depth":2,"path":"guides/using-with-vuex.md","ref":"guides/using-with-vuex.md","articles":[]},"previous":{"title":"测试异步行为","level":"1.2.8","depth":2,"path":"guides/testing-async-components.md","ref":"guides/testing-async-components.md","articles":[]},"dir":"ltr"},"config":{"plugins":["edit-link","theme-vuejs","-fontsettings","github"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit This Page","base":"https://github.com/vuejs/vue-test-utils/edit/master/docs"},"github":{"url":"https://github.com/vuejs/vue-test-utils/"},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":false,"twitter":false,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-vuejs":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"vue-test-utils","language":"zh-cn","links":{"sharing":{"facebook":false,"twitter":false}},"gitbook":"*"},"file":{"path":"guides/using-with-vue-router.md","mtime":"2018-03-26T12:06:15.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-04-23T17:43:36.920Z"},"basePath":"..","book":{"language":"zh-cn"}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-edit-link/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-github/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+
+    </body>
+</html>
+

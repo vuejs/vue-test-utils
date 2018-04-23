@@ -1,0 +1,1172 @@
+
+<!DOCTYPE HTML>
+<html lang="ru" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>emitted · vue-test-utils</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../../gitbook/gitbook-plugin-theme-vuejs/vue.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="emittedByOrder.html" />
+    
+    
+    <link rel="prev" href="contains.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Введите условия поиска" />
+</div>
+
+            
+                <nav role="navigation">
+                
+<script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?zoneid=1673&serve=C6AILKT&placement=vuejs" id="_carbonads_js"></script>
+
+
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        <li class="header">Содержание</li>
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../">
+            
+                <a href="../../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../../guides/">
+            
+                <a href="../../guides/">
+            
+                    
+                    Руководства
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="../../guides/getting-started.html">
+            
+                <a href="../../guides/getting-started.html">
+            
+                    
+                    Введение
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="../../guides/common-tips.html">
+            
+                <a href="../../guides/common-tips.html">
+            
+                    
+                    Общие советы
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="../../guides/dom-events.html">
+            
+                <a href="../../guides/dom-events.html">
+            
+                    
+                    Мышь, клавиши и другие события DOM
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4" data-path="../../guides/choosing-a-test-runner.html">
+            
+                <a href="../../guides/choosing-a-test-runner.html">
+            
+                    
+                    Чем запускать тесты
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5" data-path="../../guides/testing-SFCs-with-jest.html">
+            
+                <a href="../../guides/testing-SFCs-with-jest.html">
+            
+                    
+                    Тестирование однофайловых компонентов с Jest
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6" data-path="../../guides/testing-SFCs-with-mocha-webpack.html">
+            
+                <a href="../../guides/testing-SFCs-with-mocha-webpack.html">
+            
+                    
+                    Тестирование однофайловых компонентов с Mocha + webpack
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.7" data-path="../../guides/using-with-vue-router.html">
+            
+                <a href="../../guides/using-with-vue-router.html">
+            
+                    
+                    Использование с Vue Router
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.8" data-path="../../guides/using-with-vuex.html">
+            
+                <a href="../../guides/using-with-vuex.html">
+            
+                    
+                    Использование с Vuex
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.9" data-path="../../guides/testing-async-components.html">
+            
+                <a href="../../guides/testing-async-components.html">
+            
+                    
+                    Тестирование асинхронной логики
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    API
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../mount.html">
+            
+                <a href="../mount.html">
+            
+                    
+                    mount
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../shallow.html">
+            
+                <a href="../shallow.html">
+            
+                    
+                    shallow
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="../options.html">
+            
+                <a href="../options.html">
+            
+                    
+                    Опции монтирования
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.3.1" data-path="../options.html">
+            
+                <a href="../options.html#context">
+            
+                    
+                    context
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3.2" data-path="../options.html">
+            
+                <a href="../options.html#slots">
+            
+                    
+                    slots
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3.3" data-path="../options.html">
+            
+                <a href="../options.html#stubs">
+            
+                    
+                    stubs
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3.4" data-path="../options.html">
+            
+                <a href="../options.html#mocks">
+            
+                    
+                    mocks
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3.5" data-path="../options.html">
+            
+                <a href="../options.html#localvue">
+            
+                    
+                    localVue
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3.6" data-path="../options.html">
+            
+                <a href="../options.html#attachtodocument">
+            
+                    
+                    attachToDocument
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3.7" data-path="../options.html">
+            
+                <a href="../options.html#attrs">
+            
+                    
+                    attrs
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3.8" data-path="../options.html">
+            
+                <a href="../options.html#listeners">
+            
+                    
+                    listeners
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3.9" data-path="../options.html">
+            
+                <a href="../options.html#provide">
+            
+                    
+                    provide
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3.10" data-path="../options.html">
+            
+                <a href="../options.html#other-options">
+            
+                    
+                    другие опции
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    Wrapper
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.4.1" data-path="attributes.html">
+            
+                <a href="attributes.html">
+            
+                    
+                    attributes
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.2" data-path="classes.html">
+            
+                <a href="classes.html">
+            
+                    
+                    classes
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.3" data-path="contains.html">
+            
+                <a href="contains.html">
+            
+                    
+                    contains
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.3.4.4" data-path="emitted.html">
+            
+                <a href="emitted.html">
+            
+                    
+                    emitted
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.5" data-path="emittedByOrder.html">
+            
+                <a href="emittedByOrder.html">
+            
+                    
+                    emittedByOrder
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.6" data-path="exists.html">
+            
+                <a href="exists.html">
+            
+                    
+                    exists
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.7" data-path="destroy.html">
+            
+                <a href="destroy.html">
+            
+                    
+                    destroy
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.8" data-path="find.html">
+            
+                <a href="find.html">
+            
+                    
+                    find
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.9" data-path="findAll.html">
+            
+                <a href="findAll.html">
+            
+                    
+                    findAll
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.10" data-path="html.html">
+            
+                <a href="html.html">
+            
+                    
+                    html
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.11" data-path="is.html">
+            
+                <a href="is.html">
+            
+                    
+                    is
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.12" data-path="isEmpty.html">
+            
+                <a href="isEmpty.html">
+            
+                    
+                    isEmpty
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.13" data-path="isVueInstance.html">
+            
+                <a href="isVueInstance.html">
+            
+                    
+                    isVueInstance
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.14" data-path="name.html">
+            
+                <a href="name.html">
+            
+                    
+                    name
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.15" data-path="props.html">
+            
+                <a href="props.html">
+            
+                    
+                    props
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.16" data-path="setData.html">
+            
+                <a href="setData.html">
+            
+                    
+                    setData
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.17" data-path="setMethods.html">
+            
+                <a href="setMethods.html">
+            
+                    
+                    setMethods
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.18" data-path="setProps.html">
+            
+                <a href="setProps.html">
+            
+                    
+                    setProps
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.19" data-path="text.html">
+            
+                <a href="text.html">
+            
+                    
+                    text
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.20" data-path="trigger.html">
+            
+                <a href="trigger.html">
+            
+                    
+                    trigger
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5" data-path="../wrapper-array/">
+            
+                <a href="../wrapper-array/">
+            
+                    
+                    WrapperArray
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.5.1" data-path="../wrapper-array/at.html">
+            
+                <a href="../wrapper-array/at.html">
+            
+                    
+                    at
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.2" data-path="../wrapper-array/contains.html">
+            
+                <a href="../wrapper-array/contains.html">
+            
+                    
+                    contains
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.3" data-path="exists.html">
+            
+                <a href="exists.html">
+            
+                    
+                    exists
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.4" data-path="../wrapper-array/destroy.html">
+            
+                <a href="../wrapper-array/destroy.html">
+            
+                    
+                    destroy
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.5" data-path="../wrapper-array/is.html">
+            
+                <a href="../wrapper-array/is.html">
+            
+                    
+                    is
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.6" data-path="../wrapper-array/isEmpty.html">
+            
+                <a href="../wrapper-array/isEmpty.html">
+            
+                    
+                    isEmpty
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.7" data-path="../wrapper-array/isVueInstance.html">
+            
+                <a href="../wrapper-array/isVueInstance.html">
+            
+                    
+                    isVueInstance
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.8" data-path="../wrapper-array/setComputed.html">
+            
+                <a href="../wrapper-array/setComputed.html">
+            
+                    
+                    setComputed
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.9" data-path="../wrapper-array/setData.html">
+            
+                <a href="../wrapper-array/setData.html">
+            
+                    
+                    setData
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.10" data-path="../wrapper-array/setMethods.html">
+            
+                <a href="../wrapper-array/setMethods.html">
+            
+                    
+                    setMethods
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.11" data-path="../wrapper-array/setProps.html">
+            
+                <a href="../wrapper-array/setProps.html">
+            
+                    
+                    setProps
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.12" data-path="../wrapper-array/trigger.html">
+            
+                <a href="../wrapper-array/trigger.html">
+            
+                    
+                    trigger
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6" data-path="../components/">
+            
+                <a href="../components/">
+            
+                    
+                    Компоненты
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.6.1" data-path="../components/TransitionStub.html">
+            
+                <a href="../components/TransitionStub.html">
+            
+                    
+                    TransitionStub
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.2" data-path="../components/TransitionGroupStub.html">
+            
+                <a href="../components/TransitionGroupStub.html">
+            
+                    
+                    TransitionGroupStub
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7" data-path="../selectors.html">
+            
+                <a href="../selectors.html">
+            
+                    
+                    Селекторы
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.8" data-path="../createLocalVue.html">
+            
+                <a href="../createLocalVue.html">
+            
+                    
+                    createLocalVue
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.9" data-path="../config.html">
+            
+                <a href="../config.html">
+            
+                    
+                    Конфигурация
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Опубликовано с помощью GitBook
+        </a>
+    </li>
+</ul>
+
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+  
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../.." >emitted</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="emitted">emitted()</h1>
+<p>&#x412;&#x43E;&#x437;&#x432;&#x440;&#x430;&#x449;&#x430;&#x435;&#x442; &#x43E;&#x431;&#x44A;&#x435;&#x43A;&#x442;, &#x441;&#x43E;&#x434;&#x435;&#x440;&#x436;&#x430;&#x449;&#x438;&#x439; &#x432;&#x44B;&#x437;&#x432;&#x430;&#x43D;&#x43D;&#x44B;&#x435; &#x43F;&#x43E;&#x43B;&#x44C;&#x437;&#x43E;&#x432;&#x430;&#x442;&#x435;&#x43B;&#x44C;&#x441;&#x43A;&#x438;&#x435; &#x441;&#x43E;&#x431;&#x44B;&#x442;&#x438;&#x44F; &#x432; <code>Wrapper</code> <code>vm</code>.</p>
+<ul>
+<li><p><strong>&#x412;&#x43E;&#x437;&#x432;&#x440;&#x430;&#x449;&#x430;&#x435;&#x442;:</strong> <code>{ [name: string]: Array&lt;Array&lt;any&gt;&gt; }</code></p>
+</li>
+<li><p><strong>&#x41F;&#x440;&#x438;&#x43C;&#x435;&#x440;:</strong></p>
+</li>
+</ul>
+<pre><code class="lang-js"><span class="hljs-keyword">import</span> { mount } <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;@vue/test-utils&apos;</span>
+
+<span class="hljs-keyword">const</span> wrapper = mount(Component)
+
+wrapper.vm.$emit(<span class="hljs-string">&apos;foo&apos;</span>)
+wrapper.vm.$emit(<span class="hljs-string">&apos;foo&apos;</span>, <span class="hljs-number">123</span>)
+
+<span class="hljs-comment">/*
+wrapper.emitted() &#x432;&#x43E;&#x437;&#x432;&#x440;&#x430;&#x449;&#x430;&#x435;&#x442; &#x441;&#x43B;&#x435;&#x434;&#x443;&#x44E;&#x449;&#x438;&#x439; &#x43E;&#x431;&#x44A;&#x435;&#x43A;&#x442;:
+{
+  foo: [[], [123]]
+}
+*/</span>
+
+<span class="hljs-comment">// &#x43F;&#x440;&#x43E;&#x432;&#x435;&#x440;&#x43A;&#x430;, &#x447;&#x442;&#x43E; &#x441;&#x43E;&#x431;&#x44B;&#x442;&#x438;&#x435; &#x431;&#x44B;&#x43B;&#x43E; &#x432;&#x44B;&#x437;&#x432;&#x430;&#x43D;&#x43E;</span>
+expect(wrapper.emitted().foo).toBeTruthy()
+
+<span class="hljs-comment">// &#x43F;&#x440;&#x43E;&#x432;&#x435;&#x440;&#x43A;&#x430;, &#x447;&#x442;&#x43E; &#x441;&#x43E;&#x431;&#x44B;&#x442;&#x438;&#x435; &#x432;&#x44B;&#x437;&#x44B;&#x432;&#x430;&#x43B;&#x43E;&#x441;&#x44C; &#x43E;&#x43F;&#x440;&#x435;&#x434;&#x435;&#x43B;&#x451;&#x43D;&#x43D;&#x43E;&#x435; &#x447;&#x438;&#x441;&#x43B;&#x43E; &#x440;&#x430;&#x437;</span>
+expect(wrapper.emitted().foo.length).toBe(<span class="hljs-number">2</span>)
+
+<span class="hljs-comment">// &#x43F;&#x440;&#x43E;&#x432;&#x435;&#x440;&#x43A;&#x430;, &#x447;&#x442;&#x43E; &#x441; &#x441;&#x43E;&#x431;&#x44B;&#x442;&#x438;&#x435;&#x43C; &#x431;&#x44B;&#x43B;&#x438; &#x43F;&#x435;&#x440;&#x435;&#x434;&#x430;&#x43D;&#x44B; &#x43E;&#x43F;&#x440;&#x435;&#x434;&#x435;&#x43B;&#x451;&#x43D;&#x43D;&#x44B;&#x435; &#x434;&#x430;&#x43D;&#x43D;&#x44B;&#x435;</span>
+expect(wrapper.emitted().foo[<span class="hljs-number">1</span>]).toEqual([<span class="hljs-number">123</span>])
+</code></pre>
+<p>&#x412;&#x44B; &#x442;&#x430;&#x43A;&#x436;&#x435; &#x43C;&#x43E;&#x436;&#x435;&#x442;&#x435; &#x43D;&#x430;&#x43F;&#x438;&#x441;&#x430;&#x442;&#x44C; &#x44D;&#x442;&#x43E; &#x442;&#x430;&#x43A;:</p>
+<pre><code class="lang-js"><span class="hljs-comment">// &#x43F;&#x440;&#x43E;&#x432;&#x435;&#x440;&#x43A;&#x430;, &#x447;&#x442;&#x43E; &#x441;&#x43E;&#x431;&#x44B;&#x442;&#x438;&#x435; &#x431;&#x44B;&#x43B;&#x43E; &#x432;&#x44B;&#x437;&#x432;&#x430;&#x43D;&#x43E;</span>
+expect(wrapper.emitted(<span class="hljs-string">&apos;foo&apos;</span>)).toBeTruthy()
+
+<span class="hljs-comment">// &#x43F;&#x440;&#x43E;&#x432;&#x435;&#x440;&#x43A;&#x430;, &#x447;&#x442;&#x43E; &#x441;&#x43E;&#x431;&#x44B;&#x442;&#x438;&#x435; &#x432;&#x44B;&#x437;&#x44B;&#x432;&#x430;&#x43B;&#x43E;&#x441;&#x44C; &#x43E;&#x43F;&#x440;&#x435;&#x434;&#x435;&#x43B;&#x451;&#x43D;&#x43D;&#x43E;&#x435; &#x447;&#x438;&#x441;&#x43B;&#x43E; &#x440;&#x430;&#x437;</span>
+expect(wrapper.emitted(<span class="hljs-string">&apos;foo&apos;</span>).length).toBe(<span class="hljs-number">2</span>)
+
+<span class="hljs-comment">// &#x43F;&#x440;&#x43E;&#x432;&#x435;&#x440;&#x43A;&#x430;, &#x447;&#x442;&#x43E; &#x441; &#x441;&#x43E;&#x431;&#x44B;&#x442;&#x438;&#x435;&#x43C; &#x431;&#x44B;&#x43B;&#x438; &#x43F;&#x435;&#x440;&#x435;&#x434;&#x430;&#x43D;&#x44B; &#x43E;&#x43F;&#x440;&#x435;&#x434;&#x435;&#x43B;&#x451;&#x43D;&#x43D;&#x44B;&#x435; &#x434;&#x430;&#x43D;&#x43D;&#x44B;&#x435;</span>
+expect(wrapper.emitted(<span class="hljs-string">&apos;foo&apos;</span>)[<span class="hljs-number">1</span>]).toEqual([<span class="hljs-number">123</span>])
+</code></pre>
+<p>&#x41C;&#x435;&#x442;&#x43E;&#x434; <code>.emitted()</code>, &#x43A;&#x43E;&#x433;&#x434;&#x430; &#x43E;&#x43D; &#x432;&#x44B;&#x437;&#x44B;&#x432;&#x430;&#x435;&#x442;&#x441;&#x44F;, &#x43A;&#x430;&#x436;&#x434;&#x44B;&#x439; &#x440;&#x430;&#x437; &#x432;&#x43E;&#x437;&#x432;&#x440;&#x430;&#x449;&#x430;&#x435;&#x442; &#x442;&#x43E;&#x442; &#x436;&#x435; &#x43E;&#x431;&#x44A;&#x435;&#x43A;&#x442;, &#x430; &#x43D;&#x435; &#x43D;&#x43E;&#x432;&#x44B;&#x439;, &#x43F;&#x43E;&#x44D;&#x442;&#x43E;&#x43C;&#x443; &#x43E;&#x431;&#x44A;&#x435;&#x43A;&#x442; &#x431;&#x443;&#x434;&#x435;&#x442; &#x43E;&#x431;&#x43D;&#x43E;&#x432;&#x43B;&#x44F;&#x442;&#x44C;&#x441;&#x44F; &#x43F;&#x440;&#x438; &#x433;&#x435;&#x43D;&#x435;&#x440;&#x430;&#x446;&#x438;&#x438; &#x43D;&#x43E;&#x432;&#x44B;&#x445; &#x441;&#x43E;&#x431;&#x44B;&#x442;&#x438;&#x439;:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> emitted = wrapper.emitted()
+
+expect(emitted.foo.length).toBe(<span class="hljs-number">1</span>)
+
+<span class="hljs-comment">// &#x434;&#x435;&#x43B;&#x430;&#x435;&#x43C; &#x447;&#x442;&#x43E;-&#x442;&#x43E;, &#x447;&#x442;&#x43E; &#x437;&#x430;&#x441;&#x442;&#x430;&#x432;&#x43B;&#x44F;&#x435;&#x442; `wrapper` &#x441;&#x433;&#x435;&#x43D;&#x435;&#x440;&#x438;&#x440;&#x43E;&#x432;&#x430;&#x442;&#x44C; &#x441;&#x43E;&#x431;&#x44B;&#x442;&#x438;&#x435; &quot;foo&quot;</span>
+
+expect(emitted.foo.length).toBe(<span class="hljs-number">2</span>)
+</code></pre>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+  <script src="//m.servedby-buysellads.com/monetization.js" type="text/javascript"></script>
+  <div class="bsa-cpc"></div>
+  <script>
+    (function(){
+      if(typeof _bsa !== 'undefined' && _bsa) {
+      _bsa.init('default', 'CKYD62QM', 'placement:vuejsorg', {
+        target: '.bsa-cpc',
+        align: 'horizontal',
+        disable_css: 'true'
+      });
+        }
+    })();
+  </script>
+
+            </div>
+
+            
+                
+                <a href="contains.html" class="navigation navigation-prev " aria-label="Previous page: contains">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="emittedByOrder.html" class="navigation navigation-next " aria-label="Next page: emittedByOrder">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"emitted","level":"1.3.4.4","depth":3,"next":{"title":"emittedByOrder","level":"1.3.4.5","depth":3,"path":"api/wrapper/emittedByOrder.md","ref":"api/wrapper/emittedByOrder.md","articles":[]},"previous":{"title":"contains","level":"1.3.4.3","depth":3,"path":"api/wrapper/contains.md","ref":"api/wrapper/contains.md","articles":[]},"dir":"ltr"},"config":{"plugins":["edit-link","theme-vuejs","-fontsettings","github"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit This Page","base":"https://github.com/vuejs/vue-test-utils/edit/master/docs"},"github":{"url":"https://github.com/vuejs/vue-test-utils/"},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":false,"twitter":false,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-vuejs":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"vue-test-utils","language":"ru","links":{"sharing":{"facebook":false,"twitter":false}},"gitbook":"*"},"file":{"path":"api/wrapper/emitted.md","mtime":"2018-03-26T12:06:15.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-04-23T17:43:36.920Z"},"basePath":"../..","book":{"language":"ru"}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../../gitbook/gitbook.js"></script>
+    <script src="../../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-edit-link/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-github/plugin.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+
+    </body>
+</html>
+

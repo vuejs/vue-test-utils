@@ -1,0 +1,1535 @@
+
+<!DOCTYPE HTML>
+<html lang="ja" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Vuex と一緒に使う · vue-test-utils</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-theme-vuejs/vue.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="../api/" />
+    
+    
+    <link rel="prev" href="using-with-vue-router.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="検索すると入力" />
+</div>
+
+            
+                <nav role="navigation">
+                
+<script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?zoneid=1673&serve=C6AILKT&placement=vuejs" id="_carbonads_js"></script>
+
+
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        <li class="header">目次</li>
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    ガイド
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="getting-started.html">
+            
+                <a href="getting-started.html">
+            
+                    
+                    はじめる
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="common-tips.html">
+            
+                <a href="common-tips.html">
+            
+                    
+                    一般的なヒント
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="dom-events.html">
+            
+                <a href="dom-events.html">
+            
+                    
+                    キー、マウス、その他の DOM イベントのテスト
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4" data-path="choosing-a-test-runner.html">
+            
+                <a href="choosing-a-test-runner.html">
+            
+                    
+                    テストランナを選ぶ
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5" data-path="testing-SFCs-with-jest.html">
+            
+                <a href="testing-SFCs-with-jest.html">
+            
+                    
+                    Jest による単一ファイルコンポーネントのテスト
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6" data-path="testing-SFCs-with-mocha-webpack.html">
+            
+                <a href="testing-SFCs-with-mocha-webpack.html">
+            
+                    
+                    Mocha + webpack による単一ファイルコンポーネントのテスト
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.7" data-path="testing-SFCs-with-karma.html">
+            
+                <a href="testing-SFCs-with-karma.html">
+            
+                    
+                    Karma による単一ファイルコンポーネントのテスト
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.8" data-path="testing-async-components.html">
+            
+                <a href="testing-async-components.html">
+            
+                    
+                    非同期動作のテスト
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.9" data-path="using-with-vue-router.html">
+            
+                <a href="using-with-vue-router.html">
+            
+                    
+                    Vue Router と一緒に使う
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.2.10" data-path="using-with-vuex.html">
+            
+                <a href="using-with-vuex.html">
+            
+                    
+                    Vuex と一緒に使う
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../api/">
+            
+                <a href="../api/">
+            
+                    
+                    API
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../api/mount.html">
+            
+                <a href="../api/mount.html">
+            
+                    
+                    mount
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../api/shallow.html">
+            
+                <a href="../api/shallow.html">
+            
+                    
+                    shallow
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="../api/render.html">
+            
+                <a href="../api/render.html">
+            
+                    
+                    render
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4" data-path="../api/renderToString.html">
+            
+                <a href="../api/renderToString.html">
+            
+                    
+                    renderToString
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5" data-path="../api/options.html">
+            
+                <a href="../api/options.html">
+            
+                    
+                    マウンティングオプション
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.5.1" data-path="../api/options.html">
+            
+                <a href="../api/options.html#context">
+            
+                    
+                    context
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.2" data-path="../api/options.html">
+            
+                <a href="../api/options.html#slots">
+            
+                    
+                    slots
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.3" data-path="../api/options.html">
+            
+                <a href="../api/options.html#stubs">
+            
+                    
+                    stubs
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.4" data-path="../api/options.html">
+            
+                <a href="../api/options.html#mocks">
+            
+                    
+                    mocks
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.5" data-path="../api/options.html">
+            
+                <a href="../api/options.html#localvue">
+            
+                    
+                    localVue
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.6" data-path="../api/options.html">
+            
+                <a href="../api/options.html#attachtodocument">
+            
+                    
+                    attachToDocument
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.7" data-path="../api/options.html">
+            
+                <a href="../api/options.html#attrs">
+            
+                    
+                    attrs
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.8" data-path="../api/options.html">
+            
+                <a href="../api/options.html#listeners">
+            
+                    
+                    listeners
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.9" data-path="../api/options.html">
+            
+                <a href="../api/options.html#provide">
+            
+                    
+                    provide
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.10" data-path="../api/options.html">
+            
+                <a href="../api/options.html#sync">
+            
+                    
+                    sync
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.11" data-path="../api/options.html">
+            
+                <a href="../api/options.html#その他のオプション">
+            
+                    
+                    その他のオプション
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6" data-path="../api/wrapper/">
+            
+                <a href="../api/wrapper/">
+            
+                    
+                    Wrapper
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.6.1" data-path="../api/wrapper/attributes.html">
+            
+                <a href="../api/wrapper/attributes.html">
+            
+                    
+                    attributes
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.2" data-path="../api/wrapper/classes.html">
+            
+                <a href="../api/wrapper/classes.html">
+            
+                    
+                    classes
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.3" data-path="../api/wrapper/contains.html">
+            
+                <a href="../api/wrapper/contains.html">
+            
+                    
+                    contains
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.4" data-path="../api/wrapper/emitted.html">
+            
+                <a href="../api/wrapper/emitted.html">
+            
+                    
+                    emitted
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.5" data-path="../api/wrapper/emittedByOrder.html">
+            
+                <a href="../api/wrapper/emittedByOrder.html">
+            
+                    
+                    emittedByOrder
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.6" data-path="../api/wrapper/exists.html">
+            
+                <a href="../api/wrapper/exists.html">
+            
+                    
+                    exists
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.7" data-path="../api/wrapper/destroy.html">
+            
+                <a href="../api/wrapper/destroy.html">
+            
+                    
+                    destroy
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.8" data-path="../api/wrapper/find.html">
+            
+                <a href="../api/wrapper/find.html">
+            
+                    
+                    find
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.9" data-path="../api/wrapper/findAll.html">
+            
+                <a href="../api/wrapper/findAll.html">
+            
+                    
+                    findAll
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.10" data-path="../api/wrapper/html.html">
+            
+                <a href="../api/wrapper/html.html">
+            
+                    
+                    html
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.11" data-path="../api/wrapper/is.html">
+            
+                <a href="../api/wrapper/is.html">
+            
+                    
+                    is
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.12" data-path="../api/wrapper/isEmpty.html">
+            
+                <a href="../api/wrapper/isEmpty.html">
+            
+                    
+                    isEmpty
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.13" data-path="../api/wrapper/isVueInstance.html">
+            
+                <a href="../api/wrapper/isVueInstance.html">
+            
+                    
+                    isVueInstance
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.14" data-path="../api/wrapper/name.html">
+            
+                <a href="../api/wrapper/name.html">
+            
+                    
+                    name
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.15" data-path="../api/wrapper/props.html">
+            
+                <a href="../api/wrapper/props.html">
+            
+                    
+                    props
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.16" data-path="../api/wrapper/setData.html">
+            
+                <a href="../api/wrapper/setData.html">
+            
+                    
+                    setData
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.17" data-path="../api/wrapper/setMethods.html">
+            
+                <a href="../api/wrapper/setMethods.html">
+            
+                    
+                    setMethods
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.18" data-path="../api/wrapper/setProps.html">
+            
+                <a href="../api/wrapper/setProps.html">
+            
+                    
+                    setProps
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.19" data-path="../api/wrapper/text.html">
+            
+                <a href="../api/wrapper/text.html">
+            
+                    
+                    text
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.20" data-path="../api/wrapper/trigger.html">
+            
+                <a href="../api/wrapper/trigger.html">
+            
+                    
+                    trigger
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6.21" data-path="../api/wrapper/isVisible.html">
+            
+                <a href="../api/wrapper/isVisible.html">
+            
+                    
+                    isVisible
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7" data-path="../api/wrapper-array/">
+            
+                <a href="../api/wrapper-array/">
+            
+                    
+                    WrapperArray
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.7.1" data-path="../api/wrapper-array/at.html">
+            
+                <a href="../api/wrapper-array/at.html">
+            
+                    
+                    at
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7.2" data-path="../api/wrapper-array/contains.html">
+            
+                <a href="../api/wrapper-array/contains.html">
+            
+                    
+                    contains
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7.3" data-path="../api/wrapper/exists.html">
+            
+                <a href="../api/wrapper/exists.html">
+            
+                    
+                    exists
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7.4" data-path="../api/wrapper-array/destroy.html">
+            
+                <a href="../api/wrapper-array/destroy.html">
+            
+                    
+                    destroy
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7.5" data-path="../api/wrapper-array/filter.html">
+            
+                <a href="../api/wrapper-array/filter.html">
+            
+                    
+                    filter
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7.6" data-path="../api/wrapper-array/is.html">
+            
+                <a href="../api/wrapper-array/is.html">
+            
+                    
+                    is
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7.7" data-path="../api/wrapper-array/isEmpty.html">
+            
+                <a href="../api/wrapper-array/isEmpty.html">
+            
+                    
+                    isEmpty
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7.8" data-path="../api/wrapper-array/isVueInstance.html">
+            
+                <a href="../api/wrapper-array/isVueInstance.html">
+            
+                    
+                    isVueInstance
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7.9" data-path="../api/wrapper-array/setData.html">
+            
+                <a href="../api/wrapper-array/setData.html">
+            
+                    
+                    setData
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7.10" data-path="../api/wrapper-array/setMethods.html">
+            
+                <a href="../api/wrapper-array/setMethods.html">
+            
+                    
+                    setMethods
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7.11" data-path="../api/wrapper-array/setProps.html">
+            
+                <a href="../api/wrapper-array/setProps.html">
+            
+                    
+                    setProps
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7.12" data-path="../api/wrapper-array/trigger.html">
+            
+                <a href="../api/wrapper-array/trigger.html">
+            
+                    
+                    trigger
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7.13" data-path="../api/wrapper-array/isVisible.html">
+            
+                <a href="../api/wrapper-array/isVisible.html">
+            
+                    
+                    isVisible
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.8" data-path="../api/components/">
+            
+                <a href="../api/components/">
+            
+                    
+                    コンポーネント
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.8.1" data-path="../api/components/TransitionStub.html">
+            
+                <a href="../api/components/TransitionStub.html">
+            
+                    
+                    TransitionStub
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.8.2" data-path="../api/components/TransitionGroupStub.html">
+            
+                <a href="../api/components/TransitionGroupStub.html">
+            
+                    
+                    TransitionGroupStub
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.8.3" data-path="../api/components/RouterLinkStub.html">
+            
+                <a href="../api/components/RouterLinkStub.html">
+            
+                    
+                    RouterLinkStub
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.9" data-path="../api/selectors.html">
+            
+                <a href="../api/selectors.html">
+            
+                    
+                    セレクタ
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.10" data-path="../api/createLocalVue.html">
+            
+                <a href="../api/createLocalVue.html">
+            
+                    
+                    createLocalVue
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.11" data-path="../api/config.html">
+            
+                <a href="../api/config.html">
+            
+                    
+                    config
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            GitBookで公開 
+        </a>
+    </li>
+</ul>
+
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+  
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >Vuex と一緒に使う</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="vuex-&#x3068;&#x4E00;&#x7DD2;&#x306B;&#x4F7F;&#x7528;&#x3059;&#x308B;">Vuex &#x3068;&#x4E00;&#x7DD2;&#x306B;&#x4F7F;&#x7528;&#x3059;&#x308B;</h1>
+<p>&#x3053;&#x306E;&#x30AC;&#x30A4;&#x30C9;&#x3067;&#x306F;&#x3001;<code>vue-test-utils</code> &#x3067;&#x30B3;&#x30F3;&#x30DD;&#x30FC;&#x30CD;&#x30F3;&#x30C8;&#x3067; Vuex &#x3092;&#x30C6;&#x30B9;&#x30C8;&#x3059;&#x308B;&#x65B9;&#x6CD5;&#x306B;&#x3064;&#x3044;&#x3066;&#x3001;&#x898B;&#x3066;&#x3044;&#x304D;&#x307E;&#x3059;&#x3002;</p>
+<h2 id="&#x30B3;&#x30F3;&#x30DD;&#x30FC;&#x30CD;&#x30F3;&#x30C8;&#x5185;&#x306E;-vuex-&#x306E;&#x30C6;&#x30B9;&#x30C8;">&#x30B3;&#x30F3;&#x30DD;&#x30FC;&#x30CD;&#x30F3;&#x30C8;&#x5185;&#x306E; Vuex &#x306E;&#x30C6;&#x30B9;&#x30C8;</h2>
+<h3 id="&#x30A2;&#x30AF;&#x30B7;&#x30E7;&#x30F3;&#x306E;&#x30E2;&#x30C3;&#x30AF;">&#x30A2;&#x30AF;&#x30B7;&#x30E7;&#x30F3;&#x306E;&#x30E2;&#x30C3;&#x30AF;</h3>
+<p>&#x305D;&#x308C;&#x3067;&#x306F;&#x3044;&#x304F;&#x3064;&#x304B;&#x306E;&#x30B3;&#x30FC;&#x30C9;&#x3092;&#x898B;&#x3066;&#x3044;&#x304D;&#x307E;&#x3057;&#x3087;&#x3046;&#x3002;</p>
+<p>&#x3053;&#x308C;&#x306F;&#x30C6;&#x30B9;&#x30C8;&#x3057;&#x305F;&#x3044;&#x30B3;&#x30F3;&#x30DD;&#x30FC;&#x30CD;&#x30F3;&#x30C8;&#x3067;&#x3059;&#x3002;&#x3053;&#x308C;&#x306F; Vuex &#x306E;&#x30A2;&#x30AF;&#x30B7;&#x30E7;&#x30F3;&#x3092;&#x547C;&#x3073;&#x51FA;&#x3057;&#x307E;&#x3059;&#x3002;</p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;text-align-center&quot;</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text&quot;</span> @<span class="hljs-attr">input</span>=<span class="hljs-string">&quot;actionInputIfTrue&quot;</span> /&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">button</span> @<span class="hljs-attr">click</span>=<span class="hljs-string">&quot;actionClick()&quot;</span>&gt;</span>Click<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+<span class="hljs-keyword">import</span> { mapActions } <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;vuex&apos;</span>
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span>{
+  methods: {
+    ...mapActions([
+      <span class="hljs-string">&apos;actionClick&apos;</span>
+    ]),
+    actionInputIfTrue: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">actionInputIfTrue</span> (<span class="hljs-params">event</span>) </span>{
+      <span class="hljs-keyword">const</span> inputValue = event.target.value
+      <span class="hljs-keyword">if</span> (inputValue === <span class="hljs-string">&apos;input&apos;</span>) {
+        <span class="hljs-keyword">this</span>.$store.dispatch(<span class="hljs-string">&apos;actionInput&apos;</span>, { inputValue })
+      }
+    }
+  }
+}
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+</code></pre>
+<p>&#x3053;&#x306E;&#x30C6;&#x30B9;&#x30C8;&#x306E;&#x76EE;&#x7684;&#x306E;&#x305F;&#x3081;&#x306B;&#x3001;&#x30A2;&#x30AF;&#x30B7;&#x30E7;&#x30F3;&#x304C;&#x4F55;&#x3092;&#x3057;&#x3066;&#x3044;&#x308B;&#x306E;&#x304B;&#x3001;&#x307E;&#x305F;&#x306F;&#x30B9;&#x30C8;&#x30A2;&#x304C;&#x3069;&#x306E;&#x3088;&#x3046;&#x306B;&#x898B;&#x3048;&#x308B;&#x304B;&#x306F;&#x6C17;&#x306B;&#x3057;&#x307E;&#x305B;&#x3093;&#x3002;&#x3053;&#x308C;&#x3089;&#x306E;&#x30A2;&#x30AF;&#x30B7;&#x30E7;&#x30F3;&#x304C;&#x5FC5;&#x8981;&#x306A;&#x3068;&#x304D;&#x306B;&#x767A;&#x884C;&#x3055;&#x308C;&#x3066;&#x3044;&#x308B;&#x3053;&#x3068;&#x3001;&#x305D;&#x3057;&#x3066;&#x671F;&#x5F85;&#x3055;&#x308C;&#x305F;&#x5024;&#x306B;&#x3088;&#x3063;&#x3066;&#x767A;&#x884C;&#x3055;&#x308C;&#x3066;&#x3044;&#x308B;&#x3053;&#x3068;&#x3092;&#x77E5;&#x308B;&#x3053;&#x3068;&#x304C;&#x5FC5;&#x8981;&#x3067;&#x3059;&#x3002;</p>
+<p>&#x3053;&#x308C;&#x3092;&#x30C6;&#x30B9;&#x30C8;&#x3059;&#x308B;&#x305F;&#x3081;&#x306B;&#x306F;&#x3001;&#x79C1;&#x305F;&#x3061;&#x306E;&#x30B3;&#x30F3;&#x30DD;&#x30FC;&#x30CD;&#x30F3;&#x30C8;&#x3092; shallow &#x3059;&#x308B;&#x3068;&#x304D;&#x306B; Vue &#x306B;&#x30E2;&#x30C3;&#x30AF;&#x30B9;&#x30C8;&#x30A2;&#x3092;&#x6E21;&#x3059;&#x5FC5;&#x8981;&#x304C;&#x3042;&#x308A;&#x307E;&#x3059;&#x3002;</p>
+<p>&#x30B9;&#x30C8;&#x30A2;&#x3092; Vue &#x30B3;&#x30F3;&#x30B9;&#x30C8;&#x30E9;&#x30AF;&#x30BF;&#x30D9;&#x30FC;&#x30B9;&#x306B;&#x6E21;&#x3059;&#x4EE3;&#x308F;&#x308A;&#x306B;&#x3001;<a href="../api/options.html#localvue">localVue</a> &#x306B;&#x6E21;&#x3059;&#x3053;&#x3068;&#x304C;&#x3067;&#x304D;&#x307E;&#x3059;&#x3002;localeVue &#x306F;&#x30B0;&#x30ED;&#x30FC;&#x30D0;&#x30EB;&#x306A; Vue &#x30B3;&#x30F3;&#x30B9;&#x30C8;&#x30E9;&#x30AF;&#x30BF;&#x306B;&#x5F71;&#x97FF;&#x3092;&#x4E0E;&#x3048;&#x305A;&#x306B;&#x3001;&#x5909;&#x66F4;&#x3092;&#x52A0;&#x3048;&#x308B;&#x3053;&#x3068;&#x304C;&#x3067;&#x304D;&#x308B;&#x30B9;&#x30B3;&#x30FC;&#x30D7;&#x4ED8;&#x304D; Vue &#x30B3;&#x30F3;&#x30B9;&#x30C8;&#x30E9;&#x30AF;&#x30BF;&#x3067;&#x3059;&#x3002;</p>
+<p>&#x3053;&#x308C;&#x304C;&#x3069;&#x306E;&#x3088;&#x3046;&#x306B;&#x898B;&#x3048;&#x308B;&#x304B;&#x898B;&#x3066;&#x3044;&#x304D;&#x307E;&#x3057;&#x3087;&#x3046;:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">import</span> { shallow, createLocalVue } <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;@vue/test-utils&apos;</span>
+<span class="hljs-keyword">import</span> Vuex <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;vuex&apos;</span>
+<span class="hljs-keyword">import</span> Actions <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;../../../src/components/Actions&apos;</span>
+
+<span class="hljs-keyword">const</span> localVue = createLocalVue()
+
+localVue.use(Vuex)
+
+describe(<span class="hljs-string">&apos;Actions.vue&apos;</span>, () =&gt; {
+  <span class="hljs-keyword">let</span> actions
+  <span class="hljs-keyword">let</span> store
+
+  beforeEach(() =&gt; {
+    actions = {
+      actionClick: jest.fn(),
+      actionInput: jest.fn()
+    }
+    store = <span class="hljs-keyword">new</span> Vuex.Store({
+      state: {},
+      actions
+    })
+  })
+
+  it(<span class="hljs-string">&apos;calls store action actionInput when input value is input and an input event is fired&apos;</span>, () =&gt; {
+    <span class="hljs-keyword">const</span> wrapper = shallow(Actions, { store, localVue })
+    <span class="hljs-keyword">const</span> input = wrapper.find(<span class="hljs-string">&apos;input&apos;</span>)
+    input.element.value = <span class="hljs-string">&apos;input&apos;</span>
+    input.trigger(<span class="hljs-string">&apos;input&apos;</span>)
+    expect(actions.actionInput).toHaveBeenCalled()
+  })
+
+  it(<span class="hljs-string">&apos;does not call store action actionInput when input value is not input and an input event is fired&apos;</span>, () =&gt; {
+    <span class="hljs-keyword">const</span> wrapper = shallow(Actions, { store, localVue })
+    <span class="hljs-keyword">const</span> input = wrapper.find(<span class="hljs-string">&apos;input&apos;</span>)
+    input.element.value = <span class="hljs-string">&apos;not input&apos;</span>
+    input.trigger(<span class="hljs-string">&apos;input&apos;</span>)
+    expect(actions.actionInput).not.toHaveBeenCalled()
+  })
+
+  it(<span class="hljs-string">&apos;calls store action actionClick when button is clicked&apos;</span>, () =&gt; {
+    <span class="hljs-keyword">const</span> wrapper = shallow(Actions, { store, localVue })
+    wrapper.find(<span class="hljs-string">&apos;button&apos;</span>).trigger(<span class="hljs-string">&apos;click&apos;</span>)
+    expect(actions.actionClick).toHaveBeenCalled()
+  })
+})
+</code></pre>
+<p>&#x3053;&#x3053;&#x3067;&#x306F;&#x4F55;&#x304C;&#x8D77;&#x3053;&#x3063;&#x3066;&#x3044;&#x308B;&#x3067;&#x3057;&#x3087;&#x3046;&#x304B;&#xFF1F;&#x307E;&#x305A;&#x3001;Vue &#x306B; <code>localVue.use</code> &#x30E1;&#x30BD;&#x30C3;&#x30C9;&#x3092;&#x4F7F;&#x7528;&#x3057;&#x3066; Vuex &#x3092;&#x4F7F;&#x7528;&#x3059;&#x308B;&#x3088;&#x3046;&#x306B;&#x6307;&#x793A;&#x3057;&#x3066;&#x3044;&#x307E;&#x3059;&#x3002;&#x3053;&#x308C;&#x306F;&#x3001;&#x5358;&#x306A;&#x308B; <code>Vue.use</code> &#x306E;&#x30E9;&#x30C3;&#x30D1;&#x3067;&#x3059;&#x3002;</p>
+<p>&#x6B21;&#x306B;&#x3001;&#x65B0;&#x3057;&#x3044; <code>Vuex.store</code> &#x3092;&#x30E2;&#x30C3;&#x30AF;&#x3057;&#x305F;&#x5024;&#x3067;&#x547C;&#x3073;&#x51FA;&#x3059;&#x3053;&#x3068;&#x306B;&#x3088;&#x3063;&#x3066;&#x30E2;&#x30C3;&#x30AF;&#x306E;&#x30B9;&#x30C8;&#x30A2;&#x3092;&#x4F5C;&#x6210;&#x3057;&#x307E;&#x3059;&#x3002;&#x305D;&#x308C;&#x3092;&#x30A2;&#x30AF;&#x30B7;&#x30E7;&#x30F3;&#x306B;&#x6E21;&#x3059;&#x3060;&#x3051;&#x3067;&#x3059;&#x3002;&#x305D;&#x308C;&#x304C;&#x6C17;&#x306B;&#x3057;&#x306A;&#x3051;&#x308C;&#x3070;&#x306A;&#x3089;&#x306A;&#x3044;&#x3053;&#x3068;&#x306E;&#x5168;&#x3066;&#x3060;&#x304B;&#x3089;&#x3067;&#x3059;&#x3002;</p>
+<p>&#x30A2;&#x30AF;&#x30B7;&#x30E7;&#x30F3;&#x306F;&#x3001;<a href="https://facebook.github.io/jest/docs/en/mock-functions.html" target="_blank">Jest &#x306E;&#x30E2;&#x30C3;&#x30AF;&#x95A2;&#x6570;</a>&#x3067;&#x3059;&#x3002;&#x3053;&#x308C;&#x3089;&#x30E2;&#x30C3;&#x30AF;&#x95A2;&#x6570;&#x306F;&#x3001;&#x30A2;&#x30AF;&#x30B7;&#x30E7;&#x30F3;&#x304C;&#x547C;&#x3073;&#x51FA;&#x3055;&#x308C;&#x305F;&#x3001;&#x307E;&#x305F;&#x306F;&#x547C;&#x3073;&#x51FA;&#x3055;&#x308C;&#x3066;&#x3044;&#x306A;&#x3044;&#x3001;&#x304B;&#x3069;&#x3046;&#x304B;&#x3092;&#x691C;&#x8A3C;&#x3059;&#x308B;&#x30E1;&#x30BD;&#x30C3;&#x30C9;&#x3092;&#x63D0;&#x4F9B;&#x3057;&#x307E;&#x3059;&#x3002;</p>
+<p>&#x30A2;&#x30AF;&#x30B7;&#x30E7;&#x30F3;&#x306E;&#x30B9;&#x30BF;&#x30D6;&#x304C;&#x671F;&#x5F85;&#x3069;&#x304A;&#x308A;&#x306B;&#x547C;&#x3073;&#x51FA;&#x3055;&#x308C;&#x305F;&#x3053;&#x3068;&#x3092;&#x691C;&#x8A0E;&#x3059;&#x308B;&#x3053;&#x3068;&#x304C;&#x3067;&#x304D;&#x307E;&#x3059;&#x3002;</p>
+<p>&#x4ECA;&#x3001;&#x30B9;&#x30C8;&#x30A2;&#x3092;&#x5B9A;&#x7FA9;&#x3059;&#x308B;&#x65B9;&#x6CD5;&#x304C;&#x3001;&#x3042;&#x306A;&#x305F;&#x306B;&#x306F;&#x5C11;&#x3057;&#x7570;&#x8CEA;&#x306B;&#x898B;&#x3048;&#x308B;&#x304B;&#x3082;&#x3057;&#x308C;&#x307E;&#x305B;&#x3093;&#x3002;</p>
+<p>&#x5404;&#x30C6;&#x30B9;&#x30C8;&#x3088;&#x308A;&#x524D;&#x306B;&#x30B9;&#x30C8;&#x30A2;&#x3092;&#x30AF;&#x30EA;&#x30FC;&#x30F3;&#x306B;&#x4FDD;&#x8A3C;&#x3059;&#x308B;&#x305F;&#x3081;&#x306B;&#x3001;<code>beforeEach</code> &#x3092;&#x4F7F;&#x7528;&#x3057;&#x3066;&#x3044;&#x307E;&#x3059;&#x3002;<code>beforeEach</code> &#x306F;&#x5404;&#x30C6;&#x30B9;&#x30C8;&#x3088;&#x308A;&#x524D;&#x306B;&#x547C;&#x3073;&#x51FA;&#x3055;&#x308C;&#x308B; Mocha &#x306E;&#x30D5;&#x30C3;&#x30AF;&#x3067;&#x3059;&#x3002;&#x3053;&#x306E;&#x30C6;&#x30B9;&#x30C8;&#x3067;&#x306F;&#x3001;&#x30B9;&#x30C8;&#x30A2;&#x5909;&#x6570;&#x306B;&#x5024;&#x3092;&#x518D;&#x5EA6;&#x5272;&#x308A;&#x5F53;&#x3066;&#x3066;&#x3044;&#x307E;&#x3059;&#x3002;&#x3053;&#x308C;&#x3092;&#x3057;&#x3066;&#x3044;&#x306A;&#x3044;&#x5834;&#x5408;&#x306F;&#x3001;&#x30E2;&#x30C3;&#x30AF;&#x95A2;&#x6570;&#x306F;&#x81EA;&#x52D5;&#x7684;&#x306B;&#x30EA;&#x30BB;&#x30C3;&#x30C8;&#x3055;&#x308C;&#x308B;&#x5FC5;&#x8981;&#x304C;&#x3042;&#x308A;&#x307E;&#x3059;&#x3002;&#x307E;&#x305F;&#x3001;&#x30C6;&#x30B9;&#x30C8;&#x306B;&#x304A;&#x3044;&#x3066;&#x72B6;&#x614B;&#x3092;&#x5909;&#x66F4;&#x3059;&#x308B;&#x3053;&#x3068;&#x3082;&#x3067;&#x304D;&#x307E;&#x3059;&#x304C;&#x3001;&#x3053;&#x306E;&#x65B9;&#x6CD5;&#x306F;&#x3001;&#x5F8C;&#x306E;&#x30C6;&#x30B9;&#x30C8;&#x3067;&#x5F71;&#x97FF;&#x3092;&#x4E0E;&#x3048;&#x308B;&#x3053;&#x3068;&#x306F;&#x306A;&#x3044;&#x3067;&#x3059;&#x3002;</p>
+<p>&#x3053;&#x306E;&#x30C6;&#x30B9;&#x30C8;&#x3067;&#x6700;&#x3082;&#x91CD;&#x8981;&#x306A;&#x3053;&#x3068;&#x306F;&#x3001;<strong>&#x30E2;&#x30C3;&#x30AF; Vuex &#x30B9;&#x30C8;&#x30A2;&#x3092;&#x4F5C;&#x6210;&#x3057;&#x3001;&#x305D;&#x308C;&#x3092; vue-test-utils &#x306B;&#x6E21;&#x3059;</strong> &#x3053;&#x3068;&#x3067;&#x3059;&#x3002;</p>
+<p>&#x7D20;&#x6674;&#x3089;&#x3057;&#x3044;&#xFF01;&#x4ECA;&#x3001;&#x30A2;&#x30AF;&#x30B7;&#x30E7;&#x30F3;&#x3092;&#x30E2;&#x30C3;&#x30AF;&#x5316;&#x3067;&#x304D;&#x308B;&#x306E;&#x3067;&#x3001;&#x30B2;&#x30C3;&#x30BF;&#x306E;&#x30E2;&#x30C3;&#x30AF;&#x306B;&#x3064;&#x3044;&#x3066;&#x898B;&#x3066;&#x3044;&#x304D;&#x307E;&#x3057;&#x3087;&#x3046;&#x3002;</p>
+<h3 id="&#x30B2;&#x30C3;&#x30BF;&#x306E;&#x30E2;&#x30C3;&#x30AF;">&#x30B2;&#x30C3;&#x30BF;&#x306E;&#x30E2;&#x30C3;&#x30AF;</h3>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">v-if</span>=<span class="hljs-string">&quot;inputValue&quot;</span>&gt;</span>{{inputValue}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span> <span class="hljs-attr">v-if</span>=<span class="hljs-string">&quot;clicks&quot;</span>&gt;</span>{{clicks}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+<span class="hljs-keyword">import</span> { mapGetters } <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;vuex&apos;</span>
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span>{
+  computed: mapGetters([
+    <span class="hljs-string">&apos;clicks&apos;</span>,
+    <span class="hljs-string">&apos;inputValue&apos;</span>
+  ])
+}
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+</code></pre>
+<p>&#x3053;&#x308C;&#x306F;&#x3001;&#x304B;&#x306A;&#x308A;&#x5358;&#x7D14;&#x306A;&#x30B3;&#x30F3;&#x30DD;&#x30FC;&#x30CD;&#x30F3;&#x30C8;&#x3067;&#x3059;&#x3002;&#x30B2;&#x30C3;&#x30BF;&#x306B;&#x3088;&#x308B; <code>clicks</code> &#x306E;&#x7D50;&#x679C;&#x3068; <code>inputValue</code> &#x3092;&#x63CF;&#x753B;&#x3057;&#x307E;&#x3059;&#x3002;&#x307E;&#x305F;&#x3001;&#x3053;&#x308C;&#x3089;&#x30B2;&#x30C3;&#x30BF;&#x304C;&#x8FD4;&#x3059;&#x5024;&#x306B;&#x3064;&#x3044;&#x3066;&#x306F;&#x5B9F;&#x969B;&#x306B;&#x6C17;&#x306B;&#x3057;&#x307E;&#x305B;&#x3093;&#x3002;&#x305D;&#x308C;&#x3089;&#x306E;&#x7D50;&#x679C;&#x304C;&#x6B63;&#x3057;&#x304F;&#x63CF;&#x753B;&#x3055;&#x308C;&#x3066;&#x3044;&#x308B;&#x304B;&#x3060;&#x3051;&#x3067;&#x3059;&#x3002;</p>
+<p>&#x30C6;&#x30B9;&#x30C8;&#x3092;&#x898B;&#x3066;&#x307F;&#x307E;&#x3057;&#x3087;&#x3046;:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">import</span> { shallow, createLocalVue } <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;@vue/test-utils&apos;</span>
+<span class="hljs-keyword">import</span> Vuex <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;vuex&apos;</span>
+<span class="hljs-keyword">import</span> Actions <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;../../../src/components/Getters&apos;</span>
+
+<span class="hljs-keyword">const</span> localVue = createLocalVue()
+
+localVue.use(Vuex)
+
+describe(<span class="hljs-string">&apos;Getters.vue&apos;</span>, () =&gt; {
+  <span class="hljs-keyword">let</span> getters
+  <span class="hljs-keyword">let</span> store
+
+  beforeEach(() =&gt; {
+    getters = {
+      clicks: () =&gt; <span class="hljs-number">2</span>,
+      inputValue: () =&gt; <span class="hljs-string">&apos;input&apos;</span>
+    }
+
+    store = <span class="hljs-keyword">new</span> Vuex.Store({
+      getters
+    })
+  })
+
+  it(<span class="hljs-string">&apos;Renders state.inputValue in first p tag&apos;</span>, () =&gt; {
+    <span class="hljs-keyword">const</span> wrapper = shallow(Actions, { store, localVue })
+    <span class="hljs-keyword">const</span> p = wrapper.find(<span class="hljs-string">&apos;p&apos;</span>)
+    expect(p.text()).toBe(getters.inputValue())
+  })
+
+  it(<span class="hljs-string">&apos;Renders state.clicks in second p tag&apos;</span>, () =&gt; {
+    <span class="hljs-keyword">const</span> wrapper = shallow(Actions, { store, localVue })
+    <span class="hljs-keyword">const</span> p = wrapper.findAll(<span class="hljs-string">&apos;p&apos;</span>).at(<span class="hljs-number">1</span>)
+    expect(p.text()).toBe(getters.clicks().toString())
+  })
+})
+</code></pre>
+<p>&#x3053;&#x306E;&#x30C6;&#x30B9;&#x30C8;&#x306F;&#x30A2;&#x30AF;&#x30B7;&#x30E7;&#x30F3;&#x306E;&#x30C6;&#x30B9;&#x30C8;&#x306B;&#x4F3C;&#x3066;&#x3044;&#x307E;&#x3059;&#x3002;&#x5404;&#x30C6;&#x30B9;&#x30C8;&#x306E;&#x524D;&#x306B;&#x30E2;&#x30C3;&#x30AF;&#x30B9;&#x30C8;&#x30A2;&#x3092;&#x4F5C;&#x6210;&#x3057;&#x3001;<code>shallow</code> &#x3092;&#x547C;&#x3073;&#x51FA;&#x3059;&#x3068;&#x304D;&#x306B;&#x30AA;&#x30D7;&#x30B7;&#x30E7;&#x30F3;&#x3092;&#x6E21;&#x3057;&#x3001;&#x305D;&#x3057;&#x3066;&#x30E2;&#x30C3;&#x30AF;&#x30B2;&#x30C3;&#x30BF;&#x304B;&#x3089;&#x8FD4;&#x3055;&#x308C;&#x305F;&#x5024;&#x3092;&#x63CF;&#x753B;&#x3055;&#x308C;&#x3066;&#x3044;&#x308B;&#x306E;&#x3092;&#x691C;&#x8A3C;&#x3057;&#x307E;&#x3059;&#x3002;</p>
+<p>&#x3053;&#x308C;&#x306F;&#x7D20;&#x6674;&#x3089;&#x3057;&#x3044;&#x3067;&#x3059;&#x304C;&#x3001;&#x3082;&#x3057;&#x30B2;&#x30C3;&#x30BF;&#x304C;&#x72B6;&#x614B;&#x306E;&#x6B63;&#x3057;&#x3044;&#x90E8;&#x5206;&#x3092;&#x8FD4;&#x3057;&#x3066;&#x3044;&#x308B;&#x306E;&#x3092;&#x78BA;&#x8A8D;&#x3057;&#x305F;&#x3044;&#x5834;&#x5408;&#x306F;&#x3069;&#x3046;&#x3057;&#x307E;&#x3059;&#x304B;&#xFF1F;</p>
+<h3 id="&#x30E2;&#x30B8;&#x30E5;&#x30FC;&#x30EB;&#x306B;&#x3088;&#x308B;&#x30E2;&#x30C3;&#x30AF;">&#x30E2;&#x30B8;&#x30E5;&#x30FC;&#x30EB;&#x306B;&#x3088;&#x308B;&#x30E2;&#x30C3;&#x30AF;</h3>
+<p><a href="https://vuex.vuejs.org/en/modules.html" target="_blank">&#x30E2;&#x30B8;&#x30E5;&#x30FC;&#x30EB;</a>&#x306F;&#x30B9;&#x30C8;&#x30A2;&#x3092;&#x7BA1;&#x7406;&#x3057;&#x3084;&#x3059;&#x3044;&#x584A;&#x306B;&#x5206;&#x3051;&#x308B;&#x305F;&#x3081;&#x306B;&#x4FBF;&#x5229;&#x3067;&#x3059;&#x3002;&#x305D;&#x308C;&#x3089;&#x306F;&#x30B2;&#x30C3;&#x30BF;&#x3082;&#x30A8;&#x30AF;&#x30B9;&#x30DD;&#x30FC;&#x30C8;&#x3057;&#x307E;&#x3059;&#x3002;&#x30C6;&#x30B9;&#x30C8;&#x3067;&#x306F;&#x3053;&#x308C;&#x3089;&#x3092;&#x4F7F;&#x7528;&#x3059;&#x308B;&#x3053;&#x3068;&#x304C;&#x3067;&#x304D;&#x307E;&#x3059;&#x3002;</p>
+<p>&#x30B3;&#x30F3;&#x30DD;&#x30FC;&#x30CD;&#x30F3;&#x30C8;&#x3092;&#x898B;&#x3066;&#x307F;&#x307E;&#x3057;&#x3087;&#x3046;:</p>
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">template</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">button</span> @<span class="hljs-attr">click</span>=<span class="hljs-string">&quot;moduleActionClick()&quot;</span>&gt;</span>Click<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>{{moduleClicks}}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+<span class="hljs-keyword">import</span> { mapActions, mapGetters } <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;vuex&apos;</span>
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span>{
+  methods: {
+    ...mapActions([
+      <span class="hljs-string">&apos;moduleActionClick&apos;</span>
+    ])
+  },
+
+  computed: mapGetters([
+    <span class="hljs-string">&apos;moduleClicks&apos;</span>
+  ])
+}
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+</code></pre>
+<p>1 &#x3064;&#x306E;&#x30A2;&#x30AF;&#x30B7;&#x30E7;&#x30F3;&#x3068; 1 &#x3064;&#x306E;&#x30B2;&#x30C3;&#x30BF;&#x3092;&#x542B;&#x3080;&#x5358;&#x7D14;&#x306A;&#x30B3;&#x30F3;&#x30DD;&#x30FC;&#x30CD;&#x30F3;&#x30C8;&#x3067;&#x3059;&#x3002;</p>
+<p>&#x305D;&#x3057;&#x3066;&#x30C6;&#x30B9;&#x30C8;&#x306F;&#x4EE5;&#x4E0B;&#x306E;&#x3088;&#x3046;&#x306B;&#x306A;&#x308A;&#x307E;&#x3059;:</p>
+<pre><code class="lang-js"><span class="hljs-keyword">import</span> { shallow, createLocalVue } <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;@vue/test-utils&apos;</span>
+<span class="hljs-keyword">import</span> Vuex <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;vuex&apos;</span>
+<span class="hljs-keyword">import</span> Modules <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;../../../src/components/Modules&apos;</span>
+<span class="hljs-keyword">import</span> <span class="hljs-built_in">module</span> <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;../../../src/store/module&apos;</span>
+
+<span class="hljs-keyword">const</span> localVue = createLocalVue()
+
+localVue.use(Vuex)
+
+describe(<span class="hljs-string">&apos;Modules.vue&apos;</span>, () =&gt; {
+  <span class="hljs-keyword">let</span> actions
+  <span class="hljs-keyword">let</span> state
+  <span class="hljs-keyword">let</span> store
+
+  beforeEach(() =&gt; {
+    state = {
+      <span class="hljs-built_in">module</span>: {
+        clicks: <span class="hljs-number">2</span>
+      }
+    }
+
+    actions = {
+      moduleActionClick: jest.fn()
+    }
+
+    store = <span class="hljs-keyword">new</span> Vuex.Store({
+      state,
+      actions,
+      getters: <span class="hljs-built_in">module</span>.getters
+    })
+  })
+
+  it(<span class="hljs-string">&apos;calls store action moduleActionClick when button is clicked&apos;</span>, () =&gt; {
+    <span class="hljs-keyword">const</span> wrapper = shallow(Modules, { store, localVue })
+    <span class="hljs-keyword">const</span> button = wrapper.find(<span class="hljs-string">&apos;button&apos;</span>)
+    button.trigger(<span class="hljs-string">&apos;click&apos;</span>)
+    expect(actions.moduleActionClick).toHaveBeenCalled()
+  })
+
+  it(<span class="hljs-string">&apos;Renders state.inputValue in first p tag&apos;</span>, () =&gt; {
+    <span class="hljs-keyword">const</span> wrapper = shallow(Modules, { store, localVue })
+    <span class="hljs-keyword">const</span> p = wrapper.find(<span class="hljs-string">&apos;p&apos;</span>)
+    expect(p.text()).toBe(state.module.clicks.toString())
+  })
+})
+</code></pre>
+<h2 id="vuex-&#x30B9;&#x30C8;&#x30A2;&#x306E;&#x30C6;&#x30B9;&#x30C8;">Vuex &#x30B9;&#x30C8;&#x30A2;&#x306E;&#x30C6;&#x30B9;&#x30C8;</h2>
+<p>Vuex &#x30B9;&#x30C8;&#x30A2;&#x3092;&#x30C6;&#x30B9;&#x30C8;&#x3059;&#x308B;&#x65B9;&#x6CD5;&#x304C;2&#x3064;&#x3042;&#x308A;&#x307E;&#x3059;&#x3002;1&#x3064;&#x76EE;&#x306F;&#x30B2;&#x30C3;&#x30BF;&#x3068;&#x30DF;&#x30E5;&#x30FC;&#x30C6;&#x30FC;&#x30B7;&#x30E7;&#x30F3;&#x3068;&#x30A2;&#x30AF;&#x30B7;&#x30E7;&#x30F3;&#x3092;&#x5225;&#x3005;&#x306B;&#x5358;&#x4F53;&#x30C6;&#x30B9;&#x30C8;&#x3059;&#x308B;&#x65B9;&#x6CD5;&#x3067;&#x3059;&#x3002;2&#x3064;&#x76EE;&#x306F;&#x30B9;&#x30C8;&#x30A2;&#x3092;&#x751F;&#x6210;&#x3057;&#x3066;&#x305D;&#x308C;&#x3092;&#x30C6;&#x30B9;&#x30C8;&#x3059;&#x308B;&#x65B9;&#x6CD5;&#x3067;&#x3059;&#x3002;</p>
+<p>Vuex &#x30B9;&#x30C8;&#x30A2;&#x3092;&#x30C6;&#x30B9;&#x30C8;&#x3059;&#x308B;&#x65B9;&#x6CD5;&#x3092;&#x8AAC;&#x660E;&#x3059;&#x308B;&#x305F;&#x3081;&#x306B;&#x30B7;&#x30F3;&#x30D7;&#x30EB;&#x306A;&#x30AB;&#x30A6;&#x30F3;&#x30BF;&#x30FC;&#x30B9;&#x30C8;&#x30A2;&#x3092;&#x7528;&#x610F;&#x3057;&#x307E;&#x3059;&#x3002;&#x3053;&#x306E;&#x30B9;&#x30C8;&#x30A2;&#x306B;&#x306F; <code>increment</code> &#x30DF;&#x30E5;&#x30FC;&#x30C6;&#x30FC;&#x30B7;&#x30E7;&#x30F3;&#x3068; <code>counter</code> &#x30B2;&#x30C3;&#x30BF;&#x304C;&#x3042;&#x308A;&#x307E;&#x3059;&#x3002;</p>
+<pre><code class="lang-js"><span class="hljs-comment">// mutations.js</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
+  increment (state) {
+    state.count++
+  }
+}
+</code></pre>
+<pre><code class="lang-js"><span class="hljs-comment">// getters.js</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
+  evenOrOdd: state =&gt; state.count % <span class="hljs-number">2</span> === <span class="hljs-number">0</span> ? <span class="hljs-string">&apos;even&apos;</span> : <span class="hljs-string">&apos;odd&apos;</span>
+}
+</code></pre>
+<h3 id="&#x30B2;&#x30C3;&#x30BF;&#x3068;&#x30DF;&#x30E5;&#x30FC;&#x30C6;&#x30FC;&#x30B7;&#x30E7;&#x30F3;&#x3068;&#x30A2;&#x30AF;&#x30B7;&#x30E7;&#x30F3;&#x3092;&#x5225;&#x3005;&#x306B;&#x30C6;&#x30B9;&#x30C8;&#x3059;&#x308B;">&#x30B2;&#x30C3;&#x30BF;&#x3068;&#x30DF;&#x30E5;&#x30FC;&#x30C6;&#x30FC;&#x30B7;&#x30E7;&#x30F3;&#x3068;&#x30A2;&#x30AF;&#x30B7;&#x30E7;&#x30F3;&#x3092;&#x5225;&#x3005;&#x306B;&#x30C6;&#x30B9;&#x30C8;&#x3059;&#x308B;</h3>
+<p>&#x30B2;&#x30C3;&#x30BF;&#x3068;&#x30DF;&#x30E5;&#x30FC;&#x30C6;&#x30FC;&#x30B7;&#x30E7;&#x30F3;&#x3068;&#x30A2;&#x30AF;&#x30B7;&#x30E7;&#x30F3;&#x306F;&#x3059;&#x3079;&#x3066; JavaScript &#x306E;&#x95A2;&#x6570;&#x3067;&#x3059;&#x3002;&#x305D;&#x308C;&#x3089;&#x306F; <code>vue-test-utils</code> &#x3068; Vuex &#x3092;&#x4F7F;&#x7528;&#x3057;&#x306A;&#x304F;&#x3066;&#x3082;&#x30C6;&#x30B9;&#x30C8;&#x3059;&#x308B;&#x3053;&#x3068;&#x304C;&#x3067;&#x304D;&#x307E;&#x3059;&#x3002;</p>
+<p>&#x30B2;&#x30C3;&#x30BF;&#x3068;&#x30DF;&#x30E5;&#x30FC;&#x30C6;&#x30FC;&#x30B7;&#x30E7;&#x30F3;&#x3068;&#x30A2;&#x30AF;&#x30B7;&#x30E7;&#x30F3;&#x3092;&#x5225;&#x3005;&#x306B;&#x30C6;&#x30B9;&#x30C8;&#x3059;&#x308B;&#x5229;&#x70B9;&#x306F;&#x5358;&#x4F53;&#x30C6;&#x30B9;&#x30C8;&#x3092;&#x8A73;&#x7D30;&#x306B;&#x8A18;&#x8FF0;&#x3059;&#x308B;&#x3053;&#x3068;&#x304C;&#x3067;&#x304D;&#x308B;&#x3053;&#x3068;&#x3067;&#x3059;&#x3002;&#x30C6;&#x30B9;&#x30C8;&#x304C;&#x5931;&#x6557;&#x3059;&#x308B;&#x3068;&#x3001;&#x30B3;&#x30FC;&#x30C9;&#x306E;&#x4F55;&#x304C;&#x539F;&#x56E0;&#x304B;&#x6B63;&#x78BA;&#x306B;&#x77E5;&#x308B;&#x3053;&#x3068;&#x304C;&#x3067;&#x304D;&#x307E;&#x3059;&#x3002;&#x6B20;&#x70B9;&#x306F; <code>commit</code> &#x3084; <code>dispatch</code> &#x306E;&#x3088;&#x3046;&#x306A; Vuex &#x306E;&#x95A2;&#x6570;&#x306E;&#x30E2;&#x30C3;&#x30AF;&#x304C;&#x5FC5;&#x8981;&#x306A;&#x3053;&#x3068;&#x3067;&#x3059;&#x3002;&#x3053;&#x308C;&#x306F;&#x4E0D;&#x6B63;&#x306A;&#x30E2;&#x30C3;&#x30AF;&#x304C;&#x539F;&#x56E0;&#x3067;&#x5358;&#x4F53;&#x30C6;&#x30B9;&#x30C8;&#x306F;&#x30D1;&#x30B9;&#x3057;&#x3066;&#x30D7;&#x30ED;&#x30C0;&#x30AF;&#x30B7;&#x30E7;&#x30F3;&#x306F;&#x5931;&#x6557;&#x3059;&#x308B;&#x72B6;&#x6CC1;&#x3092;&#x4F5C;&#x308A;&#x51FA;&#x3059;&#x53EF;&#x80FD;&#x6027;&#x304C;&#x3042;&#x308A;&#x307E;&#x3059;&#x3002;</p>
+<p>mutations.spec.js &#x3068; getters.spec.js &#x3068;&#x3044;&#x3046;&#x540D;&#x524D;&#x306E;&#x30C6;&#x30B9;&#x30C8;&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x3092;2&#x3064;&#x4F5C;&#x6210;&#x3057;&#x307E;&#x3059;&#x3002;</p>
+<p>&#x6700;&#x521D;&#x306B; increment &#x30DF;&#x30E5;&#x30FC;&#x30C6;&#x30FC;&#x30B7;&#x30E7;&#x30F3;&#x3092;&#x30C6;&#x30B9;&#x30C8;&#x3057;&#x307E;&#x3059;&#x3002;</p>
+<pre><code class="lang-js"><span class="hljs-comment">// mutations.spec.js</span>
+
+<span class="hljs-keyword">import</span> mutations <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;./mutations&apos;</span>
+
+test(<span class="hljs-string">&apos;increment increments state.count by 1&apos;</span>, () =&gt; {
+  <span class="hljs-keyword">const</span> state = {
+    count: <span class="hljs-number">0</span>
+  }
+  mutations.increment(state)
+  expect(state.count).toBe(<span class="hljs-number">1</span>)
+})
+</code></pre>
+<p>&#x4ECA;&#x5EA6;&#x306F; <code>evenOrOdd</code> &#x30B2;&#x30C3;&#x30BF;&#x3092;&#x6B21;&#x306E;&#x624B;&#x9806;&#x3067;&#x30C6;&#x30B9;&#x30C8;&#x3057;&#x307E;&#x3059;&#x3002; <code>state</code> &#x30E2;&#x30C3;&#x30AF;&#x3092;&#x4F5C;&#x6210;&#x3057;&#x307E;&#x3059;&#x3002; <code>state</code> &#x3092;&#x5F15;&#x6570;&#x3068;&#x3057;&#x3066;&#x30B2;&#x30C3;&#x30BF;&#x95A2;&#x6570;&#x3092;&#x5B9F;&#x884C;&#x3057;&#x307E;&#x3059;&#x3002;&#x305D;&#x3057;&#x3066;&#x3001;&#x305D;&#x308C;&#x304C;&#x6B63;&#x3057;&#x3044;&#x5024;&#x3092;&#x8FD4;&#x3057;&#x305F;&#x304B;&#x78BA;&#x8A8D;&#x3057;&#x307E;&#x3059;&#x3002;</p>
+<pre><code class="lang-js"><span class="hljs-comment">// getters.spec.js</span>
+
+<span class="hljs-keyword">import</span> getters <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;./getters&apos;</span>
+
+test(<span class="hljs-string">&apos;evenOrOdd returns even if state.count is even&apos;</span>, () =&gt; {
+  <span class="hljs-keyword">const</span> state = {
+    count: <span class="hljs-number">2</span>
+  }
+  expect(getters.evenOrOdd(state)).toBe(<span class="hljs-string">&apos;even&apos;</span>)
+})
+
+test(<span class="hljs-string">&apos;evenOrOdd returns odd if state.count is even&apos;</span>, () =&gt; {
+  <span class="hljs-keyword">const</span> state = {
+    count: <span class="hljs-number">1</span>
+  }
+  expect(getters.evenOrOdd(state)).toBe(<span class="hljs-string">&apos;odd&apos;</span>)
+})
+</code></pre>
+<h3 id="&#x5B9F;&#x884C;&#x53EF;&#x80FD;&#x306A;&#x30B9;&#x30C8;&#x30A2;&#x306E;&#x30C6;&#x30B9;&#x30C8;">&#x5B9F;&#x884C;&#x53EF;&#x80FD;&#x306A;&#x30B9;&#x30C8;&#x30A2;&#x306E;&#x30C6;&#x30B9;&#x30C8;</h3>
+<p>Vuex&#x30B9;&#x30C8;&#x30A2;&#x3092;&#x30C6;&#x30B9;&#x30C8;&#x3059;&#x308B;&#x3082;&#x3046;1&#x3064;&#x306E;&#x65B9;&#x6CD5;&#x306F;&#x30B9;&#x30C8;&#x30A2;&#x306E;&#x8A2D;&#x5B9A;&#x3092;&#x4F7F;&#x3063;&#x3066;&#x5B9F;&#x884C;&#x53EF;&#x80FD;&#x306A;&#x30B9;&#x30C8;&#x30A2;&#x3092;&#x751F;&#x6210;&#x3059;&#x308B;&#x3053;&#x3068;&#x3067;&#x3059;&#x3002;</p>
+<p>&#x5B9F;&#x884C;&#x53EF;&#x80FD;&#x306A;&#x30B9;&#x30C8;&#x30A2;&#x3092;&#x751F;&#x6210;&#x3057;&#x3066;&#x30C6;&#x30B9;&#x30C8;&#x3059;&#x308B;&#x3053;&#x3068;&#x306E;&#x5229;&#x70B9;&#x306F; Vuex &#x306E;&#x95A2;&#x6570;&#x3092;&#x30E2;&#x30C3;&#x30AF;&#x3059;&#x308B;&#x5FC5;&#x8981;&#x304C;&#x306A;&#x3044;&#x4E8B;&#x3067;&#x3059;&#x3002;</p>
+<p>&#x6B20;&#x70B9;&#x306F;&#x30C6;&#x30B9;&#x30C8;&#x304C;&#x5931;&#x6557;&#x3057;&#x305F;&#x6642;&#x3001;&#x554F;&#x984C;&#x304C;&#x3042;&#x308B;&#x7B87;&#x6240;&#x3092;&#x898B;&#x3064;&#x3051;&#x308B;&#x3053;&#x3068;&#x304C;&#x96E3;&#x3057;&#x3044;&#x3053;&#x3068;&#x3067;&#x3059;&#x3002;</p>
+<p>&#x30C6;&#x30B9;&#x30C8;&#x3092;&#x66F8;&#x3044;&#x3066;&#x307F;&#x307E;&#x3057;&#x3087;&#x3046;&#x3002;&#x30B9;&#x30C8;&#x30A2;&#x3092;&#x751F;&#x6210;&#x3059;&#x308B;&#x969B;&#x306F;&#x3001; Vue &#x306E;&#x30B3;&#x30F3;&#x30B9;&#x30C8;&#x30E9;&#x30AF;&#x30BF;&#x304C;&#x6C5A;&#x67D3;&#x3055;&#x308C;&#x308B;&#x3053;&#x3068;&#x3092;&#x907F;&#x3051;&#x308B;&#x305F;&#x3081;&#x306B; <code>localVue</code> &#x3092;&#x4F7F;&#x7528;&#x3057;&#x307E;&#x3059;&#x3002;&#x3053;&#x306E;&#x30C6;&#x30B9;&#x30C8;&#x306F; store-config.js &#x306E; export &#x3092;&#x4F7F;&#x7528;&#x3057;&#x3066;&#x30B9;&#x30C8;&#x30A2;&#x3092;&#x751F;&#x6210;&#x3057;&#x307E;&#x3059;&#x3002;</p>
+<pre><code class="lang-js"><span class="hljs-comment">// store-config.js</span>
+
+<span class="hljs-keyword">import</span> mutations <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;./mutations&apos;</span>
+<span class="hljs-keyword">import</span> getters <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;./getters&apos;</span>
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
+  state: {
+    count: <span class="hljs-number">0</span>
+  },
+  mutations,
+  getters
+}
+</code></pre>
+<pre><code class="lang-js"><span class="hljs-keyword">import</span> { createLocalVue } <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;@vue/test-utils&apos;</span>
+<span class="hljs-keyword">import</span> Vuex <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;vuex&apos;</span>
+<span class="hljs-keyword">import</span> storeConfig <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;./store-config&apos;</span>
+<span class="hljs-keyword">import</span> { cloneDeep } <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;lodash&apos;</span>
+
+test(<span class="hljs-string">&apos;increments count value when increment is commited&apos;</span>, () =&gt; {
+  <span class="hljs-keyword">const</span> localVue = createLocalVue()
+  localVue.use(Vuex)
+  <span class="hljs-keyword">const</span> store = <span class="hljs-keyword">new</span> Vuex.Store(cloneDeep(storeConfig))
+  expect(store.state.count).toBe(<span class="hljs-number">0</span>)
+  store.commit(<span class="hljs-string">&apos;increment&apos;</span>)
+  expect(store.state.count).toBe(<span class="hljs-number">1</span>)
+})
+
+test(<span class="hljs-string">&apos;updates evenOrOdd getter when increment is commited&apos;</span>, () =&gt; {
+  <span class="hljs-keyword">const</span> localVue = createLocalVue()
+  localVue.use(Vuex)
+  <span class="hljs-keyword">const</span> store = <span class="hljs-keyword">new</span> Vuex.Store(cloneDeep(storeConfig))
+  expect(store.getters.evenOrOdd).toBe(<span class="hljs-string">&apos;even&apos;</span>)
+  store.commit(<span class="hljs-string">&apos;increment&apos;</span>)
+  expect(store.getters.evenOrOdd).toBe(<span class="hljs-string">&apos;odd&apos;</span>)
+})
+</code></pre>
+<p>&#x30B9;&#x30C8;&#x30A2;&#x3092;&#x30B9;&#x30C8;&#x30A2;&#x306E;&#x8A2D;&#x5B9A;&#x304B;&#x3089;&#x751F;&#x6210;&#x3059;&#x308B;&#x524D;&#x306B; <code>cloneDeep</code> &#x3092;&#x4F7F;&#x7528;&#x3057;&#x3066;&#x3044;&#x307E;&#x3059;&#x3002;&#x3053;&#x3046;&#x3059;&#x308B;&#x7406;&#x7531;&#x306F; Vuex &#x306F;&#x30B9;&#x30C8;&#x30A2;&#x3092;&#x751F;&#x6210;&#x3059;&#x308B;&#x305F;&#x3081;&#x306B;&#x30AA;&#x30D7;&#x30B7;&#x30E7;&#x30F3;&#x30AA;&#x30D6;&#x30B8;&#x30A7;&#x30AF;&#x30C8;&#x3092;&#x5909;&#x66F4;&#x3059;&#x308B;&#x304B;&#x3089;&#x3067;&#x3059;&#x3002;&#x3069;&#x306E;&#x30C6;&#x30B9;&#x30C8;&#x3067;&#x3082;&#x78BA;&#x5B9F;&#x306B;&#x6C5A;&#x67D3;&#x3055;&#x308C;&#x3066;&#x3044;&#x306A;&#x3044;&#x30B9;&#x30C8;&#x30A2;&#x3092;&#x4F7F;&#x3046;&#x305F;&#x3081;&#x306B; <code>storeConfig</code> &#x30AA;&#x30D6;&#x30B8;&#x30A7;&#x30AF;&#x30C8;&#x3092;&#x8907;&#x88FD;&#x3059;&#x308B;&#x5FC5;&#x8981;&#x304C;&#x3042;&#x308A;&#x307E;&#x3059;&#x3002;</p>
+<h2 id="&#x30EA;&#x30BD;&#x30FC;&#x30B9;">&#x30EA;&#x30BD;&#x30FC;&#x30B9;</h2>
+<ul>
+<li><a href="https://github.com/eddyerburgh/vue-test-utils-vuex-example" target="_blank">&#x30B3;&#x30F3;&#x30DD;&#x30FC;&#x30CD;&#x30F3;&#x30C8;&#x3092;&#x30C6;&#x30B9;&#x30C8;&#x3059;&#x308B;&#x4F8B;</a></li>
+<li><a href="https://github.com/eddyerburgh/testing-vuex-store-example" target="_blank">&#x30B9;&#x30C8;&#x30A2;&#x3092;&#x30C6;&#x30B9;&#x30C8;&#x3059;&#x308B;&#x4F8B;</a></li>
+<li><a href="../api/options.html#localvue">localVue</a></li>
+<li><a href="../api/createLocalVue.html">createLocalVue</a></li>
+</ul>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+  <script src="//m.servedby-buysellads.com/monetization.js" type="text/javascript"></script>
+  <div class="bsa-cpc"></div>
+  <script>
+    (function(){
+      if(typeof _bsa !== 'undefined' && _bsa) {
+      _bsa.init('default', 'CKYD62QM', 'placement:vuejsorg', {
+        target: '.bsa-cpc',
+        align: 'horizontal',
+        disable_css: 'true'
+      });
+        }
+    })();
+  </script>
+
+            </div>
+
+            
+                
+                <a href="using-with-vue-router.html" class="navigation navigation-prev " aria-label="Previous page: Vue Router と一緒に使う">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="../api/" class="navigation navigation-next " aria-label="Next page: API">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Vuex と一緒に使う","level":"1.2.10","depth":2,"next":{"title":"API","level":"1.3","depth":1,"path":"api/README.md","ref":"api/README.md","articles":[{"title":"mount","level":"1.3.1","depth":2,"path":"api/mount.md","ref":"api/mount.md","articles":[]},{"title":"shallow","level":"1.3.2","depth":2,"path":"api/shallow.md","ref":"api/shallow.md","articles":[]},{"title":"render","level":"1.3.3","depth":2,"path":"api/render.md","ref":"api/render.md","articles":[]},{"title":"renderToString","level":"1.3.4","depth":2,"path":"api/renderToString.md","ref":"api/renderToString.md","articles":[]},{"title":"マウンティングオプション","level":"1.3.5","depth":2,"path":"api/options.md","ref":"api/options.md","articles":[{"title":"context","level":"1.3.5.1","depth":3,"anchor":"#context","path":"api/options.md","ref":"api/options.md#context","articles":[]},{"title":"slots","level":"1.3.5.2","depth":3,"anchor":"#slots","path":"api/options.md","ref":"api/options.md#slots","articles":[]},{"title":"stubs","level":"1.3.5.3","depth":3,"anchor":"#stubs","path":"api/options.md","ref":"api/options.md#stubs","articles":[]},{"title":"mocks","level":"1.3.5.4","depth":3,"anchor":"#mocks","path":"api/options.md","ref":"api/options.md#mocks","articles":[]},{"title":"localVue","level":"1.3.5.5","depth":3,"anchor":"#localvue","path":"api/options.md","ref":"api/options.md#localvue","articles":[]},{"title":"attachToDocument","level":"1.3.5.6","depth":3,"anchor":"#attachtodocument","path":"api/options.md","ref":"api/options.md#attachtodocument","articles":[]},{"title":"attrs","level":"1.3.5.7","depth":3,"anchor":"#attrs","path":"api/options.md","ref":"api/options.md#attrs","articles":[]},{"title":"listeners","level":"1.3.5.8","depth":3,"anchor":"#listeners","path":"api/options.md","ref":"api/options.md#listeners","articles":[]},{"title":"provide","level":"1.3.5.9","depth":3,"anchor":"#provide","path":"api/options.md","ref":"api/options.md#provide","articles":[]},{"title":"sync","level":"1.3.5.10","depth":3,"anchor":"#sync","path":"api/options.md","ref":"api/options.md#sync","articles":[]},{"title":"その他のオプション","level":"1.3.5.11","depth":3,"anchor":"#その他のオプション","path":"api/options.md","ref":"api/options.md#その他のオプション","articles":[]}]},{"title":"Wrapper","level":"1.3.6","depth":2,"path":"api/wrapper/README.md","ref":"api/wrapper/README.md","articles":[{"title":"attributes","level":"1.3.6.1","depth":3,"path":"api/wrapper/attributes.md","ref":"api/wrapper/attributes.md","articles":[]},{"title":"classes","level":"1.3.6.2","depth":3,"path":"api/wrapper/classes.md","ref":"api/wrapper/classes.md","articles":[]},{"title":"contains","level":"1.3.6.3","depth":3,"path":"api/wrapper/contains.md","ref":"api/wrapper/contains.md","articles":[]},{"title":"emitted","level":"1.3.6.4","depth":3,"path":"api/wrapper/emitted.md","ref":"api/wrapper/emitted.md","articles":[]},{"title":"emittedByOrder","level":"1.3.6.5","depth":3,"path":"api/wrapper/emittedByOrder.md","ref":"api/wrapper/emittedByOrder.md","articles":[]},{"title":"exists","level":"1.3.6.6","depth":3,"path":"api/wrapper/exists.md","ref":"api/wrapper/exists.md","articles":[]},{"title":"destroy","level":"1.3.6.7","depth":3,"path":"api/wrapper/destroy.md","ref":"api/wrapper/destroy.md","articles":[]},{"title":"find","level":"1.3.6.8","depth":3,"path":"api/wrapper/find.md","ref":"api/wrapper/find.md","articles":[]},{"title":"findAll","level":"1.3.6.9","depth":3,"path":"api/wrapper/findAll.md","ref":"api/wrapper/findAll.md","articles":[]},{"title":"html","level":"1.3.6.10","depth":3,"path":"api/wrapper/html.md","ref":"api/wrapper/html.md","articles":[]},{"title":"is","level":"1.3.6.11","depth":3,"path":"api/wrapper/is.md","ref":"api/wrapper/is.md","articles":[]},{"title":"isEmpty","level":"1.3.6.12","depth":3,"path":"api/wrapper/isEmpty.md","ref":"api/wrapper/isEmpty.md","articles":[]},{"title":"isVueInstance","level":"1.3.6.13","depth":3,"path":"api/wrapper/isVueInstance.md","ref":"api/wrapper/isVueInstance.md","articles":[]},{"title":"name","level":"1.3.6.14","depth":3,"path":"api/wrapper/name.md","ref":"api/wrapper/name.md","articles":[]},{"title":"props","level":"1.3.6.15","depth":3,"path":"api/wrapper/props.md","ref":"api/wrapper/props.md","articles":[]},{"title":"setData","level":"1.3.6.16","depth":3,"path":"api/wrapper/setData.md","ref":"api/wrapper/setData.md","articles":[]},{"title":"setMethods","level":"1.3.6.17","depth":3,"path":"api/wrapper/setMethods.md","ref":"api/wrapper/setMethods.md","articles":[]},{"title":"setProps","level":"1.3.6.18","depth":3,"path":"api/wrapper/setProps.md","ref":"api/wrapper/setProps.md","articles":[]},{"title":"text","level":"1.3.6.19","depth":3,"path":"api/wrapper/text.md","ref":"api/wrapper/text.md","articles":[]},{"title":"trigger","level":"1.3.6.20","depth":3,"path":"api/wrapper/trigger.md","ref":"api/wrapper/trigger.md","articles":[]},{"title":"isVisible","level":"1.3.6.21","depth":3,"path":"api/wrapper/isVisible.md","ref":"api/wrapper/isVisible.md","articles":[]}]},{"title":"WrapperArray","level":"1.3.7","depth":2,"path":"api/wrapper-array/README.md","ref":"api/wrapper-array/README.md","articles":[{"title":"at","level":"1.3.7.1","depth":3,"path":"api/wrapper-array/at.md","ref":"api/wrapper-array/at.md","articles":[]},{"title":"contains","level":"1.3.7.2","depth":3,"path":"api/wrapper-array/contains.md","ref":"api/wrapper-array/contains.md","articles":[]},{"title":"exists","level":"1.3.7.3","depth":3,"path":"api/wrapper/exists.md","ref":"api/wrapper/exists.md","articles":[]},{"title":"destroy","level":"1.3.7.4","depth":3,"path":"api/wrapper-array/destroy.md","ref":"api/wrapper-array/destroy.md","articles":[]},{"title":"filter","level":"1.3.7.5","depth":3,"path":"api/wrapper-array/filter.md","ref":"api/wrapper-array/filter.md","articles":[]},{"title":"is","level":"1.3.7.6","depth":3,"path":"api/wrapper-array/is.md","ref":"api/wrapper-array/is.md","articles":[]},{"title":"isEmpty","level":"1.3.7.7","depth":3,"path":"api/wrapper-array/isEmpty.md","ref":"api/wrapper-array/isEmpty.md","articles":[]},{"title":"isVueInstance","level":"1.3.7.8","depth":3,"path":"api/wrapper-array/isVueInstance.md","ref":"api/wrapper-array/isVueInstance.md","articles":[]},{"title":"setData","level":"1.3.7.9","depth":3,"path":"api/wrapper-array/setData.md","ref":"api/wrapper-array/setData.md","articles":[]},{"title":"setMethods","level":"1.3.7.10","depth":3,"path":"api/wrapper-array/setMethods.md","ref":"api/wrapper-array/setMethods.md","articles":[]},{"title":"setProps","level":"1.3.7.11","depth":3,"path":"api/wrapper-array/setProps.md","ref":"api/wrapper-array/setProps.md","articles":[]},{"title":"trigger","level":"1.3.7.12","depth":3,"path":"api/wrapper-array/trigger.md","ref":"api/wrapper-array/trigger.md","articles":[]},{"title":"isVisible","level":"1.3.7.13","depth":3,"path":"api/wrapper-array/isVisible.md","ref":"api/wrapper-array/isVisible.md","articles":[]}]},{"title":"コンポーネント","level":"1.3.8","depth":2,"path":"api/components/README.md","ref":"api/components/README.md","articles":[{"title":"TransitionStub","level":"1.3.8.1","depth":3,"path":"api/components/TransitionStub.md","ref":"api/components/TransitionStub.md","articles":[]},{"title":"TransitionGroupStub","level":"1.3.8.2","depth":3,"path":"api/components/TransitionGroupStub.md","ref":"api/components/TransitionGroupStub.md","articles":[]},{"title":"RouterLinkStub","level":"1.3.8.3","depth":3,"path":"api/components/RouterLinkStub.md","ref":"api/components/RouterLinkStub.md","articles":[]}]},{"title":"セレクタ","level":"1.3.9","depth":2,"path":"api/selectors.md","ref":"api/selectors.md","articles":[]},{"title":"createLocalVue","level":"1.3.10","depth":2,"path":"api/createLocalVue.md","ref":"api/createLocalVue.md","articles":[]},{"title":"config","level":"1.3.11","depth":2,"path":"api/config.md","ref":"api/config.md","articles":[]}]},"previous":{"title":"Vue Router と一緒に使う","level":"1.2.9","depth":2,"path":"guides/using-with-vue-router.md","ref":"guides/using-with-vue-router.md","articles":[]},"dir":"ltr"},"config":{"plugins":["edit-link","theme-vuejs","-fontsettings","github"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"edit-link":{"label":"Edit This Page","base":"https://github.com/vuejs/vue-test-utils/edit/master/docs"},"github":{"url":"https://github.com/vuejs/vue-test-utils/"},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":false,"twitter":false,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-vuejs":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"vue-test-utils","language":"ja","links":{"sharing":{"facebook":false,"twitter":false}},"gitbook":"*"},"file":{"path":"guides/using-with-vuex.md","mtime":"2018-03-26T12:06:15.000Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-04-23T17:43:36.920Z"},"basePath":"..","book":{"language":"ja"}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-edit-link/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-github/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+
+    </body>
+</html>
+
