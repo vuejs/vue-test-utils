@@ -532,6 +532,14 @@ export default class Wrapper implements BaseWrapper {
   }
 
   /**
+   * Sets input value
+   */
+  setValue (value: string) {
+    this.element.value = value // input element value is changed, v-model is not
+    this.trigger('input')
+  }
+
+  /**
    * Return text of wrapper element
    */
   text (): string {
