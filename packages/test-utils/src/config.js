@@ -7,5 +7,6 @@ export default {
     'transition-group': TransitionGroupStub
   },
   mocks: {},
-  methods: {}
+  methods: {},
+  provide: {}
 }
