@@ -1,23 +1,26 @@
 // @flow
 
-import { throwError } from 'shared/util'
-
-function isValidSlot (slot: any): boolean {
-  return Array.isArray(slot) || (slot !== null && typeof slot === 'object') || typeof slot === 'string'
-}
+import { throwError, toArray, isObject } from 'shared/util'
+import { compileToFunctions } from 'vue-template-compiler'
 
 export function validateSlots (slots: Object): void {
-  slots && Object.keys(slots).forEach((key) => {
-    if (!isValidSlot(slots[key])) {
-      throwError('slots[key] must be a Component, string or an array of Components')
-    }
+  Object.keys(slots).forEach(key => {
+    toArray(slots[key]).forEach(slotValue => {
+      if (!isObject(slotValue) && typeof slotValue !== 'string') {
+        throwError('slots[key] must be a Component, string or an array of Components')
+      }
 
-    if (Array.isArray(slots[key])) {
-      slots[key].forEach((slotValue) => {
-        if (!isValidSlot(slotValue)) {
-          throwError('slots[key] must be a Component, string or an array of Components')
+      if (typeof slotValue === 'string') {
+        if (!compileToFunctions) {
+          throwError('vueTemplateCompiler is undefined, you must pass components explicitly if vue-template-compiler is undefined')
         }
-      })
-    }
+        if (typeof window === 'undefined') {
+          throwError('the slots string option does not support strings in server-test-uitls.')
+        }
+        if (window.navigator.userAgent.match(/PhantomJS/i)) {
+          throwError('the slots option does not support strings in PhantomJS. Please use Puppeteer, or pass a component.')
+        }
+      }
+    })
   })
 }

@@ -1,60 +1,43 @@
 // @flow
 
 import { compileToFunctions } from 'vue-template-compiler'
-import { throwError } from 'shared/util'
 import { validateSlots } from './validate-slots'
+import { toArray } from 'shared/util'
 
-function addSlotToVm (vm: Component, slotName: string, slotValue: Component | string | Array<Component> | Array<string>): void {
-  let elem
-  if (typeof slotValue === 'string') {
-    if (!compileToFunctions) {
-      throwError('vueTemplateCompiler is undefined, you must pass components explicitly if vue-template-compiler is undefined')
-    }
-    if (typeof window === 'undefined') {
-      throwError('the slots string option does not support strings in server-test-uitls.')
-    }
-    if (window.navigator.userAgent.match(/PhantomJS/i)) {
-      throwError('the slots option does not support strings in PhantomJS. Please use Puppeteer, or pass a component.')
-    }
-    const domParser = new window.DOMParser()
-    const _document = domParser.parseFromString(slotValue, 'text/html')
-    const _slotValue = slotValue.trim()
-    if (_slotValue[0] === '<' && _slotValue[_slotValue.length - 1] === '>' && _document.body.childElementCount === 1) {
-      elem = vm.$createElement(compileToFunctions(slotValue))
-    } else {
-      const compiledResult = compileToFunctions(`<div>${slotValue}{{ }}</div>`)
-      const _staticRenderFns = vm._renderProxy.$options.staticRenderFns
-      vm._renderProxy.$options.staticRenderFns = compiledResult.staticRenderFns
-      elem = compiledResult.render.call(vm._renderProxy, vm.$createElement).children
-      vm._renderProxy.$options.staticRenderFns = _staticRenderFns
-    }
-  } else {
-    elem = vm.$createElement(slotValue)
+function isSingleHTMLTag (template: string) {
+  if (!template.startsWith('<') || !template.endsWith('>')) {
+    return false
   }
-  if (Array.isArray(elem)) {
-    if (Array.isArray(vm.$slots[slotName])) {
-      vm.$slots[slotName] = [...vm.$slots[slotName], ...elem]
+  const _document = new window.DOMParser().parseFromString(template, 'text/html')
+  return _document.body.childElementCount === 1
+}
+
+function createElementFromAdvancedString (slotValue, vm) {
+  const compiledResult = compileToFunctions(`<div>${slotValue}{{ }}</div>`)
+  const _staticRenderFns = vm._renderProxy.$options.staticRenderFns
+  vm._renderProxy.$options.staticRenderFns = compiledResult.staticRenderFns
+  const elem = compiledResult.render.call(vm._renderProxy, vm.$createElement).children
+  vm._renderProxy.$options.staticRenderFns = _staticRenderFns
+  return elem
+}
+
+function createElement (slotValue: string | Object, vm) {
+  if (typeof slotValue === 'string') {
+    slotValue = slotValue.trim()
+    if (isSingleHTMLTag(slotValue)) {
+      return vm.$createElement(compileToFunctions(slotValue))
     } else {
-      vm.$slots[slotName] = [...elem]
+      return createElementFromAdvancedString(slotValue, vm)
     }
   } else {
-    if (Array.isArray(vm.$slots[slotName])) {
-      vm.$slots[slotName].push(elem)
-    } else {
-      vm.$slots[slotName] = [elem]
-    }
+    return vm.$createElement(slotValue)
   }
 }
 
 export function addSlots (vm: Component, slots: Object): void {
   validateSlots(slots)
-  Object.keys(slots).forEach((key) => {
-    if (Array.isArray(slots[key])) {
-      slots[key].forEach((slotValue) => {
-        addSlotToVm(vm, key, slotValue)
-      })
-    } else {
-      addSlotToVm(vm, key, slots[key])
-    }
+  Object.keys(slots).forEach(name => {
+    vm.$slots[name] = toArray(slots[name])
+      .map(slotValue => createElement(slotValue, vm))
   })
 }
