@@ -1133,7 +1133,7 @@ describe(<span class="hljs-string">&apos;Actions.vue&apos;</span>, () =&gt; {
 <p>&#x414;&#x430;&#x432;&#x430;&#x439;&#x442;&#x435; &#x43F;&#x43E;&#x441;&#x43C;&#x43E;&#x442;&#x440;&#x438;&#x43C; &#x43D;&#x430; &#x442;&#x435;&#x441;&#x442;:</p>
 <pre><code class="lang-js"><span class="hljs-keyword">import</span> { shallow, createLocalVue } <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;@vue/test-utils&apos;</span>
 <span class="hljs-keyword">import</span> Vuex <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;vuex&apos;</span>
-<span class="hljs-keyword">import</span> Actions <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;../../../src/components/Getters&apos;</span>
+<span class="hljs-keyword">import</span> Getters <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;../../../src/components/Getters&apos;</span>
 
 <span class="hljs-keyword">const</span> localVue = createLocalVue()
 
@@ -1155,13 +1155,13 @@ describe(<span class="hljs-string">&apos;Getters.vue&apos;</span>, () =&gt; {
   })
 
   it(<span class="hljs-string">&apos;&#x41E;&#x442;&#x43E;&#x431;&#x440;&#x430;&#x436;&#x430;&#x435;&#x442; &quot;state.inputValue&quot; &#x432; &#x43F;&#x435;&#x440;&#x432;&#x43E;&#x43C; &#x442;&#x435;&#x433;&#x435; p&apos;</span>, () =&gt; {
-    <span class="hljs-keyword">const</span> wrapper = shallow(Actions, { store, localVue })
+    <span class="hljs-keyword">const</span> wrapper = shallow(Getters, { store, localVue })
     <span class="hljs-keyword">const</span> p = wrapper.find(<span class="hljs-string">&apos;p&apos;</span>)
     expect(p.text()).toBe(getters.inputValue())
   })
 
   it(<span class="hljs-string">&apos;&#x41E;&#x442;&#x43E;&#x431;&#x440;&#x430;&#x436;&#x430;&#x435;&#x442; &quot;state.clicks&quot; &#x432;&#x43E; &#x432;&#x442;&#x43E;&#x440;&#x43E;&#x43C; &#x442;&#x435;&#x433;&#x435; p&apos;</span>, () =&gt; {
-    <span class="hljs-keyword">const</span> wrapper = shallow(Actions, { store, localVue })
+    <span class="hljs-keyword">const</span> wrapper = shallow(Getters, { store, localVue })
     <span class="hljs-keyword">const</span> p = wrapper.findAll(<span class="hljs-string">&apos;p&apos;</span>).at(<span class="hljs-number">1</span>)
     expect(p.text()).toBe(getters.clicks().toString())
   })

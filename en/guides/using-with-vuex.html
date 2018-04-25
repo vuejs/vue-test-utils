@@ -1238,7 +1238,7 @@ describe(<span class="hljs-string">&apos;Actions.vue&apos;</span>, () =&gt; {
 <p>Let&#x2019;s see the test:</p>
 <pre><code class="lang-js"><span class="hljs-keyword">import</span> { shallow, createLocalVue } <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;@vue/test-utils&apos;</span>
 <span class="hljs-keyword">import</span> Vuex <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;vuex&apos;</span>
-<span class="hljs-keyword">import</span> Actions <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;../../../src/components/Getters&apos;</span>
+<span class="hljs-keyword">import</span> Getters <span class="hljs-keyword">from</span> <span class="hljs-string">&apos;../../../src/components/Getters&apos;</span>
 
 <span class="hljs-keyword">const</span> localVue = createLocalVue()
 
@@ -1260,13 +1260,13 @@ describe(<span class="hljs-string">&apos;Getters.vue&apos;</span>, () =&gt; {
   })
 
   it(<span class="hljs-string">&apos;Renders &quot;state.inputValue&quot; in first p tag&apos;</span>, () =&gt; {
-    <span class="hljs-keyword">const</span> wrapper = shallow(Actions, { store, localVue })
+    <span class="hljs-keyword">const</span> wrapper = shallow(Getters, { store, localVue })
     <span class="hljs-keyword">const</span> p = wrapper.find(<span class="hljs-string">&apos;p&apos;</span>)
     expect(p.text()).toBe(getters.inputValue())
   })
 
   it(<span class="hljs-string">&apos;Renders &quot;state.clicks&quot; in second p tag&apos;</span>, () =&gt; {
-    <span class="hljs-keyword">const</span> wrapper = shallow(Actions, { store, localVue })
+    <span class="hljs-keyword">const</span> wrapper = shallow(Getters, { store, localVue })
     <span class="hljs-keyword">const</span> p = wrapper.findAll(<span class="hljs-string">&apos;p&apos;</span>).at(<span class="hljs-number">1</span>)
     expect(p.text()).toBe(getters.clicks().toString())
   })
