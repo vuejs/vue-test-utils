@@ -7,20 +7,12 @@ import {
   warn
 } from 'shared/util'
 
-export default class WrapperArray implements BaseWrapper {
-  wrappers: Array<Wrapper | VueWrapper>;
-  length: number;
-
-  constructor (wrappers: Array<Wrapper | VueWrapper>) {
-    this.wrappers = wrappers || []
-    this.length = this.wrappers.length
-  }
-
+export default class WrapperArray extends Array<Wrapper> implements BaseWrapper {
   at (index: number): Wrapper | VueWrapper {
     if (index > this.length - 1) {
       throwError(`no item exists at ${index}`)
     }
-    return this.wrappers[index]
+    return this[index]
   }
 
   attributes (): void {
@@ -38,21 +30,17 @@ export default class WrapperArray implements BaseWrapper {
   contains (selector: Selector): boolean {
     this.throwErrorIfWrappersIsEmpty('contains')
 
-    return this.wrappers.every(wrapper => wrapper.contains(selector))
+    return this.every(wrapper => wrapper.contains(selector))
   }
 
   exists (): boolean {
-    return this.length > 0 && this.wrappers.every(wrapper => wrapper.exists())
-  }
-
-  filter (predicate: Function): WrapperArray {
-    return new WrapperArray(this.wrappers.filter(predicate))
+    return this.length > 0 && this.every(wrapper => wrapper.exists())
   }
 
   visible (): boolean {
     this.throwErrorIfWrappersIsEmpty('visible')
 
-    return this.length > 0 && this.wrappers.every(wrapper => wrapper.visible())
+    return this.length > 0 && this.every(wrapper => wrapper.visible())
   }
 
   emitted (): void {
@@ -70,25 +58,25 @@ export default class WrapperArray implements BaseWrapper {
   hasAttribute (attribute: string, value: string): boolean {
     this.throwErrorIfWrappersIsEmpty('hasAttribute')
 
-    return this.wrappers.every(wrapper => wrapper.hasAttribute(attribute, value))
+    return this.every(wrapper => wrapper.hasAttribute(attribute, value))
   }
 
   hasClass (className: string): boolean {
     this.throwErrorIfWrappersIsEmpty('hasClass')
 
-    return this.wrappers.every(wrapper => wrapper.hasClass(className))
+    return this.every(wrapper => wrapper.hasClass(className))
   }
 
   hasProp (prop: string, value: string): boolean {
     this.throwErrorIfWrappersIsEmpty('hasProp')
 
-    return this.wrappers.every(wrapper => wrapper.hasProp(prop, value))
+    return this.every(wrapper => wrapper.hasProp(prop, value))
   }
 
   hasStyle (style: string, value: string): boolean {
     this.throwErrorIfWrappersIsEmpty('hasStyle')
 
-    return this.wrappers.every(wrapper => wrapper.hasStyle(style, value))
+    return this.every(wrapper => wrapper.hasStyle(style, value))
   }
 
   findAll (): void {
@@ -112,25 +100,25 @@ export default class WrapperArray implements BaseWrapper {
   is (selector: Selector): boolean {
     this.throwErrorIfWrappersIsEmpty('is')
 
-    return this.wrappers.every(wrapper => wrapper.is(selector))
+    return this.every(wrapper => wrapper.is(selector))
   }
 
   isEmpty (): boolean {
     this.throwErrorIfWrappersIsEmpty('isEmpty')
 
-    return this.wrappers.every(wrapper => wrapper.isEmpty())
+    return this.every(wrapper => wrapper.isEmpty())
   }
 
   isVisible (): boolean {
     this.throwErrorIfWrappersIsEmpty('isVisible')
 
-    return this.wrappers.every(wrapper => wrapper.isVisible())
+    return this.every(wrapper => wrapper.isVisible())
   }
 
   isVueInstance (): boolean {
     this.throwErrorIfWrappersIsEmpty('isVueInstance')
 
-    return this.wrappers.every(wrapper => wrapper.isVueInstance())
+    return this.every(wrapper => wrapper.isVueInstance())
   }
 
   name (): void {
@@ -152,7 +140,7 @@ export default class WrapperArray implements BaseWrapper {
   }
 
   throwErrorIfWrappersIsEmpty (method: string): void {
-    if (this.wrappers.length === 0) {
+    if (this.length === 0) {
       throwError(`${method} cannot be called on 0 items`)
     }
   }
@@ -160,31 +148,31 @@ export default class WrapperArray implements BaseWrapper {
   setComputed (computed: Object): void {
     this.throwErrorIfWrappersIsEmpty('setComputed')
 
-    this.wrappers.forEach(wrapper => wrapper.setComputed(computed))
+    this.forEach(wrapper => wrapper.setComputed(computed))
   }
 
   setData (data: Object): void {
     this.throwErrorIfWrappersIsEmpty('setData')
 
-    this.wrappers.forEach(wrapper => wrapper.setData(data))
+    this.forEach(wrapper => wrapper.setData(data))
   }
 
   setMethods (props: Object): void {
     this.throwErrorIfWrappersIsEmpty('setMethods')
 
-    this.wrappers.forEach(wrapper => wrapper.setMethods(props))
+    this.forEach(wrapper => wrapper.setMethods(props))
   }
 
   setProps (props: Object): void {
     this.throwErrorIfWrappersIsEmpty('setProps')
 
-    this.wrappers.forEach(wrapper => wrapper.setProps(props))
+    this.forEach(wrapper => wrapper.setProps(props))
   }
 
   trigger (event: string, options: Object): void {
     this.throwErrorIfWrappersIsEmpty('trigger')
 
-    this.wrappers.forEach(wrapper => wrapper.trigger(event, options))
+    this.forEach(wrapper => wrapper.trigger(event, options))
   }
 
   update (): void {
@@ -195,6 +183,6 @@ export default class WrapperArray implements BaseWrapper {
   destroy (): void {
     this.throwErrorIfWrappersIsEmpty('destroy')
 
-    this.wrappers.forEach(wrapper => wrapper.destroy())
+    this.forEach(wrapper => wrapper.destroy())
   }
 }
