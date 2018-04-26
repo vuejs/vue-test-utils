@@ -132,4 +132,25 @@ describeWithShallowAndMount('setData', (mountingMethod) => {
     wrapper.setData({ message: null })
     expect(wrapper.text()).to.equal('There is no message yet')
   })
+  it('should update a data object', () => {
+    const Cmp = {
+      data: () => ({
+        anObject: {
+          propA: {
+            prop1: 'a'
+          },
+          propB: 'b'
+        }
+      })
+    }
+    const wrapper = mountingMethod(Cmp)
+    wrapper.setData({
+      anObject: {
+        propA: {
+          prop1: 'c'
+        }
+      }
+    })
+    expect(wrapper.vm.anObject.propA.prop1).to.equal('c')
+  })
 })
