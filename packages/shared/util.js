@@ -21,3 +21,11 @@ export const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.sli
  */
 const hyphenateRE = /\B([A-Z])/g
 export const hyphenate = (str: string) => str.replace(hyphenateRE, '-$1').toLowerCase()
+
+export function toArray (value: any) {
+  return Array.isArray(value) ? value : [value]
+}
+
+export function isObject (obj: mixed): boolean %checks {
+  return obj !== null && typeof obj === 'object'
+}
