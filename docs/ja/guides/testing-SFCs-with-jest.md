@@ -48,13 +48,12 @@ npm install --save-dev vue-jest
     "transform": {
       // vue-jest で *.vue ファイルを処理する
       ".*\\.(vue)$": "<rootDir>/node_modules/vue-jest"
-    },
-    "mapCoverage": true
+    }
   }
 }
 ```
 
-> **注意:** `vue-jest` は現在、カスタムブロックのサポートやスタイルのロードなど、`vue-loader` のすべての機能をサポートしていません。さらに、コード分割などのWebpack固有の機能はサポートされていません。それらを使用するには、[Mocha + webpackによる単一ファイルコンポーネントのテスト](./testing-SFCs-with-mocha-webpack.md)のガイドをお読みください。
+> **注意:** `vue-jest` は現在、カスタムブロックのサポートやスタイルのロードなど、`vue-loader` のすべての機能をサポートしていません。さらに、コード分割などのWebpack固有の機能はサポートされていません。サポートされていない機能を使用するには、 Jest の代わりに Mocha をテストランナーとして使用します。そして、 Webpack をコンポーネントをコンパイルするために使用します。やり方は [Mocha + webpackによる単一ファイルコンポーネントのテスト](./testing-SFCs-with-mocha-webpack.md)のガイドをお読みください。
 
 ## Webpack エイリアスの処理
 
@@ -158,7 +157,7 @@ Jestは、テスト対象のコードのすぐ隣に`__tests__`ディレクト�
 
 Jest は複数のフォーマットでカバレッジを取ることができます。 以下はそれをするための簡単な例です。
 
-`jest` の設定 (普通は `package.json` か `jest.config.js`) に [collectCoverage](https://facebook.github.io/jest/docs/en/configuration.html#collectcoverage-boolean) オプションを加えます。それから、カバレッジを収集する対象のファイルを [collectCoverageFrom](https://facebook.github.io/jest/docs/en/configuration.html#collectcoveragefrom-array) に配列で定義します。 正確なカバレッジデータのために [mapCoverage](https://facebook.github.io/jest/docs/en/configuration.html#mapcoverage-boolean) を `true` にします。
+`jest` の設定 (普通は `package.json` か `jest.config.js`) に [collectCoverage](https://facebook.github.io/jest/docs/en/configuration.html#collectcoverage-boolean) オプションを加えます。それから、カバレッジを収集する対象のファイルを [collectCoverageFrom](https://facebook.github.io/jest/docs/en/configuration.html#collectcoveragefrom-array) に配列で定義します。
 
 ```json
 {
@@ -168,8 +167,7 @@ Jest は複数のフォーマットでカバレッジを取ることができま
     "collectCoverageFrom": [
       "**/*.{js,vue}",
       "!**/node_modules/**"
-    ],
-    "mapCoverage": true
+    ]
   }
 }
 ```

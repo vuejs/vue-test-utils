@@ -1,4 +1,4 @@
-# `mount(component {, options}])`
+# `mount(component [, options])`
 
 - **Arguments:**
 
