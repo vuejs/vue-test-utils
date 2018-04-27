@@ -420,13 +420,14 @@ export default class Wrapper implements BaseWrapper {
     }
 
     Object.keys(data).forEach((key) => {
-      // $FlowIgnore : Problem with possibly null this.vm
-      if (typeof data[key] === typeof {} && data[key] !== null) {
+      if (typeof data[key] === 'object' && data[key] !== null) {
         Object.keys(data[key]).forEach((key2) => {
-          var newObj = Object.assign({}, data[key], data[key][key2])
+          const newObj = { ...data[key], ...data[key][key2] }
+          // $FlowIgnore : Problem with possibly null this.vm
           this.vm.$set(this.vm, [key], newObj)
         })
       } else {
+        // $FlowIgnore : Problem with possibly null this.vm
         this.vm.$set(this.vm, [key], data[key])
       }
     })
