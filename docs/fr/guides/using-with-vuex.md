@@ -136,7 +136,7 @@ Jetons un œil à un test :
 ``` js
 import { shallow, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
-import Actions from '../../../src/components/Getters'
+import Getters from '../../../src/components/Getters'
 
 const localVue = createLocalVue()
 
@@ -158,13 +158,13 @@ describe('Getters.vue', () => {
   })
 
   it('affiche `state.inputValue` dans la première balise <p>', () => {
-    const wrapper = shallow(Actions, { store, localVue })
+    const wrapper = shallow(Getters, { store, localVue })
     const p = wrapper.find('p')
     expect(p.text()).toBe(getters.inputValue())
   })
 
   it('affiche `stat.clicks` dans la seconde balise <p>', () => {
-    const wrapper = shallow(Actions, { store, localVue })
+    const wrapper = shallow(Getters, { store, localVue })
     const p = wrapper.findAll('p').at(1)
     expect(p.text()).toBe(getters.clicks().toString())
   })
