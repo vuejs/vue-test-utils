@@ -139,7 +139,7 @@ export default{
 ``` js
 import { shallow, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
-import Actions from '../../../src/components/Getters'
+import Getters from '../../../src/components/Getters'
 
 const localVue = createLocalVue()
 
@@ -161,13 +161,13 @@ describe('Getters.vue', () => {
   })
 
   it('在第一个 p 标签中渲染“state.inputValue”', () => {
-    const wrapper = shallow(Actions, { store, localVue })
+    const wrapper = shallow(Getters, { store, localVue })
     const p = wrapper.find('p')
     expect(p.text()).toBe(getters.inputValue())
   })
 
   it('在第二个 p 标签中渲染“state.clicks”', () => {
-    const wrapper = shallow(Actions, { store, localVue })
+    const wrapper = shallow(Getters, { store, localVue })
     const p = wrapper.findAll('p').at(1)
     expect(p.text()).toBe(getters.clicks().toString())
   })
