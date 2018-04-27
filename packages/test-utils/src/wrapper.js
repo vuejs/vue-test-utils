@@ -1,6 +1,7 @@
 // @flow
 
 import Vue from 'vue'
+import merge from 'lodash/merge'
 import getSelectorTypeOrThrow from './get-selector-type'
 import {
   REF_SELECTOR,
@@ -420,8 +421,15 @@ export default class Wrapper implements BaseWrapper {
     }
 
     Object.keys(data).forEach((key) => {
-      // $FlowIgnore : Problem with possibly null this.vm
-      this.vm.$set(this.vm, [key], data[key])
+      if (typeof data[key] === 'object' && data[key] !== null) {
+        // $FlowIgnore : Problem with possibly null this.vm
+        const newObj = merge(this.vm[key], data[key])
+        // $FlowIgnore : Problem with possibly null this.vm
+        this.vm.$set(this.vm, [key], newObj)
+      } else {
+        // $FlowIgnore : Problem with possibly null this.vm
+        this.vm.$set(this.vm, [key], data[key])
+      }
     })
   }
 
