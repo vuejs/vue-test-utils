@@ -12,6 +12,10 @@ declare module 'lodash/cloneDeep' {
   declare module.exports: any;
 }
 
+declare module 'lodash/merge' {
+  declare module.exports: any;
+}
+
 declare module 'vue-template-compiler' {
   declare module.exports: any;
 }

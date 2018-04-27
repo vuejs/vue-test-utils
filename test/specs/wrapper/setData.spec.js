@@ -132,8 +132,9 @@ describeWithShallowAndMount('setData', (mountingMethod) => {
     wrapper.setData({ message: null })
     expect(wrapper.text()).to.equal('There is no message yet')
   })
-  it('should update a data object', () => {
-    const Cmp = {
+
+  it('should update an existing property in a data object', () => {
+    const TestComponent = {
       data: () => ({
         anObject: {
           propA: {
@@ -143,7 +144,7 @@ describeWithShallowAndMount('setData', (mountingMethod) => {
         }
       })
     }
-    const wrapper = mountingMethod(Cmp)
+    const wrapper = mountingMethod(TestComponent)
     wrapper.setData({
       anObject: {
         propA: {
@@ -151,6 +152,30 @@ describeWithShallowAndMount('setData', (mountingMethod) => {
         }
       }
     })
+    expect(wrapper.vm.anObject.propB).to.equal('b')
     expect(wrapper.vm.anObject.propA.prop1).to.equal('c')
+  })
+
+  it('should append a new property to an object without removing existing properties', () => {
+    const TestComponent = {
+      data: () => ({
+        anObject: {
+          propA: {
+            prop1: 'a'
+          },
+          propB: 'b'
+        }
+      })
+    }
+    const wrapper = mountingMethod(TestComponent)
+    wrapper.setData({
+      anObject: {
+        propA: {
+          prop2: 'b'
+        }
+      }
+    })
+    expect(wrapper.vm.anObject.propA.prop1).to.equal('a')
+    expect(wrapper.vm.anObject.propA.prop2).to.equal('b')
   })
 })
