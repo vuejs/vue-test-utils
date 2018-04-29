@@ -551,8 +551,6 @@ export default class Wrapper implements BaseWrapper {
       // el.value = value
       throwError('wrapper.setValue() cannot be called on select')
     } else if (tag === 'INPUT' && type === 'checkbox') {
-      // event = 'change'
-      // el.checked = value
       throwError('wrapper.setValue() cannot be called on checkbox. Use wrapper.setChecked() instead')
     } else if (tag === 'INPUT' && type === 'radio') {
       throwError('wrapper.setValue() cannot be called on radio. Use wrapper.setChecked() instead')
@@ -566,7 +564,7 @@ export default class Wrapper implements BaseWrapper {
   }
 
   /**
-   * Sets element value and triggers input event
+   * Checks radio button or checkbox element
    */
   setChecked (checked: boolean) {
     console.log(typeof checked)
