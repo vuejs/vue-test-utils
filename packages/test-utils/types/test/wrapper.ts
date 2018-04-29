@@ -63,6 +63,10 @@ array = wrapper.findAll(ClassComponent)
 array = wrapper.findAll({ ref: 'myButton' })
 array = wrapper.findAll({ name: 'my-button' })
 
+wrapper.setChecked(true)
+wrapper.setValue('some string')
+wrapper.setSelected()
+
 let str: string = wrapper.html()
 str = wrapper.text()
 str = wrapper.name()

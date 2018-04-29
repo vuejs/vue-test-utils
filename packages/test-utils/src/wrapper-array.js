@@ -193,6 +193,12 @@ export default class WrapperArray implements BaseWrapper {
     this.wrappers.forEach(wrapper => wrapper.setChecked(checked))
   }
 
+  setSelected (): void {
+    this.throwErrorIfWrappersIsEmpty('setSelected')
+
+    throwError('setSelected must be called on a single wrapper, use at(i) to access a wrapper')
+  }
+
   trigger (event: string, options: Object): void {
     this.throwErrorIfWrappersIsEmpty('trigger')
 
