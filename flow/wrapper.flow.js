@@ -32,6 +32,8 @@ declare interface BaseWrapper { // eslint-disable-line no-undef
     setData(data: Object): void,
     setComputed(computed: Object): void,
     setMethods(methods: Object): void,
+    setValue(value: any): void,
+    setChecked(checked: boolean): void,
     setProps(data: Object): void,
     trigger(type: string, options: Object): void,
     destroy(): void

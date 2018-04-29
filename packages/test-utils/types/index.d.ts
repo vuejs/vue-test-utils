@@ -99,6 +99,9 @@ export interface Wrapper<V extends Vue> extends BaseWrapper {
   text (): string
   name (): string
 
+  setValue (value: any): void
+  setChecked (checked: boolean): void
+
   emitted (event?: string): { [name: string]: Array<Array<any>> }
   emittedByOrder (): Array<{ name: string, args: Array<any> }>
 }

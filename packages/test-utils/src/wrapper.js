@@ -532,11 +532,80 @@ export default class Wrapper implements BaseWrapper {
   }
 
   /**
-   * Sets input value
+   * Sets element value and triggers input event
    */
-  setValue (value: string) {
-    this.element.value = value // input element value is changed, v-model is not
-    this.trigger('input')
+  setValue (value: any) {
+    const el = this.element
+
+    if (!el) {
+      throwError('cannot call wrapper.setValue() on a wrapper without an element')
+    }
+
+    const tag = el.tagName
+    const type = this.attributes().type
+    const event = 'input'
+
+    if (this.isVueComponent) {
+    } else if (tag === 'SELECT') {
+      // event = 'change'
+      // el.value = value
+      throwError('wrapper.setValue() cannot be called on select')
+    } else if (tag === 'INPUT' && type === 'checkbox') {
+      // event = 'change'
+      // el.checked = value
+      throwError('wrapper.setValue() cannot be called on checkbox. Use wrapper.setChecked() instead')
+    } else if (tag === 'INPUT' && type === 'radio') {
+      throwError('wrapper.setValue() cannot be called on radio. Use wrapper.setChecked() instead')
+    } else if (tag === 'INPUT' || tag === 'textarea') {
+    } else {
+      throwError('wrapper.setValue() cannot be called on this element')
+    }
+
+    el.value = value
+    this.trigger(event)
+  }
+
+  /**
+   * Sets element value and triggers input event
+   */
+  setChecked (checked: boolean) {
+    console.log(typeof checked)
+    if (typeof checked !== 'undefined') {
+      if (typeof checked !== 'boolean') {
+        throwError('wrapper.setChecked() must be passed a boolean')
+      }
+    } else {
+      checked = true
+    }
+
+    const el = this.element
+
+    if (!el) {
+      throwError('cannot call wrapper.setChecked() on a wrapper without an element')
+    }
+
+    const tag = el.tagName
+    const type = this.attributes().type
+    const event = 'change'
+
+    if (this.isVueComponent) {
+      throwError('wrapper.setChecked() cannot be called on component. Use wrapper.setValue() instead')
+    } else if (tag === 'SELECT') {
+      throwError('wrapper.setChecked() cannot be called on select')
+    } else if (tag === 'INPUT' && type === 'checkbox') {
+      el.checked = checked
+      this.trigger(event)
+    } else if (tag === 'INPUT' && type === 'radio') {
+      if (!checked) {
+        throwError('wrapper.setChecked() cannot be called with parameter false on radio')
+      }
+      el.checked = true
+      this.trigger(event)
+    } else if (tag === 'INPUT' || tag === 'textarea') {
+      throwError('wrapper.setChecked() cannot be called on "text" inputs. Use wrapper.setValue() instead')
+    } else {
+      throwError('wrapper.setChecked() cannot be called on this element')
+    }
   }
 
   /**
