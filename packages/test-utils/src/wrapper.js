@@ -559,6 +559,7 @@ export default class Wrapper implements BaseWrapper {
       throwError('wrapper.setValue() cannot be called on this element')
     }
 
+    // $FlowIgnore
     el.value = value
     this.trigger(event)
   }
@@ -591,12 +592,15 @@ export default class Wrapper implements BaseWrapper {
     } else if (tag === 'SELECT') {
       throwError('wrapper.setChecked() cannot be called on select')
     } else if (tag === 'INPUT' && type === 'checkbox') {
+      // $FlowIgnore
       el.checked = checked
       this.trigger(event)
     } else if (tag === 'INPUT' && type === 'radio') {
       if (!checked) {
         throwError('wrapper.setChecked() cannot be called with parameter false on radio')
       }
+
+      // $FlowIgnore
       el.checked = true
       this.trigger(event)
     } else if (tag === 'INPUT' || tag === 'textarea') {
