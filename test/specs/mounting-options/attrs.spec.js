@@ -2,11 +2,13 @@ import { compileToFunctions } from 'vue-template-compiler'
 import { attrsSupported } from '~resources/utils'
 import {
   describeWithMountingMethods,
-  itSkipIf
+  itSkipIf,
+  isRunningPhantomJS
 } from '~resources/utils'
 
 describeWithMountingMethods('options.attrs', (mountingMethod) => {
-  itSkipIf(mountingMethod.name === 'renderToString',
+  itSkipIf(
+    mountingMethod.name === 'renderToString' || isRunningPhantomJS,
     'handles inherit attrs', () => {
       if (!attrsSupported()) return
       const wrapper = mountingMethod(compileToFunctions('<p :id="anAttr" />'), {

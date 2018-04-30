@@ -1,5 +1,9 @@
 import { compileToFunctions } from 'vue-template-compiler'
-import { describeWithShallowAndMount } from '~resources/utils'
+import {
+  describeWithShallowAndMount,
+  itSkipIf,
+  isRunningPhantomJS
+} from '~resources/utils'
 
 describeWithShallowAndMount('isEmpty', (mountingMethod) => {
   it('returns true if node is empty', () => {
@@ -15,19 +19,21 @@ describeWithShallowAndMount('isEmpty', (mountingMethod) => {
     expect(wrapper.isEmpty()).to.equal(true)
   })
 
-  it('returns true if innerHTML is empty', () => {
-    const TestComponent = {
-      render (createElement) {
-        return createElement('div', {
-          domProps: {
-            innerHTML: '<svg />'
-          }
-        })
+  itSkipIf(
+    isRunningPhantomJS,
+    'returns true if innerHTML is empty', () => {
+      const TestComponent = {
+        render (createElement) {
+          return createElement('div', {
+            domProps: {
+              innerHTML: '<svg />'
+            }
+          })
+        }
       }
-    }
-    const wrapper = mountingMethod(TestComponent)
-    expect(wrapper.find('svg').isEmpty()).to.equal(true)
-  })
+      const wrapper = mountingMethod(TestComponent)
+      expect(wrapper.find('svg').isEmpty()).to.equal(true)
+    })
 
   it.skip('returns false if innerHTML is not empty', () => {
     const TestComponent = {

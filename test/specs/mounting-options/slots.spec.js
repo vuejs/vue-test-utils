@@ -6,7 +6,8 @@ import {
   describeWithMountingMethods,
   vueVersion,
   itSkipIf,
-  itDoNotRunIf
+  itDoNotRunIf,
+  isRunningPhantomJS
 } from '~resources/utils'
 
 describeWithMountingMethods('options.slots', (mountingMethod) => {
@@ -53,7 +54,7 @@ describeWithMountingMethods('options.slots', (mountingMethod) => {
   })
 
   itDoNotRunIf(
-    process.env.TEST_ENV === 'node',
+    process.env.TEST_ENV === 'node' || isRunningPhantomJS,
     'mounts component with default slot if passed string in slot object', () => {
       const wrapper = mountingMethod(ComponentWithSlots, { slots: { default: '<span />' }})
       if (mountingMethod.name === 'renderToString') {
@@ -64,7 +65,7 @@ describeWithMountingMethods('options.slots', (mountingMethod) => {
     })
 
   itDoNotRunIf(
-    process.env.TEST_ENV === 'node' || vueVersion < 2.3,
+    process.env.TEST_ENV === 'node' || vueVersion < 2.3 || isRunningPhantomJS,
     'works correctly with class component', () => {
       const wrapper = mountingMethod(ComponentAsAClass, { slots: { default: '<span />' }})
       if (mountingMethod.name === 'renderToString') {
@@ -91,26 +92,28 @@ describeWithMountingMethods('options.slots', (mountingMethod) => {
       expect(fn).to.throw().with.property('message', message)
     })
 
-  it('mounts component with default slot if passed string in slot object', () => {
-    if (mountingMethod.name === 'renderToString') {
-      return
-    }
-    const wrapper1 = mountingMethod(ComponentWithSlots, { slots: { default: 'foo<span>123</span>{{ foo }}' }})
-    expect(wrapper1.find('main').html()).to.equal('<main>foo<span>123</span>bar</main>')
-    const wrapper2 = mountingMethod(ComponentWithSlots, { slots: { default: '<p>1</p>{{ foo }}2' }})
-    expect(wrapper2.find('main').html()).to.equal('<main><p>1</p>bar2</main>')
-    const wrapper3 = mountingMethod(ComponentWithSlots, { slots: { default: '<p>1</p>{{ foo }}<p>2</p>' }})
-    expect(wrapper3.find('main').html()).to.equal('<main><p>1</p>bar<p>2</p></main>')
-    const wrapper4 = mountingMethod(ComponentWithSlots, { slots: { default: '123' }})
-    expect(wrapper4.find('main').html()).to.equal('<main>123</main>')
-    const wrapper5 = mountingMethod(ComponentWithSlots, { slots: { default: '1{{ foo }}2' }})
-    expect(wrapper5.find('main').html()).to.equal('<main>1bar2</main>')
-    wrapper5.trigger('keydown')
-    const wrapper6 = mountingMethod(ComponentWithSlots, { slots: { default: '<p>1</p><p>2</p>' }})
-    expect(wrapper6.find('main').html()).to.equal('<main><p>1</p><p>2</p></main>')
-    const wrapper7 = mountingMethod(ComponentWithSlots, { slots: { default: '1<p>2</p>3' }})
-    expect(wrapper7.find('main').html()).to.equal('<main>1<p>2</p>3</main>')
-  })
+  itDoNotRunIf(
+    isRunningPhantomJS,
+    'mounts component with default slot if passed string in slot object', () => {
+      if (mountingMethod.name === 'renderToString') {
+        return
+      }
+      const wrapper1 = mountingMethod(ComponentWithSlots, { slots: { default: 'foo<span>123</span>{{ foo }}' }})
+      expect(wrapper1.find('main').html()).to.equal('<main>foo<span>123</span>bar</main>')
+      const wrapper2 = mountingMethod(ComponentWithSlots, { slots: { default: '<p>1</p>{{ foo }}2' }})
+      expect(wrapper2.find('main').html()).to.equal('<main><p>1</p>bar2</main>')
+      const wrapper3 = mountingMethod(ComponentWithSlots, { slots: { default: '<p>1</p>{{ foo }}<p>2</p>' }})
+      expect(wrapper3.find('main').html()).to.equal('<main><p>1</p>bar<p>2</p></main>')
+      const wrapper4 = mountingMethod(ComponentWithSlots, { slots: { default: '123' }})
+      expect(wrapper4.find('main').html()).to.equal('<main>123</main>')
+      const wrapper5 = mountingMethod(ComponentWithSlots, { slots: { default: '1{{ foo }}2' }})
+      expect(wrapper5.find('main').html()).to.equal('<main>1bar2</main>')
+      wrapper5.trigger('keydown')
+      const wrapper6 = mountingMethod(ComponentWithSlots, { slots: { default: '<p>1</p><p>2</p>' }})
+      expect(wrapper6.find('main').html()).to.equal('<main><p>1</p><p>2</p></main>')
+      const wrapper7 = mountingMethod(ComponentWithSlots, { slots: { default: '1<p>2</p>3' }})
+      expect(wrapper7.find('main').html()).to.equal('<main>1<p>2</p>3</main>')
+    })
 
   itSkipIf(mountingMethod.name === 'renderToString',
     'throws error if passed string in default slot object and vue-template-compiler is undefined', () => {
@@ -130,7 +133,7 @@ describeWithMountingMethods('options.slots', (mountingMethod) => {
     })
 
   itDoNotRunIf(
-    process.env.TEST_ENV === 'node',
+    process.env.TEST_ENV === 'node' || isRunningPhantomJS,
     'mounts component with default slot if passed string in slot array object', () => {
       const wrapper = mountingMethod(ComponentWithSlots, { slots: { default: ['<span />'] }})
       if (mountingMethod.name === 'renderToString') {
@@ -141,7 +144,7 @@ describeWithMountingMethods('options.slots', (mountingMethod) => {
     })
 
   itDoNotRunIf(
-    process.env.TEST_ENV === 'node',
+    process.env.TEST_ENV === 'node' || isRunningPhantomJS,
     'mounts component with default slot if passed string in slot text array object', () => {
       const wrapper = mountingMethod(ComponentWithSlots, { slots: { default: ['{{ foo }}<span>1</span>', 'bar'] }})
       if (mountingMethod.name === 'renderToString') {
@@ -241,7 +244,7 @@ describeWithMountingMethods('options.slots', (mountingMethod) => {
     }
   })
 
-  itDoNotRunIf(process.env.TEST_ENV === 'node',
+  itDoNotRunIf(process.env.TEST_ENV === 'node' || isRunningPhantomJS,
     'mounts component with default slot if passed string in slot object', () => {
       const TestComponent = {
         name: 'component-with-slots',
@@ -257,7 +260,7 @@ describeWithMountingMethods('options.slots', (mountingMethod) => {
     })
 
   itDoNotRunIf(
-    process.env.TEST_ENV === 'node',
+    process.env.TEST_ENV === 'node' || isRunningPhantomJS,
     'mounts component with named slot if passed string in slot object', () => {
       const TestComponent = {
         functional: true,
@@ -272,7 +275,7 @@ describeWithMountingMethods('options.slots', (mountingMethod) => {
     })
 
   itDoNotRunIf(
-    process.env.TEST_ENV === 'node',
+    process.env.TEST_ENV === 'node' || isRunningPhantomJS,
     'mounts component with named slot if passed string in slot object in array', () => {
       const TestComponent = {
         functional: true,
@@ -287,7 +290,7 @@ describeWithMountingMethods('options.slots', (mountingMethod) => {
     })
 
   itDoNotRunIf(
-    process.env.TEST_ENV === 'node',
+    process.env.TEST_ENV === 'node' || isRunningPhantomJS,
     'mounts component with named slot if passed string in slot object in array', () => {
       const TestComponent = {
         functional: true,
@@ -302,7 +305,7 @@ describeWithMountingMethods('options.slots', (mountingMethod) => {
     })
 
   itDoNotRunIf(
-    process.env.TEST_ENV === 'node',
+    process.env.TEST_ENV === 'node' || isRunningPhantomJS,
     'mounts component with named slot if passed string in slot object in array', () => {
       const TestComponent = {
         functional: true,
@@ -382,8 +385,9 @@ describeWithMountingMethods('options.slots', (mountingMethod) => {
       require.cache[require.resolve('vue-template-compiler')].exports.compileToFunctions = compilerSave
     })
 
-  itDoNotRunIf(mountingMethod.name === 'renderToString',
-    'afd', () => {
+  itDoNotRunIf(
+    mountingMethod.name === 'renderToString' || isRunningPhantomJS,
+    'does not error when triggering a click in a slot', () => {
       const Parent = {
         name: 'Parent',
         template: `

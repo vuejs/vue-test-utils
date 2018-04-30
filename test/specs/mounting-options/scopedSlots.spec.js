@@ -1,4 +1,9 @@
-import { describeWithShallowAndMount, vueVersion, itDoNotRunIf } from '~resources/utils'
+import {
+  describeWithShallowAndMount,
+  vueVersion,
+  itDoNotRunIf,
+  isRunningPhantomJS
+} from '~resources/utils'
 import ComponentWithScopedSlots from '~resources/components/component-with-scoped-slots.vue'
 
 describeWithShallowAndMount('scopedSlots', (mountingMethod) => {
@@ -14,7 +19,7 @@ describeWithShallowAndMount('scopedSlots', (mountingMethod) => {
     }
   })
 
-  itDoNotRunIf(vueVersion < 2.5,
+  itDoNotRunIf(vueVersion < 2.5 || isRunningPhantomJS,
     'mounts component scoped slots', () => {
       const wrapper = mountingMethod(ComponentWithScopedSlots, {
         slots: { default: '<span>123</span>' },
@@ -41,7 +46,7 @@ describeWithShallowAndMount('scopedSlots', (mountingMethod) => {
     }
   )
 
-  itDoNotRunIf(vueVersion < 2.5,
+  itDoNotRunIf(vueVersion < 2.5 || isRunningPhantomJS,
     'throws exception when it is seted to a template tag at top', () => {
       const fn = () => {
         mountingMethod(ComponentWithScopedSlots, {
