@@ -231,9 +231,7 @@ describeWithShallowAndMount('findAll', (mountingMethod) => {
 
   it('returns VueWrapper with length 0 if no nodes matching selector are found', () => {
     const wrapper = mountingMethod(Component)
-    const preArray = wrapper.findAll('pre')
-    expect(preArray.length).to.equal(0)
-    expect(preArray.wrappers).to.deep.equal([])
+    expect(wrapper.findAll('pre')).to.have.lengthOf(0)
   })
 
   it('returns an array of Wrapper of elements matching a component name in options object', () => {
@@ -275,9 +273,7 @@ describeWithShallowAndMount('findAll', (mountingMethod) => {
 
   it('returns VueWrapper with length 0 if no nodes matching the ref in options object are found', () => {
     const wrapper = mountingMethod(Component)
-    const preArray = wrapper.findAll({ ref: 'foo' })
-    expect(preArray.length).to.equal(0)
-    expect(preArray.wrappers).to.deep.equal([])
+    expect(wrapper.findAll({ ref: 'foo' })).to.have.lengthOf(0)
   })
 
   it('throws an error if selector is not a valid selector', () => {

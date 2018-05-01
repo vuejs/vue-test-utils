@@ -286,7 +286,8 @@ export default class Wrapper implements BaseWrapper {
     const wrappers = nodes.map(node =>
       createWrapper(node, this.options)
     )
-    return new WrapperArray(wrappers)
+    // $FlowIgnore
+    return WrapperArray.from(wrappers)
   }
 
   /**

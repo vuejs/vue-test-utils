@@ -8,8 +8,8 @@ describeWithShallowAndMount('WrapperArray', (mountingMethod) => {
     const wrapperArray = wrapper.findAll('p')
     expect(wrapperArray.constructor.name).to.equal('WrapperArray')
     if (wrappers) {
-      wrapperArray.wrappers = wrappers
-      wrapperArray.length = wrappers.length
+      wrapperArray.length = 0
+      wrapperArray.push(...wrappers)
     }
     return wrapperArray
   }
@@ -26,9 +26,7 @@ describeWithShallowAndMount('WrapperArray', (mountingMethod) => {
 
   it('returns filtered wrapper when filter is called', () => {
     const wrapperArray = getWrapperArray()
-    expect(wrapperArray.filter(w => {
-      return w.text() !== '2'
-    }).length).to.equal(2)
+    expect(wrapperArray.filter(w => w.text() !== '2')).to.have.lengthOf(2)
   })
 
   const methods = ['at', 'attributes', 'classes', 'contains', 'emitted', 'emittedByOrder', 'hasAttribute',
@@ -39,8 +37,7 @@ describeWithShallowAndMount('WrapperArray', (mountingMethod) => {
       if (method === 'at') {
         return
       }
-      const wrapperArray = getWrapperArray()
-      wrapperArray.wrappers = []
+      const wrapperArray = getWrapperArray([])
       const message = `[vue-test-utils]: ${method} cannot be called on 0 items`
       expect(() => wrapperArray[method]()).to.throw().with.property('message', message)
     })
@@ -50,8 +47,7 @@ describeWithShallowAndMount('WrapperArray', (mountingMethod) => {
         'setComputed', 'setMethods', 'setData', 'setProps', 'trigger', 'update', 'destroy'].includes(method)) {
         return
       }
-      const wrapperArray = getWrapperArray()
-      wrapperArray.wrappers = [1, 2, 3]
+      const wrapperArray = getWrapperArray([1, 2, 3])
       const message = `[vue-test-utils]: ${method} must be called on a single wrapper, use at(i) to access a wrapper`
       expect(() => wrapperArray[method]()).to.throw().with.property('message', message)
     })
@@ -59,9 +55,7 @@ describeWithShallowAndMount('WrapperArray', (mountingMethod) => {
 
   it('exists returns true if it has every existing wrappers', () => {
     const wrapperArray = getWrapperArray()
-    wrapperArray.wrappers.forEach((w) => {
-      expect(w.exists()).to.equal(true)
-    })
+    wrapperArray.forEach(w => expect(w.exists()).to.equal(true))
     expect(wrapperArray.exists()).to.equal(true)
   })
 
