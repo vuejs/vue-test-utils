@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/vuejs/vue-test-utils#readme",
   "dependencies": {
-    "@vue/test-utils": "1.0.0-beta.15"
+    "cheerio": "^1.0.0-rc.2"
   },
   "devDependencies": {
     "chalk": "^2.1.0",
@@ -39,6 +39,7 @@
   "peerDependencies": {
     "vue": "2.x",
     "vue-server-renderer": "2.x",
-    "vue-template-compiler": "^2.x"
+    "vue-template-compiler": "^2.x",
+    "@vue/test-utils": "1.0.0-beta.15"
   }
 }
