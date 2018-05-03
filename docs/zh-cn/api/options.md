@@ -6,7 +6,7 @@
 
 - [`context`](#context)
 - [`slots`](#slots)
-- [scopedSlots](#scopedslots)
+- [`scopedSlots`](#scopedslots)
 - [`stubs`](#stubs)
 - [`mocks`](#mocks)
 - [`localVue`](#localvue)
