@@ -54,7 +54,7 @@ describeWithShallowAndMount('TransitionStub', (mountingMethod) => {
         'transition': TransitionStub
       }
     })
-    expect(error.args[0][0]).to.equal(msg)
+    expect(error).calledWith(msg)
     error.restore()
   })
 
