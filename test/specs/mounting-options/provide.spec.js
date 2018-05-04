@@ -3,7 +3,8 @@ import ComponentWithInject from '~resources/components/component-with-inject.vue
 import { injectSupported } from '~resources/utils'
 import {
   describeWithMountingMethods,
-  itDoNotRunIf
+  itDoNotRunIf,
+  itSkipIf
 } from '~resources/utils'
 
 describeWithMountingMethods('options.provide', (mountingMethod) => {
@@ -57,16 +58,20 @@ describeWithMountingMethods('options.provide', (mountingMethod) => {
       expect(wrapper.vm.setInBeforeCreate).to.equal('created')
     })
 
-  itDoNotRunIf(!injectSupported(), 'injects the provide from the config', () => {
-    config.provide['fromMount'] = 'globalConfig'
+  itSkipIf(mountingMethod.name === 'renderToString',
+    'injects the provide from the config', () => {
+      if (!injectSupported()) {
+        return
+      }
+      config.provide['fromMount'] = 'globalConfig'
 
-    const wrapper = mountingMethod(ComponentWithInject)
-    const HTML = mountingMethod.name === 'renderToString'
-      ? wrapper
-      : wrapper.html()
+      const wrapper = mountingMethod(ComponentWithInject)
+      const HTML = mountingMethod.name === 'renderToString'
+        ? wrapper
+        : wrapper.html()
 
-    expect(HTML).to.contain('globalConfig')
-  })
+      expect(HTML).to.contain('globalConfig')
+    })
 
   itDoNotRunIf(!injectSupported(), 'prioritize mounting options over config', () => {
     config.provide['fromMount'] = 'globalConfig'
@@ -81,13 +86,14 @@ describeWithMountingMethods('options.provide', (mountingMethod) => {
     expect(HTML).to.contain('_')
   })
 
-  itDoNotRunIf(!injectSupported(), 'config with function throws', () => {
-    config.provide = () => {}
+  itSkipIf(mountingMethod.name === 'renderToString',
+    'config with function throws', () => {
+      config.provide = () => {}
 
-    expect(() => {
-      mountingMethod(ComponentWithInject, {
-        provide: { fromMount: '_' }
-      })
-    }).to.throw()
-  })
+      expect(() => {
+        mountingMethod(ComponentWithInject, {
+          provide: { fromMount: '_' }
+        })
+      }).to.throw()
+    })
 })
