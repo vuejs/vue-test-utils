@@ -4771,12 +4771,12 @@ function mount (component, options) {
     throw (componentWithError._error)
   }
 
-  var wrappperOptions = {
+  var wrapperOptions = {
     attachedToDocument: !!options.attachToDocument,
     sync: !!((options.sync || options.sync === undefined))
   };
 
-  return new VueWrapper(vm, wrappperOptions)
+  return new VueWrapper(vm, wrapperOptions)
 }
 
 // 

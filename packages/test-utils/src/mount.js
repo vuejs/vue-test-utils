@@ -36,10 +36,10 @@ export default function mount (component: Component, options: Options = {}): Vue
     throw (componentWithError._error)
   }
 
-  const wrappperOptions = {
+  const wrapperOptions = {
     attachedToDocument: !!options.attachToDocument,
     sync: !!((options.sync || options.sync === undefined))
   }
 
-  return new VueWrapper(vm, wrappperOptions)
+  return new VueWrapper(vm, wrapperOptions)
 }
