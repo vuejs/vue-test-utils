@@ -11,6 +11,11 @@ export const isRunningJSDOM =
   navigator.userAgent.includes &&
   navigator.userAgent.includes('jsdom')
 
+export const isRunningPhantomJS =
+  typeof navigator !== 'undefined' &&
+  navigator.userAgent.includes &&
+  navigator.userAgent.match(/PhantomJS/i)
+
 export function injectSupported () {
   return vueVersion > 2.2
 }

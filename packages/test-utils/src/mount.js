@@ -29,11 +29,10 @@ export default function mount (component: Component, options: Options = {}): Vue
   } else {
     vm.$mount()
   }
+  const componentsWithError = findAllVueComponentsFromVm(vm).filter(c => c._error)
 
-  const componentWithError = findAllVueComponentsFromVm(vm).find(c => c._error)
-
-  if (componentWithError) {
-    throw (componentWithError._error)
+  if (componentsWithError.length > 0) {
+    throw (componentsWithError[0]._error)
   }
 
   const wrapperOptions = {

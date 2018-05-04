@@ -5,7 +5,9 @@ import FunctionalComponent from '~resources/components/functional-component.vue'
 import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
 import {
   functionalSFCsSupported,
-  describeWithShallowAndMount
+  describeWithShallowAndMount,
+  isRunningPhantomJS,
+  itSkipIf
 } from '~resources/utils'
 import ComponentWithoutName from '~resources/components/component-without-name.vue'
 
@@ -40,20 +42,22 @@ describeWithShallowAndMount('contains', (mountingMethod) => {
     expect(wrapper.contains(FunctionalComponent)).to.equal(true)
   })
 
-  it('returns true if wrapper contains Vue class component', () => {
-    const TestComponent = {
-      template: `
+  itSkipIf(
+    isRunningPhantomJS,
+    'returns true if wrapper contains Vue class component', () => {
+      const TestComponent = {
+        template: `
         <div>
           <component-as-a-class />
         </div>
       `,
-      components: {
-        ComponentAsAClass
+        components: {
+          ComponentAsAClass
+        }
       }
-    }
-    const wrapper = mountingMethod(TestComponent)
-    expect(wrapper.contains(ComponentAsAClass)).to.equal(true)
-  })
+      const wrapper = mountingMethod(TestComponent)
+      expect(wrapper.contains(ComponentAsAClass)).to.equal(true)
+    })
 
   it('returns true if wrapper contains element specified by ref selector', () => {
     const compiled = compileToFunctions('<div><input ref="foo" /></div>')

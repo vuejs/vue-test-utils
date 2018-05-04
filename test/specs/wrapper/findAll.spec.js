@@ -8,7 +8,10 @@ import FunctionalComponent from '~resources/components/functional-component.vue'
 import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
 import {
   functionalSFCsSupported,
-  describeWithShallowAndMount
+  describeWithShallowAndMount,
+  itDoNotRunIf,
+  itSkipIf,
+  isRunningPhantomJS
 } from '~resources/utils'
 
 describeWithShallowAndMount('findAll', (mountingMethod) => {
@@ -33,15 +36,17 @@ describeWithShallowAndMount('findAll', (mountingMethod) => {
     expect(divArr.length).to.equal(1)
   })
 
-  it('returns an array of Wrapper of elements matching class selector passed if they are declared inside a slot', () => {
-    const wrapper = mountingMethod(ComponentWithSlots, {
-      slots: {
-        default: '<div class="foo"><div class="foo"></div></div>'
-      }
+  itDoNotRunIf(
+    isRunningPhantomJS,
+    'returns an array of Wrapper of elements matching class selector passed if they are declared inside a slot', () => {
+      const wrapper = mountingMethod(ComponentWithSlots, {
+        slots: {
+          default: '<div class="foo"><div class="foo"></div></div>'
+        }
+      })
+      const fooArr = wrapper.findAll('.foo')
+      expect(fooArr.length).to.equal(2)
     })
-    const fooArr = wrapper.findAll('.foo')
-    expect(fooArr.length).to.equal(2)
-  })
 
   it('returns an array of Wrapper of elements matching class selector passed if they are declared inside a functional component', () => {
     const Component = {
@@ -194,21 +199,23 @@ describeWithShallowAndMount('findAll', (mountingMethod) => {
     expect(wrapper.findAll(ComponentWithoutName).length).to.equal(3)
   })
 
-  it('returns Wrapper of class component', () => {
-    const TestComponent = {
-      template: `
+  itSkipIf(
+    isRunningPhantomJS,
+    'returns Wrapper of class component', () => {
+      const TestComponent = {
+        template: `
         <div>
           <component-as-a-class />
         </div>
       `,
-      components: {
-        ComponentAsAClass
+        components: {
+          ComponentAsAClass
+        }
       }
-    }
 
-    const wrapper = mountingMethod(TestComponent)
-    expect(wrapper.findAll(ComponentAsAClass).length).to.equal(1)
-  })
+      const wrapper = mountingMethod(TestComponent)
+      expect(wrapper.findAll(ComponentAsAClass).length).to.equal(1)
+    })
 
   it('returns Wrapper of Vue Component matching functional component', () => {
     if (!functionalSFCsSupported()) {
