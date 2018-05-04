@@ -35,7 +35,7 @@ function validateEnvironment (_window, compileToFunctions): void {
   }
 }
 
-function addSlotToVm (vm: Component, slotName: string, slotValue: Component | string | Array<Component> | Array<string>): void {
+function addSlotToVm (vm: Component, slotName: string, slotValue: SlotValue): void {
   let elem
   validateEnvironment(window, compileToFunctions)
   if (typeof slotValue === 'string') {
