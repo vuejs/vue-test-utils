@@ -60,7 +60,7 @@ describeWithShallowAndMount('scopedSlots', (mountingMethod) => {
     }
   )
 
-  itDoNotRunIf(vueVersion >= 2.5,
+  itDoNotRunIf(vueVersion >= 2.5 || isRunningPhantomJS,
     'throws exception when vue version < 2.5', () => {
       const fn = () => {
         mountingMethod(ComponentWithScopedSlots, {
