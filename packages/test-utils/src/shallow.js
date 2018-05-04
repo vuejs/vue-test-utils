@@ -6,7 +6,7 @@ import mount from './mount'
 import type VueWrapper from './vue-wrapper'
 import {
   createComponentStubsForAll,
-  createStubs
+  createComponentStubsForGlobals
 } from 'shared/stub-components'
 import { camelize,
   capitalize,
@@ -26,11 +26,15 @@ export default function shallow (
     delete component.components[hyphenate(component.name)]
   }
 
+  const stubbedComponents = createComponentStubsForAll(component)
+  const stubbedGlobalComponents = createComponentStubsForGlobals(vue)
+
   return mount(component, {
     ...options,
     components: {
-      ...createStubs(vue.options.components),
-      ...createComponentStubsForAll(component)
+      // stubbed components are used instead of original components components
+      ...stubbedGlobalComponents,
+      ...stubbedComponents
     }
   })
 }
