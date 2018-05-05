@@ -14,7 +14,8 @@ function isSingleElement (slotValue: string): boolean {
   return _document.body.childElementCount === 1
 }
 
-function createVNodesFromText (vm: Component, slotValue: string) {
+// see https://github.com/vuejs/vue-test-utils/pull/274
+function createVNodes (vm: Component, slotValue: string) {
   const compiledResult = compileToFunctions(`<div>${slotValue}{{ }}</div>`)
   const _staticRenderFns = vm._renderProxy.$options.staticRenderFns
   vm._renderProxy.$options.staticRenderFns = compiledResult.staticRenderFns
@@ -42,7 +43,7 @@ function addSlotToVm (vm: Component, slotName: string, slotValue: SlotValue): vo
     if (isSingleElement(slotValue)) {
       elem = vm.$createElement(compileToFunctions(slotValue))
     } else {
-      elem = createVNodesFromText(vm, slotValue)
+      elem = createVNodes(vm, slotValue)
     }
   } else {
     elem = vm.$createElement(slotValue)
