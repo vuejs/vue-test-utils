@@ -62,7 +62,7 @@ describeWithShallowAndMount('is', (mountingMethod) => {
   })
 
   it('returns true if root node matches functional Component', () => {
-    if (!functionalSFCsSupported()) {
+    if (!functionalSFCsSupported) {
       return
     }
     const wrapper = mountingMethod(FunctionalComponent)

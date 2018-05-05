@@ -19,9 +19,9 @@ describeWithMountingMethods('options.provide', (mountingMethod) => {
     config.provide = configProvideSave
   })
 
-  itDoNotRunIf(!injectSupported(),
+  itDoNotRunIf(!injectSupported,
     'provides objects which is injected by mounted component', () => {
-      if (!injectSupported()) return
+      if (!injectSupported) return
 
       const wrapper = mountingMethod(ComponentWithInject, {
         provide: { fromMount: 'objectValue' }
@@ -32,7 +32,7 @@ describeWithMountingMethods('options.provide', (mountingMethod) => {
       expect(HTML).to.contain('objectValue')
     })
 
-  itDoNotRunIf(!injectSupported(),
+  itDoNotRunIf(!injectSupported,
     'provides function which is injected by mounted component', () => {
       const wrapper = mountingMethod(ComponentWithInject, {
         provide () {
@@ -47,9 +47,9 @@ describeWithMountingMethods('options.provide', (mountingMethod) => {
       expect(HTML).to.contain('functionValue')
     })
 
-  itDoNotRunIf(!injectSupported() || mountingMethod.name === 'renderToString',
+  itDoNotRunIf(!injectSupported || mountingMethod.name === 'renderToString',
     'supports beforeCreate in component', () => {
-      if (!injectSupported()) return
+      if (!injectSupported) return
 
       const wrapper = mountingMethod(ComponentWithInject, {
         provide: { fromMount: '_' }
@@ -60,7 +60,7 @@ describeWithMountingMethods('options.provide', (mountingMethod) => {
 
   itSkipIf(mountingMethod.name === 'renderToString',
     'injects the provide from the config', () => {
-      if (!injectSupported()) {
+      if (!injectSupported) {
         return
       }
       config.provide['fromMount'] = 'globalConfig'
@@ -73,7 +73,7 @@ describeWithMountingMethods('options.provide', (mountingMethod) => {
       expect(HTML).to.contain('globalConfig')
     })
 
-  itDoNotRunIf(!injectSupported(), 'prioritize mounting options over config', () => {
+  itDoNotRunIf(!injectSupported, 'prioritize mounting options over config', () => {
     config.provide['fromMount'] = 'globalConfig'
 
     const wrapper = mountingMethod(ComponentWithInject, {
