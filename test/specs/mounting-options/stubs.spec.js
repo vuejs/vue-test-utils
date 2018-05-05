@@ -248,6 +248,22 @@ describeWithMountingMethods('options.stub', (mountingMethod) => {
     expect(HTML).to.contain('<span>')
   })
 
+  itDoNotRunIf(
+    mountingMethod.name === 'shallow',
+    'stubs on child components', () => {
+      const TestComponent = {
+        template: '<transition><span /></transition>'
+      }
+
+      const wrapper = mountingMethod({
+        components: { 'test-component': TestComponent },
+        template: '<test-component />'
+      }, {
+        stubs: ['transition']
+      })
+      expect(wrapper.find('span').exists()).to.equal(false)
+    })
+
   it('converts config to array if stubs is an array', () => {
     const localVue = createLocalVue()
     config.stubs['time-component'] = '<p />'

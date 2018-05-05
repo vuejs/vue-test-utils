@@ -105,7 +105,7 @@ describeWithShallowAndMount('setProps', (mountingMethod) => {
     expect(wrapper.text()).to.equal('There is no message yet')
   })
 
-  it.only('runs watchers correctly', () => {
+  it('runs watchers correctly', () => {
     const TestComponent = {
       template: `<div id="app">
         {{ stringified }}

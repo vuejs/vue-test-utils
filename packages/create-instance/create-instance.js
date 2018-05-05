@@ -59,13 +59,19 @@ export default function createInstance (
 
   const instanceOptions = { ...options }
   deleteoptions(instanceOptions)
+  const stubComponents = createComponentStubs(component.components, options.stubs)
+
   if (options.stubs) {
     instanceOptions.components = {
       ...instanceOptions.components,
       // $FlowIgnore
-      ...createComponentStubs(component.components, options.stubs)
+      ...stubComponents
     }
   }
+
+  Object.keys(stubComponents).forEach(c => {
+    vue.component(c, stubComponents[c])
+  })
 
   const vm = new Constructor(instanceOptions)
 
