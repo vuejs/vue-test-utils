@@ -537,6 +537,7 @@ export default class Wrapper implements BaseWrapper {
 
     // $FlowIgnore : Problem with possibly null this.vm
     this.vnode = this.vm._vnode
+    orderWatchers(this.vm || this.vnode.context.$root)
   }
 
   /**

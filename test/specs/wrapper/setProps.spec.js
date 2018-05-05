@@ -105,6 +105,44 @@ describeWithShallowAndMount('setProps', (mountingMethod) => {
     expect(wrapper.text()).to.equal('There is no message yet')
   })
 
+  it.only('runs watchers correctly', () => {
+    const TestComponent = {
+      template: `<div id="app">
+        {{ stringified }}
+      </div>`,
+      props: ['collection'],
+      data: () => ({
+        data: ''
+      }),
+      computed: {
+        stringified () {
+          return this.collection.join(',')
+        }
+      },
+      watch: {
+        collection: 'execute'
+      },
+      methods: {
+        execute () {
+          this.data = this.stringified
+        }
+      }
+    }
+    const wrapper = mountingMethod(TestComponent, {
+      propsData: { collection: [] }
+    })
+    expect(wrapper.vm.stringified).to.equal('')
+    expect(wrapper.vm.data).to.equal('')
+
+    wrapper.setProps({ collection: [1, 2, 3] })
+    expect(wrapper.vm.stringified).to.equal('1,2,3')
+    expect(wrapper.vm.data).to.equal('1,2,3')
+
+    wrapper.vm.collection.push(4, 5)
+    expect(wrapper.vm.stringified).to.equal('1,2,3,4,5')
+    expect(wrapper.vm.data).to.equal('1,2,3,4,5')
+  })
+
   it('throws an error if node is not a Vue instance', () => {
     const message = 'wrapper.setProps() can only be called on a Vue instance'
     const compiled = compileToFunctions('<div><p></p></div>')
