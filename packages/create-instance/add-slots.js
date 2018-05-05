@@ -38,8 +38,8 @@ function validateEnvironment (_window, compileToFunctions): void {
 
 function addSlotToVm (vm: Component, slotName: string, slotValue: SlotValue): void {
   let elem
-  validateEnvironment(window, compileToFunctions)
   if (typeof slotValue === 'string') {
+    validateEnvironment(window, compileToFunctions)
     if (isSingleElement(slotValue)) {
       elem = vm.$createElement(compileToFunctions(slotValue))
     } else {
