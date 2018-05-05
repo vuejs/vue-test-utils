@@ -24,14 +24,14 @@ function createVNodes (vm: Component, slotValue: string) {
   return elem
 }
 
-function validateEnvironment (_window, compileToFunctions): void {
+function validateEnvironment (): void {
   if (!compileToFunctions) {
     throwError('vueTemplateCompiler is undefined, you must pass components explicitly if vue-template-compiler is undefined')
   }
-  if (typeof _window === 'undefined') {
+  if (typeof window === 'undefined') {
     throwError('the slots string option does not support strings in server-test-uitls.')
   }
-  if (_window.navigator.userAgent.match(/PhantomJS/i)) {
+  if (window.navigator.userAgent.match(/PhantomJS/i)) {
     throwError('the slots option does not support strings in PhantomJS. Please use Puppeteer, or pass a component.')
   }
 }
@@ -39,7 +39,7 @@ function validateEnvironment (_window, compileToFunctions): void {
 function addSlotToVm (vm: Component, slotName: string, slotValue: SlotValue): void {
   let elem
   if (typeof slotValue === 'string') {
-    validateEnvironment(window, compileToFunctions)
+    validateEnvironment()
     if (isSingleElement(slotValue)) {
       elem = vm.$createElement(compileToFunctions(slotValue))
     } else {
