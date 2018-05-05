@@ -9,7 +9,7 @@ import {
 describeWithShallowAndMount('options.listeners', (mountingMethod) => {
   itSkipIf(isRunningPhantomJS,
     'handles inherit listeners', () => {
-      if (!listenersSupported()) return
+      if (!listenersSupported) return
       const aListener = () => {}
       const wrapper = mountingMethod(compileToFunctions('<p :id="aListener" />'), {
         listeners: {

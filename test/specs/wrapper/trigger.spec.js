@@ -123,7 +123,7 @@ describeWithShallowAndMount('trigger', (mountingMethod) => {
   })
 
   itDoNotRunIf(
-    !scopedSlotsSupported(),
+    !scopedSlotsSupported,
     'handles instances without update watchers', () => {
       const vm = new Vue()
       const item = () => vm.$createElement('button')

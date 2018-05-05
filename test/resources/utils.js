@@ -16,25 +16,15 @@ export const isRunningPhantomJS =
   navigator.userAgent.includes &&
   navigator.userAgent.match(/PhantomJS/i)
 
-export function injectSupported () {
-  return vueVersion > 2.2
-}
+export const injectSupported = vueVersion > 2.2
 
-export function attrsSupported () {
-  return vueVersion > 2.2
-}
+export const attrsSupported = vueVersion > 2.2
 
-export function listenersSupported () {
-  return vueVersion > 2.3
-}
+export const listenersSupported =  vueVersion > 2.3
 
-export function functionalSFCsSupported () {
-  return vueVersion >= 2.5
-}
+export const functionalSFCsSupported = vueVersion > 2.4
 
-export function scopedSlotsSupported () {
-  return vueVersion >= 2.1
-}
+export const scopedSlotsSupported = vueVersion > 2
 
 const shallowAndMount = process.env.TEST_ENV === 'node'
   ? []
