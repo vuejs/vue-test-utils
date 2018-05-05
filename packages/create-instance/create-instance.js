@@ -31,7 +31,8 @@ function getVueTemplateCompilerHelpers (proxy: Object): Object {
 export default function createInstance (
   component: Component,
   options: Options,
-  vue: Component
+  vue: Component,
+  elm: Element
 ): Component {
   if (options.mocks) {
     addMocks(options.mocks, vue)
@@ -55,11 +56,10 @@ export default function createInstance (
 
   addEventLogger(vue)
 
-  
   const instanceOptions = { ...options }
   deleteoptions(instanceOptions)
   // $FlowIgnore
-  
+
   if (options.stubs) {
     instanceOptions.components = {
       ...instanceOptions.components,
@@ -69,9 +69,9 @@ export default function createInstance (
   }
 
   const Constructor = vue.extend(component).extend(instanceOptions)
-  Object.keys(instanceOptions.components).forEach(key => {
-    vue.component(key, instanceOptions.components[key])
+  Object.keys(instanceOptions.components || {}).forEach(key => {
     Constructor.component(key, instanceOptions.components[key])
+    vue.component(key, instanceOptions.components[key])
   })
   const Parent = vue.extend({
     provide: options.provide,
@@ -94,12 +94,9 @@ export default function createInstance (
     }
   })
 
-  const parent = new Parent().$mount()
+  const parent = new Parent().$mount(elm)
 
   const vm = parent.$refs.vm
-
-  addAttrs(vm, options.attrs)
-  addListeners(vm, options.listeners)
 
   if (options.scopedSlots) {
     if (window.navigator.userAgent.match(/PhantomJS/i)) {

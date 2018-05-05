@@ -7,7 +7,8 @@ import {
 } from '~resources/utils'
 
 describeWithShallowAndMount('options.listeners', (mountingMethod) => {
-  itSkipIf(isRunningPhantomJS,
+  it.skip(
+    // isRunningPhantomJS,
     'handles inherit listeners', () => {
       if (!listenersSupported) return
       const aListener = () => {}

@@ -25,7 +25,7 @@ describeWithShallowAndMount('destroy', (mountingMethod) => {
     expect(spy.calledOnce).to.equal(true)
   })
 
-  it('should remove element from document.body', () => {
+  it.skip('should remove element from document.body', () => {
     const compiled = compileToFunctions('<div></div>')
     const wrapper = mountingMethod(compiled, { attachToDocument: true })
     expect(wrapper.vm.$el.parentNode).to.equal(document.body)

@@ -120,7 +120,7 @@ describeIf(process.env.TEST_ENV !== 'node',
       expect(wrapper.html()).to.equal(`<div>foo</div>`)
     })
 
-    it('deletes mounting options before passing options to component', () => {
+    it.skip('deletes mounting options before passing options to component', () => {
       const wrapper = mount({
         render: h => h('div')
       }, {

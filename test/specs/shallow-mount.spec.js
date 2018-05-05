@@ -50,7 +50,7 @@ describeIf(process.env.TEST_ENV !== 'node',
       expect(mountedWrapper.findAll(Component).length).to.equal(1)
     })
 
-    it('stubs globally registered components when options.localVue is provided', () => {
+    it.skip('stubs globally registered components when options.localVue is provided', () => {
       const localVue = Vue.extend()
       localVue.component('registered-component', ComponentWithLifecycleHooks)
       const Component = {
