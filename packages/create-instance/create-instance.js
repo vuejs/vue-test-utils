@@ -59,6 +59,7 @@ export default function createInstance (
 
   const instanceOptions = { ...options }
   deleteoptions(instanceOptions)
+  // $FlowIgnore  
   const stubComponents = createComponentStubs(component.components, options.stubs)
 
   if (options.stubs) {
