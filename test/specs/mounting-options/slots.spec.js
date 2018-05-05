@@ -78,14 +78,14 @@ describeWithMountingMethods('options.slots', (mountingMethod) => {
   itDoNotRunIf(
     typeof window === 'undefined' || window.navigator.userAgent.match(/Chrome/i),
     'works if the UserAgent is PhantomJS when passed Component is in slot object', () => {
-    window = { navigator: { userAgent: 'PhantomJS' }} // eslint-disable-line no-native-reassign
-    const wrapper = mountingMethod(ComponentWithSlots, { slots: { default: [Component] }})
-    if (mountingMethod.name === 'renderToString') {
-      expect(wrapper).contains('<div></div>')
-    } else {
-      expect(wrapper.contains(Component)).to.equal(true)
-    }
-  })
+      window = { navigator: { userAgent: 'PhantomJS' }} // eslint-disable-line no-native-reassign
+      const wrapper = mountingMethod(ComponentWithSlots, { slots: { default: [Component] }})
+      if (mountingMethod.name === 'renderToString') {
+        expect(wrapper).contains('<div></div>')
+      } else {
+        expect(wrapper.contains(Component)).to.equal(true)
+      }
+    })
 
   itDoNotRunIf(
     typeof window === 'undefined' || window.navigator.userAgent.match(/Chrome/i),
