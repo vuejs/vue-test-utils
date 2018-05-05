@@ -132,7 +132,7 @@ describeWithShallowAndMount('find', (mountingMethod) => {
     })
 
   it('returns Wrapper of Vue Component matching functional component', () => {
-    if (!functionalSFCsSupported()) {
+    if (!functionalSFCsSupported) {
       return
     }
     const TestComponent = {

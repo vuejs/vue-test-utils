@@ -24,7 +24,7 @@ describeWithShallowAndMount('contains', (mountingMethod) => {
   })
 
   it('returns true if wrapper contains functional Vue component', () => {
-    if (!functionalSFCsSupported()) {
+    if (!functionalSFCsSupported) {
       return false
     }
     const TestComponent = {

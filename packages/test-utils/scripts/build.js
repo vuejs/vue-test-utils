@@ -70,5 +70,6 @@ rollupOptions.forEach(options => {
     .then(() => success(`${options.format} build successful`))
     .catch((err) => {
       error(err)
+      process.exit(1)
     })
 })

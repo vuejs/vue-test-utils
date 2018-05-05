@@ -22,7 +22,7 @@ function orderVmWatchers (vm) {
     })
   }
 
-  orderDeps(vm._watcher)
+  vm._watcher && orderDeps(vm._watcher)
 
   vm.$children.forEach(orderVmWatchers)
 }

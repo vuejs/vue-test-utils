@@ -145,7 +145,7 @@ describeIf(process.env.TEST_ENV !== 'node',
           'prop': 'val'
         }
       })
-      if (injectSupported()) {
+      if (injectSupported) {
       // provide is added by Vue, it's a function in Vue > 2.3
         if (vueVersion > 2.3) {
           expect(typeof wrapper.vm.$options.provide).to.equal('function')

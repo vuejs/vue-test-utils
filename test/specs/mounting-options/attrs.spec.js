@@ -10,7 +10,7 @@ describeWithMountingMethods('options.attrs', (mountingMethod) => {
   itSkipIf(
     mountingMethod.name === 'renderToString' || isRunningPhantomJS,
     'handles inherit attrs', () => {
-      if (!attrsSupported()) return
+      if (!attrsSupported) return
       const wrapper = mountingMethod(compileToFunctions('<p :id="anAttr" />'), {
         attrs: {
           anAttr: 'an attribute'
