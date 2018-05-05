@@ -184,7 +184,7 @@ describeIf(process.env.TEST_ENV !== 'node',
         propsData: {
           items: ['', '']
         }
-      }).findAll(RecursiveComponent).length).to.equal(2)
+      }).findAll(RecursiveComponent).length).to.equal(3)
       RecursiveComponent.components = {
         'recursive-component': { render: h => h('div') }
       }
@@ -192,7 +192,7 @@ describeIf(process.env.TEST_ENV !== 'node',
         propsData: {
           items: ['', '']
         }
-      }).findAll(RecursiveComponent).length).to.equal(2)
+      }).findAll(RecursiveComponent).length).to.equal(3)
     })
 
     it('throws an error when the component fails to mount', () => {

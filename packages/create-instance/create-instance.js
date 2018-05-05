@@ -55,10 +55,11 @@ export default function createInstance (
 
   addEventLogger(vue)
 
-  const Constructor = vue.extend(component)
-
+  
   const instanceOptions = { ...options }
   deleteoptions(instanceOptions)
+  // $FlowIgnore
+  
   if (options.stubs) {
     instanceOptions.components = {
       ...instanceOptions.components,
@@ -67,7 +68,35 @@ export default function createInstance (
     }
   }
 
-  const vm = new Constructor(instanceOptions)
+  const Constructor = vue.extend(component).extend(instanceOptions)
+  Object.keys(instanceOptions.components).forEach(key => {
+    vue.component(key, instanceOptions.components[key])
+    Constructor.component(key, instanceOptions.components[key])
+  })
+  const Parent = vue.extend({
+    provide: options.provide,
+    data () {
+      return {
+        propsData: options.propsData || {},
+        attrs: options.attrs || {},
+        listeners: options.listeners || {}
+      }
+    },
+    render (h) {
+      const vnode = h(Constructor, {
+        ref: 'vm',
+        props: this.propsData,
+        on: this.listeners,
+        attrs: this.attrs
+      })
+
+      return vnode
+    }
+  })
+
+  const parent = new Parent().$mount()
+
+  const vm = parent.$refs.vm
 
   addAttrs(vm, options.attrs)
   addListeners(vm, options.listeners)

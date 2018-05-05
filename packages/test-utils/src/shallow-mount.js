@@ -24,7 +24,9 @@ export default function shallowMount (
   if (component.name && component.components) {
     delete component.components[capitalize(camelize(component.name))]
     delete component.components[hyphenate(component.name)]
+    component.components[hyphenate(component.name)] = {render: () =>{}}
   }
+  debugger
 
   return mount(component, {
     ...options,

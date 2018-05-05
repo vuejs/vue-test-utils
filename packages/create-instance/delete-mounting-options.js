@@ -8,4 +8,5 @@ export default function deleteMountingOptions (options) {
   delete options.clone
   delete options.attrs
   delete options.listeners
+  delete options.propsData
 }
