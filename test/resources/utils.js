@@ -20,7 +20,7 @@ export const injectSupported = vueVersion > 2.2
 
 export const attrsSupported = vueVersion > 2.2
 
-export const listenersSupported =  vueVersion > 2.3
+export const listenersSupported = vueVersion > 2.3
 
 export const functionalSFCsSupported = vueVersion > 2.4
 
