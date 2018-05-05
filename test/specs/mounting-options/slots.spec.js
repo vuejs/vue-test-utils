@@ -77,6 +77,18 @@ describeWithMountingMethods('options.slots', (mountingMethod) => {
 
   itDoNotRunIf(
     typeof window === 'undefined' || window.navigator.userAgent.match(/Chrome/i),
+    'works if the UserAgent is PhantomJS when passed Component is in slot object', () => {
+      window = { navigator: { userAgent: 'PhantomJS' }} // eslint-disable-line no-native-reassign
+      const wrapper = mountingMethod(ComponentWithSlots, { slots: { default: [Component] }})
+      if (mountingMethod.name === 'renderToString') {
+        expect(wrapper).contains('<div></div>')
+      } else {
+        expect(wrapper.contains(Component)).to.equal(true)
+      }
+    })
+
+  itDoNotRunIf(
+    typeof window === 'undefined' || window.navigator.userAgent.match(/Chrome/i),
     'throws error if the UserAgent is PhantomJS when passed string is in slot object', () => {
       window = { navigator: { userAgent: 'PhantomJS' }} // eslint-disable-line no-native-reassign
       const message = '[vue-test-utils]: the slots option does not support strings in PhantomJS. Please use Puppeteer, or pass a component.'
@@ -113,6 +125,8 @@ describeWithMountingMethods('options.slots', (mountingMethod) => {
       expect(wrapper6.find('main').html()).to.equal('<main><p>1</p><p>2</p></main>')
       const wrapper7 = mountingMethod(ComponentWithSlots, { slots: { default: '1<p>2</p>3' }})
       expect(wrapper7.find('main').html()).to.equal('<main>1<p>2</p>3</main>')
+      const wrapper8 = mountingMethod(ComponentWithSlots, { slots: { default: '   space ' }})
+      expect(wrapper8.find('main').html()).to.equal('<main>   space </main>')
     })
 
   itSkipIf(mountingMethod.name === 'renderToString',
