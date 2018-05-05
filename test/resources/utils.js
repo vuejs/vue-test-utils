@@ -32,6 +32,10 @@ export function functionalSFCsSupported () {
   return vueVersion >= 2.5
 }
 
+export function scopedSlotsSupported () {
+  return vueVersion >= 2.1
+}
+
 const shallowAndMount = process.env.TEST_ENV === 'node'
   ? []
   : [mount, shallow]

@@ -1,6 +1,10 @@
 import ComponentWithEvents from '~resources/components/component-with-events.vue'
 import ComponentWithScopedSlots from '~resources/components/component-with-scoped-slots.vue'
-import { describeWithShallowAndMount } from '~resources/utils'
+import {
+  describeWithShallowAndMount,
+  itDoNotRunIf,
+  scopedSlotsSupported
+} from '~resources/utils'
 import Vue from 'vue'
 
 describeWithShallowAndMount('trigger', (mountingMethod) => {
@@ -118,22 +122,24 @@ describeWithShallowAndMount('trigger', (mountingMethod) => {
     wrapper.trigger('keydown')
   })
 
-  it('handles instances without update watchers', () => {
-    const vm = new Vue()
-    const item = () => vm.$createElement('button')
-    const TestComponent = {
-      render (h) {
-        return h(ComponentWithScopedSlots, {
-          scopedSlots: {
-            noProps: item
-          }
-        })
+  itDoNotRunIf(
+    !scopedSlotsSupported(),
+    'handles instances without update watchers', () => {
+      const vm = new Vue()
+      const item = () => vm.$createElement('button')
+      const TestComponent = {
+        render (h) {
+          return h(ComponentWithScopedSlots, {
+            scopedSlots: {
+              noProps: item
+            }
+          })
+        }
       }
-    }
-    const wrapper = mountingMethod(TestComponent)
+      const wrapper = mountingMethod(TestComponent)
 
-    wrapper.findAll('button').trigger('click')
-  })
+      wrapper.findAll('button').trigger('click')
+    })
 
   it('throws error if options contains a target value', () => {
     const wrapper = mountingMethod({ render: (h) => h('div') })
