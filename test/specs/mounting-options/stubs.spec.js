@@ -249,7 +249,8 @@ describeWithMountingMethods('options.stub', (mountingMethod) => {
   })
 
   itDoNotRunIf(
-    mountingMethod.name === 'shallow',
+    mountingMethod.name === 'shallow' ||
+    mountingMethod.name === 'renderToString',
     'stubs on child components', () => {
       const TestComponent = {
         template: '<transition><span /></transition>'
