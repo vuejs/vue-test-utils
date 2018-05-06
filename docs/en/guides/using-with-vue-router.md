@@ -7,14 +7,14 @@ You should never install Vue Router on the Vue base constructor in tests. Instal
 To avoid this, we can create a localVue, and install Vue Router on that.
 
 ```js
-import { shallow, createLocalVue } from '@vue/test-utils'
+import { shallowMount, createLocalVue } from '@vue/test-utils'
 import VueRouter from 'vue-router'
 
 const localVue = createLocalVue()
 localVue.use(VueRouter)
 const router = new VueRouter()
 
-shallow(Component, {
+shallowMount(Component, {
   localVue,
   router
 })
@@ -31,9 +31,9 @@ When we run tests, we need to make these Vue Router components available to the 
 ### Using stubs
 
 ```js
-import { shallow } from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 
-shallow(Component, {
+shallowMount(Component, {
   stubs: ['router-link', 'router-view']
 })
 ```
@@ -41,13 +41,13 @@ shallow(Component, {
 ### Installing Vue Router with localVue
 
 ```js
-import { shallow, createLocalVue } from '@vue/test-utils'
+import { shallowMount, createLocalVue } from '@vue/test-utils'
 import VueRouter from 'vue-router'
 
 const localVue = createLocalVue()
 localVue.use(VueRouter)
 
-shallow(Component, {
+shallowMount(Component, {
   localVue
 })
 ```
@@ -57,13 +57,13 @@ shallow(Component, {
 Sometimes you want to test that a component does something with parameters from the `$route` and `$router` objects. To do that, you can pass custom mocks to the Vue instance.
 
 ```js
-import { shallow } from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 
 const $route = {
   path: '/some/path'
 }
 
-const wrapper = shallow(Component, {
+const wrapper = shallowMount(Component, {
   mocks: {
     $route
   }

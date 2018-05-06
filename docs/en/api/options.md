@@ -1,6 +1,6 @@
 # Mounting Options
 
-Options for `mount` and `shallow`. The options object can contain both Vue Test Utils mounting options and other options.
+Options for `mount` and `shallowMount`. The options object can contain both Vue Test Utils mounting options and other options.
 
 ## Vue Test Utils Specific Mounting Options
 
@@ -50,7 +50,7 @@ Example:
 import Foo from './Foo.vue'
 import Bar from './Bar.vue'
 
-const wrapper = shallow(Component, {
+const wrapper = shallowMount(Component, {
   slots: {
     default: [Foo, Bar],
     fooBar: Foo, // Will match `<slot name="FooBar" />`.
@@ -87,7 +87,7 @@ You can use [Puppeteer](https://github.com/karma-runner/karma-chrome-launcher#he
 Example:
 
 ```js
-const wrapper = shallow(Component, {
+const wrapper = shallowMount(Component, {
   scopedSlots: {
     foo: '<p slot-scope="props">{{props.index}},{{props.text}}</p>'
   }
@@ -110,7 +110,7 @@ mount(Component, {
   stubs: ['registered-component']
 })
 
-shallow(Component, {
+shallowMount(Component, {
   stubs: {
     // stub with a specific implementation
     'registered-component': Foo,
@@ -130,7 +130,7 @@ Example:
 
 ```js
 const $route = { path: 'http://www.example-path.com' }
-const wrapper = shallow(Component, {
+const wrapper = shallowMount(Component, {
   mocks: {
     $route
   }
@@ -206,7 +206,7 @@ When `sync` is `false`, the Vue component is rendered asynchronously.
 
 ## Other options
 
-When the options for `mount` and `shallow` contain the options other than the mounting options, the component options are overwritten with those using [extends](https://vuejs.org/v2/api/#extends).
+When the options for `mount` and `shallowMount` contain the options other than the mounting options, the component options are overwritten with those using [extends](https://vuejs.org/v2/api/#extends).
 
 ```js
 const Component = {

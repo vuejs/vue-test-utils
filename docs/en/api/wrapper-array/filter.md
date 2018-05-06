@@ -14,9 +14,9 @@ A new `WrapperArray` instance containing `Wrapper` instances that returns true f
 - **Example:**
 
 ```js
-import { shallow } from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 import Foo from './Foo.vue'
 
-const wrapper = shallow(Foo)
+const wrapper = shallowMount(Foo)
 const filteredDivArray = wrapper.findAll('div').filter(w => !w.hasClass('filtered'))
 ```

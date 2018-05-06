@@ -150,12 +150,12 @@ export default {
 And create a test file named `test/Counter.spec.js` with the following code:
 
 ```js
-import { shallow } from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 import Counter from '../src/Counter.vue'
 
 describe('Counter.vue', () => {
   it('increments count when button is clicked', () => {
-    const wrapper = shallow(Counter)
+    const wrapper = shallowMount(Counter)
     wrapper.find('button').trigger('click')
     expect(wrapper.find('div').text()).toMatch('1')
   })

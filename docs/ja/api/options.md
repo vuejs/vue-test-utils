@@ -1,6 +1,6 @@
 # マウンティングオプション
 
-`mount` と `shallow` に対するオプション。オプションオブジェクトには、`vue-test-utils` のマウントオプションとその他のオプションを含めることができます。
+`mount` と `shallowMount` に対するオプション。オプションオブジェクトには、`vue-test-utils` のマウントオプションとその他のオプションを含めることができます。
 
 ## `vue-test-utils` の詳細なマウンティングオプション
 
@@ -46,7 +46,7 @@ expect(wrapper.is(Component)).toBe(true)
 import Foo from './Foo.vue'
 import Bar from './Bar.vue'
 
-const wrapper = shallow(Component, {
+const wrapper = shallowMount(Component, {
   slots: {
     default: [Foo, Bar],
     fooBar: Foo, // Will match <slot name="FooBar" />,
@@ -80,7 +80,7 @@ PhantomJS をサポートしません。
 例:
 
 ```js
-const wrapper = shallow(Component, {
+const wrapper = shallowMount(Component, {
   scopedSlots: {
     foo: '<p slot-scope="props">{{props.index}},{{props.text}}</p>'
   }
@@ -103,7 +103,7 @@ mount(Component, {
   stubs: ['registered-component']
 })
 
-shallow(Component, {
+shallowMount(Component, {
   stubs: {
     // 特定の実装によるスタブ
     'registered-component': Foo,
@@ -123,7 +123,7 @@ shallow(Component, {
 
 ```js
 const $route = { path: 'http://www.example-path.com' }
-const wrapper = shallow(Component, {
+const wrapper = shallowMount(Component, {
   mocks: {
     $route
   }
@@ -197,7 +197,7 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 
 ## その他のオプション
 
-`mount` と `shallow` にマウンティングオプション以外のオプションが渡されると、コンポーネントのオプションは [extends](https://vuejs.org/v2/api/#extends) を使ってマウンティングオプション以外のオプションに上書きされます。
+`mount` と `shallowMount` にマウンティングオプション以外のオプションが渡されると、コンポーネントのオプションは [extends](https://vuejs.org/v2/api/#extends) を使ってマウンティングオプション以外のオプションに上書きされます。
 
 ```js
 const Component = {
