@@ -1,4 +1,4 @@
-# Vue.js Contributing Guide
+# Vue Test Utils Contributing Guide
 
 Hi! I’m really excited that you are interested in contributing to Vue Test Utils. Before submitting your contribution though, please make sure to take a moment and read through the following guidelines.
 
