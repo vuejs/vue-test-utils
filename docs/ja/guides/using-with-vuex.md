@@ -46,7 +46,7 @@ export default{
 これがどのように見えるか見ていきましょう:
 
 ``` js
-import { shallow, createLocalVue } from '@vue/test-utils'
+import { shallowMount, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import Actions from '../../../src/components/Actions'
 
@@ -70,7 +70,7 @@ describe('Actions.vue', () => {
   })
 
   it('calls store action actionInput when input value is input and an input event is fired', () => {
-    const wrapper = shallow(Actions, { store, localVue })
+    const wrapper = shallowMount(Actions, { store, localVue })
     const input = wrapper.find('input')
     input.element.value = 'input'
     input.trigger('input')
@@ -78,7 +78,7 @@ describe('Actions.vue', () => {
   })
 
   it('does not call store action actionInput when input value is not input and an input event is fired', () => {
-    const wrapper = shallow(Actions, { store, localVue })
+    const wrapper = shallowMount(Actions, { store, localVue })
     const input = wrapper.find('input')
     input.element.value = 'not input'
     input.trigger('input')
@@ -86,7 +86,7 @@ describe('Actions.vue', () => {
   })
 
   it('calls store action actionClick when button is clicked', () => {
-    const wrapper = shallow(Actions, { store, localVue })
+    const wrapper = shallowMount(Actions, { store, localVue })
     wrapper.find('button').trigger('click')
     expect(actions.actionClick).toHaveBeenCalled()
   })
@@ -137,7 +137,7 @@ export default{
 テストを見てみましょう:
 
 ``` js
-import { shallow, createLocalVue } from '@vue/test-utils'
+import { shallowMount, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import Getters from '../../../src/components/Getters'
 
@@ -161,20 +161,20 @@ describe('Getters.vue', () => {
   })
 
   it('Renders state.inputValue in first p tag', () => {
-    const wrapper = shallow(Getters, { store, localVue })
+    const wrapper = shallowMount(Getters, { store, localVue })
     const p = wrapper.find('p')
     expect(p.text()).toBe(getters.inputValue())
   })
 
   it('Renders state.clicks in second p tag', () => {
-    const wrapper = shallow(Getters, { store, localVue })
+    const wrapper = shallowMount(Getters, { store, localVue })
     const p = wrapper.findAll('p').at(1)
     expect(p.text()).toBe(getters.clicks().toString())
   })
 })
 ```
 
-このテストはアクションのテストに似ています。各テストの前にモックストアを作成し、`shallow` を呼び出すときにオプションを渡し、そしてモックゲッタから返された値を描画されているのを検証します。
+このテストはアクションのテストに似ています。各テストの前にモックストアを作成し、`shallowMount` を呼び出すときにオプションを渡し、そしてモックゲッタから返された値を描画されているのを検証します。
 
 これは素晴らしいですが、もしゲッタが状態の正しい部分を返しているのを確認したい場合はどうしますか？
 
@@ -214,7 +214,7 @@ export default{
 そしてテストは以下のようになります:
 
 ``` js
-import { shallow, createLocalVue } from '@vue/test-utils'
+import { shallowMount, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import Modules from '../../../src/components/Modules'
 import module from '../../../src/store/module'
@@ -247,14 +247,14 @@ describe('Modules.vue', () => {
   })
 
   it('calls store action moduleActionClick when button is clicked', () => {
-    const wrapper = shallow(Modules, { store, localVue })
+    const wrapper = shallowMount(Modules, { store, localVue })
     const button = wrapper.find('button')
     button.trigger('click')
     expect(actions.moduleActionClick).toHaveBeenCalled()
   })
 
   it('Renders state.inputValue in first p tag', () => {
-    const wrapper = shallow(Modules, { store, localVue })
+    const wrapper = shallowMount(Modules, { store, localVue })
     const p = wrapper.find('p')
     expect(p.text()).toBe(state.module.clicks.toString())
   })

@@ -1,6 +1,6 @@
-# shallow(component [, options])
+# `shallowMount(component [, options])`
 
-- **引数:**
+- **Arguments:**
 
   - `{Component} component`
   - `{Object} options`
@@ -14,40 +14,39 @@
     - `{Object|Array<string>} stubs`
     - `{Vue} localVue`
 
-- **戻り値:** `{Wrapper}`
+- **Returns:** `{Wrapper}`
 
-- **オプション:**
+- **Options:**
 
-[オプション](./options.md)を参照してください。
+See [options](./options.md)
 
-- **使い方:**
+- **Usage:**
 
-[`mount`](mount.md)のようにマウントされて描画された Vue コンポーネントを含む [`Wrapper`](./wrapper/README.md) を生成しますが、  
-子コンポーネントはスタブされたコンポーネントです。
+Like [`mount`](mount.md), it creates a [`Wrapper`](wrapper/README.md) that contains the mounted and rendered Vue component, but with stubbed child components.
 
-**オプションなし:**
+**Without options:**
 
 ```js
-import { shallow } from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {
   it('renders a div', () => {
-    const wrapper = shallow(Foo)
+    const wrapper = shallowMount(Foo)
     expect(wrapper.contains('div')).toBe(true)
   })
 })
 ```
 
-**Vueオプションを使用:**
+**With Vue options:**
 
 ```js
-import { shallow } from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {
   it('renders a div', () => {
-    const wrapper = shallow(Foo, {
+    const wrapper = shallowMount(Foo, {
       propsData: {
         color: 'red'
       }
@@ -57,15 +56,15 @@ describe('Foo', () => {
 })
 ```
 
-**DOMへのアタッチ:**
+**Attach to DOM:**
 
 ```js
-import { shallow } from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {
   it('renders a div', () => {
-    const wrapper = shallow(Foo, {
+    const wrapper = shallowMount(Foo, {
       attachToDocument: true
     })
     expect(wrapper.contains('div')).toBe(true)
@@ -73,20 +72,20 @@ describe('Foo', () => {
 })
 ```
 
-**デフォルトおよび名前付きスロット:**
+**Default and named slots:**
 
 ```js
-import { shallow } from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 import Foo from './Foo.vue'
 import Bar from './Bar.vue'
 import FooBar from './FooBar.vue'
 
 describe('Foo', () => {
   it('renders a div', () => {
-    const wrapper = shallow(Foo, {
+    const wrapper = shallowMount(Foo, {
       slots: {
         default: [Bar, FooBar],
-        fooBar: FooBar, // <slot name="FooBar" /> と一致する,
+        fooBar: FooBar, // Will match <slot name="FooBar" />,
         foo: '<div />'
       }
     })
@@ -95,17 +94,17 @@ describe('Foo', () => {
 })
 ```
 
-**グローバルプロパティのスタブ:**
+**Stubbing global properties:**
 
 ```js
-import { shallow } from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {
   it('renders a div', () => {
     const $route = { path: 'http://www.example-path.com' }
-    const wrapper = shallow(Foo, {
-      intercept: {
+    const wrapper = shallowMount(Foo, {
+      mocks: {
         $route
       }
     })
