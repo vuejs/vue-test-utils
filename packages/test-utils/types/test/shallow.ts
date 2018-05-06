@@ -1,28 +1,28 @@
 import Vuex from 'vuex'
-import { shallow, createLocalVue } from '../'
+import { shallowMount, createLocalVue } from '../'
 import { normalOptions, functionalOptions, Normal, ClassComponent } from './resources'
 
 /**
  * Should create wrapper vm based on (function) component options or constructors
  * The users can specify component type via the type parameter
  */
-const normalWrapper = shallow(normalOptions)
+const normalWrapper = shallowMount(normalOptions)
 const normalFoo: string = normalWrapper.vm.foo
 
-const classWrapper = shallow(ClassComponent)
+const classWrapper = shallowMount(ClassComponent)
 const classFoo: string = classWrapper.vm.bar
 
-const functinalWrapper = shallow(functionalOptions)
+const functinalWrapper = shallowMount(functionalOptions)
 
 /**
- * Test for shallow options
+ * Test for shallowMount options
  */
 const localVue = createLocalVue()
 localVue.use(Vuex)
 
 const store = new Vuex.Store({})
 
-shallow(ClassComponent, {
+shallowMount(ClassComponent, {
   attachToDocument: true,
   localVue,
   mocks: {
@@ -41,7 +41,7 @@ shallow(ClassComponent, {
   }
 })
 
-shallow(functionalOptions, {
+shallowMount(functionalOptions, {
   context: {
     props: { foo: 'test' }
   },
@@ -49,9 +49,9 @@ shallow(functionalOptions, {
 })
 
 /**
- * ShallowOptions should receive Vue's component options
+ * ShallowMountOptions should receive Vue's component options
  */
-shallow(ClassComponent, {
+shallowMount(ClassComponent, {
   propsData: {
     test: 'test'
   },

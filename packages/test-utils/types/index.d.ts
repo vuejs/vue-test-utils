@@ -130,9 +130,9 @@ interface MountOptions<V extends Vue> extends ComponentOptions<V> {
 
 type ThisTypedMountOptions<V extends Vue> = MountOptions<V> & ThisType<V>
 
-type ShallowOptions<V extends Vue> = MountOptions<V>
+type ShallowMountOptions<V extends Vue> = MountOptions<V>
 
-type ThisTypedShallowOptions<V extends Vue> = ShallowOptions<V> & ThisType<V>
+type ThisTypedShallowMountOptions<V extends Vue> = ShallowMountOptions<V> & ThisType<V>
 
 interface VueTestUtilsConfigOptions {
   stubs?: Stubs
@@ -145,9 +145,9 @@ export declare function mount<V extends Vue> (component: VueClass<V>, options?: 
 export declare function mount<V extends Vue> (component: ComponentOptions<V>, options?: ThisTypedMountOptions<V>): Wrapper<V>
 export declare function mount (component: FunctionalComponentOptions, options?: MountOptions<Vue>): Wrapper<Vue>
 
-export declare function shallow<V extends Vue> (component: VueClass<V>, options?: ThisTypedShallowOptions<V>): Wrapper<V>
-export declare function shallow<V extends Vue> (component: ComponentOptions<V>, options?: ThisTypedShallowOptions<V>): Wrapper<V>
-export declare function shallow (component: FunctionalComponentOptions, options?: ShallowOptions<Vue>): Wrapper<Vue>
+export declare function shallowMount<V extends Vue> (component: VueClass<V>, options?: ThisTypedShallowMountOptions<V>): Wrapper<V>
+export declare function shallowMount<V extends Vue> (component: ComponentOptions<V>, options?: ThisTypedShallowMountOptions<V>): Wrapper<V>
+export declare function shallowMount (component: FunctionalComponentOptions, options?: ShallowMountOptions<Vue>): Wrapper<Vue>
 
 export declare let TransitionStub: Component | string | true
 export declare let TransitionGroupStub: Component | string | true
