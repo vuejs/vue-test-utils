@@ -588,15 +588,19 @@ export default class Wrapper implements BaseWrapper {
       throwError('wrapper.setChecked() cannot be called on select')
     } else if (tag === 'INPUT' && type === 'checkbox') {
       // $FlowIgnore
-      el.checked = checked
-      this.trigger(event)
+      if (el.checked !== checked) {
+        this.trigger('click')
+        this.trigger(event)
+      }
     } else if (tag === 'INPUT' && type === 'radio') {
       if (!checked) {
         throwError('wrapper.setChecked() cannot be called with parameter false on radio')
       } else {
         // $FlowIgnore
-        el.checked = true
-        this.trigger(event)
+        if (!el.checked) {
+          this.trigger('click')
+          this.trigger(event)
+        }
       }
     } else if (tag === 'INPUT' || tag === 'textarea') {
       throwError('wrapper.setChecked() cannot be called on "text" inputs. Use wrapper.setValue() instead')

@@ -21,7 +21,7 @@ describeWithShallowAndMount('setChecked', (mountingMethod) => {
     expect(input.element.checked).to.equal(false)
   })
 
-  it('calls trigger with change event', () => {
+  it('calls trigger with change event on checkbox', () => {
     const wrapper = mountingMethod(ComponentWithInput)
     const input = wrapper.find('input[type="checkbox"]')
     sinon.spy(input, 'trigger')
@@ -29,7 +29,20 @@ describeWithShallowAndMount('setChecked', (mountingMethod) => {
     input.setChecked()
 
     expect(input.trigger.called).to.equal(true)
-    expect(input.trigger.args[0][0]).to.equal('change')
+    expect(input.trigger.args[0][0]).to.equal('click')
+    expect(input.trigger.args[1][0]).to.equal('change')
+  })
+
+  it('calls trigger with change event on radio', () => {
+    const wrapper = mountingMethod(ComponentWithInput)
+    const input = wrapper.find('#radioBar')
+    sinon.spy(input, 'trigger')
+
+    input.setChecked()
+
+    expect(input.trigger.called).to.equal(true)
+    expect(input.trigger.args[0][0]).to.equal('click')
+    expect(input.trigger.args[1][0]).to.equal('change')
   })
 
   it('updates dom with checkbox v-model', () => {
@@ -43,6 +56,20 @@ describeWithShallowAndMount('setChecked', (mountingMethod) => {
     expect(wrapper.text()).to.not.contain('checkbox checked')
   })
 
+  it('changes state the right amount of times with checkbox v-model', () => {
+    const wrapper = mountingMethod(ComponentWithInput)
+    const input = wrapper.find('input[type="checkbox"]')
+
+    input.setChecked()
+    input.setChecked(false)
+    input.setChecked(false)
+    input.setChecked(true)
+    input.setChecked(false)
+    input.setChecked(false)
+
+    expect(wrapper.find('.counter').text()).to.equal('4')
+  })
+
   it('updates dom with radio v-model', () => {
     const wrapper = mountingMethod(ComponentWithInput)
 
@@ -51,6 +78,22 @@ describeWithShallowAndMount('setChecked', (mountingMethod) => {
 
     wrapper.find('#radioFoo').setChecked()
     expect(wrapper.text()).to.contain('radioFooResult')
+  })
+
+  it('changes state the right amount of times with checkbox v-model', () => {
+    const wrapper = mountingMethod(ComponentWithInput)
+    const radioBar = wrapper.find('#radioBar')
+    const radioFoo = wrapper.find('#radioFoo')
+
+    radioBar.setChecked()
+    radioBar.setChecked()
+    radioFoo.setChecked()
+    radioBar.setChecked()
+    radioBar.setChecked()
+    radioFoo.setChecked()
+    radioFoo.setChecked()
+
+    expect(wrapper.find('.counter').text()).to.equal('4')
   })
 
   it('throws error if checked param is not boolean', () => {

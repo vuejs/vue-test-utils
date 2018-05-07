@@ -12,6 +12,7 @@
     <label id="label-el"></label>
 
     <span class="checkboxResult" v-if="checkboxVal">checkbox checked</span>
+    <span class="counter">{{ counter }}</span>
     {{ textVal }}
     {{ selectVal }}
     {{ radioVal }}
@@ -26,7 +27,17 @@
         checkboxVal: undefined,
         textVal: undefined,
         radioVal: undefined,
-        selectVal: undefined
+        selectVal: undefined,
+        counter: 0
+      }
+    },
+
+    watch: {
+      checkboxVal () {
+        this.counter++
+      },
+      radioVal () {
+        this.counter++
       }
     }
   }
