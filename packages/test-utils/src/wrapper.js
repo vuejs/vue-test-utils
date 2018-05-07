@@ -546,11 +546,11 @@ export default class Wrapper implements BaseWrapper {
     const event = 'input'
 
     if (tag === 'SELECT') {
-      throwError('wrapper.setValue() cannot be called on select')
+      throwError('wrapper.setValue() cannot be called on a <select> element. Use wrapper.setSelected() instead')
     } else if (tag === 'INPUT' && type === 'checkbox') {
-      throwError('wrapper.setValue() cannot be called on checkbox. Use wrapper.setChecked() instead')
+      throwError('wrapper.setValue() cannot be called on a <input type="checkbox" /> element. Use wrapper.setChecked() instead')
     } else if (tag === 'INPUT' && type === 'radio') {
-      throwError('wrapper.setValue() cannot be called on radio. Use wrapper.setChecked() instead')
+      throwError('wrapper.setValue() cannot be called on a <input type="radio" /> element. Use wrapper.setChecked() instead')
     } else if (tag === 'INPUT' || tag === 'textarea') {
       // $FlowIgnore
       el.value = value
@@ -582,10 +582,8 @@ export default class Wrapper implements BaseWrapper {
     const type = this.attributes().type
     const event = 'change'
 
-    if (this.isVueComponent) {
-      throwError('wrapper.setChecked() cannot be called on component. Use wrapper.setValue() instead')
-    } else if (tag === 'SELECT') {
-      throwError('wrapper.setChecked() cannot be called on select')
+    if (tag === 'SELECT') {
+      throwError('wrapper.setChecked() cannot be called on a <select> element. Use wrapper.setSelected() instead')
     } else if (tag === 'INPUT' && type === 'checkbox') {
       // $FlowIgnore
       if (el.checked !== checked) {
@@ -594,7 +592,7 @@ export default class Wrapper implements BaseWrapper {
       }
     } else if (tag === 'INPUT' && type === 'radio') {
       if (!checked) {
-        throwError('wrapper.setChecked() cannot be called with parameter false on radio')
+        throwError('wrapper.setChecked() cannot be called with parameter false on a <input type="radio" /> element.')
       } else {
         // $FlowIgnore
         if (!el.checked) {
@@ -631,9 +629,9 @@ export default class Wrapper implements BaseWrapper {
     } else if (tag === 'SELECT') {
       throwError('wrapper.setSelected() cannot be called on select. Call it on one of its options')
     } else if (tag === 'INPUT' && type === 'checkbox') {
-      throwError('wrapper.setSelected() cannot be called on checkbox. Use wrapper.setChecked() instead')
+      throwError('wrapper.setSelected() cannot be called on a <input type="checkbox" /> element. Use wrapper.setChecked() instead')
     } else if (tag === 'INPUT' && type === 'radio') {
-      throwError('wrapper.setSelected() cannot be called on radio. Use wrapper.setChecked() instead')
+      throwError('wrapper.setSelected() cannot be called on a <input type="radio" /> element. Use wrapper.setChecked() instead')
     } else if (tag === 'INPUT' || tag === 'textarea') {
       throwError('wrapper.setSelected() cannot be called on "text" inputs. Use wrapper.setValue() instead')
     } else {

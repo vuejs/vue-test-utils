@@ -33,12 +33,12 @@ describeWithShallowAndMount('setSelected', (mountingMethod) => {
   })
 
   it('throws error if element is radio', () => {
-    const message = 'wrapper.setSelected() cannot be called on radio. Use wrapper.setChecked() instead'
+    const message = 'wrapper.setSelected() cannot be called on a <input type="radio" /> element. Use wrapper.setChecked() instead'
     shouldThrowErrorOnElement('input[type="radio"]', message)
   })
 
   it('throws error if element is radio', () => {
-    const message = 'wrapper.setSelected() cannot be called on checkbox. Use wrapper.setChecked() instead'
+    const message = 'wrapper.setSelected() cannot be called on a <input type="checkbox" /> element. Use wrapper.setChecked() instead'
     shouldThrowErrorOnElement('input[type="checkbox"]', message)
   })
 

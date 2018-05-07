@@ -75,6 +75,7 @@ interface BaseWrapper {
 
   setValue (value: any): void
   setChecked (checked: boolean): void
+  setSelected (): void
 
   trigger (eventName: string, options?: object): void
   destroy (): void

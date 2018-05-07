@@ -21,30 +21,6 @@ describeWithShallowAndMount('setChecked', (mountingMethod) => {
     expect(input.element.checked).to.equal(false)
   })
 
-  it('calls trigger with change event on checkbox', () => {
-    const wrapper = mountingMethod(ComponentWithInput)
-    const input = wrapper.find('input[type="checkbox"]')
-    sinon.spy(input, 'trigger')
-
-    input.setChecked()
-
-    expect(input.trigger.called).to.equal(true)
-    expect(input.trigger.args[0][0]).to.equal('click')
-    expect(input.trigger.args[1][0]).to.equal('change')
-  })
-
-  it('calls trigger with change event on radio', () => {
-    const wrapper = mountingMethod(ComponentWithInput)
-    const input = wrapper.find('#radioBar')
-    sinon.spy(input, 'trigger')
-
-    input.setChecked()
-
-    expect(input.trigger.called).to.equal(true)
-    expect(input.trigger.args[0][0]).to.equal('click')
-    expect(input.trigger.args[1][0]).to.equal('change')
-  })
-
   it('updates dom with checkbox v-model', () => {
     const wrapper = mountingMethod(ComponentWithInput)
     const input = wrapper.find('input[type="checkbox"]')
@@ -102,7 +78,7 @@ describeWithShallowAndMount('setChecked', (mountingMethod) => {
   })
 
   it('throws error if checked param is false on radio element', () => {
-    const message = 'wrapper.setChecked() cannot be called with parameter false on radio'
+    const message = 'wrapper.setChecked() cannot be called with parameter false on a <input type="radio" /> element.'
     shouldThrowErrorOnElement('#radioFoo', message, false)
   })
 
@@ -117,7 +93,7 @@ describeWithShallowAndMount('setChecked', (mountingMethod) => {
   })
 
   it('throws error if element is select', () => {
-    const message = 'wrapper.setChecked() cannot be called on select'
+    const message = 'wrapper.setChecked() cannot be called on a <select> element. Use wrapper.setSelected() instead'
     shouldThrowErrorOnElement('select', message)
   })
 

@@ -10,17 +10,6 @@ describeWithShallowAndMount('setValue', (mountingMethod) => {
     expect(input.element.value).to.equal('foo')
   })
 
-  it('calls trigger with input event', () => {
-    const wrapper = mountingMethod(ComponentWithInput)
-    const input = wrapper.find('input[type="text"]')
-    sinon.spy(input, 'trigger')
-
-    input.setValue('foo')
-
-    expect(input.trigger.called).to.equal(true)
-    expect(input.trigger.args[0][0]).to.equal('input')
-  })
-
   it('updates dom with v-model', () => {
     const wrapper = mountingMethod(ComponentWithInput)
     const input = wrapper.find('input[type="text"]')
@@ -40,17 +29,17 @@ describeWithShallowAndMount('setValue', (mountingMethod) => {
   })
 
   it('throws error if element is select', () => {
-    const message = 'wrapper.setValue() cannot be called on select'
+    const message = 'wrapper.setValue() cannot be called on a <select> element. Use wrapper.setSelected() instead'
     shouldThrowErrorOnElement('select', message)
   })
 
   it('throws error if element is radio', () => {
-    const message = 'wrapper.setValue() cannot be called on radio. Use wrapper.setChecked() instead'
+    const message = 'wrapper.setValue() cannot be called on a <input type="radio" /> element. Use wrapper.setChecked() instead'
     shouldThrowErrorOnElement('input[type="radio"]', message)
   })
 
   it('throws error if element is checkbox', () => {
-    const message = 'wrapper.setValue() cannot be called on checkbox. Use wrapper.setChecked() instead'
+    const message = 'wrapper.setValue() cannot be called on a <input type="checkbox" /> element. Use wrapper.setChecked() instead'
     shouldThrowErrorOnElement('input[type="checkbox"]', message)
   })
 
