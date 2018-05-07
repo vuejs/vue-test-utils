@@ -113,6 +113,7 @@ export interface WrapperArray<V extends Vue> extends BaseWrapper {
 
 interface WrapperOptions {
   attachedToDocument: boolean
+  sync: boolean
 }
 
 interface MountOptions<V extends Vue> extends ComponentOptions<V> {
