@@ -15,6 +15,7 @@ describeWithShallowAndMount('options.sync', (mountingMethod) => {
     expect(wrapper.text()).to.equal('hello')
     wrapper.vm.someData = 'world'
     expect(wrapper.text()).to.equal('world')
+    expect(wrapper.options.sync).to.equal(true)
   })
 
   it('sets watchers to sync if undefined', () => {
@@ -29,6 +30,7 @@ describeWithShallowAndMount('options.sync', (mountingMethod) => {
     expect(wrapper.text()).to.equal('hello')
     wrapper.vm.someData = 'world'
     expect(wrapper.text()).to.equal('world')
+    expect(wrapper.options.sync).to.equal(true)
   })
 
   it('handles methods that update watchers', () => {
@@ -102,6 +104,7 @@ describeWithShallowAndMount('options.sync', (mountingMethod) => {
     expect(wrapper.text()).to.equal('hello')
     wrapper.vm.someData = 'world'
     expect(wrapper.text()).to.equal('hello')
+    expect(wrapper.options.sync).to.equal(false)
     setTimeout(() => {
       expect(wrapper.text()).to.equal('world')
       done()
