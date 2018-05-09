@@ -124,8 +124,8 @@ interface MountOptions<V extends Vue> extends ComponentOptions<V> {
   slots?: Slots
   scopedSlots?: Record<string, string>
   stubs?: Stubs,
-  attrs?: object
-  listeners?: object
+  attrs?: Record<string, string>
+  listeners?: Record<string, Function | Function[]>
   sync?: boolean
 }
 
@@ -137,6 +137,9 @@ type ThisTypedShallowMountOptions<V extends Vue> = ShallowMountOptions<V> & This
 
 interface VueTestUtilsConfigOptions {
   stubs?: Stubs
+  mocks?: object
+  methods?: Record<string, Function>
+  provide?: object
 }
 
 export declare function createLocalVue (): typeof Vue

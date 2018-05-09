@@ -34,8 +34,8 @@ interface MountOptions<V extends Vue> extends ComponentOptions<V> {
   slots?: Slots
   scopedSlots?: Record<string, string>
   stubs?: Stubs,
-  attrs?: object
-  listeners?: object
+  attrs?: Record<string, string>
+  listeners?: Record<string, Function | Function[]>
   sync?: boolean
 }
 
@@ -47,6 +47,9 @@ type ThisTypedShallowOptions<V extends Vue> = ShallowOptions<V> & ThisType<V>
 
 interface VueTestUtilsConfigOptions {
   stubs?: Stubs
+  mocks?: object
+  methods?: Record<string, Function>
+  provide?: object
 }
 
 export declare let config: VueTestUtilsConfigOptions
