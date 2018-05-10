@@ -11,7 +11,7 @@ import RecursiveComponent from '~resources/components/recursive-component.vue'
 import { vueVersion, describeIf } from '~resources/utils'
 
 describeIf(process.env.TEST_ENV !== 'node',
-  'shallow', () => {
+  'shallowMount', () => {
     let info
 
     beforeEach(() => {

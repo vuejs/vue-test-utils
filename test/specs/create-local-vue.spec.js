@@ -70,7 +70,7 @@ describeWithShallowAndMount('createLocalVue', (mountingMethod) => {
   })
 
   itDoNotRunIf(
-    mountingMethod.name === 'shallow',
+    mountingMethod.name === 'shallowMount',
     'Router should work properly with local Vue', () => {
       const localVue = createLocalVue()
       localVue.use(VueRouter)

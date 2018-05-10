@@ -26,6 +26,7 @@ export function mergeOptions (
 ): Options {
   return {
     ...options,
+    logModifiedComponents: config.logModifiedComponents,
     stubs: getOptions('stubs', options.stubs, config),
     mocks: getOptions('mocks', options.mocks, config),
     methods: getOptions('methods', options.methods, config),

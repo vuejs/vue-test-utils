@@ -4,6 +4,8 @@ import {
   itSkipIf,
   isRunningPhantomJS
 } from '~resources/utils'
+import { createLocalVue } from '~vue/test-utils'
+import Vuex from 'vuex'
 
 describeWithMountingMethods('options.localVue', (mountingMethod) => {
   itSkipIf(
@@ -30,4 +32,38 @@ describeWithMountingMethods('options.localVue', (mountingMethod) => {
         : freshWrapper.html()
       expect(freshHTML).to.not.contain('some value')
     })
+
+  it('works correctly with extended children', () => {
+    const localVue = createLocalVue()
+    localVue.use(Vuex)
+    const store = new Vuex.Store({
+      state: { val: 2 }
+    })
+    const ChildComponent = Vue.extend({
+      template: '<span>{{val}}</span>',
+      computed: {
+        val () {
+          return this.$store.state.val
+        }
+      }
+    })
+    const TestComponent = {
+      template: '<div><child-component /></div>',
+      components: {
+        ChildComponent
+      }
+    }
+    const wrapper = mountingMethod(TestComponent, {
+      localVue,
+      store
+    })
+    const HTML = mountingMethod.name === 'renderToString'
+      ? wrapper
+      : wrapper.html()
+    if (mountingMethod.name === 'shallowMount') {
+      expect(HTML).to.not.contain('2')
+    } else {
+      expect(HTML).to.contain('2')
+    }
+  })
 })

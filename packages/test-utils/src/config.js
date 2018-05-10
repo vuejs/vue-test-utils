@@ -8,5 +8,6 @@ export default {
   },
   mocks: {},
   methods: {},
-  provide: {}
+  provide: {},
+  logModifiedComponents: true
 }

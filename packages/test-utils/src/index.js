@@ -8,7 +8,7 @@ import config from './config'
 import { warn } from 'shared/util'
 
 function shallow (component, options) {
-  warn('shallow has been renamed to shallowMount and will be deprecated in 1.0.0')
+  warn('shallow has been renamed to shallowMount. shallow will be removed in 1.0.0, use shallowMount instead')
   return shallowMount(component, options)
 }
 

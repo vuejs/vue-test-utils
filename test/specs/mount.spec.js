@@ -8,6 +8,16 @@ import { injectSupported, vueVersion, describeIf } from '~resources/utils'
 
 describeIf(process.env.TEST_ENV !== 'node',
   'mount', () => {
+    let consoleError
+
+    beforeEach(() => {
+      consoleError = sinon.stub(console, 'error')
+    })
+
+    afterEach(() => {
+      consoleError.restore()
+    })
+
     it('returns new VueWrapper with mounted Vue instance if no options are passed', () => {
       const compiled = compileToFunctions('<div><input /></div>')
       const wrapper = mount(compiled)
@@ -118,6 +128,21 @@ describeIf(process.env.TEST_ENV !== 'node',
       })
       expect(wrapper.vm).to.be.an('object')
       expect(wrapper.html()).to.equal(`<div>foo</div>`)
+    })
+
+    it('logs if component is extended', () => {
+      const msg = '[vue-test-utils]: an extended child component ChildComponent has been modified to ensure it has the correct instance properties. This means it is not possible to find the component with a component selector. To find the component, you must stub it manually using the mocks mounting option.'
+      const ChildComponent = Vue.extend({
+        template: '<span />'
+      })
+      const TestComponent = {
+        template: '<child-component />',
+        components: {
+          ChildComponent
+        }
+      }
+      mount(TestComponent)
+      expect(consoleError).calledWith(msg)
     })
 
     it('deletes mounting options before passing options to component', () => {

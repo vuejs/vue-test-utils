@@ -3,8 +3,17 @@ import { describeWithShallowAndMount } from '~resources/utils'
 import { TransitionStub } from '~vue/test-utils'
 
 describeWithShallowAndMount('TransitionStub', (mountingMethod) => {
+  let consoleError
+
+  beforeEach(() => {
+    consoleError = sinon.stub(console, 'error')
+  })
+
+  afterEach(() => {
+    consoleError.restore()
+  })
+
   it('update synchronously when used as stubs for Transition', () => {
-    console.log(TransitionStub)
     const wrapper = mountingMethod(ComponentWithTransition, {
       stubs: {
         'transition': TransitionStub
@@ -48,14 +57,12 @@ describeWithShallowAndMount('TransitionStub', (mountingMethod) => {
       `
     }
     const msg = '[vue-test-utils]: <transition> can only be used on a single element. Use <transition-group> for lists.'
-    const error = sinon.stub(console, 'error')
     mountingMethod(TestComponent, {
       stubs: {
         'transition': TransitionStub
       }
     })
-    expect(error).calledWith(msg)
-    error.restore()
+    expect(consoleError).calledWith(msg)
   })
 
   it('handles keyed transitions', () => {

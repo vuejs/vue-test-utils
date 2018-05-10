@@ -8,14 +8,17 @@ import {
 
 describeWithMountingMethods('options.mocks', (mountingMethod) => {
   let configMocksSave
+  let consoleError
 
   beforeEach(() => {
     configMocksSave = config.mocks
     config.mocks = {}
+    consoleError = sinon.stub(console, 'error')
   })
 
   afterEach(() => {
     config.mocks = configMocksSave
+    consoleError.restore()
   })
 
   it('adds variables to vm when passed', () => {
@@ -71,7 +74,7 @@ describeWithMountingMethods('options.mocks', (mountingMethod) => {
       expect(wrapper.text()).to.contain('changed value')
     })
 
-  itDoNotRunIf(mountingMethod.name === 'shallow',
+  itDoNotRunIf(mountingMethod.name === 'shallowMount',
     'adds variables available to nested vms', () => {
       const count = 1
       const wrapper = mountingMethod({
@@ -88,7 +91,7 @@ describeWithMountingMethods('options.mocks', (mountingMethod) => {
       expect(HTML).contains(count)
     })
 
-  itDoNotRunIf(mountingMethod.name === 'shallow',
+  itDoNotRunIf(mountingMethod.name === 'shallowMount',
     'adds variables available to nested vms using localVue', () => {
       const localVue = createLocalVue()
       const count = 1
@@ -121,7 +124,6 @@ describeWithMountingMethods('options.mocks', (mountingMethod) => {
     })
 
   it('logs that a property cannot be overwritten if there are problems writing', () => {
-    const error = sinon.stub(console, 'error')
     const localVue = createLocalVue()
     Object.defineProperty(localVue.prototype, '$store', {
       value: 42
@@ -134,8 +136,7 @@ describeWithMountingMethods('options.mocks', (mountingMethod) => {
       }
     })
     const msg = '[vue-test-utils]: could not overwrite property $store, this usually caused by a plugin that has added the property as a read-only value'
-    expect(error.calledWith(msg)).to.equal(true)
-    error.restore()
+    expect(consoleError.calledWith(msg)).to.equal(true)
   })
 
   it('prioritize mounting options over config', () => {
@@ -155,12 +156,10 @@ describeWithMountingMethods('options.mocks', (mountingMethod) => {
     const HTML = mountingMethod.name === 'renderToString'
       ? wrapper
       : wrapper.html()
-    console.log(wrapper)
     expect(HTML).to.contain('locallyMockedValue')
   })
 
   it('logs that a property cannot be overwritten if there are problems writing', () => {
-    const error = sinon.stub(console, 'error')
     const localVue = createLocalVue()
     Object.defineProperty(localVue.prototype, '$val', {
       value: 42
@@ -173,7 +172,6 @@ describeWithMountingMethods('options.mocks', (mountingMethod) => {
       }
     })
     const msg = '[vue-test-utils]: could not overwrite property $val, this usually caused by a plugin that has added the property as a read-only value'
-    expect(error.calledWith(msg)).to.equal(true)
-    error.restore()
+    expect(consoleError.calledWith(msg)).to.equal(true)
   })
 })

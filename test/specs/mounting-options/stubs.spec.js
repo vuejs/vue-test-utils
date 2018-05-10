@@ -84,7 +84,7 @@ describeWithMountingMethods('options.stub', (mountingMethod) => {
     })
   })
 
-  itDoNotRunIf(mountingMethod.name === 'shallow' ||
+  itDoNotRunIf(mountingMethod.name === 'shallowMount' ||
     mountingMethod.name === 'renderToString',
   'does not modify component directly', () => {
     const wrapper = mountingMethod(ComponentWithNestedChildren, {
@@ -178,7 +178,7 @@ describeWithMountingMethods('options.stub', (mountingMethod) => {
     require.cache[require.resolve('vue-template-compiler')].exports.compileToFunctions = compilerSave
   })
 
-  itDoNotRunIf(mountingMethod.name === 'shallow',
+  itDoNotRunIf(mountingMethod.name === 'shallowMount',
     'does not stub component when set to false', () => {
       const wrapper = mountingMethod(ComponentWithChild, {
         stubs: {
@@ -249,7 +249,7 @@ describeWithMountingMethods('options.stub', (mountingMethod) => {
   })
 
   itDoNotRunIf(
-    mountingMethod.name === 'shallow' ||
+    mountingMethod.name === 'shallowMount' ||
     mountingMethod.name === 'renderToString',
     'stubs on child components', () => {
       const TestComponent = {
