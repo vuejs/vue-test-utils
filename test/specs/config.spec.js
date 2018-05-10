@@ -138,17 +138,17 @@ describeWithShallowAndMount('config', (mountingMethod) => {
   itSkipIf(
     vueVersion < 2.3,
     'does not log when component is extended if logModifiedComponents is false', () => {
-    const ChildComponent = Vue.extend({
-      template: '<span />'
-    })
-    const TestComponent = {
-      template: '<child-component />',
-      components: {
-        ChildComponent
+      const ChildComponent = Vue.extend({
+        template: '<span />'
+      })
+      const TestComponent = {
+        template: '<child-component />',
+        components: {
+          ChildComponent
+        }
       }
-    }
-    config.logModifiedComponents = false
-    mountingMethod(TestComponent)
-    expect(consoleError.called).to.equal(false)
-  })
+      config.logModifiedComponents = false
+      mountingMethod(TestComponent)
+      expect(consoleError.called).to.equal(false)
+    })
 })

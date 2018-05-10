@@ -37,36 +37,36 @@ describeWithMountingMethods('options.localVue', (mountingMethod) => {
   itSkipIf(
     vueVersion < 2.3,
     'works correctly with extended children', () => {
-    const localVue = createLocalVue()
-    localVue.use(Vuex)
-    const store = new Vuex.Store({
-      state: { val: 2 }
-    })
-    const ChildComponent = Vue.extend({
-      template: '<span>{{val}}</span>',
-      computed: {
-        val () {
-          return this.$store.state.val
+      const localVue = createLocalVue()
+      localVue.use(Vuex)
+      const store = new Vuex.Store({
+        state: { val: 2 }
+      })
+      const ChildComponent = Vue.extend({
+        template: '<span>{{val}}</span>',
+        computed: {
+          val () {
+            return this.$store.state.val
+          }
+        }
+      })
+      const TestComponent = {
+        template: '<div><child-component /></div>',
+        components: {
+          ChildComponent
         }
       }
-    })
-    const TestComponent = {
-      template: '<div><child-component /></div>',
-      components: {
-        ChildComponent
+      const wrapper = mountingMethod(TestComponent, {
+        localVue,
+        store
+      })
+      const HTML = mountingMethod.name === 'renderToString'
+        ? wrapper
+        : wrapper.html()
+      if (mountingMethod.name === 'shallowMount') {
+        expect(HTML).to.not.contain('2')
+      } else {
+        expect(HTML).to.contain('2')
       }
-    }
-    const wrapper = mountingMethod(TestComponent, {
-      localVue,
-      store
     })
-    const HTML = mountingMethod.name === 'renderToString'
-      ? wrapper
-      : wrapper.html()
-    if (mountingMethod.name === 'shallowMount') {
-      expect(HTML).to.not.contain('2')
-    } else {
-      expect(HTML).to.contain('2')
-    }
-  })
 })
