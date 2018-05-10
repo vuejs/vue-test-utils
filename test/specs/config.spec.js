@@ -1,4 +1,9 @@
-import { describeWithShallowAndMount, itDoNotRunIf } from '~resources/utils'
+import {
+  describeWithShallowAndMount,
+  itDoNotRunIf,
+  itSkipIf,
+  vueVersion
+} from '~resources/utils'
 import { config, TransitionStub, TransitionGroupStub, createLocalVue } from '~vue/test-utils'
 import Vue from 'vue'
 
@@ -130,7 +135,9 @@ describeWithShallowAndMount('config', (mountingMethod) => {
     expect(wrapper.contains(TransitionStub)).to.equal(false)
   })
 
-  it('does not log when component is extended if logModifiedComponents is false', () => {
+  itSkipIf(
+    vueVersion < 2.3,
+    'does not log when component is extended if logModifiedComponents is false', () => {
     const ChildComponent = Vue.extend({
       template: '<span />'
     })

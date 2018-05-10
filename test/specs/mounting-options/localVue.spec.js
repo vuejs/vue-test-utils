@@ -2,7 +2,8 @@ import Vue from 'vue'
 import {
   describeWithMountingMethods,
   itSkipIf,
-  isRunningPhantomJS
+  isRunningPhantomJS,
+  vueVersion
 } from '~resources/utils'
 import { createLocalVue } from '~vue/test-utils'
 import Vuex from 'vuex'
@@ -33,7 +34,9 @@ describeWithMountingMethods('options.localVue', (mountingMethod) => {
       expect(freshHTML).to.not.contain('some value')
     })
 
-  it('works correctly with extended children', () => {
+  itSkipIf(
+    vueVersion < 2.3,
+    'works correctly with extended children', () => {
     const localVue = createLocalVue()
     localVue.use(Vuex)
     const store = new Vuex.Store({
