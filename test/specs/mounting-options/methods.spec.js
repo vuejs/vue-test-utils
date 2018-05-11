@@ -23,7 +23,6 @@ describeWithMountingMethods('options.methods', (mountingMethod) => {
     const HTML = mountingMethod.name === 'renderToString'
       ? wrapper
       : wrapper.html()
-    console.log(wrapper)
     expect(HTML).to.contain('methodFromOptions')
   })
 })

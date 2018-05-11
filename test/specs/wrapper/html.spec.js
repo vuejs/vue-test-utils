@@ -11,7 +11,7 @@ describeWithShallowAndMount('html', (mountingMethod) => {
   })
 
   it('returns a VueWrappers HTML as a string when component has no render function', () => {
-    if (mountingMethod.name === 'shallow') return
+    if (mountingMethod.name === 'shallowMount') return
     const wrapper = mountingMethod({
       template: `<div>1<tester></tester></div>`,
       components: {

@@ -49,7 +49,8 @@ interface VueTestUtilsConfigOptions {
   stubs?: Stubs
   mocks?: object
   methods?: Record<string, Function>
-  provide?: object
+  provide?: object,
+  logModifiedComponents?: Boolean
 }
 
 export declare let config: VueTestUtilsConfigOptions

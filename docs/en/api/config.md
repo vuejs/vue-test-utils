@@ -79,3 +79,18 @@ VueTestUtils.config.provide['$logger'] = {
   }
 }
 ```
+
+### `logModifiedComponents`
+
+- type: `Boolean`
+- default: `true`
+
+Logs warning when extended child components are automatically stubbed. Hides warnings when set to `false`. Unlike other config options, this cannot be set on the mounting options.
+
+Example:
+
+```js
+import VueTestUtils from '@vue/test-utils'
+
+VueTestUtils.config.logModifiedComponents = false
+```
