@@ -56,29 +56,46 @@ function validateSlots (slots) {
 
 // 
 
+function isSingleElement (slotValue) {
+  var _slotValue = slotValue.trim();
+  if (_slotValue[0] !== '<' || _slotValue[_slotValue.length - 1] !== '>') {
+    return false
+  }
+  var domParser = new window.DOMParser();
+  var _document = domParser.parseFromString(slotValue, 'text/html');
+  return _document.body.childElementCount === 1
+}
+
+// see https://github.com/vuejs/vue-test-utils/pull/274
+function createVNodes (vm, slotValue) {
+  var compiledResult = vueTemplateCompiler.compileToFunctions(("<div>" + slotValue + "{{ }}</div>"));
+  var _staticRenderFns = vm._renderProxy.$options.staticRenderFns;
+  vm._renderProxy.$options.staticRenderFns = compiledResult.staticRenderFns;
+  var elem = compiledResult.render.call(vm._renderProxy, vm.$createElement).children;
+  vm._renderProxy.$options.staticRenderFns = _staticRenderFns;
+  return elem
+}
+
+function validateEnvironment () {
+  if (!vueTemplateCompiler.compileToFunctions) {
+    throwError('vueTemplateCompiler is undefined, you must pass components explicitly if vue-template-compiler is undefined');
+  }
+  if (typeof window === 'undefined') {
+    throwError('the slots string option does not support strings in server-test-uitls.');
+  }
+  if (window.navigator.userAgent.match(/PhantomJS/i)) {
+    throwError('the slots option does not support strings in PhantomJS. Please use Puppeteer, or pass a component.');
+  }
+}
+
 function addSlotToVm (vm, slotName, slotValue) {
   var elem;
   if (typeof slotValue === 'string') {
-    if (!vueTemplateCompiler.compileToFunctions) {
-      throwError('vueTemplateCompiler is undefined, you must pass components explicitly if vue-template-compiler is undefined');
-    }
-    if (typeof window === 'undefined') {
-      throwError('the slots string option does not support strings in server-test-uitls.');
-    }
-    if (window.navigator.userAgent.match(/PhantomJS/i)) {
-      throwError('the slots option does not support strings in PhantomJS. Please use Puppeteer, or pass a component.');
-    }
-    var domParser = new window.DOMParser();
-    var _document = domParser.parseFromString(slotValue, 'text/html');
-    var _slotValue = slotValue.trim();
-    if (_slotValue[0] === '<' && _slotValue[_slotValue.length - 1] === '>' && _document.body.childElementCount === 1) {
+    validateEnvironment();
+    if (isSingleElement(slotValue)) {
       elem = vm.$createElement(vueTemplateCompiler.compileToFunctions(slotValue));
     } else {
-      var compiledResult = vueTemplateCompiler.compileToFunctions(("<div>" + slotValue + "{{ }}</div>"));
-      var _staticRenderFns = vm._renderProxy.$options.staticRenderFns;
-      vm._renderProxy.$options.staticRenderFns = compiledResult.staticRenderFns;
-      elem = compiledResult.render.call(vm._renderProxy, vm.$createElement).children;
-      vm._renderProxy.$options.staticRenderFns = _staticRenderFns;
+      elem = createVNodes(vm, slotValue);
     }
   } else {
     elem = vm.$createElement(slotValue);
@@ -217,9 +234,15 @@ function compileTemplate (component) {
       }
     });
   }
+
   if (component.extends) {
     compileTemplate(component.extends);
   }
+
+  if (component.extendOptions && !component.options.render) {
+    compileTemplate(component.options);
+  }
+
   if (component.template) {
     Object.assign(component, vueTemplateCompiler.compileToFunctions(component.template));
   }
@@ -339,25 +362,6 @@ function createComponentStubs (originalComponents, stubs) {
   return components
 }
 
-// 
-
-function compileTemplate$1 (component) {
-  if (component.components) {
-    Object.keys(component.components).forEach(function (c) {
-      var cmp = component.components[c];
-      if (!cmp.render) {
-        compileTemplate$1(cmp);
-      }
-    });
-  }
-  if (component.extends) {
-    compileTemplate$1(component.extends);
-  }
-  if (component.template) {
-    Object.assign(component, vueTemplateCompiler.compileToFunctions(component.template));
-  }
-}
-
 function deleteMountingOptions (options) {
   delete options.attachToDocument;
   delete options.mocks;
@@ -459,7 +463,7 @@ function createInstance (
   }
 
   if (componentNeedsCompiling(component)) {
-    compileTemplate$1(component);
+    compileTemplate(component);
   }
 
   addEventLogger(vue);
@@ -468,11 +472,28 @@ function createInstance (
 
   var instanceOptions = Object.assign({}, options);
   deleteMountingOptions(instanceOptions);
+  // $FlowIgnore
+  var stubComponents = createComponentStubs(component.components, options.stubs);
+
   if (options.stubs) {
     instanceOptions.components = Object.assign({}, instanceOptions.components,
       // $FlowIgnore
-      createComponentStubs(component.components, options.stubs));
+      stubComponents);
   }
+
+  Object.keys(component.components || {}).forEach(function (c) {
+    if (component.components[c].extendOptions &&
+      !instanceOptions.components[c]) {
+      if (options.logModifiedComponents) {
+        warn(("an extended child component " + c + " has been modified to ensure it has the correct instance properties. This means it is not possible to find the component with a component selector. To find the component, you must stub it manually using the mocks mounting option."));
+      }
+      instanceOptions.components[c] = vue.extend(component.components[c]);
+    }
+  });
+
+  Object.keys(stubComponents).forEach(function (c) {
+    vue.component(c, stubComponents[c]);
+  });
 
   var vm = new Constructor(instanceOptions);
 
@@ -526,11 +547,15 @@ function createInstance (
 function getOptions (key, options, config) {
   if (options ||
     (config[key] && Object.keys(config[key]).length > 0)) {
-    if (Array.isArray(options)) {
+    if (options instanceof Function) {
+      return options
+    } else if (Array.isArray(options)) {
       return options.concat( Object.keys(config[key] || {}))
-    } else {
+    } else if (!(config[key] instanceof Function)) {
       return Object.assign({}, config[key],
         options)
+    } else {
+      throw new Error("Config can't be a Function.")
     }
   }
 }
@@ -540,9 +565,11 @@ function mergeOptions (
   config
 ) {
   return Object.assign({}, options,
-    {stubs: getOptions('stubs', options.stubs, config),
+    {logModifiedComponents: config.logModifiedComponents,
+    stubs: getOptions('stubs', options.stubs, config),
     mocks: getOptions('mocks', options.mocks, config),
-    methods: getOptions('methods', options.methods, config)})
+    methods: getOptions('methods', options.methods, config),
+    provide: getOptions('provide', options.provide, config)})
 }
 
 var config = testUtils.config
