@@ -85,7 +85,7 @@ VueTestUtils.config.provide['$logger'] = {
 - type: `Boolean`
 - default: `true`
 
-Logs warning when extended child components are automatically stubbed. Hides warnings when set to `false`.
+Logs warning when extended child components are automatically stubbed. Hides warnings when set to `false`. Unlike other config options, this cannot be set on the mounting options.
 
 Example:
 
