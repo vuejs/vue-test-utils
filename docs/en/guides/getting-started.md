@@ -41,7 +41,7 @@ export default {
 
 Vue Test Utils tests Vue components by mounting them in isolation, mocking the necessary inputs (props, injections and user events) and asserting the outputs (render result, emitted custom events).
 
-Mounted components are returned inside a [Wrapper](./api/wrapper.md), which exposes many convenience methods for manipulating, traversing and querying the underlying Vue component instance.
+Mounted components are returned inside a [Wrapper](../api/wrapper/), which exposes many convenience methods for manipulating, traversing and querying the underlying Vue component instance.
 
 You can create wrappers using the `mount` method. Let's create a file called `test.js`:
 

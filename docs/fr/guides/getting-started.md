@@ -41,7 +41,7 @@ export default {
 
 `vue-test-utils` teste les composants Vue en les isolants puis en les montant, il simule les entrées nécessaires (props, injections et évènements utilisateur) et asserte les sorties (le rendu, les évènements émis).
 
-Les composants montés sont retournés dans un [Wrapper](./api/wrapper.md), qui expose de nombreuses méthodes pour manipuler, traverser et interroger l'instance du composant Vue en question.
+Les composants montés sont retournés dans un [Wrapper](../api/wrapper/), qui expose de nombreuses méthodes pour manipuler, traverser et interroger l'instance du composant Vue en question.
 
 Vous pouvez créer des wrappers en utilisant la méthode `mount`. Créons un fichier nommé `test.js` :
 
