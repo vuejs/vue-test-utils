@@ -178,4 +178,17 @@ describeWithShallowAndMount('setData', (mountingMethod) => {
     expect(wrapper.vm.anObject.propA.prop1).to.equal('a')
     expect(wrapper.vm.anObject.propA.prop2).to.equal('b')
   })
+
+  it('sets array data properly', () => {
+    const TestComponent = {
+      data: () => ({
+        items: [1, 2]
+      })
+    }
+    const wrapper = mountingMethod(TestComponent)
+    wrapper.setData({
+      items: [3]
+    })
+    expect(wrapper.vm.items).to.deep.equal([3])
+  })
 })
