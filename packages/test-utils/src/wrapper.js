@@ -421,7 +421,8 @@ export default class Wrapper implements BaseWrapper {
     }
 
     Object.keys(data).forEach((key) => {
-      if (typeof data[key] === 'object' && data[key] !== null) {
+      if (typeof data[key] === 'object' && data[key] !== null &&
+						!Array.isArray(data[key])) {
         // $FlowIgnore : Problem with possibly null this.vm
         const newObj = merge(this.vm[key], data[key])
         // $FlowIgnore : Problem with possibly null this.vm
