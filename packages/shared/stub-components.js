@@ -144,7 +144,7 @@ function stubComponents (components: Object, stubbedComponents: Object) {
 
     // ignoreElements does not exist in Vue 2.0.x
     if (Vue.config.ignoredElements) {
-      Vue.config.ignoredElements.push(`${component.name}-stub`)
+      Vue.config.ignoredElements.push(`${components[component].name}-stub`)
     }
   })
 }
