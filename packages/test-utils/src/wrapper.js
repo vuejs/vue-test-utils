@@ -413,7 +413,7 @@ export default class Wrapper implements BaseWrapper {
    */
   setData (data: Object) {
     if (this.isFunctionalComponent) {
-      throwError('wrapper.setData() canot be called on a functional component')
+      throwError('wrapper.setData() cannot be called on a functional component')
     }
 
     if (!this.vm) {
@@ -505,7 +505,7 @@ export default class Wrapper implements BaseWrapper {
    */
   setProps (data: Object) {
     if (this.isFunctionalComponent) {
-      throwError('wrapper.setProps() canot be called on a functional component')
+      throwError('wrapper.setProps() cannot be called on a functional component')
     }
     if (!this.isVueComponent || !this.vm) {
       throwError('wrapper.setProps() can only be called on a Vue instance')

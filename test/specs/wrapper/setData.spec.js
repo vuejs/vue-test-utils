@@ -66,7 +66,7 @@ describeWithShallowAndMount('setData', (mountingMethod) => {
       render: (h, context) => h('div', context.prop1),
       functional: true
     }
-    const message = '[vue-test-utils]: wrapper.setData() canot be called on a functional component'
+    const message = '[vue-test-utils]: wrapper.setData() cannot be called on a functional component'
     const fn = () => mountingMethod(AFunctionalComponent).setData({ data1: 'data' })
     expect(fn).to.throw().with.property('message', message)
     // find on functional components isn't supported in Vue < 2.3

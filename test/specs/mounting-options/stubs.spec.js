@@ -123,7 +123,7 @@ describeWithMountingMethods('options.stub', (mountingMethod) => {
     const HTML = mountingMethod.name === 'renderToString'
       ? wrapper
       : wrapper.html()
-    expect(HTML).to.contain('<!---->')
+    expect(HTML).to.contain('<registered-component-stub>')
   })
 
   it('stubs components with dummy when passed a boolean', () => {
@@ -138,7 +138,7 @@ describeWithMountingMethods('options.stub', (mountingMethod) => {
     const HTML = mountingMethod.name === 'renderToString'
       ? wrapper
       : wrapper.html()
-    expect(HTML).to.contain('<!---->')
+    expect(HTML).to.contain('<registered-component-stub>')
   })
 
   it('stubs components with dummy when passed as an array', () => {
@@ -287,7 +287,7 @@ describeWithMountingMethods('options.stub', (mountingMethod) => {
     const HTML = mountingMethod.name === 'renderToString'
       ? wrapper
       : wrapper.html()
-    expect(HTML).to.contain('<!----></div>')
+    expect(HTML).to.contain('<time-component-stub>')
   })
 
   it('handles components without a render function', () => {
