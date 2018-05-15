@@ -11,7 +11,7 @@ On va supposer que vous commencez avec une installation qui a déjà webpack, vu
 La première chose à faire est d'installer Jest et `vue-test-utils` :
 
 ```bash
-$ npm install --save-dev jest vue-test-utils
+$ npm install --save-dev jest @vue/test-utils
 ```
 
 Ensuite, on doit définir un script dans notre `package.json`.
@@ -48,8 +48,7 @@ Ensuite, créez un objet `jest` dans `package.json` :
     "transform": {
       // traite les fichiers `*.vue` avec `vue-jest`
       ".*\\.(vue)$": "<rootDir>/node_modules/vue-jest"
-    },
-    "mapCoverage": true
+    }
   }
 }
 ```
