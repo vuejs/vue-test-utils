@@ -99,7 +99,7 @@ expect(wrapper.find('#fooWrapper').html()).toBe('<div id="fooWrapper"><p>0,text1
 
 - type: `{ [name: string]: Component | boolean } | Array<string>`
 
-Stubs child components. Can be an Array of component names to stub, or an object. If `stubs` is an Array, every stub is `<!---->`.
+Stubs child components. Can be an Array of component names to stub, or an object. If `stubs` is an Array, every stub is `<${component name}-stub>`.
 
 Example:
 
