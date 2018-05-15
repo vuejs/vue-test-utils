@@ -1,11 +1,11 @@
 import Vue from 'vue'
 import {
   describeWithMountingMethods,
-  itSkipIf,
   isRunningPhantomJS,
   vueVersion
 } from '~resources/utils'
 import { createLocalVue } from '~vue/test-utils'
+import { itSkipIf } from 'conditional-specs'
 import Vuex from 'vuex'
 
 describeWithMountingMethods('options.localVue', (mountingMethod) => {

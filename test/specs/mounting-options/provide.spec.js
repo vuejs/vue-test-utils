@@ -1,11 +1,11 @@
 import { config } from '~vue/test-utils'
 import ComponentWithInject from '~resources/components/component-with-inject.vue'
 import { injectSupported } from '~resources/utils'
+import { describeWithMountingMethods } from '~resources/utils'
 import {
-  describeWithMountingMethods,
   itDoNotRunIf,
   itSkipIf
-} from '~resources/utils'
+} from 'conditional-specs'
 
 describeWithMountingMethods('options.provide', (mountingMethod) => {
   let configProvideSave

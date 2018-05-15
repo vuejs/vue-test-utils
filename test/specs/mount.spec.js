@@ -4,9 +4,10 @@ import { mount, createLocalVue } from '~vue/test-utils'
 import Component from '~resources/components/component.vue'
 import ComponentWithProps from '~resources/components/component-with-props.vue'
 import ComponentWithMixin from '~resources/components/component-with-mixin.vue'
-import { injectSupported, vueVersion, describeIf } from '~resources/utils'
+import { injectSupported, vueVersion } from '~resources/utils'
+import { describeRunIf } from 'conditional-specs'
 
-describeIf(process.env.TEST_ENV !== 'node',
+describeRunIf(process.env.TEST_ENV !== 'node',
   'mount', () => {
     let consoleError
 

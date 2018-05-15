@@ -1,10 +1,8 @@
 import { createLocalVue, config } from '~vue/test-utils'
 import Component from '~resources/components/component.vue'
 import ComponentWithVuex from '~resources/components/component-with-vuex.vue'
-import {
-  describeWithMountingMethods,
-  itDoNotRunIf
-} from '~resources/utils'
+import { describeWithMountingMethods } from '~resources/utils'
+import { itDoNotRunIf } from 'conditional-specs'
 
 describeWithMountingMethods('options.mocks', (mountingMethod) => {
   let configMocksSave

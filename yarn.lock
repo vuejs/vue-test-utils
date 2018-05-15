@@ -1753,6 +1753,10 @@ concat-stream@1.6.0, concat-stream@^1.4.10, concat-stream@^1.5.0, concat-stream@
     readable-stream "^2.2.2"
     typedarray "^0.0.6"
 
+conditional-specs@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/conditional-specs/-/conditional-specs-1.0.0.tgz#65ca798ea9a02e467fe382e5a91b0f96b9ae13df"
+
 config-chain@~1.1.10, config-chain@~1.1.11:
   version "1.1.11"
   resolved "https://registry.yarnpkg.com/config-chain/-/config-chain-1.1.11.tgz#aba09747dfbe4c3e70e766a6e41586e1859fc6f2"

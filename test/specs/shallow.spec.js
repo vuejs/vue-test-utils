@@ -8,9 +8,10 @@ import ComponentWithLifecycleHooks from '~resources/components/component-with-li
 import ComponentWithoutName from '~resources/components/component-without-name.vue'
 import ComponentAsAClassWithChild from '~resources/components/component-as-a-class-with-child.vue'
 import RecursiveComponent from '~resources/components/recursive-component.vue'
-import { vueVersion, describeIf } from '~resources/utils'
+import { vueVersion } from '~resources/utils'
+import { describeRunIf } from 'conditional-specs'
 
-describeIf(process.env.TEST_ENV !== 'node',
+describeRunIf(process.env.TEST_ENV !== 'node',
   'shallowMount', () => {
     let info
 
