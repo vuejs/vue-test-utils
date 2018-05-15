@@ -517,7 +517,7 @@ export default class Wrapper implements BaseWrapper {
     Object.keys(data).forEach((key) => {
       // Ignore properties that were not specified in the component options
       // $FlowIgnore : Problem with possibly null this.vm
-      if (!this.vm.$options._propKeys || !this.vm.$options._propKeys.includes(key)) {
+      if (!this.vm.$options._propKeys || !this.vm.$options._propKeys.some(prop => prop === key)) {
         throwError(`wrapper.setProps() called with ${key} property which is not defined on component`)
       }
 
