@@ -60,7 +60,9 @@ function createStubFromString (templateString: string, originalComponent: Compon
 function createBlankStub (originalComponent: Component) {
   return {
     ...getCoreProperties(originalComponent),
-    render: h => h('')
+    render (h) {
+      return h(`${originalComponent.name}-stub`)
+    }
   }
 }
 
@@ -78,7 +80,7 @@ export function createComponentStubs (originalComponents: Object = {}, stubs: Ob
       if (typeof stub !== 'string') {
         throwError('each item in an options.stubs array must be a string')
       }
-      components[stub] = createBlankStub({})
+      components[stub] = createBlankStub({ name: stub })
     })
   } else {
     Object.keys(stubs).forEach(stub => {
@@ -89,7 +91,7 @@ export function createComponentStubs (originalComponents: Object = {}, stubs: Ob
         throwError('options.stub values must be passed a string or component')
       }
       if (stubs[stub] === true) {
-        components[stub] = createBlankStub({})
+        components[stub] = createBlankStub({ name: stub })
         return
       }
 
@@ -124,7 +126,7 @@ export function createComponentStubs (originalComponents: Object = {}, stubs: Ob
       }
       // ignoreElements does not exist in Vue 2.0.x
       if (Vue.config.ignoredElements) {
-        Vue.config.ignoredElements.push(stub)
+        Vue.config.ignoredElements.push(`${stub}-stub`)
       }
     })
   }
@@ -142,7 +144,7 @@ function stubComponents (components: Object, stubbedComponents: Object) {
 
     // ignoreElements does not exist in Vue 2.0.x
     if (Vue.config.ignoredElements) {
-      Vue.config.ignoredElements.push(component)
+      Vue.config.ignoredElements.push(`${components[component].name}-stub`)
     }
   })
 }
