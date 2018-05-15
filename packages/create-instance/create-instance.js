@@ -74,7 +74,7 @@ export default function createInstance (
     if (component.components[c].extendOptions &&
       !instanceOptions.components[c]) {
       if (options.logModifiedComponents) {
-        warn(`an extended child component ${c} has been modified to ensure it has the correct instance properties. This means it is not possible to find the component with a component selector. To find the component, you must stub it manually using the stubs mounting option.`)
+        warn(`an extended child component ${c} has been modified to ensure it has the correct instance properties. This means it is not possible to find the component with a component selector. To find the component, you must stub it manually using the mocks mounting option.`)
       }
       instanceOptions.components[c] = vue.extend(component.components[c])
     }
