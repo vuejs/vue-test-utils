@@ -1,9 +1,7 @@
 import { renderToString } from '~vue/server-test-utils'
 import Component from '~resources/components/component.vue'
-import {
-  isRunningJSDOM,
-  itDoNotRunIf
-} from '~resources/utils'
+import { isRunningJSDOM } from '~resources/utils'
+import { itDoNotRunIf } from 'conditional-specs'
 
 describe.skip('renderToString', () => {
   itDoNotRunIf(isRunningJSDOM,

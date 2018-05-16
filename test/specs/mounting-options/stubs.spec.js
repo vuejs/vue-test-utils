@@ -5,10 +5,8 @@ import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
 import { createLocalVue, config } from '~vue/test-utils'
 import { config as serverConfig } from '~vue/server-test-utils'
 import Vue from 'vue'
-import {
-  describeWithMountingMethods,
-  itDoNotRunIf
-} from '~resources/utils'
+import { describeWithMountingMethods } from '~resources/utils'
+import { itDoNotRunIf } from 'conditional-specs'
 
 describeWithMountingMethods('options.stub', (mountingMethod) => {
   let info

@@ -11,10 +11,12 @@ import {
   functionalSFCsSupported,
   vueVersion,
   describeWithShallowAndMount,
-  isRunningPhantomJS,
+  isRunningPhantomJS
+} from '~resources/utils'
+import {
   itDoNotRunIf,
   itSkipIf
-} from '~resources/utils'
+} from 'conditional-specs'
 
 describeWithShallowAndMount('find', (mountingMethod) => {
   it('returns a Wrapper matching tag selector passed', () => {

@@ -1,9 +1,11 @@
 import {
   describeWithShallowAndMount,
-  itDoNotRunIf,
-  itSkipIf,
   vueVersion
 } from '~resources/utils'
+import {
+  itDoNotRunIf,
+  itSkipIf
+} from 'conditional-specs'
 import { config, TransitionStub, TransitionGroupStub, createLocalVue } from '~vue/test-utils'
 import Vue from 'vue'
 

@@ -1,9 +1,9 @@
 import { compileToFunctions } from 'vue-template-compiler'
 import {
   describeWithShallowAndMount,
-  itSkipIf,
   isRunningPhantomJS
 } from '~resources/utils'
+import { itSkipIf } from 'conditional-specs'
 
 describeWithShallowAndMount('isEmpty', (mountingMethod) => {
   it('returns true if node is empty', () => {

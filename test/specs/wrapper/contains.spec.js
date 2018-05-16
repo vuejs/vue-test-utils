@@ -6,9 +6,9 @@ import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
 import {
   functionalSFCsSupported,
   describeWithShallowAndMount,
-  isRunningPhantomJS,
-  itSkipIf
+  isRunningPhantomJS
 } from '~resources/utils'
+import { itSkipIf } from 'conditional-specs'
 import ComponentWithoutName from '~resources/components/component-without-name.vue'
 
 describeWithShallowAndMount('contains', (mountingMethod) => {

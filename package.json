@@ -39,6 +39,7 @@
     "babel-preset-flow-vue": "^1.0.0",
     "babel-preset-stage-2": "^6.24.1",
     "chai": "^4.0.0",
+    "conditional-specs": "^1.0.1",
     "cross-env": "^5.0.0",
     "css-loader": "^0.28.4",
     "eslint": "^4.18.1",

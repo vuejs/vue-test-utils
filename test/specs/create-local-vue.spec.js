@@ -6,10 +6,8 @@ import { createLocalVue } from '~vue/test-utils'
 import Component from '~resources/components/component.vue'
 import ComponentWithVuex from '~resources/components/component-with-vuex.vue'
 import ComponentWithRouter from '~resources/components/component-with-router.vue'
-import {
-  describeWithShallowAndMount,
-  itDoNotRunIf
-} from '~resources/utils'
+import { describeWithShallowAndMount } from '~resources/utils'
+import { itDoNotRunIf } from 'conditional-specs'
 
 describeWithShallowAndMount('createLocalVue', (mountingMethod) => {
   it('installs Vuex without polluting global Vue', () => {

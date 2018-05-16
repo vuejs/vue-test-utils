@@ -1,4 +1,4 @@
-/* global describe, it*/
+/* global describe */
 
 import Vue from 'vue'
 import { shallowMount, mount } from '~vue/test-utils'
@@ -69,46 +69,4 @@ describeWithMountingMethods.only = function (spec, cb) {
   shallowMountAndRender.forEach(method => {
     describe.only(`${spec} with ${method.name}`, () => cb(method))
   })
-}
-
-export function itSkipIf (predicate, spec, cb) {
-  if (predicate) {
-    it.skip(spec, cb)
-  } else {
-    it(spec, cb)
-  }
-}
-
-itSkipIf.only = (predicate, spec, cb) => {
-  if (predicate) {
-    it.skip(spec, cb)
-  } else {
-    it.only(spec, cb)
-  }
-}
-
-export function itDoNotRunIf (predicate, spec, cb) {
-  if (predicate) {
-    () => {}
-  } else {
-    it(spec, cb)
-  }
-}
-
-itDoNotRunIf.only = (predicate, spec, cb) => {
-  if (!predicate) {
-    it.only(spec, cb)
-  }
-}
-
-export function describeIf (predicate, spec, cb) {
-  if (predicate) {
-    describe(spec, cb)
-  }
-}
-
-describeIf.only = (predicate, spec, cb) => {
-  if (predicate) {
-    describe(spec, cb)
-  }
 }
