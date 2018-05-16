@@ -1,4 +1,4 @@
-# `render(component {, options}])`
+# `render(component [, options])`
 
 - **Arguments:**
 

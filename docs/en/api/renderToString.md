@@ -1,4 +1,4 @@
-# `renderToString(component {, options}])`
+# `renderToString(component [, options])`
 
 - **Arguments:**
 
