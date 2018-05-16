@@ -1,4 +1,4 @@
-# `shallow(component {, options}])`
+# `shallowMount(component {, options}])`
 
 - **参数：**
 
@@ -27,12 +27,12 @@
 **无选项：**
 
 ```js
-import { shallow } from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {
   it('返回一个 div', () => {
-    const wrapper = shallow(Foo)
+    const wrapper = shallowMount(Foo)
     expect(wrapper.contains('div')).toBe(true)
   })
 })
@@ -41,12 +41,12 @@ describe('Foo', () => {
 **使用 Vue 选项：**
 
 ```js
-import { shallow } from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {
   it('渲染一个 div', () => {
-    const wrapper = shallow(Foo, {
+    const wrapper = shallowMount(Foo, {
       propsData: {
         color: 'red'
       }
@@ -59,12 +59,12 @@ describe('Foo', () => {
 **固定在 DOM 上：**
 
 ```js
-import { shallow } from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {
   it('渲染一个 div', () => {
-    const wrapper = shallow(Foo, {
+    const wrapper = shallowMount(Foo, {
       attachToDocument: true
     })
     expect(wrapper.contains('div')).toBe(true)
@@ -75,14 +75,14 @@ describe('Foo', () => {
 **默认的和具名的插槽：**
 
 ```js
-import { shallow } from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 import Foo from './Foo.vue'
 import Bar from './Bar.vue'
 import FooBar from './FooBar.vue'
 
 describe('Foo', () => {
   it('renders a div', () => {
-    const wrapper = shallow(Foo, {
+    const wrapper = shallowMount(Foo, {
       slots: {
         default: [Bar, FooBar],
         fooBar: FooBar, // Will match <slot name="FooBar" />,
@@ -97,13 +97,13 @@ describe('Foo', () => {
 **将全局属性存根：**
 
 ```js
-import { shallow } from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {
   it('renders a div', () => {
     const $route = { path: 'http://www.example-path.com' }
-    const wrapper = shallow(Foo, {
+    const wrapper = shallowMount(Foo, {
       mocks: {
         $route
       }

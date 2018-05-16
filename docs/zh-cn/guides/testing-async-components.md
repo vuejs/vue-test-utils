@@ -44,13 +44,13 @@ export default {
 测试用例可以写成像这样：
 
 ``` js
-import { shallow } from 'vue-test-utils'
+import { shallowMount } from 'vue-test-utils'
 import Foo from './Foo'
 jest.mock('axios')
 
 test('Foo', () => {
   it('fetches async when a button is clicked', () => {
-    const wrapper = shallow(Foo)
+    const wrapper = shallowMount(Foo)
     wrapper.find('button').trigger('click')
     expect(wrapper.vm.value).toBe('value')
   })
@@ -62,7 +62,7 @@ test('Foo', () => {
 ``` js
 test('Foo', () => {
   it('fetches async when a button is clicked', (done) => {
-    const wrapper = shallow(Foo)
+    const wrapper = shallowMount(Foo)
     wrapper.find('button').trigger('click')
     wrapper.vm.$nextTick(() => {
       expect(wrapper.vm.value).toBe('value')
@@ -79,14 +79,14 @@ test('Foo', () => {
 The updated test looks like this:
 
 ``` js
-import { shallow } from 'vue-test-utils'
+import { shallowMount } from 'vue-test-utils'
 import flushPromises from 'flush-promises'
 import Foo from './Foo'
 jest.mock('axios')
 
 test('Foo', () => {
   it('fetches async when a button is clicked', async () => {
-    const wrapper = shallow(Foo)
+    const wrapper = shallowMount(Foo)
     wrapper.find('button').trigger('click')
     await flushPromises()
     expect(wrapper.vm.value).toBe('value')

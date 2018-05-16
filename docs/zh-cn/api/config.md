@@ -15,7 +15,7 @@ Vue Test Utils 包含了一个定义其选项的配置对象。
 存储在 `config.stubs` 中的存根会被默认使用。  
 用到的组件存根。它们会被传入挂载选项的 `stubs` 覆写。
 
-当把 `stubs` 作为一个数组传入挂载选项时，`config.stubs` 会被转换为一个数组，然后用只返回一个 `<!---->` 的基础组件进行存根。
+当把 `stubs` 作为一个数组传入挂载选项时，`config.stubs` 会被转换为一个数组，然后用只返回一个 `<${component name}-stub>` 的基础组件进行存根。
 
 示例：
 
@@ -78,4 +78,19 @@ VueTestUtils.config.provide['$logger'] = {
     console.log(...args)
   }
 }
+```
+
+### `logModifiedComponents`
+
+- 类型：`Boolean`
+- 默认值：`true`
+
+当被展开的子元素被自动化存根的时候记录下告警日志。设置为 `false` 时则会隐藏告警日志。和其它配置选项不同的是，它不能设置在挂载选项上。
+
+示例：
+
+```js
+import VueTestUtils from '@vue/test-utils'
+
+VueTestUtils.config.logModifiedComponents = false
 ```

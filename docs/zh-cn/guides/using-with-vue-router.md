@@ -7,14 +7,14 @@
 为了避免这样的事情发生，我们创建了一个 `localVue` 并对其安装 Vue Router。
 
 ```js
-import { shallow, createLocalVue } from '@vue/test-utils'
+import { shallowMount, createLocalVue } from '@vue/test-utils'
 import VueRouter from 'vue-router'
 
 const localVue = createLocalVue()
 localVue.use(VueRouter)
 const router = new VueRouter()
 
-shallow(Component, {
+shallowMount(Component, {
   localVue,
   router
 })
@@ -31,9 +31,9 @@ shallow(Component, {
 ### 使用存根
 
 ```js
-import { shallow } from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 
-shallow(Component, {
+shallowMount(Component, {
   stubs: ['router-link', 'router-view']
 })
 ```
@@ -41,13 +41,13 @@ shallow(Component, {
 ### 为 localVue 安装 Vue Router
 
 ```js
-import { shallow, createLocalVue } from '@vue/test-utils'
+import { shallowMount, createLocalVue } from '@vue/test-utils'
 import VueRouter from 'vue-router'
 
 const localVue = createLocalVue()
 localVue.use(VueRouter)
 
-shallow(Component, {
+shallowMount(Component, {
   localVue
 })
 ```
@@ -57,13 +57,13 @@ shallow(Component, {
 有的时候你想要测试一个组件在配合 `$route` 和 `$router` 对象的参数时的行为。这时候你可以传递自定义假数据给 Vue 实例。
 
 ```js
-import { shallow } from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 
 const $route = {
   path: '/some/path'
 }
 
-const wrapper = shallow(Component, {
+const wrapper = shallowMount(Component, {
   mocks: {
     $route
   }

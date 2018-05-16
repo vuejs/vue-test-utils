@@ -150,12 +150,12 @@ export default {
 然后创建一个名为 `test/Counter.spec.js` 的测试文件并写入如下代码：
 
 ```js
-import { shallow } from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 import Counter from '../src/Counter.vue'
 
 describe('Counter.vue', () => {
   it('计数器在点击按钮时自增', () => {
-    const wrapper = shallow(Counter)
+    const wrapper = shallowMount(Counter)
     wrapper.find('button').trigger('click')
     expect(wrapper.find('div').text()).toMatch('1')
   })
