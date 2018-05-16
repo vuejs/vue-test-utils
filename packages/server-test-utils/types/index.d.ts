@@ -55,6 +55,10 @@ interface VueTestUtilsConfigOptions {
 
 export declare let config: VueTestUtilsConfigOptions
 
+export declare function render<V extends Vue> (component: VueClass<V>, options?: ThisTypedMountOptions<V>): string
+export declare function render<V extends Vue> (component: ComponentOptions<V>, options?: ThisTypedMountOptions<V>): string
+export declare function render (component: FunctionalComponentOptions, options?: MountOptions<Vue>): string
+
 export declare function renderToString<V extends Vue> (component: VueClass<V>, options?: ThisTypedMountOptions<V>): string
 export declare function renderToString<V extends Vue> (component: ComponentOptions<V>, options?: ThisTypedMountOptions<V>): string
 export declare function renderToString (component: FunctionalComponentOptions, options?: MountOptions<Vue>): string

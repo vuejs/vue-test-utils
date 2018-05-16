@@ -1,8 +1,21 @@
 import Vuex from 'vuex'
-import { renderToString, config } from '../'
+import { render, renderToString, config } from '../'
 import { normalOptions, functionalOptions, Normal, ClassComponent } from './resources'
 
 const store = new Vuex.Store({})
+
+render(
+  {
+    template: '<p>foo</p>'
+  },
+  {
+    attachToDocument: true,
+    scopedSlots: {
+      foo: `<div>Foo</div>`
+    },
+    sync: false
+  }
+)
 
 renderToString(ClassComponent, {
   mocks: {
