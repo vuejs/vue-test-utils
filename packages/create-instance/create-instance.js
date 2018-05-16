@@ -57,7 +57,7 @@ export default function createInstance (
 
   const Constructor = vue.extend(component)
 
-  const instanceOptions = { ...options }
+  const instanceOptions = { ...options, propsData: { ...options.propsData }}
   deleteoptions(instanceOptions)
   // $FlowIgnore
   const stubComponents = createComponentStubs(component.components, options.stubs)
