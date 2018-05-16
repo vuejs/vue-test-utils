@@ -1,12 +1,12 @@
 import { shallowMount } from '~vue/test-utils'
 import ComponentWithProps from '~resources/components/component-with-props.vue'
-import { describeIf } from '~resources/utils'
+import { describeRunIf } from 'conditional-specs'
 
 const baseData = {
   prop1: ['', '']
 }
 
-describeIf(process.env.TEST_ENV !== 'node',
+describeRunIf(process.env.TEST_ENV !== 'node',
   'propsData', () => {
     let wrapper
 
