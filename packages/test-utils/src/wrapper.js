@@ -633,11 +633,11 @@ export default class Wrapper implements BaseWrapper {
       eventObject.keyCode = modifiers[event[1]]
     }
 
-    // If this element's method has been reset by setMethod, it won't trigger
-    // Make sure that this element is updated with the latest method
+    // If this element's event handler has been reset by setMethod, it won't trigger
+    // Make sure that this element is updated with the latest event handler
     if (this.vnode) {
       const context = this.vnode.context
-      context._update(context._render())
+      if (context.$options.render) context._update(context._render())
     }
 
     this.element.dispatchEvent(eventObject)
