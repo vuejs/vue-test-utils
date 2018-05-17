@@ -27,6 +27,7 @@ describeWithShallowAndMount('setMethods', (mountingMethod) => {
     // Replace the toggle function so that the data supposedly won't change
     const toggleActive = () => console.log('overriden')
     wrapper.setMethods({ toggleActive })
+    wrapper.find('.toggle').trigger('click')
     expect(wrapper.vm.isActive).to.be.true
   })
 })
