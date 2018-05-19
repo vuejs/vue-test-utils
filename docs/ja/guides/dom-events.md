@@ -1,6 +1,6 @@
-# キー、マウス、その他の DOM イベントのテスト
+### キー、マウス、その他の DOM イベントのテスト
 
-## イベントをトリガする
+### イベントをトリガする
 
 `Wrapper` の `trigger` メソッドで DOM イベントをトリガすることができます。
 
@@ -18,7 +18,7 @@ const wrapper = mount(MyComponent)
 wrapper.find('button').trigger('click')
 ```
 
-## オプション
+### オプション
 
 `trigger` メソッドはオプションで `options` オブジェクトを引数として取ります。`options` オブジェクトのプロパティはイベントオブジェクトのプロパティに追加されます。
 
@@ -31,7 +31,7 @@ wrapper.trigger('click', { button: 0 })
 ```
 
 
-## マウスクリックの例
+### マウスクリックの例
 
 **テスト対象のコンポーネント**
 
@@ -85,7 +85,7 @@ describe('Click event', () => {
 })
 ```
 
-## キーボードの例
+### キーボードの例
 
 **テスト対象のコンポーネント**
 
@@ -207,6 +207,6 @@ describe('Key event tests', () => {
 | pageup | 33 |
 | pagedown | 34 |
 
-## 重要事項
+### 重要事項
 
 `vue-test-utils` は同期的にイベントをトリガします。従って、 `Vue.nextTick()` を実行する必要はありません。

@@ -1,4 +1,4 @@
-# `shallowMount(component [, options])`
+## shallowMount()
 
 - **Arguments:**
 

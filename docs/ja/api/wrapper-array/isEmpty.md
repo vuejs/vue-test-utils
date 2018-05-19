@@ -1,4 +1,4 @@
-# isEmpty()
+## isEmpty()
 
 `WrapperArray` のすべての `Wrapper` に子ノードを含んでいないか検証します。
 

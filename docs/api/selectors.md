@@ -1,8 +1,8 @@
-# Selectors
+## Selectors
 
 A lot of methods take a selector as an argument. A selector can either be a CSS selector, a Vue component, or a find option object.
 
-## CSS Selectors
+### CSS Selectors
 
 Mount handles any valid CSS selector:
 
@@ -19,7 +19,7 @@ You can also use combinators:
 - adjacent sibling selector (`div + .foo`)
 - general sibling selector (`div ~ .foo`)
 
-## Vue Components
+###Vue Components
 
 Vue components are also valid selectors.
 
@@ -39,9 +39,9 @@ const wrapper = shallowMount(Foo)
 expect(wrapper.is(Foo)).toBe(true)
 ```
 
-## Find Option Object
+###Find Option Object
 
-### Name
+#### Name
 
 Using a find option object, Vue Test Utils allows for selecting elements by a `name` of component on wrapper components.
 
@@ -50,7 +50,7 @@ const buttonWrapper = wrapper.find({ name: 'my-button' })
 buttonWrapper.trigger('click')
 ```
 
-### Ref
+#### Ref
 
 Using a find option object, Vue Test Utils allows for selecting elements by `$ref` on wrapper components.
 

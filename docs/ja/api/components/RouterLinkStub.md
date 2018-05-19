@@ -1,4 +1,4 @@
-# RouterLinkStub
+## RouterLinkStub
 
 Vue Router の `router-link` コンポーネントをスタブするためのコンポーネントです。
 

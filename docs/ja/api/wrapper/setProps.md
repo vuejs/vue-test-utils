@@ -1,4 +1,4 @@
-# setProps(props)
+## setProps(props)
 
 - **引数:**
   - `{Object} props`

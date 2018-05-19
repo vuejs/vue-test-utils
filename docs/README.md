@@ -1,8 +1,6 @@
-# Vue Test Utils
+# Introduction
 
 Vue Test Utils is the official unit testing utility library for Vue.js.
-
-## Table of Contents
 
 * [Guides](./guides/README.md)
   * [Getting Started](./guides/getting-started.md)

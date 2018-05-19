@@ -1,4 +1,4 @@
-# mount(component [, options])
+## mount()
 
 - **引数:**
 

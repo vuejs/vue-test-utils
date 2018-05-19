@@ -1,4 +1,4 @@
-# TransitionGroupStub
+## TransitionGroupStub
 
 `transition-group` コンポーネントをスタブするためのコンポーネントです。これはトランジションを非同期で実行する代わりに、子コンポーネントを同期的に返します。
 

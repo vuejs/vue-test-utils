@@ -1,4 +1,4 @@
-# classes()
+## classes()
 
 `Wrapper` にラップされている要素の class 名を配列で返します。
 

@@ -1,4 +1,4 @@
-# html()
+## html()
 
 `Wrapper` DOM ノードの HTML を文字列として返します。
 

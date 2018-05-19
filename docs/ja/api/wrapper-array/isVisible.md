@@ -1,4 +1,4 @@
-# isVisible()
+## isVisible()
 
 `WrapperArray` 内のすべての `Wrapper` が表示されているかアサートします。
 

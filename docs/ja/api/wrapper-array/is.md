@@ -1,4 +1,4 @@
-# is(selector)
+## is(selector)
 
 `WrapperArray` の全ての `Wrapper` のDOMノード、もしくは[セレクタ](../selectors.md)が `vm` とマッチするか検証します。
 

@@ -8,10 +8,12 @@ module.exports = {
     '/ja/': {
       lang: 'ja',
       title: 'Vue Test Utils',
+      description: 'Vue コンポーネントをテストするためのユーティリティ'
     },
     '/zh/': {
       lang: 'zh-CN',
       title: 'Vue Test Utils',
+      description: '测试 Vue 组件的实用工具'
     }
   },
   serviceWorker: true,
@@ -37,10 +39,11 @@ module.exports = {
         sidebar: [
           '/',
           '/guides/',
+          '/api/',
           '/api/wrapper/',
           '/api/wrapper-array/',
           '/api/options',
-          '/api/components'
+          '/api/components/'
         ]
       },
       '/zh/': {
@@ -49,9 +52,28 @@ module.exports = {
         editLinkText: '在 GitHub 上编辑此页'
       },
       '/ja/': {
-        label: '?',
-        selectText: '?',
-        editLinkText: '?'
+        label: '日本語',
+        selectText: '言語',
+        editLinkText: 'GitHub 上でこのページを編集する',
+        nav: [
+          {
+            text: 'API',
+            link: '/ja/api/'
+          },
+          {
+            text: 'ガイド',
+            link: '/ja/guides/'
+          }
+        ],
+        sidebar: [
+          '/ja/',
+          '/ja/guides/',
+          '/ja/api/',
+          '/ja/api/wrapper/',
+          '/ja/api/wrapper-array/',
+          '/ja/api/options',
+          '/ja/api/components/'
+        ]
       }
     }
   },

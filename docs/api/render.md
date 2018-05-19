@@ -1,4 +1,4 @@
-# `render(component [, options])`
+## render()
 
 - **Arguments:**
 

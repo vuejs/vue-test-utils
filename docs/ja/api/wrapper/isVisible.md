@@ -1,4 +1,4 @@
-# isVisible()
+## isVisible()
 
 `Wrapper` が表示されているかアサートします。
 
