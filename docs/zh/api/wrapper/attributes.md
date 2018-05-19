@@ -1,10 +1,10 @@
 ## attributes()
 
-`Wrapper` にラップされている要素の属性をオブジェクトで返します。
+返回 `Wrapper` DOM 节点的特性对象。
 
-- **戻り値:** `{[attribute: string]: any}`
+- **返回值：**`{[attribute: string]: any}`
 
-- **例:**
+- **示例：**
 
 ```js
 import { mount } from '@vue/test-utils'

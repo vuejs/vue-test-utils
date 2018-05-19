@@ -49,7 +49,26 @@ module.exports = {
       '/zh/': {
         label: '简体中文',
         selectText: '选择语言',
-        editLinkText: '在 GitHub 上编辑此页'
+        editLinkText: '在 GitHub 上编辑此页',
+        nav: [
+          {
+            text: 'API',
+            link: '/zh/api/'
+          },
+          {
+            text: '教程',
+            link: '/zh/guides/'
+          }
+        ],
+        sidebar: [
+          '/zh/',
+          '/zh/guides/',
+          '/zh/api/',
+          '/zh/api/wrapper/',
+          '/zh/api/wrapper-array/',
+          '/zh/api/options',
+          '/zh/api/components/'
+        ]
       },
       '/ja/': {
         label: '日本語',
