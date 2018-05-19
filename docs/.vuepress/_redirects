@@ -1,0 +1,9 @@
+/en/*  /:splat
+/api/wrapper/*  /api/wrapper.html/#:splat
+/api/wrapper-array/*  /api/wrapper-array.html/#:splat
+
+/ja/api/wrapper/* /ja/api/wrapper.html/#:splat
+/ja/api/wrapper-array/*  /ja/api/wrapper-array.html/#:splat
+
+/zh/api/wrapper/* /zh/api/wrapper.html/#:splat
+/zh/api/wrapper-array/*  /zh/api/wrapper-array.html/#:splat
