@@ -14,10 +14,4 @@ describeWithShallowAndMount('exists', (mountingMethod) => {
     wrapper.destroy()
     expect(wrapper.exists()).to.equal(false)
   })
-
-  it('returns false if called on an ErrorWrapper', () => {
-    const compiled = compileToFunctions('<div />')
-    const wrapper = mountingMethod(compiled)
-    expect(wrapper.find('does-not-exist').exists()).to.equal(false)
-  })
 })

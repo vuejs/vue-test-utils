@@ -254,22 +254,17 @@ describeWithShallowAndMount('find', (mountingMethod) => {
     }
     const wrapper = mountingMethod(TestComponent, { localVue })
     const span = wrapper.find('span')
-    expect(span.find(AComponent).exists()).to.equal(false)
+    expect(span.find(AComponent)).to.equal(null)
   })
 
   it('returns empty Wrapper with error if no nodes are found', () => {
     const wrapper = mountingMethod(Component)
-    const selector = 'pre'
-    const error = wrapper.find(selector)
-    expect(error.exists()).to.equal(false)
-    expect(error.selector).to.equal(selector)
+    expect(wrapper.find('pre')).to.equal(null)
   })
 
   it('returns empty Wrapper with error if no nodes are found when passed a component', () => {
     const wrapper = mountingMethod(Component)
-    const error = wrapper.find(ComponentWithChild)
-    expect(error.exists()).to.equal(false)
-    expect(error.selector).to.equal('Component')
+    expect(wrapper.find(ComponentWithChild)).to.equal(null)
   })
 
   it('returns Wrapper of elements matching the ref in options object', () => {
@@ -321,9 +316,7 @@ describeWithShallowAndMount('find', (mountingMethod) => {
 
   it('returns empty Wrapper with error if no nodes are found via ref in options object', () => {
     const wrapper = mountingMethod(Component)
-    const error = wrapper.find({ ref: 'foo' })
-    expect(error.exists()).to.equal(false)
-    expect(error.selector).to.equal('ref="foo"')
+    expect(wrapper.find({ ref: 'foo' })).to.equal(null)
   })
 
   it('returns Wrapper matching component that has no name property', () => {

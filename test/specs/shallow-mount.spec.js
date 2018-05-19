@@ -100,7 +100,7 @@ describeRunIf(process.env.TEST_ENV !== 'node',
 
       const wrapper = shallowMount(TestComponent)
       expect(wrapper.find(ComponentWithPTag).exists()).to.equal(true)
-      expect(wrapper.find('p').exists()).to.equal(false)
+      expect(wrapper.find('p')).to.equal(null)
     })
 
     it('stubs nested extended components', () => {
@@ -128,7 +128,7 @@ describeRunIf(process.env.TEST_ENV !== 'node',
 
       const wrapper = shallowMount(TestComponent)
       expect(wrapper.find(ComponentWithPTag).exists()).to.equal(true)
-      expect(wrapper.find('p').exists()).to.equal(false)
+      expect(wrapper.find('p')).to.equal(null)
     })
 
     it('stubs Vue class component children', () => {
