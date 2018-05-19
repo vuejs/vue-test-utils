@@ -432,6 +432,9 @@ export default class Wrapper implements BaseWrapper {
         this.vm.$set(this.vm, [key], data[key])
       }
     })
+    if (this.vm) {
+      this.vm.$forceUpdate()
+    }
   }
 
   /**
@@ -539,6 +542,9 @@ export default class Wrapper implements BaseWrapper {
     // $FlowIgnore : Problem with possibly null this.vm
     this.vnode = this.vm._vnode
     orderWatchers(this.vm || this.vnode.context.$root)
+    if (this.vm) {
+      this.vm.$forceUpdate()
+    }
   }
 
   /**
