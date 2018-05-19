@@ -15,7 +15,6 @@ import {
   vmFunctionalCtorMatchesSelector
 } from './find-vue-components'
 import WrapperArray from './wrapper-array'
-import ErrorWrapper from './error-wrapper'
 import {
   throwError,
   warn
@@ -266,15 +265,11 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Finds first node in tree of the current wrapper that matches the provided selector.
    */
-  find (selector: Selector): Wrapper | ErrorWrapper {
+  find (selector: Selector): Wrapper | null {
     const nodes = findAll(this.vm, this.vnode, this.element, selector)
-    if (nodes.length === 0) {
-      if (selector.ref) {
-        return new ErrorWrapper(`ref="${selector.ref}"`)
-      }
-      return new ErrorWrapper(typeof selector === 'string' ? selector : 'Component')
-    }
-    return createWrapper(nodes[0], this.options)
+    return nodes.length > 0
+      ? createWrapper(nodes[0], this.options)
+      : null
   }
 
   /**

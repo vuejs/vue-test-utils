@@ -260,7 +260,7 @@ describeWithMountingMethods('options.stub', (mountingMethod) => {
       }, {
         stubs: ['transition']
       })
-      expect(wrapper.find('span').exists()).to.equal(false)
+      expect(wrapper.find('span')).to.equal(null)
     })
 
   it('converts config to array if stubs is an array', () => {
