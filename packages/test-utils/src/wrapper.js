@@ -24,6 +24,7 @@ import createWrapper from './create-wrapper'
 import {
   orderWatchers
 } from './order-watchers'
+import { elementMatchesSelector } from './find-vnodes'
 
 export default class Wrapper implements BaseWrapper {
   vnode: VNode | null;
@@ -99,8 +100,7 @@ export default class Wrapper implements BaseWrapper {
   contains (selector: Selector) {
     const selectorType = getSelectorTypeOrThrow(selector, 'contains')
     const nodes = findAll(this.vm, this.vnode, this.element, selector)
-    const is = selectorType === REF_SELECTOR ? false : this.is(selector)
-    return nodes.length > 0 || is
+    return nodes.length > 0 || (selectorType !== REF_SELECTOR && this.is(selector))
   }
 
   /**
@@ -326,9 +326,7 @@ export default class Wrapper implements BaseWrapper {
       return false
     }
 
-    return !!(this.element &&
-    this.element.getAttribute &&
-    this.element.matches(selector))
+    return elementMatchesSelector(this.element, selector)
   }
 
   /**
