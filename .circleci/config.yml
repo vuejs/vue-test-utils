@@ -18,8 +18,8 @@ jobs:
       - checkout
       - *restore_node_modules
       - run:
-        name: remove vuepress from dependencies
-        command: sed '/vuepress/ d' package.json
+          name: remove vuepress from dependencies
+          command: sed '/vuepress/ d' package.json
       - run:
           name: yarn --version
           command: yarn --version
