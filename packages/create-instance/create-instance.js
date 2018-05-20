@@ -86,6 +86,9 @@ export default function createInstance (
 
   const vm = new Constructor(instanceOptions)
 
+  // Workaround for Vue < 2.5
+  vm._staticTrees = []
+
   addAttrs(vm, options.attrs)
   addListeners(vm, options.listeners)
 
