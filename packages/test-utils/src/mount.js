@@ -19,8 +19,6 @@ Vue.config.errorHandler = errorHandler
 
 export default function mount (component: Component, options: Options = {}): VueWrapper {
   warnIfNoWindow()
-  // Remove cached constructor
-  delete component._Ctor
 
   const vueConstructor = options.localVue || createLocalVue()
 
@@ -45,8 +43,7 @@ export default function mount (component: Component, options: Options = {}): Vue
 
   const wrapperOptions = {
     attachedToDocument: !!mergedOptions.attachToDocument,
-    sync: mergedOptions.sync,
-    root: true
+    sync: mergedOptions.sync
   }
 
   return new VueWrapper(vm, wrapperOptions)

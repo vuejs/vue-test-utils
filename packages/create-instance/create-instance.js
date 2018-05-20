@@ -8,7 +8,7 @@ import { addEventLogger } from './log-events'
 import { createComponentStubs } from 'shared/stub-components'
 import { throwError, warn } from 'shared/util'
 import { compileTemplate } from 'shared/compile-template'
-import deleteoptions from './delete-mounting-options'
+import deleteMountingOptions from './delete-mounting-options'
 import createFunctionalComponent from './create-functional-component'
 import { componentNeedsCompiling } from 'shared/validators'
 
@@ -31,6 +31,9 @@ export default function createInstance (
   _Vue: Component,
   elm?: Element
 ): Component {
+  // Remove cached constructor
+  delete component._Ctor
+
   if (options.mocks) {
     addMocks(options.mocks, _Vue)
   }
@@ -50,10 +53,12 @@ export default function createInstance (
 
   const instanceOptions = {
     ...options,
-    propsData: { ...options.propsData }
+    propsData: {
+      ...options.propsData
+    }
   }
 
-  deleteoptions(instanceOptions)
+  deleteMountingOptions(instanceOptions)
 
   // $FlowIgnore
   const stubComponents = createComponentStubs(component.components, options.stubs)
@@ -88,22 +93,13 @@ export default function createInstance (
 
   const Parent = _Vue.extend({
     provide: options.provide,
-    data () {
-      return {
-        propsData: options.propsData || {},
-        attrs: options.attrs || {},
-        listeners: options.listeners || {}
-      }
-    },
     render (h) {
-      const vnode = h(Constructor, {
+      return h(Constructor, {
         ref: 'vm',
-        props: this.propsData,
+        props: options.propsData,
         on: options.listeners,
-        attrs: this.attrs
+        attrs: options.attrs
       })
-
-      return vnode
     }
   })
 

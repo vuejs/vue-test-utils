@@ -291,7 +291,7 @@ describeWithShallowAndMount('find', (mountingMethod) => {
     }
     const wrapper = mountingMethod(TestComponent)
     expect(wrapper.find(TestComponent).exists()).to.equal(true)
-    expect(wrapper.find(TestComponent).isVueComponent).to.equal(true)
+    expect(wrapper.find(TestComponent).isVueInstance()).to.equal(true)
   })
 
   it('returns a Wrapper matching a component name in options object', () => {
@@ -301,7 +301,7 @@ describeWithShallowAndMount('find', (mountingMethod) => {
 
   it('returns Wrapper of Vue Component matching the ref in options object', () => {
     const wrapper = mountingMethod(ComponentWithChild)
-    expect(wrapper.find({ ref: 'child' }).isVueComponent).to.equal(true)
+    expect(wrapper.find({ ref: 'child' }).isVueInstance()).to.equal(true)
   })
 
   it('throws an error when ref selector is called on a wrapper that is not a Vue component', () => {

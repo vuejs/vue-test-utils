@@ -26,20 +26,20 @@ describeRunIf(process.env.TEST_ENV !== 'node',
     it('returns new VueWrapper of Vue localVue if no options are passed', () => {
       const compiled = compileToFunctions('<div><input /></div>')
       const wrapper = shallowMount(compiled)
-      expect(wrapper.isVueComponent).to.equal(true)
+      expect(wrapper.isVueInstance()).to.equal(true)
       expect(wrapper.vm).to.be.an('object')
     })
 
     it('returns new VueWrapper of Vue localVue with all children stubbed', () => {
       const wrapper = shallowMount(ComponentWithNestedChildren)
-      expect(wrapper.isVueComponent).to.equal(true)
+      expect(wrapper.isVueInstance()).to.equal(true)
       expect(wrapper.findAll(Component).length).to.equal(0)
       expect(wrapper.findAll(ComponentWithChild).length).to.equal(1)
     })
 
     it('returns new VueWrapper of Vue localVue with all children stubbed', () => {
       const wrapper = shallowMount(ComponentWithNestedChildren)
-      expect(wrapper.isVueComponent).to.equal(true)
+      expect(wrapper.isVueInstance()).to.equal(true)
       expect(wrapper.findAll(Component).length).to.equal(0)
       expect(wrapper.findAll(ComponentWithChild).length).to.equal(1)
     })
