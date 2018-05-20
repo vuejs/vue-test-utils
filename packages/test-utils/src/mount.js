@@ -28,9 +28,11 @@ export default function mount (component: Component, options: Options = {}): Vue
     ? createElement()
     : undefined
 
+  const mergedOptions = mergeOptions(options, config)
+
   const vm = createInstance(
     component,
-    mergeOptions(options, config),
+    mergedOptions,
     vueConstructor,
     elm
   )
@@ -42,8 +44,8 @@ export default function mount (component: Component, options: Options = {}): Vue
   }
 
   const wrapperOptions = {
-    attachedToDocument: !!options.attachToDocument,
-    sync: !!((options.sync || options.sync === undefined)),
+    attachedToDocument: !!mergedOptions.attachToDocument,
+    sync: mergedOptions.sync,
     root: true
   }
 

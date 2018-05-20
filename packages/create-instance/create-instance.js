@@ -111,10 +111,8 @@ export default function createInstance (
 
   const vm = parent.$refs.vm
 
-  if(options.slots) {
+  if (options.slots) {
     addSlots(vm, options.slots)
-    vm._watcher.sync = true
-    vm.$forceUpdate()
   }
 
   if (options.scopedSlots) {
@@ -151,6 +149,11 @@ export default function createInstance (
       throwError('the scopedSlots option is only supported in vue@2.5+.')
     }
   }
+
+  if (options.sync) {
+    vm._watcher.sync = true
+  }
+  vm.$forceUpdate()
 
   return vm
 }
