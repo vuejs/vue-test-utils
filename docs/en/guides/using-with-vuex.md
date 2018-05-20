@@ -217,7 +217,7 @@ And the test:
 import { shallowMount, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import Modules from '../../../src/components/Modules'
-import module from '../../../src/store/module'
+import mymodule from '../../../src/store/mymodule'
 
 const localVue = createLocalVue()
 
@@ -240,9 +240,13 @@ describe('Modules.vue', () => {
     }
 
     store = new Vuex.Store({
-      state,
-      actions,
-      getters: module.getters
+      modules: {
+        mymodule: {
+          state,
+          actions,
+          getters: module.getters
+        }
+      }
     })
   })
 
