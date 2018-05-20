@@ -21,14 +21,20 @@ export default function mount (component: Component, options: Options = {}): Vue
   warnIfNoWindow()
   // Remove cached constructor
   delete component._Ctor
-  const vueClass = options.localVue || createLocalVue()
-  const vm = createInstance(component, mergeOptions(options, config), vueClass)
 
-  if (options.attachToDocument) {
-    vm.$mount(createElement())
-  } else {
-    vm.$mount()
-  }
+  const vueConstructor = options.localVue || createLocalVue()
+
+  const elm = options.attachToDocument
+    ? createElement()
+    : undefined
+
+  const vm = createInstance(
+    component,
+    mergeOptions(options, config),
+    vueConstructor,
+    elm
+  )
+
   const componentsWithError = findAllVueComponentsFromVm(vm).filter(c => c._error)
 
   if (componentsWithError.length > 0) {

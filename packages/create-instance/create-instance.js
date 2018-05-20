@@ -4,9 +4,6 @@ import Vue from 'vue'
 import { addSlots } from './add-slots'
 import { addScopedSlots } from './add-scoped-slots'
 import addMocks from './add-mocks'
-import addAttrs from './add-attrs'
-import addListeners from './add-listeners'
-import addProvide from './add-provide'
 import { addEventLogger } from './log-events'
 import { createComponentStubs } from 'shared/stub-components'
 import { throwError, warn } from 'shared/util'
@@ -31,13 +28,12 @@ function getVueTemplateCompilerHelpers (proxy: Object): Object {
 export default function createInstance (
   component: Component,
   options: Options,
-  vue: Component,
-  elm: Element
+  _Vue: Component,
+  elm?: Element
 ): Component {
   if (options.mocks) {
-    addMocks(options.mocks, vue)
+    addMocks(options.mocks, _Vue)
   }
-
   if ((component.options && component.options.functional) || component.functional) {
     component = createFunctionalComponent(component, options)
   } else if (options.context) {
@@ -46,22 +42,21 @@ export default function createInstance (
     )
   }
 
-  if (options.provide) {
-    addProvide(component, options.provide, options)
-  }
-
   if (componentNeedsCompiling(component)) {
     compileTemplate(component)
   }
 
-  addEventLogger(vue)
+  addEventLogger(_Vue)
 
-  const instanceOptions = { ...options, propsData: { ...options.propsData }}
+  const instanceOptions = {
+    ...options,
+    propsData: { ...options.propsData }
+  }
+
   deleteoptions(instanceOptions)
-  // $FlowIgnore
+
   // $FlowIgnore
   const stubComponents = createComponentStubs(component.components, options.stubs)
-
   if (options.stubs) {
     instanceOptions.components = {
       ...instanceOptions.components,
@@ -76,21 +71,22 @@ export default function createInstance (
       if (options.logModifiedComponents) {
         warn(`an extended child component ${c} has been modified to ensure it has the correct instance properties. This means it is not possible to find the component with a component selector. To find the component, you must stub it manually using the stubs mounting option.`)
       }
-      instanceOptions.components[c] = vue.extend(component.components[c])
+      instanceOptions.components[c] = _Vue.extend(component.components[c])
     }
   })
 
   Object.keys(stubComponents).forEach(c => {
-    vue.component(c, stubComponents[c])
+    _Vue.component(c, stubComponents[c])
   })
 
-  const Constructor = vue.extend(component).extend(instanceOptions)
+  const Constructor = _Vue.extend(component).extend(instanceOptions)
+
   Object.keys(instanceOptions.components || {}).forEach(key => {
     Constructor.component(key, instanceOptions.components[key])
-    vue.component(key, instanceOptions.components[key])
+    _Vue.component(key, instanceOptions.components[key])
   })
-  
-  const Parent = vue.extend({
+
+  const Parent = _Vue.extend({
     provide: options.provide,
     data () {
       return {
@@ -103,7 +99,7 @@ export default function createInstance (
       const vnode = h(Constructor, {
         ref: 'vm',
         props: this.propsData,
-        on: this.listeners,
+        on: options.listeners,
         attrs: this.attrs
       })
 

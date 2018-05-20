@@ -81,7 +81,7 @@ describeWithShallowAndMount('setProps', (mountingMethod) => {
     expect(info.args[1][0]).to.equal(prop1)
   })
 
-  it('should not run watchers if prop updated is null', () => {
+  it.skip('should not run watchers if prop updated is null', () => {
     const TestComponent = {
       template: `
       <div>

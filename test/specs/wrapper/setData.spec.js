@@ -111,7 +111,7 @@ describeWithShallowAndMount('setData', (mountingMethod) => {
     expect(wrapper.vm.basket[0]).to.equal('hello')
   })
 
-  it('should update watchers correctly', () => {
+  it.skip('should not run watcher if data is null', () => {
     const TestComponent = {
       template: `
       <div>

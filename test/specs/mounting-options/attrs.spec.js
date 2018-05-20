@@ -9,8 +9,7 @@ import {
 } from 'conditional-specs'
 
 describeWithMountingMethods('options.attrs', (mountingMethod) => {
-  it.skip(
-    // mountingMethod.name === 'renderToString' || isRunningPhantomJS,
+  itSkipIf(mountingMethod.name === 'renderToString' || isRunningPhantomJS,
     'handles inherit attrs', () => {
       if (!attrsSupported) return
       const wrapper = mountingMethod(compileToFunctions('<p :id="anAttr" />'), {

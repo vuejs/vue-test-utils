@@ -559,9 +559,7 @@ export default class Wrapper implements BaseWrapper {
     if (!this.isVueComponent) {
       throwError('wrapper.destroy() can only be called on a Vue instance')
     }
-    if (this.element.parentNode && this.options.root) {
-      this.element.parentNode.parentNode.removeChild(this.element.parentNode)
-    }
+
     if (this.element.parentNode) {
       this.element.parentNode.removeChild(this.element)
     }

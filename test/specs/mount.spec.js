@@ -4,7 +4,7 @@ import { mount, createLocalVue } from '~vue/test-utils'
 import Component from '~resources/components/component.vue'
 import ComponentWithProps from '~resources/components/component-with-props.vue'
 import ComponentWithMixin from '~resources/components/component-with-mixin.vue'
-import { injectSupported, vueVersion } from '~resources/utils'
+import { injectSupported } from '~resources/utils'
 import { describeRunIf } from 'conditional-specs'
 
 describeRunIf(process.env.TEST_ENV !== 'node',
@@ -172,12 +172,7 @@ describeRunIf(process.env.TEST_ENV !== 'node',
         }
       })
       if (injectSupported) {
-      // provide is added by Vue, it's a function in Vue > 2.3
-        if (vueVersion > 2.3) {
-          expect(typeof wrapper.vm.$options.provide).to.equal('function')
-        } else {
-          expect(typeof wrapper.vm.$options.provide).to.equal('object')
-        }
+        expect(typeof wrapper.vm.$options.provide).to.equal('object')
       }
 
       expect(wrapper.vm.$options.attachToDocument).to.equal(undefined)

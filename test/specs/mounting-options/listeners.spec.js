@@ -5,12 +5,12 @@ import {
   isRunningPhantomJS
 } from '~resources/utils'
 import {
-  itSkipIf
+  itDoNotRunIf
 } from 'conditional-specs'
 
 describeWithShallowAndMount('options.listeners', (mountingMethod) => {
-  it.skip(
-    // isRunningPhantomJS,
+  itDoNotRunIf(
+    isRunningPhantomJS,
     'handles inherit listeners', () => {
       if (!listenersSupported) return
       const aListener = () => {}
@@ -20,8 +20,8 @@ describeWithShallowAndMount('options.listeners', (mountingMethod) => {
         }
       })
 
-      expect(wrapper.vm.$listeners.aListener).to.equal(aListener)
-      expect(wrapper.vm.$listeners.aListener).to.equal(aListener)
+      expect(wrapper.vm.$listeners.aListener.fns).to.equal(aListener)
+      expect(wrapper.vm.$listeners.aListener.fns).to.equal(aListener)
     })
 
   it('defines listeners as empty object even when not passed', () => {
