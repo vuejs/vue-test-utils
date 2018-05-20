@@ -11,5 +11,6 @@ declare type Options = { // eslint-disable-line no-undef
     context?: Object,
     attrs?: Object,
     listeners?: Object,
-    logModifiedComponents?: Boolean
+    logModifiedComponents?: boolean,
+    sync?: boolean
 }
