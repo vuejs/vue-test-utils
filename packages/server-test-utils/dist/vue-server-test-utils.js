@@ -156,6 +156,28 @@ function addMocks (mockedProperties, Vue$$1) {
   });
 }
 
+function addAttrs (vm, attrs) {
+  var originalSilent = Vue.config.silent;
+  Vue.config.silent = true;
+  if (attrs) {
+    vm.$attrs = attrs;
+  } else {
+    vm.$attrs = {};
+  }
+  Vue.config.silent = originalSilent;
+}
+
+function addListeners (vm, listeners) {
+  var originalSilent = Vue.config.silent;
+  Vue.config.silent = true;
+  if (listeners) {
+    vm.$listeners = listeners;
+  } else {
+    vm.$listeners = {};
+  }
+  Vue.config.silent = originalSilent;
+}
+
 function addProvide (component, optionProvide, options) {
   var provide = typeof optionProvide === 'function'
     ? optionProvide
@@ -274,9 +296,7 @@ function createStubFromString (templateString, originalComponent) {
 
 function createBlankStub (originalComponent) {
   return Object.assign({}, getCoreProperties(originalComponent),
-    {render: function render (h) {
-      return h(((originalComponent.name) + "-stub"))
-    }})
+    {render: function (h) { return h(''); }})
 }
 
 function createComponentStubs (originalComponents, stubs) {
@@ -295,7 +315,7 @@ function createComponentStubs (originalComponents, stubs) {
       if (typeof stub !== 'string') {
         throwError('each item in an options.stubs array must be a string');
       }
-      components[stub] = createBlankStub({ name: stub });
+      components[stub] = createBlankStub({});
     });
   } else {
     Object.keys(stubs).forEach(function (stub) {
@@ -306,7 +326,7 @@ function createComponentStubs (originalComponents, stubs) {
         throwError('options.stub values must be passed a string or component');
       }
       if (stubs[stub] === true) {
-        components[stub] = createBlankStub({ name: stub });
+        components[stub] = createBlankStub({});
         return
       }
 
@@ -335,7 +355,7 @@ function createComponentStubs (originalComponents, stubs) {
       }
       // ignoreElements does not exist in Vue 2.0.x
       if (Vue.config.ignoredElements) {
-        Vue.config.ignoredElements.push((stub + "-stub"));
+        Vue.config.ignoredElements.push(stub);
       }
     });
   }
@@ -352,7 +372,6 @@ function deleteMountingOptions (options) {
   delete options.clone;
   delete options.attrs;
   delete options.listeners;
-  delete options.propsData;
 }
 
 // 
@@ -425,8 +444,7 @@ function getVueTemplateCompilerHelpers (proxy) {
 function createInstance (
   component,
   options,
-  vue,
-  elm
+  vue
 ) {
   if (options.mocks) {
     addMocks(options.mocks, vue);
@@ -450,9 +468,10 @@ function createInstance (
 
   addEventLogger(vue);
 
-  var instanceOptions = Object.assign({}, options, {propsData: Object.assign({}, options.propsData)});
+  var Constructor = vue.extend(component);
+
+  var instanceOptions = Object.assign({}, options);
   deleteMountingOptions(instanceOptions);
-  // $FlowIgnore
   // $FlowIgnore
   var stubComponents = createComponentStubs(component.components, options.stubs);
 
@@ -466,7 +485,7 @@ function createInstance (
     if (component.components[c].extendOptions &&
       !instanceOptions.components[c]) {
       if (options.logModifiedComponents) {
-        warn(("an extended child component " + c + " has been modified to ensure it has the correct instance properties. This means it is not possible to find the component with a component selector. To find the component, you must stub it manually using the stubs mounting option."));
+        warn(("an extended child component " + c + " has been modified to ensure it has the correct instance properties. This means it is not possible to find the component with a component selector. To find the component, you must stub it manually using the mocks mounting option."));
       }
       instanceOptions.components[c] = vue.extend(component.components[c]);
     }
@@ -476,36 +495,10 @@ function createInstance (
     vue.component(c, stubComponents[c]);
   });
 
-  var Constructor = vue.extend(component).extend(instanceOptions);
-  Object.keys(instanceOptions.components || {}).forEach(function (key) {
-    Constructor.component(key, instanceOptions.components[key]);
-    vue.component(key, instanceOptions.components[key]);
-  });
-  
-  var Parent = vue.extend({
-    provide: options.provide,
-    data: function data () {
-      return {
-        propsData: options.propsData || {},
-        attrs: options.attrs || {},
-        listeners: options.listeners || {}
-      }
-    },
-    render: function render (h) {
-      var vnode = h(Constructor, {
-        ref: 'vm',
-        props: this.propsData,
-        on: this.listeners,
-        attrs: this.attrs
-      });
+  var vm = new Constructor(instanceOptions);
 
-      return vnode
-    }
-  });
-
-  var parent = new Parent().$mount(elm);
-
-  var vm = parent.$refs.vm;
+  addAttrs(vm, options.attrs);
+  addListeners(vm, options.listeners);
 
   if (options.scopedSlots) {
     if (window.navigator.userAgent.match(/PhantomJS/i)) {
