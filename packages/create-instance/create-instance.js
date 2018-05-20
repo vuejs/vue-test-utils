@@ -9,8 +9,8 @@ import addListeners from './add-listeners'
 import addProvide from './add-provide'
 import { addEventLogger } from './log-events'
 import { createComponentStubs } from 'shared/stub-components'
-import { throwError } from 'shared/util'
-import { compileTemplate } from './compile-template'
+import { throwError, warn } from 'shared/util'
+import { compileTemplate } from 'shared/compile-template'
 import deleteoptions from './delete-mounting-options'
 import createFunctionalComponent from './create-functional-component'
 import { componentNeedsCompiling } from 'shared/validators'
@@ -56,23 +56,40 @@ export default function createInstance (
 
   addEventLogger(vue)
 
-  const instanceOptions = { ...options }
+  const instanceOptions = { ...options, propsData: { ...options.propsData }}
   deleteoptions(instanceOptions)
   // $FlowIgnore
+  // $FlowIgnore
+  const stubComponents = createComponentStubs(component.components, options.stubs)
 
   if (options.stubs) {
     instanceOptions.components = {
       ...instanceOptions.components,
       // $FlowIgnore
-      ...createComponentStubs(component.components, options.stubs)
+      ...stubComponents
     }
   }
+
+  Object.keys(component.components || {}).forEach((c) => {
+    if (component.components[c].extendOptions &&
+      !instanceOptions.components[c]) {
+      if (options.logModifiedComponents) {
+        warn(`an extended child component ${c} has been modified to ensure it has the correct instance properties. This means it is not possible to find the component with a component selector. To find the component, you must stub it manually using the stubs mounting option.`)
+      }
+      instanceOptions.components[c] = vue.extend(component.components[c])
+    }
+  })
+
+  Object.keys(stubComponents).forEach(c => {
+    vue.component(c, stubComponents[c])
+  })
 
   const Constructor = vue.extend(component).extend(instanceOptions)
   Object.keys(instanceOptions.components || {}).forEach(key => {
     Constructor.component(key, instanceOptions.components[key])
     vue.component(key, instanceOptions.components[key])
   })
+  
   const Parent = vue.extend({
     provide: options.provide,
     data () {

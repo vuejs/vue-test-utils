@@ -6,7 +6,7 @@ Para componentes com interface não recomendamos o foco na cobertura completa ba
 
 Em vez disso, nós recomendamos escrever testes que verifiquem seus componentes com interface pública e trate os internos como uma caixa preta. Um caso de teste único irá verificar se a entrada (interações do usuário ou troca de props) forneceu o resultado (renderização ou emissão de eventos) esperado para o componente.
 
-Por exemplo, para o componente `Counter` que incrementa um contador em cada vez que um botão é clicado, seu caso de teste teria que silumar o clique e verificar se a saída renderizada se incrementou. O teste não se importa sobre como `Counter` incrementou o valor, ele apenas se preocupa com a entrada e a saída dos dados.
+Por exemplo, para o componente `Counter` que incrementa um contador em cada vez que um botão é clicado, seu caso de teste teria que simular o clique e verificar se a saída renderizada se incrementou. O teste não se importa sobre como `Counter` incrementou o valor, ele apenas se preocupa com a entrada e a saída dos dados.
 
 O benefício desta abordagem é que enquanto a interface pública do seu componente permanece a mesma, seus testes irão passar sem se importar de como o componente faz a implementação do código interno e se houve ou não mudanças por lá.
 
@@ -18,13 +18,13 @@ Em testes de unidade, normalmente queremos nos focar no componente a ser testead
 
 Além disso, para componentes que possuem muitos componentes filhos, toda a árvore de renderização pode ficar realmente grande. A repetição de renderização de todos componentes filhos vão deixar seus testes lentos.
 
-O `vue-test-utils` permite que você monte um componente sem renderizar seus componentes filhos, para isso, use o método `shallow`:
+O `vue-test-utils` permite que você monte um componente sem renderizar seus componentes filhos, para isso, use o método `shallowMount`:
 
 ```js
-import { shallow } from '@vue/test-utils'
+import { shallowMmount } from '@vue/test-utils'
 
 // obtém o wrapper contendo a instância montada de Componente
-const wrapper = shallow(Componente)
+const wrapper = shallowMount(Componente)
 wrapper.vm // instância do Vue já montada
 ```
 

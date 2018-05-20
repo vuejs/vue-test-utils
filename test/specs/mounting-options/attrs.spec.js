@@ -2,9 +2,11 @@ import { compileToFunctions } from 'vue-template-compiler'
 import { attrsSupported } from '~resources/utils'
 import {
   describeWithMountingMethods,
-  itSkipIf,
   isRunningPhantomJS
 } from '~resources/utils'
+import {
+  itSkipIf
+} from 'conditional-specs'
 
 describeWithMountingMethods('options.attrs', (mountingMethod) => {
   it.skip(

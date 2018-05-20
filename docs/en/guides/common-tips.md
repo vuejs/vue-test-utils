@@ -18,12 +18,12 @@ In unit tests, we typically want to focus on the component being tested as an is
 
 In addition, for components that contain many child components, the entire rendered tree can get really big. Repeatedly rendering all child components could slow down our tests.
 
-Vue Test Utils allows you to mount a component without rendering its child components (by stubbing them) with the `shallow` method:
+Vue Test Utils allows you to mount a component without rendering its child components (by stubbing them) with the `shallowMount` method:
 
 ```js
-import { shallow } from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 
-const wrapper = shallow(Component) // returns a Wrapper containing a mounted Component instance
+const wrapper = shallowMount(Component) // returns a Wrapper containing a mounted Component instance
 wrapper.vm // the mounted Vue instance
 ```
 

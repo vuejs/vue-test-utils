@@ -2,9 +2,11 @@ import { compileToFunctions } from 'vue-template-compiler'
 import { listenersSupported } from '~resources/utils'
 import {
   describeWithShallowAndMount,
-  itSkipIf,
   isRunningPhantomJS
 } from '~resources/utils'
+import {
+  itSkipIf
+} from 'conditional-specs'
 
 describeWithShallowAndMount('options.listeners', (mountingMethod) => {
   it.skip(

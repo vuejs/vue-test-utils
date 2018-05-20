@@ -2,10 +2,10 @@ import ComponentWithEvents from '~resources/components/component-with-events.vue
 import ComponentWithScopedSlots from '~resources/components/component-with-scoped-slots.vue'
 import {
   describeWithShallowAndMount,
-  itDoNotRunIf,
   scopedSlotsSupported
 } from '~resources/utils'
 import Vue from 'vue'
+import { itDoNotRunIf } from 'conditional-specs'
 
 describeWithShallowAndMount('trigger', (mountingMethod) => {
   let info

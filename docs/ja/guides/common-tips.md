@@ -18,12 +18,12 @@ UI コンポーネントでは、コンポーネントの内部実装の詳細�
 
 さらに、多くの子コンポーネントを含むコンポーネントの場合、描画されたツリー全体が非常に大きくなる可能性があります。すべての子コンポーネントを繰り返し描画すると、テストが遅くなる可能性があります。
 
-`vue-test-utils` を使うと、`shallow` メソッドを使って子コンポーネントを（スタブによって）描画せずにコンポーネントをマウントすることができます：
+`vue-test-utils` を使うと、`shallowMount` メソッドを使って子コンポーネントを（スタブによって）描画せずにコンポーネントをマウントすることができます：
 
 ```js
-import { shallow } from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 
-const wrapper = shallow(Component) // Component インスタンスを含む Wrapper を返します。
+const wrapper = shallowMount(Component) // Component インスタンスを含む Wrapper を返します。
 wrapper.vm // マウントされた Vue インスタンス
 ```
 

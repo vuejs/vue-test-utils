@@ -413,7 +413,7 @@ export default class Wrapper implements BaseWrapper {
    */
   setData (data: Object) {
     if (this.isFunctionalComponent) {
-      throwError('wrapper.setData() canot be called on a functional component')
+      throwError('wrapper.setData() cannot be called on a functional component')
     }
 
     if (!this.vm) {
@@ -421,7 +421,8 @@ export default class Wrapper implements BaseWrapper {
     }
 
     Object.keys(data).forEach((key) => {
-      if (typeof data[key] === 'object' && data[key] !== null) {
+      if (typeof data[key] === 'object' && data[key] !== null &&
+						!Array.isArray(data[key])) {
         // $FlowIgnore : Problem with possibly null this.vm
         const newObj = merge(this.vm[key], data[key])
         // $FlowIgnore : Problem with possibly null this.vm
@@ -505,7 +506,7 @@ export default class Wrapper implements BaseWrapper {
    */
   setProps (data: Object) {
     if (this.isFunctionalComponent) {
-      throwError('wrapper.setProps() canot be called on a functional component')
+      throwError('wrapper.setProps() cannot be called on a functional component')
     }
     if (!this.isVueComponent || !this.vm) {
       throwError('wrapper.setProps() can only be called on a Vue instance')
@@ -516,7 +517,7 @@ export default class Wrapper implements BaseWrapper {
     Object.keys(data).forEach((key) => {
       // Ignore properties that were not specified in the component options
       // $FlowIgnore : Problem with possibly null this.vm
-      if (!this.vm.$options._propKeys || !this.vm.$options._propKeys.includes(key)) {
+      if (!this.vm.$options._propKeys || !this.vm.$options._propKeys.some(prop => prop === key)) {
         throwError(`wrapper.setProps() called with ${key} property which is not defined on component`)
       }
 
@@ -632,6 +633,13 @@ export default class Wrapper implements BaseWrapper {
     if (event.length === 2) {
       // $FlowIgnore
       eventObject.keyCode = modifiers[event[1]]
+    }
+
+    // If this element's event handler has been reset by setMethod, it won't trigger
+    // Make sure that this element is updated with the latest event handler
+    if (this.vnode) {
+      const context = this.vnode.context
+      if (context.$options.render) context._update(context._render())
     }
 
     this.element.dispatchEvent(eventObject)

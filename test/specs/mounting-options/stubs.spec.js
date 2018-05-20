@@ -5,10 +5,8 @@ import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
 import { createLocalVue, config } from '~vue/test-utils'
 import { config as serverConfig } from '~vue/server-test-utils'
 import Vue from 'vue'
-import {
-  describeWithMountingMethods,
-  itDoNotRunIf
-} from '~resources/utils'
+import { describeWithMountingMethods } from '~resources/utils'
+import { itDoNotRunIf } from 'conditional-specs'
 
 describeWithMountingMethods('options.stub', (mountingMethod) => {
   let info
@@ -84,7 +82,7 @@ describeWithMountingMethods('options.stub', (mountingMethod) => {
     })
   })
 
-  itDoNotRunIf(mountingMethod.name === 'shallow' ||
+  itDoNotRunIf(mountingMethod.name === 'shallowMount' ||
     mountingMethod.name === 'renderToString',
   'does not modify component directly', () => {
     const wrapper = mountingMethod(ComponentWithNestedChildren, {
@@ -123,7 +121,7 @@ describeWithMountingMethods('options.stub', (mountingMethod) => {
     const HTML = mountingMethod.name === 'renderToString'
       ? wrapper
       : wrapper.html()
-    expect(HTML).to.contain('<!---->')
+    expect(HTML).to.contain('<registered-component-stub>')
   })
 
   it('stubs components with dummy when passed a boolean', () => {
@@ -138,7 +136,7 @@ describeWithMountingMethods('options.stub', (mountingMethod) => {
     const HTML = mountingMethod.name === 'renderToString'
       ? wrapper
       : wrapper.html()
-    expect(HTML).to.contain('<!---->')
+    expect(HTML).to.contain('<registered-component-stub>')
   })
 
   it('stubs components with dummy when passed as an array', () => {
@@ -178,7 +176,7 @@ describeWithMountingMethods('options.stub', (mountingMethod) => {
     require.cache[require.resolve('vue-template-compiler')].exports.compileToFunctions = compilerSave
   })
 
-  itDoNotRunIf(mountingMethod.name === 'shallow',
+  itDoNotRunIf(mountingMethod.name === 'shallowMount',
     'does not stub component when set to false', () => {
       const wrapper = mountingMethod(ComponentWithChild, {
         stubs: {
@@ -248,6 +246,23 @@ describeWithMountingMethods('options.stub', (mountingMethod) => {
     expect(HTML).to.contain('<span>')
   })
 
+  itDoNotRunIf(
+    mountingMethod.name === 'shallowMount' ||
+    mountingMethod.name === 'renderToString',
+    'stubs on child components', () => {
+      const TestComponent = {
+        template: '<transition><span /></transition>'
+      }
+
+      const wrapper = mountingMethod({
+        components: { 'test-component': TestComponent },
+        template: '<test-component />'
+      }, {
+        stubs: ['transition']
+      })
+      expect(wrapper.find('span').exists()).to.equal(false)
+    })
+
   it('converts config to array if stubs is an array', () => {
     const localVue = createLocalVue()
     config.stubs['time-component'] = '<p />'
@@ -270,7 +285,7 @@ describeWithMountingMethods('options.stub', (mountingMethod) => {
     const HTML = mountingMethod.name === 'renderToString'
       ? wrapper
       : wrapper.html()
-    expect(HTML).to.contain('<!----></div>')
+    expect(HTML).to.contain('<time-component-stub>')
   })
 
   it('handles components without a render function', () => {

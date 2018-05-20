@@ -9,10 +9,12 @@ import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
 import {
   functionalSFCsSupported,
   describeWithShallowAndMount,
-  itDoNotRunIf,
-  itSkipIf,
   isRunningPhantomJS
 } from '~resources/utils'
+import {
+  itDoNotRunIf,
+  itSkipIf
+} from 'conditional-specs'
 
 describeWithShallowAndMount('findAll', (mountingMethod) => {
   it('returns an WrapperArray of elements matching tag selector passed', () => {

@@ -1,6 +1,6 @@
 import { compileToFunctions } from 'vue-template-compiler'
 import Vue from 'vue'
-import { mount, shallowMount } from '~vue/test-utils'
+import { mount, shallow } from '~vue/test-utils'
 import Component from '~resources/components/component.vue'
 import ComponentWithChild from '~resources/components/component-with-child.vue'
 import ComponentWithNestedChildren from '~resources/components/component-with-nested-children.vue'
@@ -25,39 +25,39 @@ describeRunIf(process.env.TEST_ENV !== 'node',
 
     it('returns new VueWrapper of Vue localVue if no options are passed', () => {
       const compiled = compileToFunctions('<div><input /></div>')
-      const wrapper = shallowMount(compiled)
+      const wrapper = shallow(compiled)
       expect(wrapper.isVueComponent).to.equal(true)
       expect(wrapper.vm).to.be.an('object')
     })
 
     it('returns new VueWrapper of Vue localVue with all children stubbed', () => {
-      const wrapper = shallowMount(ComponentWithNestedChildren)
+      const wrapper = shallow(ComponentWithNestedChildren)
       expect(wrapper.isVueComponent).to.equal(true)
       expect(wrapper.findAll(Component).length).to.equal(0)
       expect(wrapper.findAll(ComponentWithChild).length).to.equal(1)
     })
 
     it('returns new VueWrapper of Vue localVue with all children stubbed', () => {
-      const wrapper = shallowMount(ComponentWithNestedChildren)
+      const wrapper = shallow(ComponentWithNestedChildren)
       expect(wrapper.isVueComponent).to.equal(true)
       expect(wrapper.findAll(Component).length).to.equal(0)
       expect(wrapper.findAll(ComponentWithChild).length).to.equal(1)
     })
 
     it('does not modify component directly', () => {
-      const wrapper = shallowMount(ComponentWithNestedChildren)
+      const wrapper = shallow(ComponentWithNestedChildren)
       expect(wrapper.findAll(Component).length).to.equal(0)
       const mountedWrapper = mount(ComponentWithNestedChildren)
       expect(mountedWrapper.findAll(Component).length).to.equal(1)
     })
 
-    it.skip('stubs globally registered components when options.localVue is provided', () => {
+    it('stubs globally registered components when options.localVue is provided', () => {
       const localVue = Vue.extend()
       localVue.component('registered-component', ComponentWithLifecycleHooks)
       const Component = {
         render: h => h('registered-component')
       }
-      shallowMount(Component, { localVue })
+      shallow(Component, { localVue })
       mount(Component, { localVue })
 
       expect(info.callCount).to.equal(4)
@@ -68,14 +68,14 @@ describeRunIf(process.env.TEST_ENV !== 'node',
       const Component = {
         render: h => h('registered-component')
       }
-      shallowMount(Component)
+      shallow(Component)
       mount(Component)
 
       expect(info.callCount).to.equal(4)
     })
 
     it('does not call stubbed children lifecycle hooks', () => {
-      shallowMount(ComponentWithNestedChildren)
+      shallow(ComponentWithNestedChildren)
       expect(info.called).to.equal(false)
     })
 
@@ -98,7 +98,7 @@ describeRunIf(process.env.TEST_ENV !== 'node',
         extends: BaseComponent
       }
 
-      const wrapper = shallowMount(TestComponent)
+      const wrapper = shallow(TestComponent)
       expect(wrapper.find(ComponentWithPTag).exists()).to.equal(true)
       expect(wrapper.find('p').exists()).to.equal(false)
     })
@@ -126,7 +126,7 @@ describeRunIf(process.env.TEST_ENV !== 'node',
         extends: ExtendedBaseComponent
       }
 
-      const wrapper = shallowMount(TestComponent)
+      const wrapper = shallow(TestComponent)
       expect(wrapper.find(ComponentWithPTag).exists()).to.equal(true)
       expect(wrapper.find('p').exists()).to.equal(false)
     })
@@ -135,7 +135,7 @@ describeRunIf(process.env.TEST_ENV !== 'node',
       if (vueVersion < 2.3) {
         return
       }
-      const wrapper = shallowMount(ComponentAsAClassWithChild)
+      const wrapper = shallow(ComponentAsAClassWithChild)
       expect(wrapper.find(Component).exists()).to.equal(true)
       expect(wrapper.findAll('div').length).to.equal(1)
     })
@@ -151,7 +151,7 @@ describeRunIf(process.env.TEST_ENV !== 'node',
           ComponentWithoutName
         }
       }
-      const wrapper = shallowMount(TestComponent)
+      const wrapper = shallow(TestComponent)
       expect(wrapper.contains(ComponentWithoutName)).to.equal(true)
       expect(wrapper.find(ComponentWithoutName).exists()).to.equal(true)
       expect(wrapper.findAll(ComponentWithoutName).length).to.equal(1)
@@ -168,7 +168,7 @@ describeRunIf(process.env.TEST_ENV !== 'node',
           AComponent: Component
         }
       }
-      const wrapper = shallowMount(TestComponent)
+      const wrapper = shallow(TestComponent)
       expect(wrapper.contains(Component)).to.equal(true)
       expect(wrapper.find(Component).exists()).to.equal(true)
       expect(wrapper.findAll(Component).length).to.equal(1)
@@ -181,23 +181,23 @@ describeRunIf(process.env.TEST_ENV !== 'node',
         RecursiveComponent: { render: h => h('div') }
       }
 
-      expect(shallowMount(RecursiveComponent, {
+      expect(shallow(RecursiveComponent, {
         propsData: {
           items: ['', '']
         }
-      }).findAll(RecursiveComponent).length).to.equal(3)
+      }).findAll(RecursiveComponent).length).to.equal(2)
       RecursiveComponent.components = {
         'recursive-component': { render: h => h('div') }
       }
-      expect(shallowMount(RecursiveComponent, {
+      expect(shallow(RecursiveComponent, {
         propsData: {
           items: ['', '']
         }
-      }).findAll(RecursiveComponent).length).to.equal(3)
+      }).findAll(RecursiveComponent).length).to.equal(2)
     })
 
     it('throws an error when the component fails to mount', () => {
-      expect(() => shallowMount({
+      expect(() => shallow({
         template: '<div></div>',
         mounted: function () {
           throw (new Error('Error'))

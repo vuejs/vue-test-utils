@@ -1,7 +1,7 @@
 {
   "name": "vue-test-utils",
   "private": true,
-  "version": "1.0.0-beta.15",
+  "version": "1.0.0-beta.16",
   "workspaces": [
     "packages/*"
   ],
@@ -17,8 +17,8 @@
     "lint": "eslint --ext js,vue . --ignore-path .gitignore",
     "lint:docs": "eslint --ext js,vue,md docs --ignore-path .gitignore",
     "lint:fix": "npm run lint -- --fix",
-    "prepublish": "npm run build && npm run test:unit:only",
-    "publish": "lerna publish --conventional-commits -m \"chore(release): publish %s\"",
+    "prepublishOnly": "npm run build && npm run test:unit:only",
+    "publish": "lerna publish --conventional-commits -m \"chore(release): publish %s\" --cd-version prerelease",
     "test": "npm run lint && npm run lint:docs && npm run flow && npm run test:types && npm run test:unit && npm run test:unit:karma && npm run test:unit:node",
     "test:compat": "scripts/test-compat.sh",
     "test:unit": "npm run build:test && npm run test:unit:only",
@@ -39,6 +39,7 @@
     "babel-preset-flow-vue": "^1.0.0",
     "babel-preset-stage-2": "^6.24.1",
     "chai": "^4.0.0",
+    "conditional-specs": "^1.0.1",
     "cross-env": "^5.0.0",
     "css-loader": "^0.28.4",
     "eslint": "^4.18.1",
@@ -62,6 +63,7 @@
     "lerna": "2",
     "mocha": "^3.5.0",
     "mocha-webpack": "^1.0.1",
+    "rollup": "^0.58.2",
     "sinon": "^2.3.2",
     "sinon-chai": "^2.10.0",
     "vue": "2.5.13",

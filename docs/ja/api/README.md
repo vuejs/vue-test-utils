@@ -1,7 +1,7 @@
 # API
 
 * [mount](./mount.md)
-* [shallow](./shallow.md)
+* [shallowMount](./shallowMount.md)
 * [render](./render.md)
 * [renderToString](./renderToString.md)
 * [マウンティングオプション](./options.md)

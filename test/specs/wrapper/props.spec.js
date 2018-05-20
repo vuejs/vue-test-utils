@@ -2,9 +2,9 @@ import { compileToFunctions } from 'vue-template-compiler'
 import ComponentWithProps from '~resources/components/component-with-props.vue'
 import {
   describeWithShallowAndMount,
-  itSkipIf,
   functionalSFCsSupported
 } from '~resources/utils'
+import { itSkipIf } from 'conditional-specs'
 
 describeWithShallowAndMount('props', (mountingMethod) => {
   it('returns true if wrapper has prop', () => {

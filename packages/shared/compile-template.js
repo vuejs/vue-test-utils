@@ -11,9 +11,15 @@ export function compileTemplate (component: Component) {
       }
     })
   }
+
   if (component.extends) {
     compileTemplate(component.extends)
   }
+
+  if (component.extendOptions && !component.options.render) {
+    compileTemplate(component.options)
+  }
+
   if (component.template) {
     Object.assign(component, compileToFunctions(component.template))
   }

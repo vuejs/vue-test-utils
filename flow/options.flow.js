@@ -1,5 +1,6 @@
 declare type Options = { // eslint-disable-line no-undef
     attachToDocument?: boolean,
+    propsData?: Object,
     mocks?: Object,
     methods?: Object,
     slots?: Object,
@@ -9,5 +10,6 @@ declare type Options = { // eslint-disable-line no-undef
     stubs?: Object,
     context?: Object,
     attrs?: Object,
-    listeners?: Object
+    listeners?: Object,
+    logModifiedComponents?: Boolean
 }

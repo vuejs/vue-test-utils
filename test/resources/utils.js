@@ -1,7 +1,7 @@
-/* global describe, it*/
+/* global describe */
 
 import Vue from 'vue'
-import { shallow, mount } from '~vue/test-utils'
+import { shallowMount, mount } from '~vue/test-utils'
 import { renderToString } from '~vue/server-test-utils'
 
 export const vueVersion = Number(`${Vue.version.split('.')[0]}.${Vue.version.split('.')[1]}`)
@@ -28,11 +28,10 @@ export const scopedSlotsSupported = vueVersion > 2
 
 const shallowAndMount = process.env.TEST_ENV === 'node'
   ? []
-  : [mount, shallow]
-console.log(shallowAndMount)
+  : [mount, shallowMount]
 const shallowMountAndRender = process.env.TEST_ENV === 'node'
   ? [renderToString]
-  : [mount, shallow]
+  : [mount, shallowMount]
 
 export function describeWithShallowAndMount (spec, cb) {
   if (shallowAndMount.length > 0) {
@@ -70,26 +69,4 @@ describeWithMountingMethods.only = function (spec, cb) {
   shallowMountAndRender.forEach(method => {
     describe.only(`${spec} with ${method.name}`, () => cb(method))
   })
-}
-
-export function itSkipIf (predicate, spec, cb) {
-  if (predicate) {
-    it.skip(spec, cb)
-  } else {
-    it(spec, cb)
-  }
-}
-
-export function itDoNotRunIf (predicate, spec, cb) {
-  if (predicate) {
-    () => {}
-  } else {
-    it(spec, cb)
-  }
-}
-
-export function describeIf (predicate, spec, cb) {
-  if (predicate) {
-    describe(spec, cb)
-  }
 }

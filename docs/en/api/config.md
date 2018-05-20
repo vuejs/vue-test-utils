@@ -15,7 +15,7 @@ Vue Test Utils includes a config object to defined options used by Vue Test Util
 The stub stored in `config.stubs` is used by default.  
 Stubs to use in components. These are overwritten by `stubs` passed in the mounting options.
 
-When passing `stubs` as an array in the mounting options, `config.stubs` are converted to an array, and will stub components with a basic component that returns `<!---->`.
+When passing `stubs` as an array in the mounting options, `config.stubs` are converted to an array, and will stub components with a basic component that returns `<${component name}-stub>`.
 
 Example:
 
@@ -78,4 +78,19 @@ VueTestUtils.config.provide['$logger'] = {
     console.log(...args)
   }
 }
+```
+
+### `logModifiedComponents`
+
+- type: `Boolean`
+- default: `true`
+
+Logs warning when extended child components are automatically stubbed. Hides warnings when set to `false`. Unlike other config options, this cannot be set on the mounting options.
+
+Example:
+
+```js
+import VueTestUtils from '@vue/test-utils'
+
+VueTestUtils.config.logModifiedComponents = false
 ```

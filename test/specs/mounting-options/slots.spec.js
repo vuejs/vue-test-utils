@@ -5,10 +5,12 @@ import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
 import {
   describeWithMountingMethods,
   vueVersion,
-  itSkipIf,
-  itDoNotRunIf,
   isRunningPhantomJS
 } from '~resources/utils'
+import {
+  itSkipIf,
+  itDoNotRunIf
+} from 'conditional-specs'
 
 describeWithMountingMethods('options.slots', (mountingMethod) => {
   let _window

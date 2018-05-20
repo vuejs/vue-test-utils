@@ -1,10 +1,10 @@
 import {
   describeWithShallowAndMount,
   vueVersion,
-  itDoNotRunIf,
   isRunningPhantomJS
 } from '~resources/utils'
 import ComponentWithScopedSlots from '~resources/components/component-with-scoped-slots.vue'
+import { itDoNotRunIf } from 'conditional-specs'
 
 describeWithShallowAndMount('scopedSlots', (mountingMethod) => {
   let _window

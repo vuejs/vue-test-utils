@@ -39,14 +39,14 @@ export default{
 
 For the purposes of this test, we don’t care what the actions do, or what the store looks like. We just need to know that these actions are being fired when they should, and that they are fired with the expected value.
 
-To test this, we need to pass a mock store to Vue when we shallow our component.
+To test this, we need to pass a mock store to Vue when we shallowMount our component.
 
 Instead of passing the store to the base Vue constructor, we can pass it to a - [localVue](../api/options.md#localvue). A localVue is a scoped Vue constructor that we can make changes to without affecting the global Vue constructor.
 
 Let’s see what this looks like:
 
 ``` js
-import { shallow, createLocalVue } from '@vue/test-utils'
+import { shallowMount, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import Actions from '../../../src/components/Actions'
 
@@ -70,7 +70,7 @@ describe('Actions.vue', () => {
   })
 
   it('calls store action "actionInput" when input value is "input" and an "input" event is fired', () => {
-    const wrapper = shallow(Actions, { store, localVue })
+    const wrapper = shallowMount(Actions, { store, localVue })
     const input = wrapper.find('input')
     input.element.value = 'input'
     input.trigger('input')
@@ -78,7 +78,7 @@ describe('Actions.vue', () => {
   })
 
   it('does not call store action "actionInput" when input value is not "input" and an "input" event is fired', () => {
-    const wrapper = shallow(Actions, { store, localVue })
+    const wrapper = shallowMount(Actions, { store, localVue })
     const input = wrapper.find('input')
     input.element.value = 'not input'
     input.trigger('input')
@@ -86,7 +86,7 @@ describe('Actions.vue', () => {
   })
 
   it('calls store action "actionClick" when button is clicked', () => {
-    const wrapper = shallow(Actions, { store, localVue })
+    const wrapper = shallowMount(Actions, { store, localVue })
     wrapper.find('button').trigger('click')
     expect(actions.actionClick).toHaveBeenCalled()
   })
@@ -137,7 +137,7 @@ This is a fairly simple component. It renders the result of the getters `clicks`
 Let’s see the test:
 
 ``` js
-import { shallow, createLocalVue } from '@vue/test-utils'
+import { shallowMount, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import Getters from '../../../src/components/Getters'
 
@@ -161,20 +161,20 @@ describe('Getters.vue', () => {
   })
 
   it('Renders "state.inputValue" in first p tag', () => {
-    const wrapper = shallow(Getters, { store, localVue })
+    const wrapper = shallowMount(Getters, { store, localVue })
     const p = wrapper.find('p')
     expect(p.text()).toBe(getters.inputValue())
   })
 
   it('Renders "state.clicks" in second p tag', () => {
-    const wrapper = shallow(Getters, { store, localVue })
+    const wrapper = shallowMount(Getters, { store, localVue })
     const p = wrapper.findAll('p').at(1)
     expect(p.text()).toBe(getters.clicks().toString())
   })
 })
 ```
 
-This test is similar to our actions test. We create a mock store before each test, pass it as an option when we call `shallow`, and assert that the value returned by our mock getters is being rendered.
+This test is similar to our actions test. We create a mock store before each test, pass it as an option when we call `shallowMount`, and assert that the value returned by our mock getters is being rendered.
 
 This is great, but what if we want to check our getters are returning the correct part of our state?
 
@@ -214,7 +214,7 @@ Simple component that includes one action and one getter.
 And the test:
 
 ``` js
-import { shallow, createLocalVue } from '@vue/test-utils'
+import { shallowMount, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import Modules from '../../../src/components/Modules'
 import module from '../../../src/store/module'
@@ -247,14 +247,14 @@ describe('Modules.vue', () => {
   })
 
   it('calls store action "moduleActionClick" when button is clicked', () => {
-    const wrapper = shallow(Modules, { store, localVue })
+    const wrapper = shallowMount(Modules, { store, localVue })
     const button = wrapper.find('button')
     button.trigger('click')
     expect(actions.moduleActionClick).toHaveBeenCalled()
   })
 
   it('Renders "state.inputValue" in first p tag', () => {
-    const wrapper = shallow(Modules, { store, localVue })
+    const wrapper = shallowMount(Modules, { store, localVue })
     const p = wrapper.find('p')
     expect(p.text()).toBe(state.module.clicks.toString())
   })
