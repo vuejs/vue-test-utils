@@ -216,14 +216,14 @@ And the test:
 ``` js
 import { shallowMount, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
-import Modules from '../../../src/components/Modules'
+import MyComponent from '../../../src/components/MyComponent'
 import mymodule from '../../../src/store/mymodule'
 
 const localVue = createLocalVue()
 
 localVue.use(Vuex)
 
-describe('Modules.vue', () => {
+describe('MyComponent.vue', () => {
   let actions
   let state
   let store
@@ -251,16 +251,16 @@ describe('Modules.vue', () => {
   })
 
   it('calls store action "moduleActionClick" when button is clicked', () => {
-    const wrapper = shallowMount(Modules, { store, localVue })
+    const wrapper = shallowMount(MyComponent, { store, localVue })
     const button = wrapper.find('button')
     button.trigger('click')
     expect(actions.moduleActionClick).toHaveBeenCalled()
   })
 
   it('Renders "state.inputValue" in first p tag', () => {
-    const wrapper = shallowMount(Modules, { store, localVue })
+    const wrapper = shallowMount(MyComponent, { store, localVue })
     const p = wrapper.find('p')
-    expect(p.text()).toBe(state.module.clicks.toString())
+    expect(p.text()).toBe(state.clicks.toString())
   })
 })
 ```
