@@ -4,6 +4,6 @@
 
 <script>
   export default {
-    name: 'component'
+    name: 'test-component'
   }
 </script>

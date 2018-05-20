@@ -106,14 +106,14 @@ describeWithMountingMethods('options.slots', (mountingMethod) => {
       expect(fn).to.throw().with.property('message', message)
     })
 
-  itDoNotRunIf(
+  itDoNotRunIf.skip(
     isRunningPhantomJS,
     'mounts component with default slot if passed string in slot object', () => {
       if (mountingMethod.name === 'renderToString') {
         return
       }
-      const wrapper1 = mountingMethod(ComponentWithSlots, { slots: { default: 'foo<span>123</span>{{ foo }}' }})
-      expect(wrapper1.find('main').html()).to.equal('<main>foo<span>123</span>bar</main>')
+      const wrapper1 = mountingMethod(ComponentWithSlots, { slots: { default: '<span>{{ foo }}</span>' }})
+      expect(wrapper1.find('main').html()).to.equal('<main><span>bar</span></main>')
       const wrapper2 = mountingMethod(ComponentWithSlots, { slots: { default: '<p>1</p>{{ foo }}2' }})
       expect(wrapper2.find('main').html()).to.equal('<main><p>1</p>bar2</main>')
       const wrapper3 = mountingMethod(ComponentWithSlots, { slots: { default: '<p>1</p>{{ foo }}<p>2</p>' }})
@@ -379,27 +379,24 @@ describeWithMountingMethods('options.slots', (mountingMethod) => {
     expect(fn).to.throw().with.property('message', message)
   })
 
-  // itSkipIf(mountingMethod.name === 'renderToString',
-  //   'throws error if passed string in default slot array when vue-template-compiler is undefined', () => {
-  //     const TestComponent = {
-  //       name: 'component-with-slots',
-  //       functional: true,
-  //       render: (h, ctx) => h('div', ctx.data, ctx.slots().default)
-  //     }
-  //     const compilerSave = require.cache[require.resolve('vue-template-compiler')].exports.compileToFunctions
-  //     require.cache[require.resolve('vue-template-compiler')].exports.compileToFunctions = undefined
-  //     delete require.cache[require.resolve('../../../packages/test-utils')]
-  //     const mountingMethodFresh = require('../../../packages/test-utils')[mountingMethod.name]
-  //     const message = '[vue-test-utils]: vueTemplateCompiler is undefined, you must pass components explicitly if vue-template-compiler is undefined'
-  //     const fn = () => mountingMethodFresh(TestComponent, { slots: { default: ['<span />'] }})
-  //     try {
-  //       expect(fn).to.throw().with.property('message', message)
-  //     } catch (err) {
-  //       require.cache[require.resolve('vue-template-compiler')].exports.compileToFunctions = compilerSave
-  //       throw err
-  //     }
-  //     require.cache[require.resolve('vue-template-compiler')].exports.compileToFunctions = compilerSave
-  //   })
+  itSkipIf(mountingMethod.name === 'renderToString',
+    'throws error if passed string in default slot array when vue-template-compiler is undefined', () => {
+      const compilerSave = require.cache[require.resolve('vue-template-compiler')].exports.compileToFunctions
+      require.cache[require.resolve('vue-template-compiler')].exports = { compileToFunctions: undefined }
+      delete require.cache[require.resolve('../../../packages/test-utils')]
+      const mountingMethodFresh = require('../../../packages/test-utils')[mountingMethod.name]
+      const message = '[vue-test-utils]: vueTemplateCompiler is undefined, you must pass components explicitly if vue-template-compiler is undefined'
+      const fn = () => {
+        mountingMethodFresh(ComponentWithSlots, { slots: { default: ['<span />'] }})
+      }
+      try {
+        expect(fn).to.throw().with.property('message', message)
+      } catch (err) {
+        require.cache[require.resolve('vue-template-compiler')].exports.compileToFunctions = compilerSave
+        throw err
+      }
+      require.cache[require.resolve('vue-template-compiler')].exports.compileToFunctions = compilerSave
+    })
 
   itDoNotRunIf(
     mountingMethod.name === 'renderToString' || isRunningPhantomJS,

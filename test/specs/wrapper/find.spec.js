@@ -296,7 +296,7 @@ describeWithShallowAndMount('find', (mountingMethod) => {
 
   it('returns a Wrapper matching a component name in options object', () => {
     const wrapper = mountingMethod(ComponentWithChild)
-    expect(wrapper.find({ name: 'component' }).name()).to.equal('component')
+    expect(wrapper.find({ name: 'test-component' }).name()).to.equal('test-component')
   })
 
   it('returns Wrapper of Vue Component matching the ref in options object', () => {

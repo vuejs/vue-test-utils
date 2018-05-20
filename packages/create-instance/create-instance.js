@@ -111,6 +111,12 @@ export default function createInstance (
 
   const vm = parent.$refs.vm
 
+  if(options.slots) {
+    addSlots(vm, options.slots)
+    vm._watcher.sync = true
+    vm.$forceUpdate()
+  }
+
   if (options.scopedSlots) {
     if (window.navigator.userAgent.match(/PhantomJS/i)) {
       throwError('the scopedSlots option does not support PhantomJS. Please use Puppeteer, or pass a component.')
@@ -144,10 +150,6 @@ export default function createInstance (
     } else {
       throwError('the scopedSlots option is only supported in vue@2.5+.')
     }
-  }
-
-  if (options.slots) {
-    addSlots(vm, options.slots)
   }
 
   return vm
