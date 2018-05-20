@@ -36,7 +36,10 @@ describeWithMountingMethods('options.slots', (mountingMethod) => {
     }
   })
 
-  itDoNotRunIf(mountingMethod.name === 'shallowMount',
+  itDoNotRunIf(
+    mountingMethod.name === 'shallowMount' ||
+    isRunningPhantomJS ||
+    process.env.TEST_ENV === 'node',
     'mounts component with default slot if passed component as string in slot object', () => {
       const CustomComponent = {
         render: h => h('time')
