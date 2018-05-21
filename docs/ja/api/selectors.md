@@ -1,8 +1,8 @@
-# セレクタ
+## セレクタ
 
 多くのメソッドがセレクタを引数とします。セレクタは、CSS セレクタ、 Vue コンポーネント、または find メソッドのオプションオブジェクトのいずれかです。
 
-## CSS セレクタ
+### CSS セレクタ
 
 マウントは有効な CSS セレクタを処理します。
 
@@ -19,7 +19,7 @@
 - 隣接する兄弟のセレクタ (div + .foo)
 - 一般兄弟セレクタ (div ~ .foo)
 
-## Vue コンポーネント
+### Vue コンポーネント
 
 Vue コンポーネントもセレクタとして有効です。
 
@@ -39,9 +39,9 @@ const wrapper = shallowMount(Foo)
 expect(wrapper.is(Foo)).toBe(true)
 ```
 
-## find メソッドのオプションオブジェクト
+### find メソッドのオプションオブジェクト
 
-### name
+#### name
 
 find メソッドのオプションオブジェクトを使用すると、Wrapper コンポーネント内にあるコンポーネントの `name` に一致する要素を取得することができます。
 
@@ -50,7 +50,7 @@ const buttonWrapper = wrapper.find({ name: 'my-button' })
 buttonWrapper.trigger('click')
 ```
 
-### ref
+#### ref
 
 find メソッドのオプションオブジェクトを使用すると、Wrapper コンポーネントの `$ref` プロパティに一致する要素を取得することができます。
 

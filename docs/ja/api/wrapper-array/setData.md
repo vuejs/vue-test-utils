@@ -1,4 +1,4 @@
-# setData(data)
+## setData(data)
 
 `WrapperArray` の `Wrapper` ごとに `Wrapper` に `vm` データをセットし、強制的に更新します。
 

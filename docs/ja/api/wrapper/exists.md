@@ -1,4 +1,4 @@
-# exists()
+## exists()
 
 `Wrapper` か `WrapperArray` が存在するか検証します。
 

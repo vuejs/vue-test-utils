@@ -1,4 +1,4 @@
-# findAll(selector)
+## findAll(selector)
 
 [`WrapperArray`](../wrapper-array/README.md)を返します。
 

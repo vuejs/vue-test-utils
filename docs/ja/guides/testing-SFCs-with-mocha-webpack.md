@@ -1,4 +1,4 @@
-# Mocha + webpack による単一ファイルコンポーネントのテスト
+### Mocha + webpack による単一ファイルコンポーネントのテスト
 
 > このセットアップのサンプルプロジェクトは、 [GitHub](https://github.com/vuejs/vue-test-utils-mocha-webpack-example) にあります。
 
@@ -6,7 +6,7 @@
 
 技術的に好きなテストランナを使用して結びつけることができますが、この特定の作業に非常に合理的な経験を提供するために [`mocha-webpack`](https://github.com/zinserjan/mocha-webpack) を見つけました。
 
-## `mocha-webpack` の設定
+### `mocha-webpack` の設定
 
 既に、webpack、vue-loader、および Babel が正しく設定されている設定から始めると仮定します。例: `vue-cli` によって雛形生成された `webpack-simple` テンプレートです。
 

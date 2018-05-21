@@ -1,4 +1,4 @@
-# setProps(props)
+## setProps(props)
 
 `WrapperArray` の `Wrapper` ごとに `Wrapper` に `vm` プロパティをセットし、強制的に更新します。
 

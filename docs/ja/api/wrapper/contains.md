@@ -1,4 +1,4 @@
-# contains(selector)
+## contains(selector)
 
 `Wrapper` に要素、もしくは[セレクタ](../selectors.md)で指定したコンポーネントを含んでいるか検証します。
 

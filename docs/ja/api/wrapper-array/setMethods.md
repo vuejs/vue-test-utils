@@ -1,5 +1,4 @@
-
-# setMethods(methods)
+## setMethods(methods)
 
 `WrapperArray` の `Wrapper` ごとに `Wrapper` に `vm` メソッドをセットし、強制的に更新します。
 

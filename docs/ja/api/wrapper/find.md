@@ -1,4 +1,4 @@
-# find(selector)
+## find(selector)
 
 最初の DOM ノードの [Wrapper](./README.md)、またはセレクタで一致した Vue コンポーネントを返します。
 

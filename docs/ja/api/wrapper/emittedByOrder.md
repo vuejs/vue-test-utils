@@ -1,4 +1,4 @@
-# emittedByOrder()
+## emittedByOrder()
 
 `Wrapper` `vm` によって生成されたカスタムイベントを含む配列を返します。
 

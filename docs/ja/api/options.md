@@ -2,8 +2,6 @@
 
 `mount` と `shallowMount` に対するオプション。オプションオブジェクトには、`vue-test-utils` のマウントオプションとその他のオプションを含めることができます。
 
-## `vue-test-utils` の詳細なマウンティングオプション
-
 - [`context`](#context)
 - [`slots`](#slots)
 - [`scopedSlots`](#scopedslots)
@@ -16,7 +14,7 @@
 - [`provide`](#provide)
 - [`sync`](#sync)
 
-### `context`
+## context
 
 - 型: `Object`
 
@@ -34,7 +32,7 @@ const wrapper = mount(Component, {
 expect(wrapper.is(Component)).toBe(true)
 ```
 
-### `slots`
+## slots
 
 - 型: `{ [name: string]: Array<Component>|Component|string }`
 
@@ -56,13 +54,13 @@ const wrapper = shallowMount(Component, {
 expect(wrapper.find('div')).toBe(true)
 ```
 
-#### テキストを渡す
+## テキストを渡す
 
 テキストを値として `slots` に渡すことはできますが、1つ制限事項があります。  
 PhantomJS をサポートしません。  
 代わりに [Puppeteer](https://github.com/karma-runner/karma-chrome-launcher#headless-chromium-with-puppeteer) を使用してください。
 
-### `scopedSlots`
+## scopedSlots
 
 - 型: `{ [name: string]: string }`
 
@@ -88,7 +86,7 @@ const wrapper = shallowMount(Component, {
 expect(wrapper.find('#fooWrapper').html()).toBe('<div id="fooWrapper"><p>0,text1</p><p>1,text2</p><p>2,text3</p></div>')
 ```
 
-### `stubs`
+## stubs
 
 - type: `{ [name: string]: Component | boolean } | Array<string>`
 
@@ -113,7 +111,7 @@ shallowMount(Component, {
 })
 ```
 
-### `mocks`
+## mocks
 
 - 型: `Object`
 
@@ -131,7 +129,7 @@ const wrapper = shallowMount(Component, {
 expect(wrapper.vm.$route.path).toBe($route.path)
 ```
 
-### `localVue`
+## localVue
 
 - 型: `Vue`
 
@@ -162,32 +160,32 @@ const wrapper = mount(Component, {
 expect(wrapper.vm.$route).toBeInstanceOf(Object)
 ```
 
-### `attachToDocument`
+## attachToDocument
 
 - 型: `boolean`
 - デフォルト: `false`
 
 `true` に設定されている場合、描画時にコンポーネントは DOM にアタッチされます。
 
-### `attrs`
+## attrs
 
 - 型: `Object`
 
 コンポーネントインスタンスの `$attrs` オブジェクトを設定します。
 
-### `listeners`
+## listeners
 
 - 型: `Object`
 
 コンポーネントインスタンスの `$listeners` オブジェクトを設定します。
 
-### `provide`
+## provide
 
 - 型: `Object`
 
 コンポーネントに指定したプロパティを注入します。[provide/inject](https://vuejs.org/v2/api/#provide-inject) を参照してください。
 
-### `sync`
+## sync
 
 - 型: `boolean`
 - デフォルト: `true`

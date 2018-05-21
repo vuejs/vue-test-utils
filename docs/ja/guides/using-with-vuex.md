@@ -1,8 +1,7 @@
-# Vuex と一緒に使用する
+### Vuex と一緒に使用する
 
 このガイドでは、`vue-test-utils` でコンポーネントで Vuex をテストする方法について、見ていきます。
 
-## コンポーネント内の Vuex のテスト
 
 ### アクションのモック
 
@@ -262,7 +261,7 @@ describe('Modules.vue', () => {
 ```
 
 
-## Vuex ストアのテスト
+### Vuex ストアのテスト
 
 Vuex ストアをテストする方法が2つあります。1つ目はゲッタとミューテーションとアクションを別々に単体テストする方法です。2つ目はストアを生成してそれをテストする方法です。
 
@@ -383,7 +382,7 @@ test('updates evenOrOdd getter when increment is commited', () => {
 
 ストアをストアの設定から生成する前に `cloneDeep` を使用しています。こうする理由は Vuex はストアを生成するためにオプションオブジェクトを変更するからです。どのテストでも確実に汚染されていないストアを使うために `storeConfig` オブジェクトを複製する必要があります。
 
-## リソース
+### リソース
 
 - [コンポーネントをテストする例](https://github.com/eddyerburgh/vue-test-utils-vuex-example)
 - [ストアをテストする例](https://github.com/eddyerburgh/testing-vuex-store-example)

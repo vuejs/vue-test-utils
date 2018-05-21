@@ -1,4 +1,4 @@
-# テストランナを選ぶ
+## テストランナを選ぶ
 
 テストランナは、テストを実行するプログラムです。
 
@@ -10,7 +10,7 @@
 
 - [mocha-webpack](https://github.com/zinserjan/mocha-webpack) は webpack + Mocha のラッパですが、より合理的なインタフェースと watch モードを備えています。この設定のメリットは、webpack + `vue-loader` を使用して完全な SFC サポートを得ることができるということですが、より多くの設定を行う必要があります。
 
-## ブラウザ環境
+### ブラウザ環境
 
 `vue-test-utils` はブラウザ環境に依存します。技術的には、実際のブラウザで実行することはできますが、異なるプラットフォーム上で実際のブラウザを起動するという複雑さのため、お勧めできません。代わりに、[JSDOM](https://github.com/tmpvar/jsdom) を使用して仮想ブラウザ環境で Node.js でテストを実行することをお勧めします。
 
@@ -25,7 +25,7 @@ npm install --save-dev jsdom jsdom-global
 require('jsdom-global')()
 ```
 
-## 単一ファイルコンポーネントをテストする
+### 単一ファイルコンポーネントをテストする
 
 単一ファイルコンポーネントは、ノードまたはブラウザで実行する前に事前コンパイルが必要です。コンパイルを実行するには、Jest プリプロセッサを使用する方法と webpack を直接使用する方法が推奨されます。
 
@@ -35,7 +35,7 @@ require('jsdom-global')()
 - [Jest による単一ファイルコンポーネントのテスト](./testing-SFCs-with-jest.md)
 - [Mocha + webpack による単一ファイルコンポーネントのテスト](./testing-SFCs-with-mocha-webpack.md)
 
-## リソース
+### リソース
 
 - [テストランナの性能比較](https://github.com/eddyerburgh/vue-unit-test-perf-comparison)
 - [Jest のプロジェクト例](https://github.com/vuejs/vue-test-utils-jest-example)
