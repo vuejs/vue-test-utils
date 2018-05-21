@@ -3,6 +3,10 @@
 import { compileToFunctions } from 'vue-template-compiler'
 
 export function compileTemplate (component: Component) {
+  if (component.template) {
+    Object.assign(component, compileToFunctions(component.template))
+  }
+
   if (component.components) {
     Object.keys(component.components).forEach((c) => {
       const cmp = component.components[c]
@@ -18,9 +22,5 @@ export function compileTemplate (component: Component) {
 
   if (component.extendOptions && !component.options.render) {
     compileTemplate(component.options)
-  }
-
-  if (component.template) {
-    Object.assign(component, compileToFunctions(component.template))
   }
 }

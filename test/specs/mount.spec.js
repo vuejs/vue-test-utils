@@ -131,6 +131,14 @@ describeRunIf(process.env.TEST_ENV !== 'node',
       expect(wrapper.html()).to.equal(`<div>foo</div>`)
     })
 
+    it('compiles extended components', () => {
+      const TestComponent = Vue.component('test-component', {
+        template: '<div></div>'
+      })
+      const wrapper = mount(TestComponent)
+      expect(wrapper.html()).to.equal(`<div></div>`)
+    })
+
     it('logs if component is extended', () => {
       const msg = '[vue-test-utils]: an extended child component ChildComponent has been modified to ensure it has the correct instance properties. This means it is not possible to find the component with a component selector. To find the component, you must stub it manually using the stubs mounting option.'
       const ChildComponent = Vue.extend({
