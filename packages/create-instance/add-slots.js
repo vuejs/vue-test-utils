@@ -4,16 +4,6 @@ import { compileToFunctions } from 'vue-template-compiler'
 import { throwError } from 'shared/util'
 import { validateSlots } from './validate-slots'
 
-function isSingleElement (slotValue: string): boolean {
-  const _slotValue = slotValue.trim()
-  if (_slotValue[0] !== '<' || _slotValue[_slotValue.length - 1] !== '>') {
-    return false
-  }
-  const domParser = new window.DOMParser()
-  const _document = domParser.parseFromString(slotValue, 'text/html')
-  return _document.body.childElementCount === 1
-}
-
 // see https://github.com/vuejs/vue-test-utils/pull/274
 function createVNodes (vm: Component, slotValue: string) {
   const compiledResult = compileToFunctions(`<div>${slotValue}{{ }}</div>`)
@@ -40,11 +30,7 @@ function addSlotToVm (vm: Component, slotName: string, slotValue: SlotValue): vo
   let elem
   if (typeof slotValue === 'string') {
     validateEnvironment()
-    if (isSingleElement(slotValue)) {
-      elem = vm.$createElement(compileToFunctions(slotValue))
-    } else {
-      elem = createVNodes(vm, slotValue)
-    }
+    elem = createVNodes(vm, slotValue)
   } else {
     elem = vm.$createElement(slotValue)
   }
