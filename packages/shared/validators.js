@@ -41,7 +41,9 @@ export function isVueComponent (component: any) {
 export function componentNeedsCompiling (component: Component) {
   return component &&
     !component.render &&
-    (component.template || component.extends) &&
+    (component.template ||
+      component.extends ||
+      component.extendOptions) &&
     !component.functional
 }
 
