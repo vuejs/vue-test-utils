@@ -13,7 +13,7 @@
   * [配合 Vuex 使用](guides/using-with-vuex.md)
 * [API](api/README.md)
   * [mount](api/mount.md)
-  * [shallow](api/shallow.md)
+  * [shallowMount](api/shallowMount.md)
   * [render](api/render.md)
   * [renderToString](api/renderToString.md)
   * [挂载选项](api/options.md)
