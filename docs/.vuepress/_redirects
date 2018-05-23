@@ -14,7 +14,6 @@
 /ja/api/config /ja/api/#config
 
 /ja/api/wrapper/* /ja/api/wrapper.html/#:splat
-/ja/api/wrapper/* /ja/api/wrapper.html/#:splat
 /ja/api/wrapper-array/*  /ja/api/wrapper-array.html/#:splat
 
 /zh/api/mount /zh/api/#mount
