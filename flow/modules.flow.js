@@ -12,7 +12,7 @@ declare module 'lodash/cloneDeep' {
   declare module.exports: any;
 }
 
-declare module 'lodash/merge' {
+declare module 'lodash/mergeWith' {
   declare module.exports: any;
 }
 
