@@ -10,7 +10,7 @@
 
 该提议的好处在于，即便该组件的内部实现已经随时间发生了改变，只要你的组件的公共接口始终保持一致，测试就可以通过。
 
-这个话题的细节在 [Matt O'Connell 一份非常棒的演讲](http://slides.com/mattoconnell/deck#/)中有更多的讨论。
+这个话题的细节在 [Matt O'Connell 一份非常棒的演讲](https://www.youtube.com/watch?v=OIpfWTThrK8)中有更多的讨论。
 
 ### 浅渲染
 

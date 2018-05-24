@@ -10,7 +10,7 @@ For example, for the `Counter` component which increments a display counter by 1
 
 The benefit of this approach is that as long as your component's public interface remains the same, your tests will pass no matter how the component's internal implementation changes over time.
 
-This topic is discussed with more details in a [great presentation by Matt O'Connell](http://slides.com/mattoconnell/deck#/).
+This topic is discussed with more details in a [great presentation by Matt O'Connell](https://www.youtube.com/watch?v=OIpfWTThrK8).
 
 ### Shallow Rendering
 
