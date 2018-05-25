@@ -1,4 +1,4 @@
-# destroy()
+## destroy()
 
 `WrapperArray` のすべての Vue コンポーネントインスタンスを破棄します。
 

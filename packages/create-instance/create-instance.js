@@ -55,7 +55,7 @@ export default function createInstance (
 
   addEventLogger(vue)
 
-  const Constructor = vue.extend(component)
+  const Constructor = (typeof component === 'function' && component.prototype instanceof Vue) ? component : vue.extend(component)
 
   const instanceOptions = { ...options, propsData: { ...options.propsData }}
   deleteoptions(instanceOptions)
@@ -85,6 +85,9 @@ export default function createInstance (
   })
 
   const vm = new Constructor(instanceOptions)
+
+  // Workaround for Vue < 2.5
+  vm._staticTrees = []
 
   addAttrs(vm, options.attrs)
   addListeners(vm, options.listeners)

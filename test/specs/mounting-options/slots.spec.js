@@ -36,6 +36,35 @@ describeWithMountingMethods('options.slots', (mountingMethod) => {
     }
   })
 
+  itDoNotRunIf(
+    mountingMethod.name === 'shallowMount' ||
+    isRunningPhantomJS ||
+    process.env.TEST_ENV === 'node',
+    'mounts component with default slot if passed component as string in slot object', () => {
+      const CustomComponent = {
+        render: h => h('time')
+      }
+      const TestComponent = {
+        template: '<div><slot /></div>',
+        components: {
+          'custom-component': CustomComponent
+        }
+      }
+      const wrapper = mountingMethod(TestComponent, {
+        slots: {
+          default: '<custom-component />'
+        },
+        components: {
+          'custom-component': CustomComponent
+        }
+      })
+      if (mountingMethod.name === 'renderToString') {
+        expect(wrapper).contains('<time>')
+      } else {
+        expect(wrapper.contains('time')).to.equal(true)
+      }
+    })
+
   it('mounts component with default slot if passed component in array in slot object', () => {
     const wrapper = mountingMethod(ComponentWithSlots, { slots: { default: [Component] }})
     if (mountingMethod.name === 'renderToString') {

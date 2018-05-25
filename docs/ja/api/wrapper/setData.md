@@ -1,4 +1,4 @@
-# setData(data)
+## setData(data)
 
 `Wrapper` `vm` データを設定し、更新を強制します。
 

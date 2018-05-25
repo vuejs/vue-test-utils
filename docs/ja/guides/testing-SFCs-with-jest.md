@@ -1,10 +1,10 @@
-# Jest を使用した単一ファイルコンポーネントのテスト
+## Jest を使用した単一ファイルコンポーネントのテスト
 
 > このセットアップのサンプルプロジェクトは、 [GitHub](https://github.com/vuejs/vue-test-utils-jest-example) にあります。
 
 Jest は Facebook が開発したテストランナであり、ユニットテストソリューションの提供を目指しています。 Jest の詳細については、[公式ドキュメント](https://facebook.github.io/jest/)を参照してください。
 
-## Jest のセットアップ
+### Jest のセットアップ
 
 既に、webpack、vue-loader、および Babel が正しく設定されている設定から始めると仮定します。例: `vue-cli` によって雛形生成された `webpack-simple` テンプレートです。
 
@@ -25,7 +25,7 @@ $ npm install --save-dev jest @vue/test-utils
 }
 ```
 
-## Jest における単一ファイルコンポーネントの処理
+### Jest における単一ファイルコンポーネントの処理
 
 Jest に `*.vue` ファイルの処理方法を教えるために、`vue-jest` プリプロセッサをインストールして設定する必要があります。：
 
@@ -55,7 +55,7 @@ npm install --save-dev vue-jest
 
 > **注意:** `vue-jest` は現在、カスタムブロックのサポートやスタイルのロードなど、`vue-loader` のすべての機能をサポートしていません。さらに、コード分割などのWebpack固有の機能はサポートされていません。サポートされていない機能を使用するには、 Jest の代わりに Mocha をテストランナーとして使用します。そして、 Webpack をコンポーネントをコンパイルするために使用します。やり方は [Mocha + webpackによる単一ファイルコンポーネントのテスト](./testing-SFCs-with-mocha-webpack.md)のガイドをお読みください。
 
-## Webpack エイリアスの処理
+### Webpack エイリアスの処理
 
 webpack 設定で、`@` を `/src` のエイリアスにしたいといった場合、`moduleNameMapper`オプションを使って Jest の設定を追加する必要があります
 
@@ -72,7 +72,7 @@ webpack 設定で、`@` を `/src` のエイリアスにしたいといった場
 }
 ```
 
-## Jest のための Babel の設定
+### Jest のための Babel の設定
 
 Node の最新バージョンではすでにほとんどの ES2015 機能がサポートされていますが、テストでは ES Modules 構文と stage-x 機能を使用することができます。そのために、`babel-jest` をインストールする必要があります。
 
@@ -122,7 +122,7 @@ webpack で `babel-preset-env` を使用するとした場合、webpack は ES M
 }
 ```
 
-## スナップショットテスト
+### スナップショットテスト
 
 [`vue-server-renderer`](https://github.com/vuejs/vue/tree/dev/packages/vue-server-renderer) を使ってコンポーネントを文字列に描画して保存することができます。[Jest のスナップショットテスト](https://facebook.github.io/jest/docs/en/snapshot-testing.html) のスナップショットとして表示されます。 
 
@@ -147,13 +147,13 @@ npm install --save-dev jest-serializer-vue
 }
 ```
 
-## テストファイルの配置
+### テストファイルの配置
 
 デフォルトでは、Jest はプロジェクト全体で `.spec.js` または `.test.js` 拡張子を持つすべてのファイルを再帰的に取得します。これがあなたのニーズに合わない場合は、`package.json` ファイルの config セクションで[testRegex を変更する](https://facebook.github.io/jest/docs/en/configuration.html#testregex-string)ことが可能です。
 
 Jestは、テスト対象のコードのすぐ隣に`__tests__`ディレクトリを作成することを推奨していますが、適切にテストを構造化することは自由です。 Jestがスナップショットテストを実行するテストファイルの隣に`__snapshots__`ディレクトリを作成することに注意してください。
 
-## カバレッジ
+### カバレッジ
 
 Jest は複数のフォーマットでカバレッジを取ることができます。 以下はそれをするための簡単な例です。
 
@@ -186,7 +186,7 @@ Jest は複数のフォーマットでカバレッジを取ることができま
 より詳しい情報は [Jest configuration documentation](https://facebook.github.io/jest/docs/en/configuration.html#collectcoverage-boolean) にあります。 カバレッジの閾値やターゲットを出力するディレクトリなどのオプションが記載されています。
 
 
-## Spec の例
+### Spec の例
 
 あなたが Jasmine をよく知っているなら、Jest の [assertion API](https://facebook.github.io/jest/docs/en/expect.html#content)は自宅のように感じるはずです。
 
@@ -202,7 +202,7 @@ describe('Component', () => {
 })
 ```
 
-## リソース
+### リソース
 
 - [このセットアップのプロジェクト例](https://github.com/vuejs/vue-test-utils-jest-example)
 - [Vue Conf 2017のスライド](https://github.com/codebryo/vue-testing-with-jest-conf17)

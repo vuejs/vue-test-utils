@@ -1,4 +1,4 @@
-# setMethods(methods)
+## setMethods(methods)
 
 `Wrapper` `vm` メソッドを設定し、更新を強制します。
 

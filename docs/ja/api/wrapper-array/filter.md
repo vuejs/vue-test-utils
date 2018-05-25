@@ -1,4 +1,4 @@
-# filter(predicate)
+## filter(predicate)
 
 `Wrapper` オブジェクトを判別する関数を使用して `WrapperArray` をフィルタリングします。
 

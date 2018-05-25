@@ -1,4 +1,4 @@
-# createLocalVue()
+## createLocalVue()
 
 - **戻り値:**
   - `{Component}`
