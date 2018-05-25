@@ -1,6 +1,8 @@
 ## setData(data)
 
-Sets `Wrapper` `vm` data and forces update.
+Sets `Wrapper` `vm` data.
+
+setData works by merging existing properties, except for arrays which are overwritten.
 
 **Note the Wrapper must contain a Vue instance.**
 
