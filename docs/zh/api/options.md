@@ -1,6 +1,6 @@
 # 挂载选项
 
-即 `mount` 和 `shallow` 的选项。该对象同时包含了 Vue Test Utils 挂载选项和其它选项。
+即 `mount` 和 `shallowMount` 的选项。该对象同时包含了 Vue Test Utils 挂载选项和其它选项。
 
 - [`context`](#context)
 - [`slots`](#slots)
@@ -48,7 +48,7 @@ expect(wrapper.is(Component)).toBe(true)
 import Foo from './Foo.vue'
 import Bar from './Bar.vue'
 
-const wrapper = shallow(Component, {
+const wrapper = shallowMount(Component, {
   slots: {
     default: [Foo, Bar],
     fooBar: Foo, // 将会匹配 `<slot name="FooBar" />`。
@@ -86,7 +86,7 @@ There are three limitations.
 示例：
 
 ```js
-const wrapper = shallow(Component, {
+const wrapper = shallowMount(Component, {
   scopedSlots: {
     foo: '<p slot-scope="props">{{props.index}},{{props.text}}</p>'
   }
@@ -98,7 +98,7 @@ expect(wrapper.find('#fooWrapper').html()).toBe('<div id="fooWrapper"><p>0,text1
 
 - 类型：`{ [name: string]: Component | boolean } | Array<string>`
 
-将子组件存根。可以是一个要存根的组件名的数组或对象。如果 `stubs` 是一个数组，则每个存根都是一个 `<!---->`。
+将子组件存根。可以是一个要存根的组件名的数组或对象。如果 `stubs` 是一个数组，则每个存根都是一个 `<${component name}-stub>`。
 
 示例：
 
@@ -109,7 +109,7 @@ mount(Component, {
   stubs: ['registered-component']
 })
 
-shallow(Component, {
+shallowMount(Component, {
   stubs: {
     // 使用一个特定的实现作为存根
     'registered-component': Foo,
@@ -129,7 +129,7 @@ shallow(Component, {
 
 ```js
 const $route = { path: 'http://www.example-path.com' }
-const wrapper = shallow(Component, {
+const wrapper = shallowMount(Component, {
   mocks: {
     $route
   }
@@ -205,7 +205,7 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 
 ## 其它选项
 
-当 `mount` 和 `shallow` 的选项包含了挂载选项之外的选项时，则会将它们通过[扩展](https://vuejs.org/v2/api/#extends)覆写到其组件选项。
+当 `mount` 和 `shallowMount` 的选项包含了挂载选项之外的选项时，则会将它们通过[扩展](https://vuejs.org/v2/api/#extends)覆写到其组件选项。
 
 ```js
 const Component = {
