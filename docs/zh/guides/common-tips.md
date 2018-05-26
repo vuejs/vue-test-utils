@@ -18,12 +18,12 @@
 
 额外的，对于包含许多子组件的组件来说，整个渲染树可能会非常大。重复渲染所有的子组件可能会让我们的测试变慢。
 
-Vue Test Utils 允许你通过 `shallow` 方法只挂载一个组件而不渲染其子组件 (即保留它们的存根)：
+Vue Test Utils 允许你通过 `shallowMount` 方法只挂载一个组件而不渲染其子组件 (即保留它们的存根)：
 
 ```js
-import { shallow } from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 
-const wrapper = shallow(Component) // 返回一个包裹器，包含一个挂载的组件实例
+const wrapper = shallowMount(Component) // 返回一个包裹器，包含一个挂载的组件实例
 wrapper.vm // 挂载的 Vue 实例
 ```
 
