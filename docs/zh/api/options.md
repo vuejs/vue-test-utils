@@ -198,8 +198,6 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 - 类型：`boolean`
 - 默认值：`true`
 
-将所有的侦听器都设置为同步执行。
-
 当 `sync` 是 `true` 时，这个 Vue 组件会被同步渲染。  
 当 `sync` 是 `false` 时，这个 Vue 组件会被异步渲染。
 

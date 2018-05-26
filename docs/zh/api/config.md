@@ -2,6 +2,8 @@
 
 Vue Test Utils 包含了一个定义其选项的配置对象。
 
+### Vue Test Utils 配置选项
+
 ### `stubs`
 
 - 类型：`Object`
