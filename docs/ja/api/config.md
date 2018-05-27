@@ -4,7 +4,7 @@ vue-test-utils にはオプションを定義するための `config` オプシ�
 
 ### vue-test-utils` `config` オプション
 
-#### stubs`
+#### `stubs`
 
 - 型: `Object`
 - デフォルト: `{
@@ -24,7 +24,7 @@ import VueTestUtils from '@vue/test-utils'
 VueTestUtils.config.stubs['my-component'] = '<div />'
 ```
 
-#### mocks`
+#### `mocks`
 
 - 型: `Object`
 - デフォルト: `{}`
@@ -43,7 +43,7 @@ VueTestUtils.config.mocks['$store'] = {
 }
 ```
 
-#### methods`
+#### `methods`
 
 - 型: `Object`
 - デフォルト: `{}`
@@ -60,7 +60,7 @@ VueTestUtils.config.methods['errors'] = () => {
 }
 ```
 
-#### provide`
+#### `provide`
 
 - 型: `Object`
 - デフォルト: `{}`
@@ -79,7 +79,7 @@ VueTestUtils.config.provide['$logger'] = {
 }
 ```
 
-#### logModifiedComponents`
+#### `logModifiedComponents`
 
 - 型: `Boolean`
 - デフォルト: `true`
