@@ -13,7 +13,7 @@
 
 - **使い方:**
 
-マウントされて描画された Vue コンポーネントを含む [`Wrapper`](./wrapper/README.md) を生成します。
+マウントされて描画された Vue コンポーネントを含む [`Wrapper`](./wrapper/) を生成します。
 
 **オプションなし:**
 
@@ -125,4 +125,4 @@ describe('Foo', () => {
 })
 ```
 
-- **参照:** [`Wrapper`](./wrapper/README.md)
+- **参照:** [`Wrapper`](./wrapper/)
