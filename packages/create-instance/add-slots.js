@@ -21,9 +21,6 @@ function validateEnvironment (): void {
   if (typeof window === 'undefined') {
     throwError('the slots string option does not support strings in server-test-uitls.')
   }
-  if (window.navigator.userAgent.match(/PhantomJS/i)) {
-    throwError('the slots option does not support strings in PhantomJS. Please use Puppeteer, or pass a component.')
-  }
 }
 
 function addSlotToVm (vm: Component, slotName: string, slotValue: SlotValue): void {
