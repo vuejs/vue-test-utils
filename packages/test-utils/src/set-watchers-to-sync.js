@@ -27,10 +27,11 @@ export function setWatchersToSync (vm) {
 
   vm.$children.forEach(setWatchersToSync)
 
-  if (!vm.$_vueTestUtils_update) {
-    vm.$_vueTestUtils_update = vm._update
+  // preventing double registration
+  if (!vm.$_vueTestUtils_updateInSetWatcherSync) {
+    vm.$_vueTestUtils_updateInSetWatcherSync = vm._update
     vm._update = function (vnode, hydrating) {
-      this.$_vueTestUtils_update(vnode, hydrating)
+      this.$_vueTestUtils_updateInSetWatcherSync(vnode, hydrating)
       if (VUE_VERSION >= 2.1 && this._isMounted && this.$options.updated) {
         this.$options.updated.forEach((handler) => {
           handler.call(this)

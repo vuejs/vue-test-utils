@@ -1,6 +1,7 @@
 // @flow
 
 import Vue from 'vue'
+import cloneDeep from 'lodash/cloneDeep'
 import { addSlots } from './add-slots'
 import { addScopedSlots } from './add-scoped-slots'
 import addMocks from './add-mocks'
@@ -91,6 +92,19 @@ export default function createInstance (
 
   addAttrs(vm, options.attrs)
   addListeners(vm, options.listeners)
+
+  vm.$_vueTestUtils_mountingOptionsSlots = options.slots
+  vm.$_vueTestUtils_originalSlots = cloneDeep(vm.$slots)
+  vm.$_vueTestUtils_originalUpdate = vm._update
+  vm._update = function (vnode, hydrating) {
+    // updating slot
+    if (this.$_vueTestUtils_mountingOptionsSlots) {
+      this.$slots = cloneDeep(this.$_vueTestUtils_originalSlots)
+      addSlots(this, this.$_vueTestUtils_mountingOptionsSlots)
+      vnode = this._render()
+    }
+    this.$_vueTestUtils_originalUpdate(vnode, hydrating)
+  }
 
   if (options.scopedSlots) {
     if (window.navigator.userAgent.match(/PhantomJS/i)) {
