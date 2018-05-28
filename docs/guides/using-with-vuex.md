@@ -1,6 +1,8 @@
-## Using with Vuex
+# Using with Vuex
 
 In this guide, we'll see how to test Vuex in components with Vue Test Utils, and how to approach testing a Vuex store.
+
+## Testing Vuex in components
 
 ### Mocking Actions
 
@@ -214,14 +216,14 @@ And the test:
 ``` js
 import { shallowMount, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
-import Modules from '../../../src/components/Modules'
-import module from '../../../src/store/module'
+import MyComponent from '../../../src/components/MyComponent'
+import mymodule from '../../../src/store/mymodule'
 
 const localVue = createLocalVue()
 
 localVue.use(Vuex)
 
-describe('Modules.vue', () => {
+describe('MyComponent.vue', () => {
   let actions
   let state
   let store
@@ -238,28 +240,32 @@ describe('Modules.vue', () => {
     }
 
     store = new Vuex.Store({
-      state,
-      actions,
-      getters: module.getters
+      modules: {
+        mymodule: {
+          state,
+          actions,
+          getters: module.getters
+        }
+      }
     })
   })
 
   it('calls store action "moduleActionClick" when button is clicked', () => {
-    const wrapper = shallowMount(Modules, { store, localVue })
+    const wrapper = shallowMount(MyComponent, { store, localVue })
     const button = wrapper.find('button')
     button.trigger('click')
     expect(actions.moduleActionClick).toHaveBeenCalled()
   })
 
   it('Renders "state.inputValue" in first p tag', () => {
-    const wrapper = shallowMount(Modules, { store, localVue })
+    const wrapper = shallowMount(MyComponent, { store, localVue })
     const p = wrapper.find('p')
-    expect(p.text()).toBe(state.module.clicks.toString())
+    expect(p.text()).toBe(state.clicks.toString())
   })
 })
 ```
 
-### Testing a Vuex Store
+#### Testing a Vuex Store
 
 There are two approaches to testing a Vuex store. The first approach is to unit test the getters, mutations, and actions separately. The second approach is to create a store and test against that. We'll look at both approaches.
 
@@ -380,7 +386,7 @@ test('updates evenOrOdd getter when increment is commited', () => {
 
 Notice that we use `cloneDeep` to clone the store config before creating a store with it. This is because Vuex mutates the options object used to create the store. To make sure we have a clean store in each test, we need to clone the `storeConfig` object.
 
-### Resources
+## Resources
 
 - [Example project for testing the components](https://github.com/eddyerburgh/vue-test-utils-vuex-example)
 - [Example project for testing the store](https://github.com/eddyerburgh/testing-vuex-store-example)
