@@ -265,7 +265,7 @@ describe('MyComponent.vue', () => {
 })
 ```
 
-#### Testing a Vuex Store
+### Testing a Vuex Store
 
 There are two approaches to testing a Vuex store. The first approach is to unit test the getters, mutations, and actions separately. The second approach is to create a store and test against that. We'll look at both approaches.
 
@@ -386,7 +386,7 @@ test('updates evenOrOdd getter when increment is commited', () => {
 
 Notice that we use `cloneDeep` to clone the store config before creating a store with it. This is because Vuex mutates the options object used to create the store. To make sure we have a clean store in each test, we need to clone the `storeConfig` object.
 
-## Resources
+### Resources
 
 - [Example project for testing the components](https://github.com/eddyerburgh/vue-test-utils-vuex-example)
 - [Example project for testing the store](https://github.com/eddyerburgh/testing-vuex-store-example)
