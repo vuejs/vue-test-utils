@@ -582,7 +582,7 @@ export default class Wrapper implements BaseWrapper {
     }
 
     if (options.target) {
-      throwError('you cannot set the target value of an event. See the notes section of the docs for more details—https://vue-test-utils.vuejs.org/en/api/wrapper/trigger.html')
+      throwError('you cannot set the target value of an event. See the notes section of the docs for more details—https://vue-test-utils.vuejs.org/api/wrapper/trigger.html')
     }
 
     // Don't fire event on a disabled element
