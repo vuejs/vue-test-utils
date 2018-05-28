@@ -1,6 +1,6 @@
 ## find(selector)
 
-Returns [`Wrapper`](README.md) of first DOM node or Vue component matching selector.
+Returns [`Wrapper`](../wrapper/) of first DOM node or Vue component matching selector.
 
 Use any valid [selector](../selectors.md).
 
@@ -31,4 +31,4 @@ const fooRef = wrapper.find({ ref: 'foo' })
 expect(fooRef.is(Foo)).toBe(true)
 ```
 
-- **See also:** [Wrapper](README.md)
+- **See also:** [Wrapper](../wrapper/)

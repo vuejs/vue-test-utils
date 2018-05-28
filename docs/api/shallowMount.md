@@ -22,7 +22,7 @@ See [options](./options.md)
 
 - **Usage:**
 
-Like [`mount`](mount.md), it creates a [`Wrapper`](wrapper/README.md) that contains the mounted and rendered Vue component, but with stubbed child components.
+Like [`mount`](mount.md), it creates a [`Wrapper`](wrapper/) that contains the mounted and rendered Vue component, but with stubbed child components.
 
 **Without options:**
 
