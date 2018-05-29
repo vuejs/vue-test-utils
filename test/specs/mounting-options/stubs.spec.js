@@ -314,15 +314,37 @@ describeWithMountingMethods('options.stub', (mountingMethod) => {
     expect(HTML).contains('No render function')
   })
 
-  it.skip('throws an error when passed a circular reference', () => {
-    const invalidValues = ['child-component', 'ChildComponent', 'childComponent']
-    invalidValues.forEach(invalidValue => {
-      const error = '[vue-test-utils]: options.stub cannot contain a circular reference'
-      const fn = () => mountingMethod(ComponentWithChild, {
-        stubs: {
-          ChildComponent: `<${invalidValue} />`
-        }})
-      expect(fn).to.throw().with.property('message', error)
+  it.only('throws an error when passed a circular reference', () => {
+    const names = ['child-component', 'ChildComponent', 'childComponent']
+    const validValues = [
+      '<NAME-suffix />',
+      '<prefix-NAME />',
+      '<cmp NAME></cmp>',
+      '<cmp something="NAME"></cmp>',
+      '<NAMEl />'
+    ]
+    const invalidValues = [
+      '<NAME />',
+      '<NAME   />',
+      '<NAME></NAME>',
+      '<NAME aProp="something"></NAME>',
+      '<NAME  ></NAME>'
+    ]
+    const error = '[vue-test-utils]: options.stub cannot contain a circular reference'
+    names.forEach((name) => {
+      invalidValues.forEach(invalidValue => {
+        const fn = () => mountingMethod(ComponentWithChild, {
+          stubs: {
+            ChildComponent: invalidValue.replace(/NAME/g, name)
+          }})
+        expect(fn).to.throw().with.property('message', error)
+      })
+      validValues.forEach((validValue) => {
+        mountingMethod(ComponentWithChild, {
+          stubs: {
+            ChildComponent: validValue.replace(/NAME/g, name)
+          }})
+      })
     })
   })
 
