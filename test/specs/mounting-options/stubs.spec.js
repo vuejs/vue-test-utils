@@ -314,7 +314,7 @@ describeWithMountingMethods('options.stub', (mountingMethod) => {
     expect(HTML).contains('No render function')
   })
 
-  it.only('throws an error when passed a circular reference', () => {
+  it('throws an error when passed a circular reference', () => {
     const names = ['child-component', 'ChildComponent', 'childComponent']
     const validValues = [
       '<NAME-suffix />',
