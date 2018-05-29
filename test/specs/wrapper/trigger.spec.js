@@ -147,7 +147,7 @@ describeWithShallowAndMount('trigger', (mountingMethod) => {
     const fn = () => div.trigger('click', {
       target: {}
     })
-    const message = '[vue-test-utils]: you cannot set the target value of an event. See the notes section of the docs for more details—https://vue-test-utils.vuejs.org/en/api/wrapper/trigger.html'
+    const message = '[vue-test-utils]: you cannot set the target value of an event. See the notes section of the docs for more details—https://vue-test-utils.vuejs.org/api/wrapper/trigger.html'
     expect(fn).to.throw().with.property('message', message)
   })
 
