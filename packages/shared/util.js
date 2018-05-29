@@ -9,7 +9,10 @@ export function warn (msg: string) {
 }
 
 const camelizeRE = /-(\w)/g
-export const camelize = (str: string) => str.replace(camelizeRE, (_, c) => c ? c.toUpperCase() : '')
+export const camelize = (str: string) => {
+  const camelizedStr = str.replace(camelizeRE, (_, c) => c ? c.toUpperCase() : '')
+  return camelizedStr.charAt(0).toLowerCase() + camelizedStr.slice(1)
+}
 
 /**
  * Capitalize a string.
