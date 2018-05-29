@@ -2,7 +2,7 @@
 
 vue-test-utils にはオプションを定義するための `config` オプションがあります。
 
-### vue-test-utils` `config` オプション
+### Vue Test Utils Config オプション
 
 #### `stubs`
 
