@@ -19,7 +19,7 @@ You can also use combinators:
 - adjacent sibling selector (`div + .foo`)
 - general sibling selector (`div ~ .foo`)
 
-###Vue Components
+### Vue Components
 
 Vue components are also valid selectors.
 
@@ -39,7 +39,7 @@ const wrapper = shallowMount(Foo)
 expect(wrapper.is(Foo)).toBe(true)
 ```
 
-###Find Option Object
+### Find Option Object
 
 #### Name
 
