@@ -14,3 +14,7 @@ declare type Options = { // eslint-disable-line no-undef
     logModifiedComponents?: boolean,
     sync?: boolean
 }
+
+declare type SlotValue = Component | string | Array<Component | string>
+
+declare type SlotsObject = {[name: string]: SlotValue}

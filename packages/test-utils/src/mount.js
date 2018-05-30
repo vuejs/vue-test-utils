@@ -12,6 +12,7 @@ import { findAllVueComponentsFromVm } from './find-vue-components'
 import { mergeOptions } from 'shared/merge-options'
 import config from './config'
 import warnIfNoWindow from './warn-if-no-window'
+import { addScopedSlots } from './add-scoped-slots'
 
 Vue.config.productionTip = false
 Vue.config.devtools = false
@@ -28,18 +29,30 @@ export default function mount (component: Component, options: Options = {}): Vue
 
   const mergedOptions = mergeOptions(options, config)
 
-  const vm = createInstance(
+  const parentVm = createInstance(
     component,
     mergedOptions,
     vueConstructor,
     elm
   )
 
+  const vm = parentVm.$mount(elm).$refs.vm
+
+  if (options.scopedSlots) {
+    addScopedSlots(vm, options.scopedSlots)
+  }
+
   const componentsWithError = findAllVueComponentsFromVm(vm).filter(c => c._error)
 
   if (componentsWithError.length > 0) {
     throw (componentsWithError[0]._error)
   }
+
+  if (mergedOptions.sync) {
+    vm._watcher.sync = true
+  }
+
+  vm.$forceUpdate()
 
   const wrapperOptions = {
     attachedToDocument: !!mergedOptions.attachToDocument,
