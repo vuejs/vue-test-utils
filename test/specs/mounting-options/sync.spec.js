@@ -113,9 +113,17 @@ describeWithShallowAndMount('options.sync', (mountingMethod) => {
   })
 
   it('call updated when sync is not false', () => {
+    const fooSpy = sinon.stub()
+    const Foo = {
+      template: '<div>{{ foo }}</div>',
+      props: ['foo'],
+      updated () {
+        fooSpy()
+      }
+    }
     const spy = sinon.stub()
     const TestComponent = {
-      template: '<div>{{ foo }}</div>',
+      template: '<div>{{ foo }}<foo :foo="foo" /></div>',
       data () {
         return {
           foo: 'foo'
@@ -126,10 +134,14 @@ describeWithShallowAndMount('options.sync', (mountingMethod) => {
       }
     }
     const wrapper = mountingMethod(TestComponent, {
+      stubs: { foo: Foo },
       sync: true
     })
     expect(spy.notCalled).to.equal(true)
+    expect(fooSpy.notCalled).to.equal(true)
     wrapper.vm.foo = 'bar'
     expect(spy.calledOnce).to.equal(true)
+    expect(fooSpy.calledOnce).to.equal(true)
+    expect(wrapper.html()).to.equal('<div>bar<div>bar</div></div>')
   })
 })
