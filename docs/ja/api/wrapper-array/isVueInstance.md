@@ -1,4 +1,4 @@
-# isVueInstance()
+## isVueInstance()
 
 `WrapperArray` の全ての `Wrapper` が Vue インスタンスであるか検証します。
 

@@ -1,5 +1,6 @@
 // @flow
 
+import Vue from 'vue'
 import { createSlotVNodes } from './add-slots'
 import addMocks from './add-mocks'
 import { addEventLogger } from './log-events'
@@ -70,7 +71,11 @@ export default function createInstance (
     _Vue.component(c, stubComponents[c])
   })
 
-  const Constructor = _Vue.extend(component).extend(instanceOptions)
+  const Constructor = (typeof component === 'function' && component.prototype instanceof Vue) 
+    ? component : 
+    _Vue.extend(component).extend(instanceOptions)
+
+  // const Constructor = _Vue.extend(component).extend(instanceOptions)
 
   Object.keys(instanceOptions.components || {}).forEach(key => {
     Constructor.component(key, instanceOptions.components[key])

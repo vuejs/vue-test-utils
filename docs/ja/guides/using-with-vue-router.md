@@ -1,6 +1,6 @@
-# Vue Router と一緒に使用する
+### Vue Router と一緒に使用する
 
-## テストへ Vue Router のインストール
+### テストへ Vue Router のインストール
 
 テストで Vue のコンストラクタベースの Vue Router をインストールしないでください。Vue Router をインストールすると Vue のプロトタイプの読み取り専用プロパティとして `$route` と `$router` が追加されます。
 
@@ -22,7 +22,7 @@ shallowMount(Component, {
 
 > Vue Router を localVue にインストールすると `$route` と `$router` が読み取り専用プロパティーとして localVue に追加されます。これは VueRouter をインストールした localVue を使用しているコンポーネントをマウントする時、 `mock` オプションで `$route` と `$router` を上書きすることができないことを意味します。
 
-## `router-link` または `router-view` を使用するコンポーネントテスト
+### `router-link` または `router-view` を使用するコンポーネントテスト
 
 Vue Router をインストールする時、`router-link` と `router-view` コンポーネントが登録されます。これは、それらをアプリケーションにインポートする必要がなく、アプリケーションのどこでも使用することができます。
 
@@ -52,7 +52,7 @@ shallowMount(Component, {
 })
 ```
 
-## `$route` と `$router` のモック
+### `$route` と `$router` のモック
 
 時々、コンポーネントが `$route` と `$router` オブジェクトから引数によって何かをするテストをしたいときがあります。これをするためには、Vue インスタンスにカスタムモックを渡すことができます。
 
@@ -72,7 +72,7 @@ const wrapper = shallowMount(Component, {
 wrapper.vm.$route.path // /some/path
 ```
 
-## よくある落とし穴
+### よくある落とし穴
 
 Vue Router をインストールすると Vue のプロトタイプに読み取り専用プロパティとして `$route` と `$router` が追加されます。
 

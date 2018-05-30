@@ -1,4 +1,4 @@
-# is(selector)
+## is(selector)
 
 `Wrapper` DOM ノード、または `vm` が[セレクタ](../selectors.md)と一致しているか検証します。
 

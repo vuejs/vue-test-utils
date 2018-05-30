@@ -1,10 +1,10 @@
-# Karma による単一ファイルコンポーネントのテスト
+## Karma による単一ファイルコンポーネントのテスト
 
 > このセットアップの例は [GitHub](https://github.com/eddyerburgh/vue-test-utils-karma-example) にあり、利用可能です。
 
 Karma はブラウザを起動し、テストを実行しそれをレポートするテストランナーです。ここではテストを書くために Mocha を使用します。テストアサーションのために Chai を使用します。
 
-## Mocha をセットアップする
+### Mocha をセットアップする
 
 セットアップを始めるにあたって `vue-cli` でスキャフォールドされた `webpack-simple` テンプレートのように Webpack 、vue-loader 、 Babel が既に設定されていることを想定しています。
 

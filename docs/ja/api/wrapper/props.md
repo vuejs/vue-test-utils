@@ -1,4 +1,4 @@
-# props()
+## props()
 
 `Wrapper` の `vm` プロパティの props オブジェクトを返します。
 

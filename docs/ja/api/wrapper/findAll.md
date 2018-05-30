@@ -1,6 +1,6 @@
-# findAll(selector)
+## findAll(selector)
 
-[`WrapperArray`](../wrapper-array/README.md)を返します。
+[`WrapperArray`](../wrapper-array/)を返します。
 
 有効な[セレクタ](../selectors.md)を使用してください。
 
@@ -23,4 +23,4 @@ const bar = wrapper.findAll(Bar).at(0)
 expect(bar.is(Bar)).toBe(true)
 ```
 
-- **参照:** [Wrapper](./README.md)
+- **参照:** [Wrapper](../wrapper/)

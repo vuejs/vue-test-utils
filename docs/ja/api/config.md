@@ -1,10 +1,10 @@
-# config
+## Config
 
 vue-test-utils にはオプションを定義するための `config` オプションがあります。
 
-## `vue-test-utils` `config` オプション
+### Vue Test Utils Config オプション
 
-### `stubs`
+#### `stubs`
 
 - 型: `Object`
 - デフォルト: `{
@@ -14,7 +14,7 @@ vue-test-utils にはオプションを定義するための `config` オプシ�
 
 コンポーネントで使用するスタブはマウンティングオプションの `stubs` で設定します。
 
-マウンティングオプションの `stubs` が配列である場合、`config.stubs` は配列に変換されます。その場合、使用されるスタブは`<!---->`を返す基本的なコンポーネントになります。
+マウンティングオプションの `stubs` が配列である場合、`config.stubs` は配列に変換されます。その場合、使用されるスタブは`<${component name}-stub>`を返す基本的なコンポーネントになります。
 
 例:
 
@@ -24,7 +24,7 @@ import VueTestUtils from '@vue/test-utils'
 VueTestUtils.config.stubs['my-component'] = '<div />'
 ```
 
-### `mocks`
+#### `mocks`
 
 - 型: `Object`
 - デフォルト: `{}`
@@ -43,7 +43,7 @@ VueTestUtils.config.mocks['$store'] = {
 }
 ```
 
-### `methods`
+#### `methods`
 
 - 型: `Object`
 - デフォルト: `{}`
@@ -60,7 +60,7 @@ VueTestUtils.config.methods['errors'] = () => {
 }
 ```
 
-### `provide`
+#### `provide`
 
 - 型: `Object`
 - デフォルト: `{}`
@@ -79,12 +79,12 @@ VueTestUtils.config.provide['$logger'] = {
 }
 ```
 
-### `logModifiedComponents`
+#### `logModifiedComponents`
 
 - 型: `Boolean`
 - デフォルト: `true`
 
-`Vue.extend()` で拡張された子コンポーネントは自動的にスタブされます。その時、そのことを警告するログが表示されます。 `false` をセットすると警告は表示されません。他の config のオプションと違って、マウティングオプションでセットすることはできません。
+`Vue.extend() で拡張された子コンポーネントは自動的にスタブされます。その時、そのことを警告するログが表示されます。 `false` をセットすると警告は表示されません。他の config のオプションと違って、マウティングオプションでセットすることはできません。
 
 例:
 

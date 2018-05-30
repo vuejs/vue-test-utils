@@ -1,6 +1,6 @@
-# find(selector)
+## find(selector)
 
-最初の DOM ノードの [Wrapper](./README.md)、またはセレクタで一致した Vue コンポーネントを返します。
+最初の DOM ノードの [Wrapper](../wrapper/)、またはセレクタで一致した Vue コンポーネントを返します。
 
 有効な[セレクタ](../selectors.md)を使用してください。
 
@@ -31,4 +31,4 @@ const fooRef = wrapper.find({ ref: 'foo' })
 expect(fooRef.is(Foo)).toBe(true)
 ```
 
-- **参照:** [Wrapper](./README.md)
+- **参照:** [Wrapper](../wrapper/)

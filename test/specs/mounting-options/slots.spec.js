@@ -4,8 +4,7 @@ import ComponentWithSlots from '~resources/components/component-with-slots.vue'
 import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
 import {
   describeWithMountingMethods,
-  vueVersion,
-  isRunningPhantomJS
+  vueVersion
 } from '~resources/utils'
 import {
   itSkipIf,
@@ -13,20 +12,6 @@ import {
 } from 'conditional-specs'
 
 describeWithMountingMethods('options.slots', (mountingMethod) => {
-  let _window
-
-  beforeEach(() => {
-    if (typeof window !== 'undefined') {
-      _window = window
-    }
-  })
-
-  afterEach(() => {
-    if (typeof window !== 'undefined' && !window.navigator.userAgent.match(/Chrome/i)) {
-      window = _window // eslint-disable-line no-native-reassign
-    }
-  })
-
   it('mounts component with default slot if passed component in slot object', () => {
     const wrapper = mountingMethod(ComponentWithSlots, { slots: { default: Component }})
     if (mountingMethod.name === 'renderToString') {
@@ -35,6 +20,34 @@ describeWithMountingMethods('options.slots', (mountingMethod) => {
       expect(wrapper.contains(Component)).to.equal(true)
     }
   })
+
+  itDoNotRunIf(
+    mountingMethod.name === 'shallowMount' ||
+    process.env.TEST_ENV === 'node',
+    'mounts component with default slot if passed component as string in slot object', () => {
+      const CustomComponent = {
+        render: h => h('time')
+      }
+      const TestComponent = {
+        template: '<div><slot /></div>',
+        components: {
+          'custom-component': CustomComponent
+        }
+      }
+      const wrapper = mountingMethod(TestComponent, {
+        slots: {
+          default: '<custom-component />'
+        },
+        components: {
+          'custom-component': CustomComponent
+        }
+      })
+      if (mountingMethod.name === 'renderToString') {
+        expect(wrapper).contains('<time>')
+      } else {
+        expect(wrapper.contains('time')).to.equal(true)
+      }
+    })
 
   it('mounts component with default slot if passed component in array in slot object', () => {
     const wrapper = mountingMethod(ComponentWithSlots, { slots: { default: [Component] }})
@@ -56,7 +69,7 @@ describeWithMountingMethods('options.slots', (mountingMethod) => {
   })
 
   itDoNotRunIf(
-    process.env.TEST_ENV === 'node' || isRunningPhantomJS,
+    process.env.TEST_ENV === 'node',
     'mounts component with default slot if passed string in slot object', () => {
       const wrapper = mountingMethod(ComponentWithSlots, { slots: { default: '<span />' }})
       if (mountingMethod.name === 'renderToString') {
@@ -67,7 +80,7 @@ describeWithMountingMethods('options.slots', (mountingMethod) => {
     })
 
   itDoNotRunIf(
-    process.env.TEST_ENV === 'node' || vueVersion < 2.3 || isRunningPhantomJS,
+    process.env.TEST_ENV === 'node' || vueVersion < 2.3,
     'works correctly with class component', () => {
       const wrapper = mountingMethod(ComponentAsAClass, { slots: { default: '<span />' }})
       if (mountingMethod.name === 'renderToString') {
@@ -107,7 +120,7 @@ describeWithMountingMethods('options.slots', (mountingMethod) => {
     })
 
   itDoNotRunIf(
-    process.env.TEST_ENV === 'node' || isRunningPhantomJS,
+    process.env.TEST_ENV === 'node',
     'mounts component with default slot if passed string in slot array object', () => {
       const wrapper = mountingMethod(ComponentWithSlots, { slots: { default: ['<span />'] }})
       if (mountingMethod.name === 'renderToString') {
@@ -207,7 +220,7 @@ describeWithMountingMethods('options.slots', (mountingMethod) => {
     }
   })
 
-  itDoNotRunIf(process.env.TEST_ENV === 'node' || isRunningPhantomJS,
+  itDoNotRunIf(process.env.TEST_ENV === 'node',
     'mounts component with default slot if passed string in slot object', () => {
       const TestComponent = {
         name: 'component-with-slots',
@@ -223,7 +236,7 @@ describeWithMountingMethods('options.slots', (mountingMethod) => {
     })
 
   itDoNotRunIf(
-    process.env.TEST_ENV === 'node' || isRunningPhantomJS,
+    process.env.TEST_ENV === 'node',
     'mounts component with named slot if passed string in slot object', () => {
       const TestComponent = {
         functional: true,
@@ -238,7 +251,7 @@ describeWithMountingMethods('options.slots', (mountingMethod) => {
     })
 
   itDoNotRunIf(
-    process.env.TEST_ENV === 'node' || isRunningPhantomJS,
+    process.env.TEST_ENV === 'node',
     'mounts component with named slot if passed string in slot object in array', () => {
       const TestComponent = {
         functional: true,
@@ -253,7 +266,7 @@ describeWithMountingMethods('options.slots', (mountingMethod) => {
     })
 
   itDoNotRunIf(
-    process.env.TEST_ENV === 'node' || isRunningPhantomJS,
+    process.env.TEST_ENV === 'node',
     'mounts component with named slot if passed string in slot object in array', () => {
       const TestComponent = {
         functional: true,
@@ -268,7 +281,7 @@ describeWithMountingMethods('options.slots', (mountingMethod) => {
     })
 
   itDoNotRunIf(
-    process.env.TEST_ENV === 'node' || isRunningPhantomJS,
+    process.env.TEST_ENV === 'node',
     'mounts component with named slot if passed string in slot object in array', () => {
       const TestComponent = {
         functional: true,
@@ -346,7 +359,7 @@ describeWithMountingMethods('options.slots', (mountingMethod) => {
     })
 
   itDoNotRunIf(
-    mountingMethod.name === 'renderToString' || isRunningPhantomJS,
+    mountingMethod.name === 'renderToString',
     'does not error when triggering a click in a slot', () => {
       const Parent = {
         name: 'Parent',

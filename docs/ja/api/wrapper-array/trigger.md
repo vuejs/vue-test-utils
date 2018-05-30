@@ -1,4 +1,4 @@
-# trigger(eventName [, options])
+## trigger(eventName [, options])
 
 `WrapperArray` の DOM ノードのすべての `Wrapper` でイベントを発火します。
 

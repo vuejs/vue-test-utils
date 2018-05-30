@@ -1,4 +1,4 @@
-# contains(selector)
+## contains(selector)
 
 `WrapperArray` のすべての Wrapper にセレクタが含まれているか検証します。
 

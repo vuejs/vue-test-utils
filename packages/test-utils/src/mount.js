@@ -38,6 +38,9 @@ export default function mount (component: Component, options: Options = {}): Vue
 
   const vm = parentVm.$mount(elm).$refs.vm
 
+  // Workaround for Vue < 2.5
+  vm._staticTrees = []
+
   if (options.scopedSlots) {
     addScopedSlots(vm, options.scopedSlots)
   }

@@ -1,5 +1,10 @@
 // @flow
-import { throwError } from './util'
+import {
+  throwError,
+  capitalize,
+  camelize,
+  hyphenate
+} from './util'
 
 export function isDomSelector (selector: any) {
   if (typeof selector !== 'string') {
@@ -41,7 +46,9 @@ export function isVueComponent (component: any) {
 export function componentNeedsCompiling (component: Component) {
   return component &&
     !component.render &&
-    (component.template || component.extends) &&
+    (component.template ||
+      component.extends ||
+      component.extendOptions) &&
     !component.functional
 }
 
@@ -59,4 +66,11 @@ export function isNameSelector (nameOptionsObject: any) {
   }
 
   return !!nameOptionsObject.name
+}
+
+export function templateContainsComponent (template: string, name: string) {
+  return [capitalize, camelize, hyphenate].some((format) => {
+    const re = new RegExp(`<${format(name)}\\s*(\\s|>|(\/>))`, 'g')
+    return re.test(template)
+  })
 }

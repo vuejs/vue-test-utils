@@ -165,7 +165,8 @@ describeWithShallowAndMount('setData', (mountingMethod) => {
           },
           propB: 'b'
         }
-      })
+      }),
+      render: () => {}
     }
     const wrapper = mountingMethod(TestComponent)
     wrapper.setData({
@@ -179,10 +180,16 @@ describeWithShallowAndMount('setData', (mountingMethod) => {
     expect(wrapper.vm.anObject.propA.prop2).to.equal('b')
   })
 
-  it('sets array data properly', () => {
+  it('does not merge arrays', () => {
     const TestComponent = {
+      template: '<div>{{nested.nested.nestedArray[0]}}</div>',
       data: () => ({
-        items: [1, 2]
+        items: [1, 2],
+        nested: {
+          nested: {
+            nestedArray: [1, 2]
+          }
+        }
       })
     }
     const wrapper = mountingMethod(TestComponent)
@@ -190,5 +197,14 @@ describeWithShallowAndMount('setData', (mountingMethod) => {
       items: [3]
     })
     expect(wrapper.vm.items).to.deep.equal([3])
+    wrapper.setData({
+      nested: {
+        nested: {
+          nestedArray: [10]
+        }
+      }
+    })
+    expect(wrapper.text()).to.equal('10')
+    expect(wrapper.vm.nested.nested.nestedArray).to.deep.equal([10])
   })
 })
