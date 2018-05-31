@@ -1,7 +1,6 @@
 // @flow
 import { compileToFunctions } from 'vue-template-compiler'
-import { throwError } from 'shared/util'
-import Vue from 'vue'
+import { throwError, vueVersion } from 'shared/util'
 
 function isDestructuringSlotScope (slotScope: string): boolean {
   return slotScope[0] === '{' && slotScope[slotScope.length - 1] === '}'
@@ -21,7 +20,6 @@ export function addScopedSlots (vm: Component, scopedSlots: any) {
     throwError('the scopedSlots option does not support PhantomJS. Please use Puppeteer, or pass a component.')
   }
 
-  const vueVersion = Number(`${Vue.version.split('.')[0]}.${Vue.version.split('.')[1]}`)
   if (vueVersion < 2.5) {
     throwError('the scopedSlots option is only supported in vue@2.5+.')
   }

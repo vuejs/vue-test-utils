@@ -43,6 +43,12 @@ export default function mount (component: Component, options: Options = {}): Vue
 
   if (options.scopedSlots) {
     addScopedSlots(vm, options.scopedSlots)
+
+    if (mergedOptions.sync) {
+      vm._watcher.sync = true
+    }
+
+    vm.$forceUpdate()
   }
 
   const componentsWithError = findAllVueComponentsFromVm(vm).filter(c => c._error)
@@ -50,12 +56,6 @@ export default function mount (component: Component, options: Options = {}): Vue
   if (componentsWithError.length > 0) {
     throw (componentsWithError[0]._error)
   }
-
-  if (mergedOptions.sync) {
-    vm._watcher.sync = true
-  }
-
-  vm.$forceUpdate()
 
   const wrapperOptions = {
     attachedToDocument: !!mergedOptions.attachToDocument,

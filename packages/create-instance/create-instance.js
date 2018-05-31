@@ -5,7 +5,7 @@ import { createSlotVNodes } from './add-slots'
 import addMocks from './add-mocks'
 import { addEventLogger } from './log-events'
 import { createComponentStubs } from 'shared/stub-components'
-import { throwError, warn } from 'shared/util'
+import { throwError, warn, vueVersion } from 'shared/util'
 import { compileTemplate } from 'shared/compile-template'
 import deleteMountingOptions from './delete-mounting-options'
 import createFunctionalComponent from './create-functional-component'
@@ -84,6 +84,16 @@ export default function createInstance (
 
   if (options.slots) {
     validateSlots(options.slots)
+  }
+
+  // Objects are not resolved in extended components in Vue < 2.5
+  // https://github.com/vuejs/vue/issues/6436
+  if (options.provide &&
+    typeof options.provide === 'object' &&
+    vueVersion < 2.5
+  ) {
+    const obj = { ...options.provide }
+    options.provide = () => obj
   }
 
   const Parent = _Vue.extend({
