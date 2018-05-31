@@ -235,6 +235,37 @@ describeRunIf(process.env.TEST_ENV !== 'node',
       expect(fn).to.throw('Error in mounted')
     })
 
+    it.only('logs errors once after mount and restores user error handler', (done) => {
+      const TestComponent = {
+        template: '<div/>',
+        updated: function () {
+          throw new Error('Error in updated')
+        }
+      }
+
+      const wrapper = mount(TestComponent, {
+        sync: false
+      })
+      wrapper.vm.$forceUpdate()
+      setTimeout(() => {
+        expect(consoleError).calledTwice
+        done()
+      })
+    })
+
+    it.only('restores user error handler after mount', () => {
+      const existingErrorHandler = () => {}
+      Vue.config.errorHandler = existingErrorHandler
+      console.log(Vue.config.errorHandler)
+      const TestComponent = {
+        template: '<div/>'
+      }
+
+      mount(TestComponent)
+
+      expect(Vue.config.errorHandler).to.equal(existingErrorHandler)
+    })
+
     it('overwrites the component options with the options other than the mounting options when the options for mount contain those', () => {
       const Component = {
         template: '<div>{{ foo() }}{{ bar() }}{{ baz() }}</div>',

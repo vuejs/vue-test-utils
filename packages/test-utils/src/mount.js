@@ -15,10 +15,13 @@ import warnIfNoWindow from './warn-if-no-window'
 
 Vue.config.productionTip = false
 Vue.config.devtools = false
-Vue.config.errorHandler = errorHandler
 
 export default function mount (component: Component, options: Options = {}): VueWrapper {
+  const existingErrorHandler = Vue.config.errorHandler
+  Vue.config.errorHandler = errorHandler
+
   warnIfNoWindow()
+
   // Remove cached constructor
   delete component._Ctor
   const vueClass = options.localVue || createLocalVue()
@@ -34,6 +37,8 @@ export default function mount (component: Component, options: Options = {}): Vue
   if (componentsWithError.length > 0) {
     throw (componentsWithError[0]._error)
   }
+
+  Vue.config.errorHandler = existingErrorHandler
 
   const wrapperOptions = {
     attachedToDocument: !!options.attachToDocument,
