@@ -71,9 +71,9 @@ export default function createInstance (
     _Vue.component(c, stubComponents[c])
   })
 
-  const Constructor = (typeof component === 'function' && component.prototype instanceof Vue) 
-    ? component : 
-    _Vue.extend(component).extend(instanceOptions)
+  const Constructor = (typeof component === 'function' && component.prototype instanceof Vue)
+    ? component.extend(instanceOptions)
+    : _Vue.extend(component).extend(instanceOptions)
 
   // const Constructor = _Vue.extend(component).extend(instanceOptions)
 

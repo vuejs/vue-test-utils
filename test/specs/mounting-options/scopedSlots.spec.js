@@ -7,16 +7,10 @@ import ComponentWithScopedSlots from '~resources/components/component-with-scope
 import { itDoNotRunIf } from 'conditional-specs'
 
 describeWithShallowAndMount('scopedSlots', (mountingMethod) => {
-  let _window
-
-  beforeEach(() => {
-    _window = window
-  })
+  const windowSave = window
 
   afterEach(() => {
-    if (!window.navigator.userAgent.match(/Chrome/i)) {
-      window = _window // eslint-disable-line no-native-reassign
-    }
+    window = windowSave // eslint-disable-line no-native-reassign
   })
 
   itDoNotRunIf(vueVersion < 2.5 || isRunningPhantomJS,

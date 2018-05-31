@@ -12,6 +12,12 @@ import {
 } from 'conditional-specs'
 
 describeWithMountingMethods('options.slots', (mountingMethod) => {
+  const windowSave = window
+
+  afterEach(() => {
+    window = windowSave // eslint-disable-line no-native-reassign
+  })
+
   it('mounts component with default slot if passed component in slot object', () => {
     const wrapper = mountingMethod(ComponentWithSlots, { slots: { default: Component }})
     if (mountingMethod.name === 'renderToString') {

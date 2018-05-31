@@ -12,14 +12,16 @@ import {
 
 describeRunIf(process.env.TEST_ENV !== 'node',
   'mount', () => {
-    let consoleError
+    const windowSave = window
 
     beforeEach(() => {
-      consoleError = sinon.stub(console, 'error')
+      sinon.stub(console, 'error')
     })
 
     afterEach(() => {
-      consoleError.restore()
+      console.log(windowSave)
+      window = windowSave // eslint-disable-line no-native-reassign
+      console.error.restore()
     })
 
     it('returns new VueWrapper with mounted Vue instance if no options are passed', () => {
@@ -115,13 +117,9 @@ describeRunIf(process.env.TEST_ENV !== 'node',
         console.log('window read only. skipping test ...')
         return
       }
-      const windowSave = global.window
 
-      after(() => {
-        global.window = windowSave
-      })
       const message = '[vue-test-utils]: window is undefined, vue-test-utils needs to be run in a browser environment.\n You can run the tests in node using JSDOM'
-      global.window = undefined
+      window = undefined  // eslint-disable-line no-native-reassign
 
       expect(() => mount(compileToFunctions('<div />'))).to.throw().with.property('message', message)
     })
@@ -156,7 +154,7 @@ describeRunIf(process.env.TEST_ENV !== 'node',
         }
       }
       mount(TestComponent)
-      expect(consoleError).calledWith(msg)
+      expect(console.error).calledWith(msg)
     })
 
     it('deletes mounting options before passing options to component', () => {
