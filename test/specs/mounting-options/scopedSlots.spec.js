@@ -70,7 +70,7 @@ describeWithShallowAndMount('scopedSlots', (mountingMethod) => {
 
   itDoNotRunIf(vueVersion < 2.5,
     'throws exception when using PhantomJS', () => {
-      if (window.navigator.userAgent.match(/Chrome/i)) {
+      if (window.navigator.userAgent.match(/Chrome|PhantomJS/i)) {
         return
       }
       window = { navigator: { userAgent: 'PhantomJS' }} // eslint-disable-line no-native-reassign
