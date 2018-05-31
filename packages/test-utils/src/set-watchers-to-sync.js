@@ -1,5 +1,3 @@
-import { VUE_VERSION } from './consts'
-
 function setDepsSync (dep) {
   dep.subs.forEach(setWatcherSync)
 }
@@ -26,17 +24,4 @@ export function setWatchersToSync (vm) {
   setWatcherSync(vm._watcher)
 
   vm.$children.forEach(setWatchersToSync)
-
-  // preventing double registration
-  if (!vm.$_vueTestUtils_updateInSetWatcherSync) {
-    vm.$_vueTestUtils_updateInSetWatcherSync = vm._update
-    vm._update = function (vnode, hydrating) {
-      this.$_vueTestUtils_updateInSetWatcherSync(vnode, hydrating)
-      if (VUE_VERSION >= 2.1 && this._isMounted && this.$options.updated) {
-        this.$options.updated.forEach((handler) => {
-          handler.call(this)
-        })
-      }
-    }
-  }
 }

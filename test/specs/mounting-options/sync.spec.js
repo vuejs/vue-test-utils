@@ -1,4 +1,3 @@
-import sinon from 'sinon'
 import { describeWithShallowAndMount } from '~resources/utils'
 
 describeWithShallowAndMount('options.sync', (mountingMethod) => {
@@ -110,38 +109,5 @@ describeWithShallowAndMount('options.sync', (mountingMethod) => {
       expect(wrapper.text()).to.equal('world')
       done()
     })
-  })
-
-  it('call updated when sync is not false', () => {
-    const fooSpy = sinon.stub()
-    const Foo = {
-      template: '<div>{{ foo }}</div>',
-      props: ['foo'],
-      updated () {
-        fooSpy()
-      }
-    }
-    const spy = sinon.stub()
-    const TestComponent = {
-      template: '<div>{{ foo }}<foo :foo="foo" /></div>',
-      data () {
-        return {
-          foo: 'foo'
-        }
-      },
-      updated () {
-        spy()
-      }
-    }
-    const wrapper = mountingMethod(TestComponent, {
-      stubs: { foo: Foo },
-      sync: true
-    })
-    expect(spy.notCalled).to.equal(true)
-    expect(fooSpy.notCalled).to.equal(true)
-    wrapper.vm.foo = 'bar'
-    expect(spy.calledOnce).to.equal(true)
-    expect(fooSpy.calledOnce).to.equal(true)
-    expect(wrapper.html()).to.equal('<div>bar<div>bar</div></div>')
   })
 })
