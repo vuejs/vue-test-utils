@@ -19,7 +19,6 @@ describeRunIf(process.env.TEST_ENV !== 'node',
     })
 
     afterEach(() => {
-      console.log(windowSave)
       window = windowSave // eslint-disable-line no-native-reassign
       console.error.restore()
     })

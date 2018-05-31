@@ -25,7 +25,6 @@ export function addScopedSlots (vm: Component, scopedSlots: any) {
   if (vueVersion < 2.5) {
     throwError('the scopedSlots option is only supported in vue@2.5+.')
   }
-  console.log('asd')
   vm.$_vueTestUtils_scopedSlots = {}
   vm.$_vueTestUtils_slotScopes = {}
   const renderSlot = vm._renderProxy._t
