@@ -2,7 +2,8 @@ import { compileToFunctions } from 'vue-template-compiler'
 import { listenersSupported } from '~resources/utils'
 import {
   describeWithShallowAndMount,
-  isRunningPhantomJS
+  isRunningPhantomJS,
+  vueVersion
 } from '~resources/utils'
 import {
   itDoNotRunIf
@@ -24,8 +25,9 @@ describeWithShallowAndMount('options.listeners', (mountingMethod) => {
       expect(wrapper.vm.$listeners.aListener.fns).to.equal(aListener)
     })
 
-  it('defines listeners as empty object even when not passed', () => {
-    const wrapper = mountingMethod(compileToFunctions('<p />'))
-    expect(wrapper.vm.$listeners).to.deep.equal({})
-  })
+  itDoNotRunIf(vueVersion < 2.5,
+    'defines listeners as empty object even when not passed', () => {
+      const wrapper = mountingMethod(compileToFunctions('<p />'))
+      expect(wrapper.vm.$listeners).to.deep.equal({})
+    })
 })
