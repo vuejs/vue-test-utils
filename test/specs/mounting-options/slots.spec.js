@@ -113,6 +113,7 @@ describeWithMountingMethods('options.slots', (mountingMethod) => {
     const wrapper5 = mountingMethod(ComponentWithSlots, { slots: { default: '1{{ foo }}2' }})
     expect(wrapper5.find('main').html()).to.equal('<main>1bar2</main>')
     wrapper5.trigger('keydown')
+    expect(wrapper5.find('main').html()).to.equal('<main>1BAR2</main>')
     const wrapper6 = mountingMethod(ComponentWithSlots, { slots: { default: '<p>1</p><p>2</p>' }})
     expect(wrapper6.find('main').html()).to.equal('<main><p>1</p><p>2</p></main>')
     const wrapper7 = mountingMethod(ComponentWithSlots, { slots: { default: '1<p>2</p>3' }})

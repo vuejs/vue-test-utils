@@ -46,7 +46,7 @@ describeWithShallowAndMount('options.sync', (mountingMethod) => {
             <pre>computed.text: <em>{{ computedText }}</em></pre>
           </div>
         </div>
-        </div>
+      </div>
       `,
       data () {
         return {
