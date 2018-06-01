@@ -247,8 +247,8 @@ describeWithShallowAndMount('findAll', (mountingMethod) => {
 
   it('returns an array of Wrapper of elements matching a component name in options object', () => {
     const wrapper = mountingMethod(ComponentWithChild)
-    const wrapperArray = wrapper.findAll({ name: 'component' })
-    expect(wrapperArray.at(0).name()).to.equal('component')
+    const wrapperArray = wrapper.findAll({ name: 'test-component' })
+    expect(wrapperArray.at(0).name()).to.equal('test-component')
     expect(wrapperArray.length).to.equal(1)
   })
 

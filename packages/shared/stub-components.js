@@ -48,7 +48,7 @@ function createStubFromString (
   name: string
 ): Object {
   if (!compileToFunctions) {
-    throwError('vueTemplateCompiler is undefined, you must pass components explicitly if vue-template-compiler is undefined')
+    throwError('vueTemplateCompiler is undefined, you must pass precompiled components if vue-template-compiler is undefined')
   }
 
   if (templateContainsComponent(templateString, name)) {
@@ -120,7 +120,7 @@ export function createComponentStubs (
       } else {
         if (typeof stubs[stub] === 'string') {
           if (!compileToFunctions) {
-            throwError('vueTemplateCompiler is undefined, you must pass components explicitly if vue-template-compiler is undefined')
+            throwError('vueTemplateCompiler is undefined, you must pass precompiled components if vue-template-compiler is undefined')
           }
           components[stub] = {
             ...compileToFunctions(stubs[stub])

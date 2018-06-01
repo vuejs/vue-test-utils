@@ -26,20 +26,20 @@ describeRunIf(process.env.TEST_ENV !== 'node',
     it('returns new VueWrapper of Vue localVue if no options are passed', () => {
       const compiled = compileToFunctions('<div><input /></div>')
       const wrapper = shallowMount(compiled)
-      expect(wrapper.isVueComponent).to.equal(true)
+      expect(wrapper.isVueInstance()).to.equal(true)
       expect(wrapper.vm).to.be.an('object')
     })
 
     it('returns new VueWrapper of Vue localVue with all children stubbed', () => {
       const wrapper = shallowMount(ComponentWithNestedChildren)
-      expect(wrapper.isVueComponent).to.equal(true)
+      expect(wrapper.isVueInstance()).to.equal(true)
       expect(wrapper.findAll(Component).length).to.equal(0)
       expect(wrapper.findAll(ComponentWithChild).length).to.equal(1)
     })
 
     it('returns new VueWrapper of Vue localVue with all children stubbed', () => {
       const wrapper = shallowMount(ComponentWithNestedChildren)
-      expect(wrapper.isVueComponent).to.equal(true)
+      expect(wrapper.isVueInstance()).to.equal(true)
       expect(wrapper.findAll(Component).length).to.equal(0)
       expect(wrapper.findAll(ComponentWithChild).length).to.equal(1)
     })
@@ -54,11 +54,12 @@ describeRunIf(process.env.TEST_ENV !== 'node',
     it('stubs globally registered components when options.localVue is provided', () => {
       const localVue = Vue.extend()
       localVue.component('registered-component', ComponentWithLifecycleHooks)
-      const Component = {
+      const TestComponent = {
         render: h => h('registered-component')
       }
-      shallowMount(Component, { localVue })
-      mount(Component, { localVue })
+      shallowMount(TestComponent, { localVue })
+      localVue.component('registered-component', ComponentWithLifecycleHooks)
+      mount(TestComponent, { localVue })
 
       expect(info.callCount).to.equal(4)
     })
@@ -185,7 +186,7 @@ describeRunIf(process.env.TEST_ENV !== 'node',
         propsData: {
           items: ['', '']
         }
-      }).findAll(RecursiveComponent).length).to.equal(2)
+      }).findAll(RecursiveComponent).length).to.equal(3)
       RecursiveComponent.components = {
         'recursive-component': { render: h => h('div') }
       }
@@ -193,7 +194,7 @@ describeRunIf(process.env.TEST_ENV !== 'node',
         propsData: {
           items: ['', '']
         }
-      }).findAll(RecursiveComponent).length).to.equal(2)
+      }).findAll(RecursiveComponent).length).to.equal(3)
     })
 
     it('throws an error when the component fails to mount', () => {

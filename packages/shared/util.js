@@ -1,4 +1,5 @@
 // @flow
+import Vue from 'vue'
 
 export function throwError (msg: string) {
   throw new Error(`[vue-test-utils]: ${msg}`)
@@ -24,3 +25,5 @@ export const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.sli
  */
 const hyphenateRE = /\B([A-Z])/g
 export const hyphenate = (str: string) => str.replace(hyphenateRE, '-$1').toLowerCase()
+
+export const vueVersion = Number(`${Vue.version.split('.')[0]}.${Vue.version.split('.')[1]}`)

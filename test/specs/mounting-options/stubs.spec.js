@@ -161,7 +161,7 @@ describeWithMountingMethods('options.stub', (mountingMethod) => {
     const mountingMethodFresh = mountingMethod.name === 'renderToString'
       ? require('../../../packages/server-test-utils').renderToString
       : require('../../../packages/test-utils')[mountingMethod.name]
-    const message = '[vue-test-utils]: vueTemplateCompiler is undefined, you must pass components explicitly if vue-template-compiler is undefined'
+    const message = '[vue-test-utils]: vueTemplateCompiler is undefined, you must pass precompiled components if vue-template-compiler is undefined'
     const fn = () => mountingMethodFresh(Component, {
       stubs: {
         ChildComponent: '<div />'
