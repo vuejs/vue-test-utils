@@ -235,7 +235,7 @@ describeRunIf(process.env.TEST_ENV !== 'node',
       expect(fn).to.throw('Error in mounted')
     })
 
-    it.only('logs errors once after mount and restores user error handler', (done) => {
+    it('logs errors once after mount and restores user error handler', (done) => {
       const TestComponent = {
         template: '<div/>',
         updated: function () {
@@ -248,12 +248,14 @@ describeRunIf(process.env.TEST_ENV !== 'node',
       })
       wrapper.vm.$forceUpdate()
       setTimeout(() => {
-        expect(consoleError).calledTwice
+        vueVersion > 2.1
+          ? expect(consoleError).calledTwice
+          : expect(consoleError).calledOnce
         done()
       })
     })
 
-    it.only('restores user error handler after mount', () => {
+    it('restores user error handler after mount', () => {
       const existingErrorHandler = () => {}
       Vue.config.errorHandler = existingErrorHandler
       console.log(Vue.config.errorHandler)
