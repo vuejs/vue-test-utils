@@ -31,7 +31,7 @@ export default class Wrapper implements BaseWrapper {
   vm: Component | null;
   _emitted: { [name: string]: Array<Array<any>> };
   _emittedByOrder: Array<{ name: string; args: Array<any> }>;
-  isVueComponent: boolean;
+  isVm: boolean;
   element: Element;
   update: Function;
   options: WrapperOptions;
@@ -209,7 +209,7 @@ export default class Wrapper implements BaseWrapper {
   hasProp (prop: string, value: string) {
     warn('hasProp() has been deprecated and will be removed in version 1.0.0. Use props() instead—https://vue-test-utils.vuejs.org/en/api/wrapper/props')
 
-    if (!this.isVueComponent) {
+    if (!this.isVueInstance()) {
       throwError('wrapper.hasProp() must be called on a Vue instance')
     }
     if (typeof prop !== 'string') {
@@ -369,7 +369,7 @@ export default class Wrapper implements BaseWrapper {
    * Checks if wrapper is a vue instance
    */
   isVueInstance (): boolean {
-    return !!this.isVueComponent
+    return !!this.isVm
   }
 
   /**
@@ -440,7 +440,7 @@ export default class Wrapper implements BaseWrapper {
    * Sets vm computed
    */
   setComputed (computed: Object) {
-    if (!this.isVueComponent) {
+    if (!this.isVueInstance()) {
       throwError('wrapper.setComputed() can only be called on a Vue instance')
     }
 
@@ -492,7 +492,7 @@ export default class Wrapper implements BaseWrapper {
    * Sets vm methods
    */
   setMethods (methods: Object) {
-    if (!this.isVueComponent) {
+    if (!this.isVueInstance()) {
       throwError('wrapper.setMethods() can only be called on a Vue instance')
     }
     Object.keys(methods).forEach((key) => {
@@ -510,7 +510,7 @@ export default class Wrapper implements BaseWrapper {
     if (this.isFunctionalComponent) {
       throwError('wrapper.setProps() cannot be called on a functional component')
     }
-    if (!this.isVueComponent || !this.vm) {
+    if (!this.isVueInstance() || !this.vm) {
       throwError('wrapper.setProps() can only be called on a Vue instance')
     }
     if (this.vm && this.vm.$options && !this.vm.$options.propsData) {
@@ -558,7 +558,7 @@ export default class Wrapper implements BaseWrapper {
    * Calls destroy on vm
    */
   destroy () {
-    if (!this.isVueComponent) {
+    if (!this.isVueInstance()) {
       throwError('wrapper.destroy() can only be called on a Vue instance')
     }
 
@@ -582,7 +582,7 @@ export default class Wrapper implements BaseWrapper {
     }
 
     if (options.target) {
-      throwError('you cannot set the target value of an event. See the notes section of the docs for more details—https://vue-test-utils.vuejs.org/en/api/wrapper/trigger.html')
+      throwError('you cannot set the target value of an event. See the notes section of the docs for more details—https://vue-test-utils.vuejs.org/api/wrapper/trigger.html')
     }
 
     // Don't fire event on a disabled element

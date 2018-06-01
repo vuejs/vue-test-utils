@@ -65,8 +65,11 @@ export function vmCtorMatchesSelector (component: Component, selector: Object) {
   if (!Ctor) {
     return false
   }
-  const Ctors = Object.keys(Ctor)
-  return Ctors.some(c => Ctor[c] === component.__proto__.constructor)
+  const constructor = component.__proto__.constructor
+  return Object.keys(Ctor || {}).some(c => {
+    return Ctor[c] === constructor ||
+      Ctor[c] === constructor.super
+  })
 }
 
 export function vmFunctionalCtorMatchesSelector (component: VNode, Ctor: Object) {

@@ -10,13 +10,16 @@ import {
   itDoNotRunIf
 } from 'conditional-specs'
 
-describeRunIf.only(process.env.TEST_ENV !== 'node',
+describeRunIf(process.env.TEST_ENV !== 'node',
   'mount', () => {
+    const windowSave = window
+
     beforeEach(() => {
       sinon.stub(console, 'error')
     })
 
     afterEach(() => {
+      window = windowSave // eslint-disable-line no-native-reassign
       console.error.restore()
     })
 
@@ -113,13 +116,9 @@ describeRunIf.only(process.env.TEST_ENV !== 'node',
         console.log('window read only. skipping test ...')
         return
       }
-      const windowSave = global.window
 
-      after(() => {
-        global.window = windowSave
-      })
       const message = '[vue-test-utils]: window is undefined, vue-test-utils needs to be run in a browser environment.\n You can run the tests in node using JSDOM'
-      global.window = undefined
+      window = undefined  // eslint-disable-line no-native-reassign
 
       expect(() => mount(compileToFunctions('<div />'))).to.throw().with.property('message', message)
     })
@@ -183,12 +182,7 @@ describeRunIf.only(process.env.TEST_ENV !== 'node',
         }
       })
       if (injectSupported) {
-      // provide is added by Vue, it's a function in Vue > 2.3
-        if (vueVersion > 2.3) {
-          expect(typeof wrapper.vm.$options.provide).to.equal('function')
-        } else {
-          expect(typeof wrapper.vm.$options.provide).to.equal('object')
-        }
+        expect(typeof wrapper.vm.$options.provide).to.equal('object')
       }
 
       expect(wrapper.vm.$options.attachToDocument).to.equal(undefined)
@@ -233,7 +227,7 @@ describeRunIf.only(process.env.TEST_ENV !== 'node',
       expect(fn).to.throw('Error in mounted')
     })
 
-    it.only('logs errors once after mount', (done) => {
+    it('logs errors once after mount', (done) => {
       Vue.config.errorHandler = null
       const TestComponent = {
         template: '<div/>',

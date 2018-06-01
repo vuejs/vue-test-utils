@@ -1,6 +1,6 @@
 ## 测试异步行为
 
-为了让测试变得简单，`vue-test-utils` _同步_应用 DOM 更新。不过当测试一个带有回调或 Promise 等异步行为的组件时，你需要留意一些技巧。
+为了让测试变得简单，`@vue/test-utils` _同步_应用 DOM 更新。不过当测试一个带有回调或 Promise 等异步行为的组件时，你需要留意一些技巧。
 
 API 调用和 Vuex action 都是最常见的异步行为之一。下列例子展示了如何测试一个会调用到 API 的方法。这个例子使用 Jest 运行测试用例同时模拟了 HTTP 库 `axios`。更多关于 Jest 的手动模拟的介绍可移步[这里](https://facebook.github.io/jest/docs/en/manual-mocks.html#content)。
 
@@ -44,13 +44,13 @@ export default {
 测试用例可以写成像这样：
 
 ``` js
-import { shallow } from 'vue-test-utils'
+import { shallowMount } from '@vue/test-utils'
 import Foo from './Foo'
 jest.mock('axios')
 
 test('Foo', () => {
   it('fetches async when a button is clicked', () => {
-    const wrapper = shallow(Foo)
+    const wrapper = shallowMount(Foo)
     wrapper.find('button').trigger('click')
     expect(wrapper.vm.value).toBe('value')
   })
@@ -62,7 +62,7 @@ test('Foo', () => {
 ``` js
 test('Foo', () => {
   it('fetches async when a button is clicked', (done) => {
-    const wrapper = shallow(Foo)
+    const wrapper = shallowMount(Foo)
     wrapper.find('button').trigger('click')
     wrapper.vm.$nextTick(() => {
       expect(wrapper.vm.value).toBe('value')
@@ -79,14 +79,14 @@ test('Foo', () => {
 The updated test looks like this:
 
 ``` js
-import { shallow } from 'vue-test-utils'
+import { shallowMount } from '@vue/test-utils'
 import flushPromises from 'flush-promises'
 import Foo from './Foo'
 jest.mock('axios')
 
 test('Foo', () => {
   it('fetches async when a button is clicked', async () => {
-    const wrapper = shallow(Foo)
+    const wrapper = shallowMount(Foo)
     wrapper.find('button').trigger('click')
     await flushPromises()
     expect(wrapper.vm.value).toBe('value')

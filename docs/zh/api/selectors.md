@@ -32,10 +32,10 @@ export default {
 ```
 
 ```js
-import { shallow } from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 import Foo from './Foo.vue'
 
-const wrapper = shallow(Foo)
+const wrapper = shallowMount(Foo)
 expect(wrapper.is(Foo)).toBe(true)
 ```
 

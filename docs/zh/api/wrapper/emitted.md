@@ -44,7 +44,7 @@ expect(wrapper.emitted('foo').length).toBe(2)
 expect(wrapper.emitted('foo')[1]).toEqual([123])
 ```
 
-该 `.emitted() 方法每次被调用时都返回相同的对象，而不是返回一个新的，所以当新事件被触发时该对象会被更新：
+该 `.emitted()` 方法每次被调用时都返回相同的对象，而不是返回一个新的，所以当新事件被触发时该对象会被更新：
 
 ```js
 const emitted = wrapper.emitted()

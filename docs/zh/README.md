@@ -1,4 +1,4 @@
-# Vue Test Utils
+# 介绍
 
 Vue Test Utils 是 Vue.js 官方的单元测试实用工具库。
 
@@ -15,7 +15,7 @@ Vue Test Utils 是 Vue.js 官方的单元测试实用工具库。
   * [配合 Vuex 实用](guides/using-with-vuex.md)
 * [API](api/README.md)
   * [mount](api/mount.md)
-  * [shallow](api/shallow.md)
+  * [shallowMount](api/shallowMount.md)
   * [render](api/render.md)
   * [renderToString](api/renderToString.md)
   * [挂载选项](api/options.md)

@@ -16,11 +16,14 @@ vue-test-utils はラッパベースの API です。
 
 ### `options` 
 
-`Object`: `mount` または `shallowMount` に渡された vue-test-utils オプションを含むオブジェクト  
+#### `options.attachedToDocument` 
 
-#### `options.attachedToDom` 
+`Boolean`: マウンティングオプションで `attachedToDocument` が `true` だった場合は True です。
 
-`Boolean`: `mount` か `shallowMount` に渡された場合は True です。  
+
+#### `options.sync` 
+
+`Boolean`: マウンティングオプションで `sync` が `false` ではなかった場合は True です。  
 
 ## メソッド
 
