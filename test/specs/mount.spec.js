@@ -227,26 +227,28 @@ describeRunIf(process.env.TEST_ENV !== 'node',
       expect(fn).to.throw('Error in mounted')
     })
 
-    it('logs errors once after mount', (done) => {
-      Vue.config.errorHandler = null
-      const TestComponent = {
-        template: '<div/>',
-        updated: function () {
-          throw new Error('Error in updated')
+    itDoNotRunIf(
+      vueVersion < 2.2,
+      'logs errors once after mount', (done) => {
+        Vue.config.errorHandler = null
+        const TestComponent = {
+          template: '<div/>',
+          updated: function () {
+            throw new Error('Error in updated')
+          }
         }
-      }
 
-      const wrapper = mount(TestComponent, {
-        sync: false
+        const wrapper = mount(TestComponent, {
+          sync: false
+        })
+        wrapper.vm.$forceUpdate()
+        setTimeout(() => {
+          vueVersion > 2.1
+            ? expect(console.error).calledTwice
+            : expect(console.error).calledOnce
+          done()
+        })
       })
-      wrapper.vm.$forceUpdate()
-      setTimeout(() => {
-        vueVersion > 2.1
-          ? expect(console.error).calledTwice
-          : expect(console.error).calledOnce
-        done()
-      })
-    })
 
     it('restores user error handler after mount', () => {
       const existingErrorHandler = () => {}
@@ -256,6 +258,7 @@ describeRunIf(process.env.TEST_ENV !== 'node',
       }
       mount(TestComponent)
       expect(Vue.config.errorHandler).to.equal(existingErrorHandler)
+      Vue.config.errorHandler = null
     })
 
     it('overwrites the component options with the options other than the mounting options when the options for mount contain those', () => {
