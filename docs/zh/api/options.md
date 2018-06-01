@@ -59,14 +59,6 @@ const wrapper = shallowMount(Component, {
 expect(wrapper.find('div')).toBe(true)
 ```
 
-### 传递文本
-
-你可以传递文本到 `slots`。  
-这里有一处限制。
-
-我们不支持 PhantomJS。  
-你可以使用 [Puppeteer](https://github.com/karma-runner/karma-chrome-launcher#headless-chromium-with-puppeteer) 作为替代品。
-
 ## scopedSlots
 
 - 类型：`{ [name: string]: string }`
@@ -80,7 +72,7 @@ There are three limitations.
 
 * 你不能在 `scopedSlots` 选项中将 `<template>` 标签用作其根元素。
 
-* 我们不支持 PhantomJS。  
+* 我们不支持 PhantomJS。
 你可以使用 [Puppeteer](https://github.com/karma-runner/karma-chrome-launcher#headless-chromium-with-puppeteer) 作为替代品。
 
 示例：
@@ -198,7 +190,7 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 - 类型：`boolean`
 - 默认值：`true`
 
-当 `sync` 是 `true` 时，这个 Vue 组件会被同步渲染。  
+当 `sync` 是 `true` 时，这个 Vue 组件会被同步渲染。
 当 `sync` 是 `false` 时，这个 Vue 组件会被异步渲染。
 
 ## 其它选项

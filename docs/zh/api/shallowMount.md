@@ -22,7 +22,7 @@
 
 - **用法：**
 
-和 [`mount`](mount.md) 一样，创建一个包含被挂载和渲染的 Vue 组件的 [`Wrapper`](wrapper/README.md)，不同的是被存根的子组件。
+和 [`mount`](mount.md) 一样，创建一个包含被挂载和渲染的 Vue 组件的 [`Wrapper`](wrapper/)，不同的是被存根的子组件。
 
 **无选项：**
 

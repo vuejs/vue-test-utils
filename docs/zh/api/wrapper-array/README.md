@@ -1,14 +1,14 @@
 # WrapperArray
 
-一个 `WrapperArray` 是一个包含 [`Wrapper`](../wrapper/README.md) 数组以及 `Wrapper` 的测试方法等对象。
+一个 `WrapperArray` 是一个包含 [`Wrapper`](../wrapper/) 数组以及 `Wrapper` 的测试方法等对象。
 
 ## 属性
 
-### `wrappers` 
+### `wrappers`
 
-`array`: 包含在 `WrapperArray` 内的 `Wrappers`  
+`array`: 包含在 `WrapperArray` 内的 `Wrappers`
 
-### `length` 
+### `length`
 
 `number`：该 `WrapperArray` 中包含的 `Wrapper` 的数量。
 

@@ -126,4 +126,4 @@ describe('Foo', () => {
 })
 ```
 
-- **See also:** [Wrapper](wrapper/README.md)
+- **See also:** [Wrapper](wrapper/)
