@@ -1,3 +1,4 @@
+import sinon from 'sinon'
 import { describeWithShallowAndMount } from '~resources/utils'
 
 describeWithShallowAndMount('options.sync', (mountingMethod) => {
@@ -46,7 +47,7 @@ describeWithShallowAndMount('options.sync', (mountingMethod) => {
             <pre>computed.text: <em>{{ computedText }}</em></pre>
           </div>
         </div>
-        </div>
+      </div>
       `,
       data () {
         return {
@@ -109,5 +110,39 @@ describeWithShallowAndMount('options.sync', (mountingMethod) => {
       expect(wrapper.text()).to.equal('world')
       done()
     })
+  })
+
+  it('call updated when sync is not false', () => {
+    const childComponentSpy = sinon.stub()
+    const ChildComponent = {
+      template: '<div>{{ foo }}</div>',
+      props: ['foo'],
+      updated () {
+        childComponentSpy()
+      }
+    }
+    const spy = sinon.stub()
+    const TestComponent = {
+      template: '<div>{{ foo }}<child-component :foo="foo" /></div>',
+      data () {
+        return {
+          foo: 'foo'
+        }
+      },
+      updated () {
+        spy()
+      }
+    }
+    const wrapper = mountingMethod(TestComponent, {
+      stubs: { 'child-component': ChildComponent },
+      sync: true
+    })
+    expect(spy.notCalled).to.equal(true)
+    expect(childComponentSpy.notCalled).to.equal(true)
+    expect(wrapper.html()).to.equal('<div>foo<div>foo</div></div>')
+    wrapper.vm.foo = 'bar'
+    expect(spy.calledOnce).to.equal(true)
+    expect(childComponentSpy.calledOnce).to.equal(true)
+    expect(wrapper.html()).to.equal('<div>bar<div>bar</div></div>')
   })
 })
