@@ -10,16 +10,14 @@ import {
   itDoNotRunIf
 } from 'conditional-specs'
 
-describeRunIf(process.env.TEST_ENV !== 'node',
+describeRunIf.only(process.env.TEST_ENV !== 'node',
   'mount', () => {
-    let consoleError
-
     beforeEach(() => {
-      consoleError = sinon.stub(console, 'error')
+      sinon.stub(console, 'error')
     })
 
     afterEach(() => {
-      consoleError.restore()
+      console.error.restore()
     })
 
     it('returns new VueWrapper with mounted Vue instance if no options are passed', () => {
@@ -156,7 +154,7 @@ describeRunIf(process.env.TEST_ENV !== 'node',
         }
       }
       mount(TestComponent)
-      expect(consoleError).calledWith(msg)
+      expect(console.error).calledWith(msg)
     })
 
     it('deletes mounting options before passing options to component', () => {
@@ -235,7 +233,8 @@ describeRunIf(process.env.TEST_ENV !== 'node',
       expect(fn).to.throw('Error in mounted')
     })
 
-    it('logs errors once after mount and restores user error handler', (done) => {
+    it.only('logs errors once after mount', (done) => {
+      Vue.config.errorHandler = null
       const TestComponent = {
         template: '<div/>',
         updated: function () {
@@ -249,8 +248,8 @@ describeRunIf(process.env.TEST_ENV !== 'node',
       wrapper.vm.$forceUpdate()
       setTimeout(() => {
         vueVersion > 2.1
-          ? expect(consoleError).calledTwice
-          : expect(consoleError).calledOnce
+          ? expect(console.error).calledTwice
+          : expect(console.error).calledOnce
         done()
       })
     })
@@ -258,13 +257,10 @@ describeRunIf(process.env.TEST_ENV !== 'node',
     it('restores user error handler after mount', () => {
       const existingErrorHandler = () => {}
       Vue.config.errorHandler = existingErrorHandler
-      console.log(Vue.config.errorHandler)
       const TestComponent = {
         template: '<div/>'
       }
-
       mount(TestComponent)
-
       expect(Vue.config.errorHandler).to.equal(existingErrorHandler)
     })
 
