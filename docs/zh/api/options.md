@@ -65,14 +65,13 @@ expect(wrapper.find('div')).toBe(true)
 
 提供一个该组件所有带作用域的插槽内容的对象。每个键对应到插槽的名字，每个值可以是一个模板字符串。
 
-There are three limitations.
 这里有三处限制。
 
 * 该选项只支持 vue@2.5+。
 
 * 你不能在 `scopedSlots` 选项中将 `<template>` 标签用作其根元素。
 
-* 我们不支持 PhantomJS。
+* 我们不支持 PhantomJS。  
 你可以使用 [Puppeteer](https://github.com/karma-runner/karma-chrome-launcher#headless-chromium-with-puppeteer) 作为替代品。
 
 示例：
@@ -190,7 +189,7 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 - 类型：`boolean`
 - 默认值：`true`
 
-当 `sync` 是 `true` 时，这个 Vue 组件会被同步渲染。
+当 `sync` 是 `true` 时，这个 Vue 组件会被同步渲染。  
 当 `sync` 是 `false` 时，这个 Vue 组件会被异步渲染。
 
 ## 其它选项
