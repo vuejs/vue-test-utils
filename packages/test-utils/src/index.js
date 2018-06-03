@@ -1,6 +1,7 @@
 import shallowMount from './shallow-mount'
 import mount from './mount'
 import createLocalVue from './create-local-vue'
+import createStub from './create-stub'
 import TransitionStub from './components/TransitionStub'
 import TransitionGroupStub from './components/TransitionGroupStub'
 import RouterLinkStub from './components/RouterLinkStub'
@@ -15,6 +16,7 @@ function shallow (component, options) {
 export default {
   createLocalVue,
   config,
+  createStub,
   mount,
   shallow,
   shallowMount,
