@@ -19,7 +19,6 @@ export default function find (
   selector: Selector
 ): Array<VNode | Component> {
   const selectorType = getSelectorTypeOrThrow(selector, 'find')
-  console.log('TYPE IS', selectorType)
 
   if (!vnode && !vm && selectorType !== DOM_SELECTOR) {
     throwError('cannot find a Vue instance on a DOM node. The node you are calling find on does not exist in the VDom. Are you adding the node as innerHTML?')
