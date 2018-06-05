@@ -56,6 +56,7 @@ export function vmCtorMatchesName (vm: Component, name: string): boolean {
     return false
   }
   return !!((vm.$vnode && vm.$vnode.componentOptions && vm.$vnode.componentOptions.Ctor.options.name === name) ||
+    vm.$vnode.componentOptions.tag === name ||
     (vm._vnode &&
     vm._vnode.functionalOptions &&
     vm._vnode.functionalOptions.name === name) ||
@@ -105,7 +106,15 @@ export default function findVueComponents (
       node[FUNCTIONAL_OPTIONS].name === selector.name
     )
   }
-  const nameSelector = typeof selector === 'function' ? selector.options.name : selector.name
+  /*
+   * const nameSelector = typeof selector === 'function' ? selector.options.name : selector.name */
+  const nameSelector = typeof selector === 'function'
+  ? selector.options.name
+  : typeof selector === 'object' ? selector.name : selector 
+
+  //  const nameSelector = typeof selector === 'function'
+  //  ? selector.options.name : selector.name
+
   const components = root._isVue
     ? findAllVueComponentsFromVm(root)
     : findAllVueComponentsFromVnode(root)

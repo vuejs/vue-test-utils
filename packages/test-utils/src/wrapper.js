@@ -99,7 +99,6 @@ export default class Wrapper implements BaseWrapper {
    */
   contains (selector: Selector) {
     const selectorType = getSelectorTypeOrThrow(selector, 'contains')
-    console.log("KOOK MADE")
     const nodes = findAll(this.vm, this.vnode, this.element, selector)
     const is = selectorType === REF_SELECTOR ? false : this.is(selector)
     return nodes.length > 0 || is

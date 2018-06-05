@@ -21,14 +21,13 @@ export function isDomSelector (selector: any) {
   } catch (error) {
     throwError('mount must be run in a browser environment like PhantomJS, jsdom or chrome')
   }
-
   try {
     document.querySelector(selector)
 
     const pseudoSelectors = ['.', '#', '[', ':', '>', ' ']
-    if (htmlTags.includes(selector) 
-      || svgElements.includes(selector)
-      || selector.split('').some(char => pseudoSelectors.includes(char))) {
+    if (htmlTags.includes(selector) ||
+      svgElements.includes(selector) ||
+      selector.split('').some(char => pseudoSelectors.includes(char))) {
       return true
     } else {
       return false
@@ -78,7 +77,7 @@ export function isNameSelector (nameOptionsObject: any) {
   if (typeof nameOptionsObject === 'object') {
     return !!nameOptionsObject.name
   }
-  if (typeof nameOptionsObject === 'string') {
+  if (typeof nameOptionsObject === 'string' && !/[^A-Za-z0-9\-_]/.exec(nameOptionsObject)) {
     return !!nameOptionsObject
   }
 }
