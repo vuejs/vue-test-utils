@@ -1,5 +1,5 @@
 // @flow
-// // name
+
 import {
   FUNCTIONAL_OPTIONS,
   VUE_VERSION
