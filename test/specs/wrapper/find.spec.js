@@ -115,7 +115,7 @@ describeWithShallowAndMount('find', (mountingMethod) => {
     expect(wrapper.find(Component).vnode).to.be.an('object')
   })
 
-  it.only('returns Wrapper of Vue Components matching component', () => {
+  it('returns Wrapper of Vue Components matching component', () => {
     const wrapper = mountingMethod(ComponentWithChild)
     expect(wrapper.find('child-component').vnode).to.be.an('object')
   })
