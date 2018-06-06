@@ -56,7 +56,7 @@ interface BaseWrapper {
   visible (): boolean
 
   attributes(): { [name: string]: string }
-  classes(): Array<string> | void
+  classes(): Array<string>
   props(): { [name: string]: any }
 
   hasAttribute (attribute: string, value: string): boolean
