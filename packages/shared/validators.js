@@ -1,4 +1,7 @@
 // @flow
+
+import htmlTags from 'html-tags'
+import svgElements from 'svg-elements'
 import {
   throwError,
   capitalize,
@@ -18,10 +21,17 @@ export function isDomSelector (selector: any) {
   } catch (error) {
     throwError('mount must be run in a browser environment like PhantomJS, jsdom or chrome')
   }
-
   try {
     document.querySelector(selector)
-    return true
+
+    const pseudoSelectors = ['.', '#', '[', ':', '>', ' ']
+    if (htmlTags.includes(selector) ||
+      svgElements.includes(selector) ||
+      selector.split('').some(char => pseudoSelectors.includes(char))) {
+      return true
+    } else {
+      return false
+    }
   } catch (error) {
     return false
   }
@@ -61,11 +71,15 @@ export function isRefSelector (refOptionsObject: any) {
 }
 
 export function isNameSelector (nameOptionsObject: any) {
-  if (typeof nameOptionsObject !== 'object' || nameOptionsObject === null) {
+  if (nameOptionsObject === null) {
     return false
   }
-
-  return !!nameOptionsObject.name
+  if (typeof nameOptionsObject === 'object') {
+    return !!nameOptionsObject.name
+  }
+  if (typeof nameOptionsObject === 'string' && !/[^A-Za-z0-9\-_]/.exec(nameOptionsObject)) {
+    return !!nameOptionsObject
+  }
 }
 
 export function templateContainsComponent (template: string, name: string) {

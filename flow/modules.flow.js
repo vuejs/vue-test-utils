@@ -27,3 +27,11 @@ declare module 'vue-server-renderer' {
 declare module 'cheerio' {
   declare module.exports: any;
 }
+
+declare module 'html-tags' {
+  declare module.exports: any;
+}
+
+declare module 'svg-elements' {
+  declare module.exports: any;
+}
