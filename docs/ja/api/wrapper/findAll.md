@@ -22,5 +22,3 @@ expect(div.is('div')).toBe(true)
 const bar = wrapper.findAll(Bar).at(0)
 expect(bar.is(Bar)).toBe(true)
 ```
-
-- **参照:** [Wrapper](../wrapper/)

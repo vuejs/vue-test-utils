@@ -1,6 +1,6 @@
 ## find(selector)
 
-返回匹配选择器的第一个 DOM 节点或 Vue 组件的 [`Wrapper`](README.md)。
+返回匹配选择器的第一个 DOM 节点或 Vue 组件的 `Wrapper`。
 
 可以使用任何有效的[选择器](../selectors.md)。
 
@@ -30,5 +30,3 @@ expect(barByName.is(Bar)).toBe(true)
 const fooRef = wrapper.find({ ref: 'foo' })
 expect(fooRef.is(Foo)).toBe(true)
 ```
-
-- **延伸阅读：**[Wrapper](README.md)

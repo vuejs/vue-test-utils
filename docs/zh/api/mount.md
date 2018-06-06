@@ -13,7 +13,7 @@
 
 - **用法：**
 
-创建一个包含被挂载和渲染的 Vue 组件的 [`Wrapper`](wrapper/README.md)。
+创建一个包含被挂载和渲染的 Vue 组件的 [`Wrapper`](wrapper/)。
 
 **Without options:**
 
@@ -126,4 +126,4 @@ describe('Foo', () => {
 })
 ```
 
-- **延伸阅读：**[`Wrapper`](wrapper/README.md)
+- **延伸阅读：**[`Wrapper`](wrapper/)

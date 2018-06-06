@@ -23,7 +23,7 @@
 
 将一个对象渲染成为一个字符串并返回一个 [cheerio 包裹器](https://github.com/cheeriojs/cheerio)。
 
-Cheerio 是一个类似 jQuery 的库，可以在 Node.js 中游览 DOM 对象。它的 API 和 Vue Test Utils 的 [`Wrapper`](wrapper/README.md) 类似。
+Cheerio 是一个类似 jQuery 的库，可以在 Node.js 中游览 DOM 对象。它的 API 和 Vue Test Utils 的 [`Wrapper`](wrapper/) 类似。
 
 `render` 在底层使用 [`vue-server-renderer`](https://ssr.vuejs.org/zh/basic.html) 将一个组件渲染为静态的 HTML。
 

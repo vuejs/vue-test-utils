@@ -1,6 +1,6 @@
 ## findAll(selector)
 
-返回一个匹配选择器的 DOM 节点或 Vue 组件的 [`Wrappers`](README.md) 的 [`WrapperArray`](../wrapper-array/README.md)。
+返回一个 [`WrapperArray`](../wrapper-array/)。
 
 可以使用任何有效的[选择器](../selectors.md)。
 
@@ -22,5 +22,3 @@ expect(div.is('div')).toBe(true)
 const bar = wrapper.findAll(Bar).at(0)
 expect(bar.is(Bar)).toBe(true)
 ```
-
-- **延伸阅读：**[Wrapper](README.md)

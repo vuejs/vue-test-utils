@@ -59,21 +59,12 @@ const wrapper = shallowMount(Component, {
 expect(wrapper.find('div')).toBe(true)
 ```
 
-### 传递文本
-
-你可以传递文本到 `slots`。  
-这里有一处限制。
-
-我们不支持 PhantomJS。  
-你可以使用 [Puppeteer](https://github.com/karma-runner/karma-chrome-launcher#headless-chromium-with-puppeteer) 作为替代品。
-
 ## scopedSlots
 
 - 类型：`{ [name: string]: string }`
 
 提供一个该组件所有带作用域的插槽内容的对象。每个键对应到插槽的名字，每个值可以是一个模板字符串。
 
-There are three limitations.
 这里有三处限制。
 
 * 该选项只支持 vue@2.5+。
