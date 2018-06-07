@@ -9,5 +9,6 @@ export default {
   mocks: {},
   methods: {},
   provide: {},
-  logModifiedComponents: true
+  logModifiedComponents: true,
+  silentWarning: true
 }

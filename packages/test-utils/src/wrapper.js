@@ -9,6 +9,7 @@ import {
   NAME_SELECTOR,
   FUNCTIONAL_OPTIONS
 } from './consts'
+import config from './config'
 import {
   vmCtorMatchesName,
   vmCtorMatchesSelector,
@@ -25,6 +26,13 @@ import createWrapper from './create-wrapper'
 import {
   orderWatchers
 } from './order-watchers'
+
+const silent = function (fn) {
+  const originalConfig = Vue.config.silent
+  Vue.config.silent = config.silentWarning
+  fn.apply(this)
+  Vue.config.silent = originalConfig
+}
 
 export default class Wrapper implements BaseWrapper {
   vnode: VNode | null;
@@ -507,40 +515,42 @@ export default class Wrapper implements BaseWrapper {
    * Sets vm props
    */
   setProps (data: Object) {
-    if (this.isFunctionalComponent) {
-      throwError('wrapper.setProps() cannot be called on a functional component')
-    }
-    if (!this.isVueInstance() || !this.vm) {
-      throwError('wrapper.setProps() can only be called on a Vue instance')
-    }
-    if (this.vm && this.vm.$options && !this.vm.$options.propsData) {
-      this.vm.$options.propsData = {}
-    }
-    Object.keys(data).forEach((key) => {
-      // Ignore properties that were not specified in the component options
-      // $FlowIgnore : Problem with possibly null this.vm
-      if (!this.vm.$options._propKeys || !this.vm.$options._propKeys.some(prop => prop === key)) {
-        throwError(`wrapper.setProps() called with ${key} property which is not defined on component`)
+    silent(() => {
+      if (this.isFunctionalComponent) {
+        throwError('wrapper.setProps() cannot be called on a functional component')
       }
-
-      // $FlowIgnore : Problem with possibly null this.vm
-      if (this.vm._props) {
-        this.vm._props[key] = data[key]
-        // $FlowIgnore : Problem with possibly null this.vm.$props
-        this.vm.$props[key] = data[key]
-        // $FlowIgnore : Problem with possibly null this.vm.$options
-        this.vm.$options.propsData[key] = data[key]
-      } else {
+      if (!this.isVueInstance() || !this.vm) {
+        throwError('wrapper.setProps() can only be called on a Vue instance')
+      }
+      if (this.vm && this.vm.$options && !this.vm.$options.propsData) {
+        this.vm.$options.propsData = {}
+      }
+      Object.keys(data).forEach((key) => {
+        // Ignore properties that were not specified in the component options
         // $FlowIgnore : Problem with possibly null this.vm
-        this.vm[key] = data[key]
-        // $FlowIgnore : Problem with possibly null this.vm.$options
-        this.vm.$options.propsData[key] = data[key]
-      }
-    })
+        if (!this.vm.$options._propKeys || !this.vm.$options._propKeys.some(prop => prop === key)) {
+          throwError(`wrapper.setProps() called with ${key} property which is not defined on component`)
+        }
 
-    // $FlowIgnore : Problem with possibly null this.vm
-    this.vnode = this.vm._vnode
-    orderWatchers(this.vm || this.vnode.context.$root)
+        // $FlowIgnore : Problem with possibly null this.vm
+        if (this.vm._props) {
+          this.vm._props[key] = data[key]
+          // $FlowIgnore : Problem with possibly null this.vm.$props
+          this.vm.$props[key] = data[key]
+          // $FlowIgnore : Problem with possibly null this.vm.$options
+          this.vm.$options.propsData[key] = data[key]
+        } else {
+          // $FlowIgnore : Problem with possibly null this.vm
+          this.vm[key] = data[key]
+          // $FlowIgnore : Problem with possibly null this.vm.$options
+          this.vm.$options.propsData[key] = data[key]
+        }
+      })
+
+      // $FlowIgnore : Problem with possibly null this.vm
+      this.vnode = this.vm._vnode
+      orderWatchers(this.vm || this.vnode.context.$root)
+    })
   }
 
   /**

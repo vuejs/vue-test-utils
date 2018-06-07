@@ -2,6 +2,7 @@ import {
   describeWithShallowAndMount,
   vueVersion
 } from '~resources/utils'
+import ComponentWithProps from '~resources/components/component-with-props.vue'
 import {
   itDoNotRunIf,
   itSkipIf
@@ -135,6 +136,38 @@ describeWithShallowAndMount('config', (mountingMethod) => {
     const wrapper = mountingMethod(testComponent)
     expect(wrapper.contains(TransitionGroupStub)).to.equal(false)
     expect(wrapper.contains(TransitionStub)).to.equal(false)
+  })
+
+  it('doesn\'t throw Vue warning when silentWarning is set to true', () => {
+    config.silentWarning = true
+    const localVue = createLocalVue()
+    const wrapper = mountingMethod(ComponentWithProps, {
+      propsData: {
+        prop1: 'example'
+      },
+      localVue
+    })
+    expect(wrapper.vm.prop1).to.equal('example')
+    wrapper.setProps({
+      prop1: 'new value'
+    })
+    expect(consoleError.called).to.equal(false)
+  })
+
+  it('does throw Vue warning when silentWarning is set to false', () => {
+    config.silentWarning = false
+    const localVue = createLocalVue()
+    const wrapper = mountingMethod(ComponentWithProps, {
+      propsData: {
+        prop1: 'example'
+      },
+      localVue
+    })
+    expect(wrapper.vm.prop1).to.equal('example')
+    wrapper.setProps({
+      prop1: 'new value'
+    })
+    expect(consoleError.called).to.equal(true)
   })
 
   itSkipIf(
