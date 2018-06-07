@@ -509,7 +509,7 @@ export default class Wrapper implements BaseWrapper {
    */
   setProps (data: Object) {
     const originalConfig = Vue.config.silent
-    Vue.config.silent = config.silentWarning
+    Vue.config.silent = config.silentWarnings
     if (this.isFunctionalComponent) {
       throwError('wrapper.setProps() cannot be called on a functional component')
     }

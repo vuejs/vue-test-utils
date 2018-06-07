@@ -138,8 +138,8 @@ describeWithShallowAndMount('config', (mountingMethod) => {
     expect(wrapper.contains(TransitionStub)).to.equal(false)
   })
 
-  it('doesn\'t throw Vue warning when silentWarning is set to true', () => {
-    config.silentWarning = true
+  it('doesn\'t throw Vue warning when silentWarnings is set to true', () => {
+    config.silentWarnings = true
     const localVue = createLocalVue()
     const wrapper = mountingMethod(ComponentWithProps, {
       propsData: {
@@ -154,8 +154,8 @@ describeWithShallowAndMount('config', (mountingMethod) => {
     expect(consoleError.called).to.equal(false)
   })
 
-  it('does throw Vue warning when silentWarning is set to false', () => {
-    config.silentWarning = false
+  it('does throw Vue warning when silentWarnings is set to false', () => {
+    config.silentWarnings = false
     const localVue = createLocalVue()
     const wrapper = mountingMethod(ComponentWithProps, {
       propsData: {

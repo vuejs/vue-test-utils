@@ -10,5 +10,5 @@ export default {
   methods: {},
   provide: {},
   logModifiedComponents: true,
-  silentWarning: true
+  silentWarnings: true
 }
