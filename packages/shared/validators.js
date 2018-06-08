@@ -34,7 +34,6 @@ export function isTagSelector (selector: any) {
     return false
   }
 
-
   const pseudoSelectors = ['.', '#', '[', ':', '>', ' ']
 
   if (htmlTags.includes(selector) ||
