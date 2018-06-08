@@ -6,7 +6,8 @@ import findDOMNodes from './find-dom-nodes'
 import {
   COMPONENT_SELECTOR,
   NAME_SELECTOR,
-  DOM_SELECTOR
+  DOM_SELECTOR,
+  TAG_SELECTOR
 } from './consts'
 import Vue from 'vue'
 import getSelectorTypeOrThrow from './get-selector-type'
@@ -24,7 +25,7 @@ export default function find (
     throwError('cannot find a Vue instance on a DOM node. The node you are calling find on does not exist in the VDom. Are you adding the node as innerHTML?')
   }
 
-  if (selectorType === COMPONENT_SELECTOR || selectorType === NAME_SELECTOR) {
+  if (selectorType === COMPONENT_SELECTOR || selectorType === NAME_SELECTOR || selectorType === TAG_SELECTOR) {
     const root = vm || vnode
     if (!root) {
       return []

@@ -31,6 +31,11 @@ describeWithShallowAndMount('find', (mountingMethod) => {
     expect(wrapper.find('.foo').vnode).to.be.an('object')
   })
 
+  it('returns Wrapper matching component tag passed', () => {
+    const wrapper = mountingMethod(ComponentWithChild)
+    expect(wrapper.find('child-component').vnode).to.be.an('object')
+  })
+
   it('returns Wrapper matching class selector passed if nested in a transition', () => {
     const compiled = compileToFunctions('<transition><div /></transition>')
     const wrapper = mountingMethod(compiled)

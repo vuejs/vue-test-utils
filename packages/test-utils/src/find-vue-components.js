@@ -50,6 +50,12 @@ function findAllFunctionalComponentsFromVnode (
   return components
 }
 
+export function vmCtorMatchesTag (vm: Component, tag: string) : boolean {
+  if (vm.$vnode.componentOptions.tag === tag) {
+    return true
+  }
+}
+
 export function vmCtorMatchesName (vm: Component, name: string): boolean {
   return !!((vm.$vnode && vm.$vnode.componentOptions &&
     vm.$vnode.componentOptions.Ctor.options.name === name) ||
@@ -106,10 +112,15 @@ export default function findVueComponents (
   const components = root._isVue
     ? findAllVueComponentsFromVm(root)
     : findAllVueComponentsFromVnode(root)
+
+  console.log(components.length)
   return components.filter((component) => {
     if (!component.$vnode && !component.$options.extends) {
       return false
     }
-    return vmCtorMatchesSelector(component, selector) || vmCtorMatchesName(component, nameSelector)
+
+    return vmCtorMatchesSelector(component, selector) || 
+      vmCtorMatchesName(component, nameSelector) ||
+      vmCtorMatchesTag(component, selector)
   })
 }

@@ -4,6 +4,7 @@ import {
   isDomSelector,
   isNameSelector,
   isRefSelector,
+  isTagSelector,
   isVueComponent
 } from 'shared/validators'
 import {
@@ -13,10 +14,12 @@ import {
   REF_SELECTOR,
   COMPONENT_SELECTOR,
   NAME_SELECTOR,
-  DOM_SELECTOR
+  DOM_SELECTOR,
+  TAG_SELECTOR
 } from './consts'
 
 export default function getSelectorTypeOrThrow (selector: Selector, methodName: string): string | void {
+  if (isTagSelector(selector)) return TAG_SELECTOR
   if (isDomSelector(selector)) return DOM_SELECTOR
   if (isNameSelector(selector)) return NAME_SELECTOR
   if (isVueComponent(selector)) return COMPONENT_SELECTOR

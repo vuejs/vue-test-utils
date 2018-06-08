@@ -3,7 +3,9 @@ import {
   throwError,
   capitalize,
   camelize,
-  hyphenate
+  hyphenate,
+  htmlTags,
+  svgElements
 } from './util'
 
 export function isDomSelector (selector: any) {
@@ -24,6 +26,23 @@ export function isDomSelector (selector: any) {
     return true
   } catch (error) {
     return false
+  }
+}
+
+export function isTagSelector (selector: any) {
+  if (typeof selector !== 'string') {
+    return false
+  }
+
+
+  const pseudoSelectors = ['.', '#', '[', ':', '>', ' ']
+
+  if (htmlTags.includes(selector) ||
+    svgElements.includes(selector) ||
+    selector.split('').some(char => pseudoSelectors.includes(char))) {
+    return false
+  } else {
+    return true
   }
 }
 
