@@ -74,13 +74,7 @@ describeWithShallowAndMount('contains', (mountingMethod) => {
     expect(fn).to.throw().with.property('message', message)
   })
 
-  it('returns true when wrapper contains root element', () => {
-    const compiled = compileToFunctions('<div><input /></div>')
-    const wrapper = mountingMethod(compiled)
-    expect(wrapper.contains('doesntexist')).to.equal(false)
-  })
-
-  it('returns true if wrapper root element matches contains', () => {
+  it('returns false when wrapper does not contain the element', () => {
     const compiled = compileToFunctions('<div><input /></div>')
     const wrapper = mountingMethod(compiled)
     expect(wrapper.contains('doesntexist')).to.equal(false)

@@ -57,6 +57,9 @@ export function vmCtorMatchesTag (vm: Component, tag: string) : boolean {
 }
 
 export function vmCtorMatchesName (vm: Component, name: string): boolean {
+  if (!name) {
+    return false
+  }
   return !!((vm.$vnode && vm.$vnode.componentOptions &&
     vm.$vnode.componentOptions.Ctor.options.name === name) ||
     (vm._vnode &&
@@ -113,7 +116,6 @@ export default function findVueComponents (
     ? findAllVueComponentsFromVm(root)
     : findAllVueComponentsFromVnode(root)
 
-  console.log(components.length)
   return components.filter((component) => {
     if (!component.$vnode && !component.$options.extends) {
       return false
