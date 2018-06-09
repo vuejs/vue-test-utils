@@ -11,15 +11,17 @@ import { config, TransitionStub, TransitionGroupStub, createLocalVue } from '~vu
 import Vue from 'vue'
 
 describeWithShallowAndMount('config', (mountingMethod) => {
-  let configStubsSave
-  let consoleError
-  let configLogSave
+  let configStubsSave,
+    consoleError,
+    configLogSave,
+    configSilentWarningsSave
 
   beforeEach(() => {
     TransitionGroupStub.name = 'another-temp-name'
     TransitionStub.name = 'a-temp-name'
     configStubsSave = config.stubs
     configLogSave = config.logModifiedComponents
+    configSilentWarningsSave = config.silentWarnings
     consoleError = sinon.stub(console, 'error')
   })
 
@@ -28,6 +30,7 @@ describeWithShallowAndMount('config', (mountingMethod) => {
     TransitionStub.name = 'transition'
     config.stubs = configStubsSave
     config.logModifiedComponents = configLogSave
+    config.silentWarnings = configSilentWarningsSave
     consoleError.restore()
   })
 

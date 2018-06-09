@@ -94,3 +94,17 @@ import VueTestUtils from '@vue/test-utils'
 
 VueTestUtils.config.logModifiedComponents = false
 ```
+
+### `silentWarnings`
+
+- type: `Boolean`
+- default: `true`
+
+It suppresses warnings triggered by Vue while mutating component's observables (e.g. props). When set to `false`, all warnings are visible in the console. This is a configurable way which relies on `Vue.config.silent`.
+Example:
+
+```js
+import VueTestUtils from '@vue/test-utils'
+
+VueTestUtils.config.silentWarnings = false
+```
