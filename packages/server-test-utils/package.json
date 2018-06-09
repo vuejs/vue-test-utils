@@ -1,6 +1,6 @@
 {
   "name": "@vue/server-test-utils",
-  "version": "1.0.0-beta.16",
+  "version": "1.0.0-beta.17",
   "description": "Utilities for testing Vue components.",
   "main": "dist/vue-server-test-utils.js",
   "types": "types/index.d.ts",
@@ -37,9 +37,9 @@
     "typescript": "^2.6.2"
   },
   "peerDependencies": {
+    "@vue/test-utils": "1.0.0-beta.16",
     "vue": "2.x",
     "vue-server-renderer": "2.x",
-    "vue-template-compiler": "^2.x",
-    "@vue/test-utils": "1.0.0-beta.16"
+    "vue-template-compiler": "^2.x"
   }
 }
