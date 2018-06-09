@@ -2,7 +2,7 @@ import ComponentWithInput from '~resources/components/component-with-input.vue'
 import { describeWithShallowAndMount } from '~resources/utils'
 
 describeWithShallowAndMount('setChecked', (mountingMethod) => {
-  it('sets element checked true with no option passed', () => {
+  it.skip('sets element checked true with no option passed', () => {
     const wrapper = mountingMethod(ComponentWithInput)
     const input = wrapper.find('input[type="checkbox"]')
     input.setChecked()
@@ -10,7 +10,7 @@ describeWithShallowAndMount('setChecked', (mountingMethod) => {
     expect(input.element.checked).to.equal(true)
   })
 
-  it('sets element checked equal to param passed', () => {
+  it.skip('sets element checked equal to param passed', () => {
     const wrapper = mountingMethod(ComponentWithInput)
     const input = wrapper.find('input[type="checkbox"]')
 
@@ -21,7 +21,7 @@ describeWithShallowAndMount('setChecked', (mountingMethod) => {
     expect(input.element.checked).to.equal(false)
   })
 
-  it('updates dom with checkbox v-model', () => {
+  it.skip('updates dom with checkbox v-model', () => {
     const wrapper = mountingMethod(ComponentWithInput)
     const input = wrapper.find('input[type="checkbox"]')
 
@@ -32,7 +32,7 @@ describeWithShallowAndMount('setChecked', (mountingMethod) => {
     expect(wrapper.text()).to.not.contain('checkbox checked')
   })
 
-  it('changes state the right amount of times with checkbox v-model', () => {
+  it.skip('changes state the right amount of times with checkbox v-model', () => {
     const wrapper = mountingMethod(ComponentWithInput)
     const input = wrapper.find('input[type="checkbox"]')
 
