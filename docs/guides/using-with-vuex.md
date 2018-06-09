@@ -214,7 +214,7 @@ Simple component that includes one action and one getter.
 And the test:
 
 ``` js
-import { createLocalVue, shallowMount } from '@vue/test-utils'
+import { shallowMount, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import MyComponent from '../../../src/components/MyComponent'
 import myModule from '../../../src/store/myModule'
@@ -240,7 +240,6 @@ describe('MyComponent.vue', () => {
     store = new Vuex.Store({
       modules: {
         myModule: {
-          namespaced: true, // If store/myModule is namespaced https://vuex.vuejs.org/guide/modules.html#namespacing
           state,
           actions,
           getters: myModule.getters
