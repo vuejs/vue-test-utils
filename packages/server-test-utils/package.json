@@ -37,7 +37,7 @@
     "typescript": "^2.6.2"
   },
   "peerDependencies": {
-    "@vue/test-utils": "1.0.0-beta.16",
+    "@vue/test-utils": "1.x",
     "vue": "2.x",
     "vue-server-renderer": "2.x",
     "vue-template-compiler": "^2.x"
