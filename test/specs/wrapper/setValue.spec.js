@@ -2,7 +2,7 @@ import ComponentWithInput from '~resources/components/component-with-input.vue'
 import { describeWithShallowAndMount } from '~resources/utils'
 
 describeWithShallowAndMount('setValue', (mountingMethod) => {
-  it.skip('sets element value', () => {
+  it('sets element value', () => {
     const wrapper = mountingMethod(ComponentWithInput)
     const input = wrapper.find('input[type="text"]')
     input.setValue('foo')
@@ -10,7 +10,7 @@ describeWithShallowAndMount('setValue', (mountingMethod) => {
     expect(input.element.value).to.equal('foo')
   })
 
-  it.skip('updates dom with v-model', () => {
+  it('updates dom with v-model', () => {
     const wrapper = mountingMethod(ComponentWithInput)
     const input = wrapper.find('input[type="text"]')
 
