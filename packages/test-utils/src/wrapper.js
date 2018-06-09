@@ -580,13 +580,9 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Checks radio button or checkbox element
    */
-  setChecked (checked: boolean) {
-    if (typeof checked !== 'undefined') {
-      if (typeof checked !== 'boolean') {
-        throwError('wrapper.setChecked() must be passed a boolean')
-      }
-    } else {
-      checked = true
+  setChecked (checked: boolean = true) {
+    if (typeof checked !== 'boolean') {
+      throwError('wrapper.setChecked() must be passed a boolean')
     }
 
     const el = this.element
@@ -604,6 +600,10 @@ export default class Wrapper implements BaseWrapper {
     } else if (tag === 'INPUT' && type === 'checkbox') {
       // $FlowIgnore
       if (el.checked !== checked) {
+        if (!navigator.userAgent.includes('jsdom')) {
+          // $FlowIgnore
+          el.checked = checked
+        }
         this.trigger('click')
         this.trigger(event)
       }
