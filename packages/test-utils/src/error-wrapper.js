@@ -117,6 +117,18 @@ export default class ErrorWrapper implements BaseWrapper {
     throwError(`find did not return ${this.selector}, cannot call setProps() on empty Wrapper`)
   }
 
+  setValue (): void {
+    throwError(`find did not return ${this.selector}, cannot call setValue() on empty Wrapper`)
+  }
+
+  setChecked (): void {
+    throwError(`find did not return ${this.selector}, cannot call setChecked() on empty Wrapper`)
+  }
+
+  setSelected (): void {
+    throwError(`find did not return ${this.selector}, cannot call setSelected() on empty Wrapper`)
+  }
+
   trigger (): void {
     throwError(`find did not return ${this.selector}, cannot call trigger() on empty Wrapper`)
   }

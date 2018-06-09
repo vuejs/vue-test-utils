@@ -544,6 +544,114 @@ export default class Wrapper implements BaseWrapper {
   }
 
   /**
+   * Sets element value and triggers input event
+   */
+  setValue (value: any) {
+    const el = this.element
+
+    if (!el) {
+      throwError('cannot call wrapper.setValue() on a wrapper without an element')
+    }
+
+    const tag = el.tagName
+    const type = this.attributes().type
+    const event = 'input'
+
+    if (tag === 'SELECT') {
+      throwError('wrapper.setValue() cannot be called on a <select> element. Use wrapper.setSelected() instead')
+    } else if (tag === 'INPUT' && type === 'checkbox') {
+      throwError('wrapper.setValue() cannot be called on a <input type="checkbox" /> element. Use wrapper.setChecked() instead')
+    } else if (tag === 'INPUT' && type === 'radio') {
+      throwError('wrapper.setValue() cannot be called on a <input type="radio" /> element. Use wrapper.setChecked() instead')
+    } else if (tag === 'INPUT' || tag === 'textarea') {
+      // $FlowIgnore
+      el.value = value
+      this.trigger(event)
+    } else {
+      throwError('wrapper.setValue() cannot be called on this element')
+    }
+  }
+
+  /**
+   * Checks radio button or checkbox element
+   */
+  setChecked (checked: boolean) {
+    if (typeof checked !== 'undefined') {
+      if (typeof checked !== 'boolean') {
+        throwError('wrapper.setChecked() must be passed a boolean')
+      }
+    } else {
+      checked = true
+    }
+
+    const el = this.element
+
+    if (!el) {
+      throwError('cannot call wrapper.setChecked() on a wrapper without an element')
+    }
+
+    const tag = el.tagName
+    const type = this.attributes().type
+    const event = 'change'
+
+    if (tag === 'SELECT') {
+      throwError('wrapper.setChecked() cannot be called on a <select> element. Use wrapper.setSelected() instead')
+    } else if (tag === 'INPUT' && type === 'checkbox') {
+      // $FlowIgnore
+      if (el.checked !== checked) {
+        this.trigger('click')
+        this.trigger(event)
+      }
+    } else if (tag === 'INPUT' && type === 'radio') {
+      if (!checked) {
+        throwError('wrapper.setChecked() cannot be called with parameter false on a <input type="radio" /> element.')
+      } else {
+        // $FlowIgnore
+        if (!el.checked) {
+          this.trigger('click')
+          this.trigger(event)
+        }
+      }
+    } else if (tag === 'INPUT' || tag === 'textarea') {
+      throwError('wrapper.setChecked() cannot be called on "text" inputs. Use wrapper.setValue() instead')
+    } else {
+      throwError('wrapper.setChecked() cannot be called on this element')
+    }
+  }
+
+  /**
+   * Selects <option></option> element
+   */
+  setSelected () {
+    const el = this.element
+
+    if (!el) {
+      throwError('cannot call wrapper.setSelected() on a wrapper without an element')
+    }
+
+    const tag = el.tagName
+    const type = this.attributes().type
+    const event = 'change'
+
+    if (tag === 'OPTION') {
+      // $FlowIgnore
+      el.selected = true
+      // $FlowIgnore
+      createWrapper(el.parentElement, this.options).trigger(event)
+    } else if (tag === 'SELECT') {
+      throwError('wrapper.setSelected() cannot be called on select. Call it on one of its options')
+    } else if (tag === 'INPUT' && type === 'checkbox') {
+      throwError('wrapper.setSelected() cannot be called on a <input type="checkbox" /> element. Use wrapper.setChecked() instead')
+    } else if (tag === 'INPUT' && type === 'radio') {
+      throwError('wrapper.setSelected() cannot be called on a <input type="radio" /> element. Use wrapper.setChecked() instead')
+    } else if (tag === 'INPUT' || tag === 'textarea') {
+      throwError('wrapper.setSelected() cannot be called on "text" inputs. Use wrapper.setValue() instead')
+    } else {
+      throwError('wrapper.setSelected() cannot be called on this element')
+    }
+  }
+
+  /**
    * Return text of wrapper element
    */
   text (): string {
