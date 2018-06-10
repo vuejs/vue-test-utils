@@ -56,7 +56,7 @@ interface BaseWrapper {
   visible (): boolean
 
   attributes(): { [name: string]: string }
-  classes(): Array<string> | void
+  classes(): Array<string>
   props(): { [name: string]: any }
 
   hasAttribute (attribute: string, value: string): boolean
@@ -72,6 +72,11 @@ interface BaseWrapper {
   setData (data: object): void
   setMethods (data: object): void
   setProps (props: object): void
+
+  setValue (value: any): void
+  setChecked (checked: boolean): void
+  setSelected (): void
+
   trigger (eventName: string, options?: object): void
   destroy (): void
 }
@@ -98,6 +103,7 @@ export interface Wrapper<V extends Vue> extends BaseWrapper {
   html (): string
   text (): string
   name (): string
+  setSelected(): void
 
   emitted (event?: string): { [name: string]: Array<Array<any>> }
   emittedByOrder (): Array<{ name: string, args: Array<any> }>

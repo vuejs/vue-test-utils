@@ -8,8 +8,8 @@
     - `{Object} context`
       - `{Array<Component|Object>|Component} children`
     - `{Object} slots`
-        - `{Array<Componet|Object>|Component|String} default`
-        - `{Array<Componet|Object>|Component|String} named`
+        - `{Array<Component|Object>|Component|String} default`
+        - `{Array<Component|Object>|Component|String} named`
     - `{Object} mocks`
     - `{Object|Array<string>} stubs`
     - `{Vue} localVue`
@@ -22,7 +22,7 @@
 
 - **使い方:**
 
-[`mount`](mount.md)のようにマウントされて描画された Vue コンポーネントを含む [`Wrapper`](./wrapper/README.md) を生成しますが、  
+[`mount`](mount.md)のようにマウントされて描画された Vue コンポーネントを含む [`Wrapper`](./wrapper/) を生成しますが、  
 子コンポーネントはスタブされたコンポーネントです。
 
 **オプションなし:**

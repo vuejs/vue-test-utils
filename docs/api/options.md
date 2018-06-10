@@ -59,14 +59,6 @@ const wrapper = shallowMount(Component, {
 expect(wrapper.find('div')).toBe(true)
 ```
 
-### Passing text
-
-You can pass text to `slots`.  
-There is a limitation to this.
-
-This does not support PhantomJS.  
-You can use [Puppeteer](https://github.com/karma-runner/karma-chrome-launcher#headless-chromium-with-puppeteer) as an alternative.
-
 ## scopedSlots
 
 - type: `{ [name: string]: string }`

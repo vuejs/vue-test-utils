@@ -13,7 +13,7 @@ See [options](options.md)
 
 - **Usage:**
 
-Creates a [`Wrapper`](wrapper/README.md) that contains the mounted and rendered Vue component.
+Creates a [`Wrapper`](wrapper/) that contains the mounted and rendered Vue component.
 
 **Without options:**
 
@@ -126,4 +126,4 @@ describe('Foo', () => {
 })
 ```
 
-- **See also:** [Wrapper](wrapper/README.md)
+- **See also:** [Wrapper](wrapper/)

@@ -1,6 +1,6 @@
 ## findAll(selector)
 
-Returns a [`WrapperArray`](../wrapper-array/README.md).
+Returns a [`WrapperArray`](../wrapper-array/).
 
 Use any valid [selector](../selectors.md).
 
@@ -22,5 +22,3 @@ expect(div.is('div')).toBe(true)
 const bar = wrapper.findAll(Bar).at(0)
 expect(bar.is(Bar)).toBe(true)
 ```
-
-- **See also:** [Wrapper](README.md)

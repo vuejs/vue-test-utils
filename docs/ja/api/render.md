@@ -24,7 +24,7 @@
 オブジェクトを文字列にレンダリングして [cheerio wrapper](https://github.com/cheeriojs/cheerio) を返します。
 
 Cheerio は Node.js で jQuery のように DOM をスキャンするためのライブラリです。  
-これは Vue Test Utils の [`Wrapper`](wrapper/README.md) に似ているAPIを持っています。
+これは Vue Test Utils の [`Wrapper`](wrapper/) に似ているAPIを持っています。
 
 コンポーネントを静的なHTMLにレンダリングするために、`render` は内部で [`vue-server-renderer`](https://ssr.vuejs.org/en/basic.html) を使用します。
 

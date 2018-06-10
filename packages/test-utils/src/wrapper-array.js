@@ -181,6 +181,24 @@ export default class WrapperArray implements BaseWrapper {
     this.wrappers.forEach(wrapper => wrapper.setProps(props))
   }
 
+  setValue (value: any): void {
+    this.throwErrorIfWrappersIsEmpty('setValue')
+
+    this.wrappers.forEach(wrapper => wrapper.setValue(value))
+  }
+
+  setChecked (checked: boolean): void {
+    this.throwErrorIfWrappersIsEmpty('setChecked')
+
+    this.wrappers.forEach(wrapper => wrapper.setChecked(checked))
+  }
+
+  setSelected (): void {
+    this.throwErrorIfWrappersIsEmpty('setSelected')
+
+    throwError('setSelected must be called on a single wrapper, use at(i) to access a wrapper')
+  }
+
   trigger (event: string, options: Object): void {
     this.throwErrorIfWrappersIsEmpty('trigger')
 

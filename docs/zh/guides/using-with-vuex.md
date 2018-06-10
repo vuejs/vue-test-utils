@@ -1,6 +1,8 @@
-## 配合 Vuex 使用
+# 配合 Vuex 使用
 
 在本教程中，我们将会看到如何用 Vue Test Utils 测试组件中的 Vuex，以及如何测试一个 Vuex store。
+
+## 在组件中测试 Vuex
 
 ### 伪造 Action
 
@@ -44,7 +46,7 @@ export default{
 我们来看看它的样子：
 
 ``` js
-import { shallow, createLocalVue } from '@vue/test-utils'
+import { shallowMount, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import Actions from '../../../src/components/Actions'
 
@@ -68,7 +70,7 @@ describe('Actions.vue', () => {
   })
 
   it('当输入框的值是“input”且一个“input”事件被触发时会调用“actionInput”的 action', () => {
-    const wrapper = shallow(Actions, { store, localVue })
+    const wrapper = shallowMount(Actions, { store, localVue })
     const input = wrapper.find('input')
     input.element.value = 'input'
     input.trigger('input')
@@ -76,7 +78,7 @@ describe('Actions.vue', () => {
   })
 
   it('当输入框的值不是“input”但有“input”事件触发时不会掉用“actionInput”的 action', () => {
-    const wrapper = shallow(Actions, { store, localVue })
+    const wrapper = shallowMount(Actions, { store, localVue })
     const input = wrapper.find('input')
     input.element.value = 'not input'
     input.trigger('input')
@@ -84,7 +86,7 @@ describe('Actions.vue', () => {
   })
 
   it('当按钮被点击时候调用“actionClick”的 action', () => {
-    const wrapper = shallow(Actions, { store, localVue })
+    const wrapper = shallowMount(Actions, { store, localVue })
     wrapper.find('button').trigger('click')
     expect(actions.actionClick).toHaveBeenCalled()
   })
@@ -135,7 +137,7 @@ export default{
 让我们看看这个测试：
 
 ``` js
-import { shallow, createLocalVue } from '@vue/test-utils'
+import { shallowMount, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import Getters from '../../../src/components/Getters'
 
@@ -159,20 +161,20 @@ describe('Getters.vue', () => {
   })
 
   it('在第一个 p 标签中渲染“state.inputValue”', () => {
-    const wrapper = shallow(Getters, { store, localVue })
+    const wrapper = shallowMount(Getters, { store, localVue })
     const p = wrapper.find('p')
     expect(p.text()).toBe(getters.inputValue())
   })
 
   it('在第二个 p 标签中渲染“state.clicks”', () => {
-    const wrapper = shallow(Getters, { store, localVue })
+    const wrapper = shallowMount(Getters, { store, localVue })
     const p = wrapper.findAll('p').at(1)
     expect(p.text()).toBe(getters.clicks().toString())
   })
 })
 ```
 
-这个测试和我们的 action 测试很相似。我们在每个测试运行之前创建了一个伪造的 store，在我们调用 `shallow` 的时候将其以一个选项传递进去，并断言我们伪造的 getter 的返回值被渲染。
+这个测试和我们的 action 测试很相似。我们在每个测试运行之前创建了一个伪造的 store，在我们调用 `shallowMount` 的时候将其以一个选项传递进去，并断言我们伪造的 getter 的返回值被渲染。
 
 这非常好，但是如果我们想要检查我们的 getter 是否返回了正确的 state 的部分该怎么办呢？
 
@@ -212,16 +214,16 @@ export default{
 其测试：
 
 ``` js
-import { shallow, createLocalVue } from '@vue/test-utils'
+import { shallowMount, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
-import Modules from '../../../src/components/Modules'
-import module from '../../../src/store/module'
+import MyComponent from '../../../src/components/MyComponent'
+import mymodule from '../../../src/store/mymodule'
 
 const localVue = createLocalVue()
 
 localVue.use(Vuex)
 
-describe('Modules.vue', () => {
+describe('MyComponent.vue', () => {
   let actions
   let state
   let store
@@ -238,23 +240,27 @@ describe('Modules.vue', () => {
     }
 
     store = new Vuex.Store({
-      state,
-      actions,
-      getters: module.getters
+      modules: {
+        mymodule: {
+          state,
+          actions,
+          getters: module.getters
+        }
+      }
     })
   })
 
   it('在点击按钮时调用 action“moduleActionClick”', () => {
-    const wrapper = shallow(Modules, { store, localVue })
+    const wrapper = shallowMount(MyComponent, { store, localVue })
     const button = wrapper.find('button')
     button.trigger('click')
     expect(actions.moduleActionClick).toHaveBeenCalled()
   })
 
   it('在第一个 p 标签内渲染“state.inputValue”', () => {
-    const wrapper = shallow(Modules, { store, localVue })
+    const wrapper = shallowMount(MyComponent, { store, localVue })
     const p = wrapper.find('p')
-    expect(p.text()).toBe(state.module.clicks.toString())
+    expect(p.text()).toBe(state.clicks.toString())
   })
 })
 ```

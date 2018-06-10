@@ -12,32 +12,61 @@ import { findAllVueComponentsFromVm } from './find-vue-components'
 import { mergeOptions } from 'shared/merge-options'
 import config from './config'
 import warnIfNoWindow from './warn-if-no-window'
+import { addScopedSlots } from './add-scoped-slots'
 
 Vue.config.productionTip = false
 Vue.config.devtools = false
-Vue.config.errorHandler = errorHandler
 
 export default function mount (component: Component, options: Options = {}): VueWrapper {
+  const existingErrorHandler = Vue.config.errorHandler
+  Vue.config.errorHandler = errorHandler
+
   warnIfNoWindow()
+
   // Remove cached constructor
   delete component._Ctor
-  const vueClass = options.localVue || createLocalVue()
-  const vm = createInstance(component, mergeOptions(options, config), vueClass)
 
-  if (options.attachToDocument) {
-    vm.$mount(createElement())
-  } else {
-    vm.$mount()
+  const vueConstructor = options.localVue || createLocalVue()
+
+  const elm = options.attachToDocument
+    ? createElement()
+    : undefined
+
+  const mergedOptions = mergeOptions(options, config)
+
+  const parentVm = createInstance(
+    component,
+    mergedOptions,
+    vueConstructor,
+    elm
+  )
+
+  const vm = parentVm.$mount(elm).$refs.vm
+
+  // Workaround for Vue < 2.5
+  vm._staticTrees = []
+
+  if (options.scopedSlots) {
+    addScopedSlots(vm, options.scopedSlots)
+
+    if (mergedOptions.sync) {
+      vm._watcher.sync = true
+    }
+
+    vm.$forceUpdate()
   }
+
   const componentsWithError = findAllVueComponentsFromVm(vm).filter(c => c._error)
 
   if (componentsWithError.length > 0) {
     throw (componentsWithError[0]._error)
   }
 
+  Vue.config.errorHandler = existingErrorHandler
+
   const wrapperOptions = {
-    attachedToDocument: !!options.attachToDocument,
-    sync: !!((options.sync || options.sync === undefined))
+    attachedToDocument: !!mergedOptions.attachToDocument,
+    sync: mergedOptions.sync
   }
 
   return new VueWrapper(vm, wrapperOptions)

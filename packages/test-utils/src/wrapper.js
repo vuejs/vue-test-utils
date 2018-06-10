@@ -31,7 +31,7 @@ export default class Wrapper implements BaseWrapper {
   vm: Component | null;
   _emitted: { [name: string]: Array<Array<any>> };
   _emittedByOrder: Array<{ name: string; args: Array<any> }>;
-  isVueComponent: boolean;
+  isVm: boolean;
   element: Element;
   update: Function;
   options: WrapperOptions;
@@ -209,7 +209,7 @@ export default class Wrapper implements BaseWrapper {
   hasProp (prop: string, value: string) {
     warn('hasProp() has been deprecated and will be removed in version 1.0.0. Use props() instead—https://vue-test-utils.vuejs.org/en/api/wrapper/props')
 
-    if (!this.isVueComponent) {
+    if (!this.isVueInstance()) {
       throwError('wrapper.hasProp() must be called on a Vue instance')
     }
     if (typeof prop !== 'string') {
@@ -369,7 +369,7 @@ export default class Wrapper implements BaseWrapper {
    * Checks if wrapper is a vue instance
    */
   isVueInstance (): boolean {
-    return !!this.isVueComponent
+    return !!this.isVm
   }
 
   /**
@@ -440,7 +440,7 @@ export default class Wrapper implements BaseWrapper {
    * Sets vm computed
    */
   setComputed (computed: Object) {
-    if (!this.isVueComponent) {
+    if (!this.isVueInstance()) {
       throwError('wrapper.setComputed() can only be called on a Vue instance')
     }
 
@@ -492,7 +492,7 @@ export default class Wrapper implements BaseWrapper {
    * Sets vm methods
    */
   setMethods (methods: Object) {
-    if (!this.isVueComponent) {
+    if (!this.isVueInstance()) {
       throwError('wrapper.setMethods() can only be called on a Vue instance')
     }
     Object.keys(methods).forEach((key) => {
@@ -501,6 +501,11 @@ export default class Wrapper implements BaseWrapper {
       // $FlowIgnore : Problem with possibly null this.vm
       this.vm.$options.methods[key] = methods[key]
     })
+
+    if (this.vnode) {
+      const context = this.vnode.context
+      if (context.$options.render) context._update(context._render())
+    }
   }
 
   /**
@@ -510,7 +515,7 @@ export default class Wrapper implements BaseWrapper {
     if (this.isFunctionalComponent) {
       throwError('wrapper.setProps() cannot be called on a functional component')
     }
-    if (!this.isVueComponent || !this.vm) {
+    if (!this.isVueInstance() || !this.vm) {
       throwError('wrapper.setProps() can only be called on a Vue instance')
     }
     if (this.vm && this.vm.$options && !this.vm.$options.propsData) {
@@ -544,6 +549,114 @@ export default class Wrapper implements BaseWrapper {
   }
 
   /**
+   * Sets element value and triggers input event
+   */
+  setValue (value: any) {
+    const el = this.element
+
+    if (!el) {
+      throwError('cannot call wrapper.setValue() on a wrapper without an element')
+    }
+
+    const tag = el.tagName
+    const type = this.attributes().type
+    const event = 'input'
+
+    if (tag === 'SELECT') {
+      throwError('wrapper.setValue() cannot be called on a <select> element. Use wrapper.setSelected() instead')
+    } else if (tag === 'INPUT' && type === 'checkbox') {
+      throwError('wrapper.setValue() cannot be called on a <input type="checkbox" /> element. Use wrapper.setChecked() instead')
+    } else if (tag === 'INPUT' && type === 'radio') {
+      throwError('wrapper.setValue() cannot be called on a <input type="radio" /> element. Use wrapper.setChecked() instead')
+    } else if (tag === 'INPUT' || tag === 'textarea') {
+      // $FlowIgnore
+      el.value = value
+      this.trigger(event)
+    } else {
+      throwError('wrapper.setValue() cannot be called on this element')
+    }
+  }
+
+  /**
+   * Checks radio button or checkbox element
+   */
+  setChecked (checked: boolean = true) {
+    if (typeof checked !== 'boolean') {
+      throwError('wrapper.setChecked() must be passed a boolean')
+    }
+
+    const el = this.element
+
+    if (!el) {
+      throwError('cannot call wrapper.setChecked() on a wrapper without an element')
+    }
+
+    const tag = el.tagName
+    const type = this.attributes().type
+    const event = 'change'
+
+    if (tag === 'SELECT') {
+      throwError('wrapper.setChecked() cannot be called on a <select> element. Use wrapper.setSelected() instead')
+    } else if (tag === 'INPUT' && type === 'checkbox') {
+      // $FlowIgnore
+      if (el.checked !== checked) {
+        if (!navigator.userAgent.includes('jsdom')) {
+          // $FlowIgnore
+          el.checked = checked
+        }
+        this.trigger('click')
+        this.trigger(event)
+      }
+    } else if (tag === 'INPUT' && type === 'radio') {
+      if (!checked) {
+        throwError('wrapper.setChecked() cannot be called with parameter false on a <input type="radio" /> element.')
+      } else {
+        // $FlowIgnore
+        if (!el.checked) {
+          this.trigger('click')
+          this.trigger(event)
+        }
+      }
+    } else if (tag === 'INPUT' || tag === 'textarea') {
+      throwError('wrapper.setChecked() cannot be called on "text" inputs. Use wrapper.setValue() instead')
+    } else {
+      throwError('wrapper.setChecked() cannot be called on this element')
+    }
+  }
+
+  /**
+   * Selects <option></option> element
+   */
+  setSelected () {
+    const el = this.element
+
+    if (!el) {
+      throwError('cannot call wrapper.setSelected() on a wrapper without an element')
+    }
+
+    const tag = el.tagName
+    const type = this.attributes().type
+    const event = 'change'
+
+    if (tag === 'OPTION') {
+      // $FlowIgnore
+      el.selected = true
+      // $FlowIgnore
+      createWrapper(el.parentElement, this.options).trigger(event)
+    } else if (tag === 'SELECT') {
+      throwError('wrapper.setSelected() cannot be called on select. Call it on one of its options')
+    } else if (tag === 'INPUT' && type === 'checkbox') {
+      throwError('wrapper.setSelected() cannot be called on a <input type="checkbox" /> element. Use wrapper.setChecked() instead')
+    } else if (tag === 'INPUT' && type === 'radio') {
+      throwError('wrapper.setSelected() cannot be called on a <input type="radio" /> element. Use wrapper.setChecked() instead')
+    } else if (tag === 'INPUT' || tag === 'textarea') {
+      throwError('wrapper.setSelected() cannot be called on "text" inputs. Use wrapper.setValue() instead')
+    } else {
+      throwError('wrapper.setSelected() cannot be called on this element')
+    }
+  }
+
+  /**
    * Return text of wrapper element
    */
   text (): string {
@@ -558,7 +671,7 @@ export default class Wrapper implements BaseWrapper {
    * Calls destroy on vm
    */
   destroy () {
-    if (!this.isVueComponent) {
+    if (!this.isVueInstance()) {
       throwError('wrapper.destroy() can only be called on a Vue instance')
     }
 
@@ -582,7 +695,7 @@ export default class Wrapper implements BaseWrapper {
     }
 
     if (options.target) {
-      throwError('you cannot set the target value of an event. See the notes section of the docs for more details—https://vue-test-utils.vuejs.org/en/api/wrapper/trigger.html')
+      throwError('you cannot set the target value of an event. See the notes section of the docs for more details—https://vue-test-utils.vuejs.org/api/wrapper/trigger.html')
     }
 
     // Don't fire event on a disabled element
@@ -633,13 +746,6 @@ export default class Wrapper implements BaseWrapper {
     if (event.length === 2) {
       // $FlowIgnore
       eventObject.keyCode = modifiers[event[1]]
-    }
-
-    // If this element's event handler has been reset by setMethod, it won't trigger
-    // Make sure that this element is updated with the latest event handler
-    if (this.vnode) {
-      const context = this.vnode.context
-      if (context.$options.render) context._update(context._render())
     }
 
     this.element.dispatchEvent(eventObject)

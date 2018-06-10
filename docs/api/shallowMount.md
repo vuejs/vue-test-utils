@@ -8,8 +8,8 @@
     - `{Object} context`
       - `{Array<Component|Object>|Component} children`
     - `{Object} slots`
-        - `{Array<Componet|Object>|Component|String} default`
-        - `{Array<Componet|Object>|Component|String} named`
+        - `{Array<Component|Object>|Component|String} default`
+        - `{Array<Component|Object>|Component|String} named`
     - `{Object} mocks`
     - `{Object|Array<string>} stubs`
     - `{Vue} localVue`
@@ -22,7 +22,7 @@ See [options](./options.md)
 
 - **Usage:**
 
-Like [`mount`](mount.md), it creates a [`Wrapper`](wrapper/README.md) that contains the mounted and rendered Vue component, but with stubbed child components.
+Like [`mount`](mount.md), it creates a [`Wrapper`](wrapper/) that contains the mounted and rendered Vue component, but with stubbed child components.
 
 **Without options:**
 

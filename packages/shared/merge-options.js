@@ -30,7 +30,8 @@ export function mergeOptions (
     stubs: getOptions('stubs', options.stubs, config),
     mocks: getOptions('mocks', options.mocks, config),
     methods: getOptions('methods', options.methods, config),
-    provide: getOptions('provide', options.provide, config)
+    provide: getOptions('provide', options.provide, config),
+    sync: !!((options.sync || options.sync === undefined))
   }
 }
 

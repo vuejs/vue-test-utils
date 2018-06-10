@@ -2,15 +2,19 @@ import { compileToFunctions } from 'vue-template-compiler'
 import { attrsSupported } from '~resources/utils'
 import {
   describeWithMountingMethods,
-  isRunningPhantomJS
+  isRunningPhantomJS,
+  vueVersion
 } from '~resources/utils'
 import {
-  itSkipIf
+  itSkipIf,
+  itDoNotRunIf
 } from 'conditional-specs'
 
 describeWithMountingMethods('options.attrs', (mountingMethod) => {
-  itSkipIf(
-    mountingMethod.name === 'renderToString' || isRunningPhantomJS,
+  itDoNotRunIf(
+    vueVersion < 2.4 ||
+    mountingMethod.name === 'renderToString' ||
+    isRunningPhantomJS,
     'handles inherit attrs', () => {
       if (!attrsSupported) return
       const wrapper = mountingMethod(compileToFunctions('<p :id="anAttr" />'), {
@@ -22,7 +26,9 @@ describeWithMountingMethods('options.attrs', (mountingMethod) => {
       expect(wrapper.vm.$attrs.anAttr).to.equal('an attribute')
     })
 
-  itSkipIf(mountingMethod.name === 'renderToString',
+  itSkipIf(
+    mountingMethod.name === 'renderToString' ||
+    vueVersion < 2.5,
     'defines attrs as empty object even when not passed', () => {
       const wrapper = mountingMethod(compileToFunctions('<p />'))
       expect(wrapper.vm.$attrs).to.deep.equal({})

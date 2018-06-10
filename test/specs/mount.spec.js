@@ -12,14 +12,15 @@ import {
 
 describeRunIf(process.env.TEST_ENV !== 'node',
   'mount', () => {
-    let consoleError
+    const windowSave = window
 
     beforeEach(() => {
-      consoleError = sinon.stub(console, 'error')
+      sinon.stub(console, 'error')
     })
 
     afterEach(() => {
-      consoleError.restore()
+      window = windowSave // eslint-disable-line no-native-reassign
+      console.error.restore()
     })
 
     it('returns new VueWrapper with mounted Vue instance if no options are passed', () => {
@@ -115,13 +116,9 @@ describeRunIf(process.env.TEST_ENV !== 'node',
         console.log('window read only. skipping test ...')
         return
       }
-      const windowSave = global.window
 
-      after(() => {
-        global.window = windowSave
-      })
       const message = '[vue-test-utils]: window is undefined, vue-test-utils needs to be run in a browser environment.\n You can run the tests in node using JSDOM'
-      global.window = undefined
+      window = undefined  // eslint-disable-line no-native-reassign
 
       expect(() => mount(compileToFunctions('<div />'))).to.throw().with.property('message', message)
     })
@@ -156,7 +153,7 @@ describeRunIf(process.env.TEST_ENV !== 'node',
         }
       }
       mount(TestComponent)
-      expect(consoleError).calledWith(msg)
+      expect(console.error).calledWith(msg)
     })
 
     it('deletes mounting options before passing options to component', () => {
@@ -185,12 +182,7 @@ describeRunIf(process.env.TEST_ENV !== 'node',
         }
       })
       if (injectSupported) {
-      // provide is added by Vue, it's a function in Vue > 2.3
-        if (vueVersion > 2.3) {
-          expect(typeof wrapper.vm.$options.provide).to.equal('function')
-        } else {
-          expect(typeof wrapper.vm.$options.provide).to.equal('object')
-        }
+        expect(typeof wrapper.vm.$options.provide).to.equal('object')
       }
 
       expect(wrapper.vm.$options.attachToDocument).to.equal(undefined)
@@ -233,6 +225,40 @@ describeRunIf(process.env.TEST_ENV !== 'node',
       }
 
       expect(fn).to.throw('Error in mounted')
+    })
+
+    itDoNotRunIf(
+      vueVersion < 2.2,
+      'logs errors once after mount', (done) => {
+        Vue.config.errorHandler = null
+        const TestComponent = {
+          template: '<div/>',
+          updated: function () {
+            throw new Error('Error in updated')
+          }
+        }
+
+        const wrapper = mount(TestComponent, {
+          sync: false
+        })
+        wrapper.vm.$forceUpdate()
+        setTimeout(() => {
+          vueVersion > 2.1
+            ? expect(console.error).calledTwice
+            : expect(console.error).calledOnce
+          done()
+        })
+      })
+
+    it('restores user error handler after mount', () => {
+      const existingErrorHandler = () => {}
+      Vue.config.errorHandler = existingErrorHandler
+      const TestComponent = {
+        template: '<div/>'
+      }
+      mount(TestComponent)
+      expect(Vue.config.errorHandler).to.equal(existingErrorHandler)
+      Vue.config.errorHandler = null
     })
 
     it('overwrites the component options with the options other than the mounting options when the options for mount contain those', () => {

@@ -161,7 +161,7 @@ describeWithMountingMethods('options.stub', (mountingMethod) => {
     const mountingMethodFresh = mountingMethod.name === 'renderToString'
       ? require('../../../packages/server-test-utils').renderToString
       : require('../../../packages/test-utils')[mountingMethod.name]
-    const message = '[vue-test-utils]: vueTemplateCompiler is undefined, you must pass components explicitly if vue-template-compiler is undefined'
+    const message = '[vue-test-utils]: vueTemplateCompiler is undefined, you must pass precompiled components if vue-template-compiler is undefined'
     const fn = () => mountingMethodFresh(Component, {
       stubs: {
         ChildComponent: '<div />'
@@ -314,15 +314,37 @@ describeWithMountingMethods('options.stub', (mountingMethod) => {
     expect(HTML).contains('No render function')
   })
 
-  it.skip('throws an error when passed a circular reference', () => {
-    const invalidValues = ['child-component', 'ChildComponent', 'childComponent']
-    invalidValues.forEach(invalidValue => {
-      const error = '[vue-test-utils]: options.stub cannot contain a circular reference'
-      const fn = () => mountingMethod(ComponentWithChild, {
-        stubs: {
-          ChildComponent: `<${invalidValue} />`
-        }})
-      expect(fn).to.throw().with.property('message', error)
+  it('throws an error when passed a circular reference', () => {
+    const names = ['child-component', 'ChildComponent', 'childComponent']
+    const validValues = [
+      '<NAME-suffix />',
+      '<prefix-NAME />',
+      '<cmp NAME></cmp>',
+      '<cmp something="NAME"></cmp>',
+      '<NAMEl />'
+    ]
+    const invalidValues = [
+      '<NAME />',
+      '<NAME   />',
+      '<NAME></NAME>',
+      '<NAME aProp="something"></NAME>',
+      '<NAME  ></NAME>'
+    ]
+    const error = '[vue-test-utils]: options.stub cannot contain a circular reference'
+    names.forEach((name) => {
+      invalidValues.forEach(invalidValue => {
+        const fn = () => mountingMethod(ComponentWithChild, {
+          stubs: {
+            ChildComponent: invalidValue.replace(/NAME/g, name)
+          }})
+        expect(fn).to.throw().with.property('message', error)
+      })
+      validValues.forEach((validValue) => {
+        mountingMethod(ComponentWithChild, {
+          stubs: {
+            ChildComponent: validValue.replace(/NAME/g, name)
+          }})
+      })
     })
   })
 

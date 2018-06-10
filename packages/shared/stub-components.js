@@ -3,9 +3,11 @@
 import Vue from 'vue'
 import { compileToFunctions } from 'vue-template-compiler'
 import { throwError } from './util'
-import { componentNeedsCompiling } from './validators'
+import {
+  componentNeedsCompiling,
+  templateContainsComponent
+} from './validators'
 import { compileTemplate } from './compile-template'
-import { capitalize, camelize, hyphenate } from './util'
 
 function isVueComponent (comp) {
   return comp && (comp.render || comp.template || comp.options)
@@ -40,14 +42,16 @@ function getCoreProperties (component: Component): Object {
     functional: component.functional
   }
 }
-function createStubFromString (templateString: string, originalComponent: Component): Object {
+function createStubFromString (
+  templateString: string,
+  originalComponent: Component,
+  name: string
+): Object {
   if (!compileToFunctions) {
-    throwError('vueTemplateCompiler is undefined, you must pass components explicitly if vue-template-compiler is undefined')
+    throwError('vueTemplateCompiler is undefined, you must pass precompiled components if vue-template-compiler is undefined')
   }
 
-  if (templateString.indexOf(hyphenate(originalComponent.name)) !== -1 ||
-  templateString.indexOf(capitalize(originalComponent.name)) !== -1 ||
-  templateString.indexOf(camelize(originalComponent.name)) !== -1) {
+  if (templateContainsComponent(templateString, name)) {
     throwError('options.stub cannot contain a circular reference')
   }
 
@@ -66,7 +70,10 @@ function createBlankStub (originalComponent: Component) {
   }
 }
 
-export function createComponentStubs (originalComponents: Object = {}, stubs: Object): Object {
+export function createComponentStubs (
+  originalComponents: Object = {},
+  stubs: Object
+): Object {
   const components = {}
   if (!stubs) {
     return components
@@ -103,7 +110,7 @@ export function createComponentStubs (originalComponents: Object = {}, stubs: Ob
         // Remove cached constructor
         delete originalComponents[stub]._Ctor
         if (typeof stubs[stub] === 'string') {
-          components[stub] = createStubFromString(stubs[stub], originalComponents[stub])
+          components[stub] = createStubFromString(stubs[stub], originalComponents[stub], stub)
         } else {
           components[stub] = {
             ...stubs[stub],
@@ -113,7 +120,7 @@ export function createComponentStubs (originalComponents: Object = {}, stubs: Ob
       } else {
         if (typeof stubs[stub] === 'string') {
           if (!compileToFunctions) {
-            throwError('vueTemplateCompiler is undefined, you must pass components explicitly if vue-template-compiler is undefined')
+            throwError('vueTemplateCompiler is undefined, you must pass precompiled components if vue-template-compiler is undefined')
           }
           components[stub] = {
             ...compileToFunctions(stubs[stub])

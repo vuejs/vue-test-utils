@@ -42,8 +42,11 @@ A `Wrapper` is an object that contains a mounted component or vnode and methods 
 !!!include(docs/api/wrapper/isVueInstance.md)!!!
 !!!include(docs/api/wrapper/name.md)!!!
 !!!include(docs/api/wrapper/props.md)!!!
+!!!include(docs/api/wrapper/setChecked.md)!!!
 !!!include(docs/api/wrapper/setData.md)!!!
 !!!include(docs/api/wrapper/setMethods.md)!!!
 !!!include(docs/api/wrapper/setProps.md)!!!
+!!!include(docs/api/wrapper/setSelected.md)!!!
+!!!include(docs/api/wrapper/setValue.md)!!!
 !!!include(docs/api/wrapper/text.md)!!!
 !!!include(docs/api/wrapper/trigger.md)!!!

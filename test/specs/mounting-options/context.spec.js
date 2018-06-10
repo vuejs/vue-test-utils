@@ -5,7 +5,7 @@ import { describeWithMountingMethods } from '~resources/utils'
 describeWithMountingMethods('options.context', (mountingMethod) => {
   it('mounts functional component when passed context object', () => {
     if (vueVersion <= 2.2) {
-      console.log('WARN: no current way to test functional component is component in v2.1.x')
+      console.log('WARN: no current way to test functional component in vue@2.1')
       return
     }
 

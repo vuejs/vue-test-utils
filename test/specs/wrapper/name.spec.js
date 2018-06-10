@@ -5,7 +5,7 @@ import { describeWithShallowAndMount } from '~resources/utils'
 describeWithShallowAndMount('name', (mountingMethod) => {
   it('returns the name of the component it was called on', () => {
     const wrapper = mountingMethod(Component)
-    expect(wrapper.name()).to.equal('component')
+    expect(wrapper.name()).to.equal('test-component')
   })
 
   it('returns the name of the tag if there is no vnode', () => {
