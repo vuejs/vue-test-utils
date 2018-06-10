@@ -217,7 +217,7 @@ And the test:
 import { shallowMount, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import MyComponent from '../../../src/components/MyComponent'
-import mymodule from '../../../src/store/mymodule'
+import myModule from '../../../src/store/myModule'
 
 const localVue = createLocalVue()
 
@@ -230,9 +230,7 @@ describe('MyComponent.vue', () => {
 
   beforeEach(() => {
     state = {
-      module: {
-        clicks: 2
-      }
+      clicks: 2
     }
 
     actions = {
@@ -241,10 +239,10 @@ describe('MyComponent.vue', () => {
 
     store = new Vuex.Store({
       modules: {
-        mymodule: {
+        myModule: {
           state,
           actions,
-          getters: module.getters
+          getters: myModule.getters
         }
       }
     })
@@ -257,7 +255,7 @@ describe('MyComponent.vue', () => {
     expect(actions.moduleActionClick).toHaveBeenCalled()
   })
 
-  it('Renders "state.inputValue" in first p tag', () => {
+  it('renders "state.inputValue" in first p tag', () => {
     const wrapper = shallowMount(MyComponent, { store, localVue })
     const p = wrapper.find('p')
     expect(p.text()).toBe(state.clicks.toString())
