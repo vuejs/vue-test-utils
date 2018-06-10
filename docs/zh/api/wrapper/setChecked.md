@@ -1,11 +1,11 @@
 ## setChecked(value)
 
-Sets the value of a radio or checkbox `<input>`.
+设置一个 `<input>` 单选框或复选框的值。
 
-- **Arguments:**
+- **参数：**
   - `{Boolean} selected`
 
-- **Example:**
+- **示例：**
 
 ```js
 import { mount } from '@vue/test-utils'
@@ -15,4 +15,3 @@ const wrapper = mount(Foo)
 const option = wrapper.find('input[type="radio"]')
 option.setChecked()
 ```
-
