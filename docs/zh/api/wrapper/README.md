@@ -42,8 +42,11 @@ Vue Test Utils 是一个基于包裹器的 API。
 !!!include(docs/zh/api/wrapper/isVueInstance.md)!!!
 !!!include(docs/zh/api/wrapper/name.md)!!!
 !!!include(docs/zh/api/wrapper/props.md)!!!
+!!!include(docs/zh/api/wrapper/setChecked.md)!!!
 !!!include(docs/zh/api/wrapper/setData.md)!!!
 !!!include(docs/zh/api/wrapper/setMethods.md)!!!
 !!!include(docs/zh/api/wrapper/setProps.md)!!!
+!!!include(docs/zh/api/wrapper/setSelected.md)!!!
+!!!include(docs/zh/api/wrapper/setValue.md)!!!
 !!!include(docs/zh/api/wrapper/text.md)!!!
 !!!include(docs/zh/api/wrapper/trigger.md)!!!

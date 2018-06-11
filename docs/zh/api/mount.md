@@ -62,7 +62,7 @@ describe('Foo', () => {
   })
 })
 ```
-**默认的和具名的插槽：**
+**默认插槽和具名插槽：**
 
 ```js
 import { mount } from '@vue/test-utils'
