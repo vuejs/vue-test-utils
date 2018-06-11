@@ -59,14 +59,6 @@ const wrapper = shallow(Component, {
 expect(wrapper.find('div')).toBe(true)
 ```
 
-#### Передача текста
-
-Вы можете передать текст в `slots`.
-Для этого есть одно ограничение.
-
-Это не поддерживается PhantomJS.
-Используйте [Puppeteer](https://github.com/karma-runner/karma-chrome-launcher#headless-chromium-with-puppeteer).
-
 ### `stubs`
 
 - Тип: `{ [name: string]: Component | boolean } | Array<string>`
