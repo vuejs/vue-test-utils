@@ -1,10 +1,12 @@
 # Руководства
 
-* [Введение](./getting-started.md)
-* [Общие советы](./common-tips.md)
-* [Мышь, клавиши и другие события DOM](./dom-events.md)
-* [Чем запускать тесты](./choosing-a-test-runner.md)
-* [Тестирование однофайловых компонентов с Jest](./testing-SFCs-with-jest.md)
-* [Тестирование однофайловых компонентов с Mocha + webpack](./testing-SFCs-with-mocha-webpack.md)
-* [Использование с Vue Router](./using-with-vue-router.md)
-* [Использование с Vuex](./using-with-vuex.md)
+!!!include(docs/ru/guides/getting-started.md)!!!
+!!!include(docs/ru/guides/common-tips.md)!!!
+!!!include(docs/ru/guides/dom-events.md)!!!
+!!!include(docs/ru/guides/choosing-a-test-runner.md)!!!
+!!!include(docs/ru/guides/testing-SFCs-with-jest.md)!!!
+!!!include(docs/ru/guides/testing-SFCs-with-mocha-webpack.md)!!!
+!!!include(docs/ru/guides/testing-SFCs-with-karma.md)!!!
+!!!include(docs/ru/guides/testing-async-components.md)!!!
+!!!include(docs/ru/guides/using-with-vue-router.md)!!!
+!!!include(docs/ru/guides/using-with-vuex.md)!!!
