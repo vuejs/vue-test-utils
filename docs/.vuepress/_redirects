@@ -23,3 +23,11 @@
 
 /zh/api/wrapper/* /zh/api/wrapper.html/#:splat
 /zh/api/wrapper-array/*  /zh/api/wrapper-array.html/#:splat
+
+/ru/api/mount /ru/api/#mount
+/ru/api/shallowMount /ru/api/#shallowmount
+/ru/api/createLocalVue /ru/api/#createlocalvue
+/ru/api/config /ru/api/#config
+
+/ru/api/wrapper/* /ru/api/wrapper.html/#:splat
+/ru/api/wrapper-array/* /ru/api/wrapper-array.html/#:splat
