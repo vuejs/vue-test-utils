@@ -164,6 +164,19 @@ describeWithMountingMethods('options.slots', (mountingMethod) => {
     }
   })
 
+  it('mounts component with text slot', () => {
+    const wrapper = mountingMethod(ComponentWithSlots, {
+      slots: {
+        header: 'hello'
+      }
+    })
+    if (mountingMethod.name === 'renderToString') {
+      expect(wrapper).contains('hello')
+    } else {
+      expect(wrapper.text()).to.contain('hello')
+    }
+  })
+
   it('mounts component with named slot if passed component in slot object', () => {
     const wrapper = mountingMethod(ComponentWithSlots, {
       slots: {
