@@ -197,7 +197,7 @@ describeRunIf(process.env.TEST_ENV !== 'node',
       expect(wrapper.vm.$options.listeners).to.equal(undefined)
     })
 
-    it('handles store correctly', () => {
+    it('injects store correctly', () => {
       const localVue = createLocalVue()
       localVue.use(Vuex)
       const store = new Vuex.Store()
@@ -205,7 +205,10 @@ describeRunIf(process.env.TEST_ENV !== 'node',
         store,
         localVue
       })
-      console.log(wrapper.vm.$store.getters)
+      wrapper.vm.getters
+      mount({
+        template: '<div>{{$store.getters}}</div>'
+      }, { store, localVue })
     })
 
     it('propagates errors when they are thrown', () => {
