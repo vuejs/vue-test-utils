@@ -4,11 +4,13 @@ import { mount, createLocalVue } from '~vue/test-utils'
 import Component from '~resources/components/component.vue'
 import ComponentWithProps from '~resources/components/component-with-props.vue'
 import ComponentWithMixin from '~resources/components/component-with-mixin.vue'
+import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
 import { injectSupported, vueVersion } from '~resources/utils'
 import {
   describeRunIf,
   itDoNotRunIf
 } from 'conditional-specs'
+import Vuex from 'vuex'
 
 describeRunIf(process.env.TEST_ENV !== 'node',
   'mount', () => {
@@ -62,7 +64,12 @@ describeRunIf(process.env.TEST_ENV !== 'node',
 
     it('returns new VueWrapper with mounted Vue instance initialized with Vue.extend with props, if passed as propsData', () => {
       const prop1 = { test: 'TEST' }
-      const wrapper = mount(Vue.extend(ComponentWithProps), { propsData: { prop1 }})
+      const TestComponent = Vue.extend(ComponentWithProps)
+      const wrapper = mount(TestComponent, {
+        propsData: {
+          prop1
+        }
+      })
       expect(wrapper.vm).to.be.an('object')
       if (wrapper.vm.$props) {
         expect(wrapper.vm.$props.prop1).to.equal(prop1)
@@ -131,6 +138,25 @@ describeRunIf(process.env.TEST_ENV !== 'node',
       expect(wrapper.html()).to.equal(`<div>foo</div>`)
     })
 
+    it('overrides methods', () => {
+      const stub = sinon.stub()
+      const TestComponent = Vue.extend({
+        template: '<div />',
+        methods: {
+          callStub () {
+            stub()
+          }
+        }
+      })
+      mount(TestComponent, {
+        methods: {
+          callStub () {}
+        }
+      }).vm.callStub()
+
+      expect(stub).not.called
+    })
+
     // Problems accessing options of twice extended components in Vue < 2.3
     itDoNotRunIf(vueVersion < 2.3,
       'compiles extended components', () => {
@@ -193,6 +219,20 @@ describeRunIf(process.env.TEST_ENV !== 'node',
       expect(wrapper.vm.$options.context).to.equal(undefined)
       expect(wrapper.vm.$options.attrs).to.equal(undefined)
       expect(wrapper.vm.$options.listeners).to.equal(undefined)
+    })
+
+    it('injects store correctly', () => {
+      const localVue = createLocalVue()
+      localVue.use(Vuex)
+      const store = new Vuex.Store()
+      const wrapper = mount(ComponentAsAClass, {
+        store,
+        localVue
+      })
+      wrapper.vm.getters
+      mount({
+        template: '<div>{{$store.getters}}</div>'
+      }, { store, localVue })
     })
 
     it('propagates errors when they are thrown', () => {
@@ -261,7 +301,7 @@ describeRunIf(process.env.TEST_ENV !== 'node',
       Vue.config.errorHandler = null
     })
 
-    it('overwrites the component options with the options other than the mounting options when the options for mount contain those', () => {
+    it('overwrites the component options with the instance options', () => {
       const Component = {
         template: '<div>{{ foo() }}{{ bar() }}{{ baz() }}</div>',
         methods: {
