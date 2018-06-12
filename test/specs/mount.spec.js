@@ -4,11 +4,13 @@ import { mount, createLocalVue } from '~vue/test-utils'
 import Component from '~resources/components/component.vue'
 import ComponentWithProps from '~resources/components/component-with-props.vue'
 import ComponentWithMixin from '~resources/components/component-with-mixin.vue'
+import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
 import { injectSupported, vueVersion } from '~resources/utils'
 import {
   describeRunIf,
   itDoNotRunIf
 } from 'conditional-specs'
+import Vuex from 'vuex'
 
 describeRunIf(process.env.TEST_ENV !== 'node',
   'mount', () => {
@@ -195,6 +197,17 @@ describeRunIf(process.env.TEST_ENV !== 'node',
       expect(wrapper.vm.$options.listeners).to.equal(undefined)
     })
 
+    it('handles store correctly', () => {
+      const localVue = createLocalVue()
+      localVue.use(Vuex)
+      const store = new Vuex.Store()
+      const wrapper = mount(ComponentAsAClass, {
+        store,
+        localVue
+      })
+      console.log(wrapper.vm.$store.getters)
+    })
+
     it('propagates errors when they are thrown', () => {
       const TestComponent = {
         template: '<div></div>',
@@ -261,7 +274,7 @@ describeRunIf(process.env.TEST_ENV !== 'node',
       Vue.config.errorHandler = null
     })
 
-    it('overwrites the component options with the options other than the mounting options when the options for mount contain those', () => {
+    it('overwrites the component options with the instance options', () => {
       const Component = {
         template: '<div>{{ foo() }}{{ bar() }}{{ baz() }}</div>',
         methods: {
