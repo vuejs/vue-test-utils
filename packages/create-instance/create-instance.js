@@ -38,10 +38,10 @@ export default function createInstance (
   addEventLogger(_Vue)
 
   const instanceOptions = {
-    ...options,
-    propsData: {
-      ...options.propsData
-    }
+    ...options
+    // propsData: {
+    //   ...options.propsData
+    // }
   }
 
   deleteMountingOptions(instanceOptions)
@@ -70,7 +70,9 @@ export default function createInstance (
     _Vue.component(c, stubComponents[c])
   })
 
-  const Constructor = _Vue.extend(component).extend(instanceOptions)
+  const Constructor = vueVersion < 2.3 && typeof component === 'function'
+    ? component
+    : _Vue.extend(component).extend(instanceOptions)
 
   Object.keys(instanceOptions.components || {}).forEach(key => {
     Constructor.component(key, instanceOptions.components[key])
