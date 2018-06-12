@@ -1,12 +1,13 @@
 // @flow
 
-import findVnodes from './find-vnodes'
+import { findVNodesByRef, findVNodesByDOMSelector } from './find-vnodes'
 import findVueComponents from './find-vue-components'
 import findDOMNodes from './find-dom-nodes'
 import {
   COMPONENT_SELECTOR,
   NAME_SELECTOR,
-  DOM_SELECTOR
+  DOM_SELECTOR,
+  REF_SELECTOR
 } from './consts'
 import Vue from 'vue'
 import getSelectorTypeOrThrow from './get-selector-type'
@@ -24,6 +25,10 @@ export default function find (
     throwError('cannot find a Vue instance on a DOM node. The node you are calling find on does not exist in the VDom. Are you adding the node as innerHTML?')
   }
 
+  if (!vm && selectorType === REF_SELECTOR) {
+    throwError('$ref selectors can only be used on Vue component wrappers')
+  }
+
   if (selectorType === COMPONENT_SELECTOR || selectorType === NAME_SELECTOR) {
     const root = vm || vnode
     if (!root) {
@@ -37,11 +42,14 @@ export default function find (
   }
 
   if (vnode) {
-    const nodes = findVnodes(vnode, vm, selectorType, selector)
-    if (selectorType !== DOM_SELECTOR) {
-      return nodes
+    if (selectorType === REF_SELECTOR) {
+      return findVNodesByRef(vnode, selector.ref)
     }
-    return nodes.length > 0 ? nodes : findDOMNodes(element, selector)
+
+    if (selectorType === DOM_SELECTOR) {
+      const nodes = findVNodesByDOMSelector(vnode, selector)
+      if (nodes.length) return nodes
+    }
   }
 
   return findDOMNodes(element, selector)
