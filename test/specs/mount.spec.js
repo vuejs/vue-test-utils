@@ -64,7 +64,12 @@ describeRunIf(process.env.TEST_ENV !== 'node',
 
     it('returns new VueWrapper with mounted Vue instance initialized with Vue.extend with props, if passed as propsData', () => {
       const prop1 = { test: 'TEST' }
-      const wrapper = mount(Vue.extend(ComponentWithProps), { propsData: { prop1 }})
+      const TestComponent = Vue.extend(ComponentWithProps)
+      const wrapper = mount(TestComponent, {
+        propsData: {
+          prop1
+        }
+      })
       expect(wrapper.vm).to.be.an('object')
       if (wrapper.vm.$props) {
         expect(wrapper.vm.$props.prop1).to.equal(prop1)
@@ -131,6 +136,25 @@ describeRunIf(process.env.TEST_ENV !== 'node',
       })
       expect(wrapper.vm).to.be.an('object')
       expect(wrapper.html()).to.equal(`<div>foo</div>`)
+    })
+
+    it('overrides methods', () => {
+      const stub = sinon.stub()
+      const TestComponent = Vue.extend({
+        template: '<div />',
+        methods: {
+          callStub () {
+            stub()
+          }
+        }
+      })
+      mount(TestComponent, {
+        methods: {
+          callStub () {}
+        }
+      }).vm.callStub()
+
+      expect(stub).not.called
     })
 
     // Problems accessing options of twice extended components in Vue < 2.3

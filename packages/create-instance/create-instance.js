@@ -68,7 +68,7 @@ export default function createInstance (
   })
 
   const Constructor = vueVersion < 2.3 && typeof component === 'function'
-    ? component
+    ? component.extend(instanceOptions)
     : _Vue.extend(component).extend(instanceOptions)
 
   Object.keys(instanceOptions.components || {}).forEach(key => {
