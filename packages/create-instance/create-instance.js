@@ -39,9 +39,6 @@ export default function createInstance (
 
   const instanceOptions = {
     ...options
-    // propsData: {
-    //   ...options.propsData
-    // }
   }
 
   deleteMountingOptions(instanceOptions)
