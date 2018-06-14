@@ -397,19 +397,18 @@ export default class Wrapper implements BaseWrapper {
     if (!this.vm) {
       throwError('wrapper.props() must be called on a Vue instance')
     }
-    // $props object does not exist in Vue 2.1.x, so use $options.propsData instead
-    let _props
-    if (this.vm && this.vm.$options && this.vm.$options.propsData) {
-      _props = this.vm.$options.propsData
-    } else {
-      // $FlowIgnore
-      _props = this.vm.$props
+
+    const props = {}
+    // $FlowIgnore
+    const keys = this.vm.$options._propKeys
+
+    if (keys) {
+      keys.forEach(key => {
+        // $FlowIgnore
+        props[key] = this.vm[key]
+      })
     }
-    Object.keys(_props || {}).forEach(prop => {
-      // $FlowIgnore
-      _props[prop] = this.vm[prop]
-    })
-    return _props || {}
+    return props
   }
 
   /**

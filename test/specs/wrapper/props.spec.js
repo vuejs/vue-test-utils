@@ -36,6 +36,19 @@ describeWithShallowAndMount('props', (mountingMethod) => {
     expect(wrapper.props()).to.eql({ prop1: {}, prop2: 'val2' }) // fail
   })
 
+  it('returns default props', () => {
+    const TestComponent = {
+      render: () => {},
+      props: {
+        message: {
+          default: () => 'hello'
+        }
+      }
+    }
+    const wrapper = mountingMethod(TestComponent)
+    expect(wrapper.props().message).to.equal('hello')
+  })
+
   itSkipIf(!functionalSFCsSupported,
     'works correctly a functional component', () => {
       const FunctionalComponent = {
