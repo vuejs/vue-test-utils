@@ -642,7 +642,13 @@ export default class Wrapper implements BaseWrapper {
       // $FlowIgnore
       el.selected = true
       // $FlowIgnore
-      createWrapper(el.parentElement, this.options).trigger(event)
+      if (el.parentElement.tagName === 'OPTGROUP') {
+        // $FlowIgnore
+        createWrapper(el.parentElement.parentElement, this.options).trigger(event)
+      } else {
+        // $FlowIgnore
+        createWrapper(el.parentElement, this.options).trigger(event)
+      }
     } else if (tag === 'SELECT') {
       throwError('wrapper.setSelected() cannot be called on select. Call it on one of its options')
     } else if (tag === 'INPUT' && type === 'checkbox') {
