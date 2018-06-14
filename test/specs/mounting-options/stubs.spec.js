@@ -96,6 +96,25 @@ describeWithMountingMethods('options.stub', (mountingMethod) => {
     expect(mountedWrapper.findAll(Component).length).to.equal(1)
   })
 
+  it('renders slot content in stubs', () => {
+    const TestComponent = {
+      template: `
+      <div>
+      <stub-with-child>
+        <child-component />
+      </stub-with-child>
+      </div>
+      `
+    }
+    const wrapper = mountingMethod(TestComponent, {
+      stubs: ['child-component', 'stub-with-child']
+    })
+    const HTML = mountingMethod.name === 'renderToString'
+      ? wrapper
+      : wrapper.html()
+    expect(HTML).to.contain('<child-component-stub>')
+  })
+
   it('stubs components on component if they do not already exist', () => {
     const ComponentWithGlobalComponent = {
       render: h => h('registered-component')
@@ -245,23 +264,6 @@ describeWithMountingMethods('options.stub', (mountingMethod) => {
       : wrapper.html()
     expect(HTML).to.contain('<span>')
   })
-
-  itDoNotRunIf(
-    mountingMethod.name === 'shallowMount' ||
-    mountingMethod.name === 'renderToString',
-    'stubs on child components', () => {
-      const TestComponent = {
-        template: '<transition><span /></transition>'
-      }
-
-      const wrapper = mountingMethod({
-        components: { 'test-component': TestComponent },
-        template: '<test-component />'
-      }, {
-        stubs: ['transition']
-      })
-      expect(wrapper.find('span').exists()).to.equal(false)
-    })
 
   it('converts config to array if stubs is an array', () => {
     const localVue = createLocalVue()

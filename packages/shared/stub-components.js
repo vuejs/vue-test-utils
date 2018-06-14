@@ -65,7 +65,9 @@ function createBlankStub (originalComponent: Component) {
   return {
     ...getCoreProperties(originalComponent),
     render (h) {
-      return h(`${originalComponent.name}-stub`)
+      return h(`${originalComponent.name}-stub`,
+        !originalComponent.functional && this.$slots.default
+      )
     }
   }
 }
