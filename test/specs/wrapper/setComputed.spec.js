@@ -39,6 +39,7 @@ describeWithShallowAndMount('setComputed', (mountingMethod) => {
 
   it('updates vm computed value', () => {
     const TestComponent = {
+      render: () => {},
       data () {
         return {
           a: 1

@@ -63,7 +63,8 @@ describeWithShallowAndMount('emitted', (mountingMethod) => {
       },
       mounted () {
         this.$emit('bar', 1, 2)
-      }
+      },
+      render: () => {}
     })
 
     expect(wrapper.emitted().foo).to.eql([[]])
@@ -74,12 +75,14 @@ describeWithShallowAndMount('emitted', (mountingMethod) => {
     const localVue = createLocalVue()
 
     const wrapper1 = mountingMethod({
+      render: () => {},
       beforeCreate () {
         this.$emit('foo')
       }
     }, { localVue })
 
     const wrapper2 = mountingMethod({
+      render: () => {},
       mounted () {
         this.$emit('bar')
       }

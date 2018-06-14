@@ -15,7 +15,8 @@ describeWithMountingMethods('options.localVue', (mountingMethod) => {
       const TestComponent = {
         template: `
         <div>{{test}}</div>
-      `
+      `,
+        data: { test: '' }
       }
       const localVue = Vue.extend()
       localVue.version = '2.3'

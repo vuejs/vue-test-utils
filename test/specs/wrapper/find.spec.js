@@ -240,7 +240,7 @@ describeWithShallowAndMount('find', (mountingMethod) => {
   it('returns error Wrapper if Vue component is below Wrapper', () => {
     const AComponent = {
       render: () => {},
-      name: 'a component'
+      name: 'a-component'
     }
     const localVue = createLocalVue()
     localVue.component('a-component', AComponent)

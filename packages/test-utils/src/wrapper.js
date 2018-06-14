@@ -398,15 +398,18 @@ export default class Wrapper implements BaseWrapper {
     if (!this.vm) {
       throwError('wrapper.props() must be called on a Vue instance')
     }
-    // $props object does not exist in Vue 2.1.x, so use $options.propsData instead
-    let _props
-    if (this.vm && this.vm.$options && this.vm.$options.propsData) {
-      _props = this.vm.$options.propsData
-    } else {
-      // $FlowIgnore
-      _props = this.vm.$props
+
+    const props = {}
+    // $FlowIgnore
+    const keys = this.vm.$options._propKeys
+
+    if (keys) {
+      keys.forEach(key => {
+        // $FlowIgnore
+        props[key] = this.vm[key]
+      })
     }
-    return _props || {} // Return an empty object if no props exist
+    return props
   }
 
   /**
@@ -518,26 +521,21 @@ export default class Wrapper implements BaseWrapper {
     if (this.isFunctionalComponent) {
       throwError('wrapper.setProps() cannot be called on a functional component')
     }
-    if (!this.isVueInstance() || !this.vm) {
+    if (!this.isVm) {
       throwError('wrapper.setProps() can only be called on a Vue instance')
     }
-    if (this.vm && this.vm.$options && !this.vm.$options.propsData) {
-      this.vm.$options.propsData = {}
-    }
+
     Object.keys(data).forEach((key) => {
       // Ignore properties that were not specified in the component options
       // $FlowIgnore : Problem with possibly null this.vm
-      if (!this.vm.$options._propKeys || !this.vm.$options._propKeys.some(prop => prop === key)) {
+      if (!this.vm.$options._propKeys ||
+        !this.vm.$options._propKeys.some(prop => prop === key)) {
         throwError(`wrapper.setProps() called with ${key} property which is not defined on component`)
       }
 
       // $FlowIgnore : Problem with possibly null this.vm
       if (this.vm._props) {
         this.vm._props[key] = data[key]
-        // $FlowIgnore : Problem with possibly null this.vm.$props
-        this.vm.$props[key] = data[key]
-        // $FlowIgnore : Problem with possibly null this.vm.$options
-        this.vm.$options.propsData[key] = data[key]
       } else {
         // $FlowIgnore : Problem with possibly null this.vm
         this.vm[key] = data[key]
