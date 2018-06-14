@@ -45,7 +45,7 @@ export default function createInstance (
   if (options.stubs) {
     instanceOptions.components = {
       ...instanceOptions.components,
-        // $FlowIgnore
+      // $FlowIgnore
       ...createComponentStubs(component.components, options.stubs)
     }
   }
