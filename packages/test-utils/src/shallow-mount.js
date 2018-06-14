@@ -5,10 +5,10 @@ import Vue from 'vue'
 import mount from './mount'
 import type VueWrapper from './vue-wrapper'
 import {
-  createComponentStubsForAll,
-  createComponentStubsForGlobals
-} from 'shared/stub-components'
-import { camelize,
+  createStubsForComponent
+} from 'shared/create-stubs'
+import {
+  camelize,
   capitalize,
   hyphenate
 } from 'shared/util'
@@ -17,7 +17,7 @@ export default function shallowMount (
   component: Component,
   options: Options = {}
 ): VueWrapper {
-  const vue = options.localVue || Vue
+  const vueConstructor = options.localVue || Vue
 
   // remove any recursive components added to the constructor
   // in vm._init from previous tests
@@ -28,9 +28,10 @@ export default function shallowMount (
 
   return mount(component, {
     ...options,
+    localVue: vueConstructor,
     components: {
-      ...createComponentStubsForGlobals(vue),
-      ...createComponentStubsForAll(component)
+      ...createStubsForComponent(vueConstructor),
+      ...createStubsForComponent(component)
     }
   })
 }

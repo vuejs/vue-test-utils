@@ -3,7 +3,7 @@
 import { createSlotVNodes } from './add-slots'
 import addMocks from './add-mocks'
 import { addEventLogger } from './log-events'
-import { createComponentStubs } from 'shared/stub-components'
+import { createStubsForStubsOption } from 'shared/create-stubs'
 import { throwError, warn, vueVersion } from 'shared/util'
 import { compileTemplate } from 'shared/compile-template'
 import deleteMountingOptions from './delete-mounting-options'
@@ -46,7 +46,7 @@ export default function createInstance (
     instanceOptions.components = {
       ...instanceOptions.components,
       // $FlowIgnore
-      ...createComponentStubs(component.components, options.stubs)
+      ...createStubsForStubsOption(component.components, options.stubs)
     }
   }
 

@@ -83,114 +83,107 @@ function createStubFromOptions (originalComponent: Component) {
   }
 }
 
-export function createComponentStubs (
+export function createStubsForStubsOption (
   originalComponents: Object = {},
-  stubs: Object
+  stubsOption: Object
 ): Object {
-  const components = {}
-  if (!stubs) {
-    return components
+  const stubs = {}
+  if (!stubsOption) {
+    return stubs
   }
-  if (Array.isArray(stubs)) {
-    stubs.forEach(stub => {
+  if (Array.isArray(stubsOption)) {
+    stubsOption.forEach(stub => {
       if (typeof stub !== 'string') {
         throwError('each item in an options.stubs array must be a string')
       }
-      components[stub] = createStubFromOptions({ name: stub })
+      stubs[stub] = createStubFromOptions({ name: stub })
     })
-    return components
+    return stubs
   }
 
-  Object.keys(stubs).forEach(stub => {
-    if (!isValidStub(stubs[stub])) {
+  Object.keys(stubsOption).forEach(stub => {
+    if (!isValidStub(stubsOption[stub])) {
       throwError('options.stub values must be passed a string or component')
     }
-    if (stubs[stub] === false) {
+    if (stubsOption[stub] === false) {
       return
     }
 
-    if (stubs[stub] === true) {
-      components[stub] = createStubFromOptions({ name: stub })
+    if (stubsOption[stub] === true) {
+      stubs[stub] = createStubFromOptions({ name: stub })
       return
     }
 
-    if (typeof stubs[stub] === 'string') {
-      components[stub] = createStubFromString(
-        stubs[stub],
+    if (typeof stubsOption[stub] === 'string') {
+      stubs[stub] = createStubFromString(
+        stubsOption[stub],
         originalComponents[stub],
         stub
       )
       return
     }
 
-    if (componentNeedsCompiling(stubs[stub])) {
-      compileTemplate(stubs[stub])
+    if (componentNeedsCompiling(stubsOption[stub])) {
+      compileTemplate(stubsOption[stub])
     }
 
     if (originalComponents[stub]) {
       // Remove cached constructor
       delete originalComponents[stub]._Ctor
 
-      components[stub] = {
-        ...stubs[stub],
+      stubs[stub] = {
+        ...stubsOption[stub],
         name: originalComponents[stub].name
       }
       return
     }
-    components[stub] = {
-      ...stubs[stub]
+    stubs[stub] = {
+      ...stubsOption[stub]
     }
   })
-  return components
+  return stubs
 }
 
-function stubComponents (components: Object, stubbedComponents: Object) {
+function stubComponents (components: Object, stubs: Object) {
   Object.keys(components).forEach(component => {
+    if (isRequiredComponent(component)) {
+      return
+    }
     // Remove cached constructor
     delete components[component]._Ctor
     if (!components[component].name) {
       components[component].name = component
     }
-    stubbedComponents[component] = createStubFromOptions(components[component])
+    stubs[component] = createStubFromOptions(components[component])
   })
 }
 
-export function createComponentStubsForAll (component: Component): Object {
-  const stubbedComponents = {}
+export function createStubsForComponent (component: Component): Object {
+  const stubs = {}
 
   if (component.components) {
-    stubComponents(component.components, stubbedComponents)
+    stubComponents(component.components, stubs)
   }
 
-  stubbedComponents[component.name] = createStubFromOptions(component)
+  stubs[component.name] = createStubFromOptions(component)
 
   let extended = component.extends
 
   // Loop through extended component chains to stub all child components
   while (extended) {
     if (extended.components) {
-      stubComponents(extended.components, stubbedComponents)
+      stubComponents(extended.components, stubs)
     }
     extended = extended.extends
   }
 
   if (component.extendOptions && component.extendOptions.components) {
-    stubComponents(component.extendOptions.components, stubbedComponents)
+    stubComponents(component.extendOptions.components, stubs)
   }
 
-  return stubbedComponents
-}
+  if (component.options && component.options.components) {
+    stubComponents(component.options.components, stubs)
+  }
 
-export function createComponentStubsForGlobals (instance: Component): Object {
-  const components = {}
-  Object.keys(instance.options.components).forEach((c) => {
-    if (isRequiredComponent(c)) {
-      return
-    }
-
-    components[c] = createStubFromOptions(instance.options.components[c])
-    delete instance.options.components[c]._Ctor // eslint-disable-line no-param-reassign
-    delete components[c]._Ctor // eslint-disable-line no-param-reassign
-  })
-  return components
+  return stubs
 }
