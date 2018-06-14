@@ -9,6 +9,7 @@ import {
   NAME_SELECTOR,
   FUNCTIONAL_OPTIONS
 } from './consts'
+import config from './config'
 import {
   vmCtorMatchesName,
   vmCtorMatchesSelector,
@@ -512,6 +513,8 @@ export default class Wrapper implements BaseWrapper {
    * Sets vm props
    */
   setProps (data: Object) {
+    const originalConfig = Vue.config.silent
+    Vue.config.silent = config.silentWarnings
     if (this.isFunctionalComponent) {
       throwError('wrapper.setProps() cannot be called on a functional component')
     }
@@ -546,6 +549,7 @@ export default class Wrapper implements BaseWrapper {
     // $FlowIgnore : Problem with possibly null this.vm
     this.vnode = this.vm._vnode
     orderWatchers(this.vm || this.vnode.context.$root)
+    Vue.config.silent = originalConfig
   }
 
   /**

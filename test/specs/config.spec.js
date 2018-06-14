@@ -2,6 +2,7 @@ import {
   describeWithShallowAndMount,
   vueVersion
 } from '~resources/utils'
+import ComponentWithProps from '~resources/components/component-with-props.vue'
 import {
   itDoNotRunIf,
   itSkipIf
@@ -10,15 +11,17 @@ import { config, TransitionStub, TransitionGroupStub, createLocalVue } from '~vu
 import Vue from 'vue'
 
 describeWithShallowAndMount('config', (mountingMethod) => {
-  let configStubsSave
-  let consoleError
-  let configLogSave
+  let configStubsSave,
+    consoleError,
+    configLogSave,
+    configSilentWarningsSave
 
   beforeEach(() => {
     TransitionGroupStub.name = 'another-temp-name'
     TransitionStub.name = 'a-temp-name'
     configStubsSave = config.stubs
     configLogSave = config.logModifiedComponents
+    configSilentWarningsSave = config.silentWarnings
     consoleError = sinon.stub(console, 'error')
   })
 
@@ -27,6 +30,7 @@ describeWithShallowAndMount('config', (mountingMethod) => {
     TransitionStub.name = 'transition'
     config.stubs = configStubsSave
     config.logModifiedComponents = configLogSave
+    config.silentWarnings = configSilentWarningsSave
     consoleError.restore()
   })
 
@@ -135,6 +139,38 @@ describeWithShallowAndMount('config', (mountingMethod) => {
     const wrapper = mountingMethod(testComponent)
     expect(wrapper.contains(TransitionGroupStub)).to.equal(false)
     expect(wrapper.contains(TransitionStub)).to.equal(false)
+  })
+
+  it('doesn\'t throw Vue warning when silentWarnings is set to true', () => {
+    config.silentWarnings = true
+    const localVue = createLocalVue()
+    const wrapper = mountingMethod(ComponentWithProps, {
+      propsData: {
+        prop1: 'example'
+      },
+      localVue
+    })
+    expect(wrapper.vm.prop1).to.equal('example')
+    wrapper.setProps({
+      prop1: 'new value'
+    })
+    expect(consoleError.called).to.equal(false)
+  })
+
+  it('does throw Vue warning when silentWarnings is set to false', () => {
+    config.silentWarnings = false
+    const localVue = createLocalVue()
+    const wrapper = mountingMethod(ComponentWithProps, {
+      propsData: {
+        prop1: 'example'
+      },
+      localVue
+    })
+    expect(wrapper.vm.prop1).to.equal('example')
+    wrapper.setProps({
+      prop1: 'new value'
+    })
+    expect(consoleError.called).to.equal(true)
   })
 
   itSkipIf(
