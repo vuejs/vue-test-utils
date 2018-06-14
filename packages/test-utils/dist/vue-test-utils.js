@@ -2453,6 +2453,160 @@ function getSelectorTypeOrThrow (selector, methodName) {
 
 // 
 
+function getRealChild (vnode) {
+  var compOptions = vnode && vnode.componentOptions;
+  if (compOptions && compOptions.Ctor.options.abstract) {
+    return getRealChild(getFirstComponentChild(compOptions.children))
+  } else {
+    return vnode
+  }
+}
+
+function isSameChild (child, oldChild) {
+  return oldChild.key === child.key && oldChild.tag === child.tag
+}
+
+function getFirstComponentChild (children) {
+  if (Array.isArray(children)) {
+    for (var i = 0; i < children.length; i++) {
+      var c = children[i];
+      if (c && (c.componentOptions || isAsyncPlaceholder(c))) {
+        return c
+      }
+    }
+  }
+}
+
+function isPrimitive (value) {
+  return (
+    typeof value === 'string' ||
+    typeof value === 'number' ||
+    // $FlowIgnore
+    typeof value === 'symbol' ||
+    typeof value === 'boolean'
+  )
+}
+
+function isAsyncPlaceholder (node) {
+  return node.isComment && node.asyncFactory
+}
+
+function hasParentTransition (vnode) {
+  while ((vnode = vnode.parent)) {
+    if (vnode.data.transition) {
+      return true
+    }
+  }
+}
+
+var TransitionStub = {
+  render: function render (h) {
+    var children = this.$options._renderChildren;
+    if (!children) {
+      return
+    }
+
+    // filter out text nodes (possible whitespaces)
+    children = children.filter(function (c) { return c.tag || isAsyncPlaceholder(c); });
+    /* istanbul ignore if */
+    if (!children.length) {
+      return
+    }
+
+    // warn multiple elements
+    if (children.length > 1) {
+      warn(
+        '<transition> can only be used on a single element. Use ' +
+         '<transition-group> for lists.'
+      );
+    }
+
+    var mode = this.mode;
+
+    // warn invalid mode
+    if (mode && mode !== 'in-out' && mode !== 'out-in'
+    ) {
+      warn(
+        'invalid <transition> mode: ' + mode
+      );
+    }
+
+    var rawChild = children[0];
+
+    // if this is a component root node and the component's
+    // parent container node also has transition, skip.
+    if (hasParentTransition(this.$vnode)) {
+      return rawChild
+    }
+
+    // apply transition data to child
+    // use getRealChild() to ignore abstract components e.g. keep-alive
+    var child = getRealChild(rawChild);
+
+    if (!child) {
+      return rawChild
+    }
+
+    var id = "__transition-" + (this._uid) + "-";
+    child.key = child.key == null
+      ? child.isComment
+        ? id + 'comment'
+        : id + child.tag
+      : isPrimitive(child.key)
+        ? (String(child.key).indexOf(id) === 0 ? child.key : id + child.key)
+        : child.key;
+
+    var data = (child.data || (child.data = {}));
+    var oldRawChild = this._vnode;
+    var oldChild = getRealChild(oldRawChild);
+    if (child.data.directives && child.data.directives.some(function (d) { return d.name === 'show'; })) {
+      child.data.show = true;
+    }
+
+    // mark v-show
+    // so that the transition module can hand over the control to the directive
+    if (child.data.directives && child.data.directives.some(function (d) { return d.name === 'show'; })) {
+      child.data.show = true;
+    }
+    if (
+      oldChild &&
+         oldChild.data &&
+         !isSameChild(child, oldChild) &&
+         !isAsyncPlaceholder(oldChild) &&
+         // #6687 component root is a comment node
+         !(oldChild.componentInstance && oldChild.componentInstance._vnode.isComment)
+    ) {
+      oldChild.data = Object.assign({}, data);
+    }
+    return rawChild
+  }
+}
+
+// 
+
+var TransitionGroupStub = {
+  render: function render (h) {
+    var tag = this.tag || this.$vnode.data.tag || 'span';
+    var children = this.$slots.default || [];
+
+    return h(tag, null, children)
+  }
+}
+
+var config = {
+  stubs: {
+    transition: TransitionStub,
+    'transition-group': TransitionGroupStub
+  },
+  mocks: {},
+  methods: {},
+  provide: {},
+  logModifiedComponents: true,
+  silentWarnings: true
+}
+
+// 
+
 function findAllVueComponentsFromVm (
   vm,
   components
@@ -3442,21 +3596,26 @@ Wrapper.prototype.name = function name () {
  * Returns an Object containing the prop name/value pairs on the element
  */
 Wrapper.prototype.props = function props () {
+    var this$1 = this;
+
   if (this.isFunctionalComponent) {
     throwError('wrapper.props() cannot be called on a mounted functional component.');
   }
   if (!this.vm) {
     throwError('wrapper.props() must be called on a Vue instance');
   }
-  // $props object does not exist in Vue 2.1.x, so use $options.propsData instead
-  var _props;
-  if (this.vm && this.vm.$options && this.vm.$options.propsData) {
-    _props = this.vm.$options.propsData;
-  } else {
-    // $FlowIgnore
-    _props = this.vm.$props;
+
+  var props = {};
+  // $FlowIgnore
+  var keys = this.vm.$options._propKeys;
+
+  if (keys) {
+    keys.forEach(function (key) {
+      // $FlowIgnore
+      props[key] = this$1.vm[key];
+    });
   }
-  return _props || {} // Return an empty object if no props exist
+  return props
 };
 
 /**
@@ -3569,29 +3728,26 @@ Wrapper.prototype.setMethods = function setMethods (methods) {
 Wrapper.prototype.setProps = function setProps (data) {
     var this$1 = this;
 
+  var originalConfig = Vue.config.silent;
+  Vue.config.silent = config.silentWarnings;
   if (this.isFunctionalComponent) {
     throwError('wrapper.setProps() cannot be called on a functional component');
   }
-  if (!this.isVueInstance() || !this.vm) {
+  if (!this.isVm) {
     throwError('wrapper.setProps() can only be called on a Vue instance');
   }
-  if (this.vm && this.vm.$options && !this.vm.$options.propsData) {
-    this.vm.$options.propsData = {};
-  }
+
   Object.keys(data).forEach(function (key) {
     // Ignore properties that were not specified in the component options
     // $FlowIgnore : Problem with possibly null this.vm
-    if (!this$1.vm.$options._propKeys || !this$1.vm.$options._propKeys.some(function (prop) { return prop === key; })) {
+    if (!this$1.vm.$options._propKeys ||
+      !this$1.vm.$options._propKeys.some(function (prop) { return prop === key; })) {
       throwError(("wrapper.setProps() called with " + key + " property which is not defined on component"));
     }
 
     // $FlowIgnore : Problem with possibly null this.vm
     if (this$1.vm._props) {
       this$1.vm._props[key] = data[key];
-      // $FlowIgnore : Problem with possibly null this.vm.$props
-      this$1.vm.$props[key] = data[key];
-      // $FlowIgnore : Problem with possibly null this.vm.$options
-      this$1.vm.$options.propsData[key] = data[key];
     } else {
       // $FlowIgnore : Problem with possibly null this.vm
       this$1.vm[key] = data[key];
@@ -3603,6 +3759,7 @@ Wrapper.prototype.setProps = function setProps (data) {
   // $FlowIgnore : Problem with possibly null this.vm
   this.vnode = this.vm._vnode;
   orderWatchers(this.vm || this.vnode.context.$root);
+  Vue.config.silent = originalConfig;
 };
 
 /**
@@ -3701,7 +3858,13 @@ Wrapper.prototype.setSelected = function setSelected () {
     // $FlowIgnore
     el.selected = true;
     // $FlowIgnore
-    createWrapper(el.parentElement, this.options).trigger(event);
+    if (el.parentElement.tagName === 'OPTGROUP') {
+      // $FlowIgnore
+      createWrapper(el.parentElement.parentElement, this.options).trigger(event);
+    } else {
+      // $FlowIgnore
+      createWrapper(el.parentElement, this.options).trigger(event);
+    }
   } else if (tag === 'SELECT') {
     throwError('wrapper.setSelected() cannot be called on select. Call it on one of its options');
   } else if (tag === 'INPUT' && type === 'checkbox') {
@@ -3897,11 +4060,20 @@ var VueWrapper = (function (Wrapper$$1) {
 
 // 
 
+function startsWithTag (str) {
+  return str && str.trim()[0] === '<'
+}
+
 function createVNodesForSlot (
   h,
   slotValue,
   name
 ) {
+  if (typeof slotValue === 'string' &&
+  !startsWithTag(slotValue)) {
+    return slotValue
+  }
+
   var el = typeof slotValue === 'string'
     ? vueTemplateCompiler.compileToFunctions(slotValue)
     : slotValue;
@@ -4043,9 +4215,16 @@ function createStubFromString (
 }
 
 function createBlankStub (originalComponent) {
+  var name = (originalComponent.name) + "-stub";
+
+  // ignoreElements does not exist in Vue 2.0.x
+  if (Vue.config.ignoredElements) {
+    Vue.config.ignoredElements.push(name);
+  }
+
   return Object.assign({}, getCoreProperties(originalComponent),
     {render: function render (h) {
-      return h(((originalComponent.name) + "-stub"))
+      return h(name)
     }})
 }
 
@@ -4106,10 +4285,6 @@ function createComponentStubs (
           components[stub] = Object.assign({}, stubs[stub]);
         }
       }
-      // ignoreElements does not exist in Vue 2.0.x
-      if (Vue.config.ignoredElements) {
-        Vue.config.ignoredElements.push((stub + "-stub"));
-      }
     });
   }
   return components
@@ -4123,11 +4298,6 @@ function stubComponents (components, stubbedComponents) {
       components[component].name = component;
     }
     stubbedComponents[component] = createBlankStub(components[component]);
-
-    // ignoreElements does not exist in Vue 2.0.x
-    if (Vue.config.ignoredElements) {
-      Vue.config.ignoredElements.push(((components[component].name) + "-stub"));
-    }
   });
 }
 
@@ -4137,6 +4307,8 @@ function createComponentStubsForAll (component) {
   if (component.components) {
     stubComponents(component.components, stubbedComponents);
   }
+
+  stubbedComponents[component.name] = createBlankStub(component);
 
   var extended = component.extends;
 
@@ -4295,8 +4467,7 @@ function createInstance (
 
   addEventLogger(_Vue);
 
-  var instanceOptions = Object.assign({}, options,
-    {propsData: Object.assign({}, options.propsData)});
+  var instanceOptions = Object.assign({}, options);
 
   deleteMountingOptions(instanceOptions);
 
@@ -4322,11 +4493,9 @@ function createInstance (
     _Vue.component(c, stubComponents[c]);
   });
 
-  var Constructor = (typeof component === 'function' && component.prototype instanceof Vue)
+  var Constructor = vueVersion < 2.3 && typeof component === 'function'
     ? component.extend(instanceOptions)
     : _Vue.extend(component).extend(instanceOptions);
-
-  // const Constructor = _Vue.extend(component).extend(instanceOptions)
 
   Object.keys(instanceOptions.components || {}).forEach(function (key) {
     Constructor.component(key, instanceOptions.components[key]);
@@ -5297,159 +5466,6 @@ function mergeOptions (
     methods: getOptions('methods', options.methods, config),
     provide: getOptions('provide', options.provide, config),
     sync: !!((options.sync || options.sync === undefined))})
-}
-
-// 
-
-function getRealChild (vnode) {
-  var compOptions = vnode && vnode.componentOptions;
-  if (compOptions && compOptions.Ctor.options.abstract) {
-    return getRealChild(getFirstComponentChild(compOptions.children))
-  } else {
-    return vnode
-  }
-}
-
-function isSameChild (child, oldChild) {
-  return oldChild.key === child.key && oldChild.tag === child.tag
-}
-
-function getFirstComponentChild (children) {
-  if (Array.isArray(children)) {
-    for (var i = 0; i < children.length; i++) {
-      var c = children[i];
-      if (c && (c.componentOptions || isAsyncPlaceholder(c))) {
-        return c
-      }
-    }
-  }
-}
-
-function isPrimitive (value) {
-  return (
-    typeof value === 'string' ||
-    typeof value === 'number' ||
-    // $FlowIgnore
-    typeof value === 'symbol' ||
-    typeof value === 'boolean'
-  )
-}
-
-function isAsyncPlaceholder (node) {
-  return node.isComment && node.asyncFactory
-}
-
-function hasParentTransition (vnode) {
-  while ((vnode = vnode.parent)) {
-    if (vnode.data.transition) {
-      return true
-    }
-  }
-}
-
-var TransitionStub = {
-  render: function render (h) {
-    var children = this.$options._renderChildren;
-    if (!children) {
-      return
-    }
-
-    // filter out text nodes (possible whitespaces)
-    children = children.filter(function (c) { return c.tag || isAsyncPlaceholder(c); });
-    /* istanbul ignore if */
-    if (!children.length) {
-      return
-    }
-
-    // warn multiple elements
-    if (children.length > 1) {
-      warn(
-        '<transition> can only be used on a single element. Use ' +
-         '<transition-group> for lists.'
-      );
-    }
-
-    var mode = this.mode;
-
-    // warn invalid mode
-    if (mode && mode !== 'in-out' && mode !== 'out-in'
-    ) {
-      warn(
-        'invalid <transition> mode: ' + mode
-      );
-    }
-
-    var rawChild = children[0];
-
-    // if this is a component root node and the component's
-    // parent container node also has transition, skip.
-    if (hasParentTransition(this.$vnode)) {
-      return rawChild
-    }
-
-    // apply transition data to child
-    // use getRealChild() to ignore abstract components e.g. keep-alive
-    var child = getRealChild(rawChild);
-
-    if (!child) {
-      return rawChild
-    }
-
-    var id = "__transition-" + (this._uid) + "-";
-    child.key = child.key == null
-      ? child.isComment
-        ? id + 'comment'
-        : id + child.tag
-      : isPrimitive(child.key)
-        ? (String(child.key).indexOf(id) === 0 ? child.key : id + child.key)
-        : child.key;
-
-    var data = (child.data || (child.data = {}));
-    var oldRawChild = this._vnode;
-    var oldChild = getRealChild(oldRawChild);
-    if (child.data.directives && child.data.directives.some(function (d) { return d.name === 'show'; })) {
-      child.data.show = true;
-    }
-
-    // mark v-show
-    // so that the transition module can hand over the control to the directive
-    if (child.data.directives && child.data.directives.some(function (d) { return d.name === 'show'; })) {
-      child.data.show = true;
-    }
-    if (
-      oldChild &&
-         oldChild.data &&
-         !isSameChild(child, oldChild) &&
-         !isAsyncPlaceholder(oldChild) &&
-         // #6687 component root is a comment node
-         !(oldChild.componentInstance && oldChild.componentInstance._vnode.isComment)
-    ) {
-      oldChild.data = Object.assign({}, data);
-    }
-    return rawChild
-  }
-}
-
-// 
-
-var TransitionGroupStub = {
-  render: function render (h) {
-    var tag = this.tag || this.$vnode.data.tag || 'span';
-    var children = this.$slots.default || [];
-
-    return h(tag, null, children)
-  }
-}
-
-var config = {
-  stubs: {
-    transition: TransitionStub,
-    'transition-group': TransitionGroupStub
-  },
-  mocks: {},
-  methods: {},
-  provide: {},
-  logModifiedComponents: true
 }
 
 // 
