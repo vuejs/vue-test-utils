@@ -62,10 +62,17 @@ function createStubFromString (
 }
 
 function createBlankStub (originalComponent: Component) {
+  const name = `${originalComponent.name}-stub`
+
+  // ignoreElements does not exist in Vue 2.0.x
+  if (Vue.config.ignoredElements) {
+    Vue.config.ignoredElements.push(name)
+  }
+
   return {
     ...getCoreProperties(originalComponent),
     render (h) {
-      return h(`${originalComponent.name}-stub`)
+      return h(name)
     }
   }
 }
@@ -131,10 +138,6 @@ export function createComponentStubs (
           }
         }
       }
-      // ignoreElements does not exist in Vue 2.0.x
-      if (Vue.config.ignoredElements) {
-        Vue.config.ignoredElements.push(`${stub}-stub`)
-      }
     })
   }
   return components
@@ -148,11 +151,6 @@ function stubComponents (components: Object, stubbedComponents: Object) {
       components[component].name = component
     }
     stubbedComponents[component] = createBlankStub(components[component])
-
-    // ignoreElements does not exist in Vue 2.0.x
-    if (Vue.config.ignoredElements) {
-      Vue.config.ignoredElements.push(`${components[component].name}-stub`)
-    }
   })
 }
 
@@ -162,6 +160,8 @@ export function createComponentStubsForAll (component: Component): Object {
   if (component.components) {
     stubComponents(component.components, stubbedComponents)
   }
+
+  stubbedComponents[component.name] = createBlankStub(component)
 
   let extended = component.extends
 
