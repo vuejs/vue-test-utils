@@ -14,12 +14,10 @@ import { validateSlots } from './validate-slots'
 export default function createInstance (
   component: Component,
   options: Options,
-  _Vue: Component,
-  elm?: Element
+  _Vue: Component
 ): Component {
   // Remove cached constructor
   delete component._Ctor
-
   if (options.mocks) {
     addMocks(options.mocks, _Vue)
   }
@@ -44,12 +42,11 @@ export default function createInstance (
   deleteMountingOptions(instanceOptions)
 
   // $FlowIgnore
-  const stubComponents = createComponentStubs(component.components, options.stubs)
   if (options.stubs) {
     instanceOptions.components = {
       ...instanceOptions.components,
-      // $FlowIgnore
-      ...stubComponents
+        // $FlowIgnore
+      ...createComponentStubs(component.components, options.stubs)
     }
   }
 
@@ -63,22 +60,22 @@ export default function createInstance (
     }
   })
 
-  Object.keys(stubComponents).forEach(c => {
-    _Vue.component(c, stubComponents[c])
-  })
-
   const Constructor = vueVersion < 2.3 && typeof component === 'function'
     ? component.extend(instanceOptions)
     : _Vue.extend(component).extend(instanceOptions)
 
-  Object.keys(instanceOptions.components || {}).forEach(key => {
-    Constructor.component(key, instanceOptions.components[key])
-    _Vue.component(key, instanceOptions.components[key])
-  })
-
   if (options.slots) {
     validateSlots(options.slots)
   }
+
+  _Vue.mixin({
+    beforeCreate () {
+      this.$options.components = {
+        ...this.$options.components,
+        ...instanceOptions.components
+      }
+    }
+  })
 
   // Objects are not resolved in extended components in Vue < 2.5
   // https://github.com/vuejs/vue/issues/6436

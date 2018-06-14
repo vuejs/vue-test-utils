@@ -4,8 +4,8 @@ import Vue from 'vue'
 import cloneDeep from 'lodash/cloneDeep'
 import errorHandler from './error-handler'
 
-function createLocalVue (): Component {
-  const instance = Vue.extend()
+function createLocalVue (vue: Component = Vue): Component {
+  const instance = vue.extend()
 
   // clone global APIs
   Object.keys(Vue).forEach(key => {

@@ -96,6 +96,30 @@ describeWithMountingMethods('options.stub', (mountingMethod) => {
     expect(mountedWrapper.findAll(Component).length).to.equal(1)
   })
 
+  itDoNotRunIf(
+    mountingMethod.name === 'shallowMount',
+    'stubs components on child', () => {
+      const GrandChildComponent = {
+        template: '<span />'
+      }
+      const ChildComponent = {
+        template: '<grand-child-component />',
+        components: { GrandChildComponent }
+      }
+      const TestComponent = {
+        template: '<child-component />',
+        components: { ChildComponent }
+      }
+      const wrapper = mountingMethod(TestComponent, {
+        stubs: {
+          GrandChildComponent: '<div />'
+        }
+      })
+      const HTML = mountingMethod.name === 'renderToString'
+        ? wrapper
+        : wrapper.html()
+      expect(HTML).not.to.contain('<span>')
+    })
   it('stubs components on component if they do not already exist', () => {
     const ComponentWithGlobalComponent = {
       render: h => h('registered-component')

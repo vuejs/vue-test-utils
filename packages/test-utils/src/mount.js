@@ -26,9 +26,9 @@ export default function mount (component: Component, options: Options = {}): Vue
   // Remove cached constructor
   delete component._Ctor
 
-  const vueConstructor = options.localVue || createLocalVue()
+  const vueConstructor = createLocalVue(options.localVue)
 
-  const elm = options.attachToDocument
+  const el = options.attachToDocument
     ? createElement()
     : undefined
 
@@ -37,11 +37,10 @@ export default function mount (component: Component, options: Options = {}): Vue
   const parentVm = createInstance(
     component,
     mergedOptions,
-    vueConstructor,
-    elm
+    vueConstructor
   )
 
-  const vm = parentVm.$mount(elm).$refs.vm
+  const vm = parentVm.$mount(el).$refs.vm
 
   // Workaround for Vue < 2.5
   vm._staticTrees = []
