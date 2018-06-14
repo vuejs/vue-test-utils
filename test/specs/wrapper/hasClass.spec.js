@@ -40,13 +40,6 @@ describeWithShallowAndMount('hasClass', (mountingMethod) => {
     expect(wrapper.hasClass('color-red')).to.equal(true)
   })
 
-  it('returns false if wrapper does not contain element', () => {
-    const wrapper = mountingMethod({ render: (h) => h('div.a-class.b-class') })
-    const div = wrapper.find('div')
-    div.element = null
-    expect(wrapper.hasClass('a-class b-class')).to.equal(false)
-  })
-
   it('returns true when the element contains multiple classes', () => {
     const compiled = compileToFunctions('<div class="a-class b-class" />')
     const wrapper = mountingMethod(compiled)

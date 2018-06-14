@@ -405,7 +405,11 @@ export default class Wrapper implements BaseWrapper {
       // $FlowIgnore
       _props = this.vm.$props
     }
-    return _props || {} // Return an empty object if no props exist
+    Object.keys(_props || {}).forEach(prop => {
+      // $FlowIgnore
+      _props[prop] = this.vm[prop]
+    })
+    return _props || {}
   }
 
   /**

@@ -133,7 +133,7 @@ describeWithShallowAndMount('setData', (mountingMethod) => {
     expect(wrapper.text()).to.equal('There is no message yet')
   })
 
-  it('should update an existing property in a data object', () => {
+  it('updates an existing property in a data object', () => {
     const TestComponent = {
       data: () => ({
         anObject: {
@@ -142,7 +142,8 @@ describeWithShallowAndMount('setData', (mountingMethod) => {
           },
           propB: 'b'
         }
-      })
+      }),
+      render: () => {}
     }
     const wrapper = mountingMethod(TestComponent)
     wrapper.setData({
