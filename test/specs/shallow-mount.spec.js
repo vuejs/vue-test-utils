@@ -13,14 +13,14 @@ import { describeRunIf } from 'conditional-specs'
 
 describeRunIf(process.env.TEST_ENV !== 'node',
   'shallowMount', () => {
-    let info
-
     beforeEach(() => {
-      info = sinon.stub(console, 'info')
+      sinon.stub(console, 'info')
+      sinon.stub(console, 'error')
     })
 
     afterEach(() => {
-      info.restore()
+      console.info.restore()
+      console.error.restore()
     })
 
     it('returns new VueWrapper of Vue localVue if no options are passed', () => {
@@ -61,7 +61,7 @@ describeRunIf(process.env.TEST_ENV !== 'node',
       localVue.component('registered-component', ComponentWithLifecycleHooks)
       mount(TestComponent, { localVue })
 
-      expect(info.callCount).to.equal(4)
+      expect(console.info.callCount).to.equal(4)
     })
 
     it('stubs globally registered components', () => {
@@ -72,12 +72,48 @@ describeRunIf(process.env.TEST_ENV !== 'node',
       shallowMount(Component)
       mount(Component)
 
-      expect(info.callCount).to.equal(4)
+      expect(console.info.callCount).to.equal(4)
+    })
+
+    it('adds stubbed components to ignored elements', () => {
+      const TestComponent = {
+        template: `
+          <div>
+            <router-link>
+            </router-link>
+            <custom-component />
+          </div>
+        `,
+        components: {
+          'router-link': {
+            template: '<div/>'
+          },
+          'custom-component': {
+            template: '<div/>'
+          }
+        }
+      }
+      shallowMount(TestComponent)
+      expect(console.error).not.called
+    })
+
+    it('handles recursive components', () => {
+      const TestComponent = {
+        template: `
+          <div>
+            <test-component />
+          </div>
+        `,
+        name: 'test-component'
+      }
+      const wrapper = shallowMount(TestComponent)
+      expect(wrapper.html()).to.contain('<test-component-stub>')
+      expect(console.error).not.called
     })
 
     it('does not call stubbed children lifecycle hooks', () => {
       shallowMount(ComponentWithNestedChildren)
-      expect(info.called).to.equal(false)
+      expect(console.info.called).to.equal(false)
     })
 
     it('stubs extended components', () => {
