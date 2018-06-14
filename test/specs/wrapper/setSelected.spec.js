@@ -22,6 +22,17 @@ describeWithShallowAndMount('setSelected', (mountingMethod) => {
     expect(wrapper.text()).to.contain('selectA')
   })
 
+  it('updates dom with select v-model for select with optgroups', () => {
+    const wrapper = mountingMethod(ComponentWithInput)
+    const options = wrapper.find('select.with-optgroups').findAll('option')
+
+    options.at(1).setSelected()
+    expect(wrapper.text()).to.contain('selectB')
+
+    options.at(0).setSelected()
+    expect(wrapper.text()).to.contain('selectA')
+  })
+
   it('throws error if wrapper does not contain element', () => {
     const wrapper = mountingMethod({ render: (h) => h('div') })
     const div = wrapper.find('div')

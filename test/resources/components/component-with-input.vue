@@ -9,6 +9,15 @@
       <option value="selectB"></option>
       <option value="selectC"></option>
     </select>
+    <select v-model="selectVal" class="with-optgroups">
+      <optgroup label="Group1">
+        <option value="selectA"></option>
+        <option value="selectB"></option>
+      </optgroup>
+      <optgroup label="Group2">
+        <option value="selectC"></option>
+      </optgroup>
+    </select>
     <label id="label-el"></label>
 
     <span class="checkboxResult" v-if="checkboxVal">checkbox checked</span>
