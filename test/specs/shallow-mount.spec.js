@@ -9,7 +9,7 @@ import ComponentWithoutName from '~resources/components/component-without-name.v
 import ComponentAsAClassWithChild from '~resources/components/component-as-a-class-with-child.vue'
 import RecursiveComponent from '~resources/components/recursive-component.vue'
 import { vueVersion } from '~resources/utils'
-import { describeRunIf } from 'conditional-specs'
+import { describeRunIf, itDoNotRunIf } from 'conditional-specs'
 
 describeRunIf(process.env.TEST_ENV !== 'node',
   'shallowMount', () => {
@@ -75,27 +75,29 @@ describeRunIf(process.env.TEST_ENV !== 'node',
       expect(console.info.callCount).to.equal(4)
     })
 
-    it('adds stubbed components to ignored elements', () => {
-      const TestComponent = {
-        template: `
+    itDoNotRunIf(
+      vueVersion < 2.1,
+      'adds stubbed components to ignored elements', () => {
+        const TestComponent = {
+          template: `
           <div>
             <router-link>
             </router-link>
             <custom-component />
           </div>
         `,
-        components: {
-          'router-link': {
-            template: '<div/>'
-          },
-          'custom-component': {
-            template: '<div/>'
+          components: {
+            'router-link': {
+              template: '<div/>'
+            },
+            'custom-component': {
+              template: '<div/>'
+            }
           }
         }
-      }
-      shallowMount(TestComponent)
-      expect(console.error).not.called
-    })
+        shallowMount(TestComponent)
+        expect(console.error).not.called
+      })
 
     it('handles recursive components', () => {
       const TestComponent = {
