@@ -99,19 +99,21 @@ describeRunIf(process.env.TEST_ENV !== 'node',
         expect(console.error).not.called
       })
 
-    it('handles recursive components', () => {
-      const TestComponent = {
-        template: `
+    itDoNotRunIf(
+      vueVersion < 2.1,
+      'handles recursive components', () => {
+        const TestComponent = {
+          template: `
           <div>
             <test-component />
           </div>
         `,
-        name: 'test-component'
-      }
-      const wrapper = shallowMount(TestComponent)
-      expect(wrapper.html()).to.contain('<test-component-stub>')
-      expect(console.error).not.called
-    })
+          name: 'test-component'
+        }
+        const wrapper = shallowMount(TestComponent)
+        expect(wrapper.html()).to.contain('<test-component-stub>')
+        expect(console.error).not.called
+      })
 
     it('does not call stubbed children lifecycle hooks', () => {
       shallowMount(ComponentWithNestedChildren)
