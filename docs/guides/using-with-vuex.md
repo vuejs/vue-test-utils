@@ -69,7 +69,7 @@ describe('Actions.vue', () => {
     })
   })
 
-  it('calls store action "actionInput" when input value is "input" and an "input" event is fired', () => {
+  it('dispatches "actionInput" when input event value is "input"', () => {
     const wrapper = shallowMount(Actions, { store, localVue })
     const input = wrapper.find('input')
     input.element.value = 'input'
@@ -77,7 +77,7 @@ describe('Actions.vue', () => {
     expect(actions.actionInput).toHaveBeenCalled()
   })
 
-  it('does not call store action "actionInput" when input value is not "input" and an "input" event is fired', () => {
+  it('does not dispatch "actionInput" when event value is not "input"', () => {
     const wrapper = shallowMount(Actions, { store, localVue })
     const input = wrapper.find('input')
     input.element.value = 'not input'

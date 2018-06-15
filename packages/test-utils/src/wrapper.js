@@ -75,7 +75,6 @@ export default class Wrapper implements BaseWrapper {
    * Returns an Array containing all the classes on the element
    */
   classes (): Array<string> {
-    // works for HTML Element and SVG Element
     const className = this.element.getAttribute('class')
     let classes = className ? className.split(' ') : []
     // Handle converting cssmodules identifiers back to the original class name
@@ -83,12 +82,13 @@ export default class Wrapper implements BaseWrapper {
       const cssModuleIdentifiers = {}
       let moduleIdent
       Object.keys(this.vm.$style).forEach(key => {
-        // $FlowIgnore : Flow thinks vm is a property
-        moduleIdent = this.vm.$style[key]
+        moduleIdent = this.vm && this.vm.$style[key]
         // CSS Modules may be multi-class if they extend others.
         // Extended classes should be already present in $style.
-        moduleIdent = moduleIdent.split(' ')[0]
-        cssModuleIdentifiers[moduleIdent] = key
+        if (moduleIdent) {
+          moduleIdent = moduleIdent.split(' ')[0]
+          cssModuleIdentifiers[moduleIdent] = key
+        }
       })
       classes = classes.map(
         className => cssModuleIdentifiers[className] || className
@@ -458,13 +458,13 @@ export default class Wrapper implements BaseWrapper {
     }
 
     const props = {}
-    // $FlowIgnore
-    const keys = this.vm.$options._propKeys
+    const keys = this.vm && this.vm.$options._propKeys
 
     if (keys) {
       keys.forEach(key => {
-        // $FlowIgnore
-        props[key] = this.vm[key]
+        if (this.vm) {
+          props[key] = this.vm[key]
+        }
       })
     }
     return props
@@ -494,8 +494,8 @@ export default class Wrapper implements BaseWrapper {
         data[key] !== null &&
         !Array.isArray(data[key])
       ) {
-        // $FlowIgnore : Problem with possibly null this.vm
         const newObj = mergeWith(
+          // $FlowIgnore : Problem with possibly null this.vm
           this.vm[key],
           data[key],
           (objValue, srcValue) => {
@@ -627,9 +627,8 @@ export default class Wrapper implements BaseWrapper {
     }
 
     Object.keys(data).forEach(key => {
-      // Ignore properties that were not specified in the component options
-      // $FlowIgnore : Problem with possibly null this.vm
       if (
+        !this.vm ||
         !this.vm.$options._propKeys ||
         !this.vm.$options._propKeys.some(prop => prop === key)
       ) {
@@ -639,8 +638,7 @@ export default class Wrapper implements BaseWrapper {
         )
       }
 
-      // $FlowIgnore : Problem with possibly null this.vm
-      if (this.vm._props) {
+      if (this.vm && this.vm._props) {
         this.vm._props[key] = data[key]
       } else {
         // $FlowIgnore : Problem with possibly null this.vm

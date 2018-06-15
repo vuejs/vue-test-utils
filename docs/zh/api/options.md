@@ -82,7 +82,9 @@ const wrapper = shallowMount(Component, {
     foo: '<p slot-scope="props">{{props.index}},{{props.text}}</p>'
   }
 })
-expect(wrapper.find('#fooWrapper').html()).toBe('<div id="fooWrapper"><p>0,text1</p><p>1,text2</p><p>2,text3</p></div>')
+expect(wrapper.find('#fooWrapper').html()).toBe(
+  `<div id="fooWrapper"><p>0,text1</p><p>1,text2</p><p>2,text3</p></div>`
+)
 ```
 
 ## stubs

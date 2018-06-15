@@ -46,9 +46,10 @@ export default function createInstance (
 
   deleteMountingOptions(instanceOptions)
 
-  // $FlowIgnore
   const stubComponents = createComponentStubs(
+    // $FlowIgnore
     component.components,
+    // $FlowIgnore
     options.stubs
   )
   if (options.stubs) {
