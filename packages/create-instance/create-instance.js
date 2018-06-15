@@ -59,7 +59,14 @@ export default function createInstance (
       ...stubComponents
     }
   }
-
+  _Vue.mixin({
+    created () {
+      Object.assign(
+        this.$options.components,
+        stubComponents
+      )
+    }
+  })
   Object.keys(component.components || {}).forEach(c => {
     if (
       component.components[c].extendOptions &&
@@ -79,14 +86,9 @@ export default function createInstance (
     }
   })
 
-  Object.keys(stubComponents).forEach(c => {
-    _Vue.component(c, stubComponents[c])
-  })
-
-  const Constructor =
-    vueVersion < 2.3 && typeof component === 'function'
-      ? component.extend(instanceOptions)
-      : _Vue.extend(component).extend(instanceOptions)
+  const Constructor = vueVersion < 2.3 && typeof component === 'function'
+    ? component.extend(instanceOptions)
+    : _Vue.extend(component).extend(instanceOptions)
 
   Object.keys(instanceOptions.components || {}).forEach(key => {
     Constructor.component(key, instanceOptions.components[key])

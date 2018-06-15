@@ -128,6 +128,29 @@ describeWithMountingMethods('options.stub', mountingMethod => {
     expect(HTML).to.contain('<registered-component-stub>')
   })
 
+  itDoNotRunIf(
+    mountingMethod.name === 'shallowMount',
+    'stubs nested components', () => {
+      const GrandchildComponent = {
+        template: '<span />'
+      }
+      const ChildComponent = {
+        template: '<grandchild-component />',
+        components: { GrandchildComponent }
+      }
+      const TestComponent = {
+        template: '<child-component />',
+        components: { ChildComponent }
+      }
+      const wrapper = mountingMethod(TestComponent, {
+        stubs: ['grandchild-component']
+      })
+      const HTML = mountingMethod.name === 'renderToString'
+        ? wrapper
+        : wrapper.html()
+      expect(HTML).not.to.contain('<span>')
+    })
+
   it('stubs components with dummy when passed a boolean', () => {
     const ComponentWithGlobalComponent = {
       render: h => h('div', [h('registered-component')])

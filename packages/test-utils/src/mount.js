@@ -28,8 +28,7 @@ export default function mount (
 
   // Remove cached constructor
   delete component._Ctor
-
-  const vueConstructor = options.localVue || createLocalVue()
+  const vueConstructor = createLocalVue(options.localVue)
 
   const elm = options.attachToDocument ? createElement() : undefined
 
