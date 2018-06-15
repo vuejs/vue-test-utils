@@ -564,8 +564,8 @@ export default class Wrapper implements BaseWrapper {
         // $FlowIgnore : Problem with possibly null this.vm
         if (!isStore && !this.vm._watchers.some(w => w.getter.name === key)) {
           throwError(
-            `wrapper.setComputed() was passed a value that does` +
-            `not exist as a computed property on the Vue instance.` +
+            `wrapper.setComputed() was passed a value that does ` +
+            `not exist as a computed property on the Vue instance. ` +
             `Property ${key} does not exist on the Vue instance`
           )
         }
