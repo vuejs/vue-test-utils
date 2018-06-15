@@ -1,7 +1,7 @@
 import { compileToFunctions } from 'vue-template-compiler'
 import { describeWithShallowAndMount } from '~resources/utils'
 
-describeWithShallowAndMount('WrapperArray', (mountingMethod) => {
+describeWithShallowAndMount('WrapperArray', mountingMethod => {
   function getWrapperArray (wrappers) {
     const compiled = compileToFunctions('<div><p>1</p><p>2</p><p>3</p></div>')
     const wrapper = mountingMethod(compiled)
@@ -26,15 +26,43 @@ describeWithShallowAndMount('WrapperArray', (mountingMethod) => {
 
   it('returns filtered wrapper when filter is called', () => {
     const wrapperArray = getWrapperArray()
-    expect(wrapperArray.filter(w => {
-      return w.text() !== '2'
-    }).length).to.equal(2)
+    expect(
+      wrapperArray.filter(w => {
+        return w.text() !== '2'
+      }).length
+    ).to.equal(2)
   })
 
-  const methods = ['at', 'attributes', 'classes', 'contains', 'emitted', 'emittedByOrder', 'hasAttribute',
-    'hasClass', 'hasProp', 'hasStyle', 'find', 'findAll', 'html', 'text', 'is', 'isEmpty', 'isVisible', 'isVueInstance',
-    'name', 'props', 'setComputed', 'setMethods', 'setData', 'setProps', 'trigger', 'update', 'destroy']
-  methods.forEach((method) => {
+  const methods = [
+    'at',
+    'attributes',
+    'classes',
+    'contains',
+    'emitted',
+    'emittedByOrder',
+    'hasAttribute',
+    'hasClass',
+    'hasProp',
+    'hasStyle',
+    'find',
+    'findAll',
+    'html',
+    'text',
+    'is',
+    'isEmpty',
+    'isVisible',
+    'isVueInstance',
+    'name',
+    'props',
+    'setComputed',
+    'setMethods',
+    'setData',
+    'setProps',
+    'trigger',
+    'update',
+    'destroy'
+  ]
+  methods.forEach(method => {
     it(`throws error if ${method} is called when there are no items in wrapper array`, () => {
       if (method === 'at') {
         return
@@ -42,24 +70,47 @@ describeWithShallowAndMount('WrapperArray', (mountingMethod) => {
       const wrapperArray = getWrapperArray()
       wrapperArray.wrappers = []
       const message = `[vue-test-utils]: ${method} cannot be called on 0 items`
-      expect(() => wrapperArray[method]()).to.throw().with.property('message', message)
+      expect(() => wrapperArray[method]())
+        .to.throw()
+        .with.property('message', message)
     })
 
     it(`${method} throws error if called when there are items in wrapper array`, () => {
-      if (['at', 'contains', 'hasAttribute', 'hasClass', 'hasProp', 'hasStyle', 'is', 'isEmpty', 'isVisible', 'isVueInstance',
-        'setComputed', 'setMethods', 'setData', 'setProps', 'trigger', 'update', 'destroy'].includes(method)) {
+      if (
+        [
+          'at',
+          'contains',
+          'hasAttribute',
+          'hasClass',
+          'hasProp',
+          'hasStyle',
+          'is',
+          'isEmpty',
+          'isVisible',
+          'isVueInstance',
+          'setComputed',
+          'setMethods',
+          'setData',
+          'setProps',
+          'trigger',
+          'update',
+          'destroy'
+        ].includes(method)
+      ) {
         return
       }
       const wrapperArray = getWrapperArray()
       wrapperArray.wrappers = [1, 2, 3]
       const message = `[vue-test-utils]: ${method} must be called on a single wrapper, use at(i) to access a wrapper`
-      expect(() => wrapperArray[method]()).to.throw().with.property('message', message)
+      expect(() => wrapperArray[method]())
+        .to.throw()
+        .with.property('message', message)
     })
   })
 
   it('exists returns true if it has every existing wrappers', () => {
     const wrapperArray = getWrapperArray()
-    wrapperArray.wrappers.forEach((w) => {
+    wrapperArray.wrappers.forEach(w => {
       expect(w.exists()).to.equal(true)
     })
     expect(wrapperArray.exists()).to.equal(true)
@@ -94,7 +145,10 @@ describeWithShallowAndMount('WrapperArray', (mountingMethod) => {
   })
 
   it('contains returns false if not every wrapper.contains() returns true', () => {
-    const wrapperArray = getWrapperArray([{ contains: () => true }, { contains: () => false }])
+    const wrapperArray = getWrapperArray([
+      { contains: () => true },
+      { contains: () => false }
+    ])
     expect(wrapperArray.contains()).to.equal(false)
   })
 
@@ -108,7 +162,10 @@ describeWithShallowAndMount('WrapperArray', (mountingMethod) => {
   })
 
   it('hasAttribute returns false if not every wrapper.hasAttribute() returns true', () => {
-    const wrapperArray = getWrapperArray([{ hasAttribute: () => true }, { hasAttribute: () => false }])
+    const wrapperArray = getWrapperArray([
+      { hasAttribute: () => true },
+      { hasAttribute: () => false }
+    ])
     expect(wrapperArray.hasAttribute('attribute', 'value')).to.equal(false)
   })
 
@@ -121,7 +178,10 @@ describeWithShallowAndMount('WrapperArray', (mountingMethod) => {
   })
 
   it('hasClass returns false if not every wrapper.hasClass() returns true', () => {
-    const wrapperArray = getWrapperArray([{ hasClass: () => true }, { hasClass: () => false }])
+    const wrapperArray = getWrapperArray([
+      { hasClass: () => true },
+      { hasClass: () => false }
+    ])
     expect(wrapperArray.hasClass('class')).to.equal(false)
   })
 
@@ -135,7 +195,10 @@ describeWithShallowAndMount('WrapperArray', (mountingMethod) => {
   })
 
   it('hasProp returns false if not every wrapper.hasProp() returns true', () => {
-    const wrapperArray = getWrapperArray([{ hasProp: () => true }, { hasProp: () => false }])
+    const wrapperArray = getWrapperArray([
+      { hasProp: () => true },
+      { hasProp: () => false }
+    ])
     expect(wrapperArray.hasProp('prop', 'value')).to.equal(false)
   })
 
@@ -149,7 +212,10 @@ describeWithShallowAndMount('WrapperArray', (mountingMethod) => {
   })
 
   it('hasStyle returns false if not every wrapper.hasStyle() returns true', () => {
-    const wrapperArray = getWrapperArray([{ hasStyle: () => true }, { hasStyle: () => false }])
+    const wrapperArray = getWrapperArray([
+      { hasStyle: () => true },
+      { hasStyle: () => false }
+    ])
     expect(wrapperArray.hasStyle('style', 'value')).to.equal(false)
   })
 
@@ -162,37 +228,58 @@ describeWithShallowAndMount('WrapperArray', (mountingMethod) => {
   })
 
   it('is returns false if not every wrapper.is() returns true', () => {
-    const wrapperArray = getWrapperArray([{ is: () => true }, { is: () => false }])
+    const wrapperArray = getWrapperArray([
+      { is: () => true },
+      { is: () => false }
+    ])
     expect(wrapperArray.is('selector')).to.equal(false)
   })
 
   it('isEmpty returns true if every wrapper.isEmpty() returns true', () => {
-    const wrapperArray = getWrapperArray([{ isEmpty: () => true }, { isEmpty: () => true }])
+    const wrapperArray = getWrapperArray([
+      { isEmpty: () => true },
+      { isEmpty: () => true }
+    ])
     expect(wrapperArray.isEmpty()).to.equal(true)
   })
 
   it('isEmpty returns false if not every wrapper.isEmpty() returns true', () => {
-    const wrapperArray = getWrapperArray([{ isEmpty: () => true }, { isEmpty: () => false }])
+    const wrapperArray = getWrapperArray([
+      { isEmpty: () => true },
+      { isEmpty: () => false }
+    ])
     expect(wrapperArray.isEmpty()).to.equal(false)
   })
 
   it('isVisible returns true if every wrapper.isVisible() returns true', () => {
-    const wrapperArray = getWrapperArray([{ isVisible: () => true }, { isVisible: () => true }])
+    const wrapperArray = getWrapperArray([
+      { isVisible: () => true },
+      { isVisible: () => true }
+    ])
     expect(wrapperArray.isVisible()).to.equal(true)
   })
 
   it('isVisible returns false if not every wrapper.isVisible() returns true', () => {
-    const wrapperArray = getWrapperArray([{ isVisible: () => true }, { isVisible: () => false }])
+    const wrapperArray = getWrapperArray([
+      { isVisible: () => true },
+      { isVisible: () => false }
+    ])
     expect(wrapperArray.isVisible()).to.equal(false)
   })
 
   it('isVueInstance returns true if every wrapper.isVueInstance() returns true', () => {
-    const wrapperArray = getWrapperArray([{ isVueInstance: () => true }, { isVueInstance: () => true }])
+    const wrapperArray = getWrapperArray([
+      { isVueInstance: () => true },
+      { isVueInstance: () => true }
+    ])
     expect(wrapperArray.isVueInstance()).to.equal(true)
   })
 
   it('isVueInstance returns false if not every wrapper.isVueInstance() returns true', () => {
-    const wrapperArray = getWrapperArray([{ isVueInstance: () => true }, { isVueInstance: () => false }])
+    const wrapperArray = getWrapperArray([
+      { isVueInstance: () => true },
+      { isVueInstance: () => false }
+    ])
     expect(wrapperArray.isVueInstance()).to.equal(false)
   })
 

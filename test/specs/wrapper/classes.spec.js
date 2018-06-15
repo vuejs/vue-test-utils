@@ -2,7 +2,7 @@ import { describeWithShallowAndMount } from '~resources/utils'
 import { compileToFunctions } from 'vue-template-compiler'
 import ComponentWithCssModules from '~resources/components/component-with-css-modules.vue'
 
-describeWithShallowAndMount('classes', (mountingMethod) => {
+describeWithShallowAndMount('classes', mountingMethod => {
   it('returns array of class names if wrapper has class names', () => {
     const compiled = compileToFunctions('<div class="a-class b-class" />')
     const wrapper = mountingMethod(compiled)
@@ -22,7 +22,9 @@ describeWithShallowAndMount('classes', (mountingMethod) => {
   })
 
   it('returns array of class names for svg element', () => {
-    const compiled = compileToFunctions('<svg class="a-class b-class"><text class="c-class"/></svg>')
+    const compiled = compileToFunctions(
+      '<svg class="a-class b-class"><text class="c-class"/></svg>'
+    )
     const wrapper = mountingMethod(compiled)
     expect(wrapper.classes()).to.contain('a-class')
     expect(wrapper.classes()).to.contain('b-class')

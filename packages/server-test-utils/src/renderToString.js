@@ -11,17 +11,22 @@ import config from './config'
 Vue.config.productionTip = false
 Vue.config.devtools = false
 
-export default function renderToString (component: Component, options: Options = {}): string {
+export default function renderToString (
+  component: Component,
+  options: Options = {}
+): string {
   const renderer = createRenderer()
 
   if (!renderer) {
-    throwError('renderToString must be run in node. It cannot be run in a browser')
+    throwError(
+      `renderToString must be run in node. It cannot be ` + `run in a browser`
+    )
   }
   // Remove cached constructor
   delete component._Ctor
 
   if (options.attachToDocument) {
-    throwError('you cannot use attachToDocument with renderToString')
+    throwError(`you cannot use attachToDocument with ` + `renderToString`)
   }
   const vueClass = options.localVue || testUtils.createLocalVue()
   const vm = createInstance(component, mergeOptions(options, config), vueClass)

@@ -2,7 +2,7 @@ import ComponentWithTransition from '~resources/components/component-with-transi
 import { describeWithShallowAndMount } from '~resources/utils'
 import { TransitionStub } from '~vue/test-utils'
 
-describeWithShallowAndMount('TransitionStub', (mountingMethod) => {
+describeWithShallowAndMount('TransitionStub', mountingMethod => {
   let consoleError
 
   beforeEach(() => {
@@ -16,7 +16,7 @@ describeWithShallowAndMount('TransitionStub', (mountingMethod) => {
   it('update synchronously when used as stubs for Transition', () => {
     const wrapper = mountingMethod(ComponentWithTransition, {
       stubs: {
-        'transition': TransitionStub
+        transition: TransitionStub
       }
     })
     expect(wrapper.text()).contains('a')
@@ -40,7 +40,7 @@ describeWithShallowAndMount('TransitionStub', (mountingMethod) => {
     }
     const wrapper = mountingMethod(TestComponent, {
       stubs: {
-        'transition': TransitionStub
+        transition: TransitionStub
       }
     })
     expect(wrapper.find('nav').visible()).to.equal(false)
@@ -56,10 +56,11 @@ describeWithShallowAndMount('TransitionStub', (mountingMethod) => {
         <transition><div /><div /></transition>
       `
     }
-    const msg = '[vue-test-utils]: <transition> can only be used on a single element. Use <transition-group> for lists.'
+    const msg =
+      '[vue-test-utils]: <transition> can only be used on a single element. Use <transition-group> for lists.'
     mountingMethod(TestComponent, {
       stubs: {
-        'transition': TransitionStub
+        transition: TransitionStub
       }
     })
     expect(consoleError).calledWith(msg)
@@ -83,7 +84,7 @@ describeWithShallowAndMount('TransitionStub', (mountingMethod) => {
     }
     const wrapper = mountingMethod(TestComponent, {
       stubs: {
-        'transition': TransitionStub
+        transition: TransitionStub
       }
     })
     expect(wrapper.text()).to.equal('a')

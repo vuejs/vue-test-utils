@@ -11,6 +11,8 @@ cc({
       return pkg
     }
   }
-}).pipe(fileStream).on('close', () => {
-  console.log(`Generated release note at ${file}`)
 })
+  .pipe(fileStream)
+  .on('close', () => {
+    console.log(`Generated release note at ${file}`)
+  })

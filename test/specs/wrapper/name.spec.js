@@ -2,7 +2,7 @@ import { compileToFunctions } from 'vue-template-compiler'
 import Component from '~resources/components/component.vue'
 import { describeWithShallowAndMount } from '~resources/utils'
 
-describeWithShallowAndMount('name', (mountingMethod) => {
+describeWithShallowAndMount('name', mountingMethod => {
   it('returns the name of the component it was called on', () => {
     const wrapper = mountingMethod(Component)
     expect(wrapper.name()).to.equal('test-component')

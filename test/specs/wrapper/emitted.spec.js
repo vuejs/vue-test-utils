@@ -1,7 +1,7 @@
 import { createLocalVue } from '~vue/test-utils'
 import { describeWithShallowAndMount } from '~resources/utils'
 
-describeWithShallowAndMount('emitted', (mountingMethod) => {
+describeWithShallowAndMount('emitted', mountingMethod => {
   it('captures emitted events with a different api', () => {
     const wrapper = mountingMethod({
       render: h => h('div')
@@ -50,10 +50,13 @@ describeWithShallowAndMount('emitted', (mountingMethod) => {
     const wrapper = mountingMethod({
       template: '<div><p /></div>'
     })
-    const message = '[vue-test-utils]: wrapper.emitted() can only be called on a Vue instance'
+    const message =
+      '[vue-test-utils]: wrapper.emitted() can only be called on a Vue instance'
 
     const fn = () => wrapper.find('p').emitted()
-    expect(fn).to.throw().with.property('message', message)
+    expect(fn)
+      .to.throw()
+      .with.property('message', message)
   })
 
   it('captures all events thrown after beforeCreate lifecycle hook', () => {
@@ -74,19 +77,25 @@ describeWithShallowAndMount('emitted', (mountingMethod) => {
   it('captures only events from its component without side effects on localVue', () => {
     const localVue = createLocalVue()
 
-    const wrapper1 = mountingMethod({
-      render: () => {},
-      beforeCreate () {
-        this.$emit('foo')
-      }
-    }, { localVue })
+    const wrapper1 = mountingMethod(
+      {
+        render: () => {},
+        beforeCreate () {
+          this.$emit('foo')
+        }
+      },
+      { localVue }
+    )
 
-    const wrapper2 = mountingMethod({
-      render: () => {},
-      mounted () {
-        this.$emit('bar')
-      }
-    }, { localVue })
+    const wrapper2 = mountingMethod(
+      {
+        render: () => {},
+        mounted () {
+          this.$emit('bar')
+        }
+      },
+      { localVue }
+    )
 
     expect(wrapper1.emitted().foo).to.eql([[]])
     expect(wrapper1.emitted().bar).to.eql(undefined)

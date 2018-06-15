@@ -4,9 +4,12 @@ import Component from '~resources/components/component.vue'
 import ComponentWithoutName from '~resources/components/component-without-name.vue'
 import FunctionalComponent from '~resources/components/functional-component.vue'
 import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
-import { functionalSFCsSupported, describeWithShallowAndMount } from '~resources/utils'
+import {
+  functionalSFCsSupported,
+  describeWithShallowAndMount
+} from '~resources/utils'
 
-describeWithShallowAndMount('is', (mountingMethod) => {
+describeWithShallowAndMount('is', mountingMethod => {
   it('returns true if root node matches tag selector', () => {
     const compiled = compileToFunctions('<input />')
     const wrapper = mountingMethod(compiled)
@@ -103,21 +106,38 @@ describeWithShallowAndMount('is', (mountingMethod) => {
     const compiled = compileToFunctions('<div />')
     const wrapper = mountingMethod(compiled)
 
-    const message = '[vue-test-utils]: $ref selectors can not be used with wrapper.is()'
+    const message =
+      '[vue-test-utils]: $ref selectors can not be used with wrapper.is()'
     const fn = () => wrapper.is({ ref: 'foo' })
-    expect(fn).to.throw().with.property('message', message)
+    expect(fn)
+      .to.throw()
+      .with.property('message', message)
   })
 
   it('throws an error if selector is not a valid selector', () => {
     const compiled = compileToFunctions('<div />')
     const wrapper = mountingMethod(compiled)
     const invalidSelectors = [
-      undefined, null, NaN, 0, 2, true, false, () => {}, {}, { name: undefined }, { ref: 'foo', nope: true }, []
+      undefined,
+      null,
+      NaN,
+      0,
+      2,
+      true,
+      false,
+      () => {},
+      {},
+      { name: undefined },
+      { ref: 'foo', nope: true },
+      []
     ]
-    invalidSelectors.forEach((invalidSelector) => {
-      const message = '[vue-test-utils]: wrapper.is() must be passed a valid CSS selector, Vue constructor, or valid find option object'
+    invalidSelectors.forEach(invalidSelector => {
+      const message =
+        '[vue-test-utils]: wrapper.is() must be passed a valid CSS selector, Vue constructor, or valid find option object'
       const fn = () => wrapper.is(invalidSelector)
-      expect(fn).to.throw().with.property('message', message)
+      expect(fn)
+        .to.throw()
+        .with.property('message', message)
     })
   })
 })

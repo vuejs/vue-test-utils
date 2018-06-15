@@ -9,7 +9,7 @@ import ComponentWithRouter from '~resources/components/component-with-router.vue
 import { describeWithShallowAndMount } from '~resources/utils'
 import { itDoNotRunIf } from 'conditional-specs'
 
-describeWithShallowAndMount('createLocalVue', (mountingMethod) => {
+describeWithShallowAndMount('createLocalVue', mountingMethod => {
   it('installs Vuex without polluting global Vue', () => {
     const localVue = createLocalVue()
     localVue.use(Vuex)
@@ -55,9 +55,7 @@ describeWithShallowAndMount('createLocalVue', (mountingMethod) => {
   it('installs Router without polluting global Vue', () => {
     const localVue = createLocalVue()
     localVue.use(VueRouter)
-    const routes = [
-      { path: '/foo', component: Component }
-    ]
+    const routes = [{ path: '/foo', component: Component }]
     const router = new VueRouter({
       routes
     })
@@ -69,7 +67,8 @@ describeWithShallowAndMount('createLocalVue', (mountingMethod) => {
 
   itDoNotRunIf(
     mountingMethod.name === 'shallowMount',
-    'Router should work properly with local Vue', () => {
+    'Router should work properly with local Vue',
+    () => {
       const localVue = createLocalVue()
       localVue.use(VueRouter)
       const routes = [
@@ -99,7 +98,8 @@ describeWithShallowAndMount('createLocalVue', (mountingMethod) => {
 
       const freshWrapper = mountingMethod(Component)
       expect(typeof freshWrapper.vm.$route).to.equal('undefined')
-    })
+    }
+  )
 
   it('use can take additional arguments', () => {
     const localVue = createLocalVue()

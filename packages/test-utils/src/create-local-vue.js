@@ -11,9 +11,8 @@ function createLocalVue (): Component {
   Object.keys(Vue).forEach(key => {
     if (!instance.hasOwnProperty(key)) {
       const original = Vue[key]
-      instance[key] = typeof original === 'object'
-        ? cloneDeep(original)
-        : original
+      instance[key] =
+        typeof original === 'object' ? cloneDeep(original) : original
     }
   })
 

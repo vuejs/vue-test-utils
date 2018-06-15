@@ -1,7 +1,7 @@
 import { compileToFunctions } from 'vue-template-compiler'
 import { describeWithShallowAndMount } from '~resources/utils'
 
-describeWithShallowAndMount('exists', (mountingMethod) => {
+describeWithShallowAndMount('exists', mountingMethod => {
   it('returns true if called on Wrapper', () => {
     const compiled = compileToFunctions('<div />')
     const wrapper = mountingMethod(compiled)

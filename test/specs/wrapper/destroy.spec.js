@@ -2,7 +2,7 @@ import { compileToFunctions } from 'vue-template-compiler'
 import { describeWithShallowAndMount } from '~resources/utils'
 import sinon from 'sinon'
 
-describeWithShallowAndMount('destroy', (mountingMethod) => {
+describeWithShallowAndMount('destroy', mountingMethod => {
   it('triggers beforeDestroy ', () => {
     const spy = sinon.stub()
     mountingMethod({

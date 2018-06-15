@@ -1,14 +1,11 @@
 // @flow
 
 function getOptions (key, options, config) {
-  if (options ||
-    (config[key] && Object.keys(config[key]).length > 0)) {
+  if (options || (config[key] && Object.keys(config[key]).length > 0)) {
     if (options instanceof Function) {
       return options
     } else if (Array.isArray(options)) {
-      return [
-        ...options,
-        ...Object.keys(config[key] || {})]
+      return [...options, ...Object.keys(config[key] || {})]
     } else if (!(config[key] instanceof Function)) {
       return {
         ...config[key],
@@ -20,10 +17,7 @@ function getOptions (key, options, config) {
   }
 }
 
-export function mergeOptions (
-  options: Options,
-  config: Options
-): Options {
+export function mergeOptions (options: Options, config: Options): Options {
   return {
     ...options,
     logModifiedComponents: config.logModifiedComponents,
@@ -31,7 +25,6 @@ export function mergeOptions (
     mocks: getOptions('mocks', options.mocks, config),
     methods: getOptions('methods', options.methods, config),
     provide: getOptions('provide', options.provide, config),
-    sync: !!((options.sync || options.sync === undefined))
+    sync: !!(options.sync || options.sync === undefined)
   }
 }
-

@@ -3,23 +3,29 @@ import ComponentWithVShow from '~resources/components/component-with-v-show.vue'
 import ComponentWithVIf from '~resources/components/component-with-v-if.vue'
 import { describeWithShallowAndMount } from '~resources/utils'
 
-describeWithShallowAndMount('isVisible', (mountingMethod) => {
+describeWithShallowAndMount('isVisible', mountingMethod => {
   it('returns true if element has no inline style', () => {
-    const compiled = compileToFunctions('<div><div><span class="visible"></span></div></div>')
+    const compiled = compileToFunctions(
+      '<div><div><span class="visible"></span></div></div>'
+    )
     const wrapper = mountingMethod(compiled)
     const element = wrapper.find('.visible')
     expect(element.isVisible()).to.equal(true)
   })
 
   it('returns false if element has inline style display: none', () => {
-    const compiled = compileToFunctions('<div><div><span style="display: none;" class="visible"></span></div></div>')
+    const compiled = compileToFunctions(
+      '<div><div><span style="display: none;" class="visible"></span></div></div>'
+    )
     const wrapper = mountingMethod(compiled)
     const element = wrapper.find('.visible')
     expect(element.isVisible()).to.equal(false)
   })
 
   it('returns false if element has inline style visibility: hidden', () => {
-    const compiled = compileToFunctions('<div><div><span style="visibility: hidden;" class="visible"></span></div></div>')
+    const compiled = compileToFunctions(
+      '<div><div><span style="visibility: hidden;" class="visible"></span></div></div>'
+    )
     const wrapper = mountingMethod(compiled)
     const element = wrapper.find('.visible')
     expect(element.isVisible()).to.equal(false)

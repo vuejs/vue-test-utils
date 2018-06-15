@@ -2,12 +2,9 @@ import { config } from '~vue/test-utils'
 import ComponentWithInject from '~resources/components/component-with-inject.vue'
 import { injectSupported } from '~resources/utils'
 import { describeWithMountingMethods } from '~resources/utils'
-import {
-  itDoNotRunIf,
-  itSkipIf
-} from 'conditional-specs'
+import { itDoNotRunIf, itSkipIf } from 'conditional-specs'
 
-describeWithMountingMethods('options.provide', (mountingMethod) => {
+describeWithMountingMethods('options.provide', mountingMethod => {
   let configProvideSave
 
   beforeEach(() => {
@@ -19,21 +16,25 @@ describeWithMountingMethods('options.provide', (mountingMethod) => {
     config.provide = configProvideSave
   })
 
-  itDoNotRunIf(!injectSupported,
-    'provides objects which is injected by mounted component', () => {
+  itDoNotRunIf(
+    !injectSupported,
+    'provides objects which is injected by mounted component',
+    () => {
       if (!injectSupported) return
 
       const wrapper = mountingMethod(ComponentWithInject, {
         provide: { fromMount: 'objectValue' }
       })
-      const HTML = mountingMethod.name === 'renderToString'
-        ? wrapper
-        : wrapper.html()
+      const HTML =
+        mountingMethod.name === 'renderToString' ? wrapper : wrapper.html()
       expect(HTML).to.contain('objectValue')
-    })
+    }
+  )
 
-  itDoNotRunIf(!injectSupported,
-    'provides function which is injected by mounted component', () => {
+  itDoNotRunIf(
+    !injectSupported,
+    'provides function which is injected by mounted component',
+    () => {
       const wrapper = mountingMethod(ComponentWithInject, {
         provide () {
           return {
@@ -41,14 +42,16 @@ describeWithMountingMethods('options.provide', (mountingMethod) => {
           }
         }
       })
-      const HTML = mountingMethod.name === 'renderToString'
-        ? wrapper
-        : wrapper.html()
+      const HTML =
+        mountingMethod.name === 'renderToString' ? wrapper : wrapper.html()
       expect(HTML).to.contain('functionValue')
-    })
+    }
+  )
 
-  itDoNotRunIf(!injectSupported || mountingMethod.name === 'renderToString',
-    'supports beforeCreate in component', () => {
+  itDoNotRunIf(
+    !injectSupported || mountingMethod.name === 'renderToString',
+    'supports beforeCreate in component',
+    () => {
       if (!injectSupported) return
 
       const wrapper = mountingMethod(ComponentWithInject, {
@@ -56,38 +59,46 @@ describeWithMountingMethods('options.provide', (mountingMethod) => {
       })
 
       expect(wrapper.vm.setInBeforeCreate).to.equal('created')
-    })
+    }
+  )
 
-  itSkipIf(mountingMethod.name === 'renderToString',
-    'injects the provide from the config', () => {
+  itSkipIf(
+    mountingMethod.name === 'renderToString',
+    'injects the provide from the config',
+    () => {
       if (!injectSupported) {
         return
       }
       config.provide['fromMount'] = 'globalConfig'
 
       const wrapper = mountingMethod(ComponentWithInject)
-      const HTML = mountingMethod.name === 'renderToString'
-        ? wrapper
-        : wrapper.html()
+      const HTML =
+        mountingMethod.name === 'renderToString' ? wrapper : wrapper.html()
 
       expect(HTML).to.contain('globalConfig')
-    })
+    }
+  )
 
-  itDoNotRunIf(!injectSupported, 'prioritize mounting options over config', () => {
-    config.provide['fromMount'] = 'globalConfig'
+  itDoNotRunIf(
+    !injectSupported,
+    'prioritize mounting options over config',
+    () => {
+      config.provide['fromMount'] = 'globalConfig'
 
-    const wrapper = mountingMethod(ComponentWithInject, {
-      provide: { fromMount: '_' }
-    })
-    const HTML = mountingMethod.name === 'renderToString'
-      ? wrapper
-      : wrapper.html()
+      const wrapper = mountingMethod(ComponentWithInject, {
+        provide: { fromMount: '_' }
+      })
+      const HTML =
+        mountingMethod.name === 'renderToString' ? wrapper : wrapper.html()
 
-    expect(HTML).to.contain('_')
-  })
+      expect(HTML).to.contain('_')
+    }
+  )
 
-  itSkipIf(mountingMethod.name === 'renderToString',
-    'config with function throws', () => {
+  itSkipIf(
+    mountingMethod.name === 'renderToString',
+    'config with function throws',
+    () => {
       config.provide = () => {}
 
       expect(() => {
@@ -95,5 +106,6 @@ describeWithMountingMethods('options.provide', (mountingMethod) => {
           provide: { fromMount: '_' }
         })
       }).to.throw()
-    })
+    }
+  )
 })

@@ -2,10 +2,12 @@ import Vue from 'vue'
 import { vueVersion } from '~resources/utils'
 import { describeWithMountingMethods } from '~resources/utils'
 
-describeWithMountingMethods('options.context', (mountingMethod) => {
+describeWithMountingMethods('options.context', mountingMethod => {
   it('mounts functional component when passed context object', () => {
     if (vueVersion <= 2.2) {
-      console.log('WARN: no current way to test functional component in vue@2.1')
+      console.log(
+        'WARN: no current way to test functional component in vue@2.1'
+      )
       return
     }
 
@@ -29,9 +31,12 @@ describeWithMountingMethods('options.context', (mountingMethod) => {
       render: h => h('div')
     }
     const context = {}
-    const message = '[vue-test-utils]: mount.context can only be used when mounting a functional component'
+    const message =
+      '[vue-test-utils]: mount.context can only be used when mounting a functional component'
     const fn = () => mountingMethod(Component, { context })
-    expect(fn).to.throw().with.property('message', message)
+    expect(fn)
+      .to.throw()
+      .with.property('message', message)
   })
 
   it('does not throw error if functional component with Vue.extend', () => {
@@ -52,7 +57,9 @@ describeWithMountingMethods('options.context', (mountingMethod) => {
     const context = 'string'
     const message = '[vue-test-utils]: mount.context must be an object'
     const fn = () => mountingMethod(Component, { context })
-    expect(fn).to.throw().with.property('message', message)
+    expect(fn)
+      .to.throw()
+      .with.property('message', message)
   })
 
   it('mounts functional component with a defined context when no context object passed in options', () => {
@@ -68,9 +75,8 @@ describeWithMountingMethods('options.context', (mountingMethod) => {
       render: (h, { props }) => h('div', props.testProp)
     }
     const wrapper = mountingMethod(Component)
-    const HTML = mountingMethod.name === 'renderToString'
-      ? wrapper
-      : wrapper.html()
+    const HTML =
+      mountingMethod.name === 'renderToString' ? wrapper : wrapper.html()
     expect(HTML).to.contain(defaultValue)
   })
 
@@ -86,9 +92,8 @@ describeWithMountingMethods('options.context', (mountingMethod) => {
         children: ['render text']
       }
     })
-    const HTML = mountingMethod.name === 'renderToString'
-      ? wrapper
-      : wrapper.html()
+    const HTML =
+      mountingMethod.name === 'renderToString' ? wrapper : wrapper.html()
     expect(HTML).to.contain('render text')
   })
 
@@ -104,9 +109,8 @@ describeWithMountingMethods('options.context', (mountingMethod) => {
         children: [h => h('div', 'render component')]
       }
     })
-    const HTML = mountingMethod.name === 'renderToString'
-      ? wrapper
-      : wrapper.html()
+    const HTML =
+      mountingMethod.name === 'renderToString' ? wrapper : wrapper.html()
     expect(HTML).to.contain('render component')
   })
 })

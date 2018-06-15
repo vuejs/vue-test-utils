@@ -18,7 +18,7 @@ export function setWatchersToSync (vm) {
   }
 
   if (vm._computedWatchers) {
-    Object.keys(vm._computedWatchers).forEach((computedWatcher) => {
+    Object.keys(vm._computedWatchers).forEach(computedWatcher => {
       setWatcherSync(vm._computedWatchers[computedWatcher])
     })
   }
@@ -32,7 +32,7 @@ export function setWatchersToSync (vm) {
     vm._update = function (vnode, hydrating) {
       this.$_vueTestUtils_updateInSetWatcherSync(vnode, hydrating)
       if (VUE_VERSION >= 2.1 && this._isMounted && this.$options.updated) {
-        this.$options.updated.forEach((handler) => {
+        this.$options.updated.forEach(handler => {
           handler.call(this)
         })
       }

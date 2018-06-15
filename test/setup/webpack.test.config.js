@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+
 const nodeExternals = require('webpack-node-externals')
 const webpack = require('webpack')
 const browser = process.env.TARGET === 'browser'
@@ -38,7 +40,5 @@ module.exports = {
     fs: 'empty',
     module: 'empty'
   },
-  plugins: [
-    new webpack.EnvironmentPlugin(['TEST_ENV'])
-  ]
+  plugins: [new webpack.EnvironmentPlugin(['TEST_ENV'])]
 }

@@ -5,29 +5,31 @@ import {
   isRunningPhantomJS,
   vueVersion
 } from '~resources/utils'
-import {
-  itDoNotRunIf
-} from 'conditional-specs'
+import { itDoNotRunIf } from 'conditional-specs'
 
-describeWithShallowAndMount('options.listeners', (mountingMethod) => {
-  itDoNotRunIf(
-    isRunningPhantomJS,
-    'handles inherit listeners', () => {
-      if (!listenersSupported) return
-      const aListener = () => {}
-      const wrapper = mountingMethod(compileToFunctions('<p :id="aListener" />'), {
+describeWithShallowAndMount('options.listeners', mountingMethod => {
+  itDoNotRunIf(isRunningPhantomJS, 'handles inherit listeners', () => {
+    if (!listenersSupported) return
+    const aListener = () => {}
+    const wrapper = mountingMethod(
+      compileToFunctions('<p :id="aListener" />'),
+      {
         listeners: {
           aListener
         }
-      })
+      }
+    )
 
-      expect(wrapper.vm.$listeners.aListener.fns).to.equal(aListener)
-      expect(wrapper.vm.$listeners.aListener.fns).to.equal(aListener)
-    })
+    expect(wrapper.vm.$listeners.aListener.fns).to.equal(aListener)
+    expect(wrapper.vm.$listeners.aListener.fns).to.equal(aListener)
+  })
 
-  itDoNotRunIf(vueVersion < 2.5,
-    'defines listeners as empty object even when not passed', () => {
+  itDoNotRunIf(
+    vueVersion < 2.5,
+    'defines listeners as empty object even when not passed',
+    () => {
       const wrapper = mountingMethod(compileToFunctions('<p />'))
       expect(wrapper.vm.$listeners).to.deep.equal({})
-    })
+    }
+  )
 })

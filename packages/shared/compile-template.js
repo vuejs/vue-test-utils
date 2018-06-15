@@ -8,7 +8,7 @@ export function compileTemplate (component: Component) {
   }
 
   if (component.components) {
-    Object.keys(component.components).forEach((c) => {
+    Object.keys(component.components).forEach(c => {
       const cmp = component.components[c]
       if (!cmp.render) {
         compileTemplate(cmp)
