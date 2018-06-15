@@ -1,7 +1,7 @@
 import sinon from 'sinon'
 import { describeWithShallowAndMount } from '~resources/utils'
 
-describeWithShallowAndMount('options.sync', (mountingMethod) => {
+describeWithShallowAndMount('options.sync', mountingMethod => {
   it('sets watchers to sync if set to true', () => {
     const TestComponent = {
       template: '<div>{{someData}}</div>',
@@ -91,7 +91,7 @@ describeWithShallowAndMount('options.sync', (mountingMethod) => {
     expect(wrapper.vm.basket[0]).to.equal('foo')
   })
 
-  it('does not set watchers to sync if set to false', (done) => {
+  it('does not set watchers to sync if set to false', done => {
     const TestComponent = {
       template: '<div>{{someData}}</div>',
       data: () => ({

@@ -2,7 +2,7 @@ import { compileToFunctions } from 'vue-template-compiler'
 import ComponentWithEvents from '~resources/components/component-with-events.vue'
 import { describeWithShallowAndMount } from '~resources/utils'
 
-describeWithShallowAndMount('trigger', (mountingMethod) => {
+describeWithShallowAndMount('trigger', mountingMethod => {
   it('causes click handler to fire when wrapper.trigger("click") is called on a Component', () => {
     const clickHandler = sinon.stub()
     const wrapper = mountingMethod(ComponentWithEvents, {
@@ -45,19 +45,36 @@ describeWithShallowAndMount('trigger', (mountingMethod) => {
   it('throws an error if type is not a string', () => {
     const wrapper = mountingMethod(ComponentWithEvents)
     const invalidSelectors = [
-      undefined, null, NaN, 0, 2, true, false, () => {}, {}, []
+      undefined,
+      null,
+      NaN,
+      0,
+      2,
+      true,
+      false,
+      () => {},
+      {},
+      []
     ]
-    invalidSelectors.forEach((invalidSelector) => {
-      const message = '[vue-test-utils]: wrapper.trigger() must be passed a string'
+    invalidSelectors.forEach(invalidSelector => {
+      const message =
+        '[vue-test-utils]: wrapper.trigger() must be passed a string'
       const fn = () => wrapper.trigger(invalidSelector)
-      expect(fn).to.throw().with.property('message', message)
+      expect(fn)
+        .to.throw()
+        .with.property('message', message)
     })
   })
 
   it('throws error if wrapper array contains no items', () => {
     const compiled = compileToFunctions('<div />')
     const message = '[vue-test-utils]: trigger cannot be called on 0 items'
-    const fn = () => mountingMethod(compiled).findAll('p').trigger('p')
-    expect(fn).to.throw().with.property('message', message)
+    const fn = () =>
+      mountingMethod(compiled)
+        .findAll('p')
+        .trigger('p')
+    expect(fn)
+      .to.throw()
+      .with.property('message', message)
   })
 })

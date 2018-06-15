@@ -6,324 +6,333 @@ import ComponentWithProps from '~resources/components/component-with-props.vue'
 import ComponentWithMixin from '~resources/components/component-with-mixin.vue'
 import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
 import { injectSupported, vueVersion } from '~resources/utils'
-import {
-  describeRunIf,
-  itDoNotRunIf
-} from 'conditional-specs'
+import { describeRunIf, itDoNotRunIf } from 'conditional-specs'
 import Vuex from 'vuex'
 
-describeRunIf(process.env.TEST_ENV !== 'node',
-  'mount', () => {
-    const windowSave = window
+describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
+  const windowSave = window
 
-    beforeEach(() => {
-      sinon.stub(console, 'error')
-    })
+  beforeEach(() => {
+    sinon.stub(console, 'error')
+  })
 
-    afterEach(() => {
-      window = windowSave // eslint-disable-line no-native-reassign
-      console.error.restore()
-    })
+  afterEach(() => {
+    window = windowSave // eslint-disable-line no-native-reassign
+    console.error.restore()
+  })
 
-    it('returns new VueWrapper with mounted Vue instance if no options are passed', () => {
-      const compiled = compileToFunctions('<div><input /></div>')
-      const wrapper = mount(compiled)
-      expect(wrapper.vm).to.be.an('object')
-    })
+  it('returns new VueWrapper with mounted Vue instance if no options are passed', () => {
+    const compiled = compileToFunctions('<div><input /></div>')
+    const wrapper = mount(compiled)
+    expect(wrapper.vm).to.be.an('object')
+  })
 
-    it('returns new VueWrapper with mounted Vue instance when root is functional component', () => {
-      const FunctionalComponent = {
-        functional: true,
-        render (h) {
-          return h('div', {}, [
-            h('p', {
-              'class': {
-                foo: true
-              }
-            }),
-            h('p')
-          ])
-        },
-        name: 'common'
-      }
+  it('returns new VueWrapper with mounted Vue instance when root is functional component', () => {
+    const FunctionalComponent = {
+      functional: true,
+      render (h) {
+        return h('div', {}, [
+          h('p', {
+            class: {
+              foo: true
+            }
+          }),
+          h('p')
+        ])
+      },
+      name: 'common'
+    }
 
-      const wrapper = mount(FunctionalComponent)
-      expect(wrapper.findAll('p').length).to.equal(2)
-    })
+    const wrapper = mount(FunctionalComponent)
+    expect(wrapper.findAll('p').length).to.equal(2)
+  })
 
-    it('returns new VueWrapper with mounted Vue instance with props, if passed as propsData', () => {
-      const prop1 = { test: 'TEST' }
-      const wrapper = mount(ComponentWithProps, { propsData: { prop1 }})
-      expect(wrapper.vm).to.be.an('object')
-      if (wrapper.vm.$props) {
-        expect(wrapper.vm.$props.prop1).to.equal(prop1)
-      } else {
-        expect(wrapper.vm.$options.propsData.prop1).to.equal(prop1)
-      }
-    })
+  it('returns new VueWrapper with mounted Vue instance with props, if passed as propsData', () => {
+    const prop1 = { test: 'TEST' }
+    const wrapper = mount(ComponentWithProps, { propsData: { prop1 }})
+    expect(wrapper.vm).to.be.an('object')
+    if (wrapper.vm.$props) {
+      expect(wrapper.vm.$props.prop1).to.equal(prop1)
+    } else {
+      expect(wrapper.vm.$options.propsData.prop1).to.equal(prop1)
+    }
+  })
 
-    it('returns new VueWrapper with mounted Vue instance initialized with Vue.extend with props, if passed as propsData', () => {
-      const prop1 = { test: 'TEST' }
-      const TestComponent = Vue.extend(ComponentWithProps)
-      const wrapper = mount(TestComponent, {
-        propsData: {
-          prop1
-        }
-      })
-      expect(wrapper.vm).to.be.an('object')
-      if (wrapper.vm.$props) {
-        expect(wrapper.vm.$props.prop1).to.equal(prop1)
-      } else {
-        expect(wrapper.vm.$options.propsData.prop1).to.equal(prop1)
+  it('returns new VueWrapper with mounted Vue instance initialized with Vue.extend with props, if passed as propsData', () => {
+    const prop1 = { test: 'TEST' }
+    const TestComponent = Vue.extend(ComponentWithProps)
+    const wrapper = mount(TestComponent, {
+      propsData: {
+        prop1
       }
     })
+    expect(wrapper.vm).to.be.an('object')
+    if (wrapper.vm.$props) {
+      expect(wrapper.vm.$props.prop1).to.equal(prop1)
+    } else {
+      expect(wrapper.vm.$options.propsData.prop1).to.equal(prop1)
+    }
+  })
 
-    it('handles uncompiled extended Vue component', () => {
-      const BaseComponent = {
-        template: '<div />'
-      }
-      const TestComponent = {
-        extends: BaseComponent
-      }
-      const wrapper = mount(TestComponent)
-      expect(wrapper.findAll('div').length).to.equal(1)
+  it('handles uncompiled extended Vue component', () => {
+    const BaseComponent = {
+      template: '<div />'
+    }
+    const TestComponent = {
+      extends: BaseComponent
+    }
+    const wrapper = mount(TestComponent)
+    expect(wrapper.findAll('div').length).to.equal(1)
+  })
+
+  it('handles nested uncompiled extended Vue component', () => {
+    const BaseComponent = {
+      template: '<div />'
+    }
+    const TestComponentA = {
+      extends: BaseComponent
+    }
+    const TestComponentB = {
+      extends: TestComponentA
+    }
+    const TestComponentC = {
+      extends: TestComponentB
+    }
+    const TestComponentD = {
+      extends: TestComponentC
+    }
+    const wrapper = mount(TestComponentD)
+    expect(wrapper.findAll('div').length).to.equal(1)
+  })
+
+  it('does not use cached component', () => {
+    ComponentWithMixin.methods.someMethod = sinon.stub()
+    mount(ComponentWithMixin)
+    expect(ComponentWithMixin.methods.someMethod.callCount).to.equal(1)
+    ComponentWithMixin.methods.someMethod = sinon.stub()
+    mount(ComponentWithMixin)
+    expect(ComponentWithMixin.methods.someMethod.callCount).to.equal(1)
+  })
+
+  it('throws an error if window is undefined', () => {
+    if (
+      !(navigator.userAgent.includes && navigator.userAgent.includes('node.js'))
+    ) {
+      console.log('window read only. skipping test ...')
+      return
+    }
+
+    const message =
+      '[vue-test-utils]: window is undefined, vue-test-utils needs to be run in a browser environment.\n You can run the tests in node using JSDOM'
+    window = undefined // eslint-disable-line no-native-reassign
+
+    expect(() => mount(compileToFunctions('<div />')))
+      .to.throw()
+      .with.property('message', message)
+  })
+
+  it('compiles inline templates', () => {
+    const wrapper = mount({
+      template: `<div>foo</div>`
     })
+    expect(wrapper.vm).to.be.an('object')
+    expect(wrapper.html()).to.equal(`<div>foo</div>`)
+  })
 
-    it('handles nested uncompiled extended Vue component', () => {
-      const BaseComponent = {
-        template: '<div />'
-      }
-      const TestComponentA = {
-        extends: BaseComponent
-      }
-      const TestComponentB = {
-        extends: TestComponentA
-      }
-      const TestComponentC = {
-        extends: TestComponentB
-      }
-      const TestComponentD = {
-        extends: TestComponentC
-      }
-      const wrapper = mount(TestComponentD)
-      expect(wrapper.findAll('div').length).to.equal(1)
-    })
-
-    it('does not use cached component', () => {
-      ComponentWithMixin.methods.someMethod = sinon.stub()
-      mount(ComponentWithMixin)
-      expect(ComponentWithMixin.methods.someMethod.callCount).to.equal(1)
-      ComponentWithMixin.methods.someMethod = sinon.stub()
-      mount(ComponentWithMixin)
-      expect(ComponentWithMixin.methods.someMethod.callCount).to.equal(1)
-    })
-
-    it('throws an error if window is undefined', () => {
-      if (!(navigator.userAgent.includes && navigator.userAgent.includes('node.js'))) {
-        console.log('window read only. skipping test ...')
-        return
-      }
-
-      const message = '[vue-test-utils]: window is undefined, vue-test-utils needs to be run in a browser environment.\n You can run the tests in node using JSDOM'
-      window = undefined  // eslint-disable-line no-native-reassign
-
-      expect(() => mount(compileToFunctions('<div />'))).to.throw().with.property('message', message)
-    })
-
-    it('compiles inline templates', () => {
-      const wrapper = mount({
-        template: `<div>foo</div>`
-      })
-      expect(wrapper.vm).to.be.an('object')
-      expect(wrapper.html()).to.equal(`<div>foo</div>`)
-    })
-
-    it('overrides methods', () => {
-      const stub = sinon.stub()
-      const TestComponent = Vue.extend({
-        template: '<div />',
-        methods: {
-          callStub () {
-            stub()
-          }
-        }
-      })
-      mount(TestComponent, {
-        methods: {
-          callStub () {}
-        }
-      }).vm.callStub()
-
-      expect(stub).not.called
-    })
-
-    // Problems accessing options of twice extended components in Vue < 2.3
-    itDoNotRunIf(vueVersion < 2.3,
-      'compiles extended components', () => {
-        const TestComponent = Vue.component('test-component', {
-          template: '<div></div>'
-        })
-        const wrapper = mount(TestComponent)
-        expect(wrapper.html()).to.equal(`<div></div>`)
-      })
-
-    it('logs if component is extended', () => {
-      const msg = '[vue-test-utils]: an extended child component ChildComponent has been modified to ensure it has the correct instance properties. This means it is not possible to find the component with a component selector. To find the component, you must stub it manually using the stubs mounting option.'
-      const ChildComponent = Vue.extend({
-        template: '<span />'
-      })
-      const TestComponent = {
-        template: '<child-component />',
-        components: {
-          ChildComponent
+  it('overrides methods', () => {
+    const stub = sinon.stub()
+    const TestComponent = Vue.extend({
+      template: '<div />',
+      methods: {
+        callStub () {
+          stub()
         }
       }
-      mount(TestComponent)
-      expect(console.error).calledWith(msg)
     })
+    mount(TestComponent, {
+      methods: {
+        callStub () {}
+      }
+    }).vm.callStub()
 
-    it('deletes mounting options before passing options to component', () => {
-      const wrapper = mount({
+    expect(stub).not.called
+  })
+
+  // Problems accessing options of twice extended components in Vue < 2.3
+  itDoNotRunIf(vueVersion < 2.3, 'compiles extended components', () => {
+    const TestComponent = Vue.component('test-component', {
+      template: '<div></div>'
+    })
+    const wrapper = mount(TestComponent)
+    expect(wrapper.html()).to.equal(`<div></div>`)
+  })
+
+  it('logs if component is extended', () => {
+    const msg =
+      `[vue-test-utils]: an extended child component ChildComponent ` +
+      `has been modified to ensure it has the correct instance properties. ` +
+      `This means it is not possible to find the component with a component ` +
+      `selector. To find the component, you must stub it manually using the ` +
+      `stubs mounting option.`
+    const ChildComponent = Vue.extend({
+      template: '<span />'
+    })
+    const TestComponent = {
+      template: '<child-component />',
+      components: {
+        ChildComponent
+      }
+    }
+    mount(TestComponent)
+    expect(console.error).calledWith(msg)
+  })
+
+  it('deletes mounting options before passing options to component', () => {
+    const wrapper = mount(
+      {
         render: h => h('div')
-      }, {
+      },
+      {
         provide: {
-          'prop': 'val'
+          prop: 'val'
         },
         attachToDocument: 'attachToDocument',
         mocks: {
-          'prop': 'val'
+          prop: 'val'
         },
         slots: {
-          'prop': Component
+          prop: Component
         },
         localVue: createLocalVue(),
         stubs: {
-          'prop': 'val'
+          prop: 'val'
         },
         attrs: {
-          'prop': 'val'
+          prop: 'val'
         },
         listeners: {
-          'prop': 'val'
+          prop: 'val'
         }
-      })
-      if (injectSupported) {
-        expect(typeof wrapper.vm.$options.provide).to.equal('object')
       }
+    )
+    if (injectSupported) {
+      expect(typeof wrapper.vm.$options.provide).to.equal('object')
+    }
 
-      expect(wrapper.vm.$options.attachToDocument).to.equal(undefined)
-      expect(wrapper.vm.$options.mocks).to.equal(undefined)
-      expect(wrapper.vm.$options.slots).to.equal(undefined)
-      expect(wrapper.vm.$options.localVue).to.equal(undefined)
-      expect(wrapper.vm.$options.stubs).to.equal(undefined)
-      expect(wrapper.vm.$options.context).to.equal(undefined)
-      expect(wrapper.vm.$options.attrs).to.equal(undefined)
-      expect(wrapper.vm.$options.listeners).to.equal(undefined)
+    expect(wrapper.vm.$options.attachToDocument).to.equal(undefined)
+    expect(wrapper.vm.$options.mocks).to.equal(undefined)
+    expect(wrapper.vm.$options.slots).to.equal(undefined)
+    expect(wrapper.vm.$options.localVue).to.equal(undefined)
+    expect(wrapper.vm.$options.stubs).to.equal(undefined)
+    expect(wrapper.vm.$options.context).to.equal(undefined)
+    expect(wrapper.vm.$options.attrs).to.equal(undefined)
+    expect(wrapper.vm.$options.listeners).to.equal(undefined)
+  })
+
+  it('injects store correctly', () => {
+    const localVue = createLocalVue()
+    localVue.use(Vuex)
+    const store = new Vuex.Store()
+    const wrapper = mount(ComponentAsAClass, {
+      store,
+      localVue
     })
-
-    it('injects store correctly', () => {
-      const localVue = createLocalVue()
-      localVue.use(Vuex)
-      const store = new Vuex.Store()
-      const wrapper = mount(ComponentAsAClass, {
-        store,
-        localVue
-      })
-      wrapper.vm.getters
-      mount({
+    wrapper.vm.getters
+    mount(
+      {
         template: '<div>{{$store.getters}}</div>'
-      }, { store, localVue })
+      },
+      { store, localVue }
+    )
+  })
+
+  it('propagates errors when they are thrown', () => {
+    const TestComponent = {
+      template: '<div></div>',
+      mounted: function () {
+        throw new Error('Error in mounted')
+      }
+    }
+
+    const fn = () => mount(TestComponent)
+    expect(fn).to.throw('Error in mounted')
+  })
+
+  it('propagates errors when they are thrown by a nested component', () => {
+    const childComponent = {
+      template: '<div></div>',
+      mounted: function () {
+        throw new Error('Error in mounted')
+      }
+    }
+    const rootComponent = {
+      render: function (h) {
+        return h('div', [h(childComponent)])
+      }
+    }
+
+    const fn = () => {
+      mount(rootComponent)
+    }
+
+    expect(fn).to.throw('Error in mounted')
+  })
+
+  itDoNotRunIf(vueVersion < 2.2, 'logs errors once after mount', done => {
+    Vue.config.errorHandler = null
+    const TestComponent = {
+      template: '<div/>',
+      updated: function () {
+        throw new Error('Error in updated')
+      }
+    }
+
+    const wrapper = mount(TestComponent, {
+      sync: false
     })
-
-    it('propagates errors when they are thrown', () => {
-      const TestComponent = {
-        template: '<div></div>',
-        mounted: function () {
-          throw new Error('Error in mounted')
-        }
-      }
-
-      const fn = () => mount(TestComponent)
-      expect(fn).to.throw('Error in mounted')
-    })
-
-    it('propagates errors when they are thrown by a nested component', () => {
-      const childComponent = {
-        template: '<div></div>',
-        mounted: function () {
-          throw new Error('Error in mounted')
-        }
-      }
-      const rootComponent = {
-        render: function (h) {
-          return h('div', [h(childComponent)])
-        }
-      }
-
-      const fn = () => {
-        mount(rootComponent)
-      }
-
-      expect(fn).to.throw('Error in mounted')
-    })
-
-    itDoNotRunIf(
-      vueVersion < 2.2,
-      'logs errors once after mount', (done) => {
-        Vue.config.errorHandler = null
-        const TestComponent = {
-          template: '<div/>',
-          updated: function () {
-            throw new Error('Error in updated')
-          }
-        }
-
-        const wrapper = mount(TestComponent, {
-          sync: false
-        })
-        wrapper.vm.$forceUpdate()
-        setTimeout(() => {
-          vueVersion > 2.1
-            ? expect(console.error).calledTwice
-            : expect(console.error).calledOnce
-          done()
-        })
-      })
-
-    it('restores user error handler after mount', () => {
-      const existingErrorHandler = () => {}
-      Vue.config.errorHandler = existingErrorHandler
-      const TestComponent = {
-        template: '<div/>'
-      }
-      mount(TestComponent)
-      expect(Vue.config.errorHandler).to.equal(existingErrorHandler)
-      Vue.config.errorHandler = null
-    })
-
-    it('overwrites the component options with the instance options', () => {
-      const Component = {
-        template: '<div>{{ foo() }}{{ bar() }}{{ baz() }}</div>',
-        methods: {
-          foo () {
-            return 'a'
-          },
-          bar () {
-            return 'b'
-          }
-        }
-      }
-      const options = {
-        methods: {
-          bar () {
-            return 'B'
-          },
-          baz () {
-            return 'C'
-          }
-        }
-      }
-      const wrapper = mount(Component, options)
-      expect(wrapper.text()).to.equal('aBC')
+    wrapper.vm.$forceUpdate()
+    setTimeout(() => {
+      vueVersion > 2.1
+        ? expect(console.error).calledTwice
+        : expect(console.error).calledOnce
+      done()
     })
   })
+
+  it('restores user error handler after mount', () => {
+    const existingErrorHandler = () => {}
+    Vue.config.errorHandler = existingErrorHandler
+    const TestComponent = {
+      template: '<div/>'
+    }
+    mount(TestComponent)
+    expect(Vue.config.errorHandler).to.equal(existingErrorHandler)
+    Vue.config.errorHandler = null
+  })
+
+  it('overwrites the component options with the instance options', () => {
+    const Component = {
+      template: '<div>{{ foo() }}{{ bar() }}{{ baz() }}</div>',
+      methods: {
+        foo () {
+          return 'a'
+        },
+        bar () {
+          return 'b'
+        }
+      }
+    }
+    const options = {
+      methods: {
+        bar () {
+          return 'B'
+        },
+        baz () {
+          return 'C'
+        }
+      }
+    }
+    const wrapper = mount(Component, options)
+    expect(wrapper.text()).to.equal('aBC')
+  })
+})

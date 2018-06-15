@@ -6,5 +6,8 @@
   "globals": {
     "expect": true,
     "sinon": true
+  },
+  "rules": {
+    "max-len": 0
   }
 }

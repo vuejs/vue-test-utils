@@ -11,14 +11,12 @@ function createVNodesForSlot (
   slotValue: SlotValue,
   name: string
 ): VNode | string {
-  if (typeof slotValue === 'string' &&
-  !startsWithTag(slotValue)) {
+  if (typeof slotValue === 'string' && !startsWithTag(slotValue)) {
     return slotValue
   }
 
-  const el = typeof slotValue === 'string'
-    ? compileToFunctions(slotValue)
-    : slotValue
+  const el =
+    typeof slotValue === 'string' ? compileToFunctions(slotValue) : slotValue
 
   const vnode = h(el)
   vnode.data.slot = name

@@ -5,7 +5,7 @@ import ComponentWithComputed from '~resources/components/component-with-computed
 import ComponentWithWatch from '~resources/components/component-with-watch.vue'
 import { describeWithShallowAndMount } from '~resources/utils'
 
-describeWithShallowAndMount('setComputed', (mountingMethod) => {
+describeWithShallowAndMount('setComputed', mountingMethod => {
   let info
 
   beforeEach(() => {
@@ -24,7 +24,8 @@ describeWithShallowAndMount('setComputed', (mountingMethod) => {
   })
 
   it('throws an error if computed watcher does not exist', () => {
-    const message = 'wrapper.setComputed() was passed a value that does not exist as a computed property on the Vue instance. Property noExist does not exist on the Vue instance'
+    const message =
+      'wrapper.setComputed() was passed a value that does not exist as a computed property on the Vue instance. Property noExist does not exist on the Vue instance'
     const wrapper = mountingMethod(ComponentWithComputed)
     expect(() => wrapper.setComputed({ noExist: '' })).throw(Error, message)
   })
@@ -67,13 +68,9 @@ describeWithShallowAndMount('setComputed', (mountingMethod) => {
     })
     const TestComponent = {
       computed: {
-        ...mapGetters([
-          'someGetter'
-        ]),
+        ...mapGetters(['someGetter']),
         placeholder () {
-          return this.someGetter
-            ? 'someGetter is true'
-            : 'someGetter is false'
+          return this.someGetter ? 'someGetter is true' : 'someGetter is false'
         }
       }
     }
@@ -86,7 +83,8 @@ describeWithShallowAndMount('setComputed', (mountingMethod) => {
   })
 
   it('throws an error if node is not a Vue instance', () => {
-    const message = 'wrapper.setComputed() can only be called on a Vue instance'
+    const message =
+      'wrapper.setComputed() can only be called on a Vue instance'
     const compiled = compileToFunctions('<div><p></p></div>')
     const wrapper = mountingMethod(compiled)
     const p = wrapper.find('p')

@@ -1,17 +1,13 @@
 // @flow
 
-import {
-  REF_SELECTOR
-} from './consts'
-import {
-  throwError
-} from 'shared/util'
+import { REF_SELECTOR } from './consts'
+import { throwError } from 'shared/util'
 
 function findAllVNodes (vnode: VNode, nodes: Array<VNode> = []): Array<VNode> {
   nodes.push(vnode)
 
   if (Array.isArray(vnode.children)) {
-    vnode.children.forEach((childVNode) => {
+    vnode.children.forEach(childVNode => {
       findAllVNodes(childVNode, nodes)
     })
   }
@@ -25,7 +21,9 @@ function findAllVNodes (vnode: VNode, nodes: Array<VNode> = []): Array<VNode> {
 
 function removeDuplicateNodes (vNodes: Array<VNode>): Array<VNode> {
   const vNodeElms = vNodes.map(vNode => vNode.elm)
-  return vNodes.filter((vNode, index) => index === vNodeElms.indexOf(vNode.elm))
+  return vNodes.filter(
+    (vNode, index) => index === vNodeElms.indexOf(vNode.elm)
+  )
 }
 
 function nodeMatchesRef (node: VNode, refName: string): boolean {
@@ -37,9 +35,9 @@ function findVNodesByRef (vNode: VNode, refName: string): Array<VNode> {
   const refFilteredNodes = nodes.filter(node => nodeMatchesRef(node, refName))
   // Only return refs defined on top-level VNode to provide the same
   // behavior as selecting via vm.$ref.{someRefName}
-  const mainVNodeFilteredNodes = refFilteredNodes.filter(node => (
-    !!vNode.context.$refs[node.data.ref]
-  ))
+  const mainVNodeFilteredNodes = refFilteredNodes.filter(
+    node => !!vNode.context.$refs[node.data.ref]
+  )
   return removeDuplicateNodes(mainVNodeFilteredNodes)
 }
 
@@ -47,14 +45,11 @@ function nodeMatchesSelector (node: VNode, selector: string): boolean {
   return node.elm && node.elm.getAttribute && node.elm.matches(selector)
 }
 
-function findVNodesBySelector (
-  vNode: VNode,
-  selector: string
-): Array<VNode> {
+function findVNodesBySelector (vNode: VNode, selector: string): Array<VNode> {
   const nodes = findAllVNodes(vNode)
-  const filteredNodes = nodes.filter(node => (
+  const filteredNodes = nodes.filter(node =>
     nodeMatchesSelector(node, selector)
-  ))
+  )
   return removeDuplicateNodes(filteredNodes)
 }
 
@@ -66,7 +61,9 @@ export default function findVnodes (
 ): Array<VNode> {
   if (selectorType === REF_SELECTOR) {
     if (!vm) {
-      throwError('$ref selectors can only be used on Vue component wrappers')
+      throwError(
+        `$ref selectors can only be used on Vue component ` + `wrappers`
+      )
     }
     // $FlowIgnore
     return findVNodesByRef(vnode, selector.ref)

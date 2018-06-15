@@ -69,7 +69,7 @@ export default {
     // warn multiple elements
     if (children.length > 1) {
       warn(
-        '<transition> can only be used on a single element. Use ' +
+        `<transition> can only be used on a single element. ` + `Use ` +
          '<transition-group> for lists.'
       )
     }
@@ -112,13 +112,16 @@ export default {
     const data: Object = (child.data || (child.data = {}))
     const oldRawChild: ?VNode = this._vnode
     const oldChild: ?VNode = getRealChild(oldRawChild)
-    if (child.data.directives && child.data.directives.some(d => d.name === 'show')) {
+    if (child.data.directives &&
+      child.data.directives.some(d => d.name === 'show')) {
       child.data.show = true
     }
 
     // mark v-show
-    // so that the transition module can hand over the control to the directive
-    if (child.data.directives && child.data.directives.some(d => d.name === 'show')) {
+    // so that the transition module can hand over the control
+    // to the directive
+    if (child.data.directives &&
+      child.data.directives.some(d => d.name === 'show')) {
       child.data.show = true
     }
     if (
@@ -127,7 +130,8 @@ export default {
          !isSameChild(child, oldChild) &&
          !isAsyncPlaceholder(oldChild) &&
          // #6687 component root is a comment node
-         !(oldChild.componentInstance && oldChild.componentInstance._vnode.isComment)
+         !(oldChild.componentInstance &&
+          oldChild.componentInstance._vnode.isComment)
     ) {
       oldChild.data = { ...data }
     }

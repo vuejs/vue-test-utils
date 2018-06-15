@@ -1,7 +1,7 @@
 import { compileToFunctions } from 'vue-template-compiler'
 import { describeWithShallowAndMount } from '~resources/utils'
 
-describeWithShallowAndMount('attributes', (mountingMethod) => {
+describeWithShallowAndMount('attributes', mountingMethod => {
   it('returns true if wrapper contains attribute matching value', () => {
     const attribute = 'attribute'
     const value = 'value'

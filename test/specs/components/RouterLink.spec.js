@@ -1,7 +1,7 @@
 import { RouterLinkStub } from '~vue/test-utils'
 import { describeWithShallowAndMount } from '~resources/utils'
 
-describeWithShallowAndMount('RouterLinkStub', (mountingMethod) => {
+describeWithShallowAndMount('RouterLinkStub', mountingMethod => {
   it('takes correct props', () => {
     const TestComponent = {
       template: `

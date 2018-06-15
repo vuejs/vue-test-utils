@@ -5,7 +5,7 @@ import {
 } from '~resources/utils'
 import { itSkipIf } from 'conditional-specs'
 
-describeWithShallowAndMount('isEmpty', (mountingMethod) => {
+describeWithShallowAndMount('isEmpty', mountingMethod => {
   it('returns true if node is empty', () => {
     const compiled = compileToFunctions('<div></div>')
     const wrapper = mountingMethod(compiled)
@@ -19,21 +19,19 @@ describeWithShallowAndMount('isEmpty', (mountingMethod) => {
     expect(wrapper.isEmpty()).to.equal(true)
   })
 
-  itSkipIf(
-    isRunningPhantomJS,
-    'returns true if innerHTML is empty', () => {
-      const TestComponent = {
-        render (createElement) {
-          return createElement('div', {
-            domProps: {
-              innerHTML: '<svg />'
-            }
-          })
-        }
+  itSkipIf(isRunningPhantomJS, 'returns true if innerHTML is empty', () => {
+    const TestComponent = {
+      render (createElement) {
+        return createElement('div', {
+          domProps: {
+            innerHTML: '<svg />'
+          }
+        })
       }
-      const wrapper = mountingMethod(TestComponent)
-      expect(wrapper.find('svg').isEmpty()).to.equal(true)
-    })
+    }
+    const wrapper = mountingMethod(TestComponent)
+    expect(wrapper.find('svg').isEmpty()).to.equal(true)
+  })
 
   it('returns false if innerHTML is not empty', () => {
     const TestComponent = {

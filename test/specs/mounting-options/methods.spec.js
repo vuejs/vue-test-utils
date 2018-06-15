@@ -1,9 +1,7 @@
 import { config } from '~vue/test-utils'
-import {
-  describeWithMountingMethods
-} from '~resources/utils'
+import { describeWithMountingMethods } from '~resources/utils'
 
-describeWithMountingMethods('options.methods', (mountingMethod) => {
+describeWithMountingMethods('options.methods', mountingMethod => {
   it('prioritize mounting options over config', () => {
     config.methods['val'] = () => 'methodFromConfig'
 
@@ -20,9 +18,8 @@ describeWithMountingMethods('options.methods', (mountingMethod) => {
         }
       }
     })
-    const HTML = mountingMethod.name === 'renderToString'
-      ? wrapper
-      : wrapper.html()
+    const HTML =
+      mountingMethod.name === 'renderToString' ? wrapper : wrapper.html()
     expect(HTML).to.contain('methodFromOptions')
   })
 })

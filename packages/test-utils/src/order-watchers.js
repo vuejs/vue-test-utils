@@ -17,7 +17,7 @@ function orderVmWatchers (vm) {
   }
 
   if (vm._computedWatchers) {
-    Object.keys(vm._computedWatchers).forEach((computedWatcher) => {
+    Object.keys(vm._computedWatchers).forEach(computedWatcher => {
       orderDeps(vm._computedWatchers[computedWatcher])
     })
   }

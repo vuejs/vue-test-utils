@@ -11,19 +11,26 @@ export function warn (msg: string) {
 
 const camelizeRE = /-(\w)/g
 export const camelize = (str: string) => {
-  const camelizedStr = str.replace(camelizeRE, (_, c) => c ? c.toUpperCase() : '')
+  const camelizedStr = str.replace(
+    camelizeRE,
+    (_, c) => (c ? c.toUpperCase() : '')
+  )
   return camelizedStr.charAt(0).toLowerCase() + camelizedStr.slice(1)
 }
 
 /**
  * Capitalize a string.
  */
-export const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1)
+export const capitalize = (str: string) =>
+  str.charAt(0).toUpperCase() + str.slice(1)
 
 /**
  * Hyphenate a camelCase string.
  */
 const hyphenateRE = /\B([A-Z])/g
-export const hyphenate = (str: string) => str.replace(hyphenateRE, '-$1').toLowerCase()
+export const hyphenate = (str: string) =>
+  str.replace(hyphenateRE, '-$1').toLowerCase()
 
-export const vueVersion = Number(`${Vue.version.split('.')[0]}.${Vue.version.split('.')[1]}`)
+export const vueVersion = Number(
+  `${Vue.version.split('.')[0]}.${Vue.version.split('.')[1]}`
+)

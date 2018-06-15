@@ -11,7 +11,7 @@ import {
 import { itSkipIf } from 'conditional-specs'
 import ComponentWithoutName from '~resources/components/component-without-name.vue'
 
-describeWithShallowAndMount('contains', (mountingMethod) => {
+describeWithShallowAndMount('contains', mountingMethod => {
   it('returns true if wrapper contains element', () => {
     const compiled = compileToFunctions('<div><input /></div>')
     const wrapper = mountingMethod(compiled)
@@ -44,7 +44,8 @@ describeWithShallowAndMount('contains', (mountingMethod) => {
 
   itSkipIf(
     isRunningPhantomJS,
-    'returns true if wrapper contains Vue class component', () => {
+    'returns true if wrapper contains Vue class component',
+    () => {
       const TestComponent = {
         template: `
         <div>
@@ -57,7 +58,8 @@ describeWithShallowAndMount('contains', (mountingMethod) => {
       }
       const wrapper = mountingMethod(TestComponent)
       expect(wrapper.contains(ComponentAsAClass)).to.equal(true)
-    })
+    }
+  )
 
   it('returns true if wrapper contains element specified by ref selector', () => {
     const compiled = compileToFunctions('<div><input ref="foo" /></div>')
@@ -69,9 +71,12 @@ describeWithShallowAndMount('contains', (mountingMethod) => {
     const compiled = compileToFunctions('<div><a href="/"></a></div>')
     const wrapper = mountingMethod(compiled)
     const a = wrapper.find('a')
-    const message = '[vue-test-utils]: $ref selectors can only be used on Vue component wrappers'
+    const message =
+      '[vue-test-utils]: $ref selectors can only be used on Vue component wrappers'
     const fn = () => a.contains({ ref: 'foo' })
-    expect(fn).to.throw().with.property('message', message)
+    expect(fn)
+      .to.throw()
+      .with.property('message', message)
   })
 
   it('returns true when wrapper contains root element', () => {
@@ -136,12 +141,26 @@ describeWithShallowAndMount('contains', (mountingMethod) => {
   it('throws an error if selector is not a valid selector', () => {
     const wrapper = mountingMethod(Component)
     const invalidSelectors = [
-      undefined, null, NaN, 0, 2, true, false, () => {}, {}, { name: undefined }, { ref: 'foo', nope: true }, []
+      undefined,
+      null,
+      NaN,
+      0,
+      2,
+      true,
+      false,
+      () => {},
+      {},
+      { name: undefined },
+      { ref: 'foo', nope: true },
+      []
     ]
-    invalidSelectors.forEach((invalidSelector) => {
-      const message = '[vue-test-utils]: wrapper.contains() must be passed a valid CSS selector, Vue constructor, or valid find option object'
+    invalidSelectors.forEach(invalidSelector => {
+      const message =
+        '[vue-test-utils]: wrapper.contains() must be passed a valid CSS selector, Vue constructor, or valid find option object'
       const fn = () => wrapper.contains(invalidSelector)
-      expect(fn).to.throw().with.property('message', message)
+      expect(fn)
+        .to.throw()
+        .with.property('message', message)
     })
   })
 })

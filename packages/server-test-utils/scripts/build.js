@@ -30,7 +30,9 @@ const rollupOptionsTest = [
   }
 ]
 
-const rollupOptions = process.env.NODE_ENV === 'test' ? rollupOptionsTest : rollupOptionsBuild
+const rollupOptions = process.env.NODE_ENV === 'test'
+  ? rollupOptionsTest
+  : rollupOptionsBuild
 
 rollupOptions.forEach(options => {
   rollup({
