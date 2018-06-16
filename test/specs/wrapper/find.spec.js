@@ -20,12 +20,14 @@ describeWithShallowAndMount('find', mountingMethod => {
     const compiled = compileToFunctions('<div><p></p><p></p></div>')
     const wrapper = mountingMethod(compiled)
     expect(wrapper.find('p').vnode).to.be.an('object')
+    expect(wrapper.find('p').vm).to.equal(undefined)
   })
 
   it('returns Wrapper matching class selector passed', () => {
     const compiled = compileToFunctions('<div><div class="foo" /></div>')
     const wrapper = mountingMethod(compiled)
     expect(wrapper.find('.foo').vnode).to.be.an('object')
+    expect(wrapper.find('.foo').vm).to.equal(undefined)
   })
 
   it('returns Wrapper matching class selector passed if nested in a transition', () => {
@@ -395,4 +397,20 @@ describeWithShallowAndMount('find', mountingMethod => {
         .with.property('message', message)
     })
   })
+
+  itDoNotRunIf(
+    mountingMethod.name === 'shallowMount',
+    'returns a VueWrapper instance by CSS selector if the element binds a Vue instance', () => {
+      const childComponent = {
+        name: 'bar',
+        template: '<p/>'
+      }
+      const wrapper = mountingMethod({
+        name: 'foo',
+        template: '<div><child-component /></div>',
+        components: { childComponent }
+      })
+      expect(wrapper.find('div').vm.$options.name).to.equal('foo')
+      expect(wrapper.find('p').vm.$options.name).to.equal('bar')
+    })
 })

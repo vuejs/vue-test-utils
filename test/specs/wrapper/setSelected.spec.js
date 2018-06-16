@@ -34,11 +34,11 @@ describeWithShallowAndMount('setSelected', mountingMethod => {
   })
 
   it('throws error if wrapper does not contain element', () => {
-    const wrapper = mountingMethod({ render: h => h('div') })
-    const div = wrapper.find('div')
-    div.element = null
+    const wrapper = mountingMethod({ template: '<div><p/></div>' })
+    const p = wrapper.find('p')
+    p.element = null
 
-    const fn = () => div.setSelected()
+    const fn = () => p.setSelected()
     const message =
       '[vue-test-utils]: cannot call wrapper.setSelected() on a wrapper without an element'
     expect(fn)

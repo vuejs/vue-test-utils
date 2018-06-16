@@ -20,12 +20,11 @@ describeWithShallowAndMount('setValue', mountingMethod => {
   })
 
   it('throws error if wrapper does not contain element', () => {
-    const wrapper = mountingMethod({ render: h => h('div') })
-    const div = wrapper.find('div')
-    div.element = null
-    const fn = () => div.setValue('')
-    const message =
-      '[vue-test-utils]: cannot call wrapper.setValue() on a wrapper without an element'
+    const wrapper = mountingMethod({ template: '<div><p/></div>' })
+    const p = wrapper.find('p')
+    p.element = null
+    const fn = () => p.setValue('')
+    const message = '[vue-test-utils]: cannot call wrapper.setValue() on a wrapper without an element'
     expect(fn)
       .to.throw()
       .with.property('message', message)
