@@ -67,7 +67,7 @@ export default function createInstance (
     ) {
       if (options.logModifiedComponents) {
         warn(
-          `an extended child component ${c} has been modified ` +
+          `an extended child component "${c}" has been modified ` +
           `to ensure it has the correct instance properties. ` +
           `This means it is not possible to find the component ` +
           `with a component selector. To find the component, ` +
