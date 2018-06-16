@@ -1,6 +1,14 @@
 ## setValue(value)
 
-Sets the value of a text `<input>`.
+Sets the value to an input element of type text.
+
+
+`textInput.setValue(value)` is an alias of the following code.
+
+```js
+textInput.element.value = value
+textInput.trigger('input')
+```
 
 - **Arguments:**
   - `{String} value`
