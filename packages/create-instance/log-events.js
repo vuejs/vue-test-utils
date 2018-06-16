@@ -1,6 +1,10 @@
 // @flow
 
-export function logEvents (vm: Component, emitted: Object, emittedByOrder: Array<any>) {
+export function logEvents (
+  vm: Component,
+  emitted: Object,
+  emittedByOrder: Array<any>
+) {
   const emit = vm.$emit
   vm.$emit = (name, ...args) => {
     (emitted[name] || (emitted[name] = [])).push(args)

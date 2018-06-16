@@ -1,7 +1,7 @@
 import ComponentWithInput from '~resources/components/component-with-input.vue'
 import { describeWithShallowAndMount } from '~resources/utils'
 
-describeWithShallowAndMount('setChecked', (mountingMethod) => {
+describeWithShallowAndMount('setChecked', mountingMethod => {
   it('sets element checked true with no option passed', () => {
     const wrapper = mountingMethod(ComponentWithInput)
     const input = wrapper.find('input[type="checkbox"]')
@@ -78,27 +78,33 @@ describeWithShallowAndMount('setChecked', (mountingMethod) => {
   })
 
   it('throws error if checked param is false on radio element', () => {
-    const message = 'wrapper.setChecked() cannot be called with parameter false on a <input type="radio" /> element.'
+    const message =
+      'wrapper.setChecked() cannot be called with parameter false on a <input type="radio" /> element.'
     shouldThrowErrorOnElement('#radioFoo', message, false)
   })
 
   it('throws error if wrapper does not contain element', () => {
-    const wrapper = mountingMethod({ render: (h) => h('div') })
+    const wrapper = mountingMethod({ render: h => h('div') })
     const div = wrapper.find('div')
     div.element = null
 
     const fn = () => div.setChecked()
-    const message = '[vue-test-utils]: cannot call wrapper.setChecked() on a wrapper without an element'
-    expect(fn).to.throw().with.property('message', message)
+    const message =
+      '[vue-test-utils]: cannot call wrapper.setChecked() on a wrapper without an element'
+    expect(fn)
+      .to.throw()
+      .with.property('message', message)
   })
 
   it('throws error if element is select', () => {
-    const message = 'wrapper.setChecked() cannot be called on a <select> element. Use wrapper.setSelected() instead'
+    const message =
+      'wrapper.setChecked() cannot be called on a <select> element. Use wrapper.setSelected() instead'
     shouldThrowErrorOnElement('select', message)
   })
 
   it('throws error if element is text like', () => {
-    const message = 'wrapper.setChecked() cannot be called on "text" inputs. Use wrapper.setValue() instead'
+    const message =
+      'wrapper.setChecked() cannot be called on "text" inputs. Use wrapper.setValue() instead'
     shouldThrowErrorOnElement('input[type="text"]', message)
   })
 
@@ -112,6 +118,8 @@ describeWithShallowAndMount('setChecked', (mountingMethod) => {
     const input = wrapper.find(selector)
 
     const fn = () => input.setChecked(value)
-    expect(fn).to.throw().with.property('message', '[vue-test-utils]: ' + message)
+    expect(fn)
+      .to.throw()
+      .with.property('message', '[vue-test-utils]: ' + message)
   }
 })

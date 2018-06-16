@@ -1,12 +1,9 @@
 import { compileToFunctions } from 'vue-template-compiler'
 import ComponentWithProps from '~resources/components/component-with-props.vue'
 import ComponentWithWatch from '~resources/components/component-with-watch.vue'
-import {
-  describeWithShallowAndMount,
-  vueVersion
-} from '~resources/utils'
+import { describeWithShallowAndMount, vueVersion } from '~resources/utils'
 
-describeWithShallowAndMount('setProps', (mountingMethod) => {
+describeWithShallowAndMount('setProps', mountingMethod => {
   let info
 
   beforeEach(() => {
@@ -31,9 +28,12 @@ describeWithShallowAndMount('setProps', (mountingMethod) => {
     const TestComponent = {
       template: '<div></div>'
     }
-    const message = '[vue-test-utils]: wrapper.setProps() called with prop1 property which is not defined on component'
+    const message = `[vue-test-utils]: wrapper.setProps() called ` +
+    `with prop1 property which is not defined on the component`
     const fn = () => mountingMethod(TestComponent).setProps({ prop1: 'prop' })
-    expect(fn).to.throw().with.property('message', message)
+    expect(fn)
+      .to.throw()
+      .with.property('message', message)
   })
 
   it('throws error when called on functional vnode', () => {
@@ -41,9 +41,13 @@ describeWithShallowAndMount('setProps', (mountingMethod) => {
       render: (h, context) => h('div', context.prop1),
       functional: true
     }
-    const message = '[vue-test-utils]: wrapper.setProps() cannot be called on a functional component'
-    const fn = () => mountingMethod(AFunctionalComponent).setProps({ prop1: 'prop' })
-    expect(fn).to.throw().with.property('message', message)
+    const message =
+      '[vue-test-utils]: wrapper.setProps() cannot be called on a functional component'
+    const fn = () =>
+      mountingMethod(AFunctionalComponent).setProps({ prop1: 'prop' })
+    expect(fn)
+      .to.throw()
+      .with.property('message', message)
     // find on functional components isn't supported in Vue < 2.3
     if (vueVersion < 2.3) {
       return
@@ -54,8 +58,13 @@ describeWithShallowAndMount('setProps', (mountingMethod) => {
         AFunctionalComponent
       }
     }
-    const fn2 = () => mountingMethod(TestComponent).find(AFunctionalComponent).setProps({ prop1: 'prop' })
-    expect(fn2).to.throw().with.property('message', message)
+    const fn2 = () =>
+      mountingMethod(TestComponent)
+        .find(AFunctionalComponent)
+        .setProps({ prop1: 'prop' })
+    expect(fn2)
+      .to.throw()
+      .with.property('message', message)
   })
 
   it('sets component props, and updates DOM when propsData was not initially passed', () => {
@@ -91,7 +100,10 @@ describeWithShallowAndMount('setProps', (mountingMethod) => {
       `,
       computed: {
         reversedMessage: function () {
-          return this.message.split('').reverse().join('')
+          return this.message
+            .split('')
+            .reverse()
+            .join('')
         }
       },
       props: ['message']

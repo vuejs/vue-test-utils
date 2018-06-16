@@ -3,7 +3,7 @@ import ComponentWithMethods from '~resources/components/component-with-methods.v
 import ComponentWithEvents from '~resources/components/component-with-events.vue'
 import { describeWithShallowAndMount } from '~resources/utils'
 
-describeWithShallowAndMount('setMethods', (mountingMethod) => {
+describeWithShallowAndMount('setMethods', mountingMethod => {
   it('sets component data and updates nested vm nodes when called on Vue instance', () => {
     const wrapper = mountingMethod(ComponentWithMethods)
     const someMethod = () => console.log('hey')

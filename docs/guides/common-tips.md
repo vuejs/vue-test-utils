@@ -23,7 +23,7 @@ Vue Test Utils allows you to mount a component without rendering its child compo
 ```js
 import { shallowMount } from '@vue/test-utils'
 
-const wrapper = shallowMount(Component) // returns a Wrapper containing a mounted Component instance
+const wrapper = shallowMount(Component)
 wrapper.vm // the mounted Vue instance
 ```
 
@@ -125,7 +125,9 @@ const $route = {
 
 mount(Component, {
   mocks: {
-    $route // adds the mocked `$route` object to the Vue instance before mounting component
+    // adds mocked `$route` object to the Vue instance
+    // before mounting component
+    $route
   }
 })
 ```

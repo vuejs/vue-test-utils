@@ -12,8 +12,9 @@
     "plugin:vue-libs/recommended",
     "plugin:flowtype/recommended"
   ],
-  rules: {
+  "rules": {
     "no-debugger": 2,
-    "no-proto": 0
+    "no-proto": 0,
+    "max-len": 2
   }
 }

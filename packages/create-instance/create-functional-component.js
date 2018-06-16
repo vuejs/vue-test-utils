@@ -16,13 +16,17 @@ function createFunctionalSlots (slots = {}, h) {
   Object.keys(slots).forEach(slotType => {
     if (Array.isArray(slots[slotType])) {
       slots[slotType].forEach(slot => {
-        const component = typeof slot === 'string' ? compileToFunctions(slot) : slot
+        const component =
+          typeof slot === 'string' ? compileToFunctions(slot) : slot
         const newSlot = h(component)
         newSlot.data.slot = slotType
         children.push(newSlot)
       })
     } else {
-      const component = typeof slots[slotType] === 'string' ? compileToFunctions(slots[slotType]) : slots[slotType]
+      const component =
+        typeof slots[slotType] === 'string'
+          ? compileToFunctions(slots[slotType])
+          : slots[slotType]
       const slot = h(component)
       slot.data.slot = slotType
       children.push(slot)
@@ -31,7 +35,10 @@ function createFunctionalSlots (slots = {}, h) {
   return children
 }
 
-export default function createFunctionalComponent (component: Component, mountingOptions: Options) {
+export default function createFunctionalComponent (
+  component: Component,
+  mountingOptions: Options
+) {
   if (mountingOptions.context && typeof mountingOptions.context !== 'object') {
     throwError('mount.context must be an object')
   }
@@ -44,7 +51,12 @@ export default function createFunctionalComponent (component: Component, mountin
       return h(
         component,
         mountingOptions.context || component.FunctionalRenderContext,
-        (mountingOptions.context && mountingOptions.context.children && mountingOptions.context.children.map(x => typeof x === 'function' ? x(h) : x)) || createFunctionalSlots(mountingOptions.slots, h)
+        (mountingOptions.context &&
+          mountingOptions.context.children &&
+          mountingOptions.context.children.map(
+            x => (typeof x === 'function' ? x(h) : x)
+          )) ||
+          createFunctionalSlots(mountingOptions.slots, h)
       )
     },
     name: component.name,

@@ -8,10 +8,7 @@ import {
   createComponentStubsForAll,
   createComponentStubsForGlobals
 } from 'shared/stub-components'
-import { camelize,
-  capitalize,
-  hyphenate
-} from 'shared/util'
+import { camelize, capitalize, hyphenate } from 'shared/util'
 
 export default function shallowMount (
   component: Component,

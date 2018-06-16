@@ -2,9 +2,11 @@ import { compileToFunctions } from 'vue-template-compiler'
 import ComponentWithStyle from '~resources/components/component-with-style.vue'
 import { describeWithShallowAndMount } from '~resources/utils'
 
-describeWithShallowAndMount('hasStyle', (mountingMethod) => {
+describeWithShallowAndMount('hasStyle', mountingMethod => {
   it('returns true if every item contains styles, set inline', () => {
-    const compiled = compileToFunctions('<span><div style="color:red;"></div></span>')
+    const compiled = compileToFunctions(
+      '<span><div style="color:red;"></div></span>'
+    )
     const wrapper = mountingMethod(compiled)
     expect(wrapper.findAll('div').hasStyle('color', 'red')).to.equal(true)
   })
@@ -31,7 +33,9 @@ describeWithShallowAndMount('hasStyle', (mountingMethod) => {
     if (navigator.userAgent.includes && navigator.userAgent.includes('jsdom')) {
       return
     }
-    const wrapper = mountingMethod(ComponentWithStyle, { attachToDocument: true })
+    const wrapper = mountingMethod(ComponentWithStyle, {
+      attachToDocument: true
+    })
     expect(wrapper.findAll('p').hasStyle('color', 'red')).to.equal(true)
     expect(wrapper.findAll('span').hasStyle('color', 'red')).to.equal(true)
     expect(wrapper.findAll('span').hasStyle('color', 'orange')).to.equal(false)
@@ -40,23 +44,34 @@ describeWithShallowAndMount('hasStyle', (mountingMethod) => {
   it('throws error if wrapper array contains no items', () => {
     const compiled = compileToFunctions('<div />')
     const message = '[vue-test-utils]: hasStyle cannot be called on 0 items'
-    const fn = () => mountingMethod(compiled).findAll('p').hasStyle('p')
-    expect(fn).to.throw().with.property('message', message)
+    const fn = () =>
+      mountingMethod(compiled)
+        .findAll('p')
+        .hasStyle('p')
+    expect(fn)
+      .to.throw()
+      .with.property('message', message)
   })
 
   it('throws error if style is not a string', () => {
     const compiled = compileToFunctions('<div><div /></div>')
     const wrapper = mountingMethod(compiled)
-    const message = '[vue-test-utils]: wrapper.hasStyle() must be passed style as a string'
+    const message =
+      '[vue-test-utils]: wrapper.hasStyle() must be passed style as a string'
     const fn = () => wrapper.findAll('div').hasStyle(undefined, 'red')
-    expect(fn).to.throw().with.property('message', message)
+    expect(fn)
+      .to.throw()
+      .with.property('message', message)
   })
 
   it('throws error if value is not a string', () => {
     const compiled = compileToFunctions('<div><div /></div>')
     const wrapper = mountingMethod(compiled)
-    const message = '[vue-test-utils]: wrapper.hasClass() must be passed value as string'
+    const message =
+      '[vue-test-utils]: wrapper.hasClass() must be passed value as string'
     const fn = () => wrapper.findAll('div').hasStyle('color', undefined)
-    expect(fn).to.throw().with.property('message', message)
+    expect(fn)
+      .to.throw()
+      .with.property('message', message)
   })
 })

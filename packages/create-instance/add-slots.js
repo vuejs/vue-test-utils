@@ -2,14 +2,21 @@
 
 import { compileToFunctions } from 'vue-template-compiler'
 
+function startsWithTag (str) {
+  return str && str.trim()[0] === '<'
+}
+
 function createVNodesForSlot (
   h: Function,
   slotValue: SlotValue,
   name: string
-): Array<VNode> {
-  const el = typeof slotValue === 'string'
-    ? compileToFunctions(slotValue)
-    : slotValue
+): VNode | string {
+  if (typeof slotValue === 'string' && !startsWithTag(slotValue)) {
+    return slotValue
+  }
+
+  const el =
+    typeof slotValue === 'string' ? compileToFunctions(slotValue) : slotValue
 
   const vnode = h(el)
   vnode.data.slot = name
@@ -19,7 +26,7 @@ function createVNodesForSlot (
 export function createSlotVNodes (
   h: Function,
   slots: SlotsObject
-): Array<VNode> {
+): Array<VNode | string> {
   return Object.keys(slots).reduce((acc, key) => {
     const content = slots[key]
     if (Array.isArray(content)) {

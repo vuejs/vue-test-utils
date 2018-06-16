@@ -13,12 +13,9 @@ import {
   describeWithShallowAndMount,
   isRunningPhantomJS
 } from '~resources/utils'
-import {
-  itDoNotRunIf,
-  itSkipIf
-} from 'conditional-specs'
+import { itDoNotRunIf, itSkipIf } from 'conditional-specs'
 
-describeWithShallowAndMount('find', (mountingMethod) => {
+describeWithShallowAndMount('find', mountingMethod => {
   it('returns a Wrapper matching tag selector passed', () => {
     const compiled = compileToFunctions('<div><p></p><p></p></div>')
     const wrapper = mountingMethod(compiled)
@@ -39,14 +36,16 @@ describeWithShallowAndMount('find', (mountingMethod) => {
 
   itDoNotRunIf(
     isRunningPhantomJS,
-    'returns an array of Wrapper of elements matching class selector passed if they are declared inside a slot', () => {
+    'returns an array of Wrapper of elements matching class selector passed if they are declared inside a slot',
+    () => {
       const wrapper = mountingMethod(ComponentWithSlots, {
         slots: {
           default: '<div class="foo"></div>'
         }
       })
       expect(wrapper.find('.foo').vnode).to.be.an('object')
-    })
+    }
+  )
 
   it('returns Wrapper matching class selector passed if they are declared inside a functional component', () => {
     const Component = {
@@ -54,7 +53,7 @@ describeWithShallowAndMount('find', (mountingMethod) => {
       render (h, { props }) {
         return h('div', {}, [
           h('p', {
-            'class': {
+            class: {
               foo: true
             }
           }),
@@ -87,13 +86,18 @@ describeWithShallowAndMount('find', (mountingMethod) => {
   it('throws an error when passed an invalid DOM selector', () => {
     const compiled = compileToFunctions('<div><a href="/"></a></div>')
     const wrapper = mountingMethod(compiled)
-    const message = '[vue-test-utils]: wrapper.find() must be passed a valid CSS selector, Vue constructor, or valid find option object'
+    const message =
+      '[vue-test-utils]: wrapper.find() must be passed a valid CSS selector, Vue constructor, or valid find option object'
     const fn = () => wrapper.find('[href=&6"/"]')
-    expect(fn).to.throw().with.property('message', message)
+    expect(fn)
+      .to.throw()
+      .with.property('message', message)
   })
 
   it('returns Wrapper of elements matching selector when descendant combinator passed', () => {
-    const compiled = compileToFunctions('<div><ul><li>list</li>item<li></li></ul></div>')
+    const compiled = compileToFunctions(
+      '<div><ul><li>list</li>item<li></li></ul></div>'
+    )
     const wrapper = mountingMethod(compiled)
     expect(wrapper.find('div li').vnode).to.be.an('object')
   })
@@ -115,23 +119,21 @@ describeWithShallowAndMount('find', (mountingMethod) => {
     expect(wrapper.find(Component).vnode).to.be.an('object')
   })
 
-  itSkipIf(
-    isRunningPhantomJS,
-    'returns Wrapper of class component', () => {
-      const TestComponent = {
-        template: `
+  itSkipIf(isRunningPhantomJS, 'returns Wrapper of class component', () => {
+    const TestComponent = {
+      template: `
         <div>
           <component-as-a-class />
         </div>
       `,
-        components: {
-          ComponentAsAClass
-        }
+      components: {
+        ComponentAsAClass
       }
+    }
 
-      const wrapper = mountingMethod(TestComponent)
-      expect(wrapper.find(ComponentAsAClass).vnode).to.be.an('object')
-    })
+    const wrapper = mountingMethod(TestComponent)
+    expect(wrapper.find(ComponentAsAClass).vnode).to.be.an('object')
+  })
 
   it('returns Wrapper of Vue Component matching functional component', () => {
     if (!functionalSFCsSupported) {
@@ -167,9 +169,12 @@ describeWithShallowAndMount('find', (mountingMethod) => {
     }
     const wrapper = mountingMethod(TestComponent)
     if (vueVersion < 2.3) {
-      const message = '[vue-test-utils]: find for functional components is not support in Vue < 2.3'
+      const message =
+        '[vue-test-utils]: find for functional components is not support in Vue < 2.3'
       const fn = () => wrapper.find(TestFunctionalComponent)
-      expect(fn).to.throw().with.property('message', message)
+      expect(fn)
+        .to.throw()
+        .with.property('message', message)
     } else {
       expect(wrapper.find(TestFunctionalComponent).exists()).to.equal(true)
     }
@@ -186,7 +191,12 @@ describeWithShallowAndMount('find', (mountingMethod) => {
       }
     }
     const wrapper = mountingMethod(TestComponent)
-    expect(wrapper.find('svg').find('svg').exists()).to.equal(true)
+    expect(
+      wrapper
+        .find('svg')
+        .find('svg')
+        .exists()
+    ).to.equal(true)
   })
 
   it('throws errror when searching for a component on an element Wrapper', () => {
@@ -199,9 +209,15 @@ describeWithShallowAndMount('find', (mountingMethod) => {
         })
       }
     }
-    const fn = () => mountingMethod(TestComponent).find('svg').find(Component)
-    const message = '[vue-test-utils]: cannot find a Vue instance on a DOM node. The node you are calling find on does not exist in the VDom. Are you adding the node as innerHTML?'
-    expect(fn).to.throw().with.property('message', message)
+    const fn = () =>
+      mountingMethod(TestComponent)
+        .find('svg')
+        .find(Component)
+    const message =
+      '[vue-test-utils]: cannot find a Vue instance on a DOM node. The node you are calling find on does not exist in the VDom. Are you adding the node as innerHTML?'
+    expect(fn)
+      .to.throw()
+      .with.property('message', message)
   })
 
   it('throws errror when using ref selector on an element Wrapper', () => {
@@ -214,9 +230,15 @@ describeWithShallowAndMount('find', (mountingMethod) => {
         })
       }
     }
-    const fn = () => mountingMethod(TestComponent).find('svg').find({ ref: 'some-ref' })
-    const message = '[vue-test-utils]: cannot find a Vue instance on a DOM node. The node you are calling find on does not exist in the VDom. Are you adding the node as innerHTML?'
-    expect(fn).to.throw().with.property('message', message)
+    const fn = () =>
+      mountingMethod(TestComponent)
+        .find('svg')
+        .find({ ref: 'some-ref' })
+    const message =
+      '[vue-test-utils]: cannot find a Vue instance on a DOM node. The node you are calling find on does not exist in the VDom. Are you adding the node as innerHTML?'
+    expect(fn)
+      .to.throw()
+      .with.property('message', message)
   })
 
   it('returns correct number of Vue Wrappers when component has a v-for', () => {
@@ -240,7 +262,7 @@ describeWithShallowAndMount('find', (mountingMethod) => {
   it('returns error Wrapper if Vue component is below Wrapper', () => {
     const AComponent = {
       render: () => {},
-      name: 'a component'
+      name: 'a-component'
     }
     const localVue = createLocalVue()
     localVue.component('a-component', AComponent)
@@ -296,7 +318,9 @@ describeWithShallowAndMount('find', (mountingMethod) => {
 
   it('returns a Wrapper matching a component name in options object', () => {
     const wrapper = mountingMethod(ComponentWithChild)
-    expect(wrapper.find({ name: 'test-component' }).name()).to.equal('test-component')
+    expect(wrapper.find({ name: 'test-component' }).name()).to.equal(
+      'test-component'
+    )
   })
 
   it('returns Wrapper of Vue Component matching the ref in options object', () => {
@@ -308,13 +332,18 @@ describeWithShallowAndMount('find', (mountingMethod) => {
     const compiled = compileToFunctions('<div><a href="/"></a></div>')
     const wrapper = mountingMethod(compiled)
     const a = wrapper.find('a')
-    const message = '[vue-test-utils]: $ref selectors can only be used on Vue component wrappers'
+    const message =
+      '[vue-test-utils]: $ref selectors can only be used on Vue component wrappers'
     const fn = () => a.find({ ref: 'foo' })
-    expect(fn).to.throw().with.property('message', message)
+    expect(fn)
+      .to.throw()
+      .with.property('message', message)
   })
 
   it('returns Wrapper matching ref selector in options object passed if nested in a transition', () => {
-    const compiled = compileToFunctions('<transition><div ref="foo"/></transition>')
+    const compiled = compileToFunctions(
+      '<transition><div ref="foo"/></transition>'
+    )
     const wrapper = mountingMethod(compiled)
     expect(wrapper.find({ ref: 'foo' })).to.be.an('object')
   })
@@ -344,12 +373,26 @@ describeWithShallowAndMount('find', (mountingMethod) => {
   it('throws an error if selector is not a valid selector', () => {
     const wrapper = mountingMethod(Component)
     const invalidSelectors = [
-      undefined, null, NaN, 0, 2, true, false, () => {}, {}, { name: undefined }, { ref: 'foo', nope: true }, []
+      undefined,
+      null,
+      NaN,
+      0,
+      2,
+      true,
+      false,
+      () => {},
+      {},
+      { name: undefined },
+      { ref: 'foo', nope: true },
+      []
     ]
-    invalidSelectors.forEach((invalidSelector) => {
-      const message = '[vue-test-utils]: wrapper.find() must be passed a valid CSS selector, Vue constructor, or valid find option object'
+    invalidSelectors.forEach(invalidSelector => {
+      const message =
+        '[vue-test-utils]: wrapper.find() must be passed a valid CSS selector, Vue constructor, or valid find option object'
       const fn = () => wrapper.find(invalidSelector)
-      expect(fn).to.throw().with.property('message', message)
+      expect(fn)
+        .to.throw()
+        .with.property('message', message)
     })
   })
 })

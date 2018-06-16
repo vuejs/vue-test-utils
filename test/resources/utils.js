@@ -4,7 +4,9 @@ import Vue from 'vue'
 import { shallowMount, mount } from '~vue/test-utils'
 import { renderToString } from '~vue/server-test-utils'
 
-export const vueVersion = Number(`${Vue.version.split('.')[0]}.${Vue.version.split('.')[1]}`)
+export const vueVersion = Number(
+  `${Vue.version.split('.')[0]}.${Vue.version.split('.')[1]}`
+)
 
 export const isRunningJSDOM =
   typeof navigator !== 'undefined' &&
@@ -26,12 +28,10 @@ export const functionalSFCsSupported = vueVersion > 2.4
 
 export const scopedSlotsSupported = vueVersion > 2
 
-const shallowAndMount = process.env.TEST_ENV === 'node'
-  ? []
-  : [mount, shallowMount]
-const shallowMountAndRender = process.env.TEST_ENV === 'node'
-  ? [renderToString]
-  : [mount, shallowMount]
+const shallowAndMount =
+  process.env.TEST_ENV === 'node' ? [] : [mount, shallowMount]
+const shallowMountAndRender =
+  process.env.TEST_ENV === 'node' ? [renderToString] : [mount, shallowMount]
 
 export function describeWithShallowAndMount (spec, cb) {
   if (shallowAndMount.length > 0) {

@@ -2,7 +2,7 @@ import { compileToFunctions } from 'vue-template-compiler'
 import ComponentWithStyle from '~resources/components/component-with-style.vue'
 import { describeWithShallowAndMount } from '~resources/utils'
 
-describeWithShallowAndMount('hasStyle', (mountingMethod) => {
+describeWithShallowAndMount('hasStyle', mountingMethod => {
   it('returns true when element contains styles, set inline', () => {
     const compiled = compileToFunctions('<div style="color:red;"></div>')
     const wrapper = mountingMethod(compiled)
@@ -31,7 +31,9 @@ describeWithShallowAndMount('hasStyle', (mountingMethod) => {
     if (navigator.userAgent.includes && navigator.userAgent.includes('jsdom')) {
       return
     }
-    const wrapper = mountingMethod(ComponentWithStyle, { attachToDocument: true })
+    const wrapper = mountingMethod(ComponentWithStyle, {
+      attachToDocument: true
+    })
     expect(wrapper.find('p').hasStyle('color', 'red')).to.equal(true)
     expect(wrapper.find('span').hasStyle('color', 'red')).to.equal(true)
     expect(wrapper.find('span').hasStyle('color', 'orange')).to.equal(false)
@@ -40,17 +42,23 @@ describeWithShallowAndMount('hasStyle', (mountingMethod) => {
   it('throws an error if style is not a string', () => {
     const compiled = compileToFunctions('<div />')
     const wrapper = mountingMethod(compiled)
-    const message = '[vue-test-utils]: wrapper.hasStyle() must be passed style as a string'
+    const message =
+      '[vue-test-utils]: wrapper.hasStyle() must be passed style as a string'
     const fn = () => wrapper.hasStyle(undefined, 'red')
-    expect(fn).to.throw().with.property('message', message)
+    expect(fn)
+      .to.throw()
+      .with.property('message', message)
   })
 
   it('throws an error if value is not a string', () => {
     const compiled = compileToFunctions('<div />')
     const wrapper = mountingMethod(compiled)
-    const message = '[vue-test-utils]: wrapper.hasClass() must be passed value as string'
+    const message =
+      '[vue-test-utils]: wrapper.hasClass() must be passed value as string'
     const fn = () => wrapper.hasStyle('color', undefined)
-    expect(fn).to.throw().with.property('message', message)
+    expect(fn)
+      .to.throw()
+      .with.property('message', message)
   })
 
   it('return false when the style is a invalid prop name ', () => {

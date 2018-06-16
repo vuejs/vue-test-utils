@@ -2,7 +2,7 @@ import ComponentWithTransitionGroup from '~resources/components/component-with-t
 import { TransitionGroupStub } from '~vue/test-utils'
 import { describeWithShallowAndMount } from '~resources/utils'
 
-describeWithShallowAndMount('TransitionGroupStub', (mountingMethod) => {
+describeWithShallowAndMount('TransitionGroupStub', mountingMethod => {
   it('update synchronously when used as stubs for Transition', () => {
     const wrapper = mountingMethod(ComponentWithTransitionGroup, {
       stubs: {
