@@ -23,7 +23,7 @@
 ```js
 import { shallow } from '@vue/test-utils'
 
-const wrapper = shallow(Component) // возвращает Wrapper, содержащий примонтированный экземпляр компонента
+const wrapper = shallow(Component)
 wrapper.vm // примонтированный экземпляр Vue
 ```
 
@@ -125,7 +125,9 @@ const $route = {
 
 mount(Component, {
   mocks: {
-    $route // добавление мока объекта `$route` в экземпляр Vue перед монтированием компонента
+    // добавление мока объекта `$route` в экземпляр Vue
+    // перед монтированием компонента
+    $route
   }
 })
 ```

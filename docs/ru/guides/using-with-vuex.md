@@ -67,16 +67,16 @@ describe('Actions.vue', () => {
     })
   })
 
-  it('вызывает действие хранилища "actionInput" когда значение поля "input" и было событие "input"', () => {
-    const wrapper = shallow(Actions, { store, localVue })
+  it('вызывает "actionInput", когда значение события "input"', () => {
+    const wrapper = shallowMount(Actions, { store, localVue })
     const input = wrapper.find('input')
     input.element.value = 'input'
     input.trigger('input')
     expect(actions.actionInput).toHaveBeenCalled()
   })
 
-  it('не вызывает действие хранилища "actionInput" когда значение поля отлично от "input" и было событие "input"', () => {
-    const wrapper = shallow(Actions, { store, localVue })
+  it('не вызывает "actionInput", когда значение событие не "input"', () => {
+    const wrapper = shallowMount(Actions, { store, localVue })
     const input = wrapper.find('input')
     input.element.value = 'not input'
     input.trigger('input')
@@ -84,7 +84,7 @@ describe('Actions.vue', () => {
   })
 
   it('вызывает действие хранилища "actionClick" по нажатию кнопки', () => {
-    const wrapper = shallow(Actions, { store, localVue })
+    const wrapper = shallowMount(Actions, { store, localVue })
     wrapper.find('button').trigger('click')
     expect(actions.actionClick).toHaveBeenCalled()
   })
@@ -158,13 +158,13 @@ describe('Getters.vue', () => {
   })
 
   it('Отображает "state.inputValue" в первом теге p', () => {
-    const wrapper = shallow(Getters, { store, localVue })
+    const wrapper = shallowMount(Getters, { store, localVue })
     const p = wrapper.find('p')
     expect(p.text()).toBe(getters.inputValue())
   })
 
   it('Отображает "state.clicks" во втором теге p', () => {
-    const wrapper = shallow(Getters, { store, localVue })
+    const wrapper = shallowMount(Getters, { store, localVue })
     const p = wrapper.findAll('p').at(1)
     expect(p.text()).toBe(getters.clicks().toString())
   })
@@ -244,14 +244,14 @@ describe('Modules.vue', () => {
   })
 
   it('вызывает действие "moduleActionClick" при нажатии кнопки', () => {
-    const wrapper = shallow(Modules, { store, localVue })
+    const wrapper = shallowMount(Modules, { store, localVue })
     const button = wrapper.find('button')
     button.trigger('click')
     expect(actions.moduleActionClick).toHaveBeenCalled()
   })
 
   it('отображает "state.inputValue" в первом теге p', () => {
-    const wrapper = shallow(Modules, { store, localVue })
+    const wrapper = shallowMount(Modules, { store, localVue })
     const p = wrapper.find('p')
     expect(p.text()).toBe(state.module.clicks.toString())
   })
