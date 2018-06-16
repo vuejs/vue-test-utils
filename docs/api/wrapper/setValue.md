@@ -2,7 +2,6 @@
 
 Sets the value to an input element of type text.
 
-
 `textInput.setValue(value)` is an alias of the following code.
 
 ```js
