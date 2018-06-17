@@ -1,4 +1,4 @@
-# Тестирование однофайловых компонентов с Karma
+## Тестирование однофайловых компонентов с Karma
 
 > Пример проекта для этой конфигурации доступен на [GitHub](https://github.com/eddyerburgh/vue-test-utils-karma-example).
 
