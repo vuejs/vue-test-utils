@@ -1,4 +1,4 @@
-# setComputed(computedObjects)
+## setComputed(computedObjects)
 
 Устанавливает для `Wrapper` `vm` вычисляемое свойство и принудительно обновляет каждый `Wrapper` в `WrapperArray`.
 

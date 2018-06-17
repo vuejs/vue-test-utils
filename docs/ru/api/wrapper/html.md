@@ -1,4 +1,4 @@
-# html()
+## html()
 
 Возвращает HTML `Wrapper` DOM узла в виде строки.
 

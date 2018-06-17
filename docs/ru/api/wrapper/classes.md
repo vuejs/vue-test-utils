@@ -1,4 +1,4 @@
-# classes()
+## classes()
 
 Возвращает классы DOM-узла `Wrapper`.
 

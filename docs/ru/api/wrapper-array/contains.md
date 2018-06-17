@@ -1,4 +1,4 @@
-# contains(selector)
+## contains(selector)
 
 Проверка, что каждый `Wrapper` в `WrapperArray` содержит указанный селектор.
 

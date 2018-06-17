@@ -1,4 +1,4 @@
-# setProps(props)
+## setProps(props)
 
 Устанавливает входные параметры `Wrapper` `vm` и выполняет принудительное обновление каждого `Wrapper` в `WrapperArray`.
 

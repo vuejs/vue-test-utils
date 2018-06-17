@@ -1,4 +1,4 @@
-# isVueInstance()
+## isVueInstance()
 
 Проверка, что каждый `Wrapper` в `WrapperArray` является экземпляром Vue.
 

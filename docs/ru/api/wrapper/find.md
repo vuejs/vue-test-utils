@@ -1,4 +1,4 @@
-# find(selector)
+## find(selector)
 
 Возвращает [`Wrapper`](README.md) первого DOM узла или компонента Vue, соответствующий селектору.
 

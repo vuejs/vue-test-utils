@@ -1,4 +1,4 @@
-# isEmpty()
+## isEmpty()
 
 Проверка, что каждый `Wrapper` в `WrapperArray` не содержит дочерних узлов.
 

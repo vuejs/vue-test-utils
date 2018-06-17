@@ -1,4 +1,4 @@
-# trigger(eventName)
+## trigger(eventName)
 
 Вызывает событие на `Wrapper` DOM узле.
 

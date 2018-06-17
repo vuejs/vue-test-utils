@@ -1,4 +1,4 @@
-# is(selector)
+## is(selector)
 
 Проверка, что каждый `Wrapper` в `WrapperArray` DOM узле или `vm` соответствует [селектору](../selectors.md).
 

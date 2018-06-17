@@ -1,5 +1,4 @@
-
-# setMethods(methods)
+## setMethods(methods)
 
 Устанавливает методы `Wrapper` `vm` и выполняет принудительное обновление каждого `Wrapper` в `WrapperArray`.
 

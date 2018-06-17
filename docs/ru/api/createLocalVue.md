@@ -1,4 +1,4 @@
-# `createLocalVue()`
+## `createLocalVue()`
 
 - **Возвращает:**
   - `{Component}`

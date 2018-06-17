@@ -1,4 +1,4 @@
-# findAll(selector)
+## findAll(selector)
 
 Возвращает [`WrapperArray`](../wrapper-array/README.md), состоящий из [Wrappers](README.md).
 

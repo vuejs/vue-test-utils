@@ -1,4 +1,4 @@
-# is(selector)
+## is(selector)
 
 Проверяет, что DOM-элемент `Wrapper` или `vm` соответствуют [селектору](../selectors.md).
 

@@ -1,4 +1,4 @@
-# setProps(props)
+## setProps(props)
 
 - **Принимает:**
   - `{Object} props`
