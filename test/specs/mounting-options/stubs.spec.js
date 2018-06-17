@@ -168,7 +168,6 @@ describeWithMountingMethods('options.stub', mountingMethod => {
       const wrapper = mountingMethod(Vue.extend(TestComponent), {
         stubs: ['grandchild-component']
       })
-      console.log(wrapper.html())
       const HTML = mountingMethod.name === 'renderToString'
         ? wrapper
         : wrapper.html()

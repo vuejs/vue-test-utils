@@ -28,8 +28,12 @@ export default function renderToString (
   if (options.attachToDocument) {
     throwError(`you cannot use attachToDocument with ` + `renderToString`)
   }
-  const vueClass = options.localVue || testUtils.createLocalVue()
-  const vm = createInstance(component, mergeOptions(options, config), vueClass)
+  const vueConstructor = testUtils.createLocalVue(options.localVue)
+  const vm = createInstance(
+    component,
+    mergeOptions(options, config),
+    vueConstructor
+  )
   let renderedString = ''
 
   // $FlowIgnore
