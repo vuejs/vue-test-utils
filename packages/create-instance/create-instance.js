@@ -86,6 +86,10 @@ export default function createInstance (
     }
   })
 
+  if (component.options) {
+    component.options._base = _Vue
+  }
+
   const Constructor = vueVersion < 2.3 && typeof component === 'function'
     ? component.extend(instanceOptions)
     : _Vue.extend(component).extend(instanceOptions)
