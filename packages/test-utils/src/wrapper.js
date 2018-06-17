@@ -325,7 +325,7 @@ export default class Wrapper implements BaseWrapper {
     }
     // Using CSS Selector, returns a VueWrapper instance if the root element
     // binds a Vue instance.
-    if (nodes[0].$el === this.element && nodes[0].$parent === undefined) {
+    if (nodes[0].elm === this.element) {
       return this
     }
     return createWrapper(nodes[0], this.options)
@@ -341,7 +341,7 @@ export default class Wrapper implements BaseWrapper {
     const wrappers = nodes.map(node => {
       // Using CSS Selector, returns a VueWrapper instance if the root element
       // binds a Vue instance.
-      return node.$el === this.element && node.$parent === undefined
+      return node.elm === this.element
         ? this
         : createWrapper(node, this.options)
     })

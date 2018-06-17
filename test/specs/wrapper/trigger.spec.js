@@ -164,7 +164,9 @@ describeWithShallowAndMount('trigger', mountingMethod => {
     const fn = () => p.trigger('click')
     const message =
       '[vue-test-utils]: cannot call wrapper.trigger() on a wrapper without an element'
-    expect(fn).to.throw().with.property('message', message)
+    expect(fn)
+      .to.throw()
+      .with.property('message', message)
   })
 
   it('throws an error if type is not a string', () => {

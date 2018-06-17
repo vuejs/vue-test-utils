@@ -90,20 +90,7 @@ export function vmFunctionalCtorMatchesSelector (
   return Ctors.some(c => Ctor[c] === component[FUNCTIONAL_OPTIONS]._Ctor[c])
 }
 
-export function findVueComponentByElement (
-  vm: Component,
-  elem: Element
-): ?Component {
-  const components = findAllVueComponentsFromVm(vm)
-  for (let i = 0, max = components.length; i < max; i++) {
-    const component = components[i]
-    if (component.$el === elem) {
-      return component
-    }
-  }
-}
-
-export function findVueComponents (
+export default function findVueComponents (
   root: Component,
   selectorType: ?string,
   selector: Object

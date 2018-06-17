@@ -1,27 +1,12 @@
 // @flow
 
 import findVnodes from './find-vnodes'
-import {
-  findVueComponents,
-  findVueComponentByElement
-} from './find-vue-components'
+import findVueComponents from './find-vue-components'
 import findDOMNodes from './find-dom-nodes'
 import { COMPONENT_SELECTOR, NAME_SELECTOR, DOM_SELECTOR } from './consts'
 import Vue from 'vue'
 import getSelectorTypeOrThrow from './get-selector-type'
 import { throwError } from 'shared/util'
-
-// Returns a component if the element binds a Vue instance.
-function replaceBindingComponent (vnode: VNode): VNode | Component {
-  if (vnode.elm && vnode.elm.__vue__) {
-    const component =
-      findVueComponentByElement(vnode.elm.__vue__.$root, vnode.elm)
-    if (component) {
-      return component
-    }
-  }
-  return vnode
-}
 
 export default function find (
   vm: Component | null,
@@ -58,14 +43,11 @@ export default function find (
 
   if (vnode) {
     const nodes = findVnodes(vnode, vm, selectorType, selector)
-      .map(replaceBindingComponent)
     if (selectorType !== DOM_SELECTOR) {
       return nodes
     }
     return nodes.length > 0 ? nodes : findDOMNodes(element, selector)
-      .map(replaceBindingComponent)
   }
 
   return findDOMNodes(element, selector)
-    .map(replaceBindingComponent)
 }
