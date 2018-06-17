@@ -101,10 +101,11 @@ VueTestUtils.config.logModifiedComponents = false
 - default: `true`
  
 Подавляет предупреждения, вызванные Vue во время изменения наблюдаемых компонентов (например, входных параметров). Если установлено значение `false`, все предупреждения показываются в консоли. Это настраиваемый способ, который основывается на `Vue.config.silent`.
-Example:
+
+Пример:
  
 ```js
 import VueTestUtils from '@vue/test-utils'
- 
+
 VueTestUtils.config.silentWarnings = false
 ```
