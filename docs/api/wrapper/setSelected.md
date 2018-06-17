@@ -1,6 +1,6 @@
 ## setSelected()
 
-Selects a option element and updates `v-model` bound data.
+Selects an option element and updates `v-model` bound data.
 
 - **Example:**
 
