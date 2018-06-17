@@ -1,4 +1,4 @@
-## `shallowMount()`
+## shallowMount()
 
 - **Принимает:**
 
@@ -31,7 +31,7 @@ import { shallowMount } from '@vue/test-utils'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {
-  it('renders a div', () => {
+  it('отрендерить div', () => {
     const wrapper = shallowMount(Foo)
     expect(wrapper.contains('div')).toBe(true)
   })
@@ -45,7 +45,7 @@ import { shallowMount } from '@vue/test-utils'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {
-  it('renders a div', () => {
+  it('отрендерить div', () => {
     const wrapper = shallowMount(Foo, {
       propsData: {
         color: 'red'
@@ -63,7 +63,7 @@ import { shallowMount } from '@vue/test-utils'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {
-  it('renders a div', () => {
+  it('отрендерить div', () => {
     const wrapper = shallowMount(Foo, {
       attachToDocument: true
     })
@@ -81,7 +81,7 @@ import Bar from './Bar.vue'
 import FooBar from './FooBar.vue'
 
 describe('Foo', () => {
-  it('renders a div', () => {
+  it('отрендерить div', () => {
     const wrapper = shallowMount(Foo, {
       slots: {
         default: [Bar, FooBar],
@@ -101,7 +101,7 @@ import { shallowMount } from '@vue/test-utils'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {
-  it('renders a div', () => {
+  it('отрендерить div', () => {
     const $route = { path: 'http://www.example-path.com' }
     const wrapper = shallowMount(Foo, {
       mocks: {

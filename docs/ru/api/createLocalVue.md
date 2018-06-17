@@ -1,4 +1,4 @@
-## `createLocalVue()`
+## createLocalVue()
 
 - **Возвращает:**
   - `{Component}`
@@ -14,13 +14,13 @@ import { createLocalVue, shallow } from '@vue/test-utils'
 import Foo from './Foo.vue'
 
 const localVue = createLocalVue()
-const wrapper = shallow(Foo, {
+const wrapper = shallowMount(Foo, {
   localVue,
   mocks: { foo: true }
 })
 expect(wrapper.vm.foo).toBe(true)
 
-const freshWrapper = shallow(Foo)
+const freshWrapper = shallowMount(Foo)
 expect(freshWrapper.vm.foo).toBe(false)
 ```
 

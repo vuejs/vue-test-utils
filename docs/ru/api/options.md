@@ -14,7 +14,7 @@
 - [`provide`](#provide)
 - [`sync`](#sync)
 
-### `context`
+## context
 
 - Тип: `Object`
 
@@ -36,7 +36,7 @@ const wrapper = mount(Component, {
 expect(wrapper.is(Component)).toBe(true)
 ```
 
-### `slots`
+## slots
 
 - Тип: `{ [name: string]: Array<Component>|Component|string }`
 
@@ -87,7 +87,7 @@ expect(wrapper.find('#fooWrapper').html()).toBe(
 )
 ```
 
-### `stubs`
+## stubs
 
 - Тип: `{ [name: string]: Component | boolean } | Array<string>`
 
@@ -112,7 +112,7 @@ shallow(Component, {
 })
 ```
 
-### `mocks`
+## mocks
 
 - Тип: `Object`
 
@@ -130,7 +130,7 @@ const wrapper = shallow(Component, {
 expect(wrapper.vm.$route.path).toBe($route.path)
 ```
 
-### `localVue`
+## localVue
 
 - Тип: `Vue`
 
@@ -161,26 +161,26 @@ const wrapper = mount(Component, {
 expect(wrapper.vm.$route).toBeInstanceOf(Object)
 ```
 
-### `attachToDocument`
+## attachToDocument
 
 - Тип: `boolean`
 - По умолчанию: `false`
 
 Компонент будет прикрепляться к DOM при рендеринге, если установлено в `true`.
 
-### `attrs`
+## attrs
 
 - Тип: `Object`
 
 Устанавливает объект `$attrs` на экземпляре компонента.
 
-### `listeners`
+## listeners
 
 - Тип: `Object`
 
 Устанавливает объект `$listeners` на экземпляре компонента.
 
-### `provide`
+## provide
 
 - Тип: `Object`
 
