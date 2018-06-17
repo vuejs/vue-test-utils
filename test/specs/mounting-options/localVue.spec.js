@@ -69,4 +69,12 @@ describeWithMountingMethods('options.localVue', mountingMethod => {
       expect(HTML).to.contain('2')
     }
   })
+
+  it('does not add created mixin to localVue', () => {
+    const localVue = createLocalVue()
+    mountingMethod({ render: () => {} }, {
+      localVue
+    })
+    expect(localVue.options.created).to.equal(undefined)
+  })
 })
