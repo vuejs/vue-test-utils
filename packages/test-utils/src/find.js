@@ -58,13 +58,11 @@ export default function find (
 
   if (vnode) {
     const nodes = findVnodes(vnode, vm, selectorType, selector)
-      .map(replaceBindingComponent)
     if (selectorType !== DOM_SELECTOR) {
       return nodes
     }
     return nodes.length > 0 ? nodes : findDOMNodes(element, selector)
-      .map(replaceBindingComponent)
   }
 
-  return findDOMNodes(element, selector).map(replaceBindingComponent)
+  return findDOMNodes(element, selector)
 }
