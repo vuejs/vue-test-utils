@@ -18,7 +18,7 @@ options.at(1).setSelected()
 
 When you try to set the value to state via `v-model` by `option.element.selected = true; parentSelect.trigger('input')`, `v-model` is not triggered. `v-model` is triggered by `change` event.
 
-`option.setchecked(checked)` is an alias of the following code.
+`option.setSelected()` is an alias of the following code.
 
 ```js
 option.element.selected = true
