@@ -2,7 +2,7 @@
 
 `WrapperArray` — это объект, содержащий массив [`Wrappers`](../wrapper/) и методы для тестирования `Wrappers`.
 
-## **Свойства:**
+## **Свойства**
 
 ### `wrappers` 
 
@@ -12,7 +12,7 @@
 
 `number`: `array`: массив `Wrappers` содержащихся в `WrapperArray`
 
-## **Методы:**
+## **Методы**
 
 !!!include(docs/ru/api/wrapper-array/at.md)!!!
 !!!include(docs/ru/api/wrapper-array/contains.md)!!!

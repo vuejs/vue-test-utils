@@ -1,4 +1,4 @@
-## trigger(eventName)
+## trigger(eventType [, options ])
 
 Генерирует событие на каждом `Wrapper` в `WrapperArray` DOM узле.
 
