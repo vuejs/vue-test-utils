@@ -51,7 +51,7 @@ interface VueTestUtilsConfigOptions {
   methods?: Record<string, Function>
   provide?: object,
   logModifiedComponents?: Boolean
-  silentWarnings?: Boolean
+  silent?: Boolean
 }
 
 export declare let config: VueTestUtilsConfigOptions

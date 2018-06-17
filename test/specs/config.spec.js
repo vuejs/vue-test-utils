@@ -10,14 +10,14 @@ import {
 import Vue from 'vue'
 
 describeWithShallowAndMount('config', mountingMethod => {
-  let configStubsSave, consoleError, configLogSave, configSilentWarningsSave
+  let configStubsSave, consoleError, configLogSave, configSilentSave
 
   beforeEach(() => {
     TransitionGroupStub.name = 'another-temp-name'
     TransitionStub.name = 'a-temp-name'
     configStubsSave = config.stubs
     configLogSave = config.logModifiedComponents
-    configSilentWarningsSave = config.silentWarnings
+    configSilentSave = config.silent
     consoleError = sinon.stub(console, 'error')
   })
 
@@ -26,7 +26,7 @@ describeWithShallowAndMount('config', mountingMethod => {
     TransitionStub.name = 'transition'
     config.stubs = configStubsSave
     config.logModifiedComponents = configLogSave
-    config.silentWarnings = configSilentWarningsSave
+    config.silent = configSilentSave
     consoleError.restore()
   })
 
@@ -141,8 +141,8 @@ describeWithShallowAndMount('config', mountingMethod => {
     expect(wrapper.contains(TransitionStub)).to.equal(false)
   })
 
-  it("doesn't throw Vue warning when silentWarnings is set to true", () => {
-    config.silentWarnings = true
+  it("doesn't throw Vue warning when silent is set to true", () => {
+    config.silent = true
     const localVue = createLocalVue()
     const wrapper = mountingMethod(ComponentWithProps, {
       propsData: {
@@ -157,8 +157,8 @@ describeWithShallowAndMount('config', mountingMethod => {
     expect(consoleError.called).to.equal(false)
   })
 
-  it('does throw Vue warning when silentWarnings is set to false', () => {
-    config.silentWarnings = false
+  it('does throw Vue warning when silent is set to false', () => {
+    config.silent = false
     const localVue = createLocalVue()
     const wrapper = mountingMethod(ComponentWithProps, {
       propsData: {

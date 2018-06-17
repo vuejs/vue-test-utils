@@ -93,4 +93,4 @@ config.provide = {
   foo: {}
 }
 config.logModifiedComponents = true
-config.silentWarnings = true
+config.silent = true
