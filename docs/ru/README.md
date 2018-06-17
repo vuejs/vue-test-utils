@@ -1,8 +1,6 @@
-# vue-test-utils
+# Введение
 
 `vue-test-utils` — официальная библиотека модульного тестирования для Vue.js.
-
-## Содержание
 
 * [Руководства](guides/)
   * [Введение](guides/getting-started.md)
@@ -11,7 +9,7 @@
   * [Чем запускать тесты](guides/choosing-a-test-runner.md)
   * [Тестирование однофайловых компонентов с Jest](guides/testing-SFCs-with-jest.md)
   * [Тестирование однофайловых компонентов с Mocha + webpack](guides/testing-SFCs-with-mocha-webpack.md)
-  * [Testing однофайловых компонентов  с Karma](guides/testing-SFCs-with-karma.md)
+  * [Testing однофайловых компонентов с Karma](guides/testing-SFCs-with-karma.md)
   * [Тестирование асинхронной логики](guides/testing-async-components.md)
   * [Использование с Vue Router](guides/using-with-vue-router.md)
   * [Использование с Vuex](guides/using-with-vuex.md)
