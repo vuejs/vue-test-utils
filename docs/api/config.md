@@ -95,7 +95,7 @@ import VueTestUtils from '@vue/test-utils'
 VueTestUtils.config.logModifiedComponents = false
 ```
 
-### `silentWarnings`
+### `silent`
 
 - type: `Boolean`
 - default: `true`
@@ -106,5 +106,5 @@ Example:
 ```js
 import VueTestUtils from '@vue/test-utils'
 
-VueTestUtils.config.silentWarnings = false
+VueTestUtils.config.silent = false
 ```
