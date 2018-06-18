@@ -323,6 +323,11 @@ export default class Wrapper implements BaseWrapper {
         typeof selector === 'string' ? selector : 'Component'
       )
     }
+    // Using CSS Selector, returns a VueWrapper instance if the root element
+    // binds a Vue instance.
+    if (nodes[0].elm === this.element) {
+      return this
+    }
     return createWrapper(nodes[0], this.options)
   }
 
@@ -333,7 +338,13 @@ export default class Wrapper implements BaseWrapper {
   findAll (selector: Selector): WrapperArray {
     getSelectorTypeOrThrow(selector, 'findAll')
     const nodes = findAll(this.vm, this.vnode, this.element, selector)
-    const wrappers = nodes.map(node => createWrapper(node, this.options))
+    const wrappers = nodes.map(node => {
+      // Using CSS Selector, returns a VueWrapper instance if the root element
+      // binds a Vue instance.
+      return node.elm === this.element
+        ? this
+        : createWrapper(node, this.options)
+    })
     return new WrapperArray(wrappers)
   }
 
