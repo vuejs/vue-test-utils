@@ -4,7 +4,7 @@ declare type Options = {
   propsData?: Object,
   mocks?: Object,
   methods?: Object,
-  slots?: Object,
+  slots?: SlotsObject,
   scopedSlots?: Object,
   localVue?: Component,
   provide?: Object,
