@@ -8,8 +8,9 @@ export default function createWrapper (
   node: VNode | Component,
   options: WrapperOptions
 ): VueWrapper | Wrapper {
-  if (node.componentInstance) {
-    return new VueWrapper(node.componentInstance, options)
+  const componentInstance = node.componentInstance || node.child
+  if (componentInstance) {
+    return new VueWrapper(componentInstance, options)
   }
   return node instanceof Vue
     ? new VueWrapper(node, options)
