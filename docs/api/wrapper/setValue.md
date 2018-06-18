@@ -1,6 +1,6 @@
 ## setValue(value)
 
-Sets the value of a text `<input>`.
+Sets value of a text-control input element and updates `v-model` bound data.
 
 - **Arguments:**
   - `{String} value`
@@ -14,4 +14,13 @@ import Foo from './Foo.vue'
 const wrapper = mount(Foo)
 const input = wrapper.find('input[type="text"]')
 input.setValue('some value')
+```
+
+- **Note:**
+
+`textInput.setValue(value)` is an alias of the following code.
+
+```js
+textInput.element.value = value
+textInput.trigger('input')
 ```
