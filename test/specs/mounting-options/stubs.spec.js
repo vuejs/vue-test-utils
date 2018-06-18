@@ -174,19 +174,23 @@ describeWithMountingMethods('options.stub', mountingMethod => {
       expect(HTML).not.to.contain('<span>')
     })
 
-  it('stubs components with dummy when passed a boolean', () => {
-    const ComponentWithGlobalComponent = {
-      render: h => h('div', [h('registered-component')])
-    }
-    const wrapper = mountingMethod(ComponentWithGlobalComponent, {
-      stubs: {
-        'registered-component': true
+  itDoNotRunIf(
+    mountingMethod.name === 'renderToString',
+    'stubs components with dummy which has name when passed a boolean', () => {
+      const ComponentWithGlobalComponent = {
+        render: h => h('div', [h('registered-component')])
       }
+      const wrapper = mountingMethod(ComponentWithGlobalComponent, {
+        stubs: {
+          'registered-component': true
+        }
+      })
+      const HTML =
+        mountingMethod.name === 'renderToString' ? wrapper : wrapper.html()
+      expect(HTML).to.contain('<registered-component-stub>')
+      expect(wrapper.find({ name: 'registered-component' }).html())
+        .to.equal('<registered-component-stub></registered-component-stub>')
     })
-    const HTML =
-      mountingMethod.name === 'renderToString' ? wrapper : wrapper.html()
-    expect(HTML).to.contain('<registered-component-stub>')
-  })
 
   it('stubs components with dummy when passed as an array', () => {
     const ComponentWithGlobalComponent = {

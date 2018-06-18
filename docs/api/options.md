@@ -107,6 +107,8 @@ shallowMount(Component, {
     // stub with a specific implementation
     'registered-component': Foo,
     // create default stub
+    // another-component is the default stub component name
+    // the default stub is <${default stub component name}-stub>
     'another-component': true
   }
 })
