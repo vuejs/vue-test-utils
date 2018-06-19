@@ -32,7 +32,7 @@ VueTestUtils.config.stubs['my-component'] = '<div />'
 
 По аналогии с `stubs`, значения, переданные в `config.mocks` используются по умолчанию. Любые значения, переданные настройкам монтирования объекта `mocks`, будут иметь приоритет выше, по сравнению с объявленными в `config.mocks`.
 
-Example:
+Пример:
 
 ```js
 import VueTestUtils from '@vue/test-utils'
@@ -51,7 +51,7 @@ VueTestUtils.config.mocks['$store'] = {
 
 Вы можете настроить методы по умолчанию с помощью объекта `config`. Это может быть полезно для плагинов, которые вводят методы в компоненты, такие как [VeeValidate](https://vee-validate.logaretm.com/). Вы можете переопределить методы, установленные в `config`, передав `methods` в настройках монтирования.
 
-Example:
+Пример:
 
 ```js
 import VueTestUtils from '@vue/test-utils'

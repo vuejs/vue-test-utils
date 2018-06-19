@@ -11,7 +11,7 @@
 
 Новый экземпляр `WrapperArray`, содержащий экземпляры `Wrapper`, которые возвращают true для функции предиката.
 
-- **Example:**
+- **Пример:**
 
 ```js
 import { shallowMount } from '@vue/test-utils'
