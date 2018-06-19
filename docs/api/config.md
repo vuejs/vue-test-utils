@@ -101,6 +101,7 @@ VueTestUtils.config.logModifiedComponents = false
 - default: `true`
 
 It suppresses warnings triggered by Vue while mutating component's observables (e.g. props). When set to `false`, all warnings are visible in the console. This is a configurable way which relies on `Vue.config.silent`.
+
 Example:
 
 ```js
