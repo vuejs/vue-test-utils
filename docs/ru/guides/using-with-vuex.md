@@ -44,7 +44,7 @@ export default{
 Давайте посмотрим, как это выглядит:
 
 ``` js
-import { shallow, createLocalVue } from '@vue/test-utils'
+import { shallowMount, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import Actions from '../../../src/components/Actions'
 
@@ -134,7 +134,7 @@ export default{
 Давайте посмотрим на тест:
 
 ``` js
-import { shallow, createLocalVue } from '@vue/test-utils'
+import { shallowMount, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import Getters from '../../../src/components/Getters'
 
@@ -171,7 +171,7 @@ describe('Getters.vue', () => {
 })
 ```
 
-Этот тест очень похож на тест действий. Мы создаём мок хранилища перед каждым тестом, передаём его в качестве опции когда вызываем `shallow`, и проверяем что значение вернувшееся из мока-геттера отображается.
+Этот тест очень похож на тест действий. Мы создаём мок хранилища перед каждым тестом, передаём его в качестве опции когда вызываем `shallowMount`, и проверяем что значение вернувшееся из мока-геттера отображается.
 
 Это здорово, но что, если мы хотим проверить, что наши геттеры возвращают правильную часть нашего состояния?
 
@@ -211,7 +211,7 @@ export default{
 И тест:
 
 ``` js
-import { shallow, createLocalVue } from '@vue/test-utils'
+import { shallowMount, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import Modules from '../../../src/components/Modules'
 import module from '../../../src/store/module'

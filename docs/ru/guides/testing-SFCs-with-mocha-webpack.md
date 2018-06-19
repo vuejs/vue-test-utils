@@ -150,12 +150,12 @@ export default {
 И создайте файл теста, названный `test/Counter.spec.js` со следующим кодом:
 
 ```js
-import { shallow } from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 import Counter from '../src/Counter.vue'
 
 describe('Counter.vue', () => {
   it('увеличивает счётчик по нажатию кнопки', () => {
-    const wrapper = shallow(Counter)
+    const wrapper = shallowMount(Counter)
     wrapper.find('button').trigger('click')
     expect(wrapper.find('div').text()).toMatch('1')
   })

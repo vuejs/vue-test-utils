@@ -102,7 +102,7 @@ mount(Component, {
   stubs: ['registered-component']
 })
 
-shallow(Component, {
+shallowMount(Component, {
   stubs: {
     // заглушка со специальной реализацией
     'registered-component': Foo,
@@ -122,7 +122,7 @@ shallow(Component, {
 
 ```js
 const $route = { path: 'http://www.example-path.com' }
-const wrapper = shallow(Component, {
+const wrapper = shallowMount(Component, {
   mocks: {
     $route
   }
@@ -196,7 +196,7 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 
 ## Другие опции
 
-Если в параметрах для `mount` и `shallow` содержатся другие опции, отличные от опций монтирования, опции компонента будут перезаписаны с помощью [extends](https://ru.vuejs.org/v2/api/#extends).
+Если в параметрах для `mount` и `shallowMount` содержатся другие опции, отличные от опций монтирования, опции компонента будут перезаписаны с помощью [extends](https://ru.vuejs.org/v2/api/#extends).
 
 ```js
 const Component = {

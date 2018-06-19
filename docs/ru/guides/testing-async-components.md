@@ -44,13 +44,13 @@ export default {
 Тест можно написать следующим образом:
 
 ``` js
-import { shallow } from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 import Foo from './Foo'
 jest.mock('axios')
 
 test('Foo', () => {
   it('делает асинхронный запрос при нажатии кнопки', () => {
-    const wrapper = shallow(Foo)
+    const wrapper = shallowMount(Foo)
     wrapper.find('button').trigger('click')
     expect(wrapper.vm.value).toBe('value')
   })
@@ -62,7 +62,7 @@ test('Foo', () => {
 ``` js
 test('Foo', () => {
   it('делает асинхронный запрос при нажатии кнопки', (done) => {
-    const wrapper = shallow(Foo)
+    const wrapper = shallowMount(Foo)
     wrapper.find('button').trigger('click')
     wrapper.vm.$nextTick(() => {
       expect(wrapper.vm.value).toBe('value')
@@ -79,14 +79,14 @@ test('Foo', () => {
 Обновлённый тест будет выглядеть так:
 
 ``` js
-import { shallow } from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 import flushPromises from 'flush-promises'
 import Foo from './Foo'
 jest.mock('axios')
 
 test('Foo', () => {
   it('делает асинхронный запрос при нажатии кнопки', async () => {
-    const wrapper = shallow(Foo)
+    const wrapper = shallowMount(Foo)
     wrapper.find('button').trigger('click')
     await flushPromises()
     expect(wrapper.vm.value).toBe('value')
