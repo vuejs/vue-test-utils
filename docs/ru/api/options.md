@@ -61,7 +61,7 @@ expect(wrapper.find('div')).toBe(true)
 
 ## scopedSlots
 
-- type: `{ [name: string]: string }`
+- Тип: `{ [name: string]: string }`
 
 Предоставляет объект содержимое слотов с ограниченной областью видимости для компонента. Ключ соответствует имени слота. Значение может быть строкой шаблона.
 
@@ -188,8 +188,8 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 
 ## sync
 
-- type: `boolean`
-- default: `true`
+- Тип: `boolean`
+- По умолчанию: `true`
 
 Когда `sync` равняется `true`, Vue-компонент рендериться синхронно.  
 Когда `sync` равняется `false`, Vue-компонент рендериться асинхронно.
