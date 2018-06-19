@@ -1,6 +1,6 @@
 ## setData(data)
 
-Sets `Wrapper` `vm` data by each `Wrapper` in `WrapperArray`.
+Sets `Wrapper` `vm` data on each `Wrapper` in `WrapperArray`.
 
 **Note every `Wrapper` must contain a Vue instance.**
 
