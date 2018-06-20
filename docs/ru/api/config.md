@@ -95,7 +95,7 @@ import VueTestUtils from '@vue/test-utils'
 VueTestUtils.config.logModifiedComponents = false
 ```
 
-### `silentWarnings`
+### `silent`
  
 - Тип: `Boolean`
 - По умолчанию: `true`
@@ -107,5 +107,5 @@ VueTestUtils.config.logModifiedComponents = false
 ```js
 import VueTestUtils from '@vue/test-utils'
 
-VueTestUtils.config.silentWarnings = false
+VueTestUtils.config.silent = false
 ```
