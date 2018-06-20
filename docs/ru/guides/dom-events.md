@@ -22,6 +22,9 @@ wrapper.find('button').trigger('click')
 
 Метод `trigger` также может опционально принимать объект `options`. Свойства объекта `options` добавятся к Event.
 
+Обратите внимание, что цель (target) не может добавлена в объект `options`.
+
+
 ```js
 const wrapper = mount(MyButton)
 
@@ -206,4 +209,4 @@ describe('Тестирование событий клавиш', () => {
 
 ### Важно
 
-`vue-test-utils` генерирует событие синхронно. Следовательно, `Vue.nextTick` не требуется.
+Vue Test Utils генерирует событие синхронно. Следовательно, `Vue.nextTick` не требуется.

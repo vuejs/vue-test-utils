@@ -1,11 +1,12 @@
 ## trigger(eventType [, options ])
 
-Генерирует событие на каждом `Wrapper` в `WrapperArray` DOM узле.
+Генерирует событие на каждом `Wrapper` в `WrapperArray` DOM-узле.
 
 **Обратите внимание, что каждый `Wrapper` должен содержать экземпляр Vue.**
 
 - **Принимает:**
-  - `{string} eventName`
+  - `{string} eventType` **обязательный**
+  - `{Object} options`  **опциональный**
 
 - **Пример:**
 

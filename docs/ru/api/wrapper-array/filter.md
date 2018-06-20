@@ -2,7 +2,7 @@
 
 Фильтр `WrapperArray` с функцией предиката на объектах `Wrapper`.
 
-Поведение этого метода похоже на [Array.prototype.filter](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter).
+Поведение этого метода похоже на [Array.prototype.filter](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/Array/filter).
 
 - **Аргументы:**
   - `{function} predicate`

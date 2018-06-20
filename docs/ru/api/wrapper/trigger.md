@@ -1,12 +1,12 @@
-## trigger(eventName)
+## trigger(eventType [, options ])
 
-Вызывает событие на `Wrapper` DOM узле.
+Вызывает событие на `Wrapper` DOM-узле.
 
 В `trigger` также можно передать опциональный объект `options`. Свойства объекта `options` будут добавлены к Event.
 
 - **Принимает:**
-  - `{string} eventName`
-  - `{Object} options`
+  - `{string} eventName` **обязательный**
+  - `{Object} options` **опциональный**
 
 - **Пример:**
 
@@ -31,7 +31,7 @@ expect(clickHandler.called).toBe(true)
 
 - **Установка target для event:**
 
-Под капотом, `trigger` создаёт объект `Event` и вызывает событие на элементе Wrapper.
+Под капотом `trigger` создаёт объект `Event` и вызывает событие на элементе Wrapper.
 
 Невозможно изменить значение `target` объекта `Event`, поэтому вы не можете установить `target` в объекте опций.
 

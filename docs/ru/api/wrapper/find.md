@@ -1,8 +1,8 @@
 ## find(selector)
 
-Возвращает [`Wrapper`](README.md) первого DOM узла или компонента Vue, соответствующий селектору.
+Возвращает `Wrapper` первого DOM-узла или компонента Vue, соответствующего селектору.
 
-Используйте любой валидный [селектор](../selectors.md).
+Используйте любой корректный [селектор](../selectors.md).
 
 - **Принимает:**
   - `{string|Component} selector`
@@ -17,10 +17,16 @@ import Foo from './Foo.vue'
 import Bar from './Bar.vue'
 
 const wrapper = mount(Foo)
+
 const div = wrapper.find('div')
 expect(div.is('div')).toBe(true)
+
 const bar = wrapper.find(Bar)
 expect(bar.is(Bar)).toBe(true)
-```
 
-- **См. также:** [Wrapper](README.md)
+const barByName = wrapper.find({ name: 'bar' })
+expect(barByName.is(Bar)).toBe(true)
+
+const fooRef = wrapper.find({ ref: 'foo' })
+expect(fooRef.is(Foo)).toBe(true)
+```

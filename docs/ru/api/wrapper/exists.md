@@ -2,7 +2,7 @@
 
 Проверка, что `Wrapper` или `WrapperArray` существует.
 
-Возвращает `false` если вызывается на пустом `Wrapper` или `WrapperArray`.
+Возвращает `false`, если вызывается на пустом `Wrapper` или `WrapperArray`.
 
 - **Возвращает:** `{boolean}`
 

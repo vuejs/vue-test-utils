@@ -165,7 +165,7 @@ describe('Counter.vue', () => {
 И теперь мы можем запустить тест:
 
 ```
-npm run unit
+npm run test
 ```
 
 Ура, мы запустили наши тесты!
@@ -176,7 +176,7 @@ npm run unit
 
 ### Ресурсы
 
-- [Пример проекта для этой конфигурации](https://github.com/vuejs/vue-test-utils-mocha-webpack-example)
+- [Пример проекта для этой настройки](https://github.com/vuejs/vue-test-utils-mocha-webpack-example)
 - [Mocha](https://mochajs.org/)
 - [mocha-webpack](http://zinserjan.github.io/mocha-webpack/)
 - [Chai](http://chaijs.com/)

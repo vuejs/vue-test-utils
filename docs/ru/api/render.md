@@ -1,6 +1,6 @@
 ## render()
 
-- **Аргумент:**
+- **Принимает:**
 
   - `{Component} component`
   - `{Object} options`
@@ -23,7 +23,7 @@
 
 Рендерит объект в строку и возвращает [обёртку cheerio](https://github.com/cheeriojs/cheerio).
 
-Cheerio - библиотека, похожая на jQuery, для навигации по DOM в Node.js. Она имеет аналогичный API в [`Wrapper`](wrapper/) Vue Test Utils.
+Cheerio — библиотека, похожая на jQuery, для навигации по DOM в Node.js. Она имеет аналогичный API в [`Wrapper`](wrapper/) Vue Test Utils.
 
 `render` использует [`vue-server-renderer`](https://ssr.vuejs.org/en/basic.html) под капотом для рендеринга компонента в статический HTML.
 

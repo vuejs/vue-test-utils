@@ -1,6 +1,6 @@
 ### attributes()
 
-Возвращает объект атрибутов DOM-узла `Wrapper`.
+Возвращает объект атрибута DOM-узла `Wrapper`.
 
 - **Возвращает:** `{[attribute: string]: any}`
 

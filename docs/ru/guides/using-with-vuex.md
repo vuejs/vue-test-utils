@@ -1,6 +1,8 @@
 ## Использование с Vuex
 
-В этом руководстве мы рассмотрим как тестировать Vuex в компонентах с `vue-test-utils`.
+В этом руководстве мы рассмотрим как тестировать Vuex в компонентах с Vue Test Utils и как подходить к тестированию хранилища Vuex.
+
+## Тестирование Vuex в компонентах
 
 ### Создание моков для действий
 
@@ -67,7 +69,7 @@ describe('Actions.vue', () => {
     })
   })
 
-  it('вызывает "actionInput", когда значение события "input"', () => {
+  it('вызывает "actionInput", когда значение события — "input"', () => {
     const wrapper = shallowMount(Actions, { store, localVue })
     const input = wrapper.find('input')
     input.element.value = 'input'
@@ -91,7 +93,7 @@ describe('Actions.vue', () => {
 })
 ```
 
-Что тут происходит? Сначала мы говорим Vue использовать Vuex с помощью метода `localVue.use`. Это всего лишь обёртка вокруг `Vue.use`.
+Что тут происходит? Сначала мы указываем Vue использовать Vuex с помощью метода `localVue.use`. Это всего лишь обёртка вокруг `Vue.use`.
 
 Затем мы создаём мок хранилища вызовом `new Vuex.store` с нашими заготовленными значениями. Мы передаём ему только действия, так как это всё, что нам необходимо.
 
@@ -108,6 +110,7 @@ describe('Actions.vue', () => {
 Отлично, теперь мы можем создавать моки действий, давайте посмотрим на создание моков для геттеров.
 
 ### Создание моков для геттеров
+
 
 ``` html
 <template>
@@ -173,7 +176,7 @@ describe('Getters.vue', () => {
 
 Этот тест очень похож на тест действий. Мы создаём мок хранилища перед каждым тестом, передаём его в качестве опции когда вызываем `shallowMount`, и проверяем что значение вернувшееся из мока-геттера отображается.
 
-Это здорово, но что, если мы хотим проверить, что наши геттеры возвращают правильную часть нашего состояния?
+Это здорово, но что, если мы хотим проверить, что наши геттеры возвращают корректную часть нашего состояния?
 
 ### Создание моков с модулями
 
@@ -213,23 +216,21 @@ export default{
 ``` js
 import { shallowMount, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
-import Modules from '../../../src/components/Modules'
-import module from '../../../src/store/module'
+import MyComponent from '../../../src/components/MyComponent'
+import myModule from '../../../src/store/myModule'
 
 const localVue = createLocalVue()
 
 localVue.use(Vuex)
 
-describe('Modules.vue', () => {
+describe('MyComponent.vue', () => {
   let actions
   let state
   let store
 
   beforeEach(() => {
     state = {
-      module: {
-        clicks: 2
-      }
+      clicks: 2
     }
 
     actions = {
@@ -237,29 +238,155 @@ describe('Modules.vue', () => {
     }
 
     store = new Vuex.Store({
-      state,
-      actions,
-      getters: module.getters
+      modules: {
+        myModule: {
+          state,
+          actions,
+          getters: myModule.getters
+        }
+      }
     })
   })
 
   it('вызывает действие "moduleActionClick" при нажатии кнопки', () => {
-    const wrapper = shallowMount(Modules, { store, localVue })
+    const wrapper = shallowMount(MyComponent, { store, localVue })
     const button = wrapper.find('button')
     button.trigger('click')
     expect(actions.moduleActionClick).toHaveBeenCalled()
   })
 
   it('отображает "state.inputValue" в первом теге p', () => {
-    const wrapper = shallowMount(Modules, { store, localVue })
+    const wrapper = shallowMount(MyComponent, { store, localVue })
     const p = wrapper.find('p')
-    expect(p.text()).toBe(state.module.clicks.toString())
+    expect(p.text()).toBe(state.clicks.toString())
   })
 })
 ```
 
+### Тестирование хранилища Vuex
+
+Существуют два подхода к тестированию хранилища Vuex. Первый подход заключается в модульном тестировании геттеров, изменений и действий отдельно. Второй подход — создать хранилище и протестировать его. Мы рассмотрим оба подхода.
+
+Чтобы понять, как протестировать хранилище Vuex, мы создадим простое хранилище-счетчик. В хранилище есть мутация `increment` и геттер `evenOrOdd`.
+
+```js
+// mutations.js
+export default {
+  increment (state) {
+    state.count++
+  }
+}
+```
+
+```js
+// getters.js
+export default {
+  evenOrOdd: state => state.count % 2 === 0 ? 'even' : 'odd'
+}
+```
+
+### Тестирование геттеров, мутаций и действий отдельно
+
+Геттеры, мутации и действия — JavaScript-функции, поэтому мы можем протестировать их без использования Vue Test Utils и Vuex.
+
+Преимущество тестирования геттеров, мутаций и действий по отдельности заключается в том, как ваши модульные тесты подробно описаны. Когда они терпят неудачу, вы точно знаете, что не так с вашим кодом. Недостатком является то, что вы нужны моки функций Vuex, таких как `commit` и `dispatch`. Это может привести к ситуации, когда модульные тесты проходят, но production-код терпит неудачу, потому что моки некорректные.
+
+Мы создадим два тестовых файла: `mutations.spec.js` и `getters.spec.js`:
+
+Сначала давайте протестируем мутации `increment`:
+
+```js
+// mutations.spec.js
+
+import mutations from './mutations'
+
+test('increment increments state.count by 1', () => {
+  const state = {
+    count: 0
+  }
+  mutations.increment(state)
+  expect(state.count).toBe(1)
+})
+```
+
+Теперь давайте протестируем геттер `evenOrOdd`. Мы можем протестировать его, путём создания мока для `state`, вызвав геттер с `state` и проверкой, что возвращается корректное значение.
+
+```js
+// getters.spec.js
+
+import getters from './getters'
+
+test('evenOrOdd возвращает even, если в state.count находится even', () => {
+  const state = {
+    count: 2
+  }
+  expect(getters.evenOrOdd(state)).toBe('even')
+})
+
+test('evenOrOdd возвращает odd, если в state.count находится odd', () => {
+  const state = {
+    count: 1
+  }
+  expect(getters.evenOrOdd(state)).toBe('odd')
+})
+
+```
+
+### Тестирование запущенного хранилища
+
+Другой подход к тестированию хранилища Vuex — это создание запущенного хранилища с использованием конфигурации хранилища.
+
+Преимущество тестирования создания экземпляра запущенного хранилища заключается в том,что нам не нужны моки для функций Vuex.
+
+Недостатком является то, что если тест ломается, может быть трудно найти, в чём проблема.
+
+Давайте напишем тест. Когда мы создаем, мы будем использовать `localVue`, чтобы избежать загрязнения базового конструктора Vue. Тест создает хранилище, используя экспорт `store-config.js`:
+
+```js
+// store-config.spec.js
+
+import mutations from './mutations'
+import getters from './getters'
+
+export default {
+  state: {
+    count: 0
+  },
+  mutations,
+  getters
+}
+```
+
+```js
+import { createLocalVue } from '@vue/test-utils'
+import Vuex from 'vuex'
+import storeConfig from './store-config'
+import { cloneDeep } from 'lodash'
+
+test('инкрементирует значение счетчика, когда происходит инкремент', () => {
+  const localVue = createLocalVue()
+  localVue.use(Vuex)
+  const store = new Vuex.Store(cloneDeep(storeConfig))
+  expect(store.state.count).toBe(0)
+  store.commit('increment')
+  expect(store.state.count).toBe(1)
+})
+
+test('обновляет геттер evenOrOdd, когда происходит инкремент', () => {
+  const localVue = createLocalVue()
+  localVue.use(Vuex)
+  const store = new Vuex.Store(cloneDeep(storeConfig))
+  expect(store.getters.evenOrOdd).toBe('even')
+  store.commit('increment')
+  expect(store.getters.evenOrOdd).toBe('odd')
+})
+```
+
+Обратите внимание, что мы используем `cloneDeep` дял клонирования конфигурации хранилища перед созанием храналища с ним. Это связано с тем, что Vuex мутирует объект с опциями, используемый для создания хранилища. Чтобы убедиться, у нас есть пустое хранилище в каждом тесте, нам нужно клонировать объект `storeConfig`.
+
 ### Ресурсы
 
-- [Пример проекта для этого руководства](https://github.com/eddyerburgh/vue-test-utils-vuex-example)
+- [Пример проекта тестирования компонентов](https://github.com/eddyerburgh/vue-test-utils-vuex-example)
+- [Пример проекта тестирования хранилища](https://github.com/eddyerburgh/testing-vuex-store-example)
 - [`localVue`](../api/options.md#localvue)
 - [`createLocalVue`](../api/createLocalVue.md)

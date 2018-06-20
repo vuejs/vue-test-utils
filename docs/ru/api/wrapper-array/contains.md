@@ -1,8 +1,8 @@
 ### contains(selector)
 
-Проверка, что каждый `Wrapper` в `WrapperArray` содержит указанный селектор.
+Проверка, что каждая обёртка (`Wrapper`) в `WrapperArray` содержит селектор.
 
-Используйте любой валидный [селектор](../selectors.md).
+Используйте любой корректный [селектор](../selectors.md).
 
 - **Принимает:**
   - `{string|Component} selector`

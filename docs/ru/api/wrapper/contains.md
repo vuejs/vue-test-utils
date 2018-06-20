@@ -1,4 +1,4 @@
-## `contains(selector)`
+## contains(selector)
 
 Проверка, что `Wrapper` содержит элемент или компонент, соответствующий [селектору](../selectors.md).
 
