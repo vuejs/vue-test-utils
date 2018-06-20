@@ -107,7 +107,8 @@ shallowMount(Component, {
     // заглушка со специальной реализацией
     'registered-component': Foo,
     // создание заглушки по умолчанию
-    // в данном случае имя компонент заглушки по умолчанию - это another-component
+    // в нашем случае имя компонента заглушки
+    // по умолчанию - это another-component
     // заглушка по умолчанию - <${the component name of default stub}-stub>.
     'another-component': true
   }
