@@ -48,8 +48,7 @@ npm install --save-dev vue-jest
     "transform": {
       // обрабатываем `*.vue` файлы с помощью `vue-jest`
       ".*\\.(vue)$": "<rootDir>/node_modules/vue-jest"
-    },
-    "mapCoverage": true
+    }
   }
 }
 ```
@@ -159,7 +158,7 @@ Jest рекомендует создать каталог `__tests__` рядом
 
 Jest может быть использован для генерации отчётов о покрытии кода в нескольких форматах. Ниже приведён простой пример для начала:
 
-Расширьте вашу конфигурацию `jest` (обычно расположенную в `package.json` или `jest.config.js`) с помощью опции [collectCoverage](https://facebook.github.io/jest/docs/en/configuration.html#collectcoverage-boolean), и затем добавьте массив [collectCoverageFrom](https://facebook.github.io/jest/docs/en/configuration.html#collectcoveragefrom-array) для определения файлов, для которых требуется собирать информацию о покрытии. Вы также можете установить [mapCoverage](https://facebook.github.io/jest/docs/en/configuration.html#mapcoverage-boolean) в значение `true`, для более аккуратного сбора информации о покрытии.
+Расширьте вашу конфигурацию `jest` (обычно расположенную в `package.json` или `jest.config.js`) с помощью опции [collectCoverage](https://facebook.github.io/jest/docs/en/configuration.html#collectcoverage-boolean), и затем добавьте массив [collectCoverageFrom](https://facebook.github.io/jest/docs/en/configuration.html#collectcoveragefrom-array) для определения файлов, для которых требуется собирать информацию о покрытии.
 
 ```json
 {
@@ -169,8 +168,7 @@ Jest может быть использован для генерации отч
     "collectCoverageFrom": [
       "**/*.{js,vue}",
       "!**/node_modules/**"
-    ],
-    "mapCoverage": true
+    ]
   }
 }
 ```
