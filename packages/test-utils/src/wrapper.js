@@ -183,7 +183,7 @@ export default class Wrapper implements BaseWrapper {
     warn(
       `hasAttribute() has been deprecated and will be ` +
       `removed in version 1.0.0. Use attributes() ` +
-      `instead—https://vue-test-utils.vuejs.org/en/api/wrapper/attributes`
+      `instead—https://vue-test-utils.vuejs.org/api/wrapper/attributes.html`
     )
 
     if (typeof attribute !== 'string') {
@@ -208,7 +208,7 @@ export default class Wrapper implements BaseWrapper {
     warn(
       `hasClass() has been deprecated and will be removed ` +
       `in version 1.0.0. Use classes() ` +
-      `instead—https://vue-test-utils.vuejs.org/en/api/wrapper/classes`
+      `instead—https://vue-test-utils.vuejs.org/api/wrapper/classes.html`
     )
     let targetClass = className
 
@@ -235,7 +235,7 @@ export default class Wrapper implements BaseWrapper {
     warn(
       `hasProp() has been deprecated and will be removed ` +
       `in version 1.0.0. Use props() ` +
-      `instead—https://vue-test-utils.vuejs.org/en/api/wrapper/props`
+      `instead—https://vue-test-utils.vuejs.org/api/wrapper/props.html`
     )
 
     if (!this.isVueInstance()) {
