@@ -1,39 +1,8 @@
 // @flow
 
-import { compileToFunctions } from 'vue-template-compiler'
 import { throwError } from 'shared/util'
 import { validateSlots } from './validate-slots'
-
-function createFunctionalSlots (slots = {}, h) {
-  if (Array.isArray(slots.default)) {
-    return slots.default.map(h)
-  }
-
-  if (typeof slots.default === 'string') {
-    return [h(compileToFunctions(slots.default))]
-  }
-  const children = []
-  Object.keys(slots).forEach(slotType => {
-    if (Array.isArray(slots[slotType])) {
-      slots[slotType].forEach(slot => {
-        const component =
-          typeof slot === 'string' ? compileToFunctions(slot) : slot
-        const newSlot = h(component)
-        newSlot.data.slot = slotType
-        children.push(newSlot)
-      })
-    } else {
-      const component =
-        typeof slots[slotType] === 'string'
-          ? compileToFunctions(slots[slotType])
-          : slots[slotType]
-      const slot = h(component)
-      slot.data.slot = slotType
-      children.push(slot)
-    }
-  })
-  return children
-}
+import { createSlotVNodes } from './add-slots'
 
 export default function createFunctionalComponent (
   component: Component,
@@ -56,7 +25,7 @@ export default function createFunctionalComponent (
           mountingOptions.context.children.map(
             x => (typeof x === 'function' ? x(h) : x)
           )) ||
-          createFunctionalSlots(mountingOptions.slots, h)
+          createSlotVNodes(h, mountingOptions.slots || {})
       )
     },
     name: component.name,

@@ -171,14 +171,13 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
     expect(wrapper.find('p').exists()).to.equal(false)
   })
 
-  it('stubs Vue class component children', () => {
-    if (vueVersion < 2.3) {
-      return
-    }
-    const wrapper = shallowMount(ComponentAsAClassWithChild)
-    expect(wrapper.find(Component).exists()).to.equal(true)
-    expect(wrapper.findAll('div').length).to.equal(1)
-  })
+  itDoNotRunIf(
+    vueVersion < 2.3,
+    'stubs Vue class component children', () => {
+      const wrapper = shallowMount(ComponentAsAClassWithChild)
+      expect(wrapper.find(Component).exists()).to.equal(true)
+      expect(wrapper.findAll('div').length).to.equal(1)
+    })
 
   it('works correctly with find, contains, findAll, and is on unnamed components', () => {
     const TestComponent = {

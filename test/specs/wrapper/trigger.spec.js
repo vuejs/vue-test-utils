@@ -158,10 +158,10 @@ describeWithShallowAndMount('trigger', mountingMethod => {
   })
 
   it('throws error if wrapper does not contain element', () => {
-    const wrapper = mountingMethod({ render: h => h('div') })
-    const div = wrapper.find('div')
-    div.element = null
-    const fn = () => div.trigger('click')
+    const wrapper = mountingMethod({ template: '<div><p/></div>' })
+    const p = wrapper.find('p')
+    p.element = null
+    const fn = () => p.trigger('click')
     const message =
       '[vue-test-utils]: cannot call wrapper.trigger() on a wrapper without an element'
     expect(fn)

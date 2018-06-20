@@ -58,20 +58,15 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     }
   })
 
-  it('returns new VueWrapper with mounted Vue instance initialized with Vue.extend with props, if passed as propsData', () => {
-    const prop1 = { test: 'TEST' }
+  it('handles propsData for extended components', () => {
+    const prop1 = 'test'
     const TestComponent = Vue.extend(ComponentWithProps)
     const wrapper = mount(TestComponent, {
       propsData: {
         prop1
       }
     })
-    expect(wrapper.vm).to.be.an('object')
-    if (wrapper.vm.$props) {
-      expect(wrapper.vm.$props.prop1).to.equal(prop1)
-    } else {
-      expect(wrapper.vm.$options.propsData.prop1).to.equal(prop1)
-    }
+    expect(wrapper.text()).to.contain(prop1)
   })
 
   it('handles uncompiled extended Vue component', () => {
@@ -169,7 +164,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
 
   it('logs if component is extended', () => {
     const msg =
-      `[vue-test-utils]: an extended child component ChildComponent ` +
+      `[vue-test-utils]: an extended child component <ChildComponent> ` +
       `has been modified to ensure it has the correct instance properties. ` +
       `This means it is not possible to find the component with a component ` +
       `selector. To find the component, you must stub it manually using the ` +

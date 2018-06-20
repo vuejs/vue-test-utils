@@ -59,7 +59,14 @@ export default function createInstance (
       ...stubComponents
     }
   }
-
+  _Vue.mixin({
+    created () {
+      Object.assign(
+        this.$options.components,
+        stubComponents
+      )
+    }
+  })
   Object.keys(component.components || {}).forEach(c => {
     if (
       component.components[c].extendOptions &&
@@ -67,7 +74,7 @@ export default function createInstance (
     ) {
       if (options.logModifiedComponents) {
         warn(
-          `an extended child component ${c} has been modified ` +
+          `an extended child component <${c}> has been modified ` +
           `to ensure it has the correct instance properties. ` +
           `This means it is not possible to find the component ` +
           `with a component selector. To find the component, ` +
@@ -79,14 +86,13 @@ export default function createInstance (
     }
   })
 
-  Object.keys(stubComponents).forEach(c => {
-    _Vue.component(c, stubComponents[c])
-  })
+  if (component.options) {
+    component.options._base = _Vue
+  }
 
-  const Constructor =
-    vueVersion < 2.3 && typeof component === 'function'
-      ? component.extend(instanceOptions)
-      : _Vue.extend(component).extend(instanceOptions)
+  const Constructor = vueVersion < 2.3 && typeof component === 'function'
+    ? component.extend(instanceOptions)
+    : _Vue.extend(component).extend(instanceOptions)
 
   Object.keys(instanceOptions.components || {}).forEach(key => {
     Constructor.component(key, instanceOptions.components[key])

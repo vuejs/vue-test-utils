@@ -323,4 +323,22 @@ describeWithShallowAndMount('findAll', mountingMethod => {
         .with.property('message', message)
     })
   })
+
+  itDoNotRunIf(
+    mountingMethod.name === 'shallowMount',
+    'returns a WrapperArray which includes VueWrapper if the elements binds a Vue instance', () => {
+      const childComponent = {
+        name: 'bar',
+        template: '<p class="foo" />'
+      }
+      const wrapper = mountingMethod({
+        name: 'foo',
+        template: '<div class="foo"><p class="foo" /><child-component /></div>',
+        components: { childComponent }
+      })
+      const wrappers = wrapper.findAll('.foo')
+      expect(wrappers.at(0).vm.$options.name).to.equal('foo')
+      expect(wrappers.at(1).vm).to.equal(undefined)
+      expect(wrappers.at(2).vm.$options.name).to.equal('bar')
+    })
 })
