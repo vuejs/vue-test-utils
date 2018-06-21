@@ -6,7 +6,7 @@ import {
 } from '~resources/utils'
 import { itSkipIf } from 'conditional-specs'
 
-describeWithShallowAndMount('props', (mountingMethod) => {
+describeWithShallowAndMount('props', mountingMethod => {
   it('returns true if wrapper has prop', () => {
     const prop1 = {}
     const prop2 = 'string val'
@@ -36,8 +36,23 @@ describeWithShallowAndMount('props', (mountingMethod) => {
     expect(wrapper.props()).to.eql({ prop1: {}, prop2: 'val2' }) // fail
   })
 
-  itSkipIf(!functionalSFCsSupported,
-    'works correctly a functional component', () => {
+  it('returns default props', () => {
+    const TestComponent = {
+      render: () => {},
+      props: {
+        message: {
+          default: () => 'hello'
+        }
+      }
+    }
+    const wrapper = mountingMethod(TestComponent)
+    expect(wrapper.props().message).to.equal('hello')
+  })
+
+  itSkipIf(
+    !functionalSFCsSupported,
+    'works correctly a functional component',
+    () => {
       const FunctionalComponent = {
         render: h => h('div'),
         functional: true,
@@ -54,17 +69,26 @@ describeWithShallowAndMount('props', (mountingMethod) => {
         }
       })
       if (mountingMethod.name === 'mount') {
-        const message = '[vue-test-utils]: wrapper.props() cannot be called on a mounted functional component.'
+        const message =
+          '[vue-test-utils]: wrapper.props() cannot be called on a mounted functional component.'
         const fn = () => wrapper.find(FunctionalComponent).props()
-        expect(fn).to.throw().with.property('message', message)
+        expect(fn)
+          .to.throw()
+          .with.property('message', message)
       }
-    })
+    }
+  )
 
   it('throws an error if called on a non vm wrapper', () => {
     const compiled = compileToFunctions('<div><p /></div>')
-    const p = mountingMethod(compiled).findAll('p').at(0)
-    const message = '[vue-test-utils]: wrapper.props() must be called on a Vue instance'
+    const p = mountingMethod(compiled)
+      .findAll('p')
+      .at(0)
+    const message =
+      '[vue-test-utils]: wrapper.props() must be called on a Vue instance'
     const fn = () => p.props()
-    expect(fn).to.throw().with.property('message', message)
+    expect(fn)
+      .to.throw()
+      .with.property('message', message)
   })
 })

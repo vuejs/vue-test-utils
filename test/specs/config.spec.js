@@ -1,24 +1,23 @@
+import { describeWithShallowAndMount, vueVersion } from '~resources/utils'
+import ComponentWithProps from '~resources/components/component-with-props.vue'
+import { itDoNotRunIf, itSkipIf } from 'conditional-specs'
 import {
-  describeWithShallowAndMount,
-  vueVersion
-} from '~resources/utils'
-import {
-  itDoNotRunIf,
-  itSkipIf
-} from 'conditional-specs'
-import { config, TransitionStub, TransitionGroupStub, createLocalVue } from '~vue/test-utils'
+  config,
+  TransitionStub,
+  TransitionGroupStub,
+  createLocalVue
+} from '~vue/test-utils'
 import Vue from 'vue'
 
-describeWithShallowAndMount('config', (mountingMethod) => {
-  let configStubsSave
-  let consoleError
-  let configLogSave
+describeWithShallowAndMount('config', mountingMethod => {
+  let configStubsSave, consoleError, configLogSave, configSilentSave
 
   beforeEach(() => {
     TransitionGroupStub.name = 'another-temp-name'
     TransitionStub.name = 'a-temp-name'
     configStubsSave = config.stubs
     configLogSave = config.logModifiedComponents
+    configSilentSave = config.silent
     consoleError = sinon.stub(console, 'error')
   })
 
@@ -27,11 +26,14 @@ describeWithShallowAndMount('config', (mountingMethod) => {
     TransitionStub.name = 'transition'
     config.stubs = configStubsSave
     config.logModifiedComponents = configLogSave
+    config.silent = configSilentSave
     consoleError.restore()
   })
 
-  itDoNotRunIf(mountingMethod.name === 'shallowMount',
-    'stubs transition and transition-group by default', () => {
+  itDoNotRunIf(
+    mountingMethod.name === 'shallowMount',
+    'stubs transition and transition-group by default',
+    () => {
       const testComponent = {
         template: `
         <div>
@@ -43,7 +45,8 @@ describeWithShallowAndMount('config', (mountingMethod) => {
       const wrapper = mountingMethod(testComponent)
       expect(wrapper.contains(TransitionStub)).to.equal(true)
       expect(wrapper.contains(TransitionGroupStub)).to.equal(true)
-    })
+    }
+  )
 
   it('mocks a global variable', () => {
     const localVue = createLocalVue()
@@ -59,7 +62,8 @@ describeWithShallowAndMount('config', (mountingMethod) => {
     config.mocks['$t'] = 'mock value'
 
     const wrapper = mountingMethod(testComponent, {
-      localVue, t
+      localVue,
+      t
     })
 
     expect(wrapper.vm.$t).to.equal('mock value')
@@ -83,7 +87,7 @@ describeWithShallowAndMount('config', (mountingMethod) => {
     expect(wrapper.text()).to.equal('method')
   })
 
-  it('doesn\'t stub transition when config.stubs.transition is set to false', () => {
+  it("doesn't stub transition when config.stubs.transition is set to false", () => {
     const testComponent = {
       template: `
         <div>
@@ -96,7 +100,7 @@ describeWithShallowAndMount('config', (mountingMethod) => {
     expect(wrapper.contains(TransitionStub)).to.equal(false)
   })
 
-  it('doesn\'t stub transition when config.stubs.transition is set to false', () => {
+  it("doesn't stub transition when config.stubs.transition is set to false", () => {
     const testComponent = {
       template: `
         <div>
@@ -109,7 +113,7 @@ describeWithShallowAndMount('config', (mountingMethod) => {
     expect(wrapper.contains(TransitionGroupStub)).to.equal(false)
   })
 
-  it('doesn\'t stub transition when config.stubs is set to false', () => {
+  it("doesn't stub transition when config.stubs is set to false", () => {
     config.stubs = false
     const testComponent = {
       template: `
@@ -123,7 +127,7 @@ describeWithShallowAndMount('config', (mountingMethod) => {
     expect(wrapper.contains(TransitionStub)).to.equal(false)
   })
 
-  it('doesn\'t stub transition when config.stubs is set to a string', () => {
+  it("doesn't stub transition when config.stubs is set to a string", () => {
     config.stubs = 'a string'
     const testComponent = {
       template: `
@@ -137,9 +141,42 @@ describeWithShallowAndMount('config', (mountingMethod) => {
     expect(wrapper.contains(TransitionStub)).to.equal(false)
   })
 
+  it("doesn't throw Vue warning when silent is set to true", () => {
+    config.silent = true
+    const localVue = createLocalVue()
+    const wrapper = mountingMethod(ComponentWithProps, {
+      propsData: {
+        prop1: 'example'
+      },
+      localVue
+    })
+    expect(wrapper.vm.prop1).to.equal('example')
+    wrapper.setProps({
+      prop1: 'new value'
+    })
+    expect(consoleError.called).to.equal(false)
+  })
+
+  it('does throw Vue warning when silent is set to false', () => {
+    config.silent = false
+    const localVue = createLocalVue()
+    const wrapper = mountingMethod(ComponentWithProps, {
+      propsData: {
+        prop1: 'example'
+      },
+      localVue
+    })
+    expect(wrapper.vm.prop1).to.equal('example')
+    wrapper.setProps({
+      prop1: 'new value'
+    })
+    expect(consoleError.called).to.equal(true)
+  })
+
   itSkipIf(
     vueVersion < 2.3,
-    'does not log when component is extended if logModifiedComponents is false', () => {
+    'does not log when component is extended if logModifiedComponents is false',
+    () => {
       const ChildComponent = Vue.extend({
         template: '<span />'
       })
@@ -152,5 +189,6 @@ describeWithShallowAndMount('config', (mountingMethod) => {
       config.logModifiedComponents = false
       mountingMethod(TestComponent)
       expect(consoleError.called).to.equal(false)
-    })
+    }
+  )
 })

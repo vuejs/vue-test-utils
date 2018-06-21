@@ -7,7 +7,7 @@ import {
 import Vue from 'vue'
 import { itDoNotRunIf } from 'conditional-specs'
 
-describeWithShallowAndMount('trigger', (mountingMethod) => {
+describeWithShallowAndMount('trigger', mountingMethod => {
   let info
 
   beforeEach(() => {
@@ -124,7 +124,8 @@ describeWithShallowAndMount('trigger', (mountingMethod) => {
 
   itDoNotRunIf(
     !scopedSlotsSupported,
-    'handles instances without update watchers', () => {
+    'handles instances without update watchers',
+    () => {
       const vm = new Vue()
       const item = () => vm.$createElement('button')
       const TestComponent = {
@@ -139,36 +140,56 @@ describeWithShallowAndMount('trigger', (mountingMethod) => {
       const wrapper = mountingMethod(TestComponent)
 
       wrapper.findAll('button').trigger('click')
-    })
+    }
+  )
 
   it('throws error if options contains a target value', () => {
-    const wrapper = mountingMethod({ render: (h) => h('div') })
+    const wrapper = mountingMethod({ render: h => h('div') })
     const div = wrapper.find('div')
-    const fn = () => div.trigger('click', {
-      target: {}
-    })
-    const message = '[vue-test-utils]: you cannot set the target value of an event. See the notes section of the docs for more details—https://vue-test-utils.vuejs.org/api/wrapper/trigger.html'
-    expect(fn).to.throw().with.property('message', message)
+    const fn = () =>
+      div.trigger('click', {
+        target: {}
+      })
+    const message =
+      '[vue-test-utils]: you cannot set the target value of an event. See the notes section of the docs for more details—https://vue-test-utils.vuejs.org/api/wrapper/trigger.html'
+    expect(fn)
+      .to.throw()
+      .with.property('message', message)
   })
 
   it('throws error if wrapper does not contain element', () => {
-    const wrapper = mountingMethod({ render: (h) => h('div') })
-    const div = wrapper.find('div')
-    div.element = null
-    const fn = () => div.trigger('click')
-    const message = '[vue-test-utils]: cannot call wrapper.trigger() on a wrapper without an element'
-    expect(fn).to.throw().with.property('message', message)
+    const wrapper = mountingMethod({ template: '<div><p/></div>' })
+    const p = wrapper.find('p')
+    p.element = null
+    const fn = () => p.trigger('click')
+    const message =
+      '[vue-test-utils]: cannot call wrapper.trigger() on a wrapper without an element'
+    expect(fn)
+      .to.throw()
+      .with.property('message', message)
   })
 
   it('throws an error if type is not a string', () => {
     const wrapper = mountingMethod(ComponentWithEvents)
     const invalidSelectors = [
-      undefined, null, NaN, 0, 2, true, false, () => {}, {}, []
+      undefined,
+      null,
+      NaN,
+      0,
+      2,
+      true,
+      false,
+      () => {},
+      {},
+      []
     ]
-    invalidSelectors.forEach((invalidSelector) => {
-      const message = '[vue-test-utils]: wrapper.trigger() must be passed a string'
+    invalidSelectors.forEach(invalidSelector => {
+      const message =
+        '[vue-test-utils]: wrapper.trigger() must be passed a string'
       const fn = () => wrapper.trigger(invalidSelector)
-      expect(fn).to.throw().with.property('message', message)
+      expect(fn)
+        .to.throw()
+        .with.property('message', message)
     })
   })
 })

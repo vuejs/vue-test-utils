@@ -147,6 +147,7 @@ interface VueTestUtilsConfigOptions {
   methods?: Record<string, Function>
   provide?: object,
   logModifiedComponents?: Boolean
+  silent?: Boolean
 }
 
 export declare function createLocalVue (): typeof Vue

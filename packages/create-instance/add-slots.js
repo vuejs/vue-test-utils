@@ -11,14 +11,12 @@ function createVNodesForSlot (
   slotValue: SlotValue,
   name: string
 ): VNode | string {
-  if (typeof slotValue === 'string' &&
-  !startsWithTag(slotValue)) {
+  if (typeof slotValue === 'string' && !startsWithTag(slotValue)) {
     return slotValue
   }
 
-  const el = typeof slotValue === 'string'
-    ? compileToFunctions(slotValue)
-    : slotValue
+  const el =
+    typeof slotValue === 'string' ? compileToFunctions(slotValue) : slotValue
 
   const vnode = h(el)
   vnode.data.slot = name
@@ -32,12 +30,10 @@ export function createSlotVNodes (
   return Object.keys(slots).reduce((acc, key) => {
     const content = slots[key]
     if (Array.isArray(content)) {
-      const nodes = content.reduce((accInner, slotDef) => {
-        return accInner.concat(createVNodesForSlot(h, slotDef, key))
-      }, [])
+      const nodes = content.map(slotDef => createVNodesForSlot(h, slotDef, key))
       return acc.concat(nodes)
-    } else {
-      return acc.concat(createVNodesForSlot(h, content, key))
     }
+
+    return acc.concat(createVNodesForSlot(h, content, key))
   }, [])
 }

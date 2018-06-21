@@ -4,16 +4,15 @@ import Vue from 'vue'
 import cloneDeep from 'lodash/cloneDeep'
 import errorHandler from './error-handler'
 
-function createLocalVue (): Component {
-  const instance = Vue.extend()
+function createLocalVue (_Vue: Component = Vue): Component {
+  const instance = _Vue.extend()
 
   // clone global APIs
-  Object.keys(Vue).forEach(key => {
+  Object.keys(_Vue).forEach(key => {
     if (!instance.hasOwnProperty(key)) {
-      const original = Vue[key]
-      instance[key] = typeof original === 'object'
-        ? cloneDeep(original)
-        : original
+      const original = _Vue[key]
+      instance[key] =
+        typeof original === 'object' ? cloneDeep(original) : original
     }
   })
 

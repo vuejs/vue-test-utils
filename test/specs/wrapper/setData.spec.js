@@ -1,12 +1,9 @@
 import { compileToFunctions } from 'vue-template-compiler'
 import ComponentWithVIf from '~resources/components/component-with-v-if.vue'
 import ComponentWithWatch from '~resources/components/component-with-watch.vue'
-import {
-  describeWithShallowAndMount,
-  vueVersion
-} from '~resources/utils'
+import { describeWithShallowAndMount, vueVersion } from '~resources/utils'
 
-describeWithShallowAndMount('setData', (mountingMethod) => {
+describeWithShallowAndMount('setData', mountingMethod => {
   let info
 
   beforeEach(() => {
@@ -66,9 +63,13 @@ describeWithShallowAndMount('setData', (mountingMethod) => {
       render: (h, context) => h('div', context.prop1),
       functional: true
     }
-    const message = '[vue-test-utils]: wrapper.setData() cannot be called on a functional component'
-    const fn = () => mountingMethod(AFunctionalComponent).setData({ data1: 'data' })
-    expect(fn).to.throw().with.property('message', message)
+    const message =
+      '[vue-test-utils]: wrapper.setData() cannot be called on a functional component'
+    const fn = () =>
+      mountingMethod(AFunctionalComponent).setData({ data1: 'data' })
+    expect(fn)
+      .to.throw()
+      .with.property('message', message)
     // find on functional components isn't supported in Vue < 2.3
     if (vueVersion < 2.3) {
       return
@@ -79,8 +80,13 @@ describeWithShallowAndMount('setData', (mountingMethod) => {
         AFunctionalComponent
       }
     }
-    const fn2 = () => mountingMethod(TestComponent).find(AFunctionalComponent).setData({ data1: 'data' })
-    expect(fn2).to.throw().with.property('message', message)
+    const fn2 = () =>
+      mountingMethod(TestComponent)
+        .find(AFunctionalComponent)
+        .setData({ data1: 'data' })
+    expect(fn2)
+      .to.throw()
+      .with.property('message', message)
   })
 
   it('updates watchers if computed is updated', () => {
@@ -124,7 +130,10 @@ describeWithShallowAndMount('setData', (mountingMethod) => {
       }),
       computed: {
         reversedMessage: function () {
-          return this.message.split('').reverse().join('')
+          return this.message
+            .split('')
+            .reverse()
+            .join('')
         }
       }
     }
@@ -133,7 +142,7 @@ describeWithShallowAndMount('setData', (mountingMethod) => {
     expect(wrapper.text()).to.equal('There is no message yet')
   })
 
-  it('should update an existing property in a data object', () => {
+  it('updates an existing property in a data object', () => {
     const TestComponent = {
       data: () => ({
         anObject: {
@@ -142,7 +151,8 @@ describeWithShallowAndMount('setData', (mountingMethod) => {
           },
           propB: 'b'
         }
-      })
+      }),
+      render: () => {}
     }
     const wrapper = mountingMethod(TestComponent)
     wrapper.setData({

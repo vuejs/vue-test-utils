@@ -8,7 +8,7 @@ import Vue from 'vue'
 import { describeWithMountingMethods } from '~resources/utils'
 import { itDoNotRunIf } from 'conditional-specs'
 
-describeWithMountingMethods('options.stub', (mountingMethod) => {
+describeWithMountingMethods('options.stub', mountingMethod => {
   let info
   let warn
   let configStubsSave
@@ -58,8 +58,10 @@ describeWithMountingMethods('options.stub', (mountingMethod) => {
     }
   })
 
-  itDoNotRunIf(mountingMethod.name === 'renderToString',
-    'replaces component with a component', () => {
+  itDoNotRunIf(
+    mountingMethod.name === 'renderToString',
+    'replaces component with a component',
+    () => {
       const wrapper = mountingMethod(ComponentWithChild, {
         stubs: {
           ChildComponent: {
@@ -72,7 +74,8 @@ describeWithMountingMethods('options.stub', (mountingMethod) => {
       })
       expect(wrapper.findAll(Component).length).to.equal(1)
       expect(info.calledWith('stubbed')).to.equal(true)
-    })
+    }
+  )
 
   it('does not error if component to stub contains no components', () => {
     mountingMethod(Component, {
@@ -82,19 +85,22 @@ describeWithMountingMethods('options.stub', (mountingMethod) => {
     })
   })
 
-  itDoNotRunIf(mountingMethod.name === 'shallowMount' ||
-    mountingMethod.name === 'renderToString',
-  'does not modify component directly', () => {
-    const wrapper = mountingMethod(ComponentWithNestedChildren, {
-      stubs: {
-        ChildComponent: '<div />'
-      }
-    })
-    expect(wrapper.findAll(Component).length).to.equal(0)
+  itDoNotRunIf(
+    mountingMethod.name === 'shallowMount' ||
+      mountingMethod.name === 'renderToString',
+    'does not modify component directly',
+    () => {
+      const wrapper = mountingMethod(ComponentWithNestedChildren, {
+        stubs: {
+          ChildComponent: '<div />'
+        }
+      })
+      expect(wrapper.findAll(Component).length).to.equal(0)
 
-    const mountedWrapper = mountingMethod(ComponentWithNestedChildren)
-    expect(mountedWrapper.findAll(Component).length).to.equal(1)
-  })
+      const mountedWrapper = mountingMethod(ComponentWithNestedChildren)
+      expect(mountedWrapper.findAll(Component).length).to.equal(1)
+    }
+  )
 
   it('renders slot content in stubs', () => {
     const TestComponent = {
@@ -124,9 +130,8 @@ describeWithMountingMethods('options.stub', (mountingMethod) => {
         'registered-component': Component
       }
     })
-    const HTML = mountingMethod.name === 'renderToString'
-      ? wrapper
-      : wrapper.html()
+    const HTML =
+      mountingMethod.name === 'renderToString' ? wrapper : wrapper.html()
     expect(HTML).to.contain('</div>')
   })
 
@@ -137,75 +142,145 @@ describeWithMountingMethods('options.stub', (mountingMethod) => {
     const wrapper = mountingMethod(ComponentWithGlobalComponent, {
       stubs: ['registered-component']
     })
-    const HTML = mountingMethod.name === 'renderToString'
-      ? wrapper
-      : wrapper.html()
+    const HTML =
+      mountingMethod.name === 'renderToString' ? wrapper : wrapper.html()
     expect(HTML).to.contain('<registered-component-stub>')
   })
 
-  it('stubs components with dummy when passed a boolean', () => {
-    const ComponentWithGlobalComponent = {
-      render: h => h('div', [h('registered-component')])
-    }
-    const wrapper = mountingMethod(ComponentWithGlobalComponent, {
-      stubs: {
-        'registered-component': true
+  itDoNotRunIf(
+    mountingMethod.name === 'shallowMount',
+    'stubs nested components', () => {
+      const GrandchildComponent = {
+        template: '<span />'
       }
+      const ChildComponent = {
+        template: '<grandchild-component />',
+        components: { GrandchildComponent }
+      }
+      const TestComponent = {
+        template: '<child-component />',
+        components: { ChildComponent }
+      }
+      const wrapper = mountingMethod(TestComponent, {
+        stubs: ['grandchild-component']
+      })
+      const HTML = mountingMethod.name === 'renderToString'
+        ? wrapper
+        : wrapper.html()
+      expect(HTML).not.to.contain('<span>')
     })
-    const HTML = mountingMethod.name === 'renderToString'
-      ? wrapper
-      : wrapper.html()
-    expect(HTML).to.contain('<registered-component-stub>')
-  })
+
+  itDoNotRunIf(
+    mountingMethod.name === 'shallowMount',
+    'stubs nested components on extended components', () => {
+      const GrandchildComponent = {
+        template: '<span />'
+      }
+      const ChildComponent = {
+        template: '<grandchild-component />',
+        components: { GrandchildComponent }
+      }
+      const TestComponent = {
+        template: '<div><child-component /></div>',
+        components: { ChildComponent }
+      }
+      const wrapper = mountingMethod(Vue.extend(TestComponent), {
+        stubs: ['grandchild-component']
+      })
+      const HTML = mountingMethod.name === 'renderToString'
+        ? wrapper
+        : wrapper.html()
+      expect(HTML).not.to.contain('<span>')
+    })
+
+  itDoNotRunIf(
+    mountingMethod.name === 'renderToString',
+    'stubs components with dummy which has name when passed a boolean', () => {
+      const ComponentWithGlobalComponent = {
+        render: h => h('div', [h('registered-component')])
+      }
+      const wrapper = mountingMethod(ComponentWithGlobalComponent, {
+        stubs: {
+          'registered-component': true
+        }
+      })
+      const HTML =
+        mountingMethod.name === 'renderToString' ? wrapper : wrapper.html()
+      expect(HTML).to.contain('<registered-component-stub>')
+      expect(wrapper.find({ name: 'registered-component' }).html())
+        .to.equal('<registered-component-stub></registered-component-stub>')
+    })
 
   it('stubs components with dummy when passed as an array', () => {
     const ComponentWithGlobalComponent = {
       render: h => h('registered-component')
     }
     const invalidValues = [{}, [], 3]
-    const error = '[vue-test-utils]: each item in an options.stubs array must be a string'
+    const error =
+      '[vue-test-utils]: each item in an options.stubs array must be a string'
     invalidValues.forEach(invalidValue => {
-      const fn = () => mountingMethod(ComponentWithGlobalComponent, {
-        stubs: [invalidValue]
-      })
-      expect(fn).to.throw().with.property('message', error)
+      const fn = () =>
+        mountingMethod(ComponentWithGlobalComponent, {
+          stubs: [invalidValue]
+        })
+      expect(fn)
+        .to.throw()
+        .with.property('message', error)
     })
   })
 
   it('throws error if passed string in object when vue-template-compiler is undefined', () => {
-    const compilerSave = require.cache[require.resolve('vue-template-compiler')].exports.compileToFunctions
-    require.cache[require.resolve('vue-template-compiler')].exports.compileToFunctions = undefined
+    const compilerSave =
+      require.cache[require.resolve('vue-template-compiler')].exports
+        .compileToFunctions
+    require.cache[
+      require.resolve('vue-template-compiler')
+    ].exports.compileToFunctions = undefined
     delete require.cache[require.resolve('../../../packages/test-utils')]
-    delete require.cache[require.resolve('../../../packages/server-test-utils')]
-    const mountingMethodFresh = mountingMethod.name === 'renderToString'
-      ? require('../../../packages/server-test-utils').renderToString
-      : require('../../../packages/test-utils')[mountingMethod.name]
-    const message = '[vue-test-utils]: vueTemplateCompiler is undefined, you must pass precompiled components if vue-template-compiler is undefined'
-    const fn = () => mountingMethodFresh(Component, {
-      stubs: {
-        ChildComponent: '<div />'
-      }
-    })
+    delete require.cache[
+      require.resolve('../../../packages/server-test-utils')
+    ]
+    const mountingMethodFresh =
+      mountingMethod.name === 'renderToString'
+        ? require('../../../packages/server-test-utils').renderToString
+        : require('../../../packages/test-utils')[mountingMethod.name]
+    const message =
+      '[vue-test-utils]: vueTemplateCompiler is undefined, you must pass precompiled components if vue-template-compiler is undefined'
+    const fn = () =>
+      mountingMethodFresh(Component, {
+        stubs: {
+          ChildComponent: '<div />'
+        }
+      })
     try {
-      expect(fn).to.throw().with.property('message', message)
+      expect(fn)
+        .to.throw()
+        .with.property('message', message)
     } catch (err) {
-      require.cache[require.resolve('vue-template-compiler')].exports.compileToFunctions = compilerSave
+      require.cache[
+        require.resolve('vue-template-compiler')
+      ].exports.compileToFunctions = compilerSave
       throw err
     }
-    require.cache[require.resolve('vue-template-compiler')].exports.compileToFunctions = compilerSave
+    require.cache[
+      require.resolve('vue-template-compiler')
+    ].exports.compileToFunctions = compilerSave
   })
 
-  itDoNotRunIf(mountingMethod.name === 'shallowMount',
-    'does not stub component when set to false', () => {
+  itDoNotRunIf(
+    mountingMethod.name === 'shallowMount',
+    'does not stub component when set to false',
+    () => {
       const wrapper = mountingMethod(ComponentWithChild, {
         stubs: {
           ChildComponent: false
-        }})
-      const HTML = mountingMethod.name === 'renderToString'
-        ? wrapper
-        : wrapper.html()
+        }
+      })
+      const HTML =
+        mountingMethod.name === 'renderToString' ? wrapper : wrapper.html()
       expect(HTML).to.contain('<span><div></div></span>')
-    })
+    }
+  )
 
   it('combines with stubs from config', () => {
     const localVue = createLocalVue()
@@ -221,10 +296,7 @@ describeWithMountingMethods('options.stub', (mountingMethod) => {
     localVue.component('span-component', SpanComponent)
     localVue.component('time-component', TimeComponent)
     const TestComponent = {
-      render: h => h('div', [
-        h('span-component'),
-        h('time-component')
-      ])
+      render: h => h('div', [h('span-component'), h('time-component')])
     }
 
     const wrapper = mountingMethod(TestComponent, {
@@ -233,9 +305,8 @@ describeWithMountingMethods('options.stub', (mountingMethod) => {
       },
       localVue
     })
-    const HTML = mountingMethod.name === 'renderToString'
-      ? wrapper
-      : wrapper.html()
+    const HTML =
+      mountingMethod.name === 'renderToString' ? wrapper : wrapper.html()
     expect(HTML).to.contain('<br>')
     expect(HTML).to.contain('<p>')
   })
@@ -248,9 +319,7 @@ describeWithMountingMethods('options.stub', (mountingMethod) => {
     }
     localVue.component('time-component', TimeComponent)
     const TestComponent = {
-      render: h => h('div', [
-        h('time-component')
-      ])
+      render: h => h('div', [h('time-component')])
     }
 
     const wrapper = mountingMethod(TestComponent, {
@@ -259,11 +328,33 @@ describeWithMountingMethods('options.stub', (mountingMethod) => {
       },
       localVue
     })
-    const HTML = mountingMethod.name === 'renderToString'
-      ? wrapper
-      : wrapper.html()
+    const HTML =
+      mountingMethod.name === 'renderToString' ? wrapper : wrapper.html()
     expect(HTML).to.contain('<span>')
   })
+
+
+  itDoNotRunIf(
+    mountingMethod.name === 'shallowMount' ||
+      mountingMethod.name === 'renderToString',
+    'stubs on child components',
+    () => {
+      const TestComponent = {
+        template: '<transition><span /></transition>'
+      }
+
+      const wrapper = mountingMethod(
+        {
+          components: { 'test-component': TestComponent },
+          template: '<test-component />'
+        },
+        {
+          stubs: ['transition']
+        }
+      )
+      expect(wrapper.find('span').exists()).to.equal(false)
+    }
+  )
 
   it('converts config to array if stubs is an array', () => {
     const localVue = createLocalVue()
@@ -274,9 +365,7 @@ describeWithMountingMethods('options.stub', (mountingMethod) => {
     }
     localVue.component('time-component', TimeComponent)
     const TestComponent = {
-      render: h => h('div', [
-        h('time-component')
-      ])
+      render: h => h('div', [h('time-component')])
     }
 
     const wrapper = mountingMethod(TestComponent, {
@@ -284,9 +373,8 @@ describeWithMountingMethods('options.stub', (mountingMethod) => {
       localVue
     })
 
-    const HTML = mountingMethod.name === 'renderToString'
-      ? wrapper
-      : wrapper.html()
+    const HTML =
+      mountingMethod.name === 'renderToString' ? wrapper : wrapper.html()
     expect(HTML).to.contain('<time-component-stub>')
   })
 
@@ -310,9 +398,8 @@ describeWithMountingMethods('options.stub', (mountingMethod) => {
         'stub-component': StubComponent
       }
     })
-    const HTML = mountingMethod.name === 'renderToString'
-      ? wrapper
-      : wrapper.html()
+    const HTML =
+      mountingMethod.name === 'renderToString' ? wrapper : wrapper.html()
     expect(HTML).contains('No render function')
   })
 
@@ -332,33 +419,44 @@ describeWithMountingMethods('options.stub', (mountingMethod) => {
       '<NAME aProp="something"></NAME>',
       '<NAME  ></NAME>'
     ]
-    const error = '[vue-test-utils]: options.stub cannot contain a circular reference'
-    names.forEach((name) => {
+    const error =
+      '[vue-test-utils]: options.stub cannot contain a circular reference'
+    names.forEach(name => {
       invalidValues.forEach(invalidValue => {
-        const fn = () => mountingMethod(ComponentWithChild, {
-          stubs: {
-            ChildComponent: invalidValue.replace(/NAME/g, name)
-          }})
-        expect(fn).to.throw().with.property('message', error)
+        const fn = () =>
+          mountingMethod(ComponentWithChild, {
+            stubs: {
+              ChildComponent: invalidValue.replace(/NAME/g, name)
+            }
+          })
+        expect(fn)
+          .to.throw()
+          .with.property('message', error)
       })
-      validValues.forEach((validValue) => {
+      validValues.forEach(validValue => {
         mountingMethod(ComponentWithChild, {
           stubs: {
             ChildComponent: validValue.replace(/NAME/g, name)
-          }})
+          }
+        })
       })
     })
   })
 
   it('throws an error when passed an invalid value as stub', () => {
-    const error = '[vue-test-utils]: options.stub values must be passed a string or component'
+    const error =
+      '[vue-test-utils]: options.stub values must be passed a string or component'
     const invalidValues = [1, null, [], {}, NaN]
     invalidValues.forEach(invalidValue => {
-      const fn = () => mountingMethod(ComponentWithChild, {
-        stubs: {
-          ChildComponent: invalidValue
-        }})
-      expect(fn).to.throw().with.property('message', error)
+      const fn = () =>
+        mountingMethod(ComponentWithChild, {
+          stubs: {
+            ChildComponent: invalidValue
+          }
+        })
+      expect(fn)
+        .to.throw()
+        .with.property('message', error)
     })
   })
 })

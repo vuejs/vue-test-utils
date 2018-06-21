@@ -82,7 +82,9 @@ const wrapper = shallowMount(Component, {
     foo: '<p slot-scope="props">{{props.index}},{{props.text}}</p>'
   }
 })
-expect(wrapper.find('#fooWrapper').html()).toBe('<div id="fooWrapper"><p>0,text1</p><p>1,text2</p><p>2,text3</p></div>')
+expect(wrapper.find('#fooWrapper').html()).toBe(
+  `<div id="fooWrapper"><p>0,text1</p><p>1,text2</p><p>2,text3</p></div>`
+)
 ```
 
 ## stubs
@@ -104,7 +106,9 @@ shallowMount(Component, {
   stubs: {
     // stub with a specific implementation
     'registered-component': Foo,
-    // create default stub
+    // create default stub.
+    // the component name of default stub is another-component in this case.
+    // the default stub is <${the component name of default stub}-stub>.
     'another-component': true
   }
 })

@@ -2,10 +2,7 @@
 
 import type Wrapper from './wrapper'
 import type VueWrapper from './vue-wrapper'
-import {
-  throwError,
-  warn
-} from 'shared/util'
+import { throwError, warn } from 'shared/util'
 
 export default class WrapperArray implements BaseWrapper {
   wrappers: Array<Wrapper | VueWrapper>;
@@ -26,13 +23,19 @@ export default class WrapperArray implements BaseWrapper {
   attributes (): void {
     this.throwErrorIfWrappersIsEmpty('attributes')
 
-    throwError('attributes must be called on a single wrapper, use at(i) to access a wrapper')
+    throwError(
+      `attributes must be called on a single wrapper, use ` +
+        `at(i) to access a wrapper`
+    )
   }
 
   classes (): void {
     this.throwErrorIfWrappersIsEmpty('classes')
 
-    throwError('classes must be called on a single wrapper, use at(i) to access a wrapper')
+    throwError(
+      `classes must be called on a single wrapper, use ` +
+        `at(i) to access a wrapper`
+    )
   }
 
   contains (selector: Selector): boolean {
@@ -58,19 +61,27 @@ export default class WrapperArray implements BaseWrapper {
   emitted (): void {
     this.throwErrorIfWrappersIsEmpty('emitted')
 
-    throwError('emitted must be called on a single wrapper, use at(i) to access a wrapper')
+    throwError(
+      `emitted must be called on a single wrapper, use ` +
+        `at(i) to access a wrapper`
+    )
   }
 
   emittedByOrder (): void {
     this.throwErrorIfWrappersIsEmpty('emittedByOrder')
 
-    throwError('emittedByOrder must be called on a single wrapper, use at(i) to access a wrapper')
+    throwError(
+      `emittedByOrder must be called on a single wrapper, ` +
+        `use at(i) to access a wrapper`
+    )
   }
 
   hasAttribute (attribute: string, value: string): boolean {
     this.throwErrorIfWrappersIsEmpty('hasAttribute')
 
-    return this.wrappers.every(wrapper => wrapper.hasAttribute(attribute, value))
+    return this.wrappers.every(wrapper =>
+      wrapper.hasAttribute(attribute, value)
+    )
   }
 
   hasClass (className: string): boolean {
@@ -94,19 +105,28 @@ export default class WrapperArray implements BaseWrapper {
   findAll (): void {
     this.throwErrorIfWrappersIsEmpty('findAll')
 
-    throwError('findAll must be called on a single wrapper, use at(i) to access a wrapper')
+    throwError(
+      `findAll must be called on a single wrapper, use ` +
+        `at(i) to access a wrapper`
+    )
   }
 
   find (): void {
     this.throwErrorIfWrappersIsEmpty('find')
 
-    throwError('find must be called on a single wrapper, use at(i) to access a wrapper')
+    throwError(
+      `find must be called on a single wrapper, use at(i) ` +
+        `to access a wrapper`
+    )
   }
 
   html (): void {
     this.throwErrorIfWrappersIsEmpty('html')
 
-    throwError('html must be called on a single wrapper, use at(i) to access a wrapper')
+    throwError(
+      `html must be called on a single wrapper, use at(i) ` +
+        `to access a wrapper`
+    )
   }
 
   is (selector: Selector): boolean {
@@ -136,19 +156,28 @@ export default class WrapperArray implements BaseWrapper {
   name (): void {
     this.throwErrorIfWrappersIsEmpty('name')
 
-    throwError('name must be called on a single wrapper, use at(i) to access a wrapper')
+    throwError(
+      `name must be called on a single wrapper, use at(i) ` +
+        `to access a wrapper`
+    )
   }
 
   props (): void {
     this.throwErrorIfWrappersIsEmpty('props')
 
-    throwError('props must be called on a single wrapper, use at(i) to access a wrapper')
+    throwError(
+      `props must be called on a single wrapper, use ` +
+        `at(i) to access a wrapper`
+    )
   }
 
   text (): void {
     this.throwErrorIfWrappersIsEmpty('text')
 
-    throwError('text must be called on a single wrapper, use at(i) to access a wrapper')
+    throwError(
+      `text must be called on a single wrapper, use at(i) ` +
+        `to access a wrapper`
+    )
   }
 
   throwErrorIfWrappersIsEmpty (method: string): void {
@@ -196,7 +225,10 @@ export default class WrapperArray implements BaseWrapper {
   setSelected (): void {
     this.throwErrorIfWrappersIsEmpty('setSelected')
 
-    throwError('setSelected must be called on a single wrapper, use at(i) to access a wrapper')
+    throwError(
+      `setSelected must be called on a single wrapper, ` +
+        `use at(i) to access a wrapper`
+    )
   }
 
   trigger (event: string, options: Object): void {
@@ -207,7 +239,10 @@ export default class WrapperArray implements BaseWrapper {
 
   update (): void {
     this.throwErrorIfWrappersIsEmpty('update')
-    warn('update has been removed. All changes are now synchrnous without calling update')
+    warn(
+      `update has been removed. All changes are now ` +
+        `synchrnous without calling update`
+    )
   }
 
   destroy (): void {

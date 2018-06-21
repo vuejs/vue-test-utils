@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import { describeWithShallowAndMount } from '~resources/utils'
 
-describeWithShallowAndMount('emittedByOrder', (mountingMethod) => {
+describeWithShallowAndMount('emittedByOrder', mountingMethod => {
   it('captures emitted events in order', () => {
     const wrapper = mountingMethod({
       render: h => h('div')
@@ -34,10 +34,13 @@ describeWithShallowAndMount('emittedByOrder', (mountingMethod) => {
     const wrapper = mountingMethod({
       template: '<div><p /></div>'
     })
-    const message = '[vue-test-utils]: wrapper.emittedByOrder() can only be called on a Vue instance'
+    const message =
+      '[vue-test-utils]: wrapper.emittedByOrder() can only be called on a Vue instance'
 
     const fn = () => wrapper.find('p').emittedByOrder()
-    expect(fn).to.throw().with.property('message', message)
+    expect(fn)
+      .to.throw()
+      .with.property('message', message)
   })
 
   it('captures in lifecycle hooks emitted events in order', () => {

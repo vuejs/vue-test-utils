@@ -17,7 +17,10 @@ import { addScopedSlots } from './add-scoped-slots'
 Vue.config.productionTip = false
 Vue.config.devtools = false
 
-export default function mount (component: Component, options: Options = {}): VueWrapper {
+export default function mount (
+  component: Component,
+  options: Options = {}
+): VueWrapper {
   const existingErrorHandler = Vue.config.errorHandler
   Vue.config.errorHandler = errorHandler
 
@@ -25,12 +28,9 @@ export default function mount (component: Component, options: Options = {}): Vue
 
   // Remove cached constructor
   delete component._Ctor
+  const vueConstructor = createLocalVue(options.localVue)
 
-  const vueConstructor = options.localVue || createLocalVue()
-
-  const elm = options.attachToDocument
-    ? createElement()
-    : undefined
+  const elm = options.attachToDocument ? createElement() : undefined
 
   const mergedOptions = mergeOptions(options, config)
 
@@ -56,10 +56,12 @@ export default function mount (component: Component, options: Options = {}): Vue
     vm.$forceUpdate()
   }
 
-  const componentsWithError = findAllVueComponentsFromVm(vm).filter(c => c._error)
+  const componentsWithError = findAllVueComponentsFromVm(vm).filter(
+    c => c._error
+  )
 
   if (componentsWithError.length > 0) {
-    throw (componentsWithError[0]._error)
+    throw componentsWithError[0]._error
   }
 
   Vue.config.errorHandler = existingErrorHandler

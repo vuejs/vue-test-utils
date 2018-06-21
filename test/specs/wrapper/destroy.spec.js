@@ -2,11 +2,11 @@ import { compileToFunctions } from 'vue-template-compiler'
 import { describeWithShallowAndMount } from '~resources/utils'
 import sinon from 'sinon'
 
-describeWithShallowAndMount('destroy', (mountingMethod) => {
-  it('should trigger beforeDestroy ', () => {
+describeWithShallowAndMount('destroy', mountingMethod => {
+  it('triggers beforeDestroy ', () => {
     const spy = sinon.stub()
     mountingMethod({
-      render: null,
+      render: () => {},
       beforeDestroy () {
         spy()
       }
@@ -14,10 +14,10 @@ describeWithShallowAndMount('destroy', (mountingMethod) => {
     expect(spy.calledOnce).to.equal(true)
   })
 
-  it('should trigger destroy ', () => {
+  it('triggers destroy ', () => {
     const spy = sinon.stub()
     mountingMethod({
-      render: null,
+      render: () => {},
       destroyed () {
         spy()
       }
@@ -25,7 +25,7 @@ describeWithShallowAndMount('destroy', (mountingMethod) => {
     expect(spy.calledOnce).to.equal(true)
   })
 
-  it.skip('should remove element from document.body', () => {
+  it.skip('removes element from document.body', () => {
     const compiled = compileToFunctions('<div></div>')
     const wrapper = mountingMethod(compiled, { attachToDocument: true })
     expect(wrapper.vm.$el.parentNode).to.equal(document.body)

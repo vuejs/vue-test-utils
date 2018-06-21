@@ -1,10 +1,5 @@
 // @flow
-import {
-  throwError,
-  capitalize,
-  camelize,
-  hyphenate
-} from './util'
+import { throwError, capitalize, camelize, hyphenate } from './util'
 
 export function isDomSelector (selector: any) {
   if (typeof selector !== 'string') {
@@ -13,10 +8,16 @@ export function isDomSelector (selector: any) {
 
   try {
     if (typeof document === 'undefined') {
-      throwError('mount must be run in a browser environment like PhantomJS, jsdom or chrome')
+      throwError(
+        `mount must be run in a browser environment like ` +
+          `PhantomJS, jsdom or chrome`
+      )
     }
   } catch (error) {
-    throwError('mount must be run in a browser environment like PhantomJS, jsdom or chrome')
+    throwError(
+      `mount must be run in a browser environment like ` +
+        `PhantomJS, jsdom or chrome`
+    )
   }
 
   try {
@@ -44,16 +45,19 @@ export function isVueComponent (component: any) {
 }
 
 export function componentNeedsCompiling (component: Component) {
-  return component &&
+  return (
+    component &&
     !component.render &&
-    (component.template ||
-      component.extends ||
-      component.extendOptions) &&
+    (component.template || component.extends || component.extendOptions) &&
     !component.functional
+  )
 }
 
 export function isRefSelector (refOptionsObject: any) {
-  if (typeof refOptionsObject !== 'object' || Object.keys(refOptionsObject || {}).length !== 1) {
+  if (
+    typeof refOptionsObject !== 'object' ||
+    Object.keys(refOptionsObject || {}).length !== 1
+  ) {
     return false
   }
 
@@ -69,7 +73,7 @@ export function isNameSelector (nameOptionsObject: any) {
 }
 
 export function templateContainsComponent (template: string, name: string) {
-  return [capitalize, camelize, hyphenate].some((format) => {
+  return [capitalize, camelize, hyphenate].some(format => {
     const re = new RegExp(`<${format(name)}\\s*(\\s|>|(\/>))`, 'g')
     return re.test(template)
   })

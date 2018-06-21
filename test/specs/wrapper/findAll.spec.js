@@ -11,12 +11,9 @@ import {
   describeWithShallowAndMount,
   isRunningPhantomJS
 } from '~resources/utils'
-import {
-  itDoNotRunIf,
-  itSkipIf
-} from 'conditional-specs'
+import { itDoNotRunIf, itSkipIf } from 'conditional-specs'
 
-describeWithShallowAndMount('findAll', (mountingMethod) => {
+describeWithShallowAndMount('findAll', mountingMethod => {
   it('returns an WrapperArray of elements matching tag selector passed', () => {
     const compiled = compileToFunctions('<div><p></p><p></p></div>')
     const wrapper = mountingMethod(compiled)
@@ -40,7 +37,8 @@ describeWithShallowAndMount('findAll', (mountingMethod) => {
 
   itDoNotRunIf(
     isRunningPhantomJS,
-    'returns an array of Wrapper of elements matching class selector passed if they are declared inside a slot', () => {
+    'returns an array of Wrapper of elements matching class selector passed if they are declared inside a slot',
+    () => {
       const wrapper = mountingMethod(ComponentWithSlots, {
         slots: {
           default: '<div class="foo"><div class="foo"></div></div>'
@@ -48,7 +46,8 @@ describeWithShallowAndMount('findAll', (mountingMethod) => {
       })
       const fooArr = wrapper.findAll('.foo')
       expect(fooArr.length).to.equal(2)
-    })
+    }
+  )
 
   it('returns an array of Wrapper of elements matching class selector passed if they are declared inside a functional component', () => {
     const Component = {
@@ -56,7 +55,7 @@ describeWithShallowAndMount('findAll', (mountingMethod) => {
       render (h) {
         return h('p', {}, [
           h('p', {
-            'class': {
+            class: {
               foo: true
             }
           }),
@@ -101,20 +100,27 @@ describeWithShallowAndMount('findAll', (mountingMethod) => {
   it('throws an error when passed an invalid DOM selector', () => {
     const compiled = compileToFunctions('<div><a href="/"></a></div>')
     const wrapper = mountingMethod(compiled)
-    const message = '[vue-test-utils]: wrapper.findAll() must be passed a valid CSS selector, Vue constructor, or valid find option object'
+    const message =
+      '[vue-test-utils]: wrapper.findAll() must be passed a valid CSS selector, Vue constructor, or valid find option object'
     const fn = () => wrapper.findAll('[href=&6"/"]')
-    expect(fn).to.throw().with.property('message', message)
+    expect(fn)
+      .to.throw()
+      .with.property('message', message)
   })
 
   it('returns an array of Wrappers of elements matching selector when descendant combinator passed', () => {
-    const compiled = compileToFunctions('<div><ul><li>list</li>item<li></li></ul></div>')
+    const compiled = compileToFunctions(
+      '<div><ul><li>list</li>item<li></li></ul></div>'
+    )
     const wrapper = mountingMethod(compiled)
     const liArr = wrapper.findAll('div li')
     expect(liArr.length).to.equal(2)
   })
 
   it('does not return duplicate nodes', () => {
-    const compiled = compileToFunctions('<div><div><div><p/><p/></div></div></div></div>')
+    const compiled = compileToFunctions(
+      '<div><div><div><p/><p/></div></div></div></div>'
+    )
     const wrapper = mountingMethod(compiled)
     expect(wrapper.findAll('div p').length).to.equal(2)
   })
@@ -201,23 +207,21 @@ describeWithShallowAndMount('findAll', (mountingMethod) => {
     expect(wrapper.findAll(ComponentWithoutName).length).to.equal(3)
   })
 
-  itSkipIf(
-    isRunningPhantomJS,
-    'returns Wrapper of class component', () => {
-      const TestComponent = {
-        template: `
+  itSkipIf(isRunningPhantomJS, 'returns Wrapper of class component', () => {
+    const TestComponent = {
+      template: `
         <div>
           <component-as-a-class />
         </div>
       `,
-        components: {
-          ComponentAsAClass
-        }
+      components: {
+        ComponentAsAClass
       }
+    }
 
-      const wrapper = mountingMethod(TestComponent)
-      expect(wrapper.findAll(ComponentAsAClass).length).to.equal(1)
-    })
+    const wrapper = mountingMethod(TestComponent)
+    expect(wrapper.findAll(ComponentAsAClass).length).to.equal(1)
+  })
 
   it('returns Wrapper of Vue Component matching functional component', () => {
     if (!functionalSFCsSupported) {
@@ -263,13 +267,18 @@ describeWithShallowAndMount('findAll', (mountingMethod) => {
     const compiled = compileToFunctions('<div><a href="/"></a></div>')
     const wrapper = mountingMethod(compiled)
     const a = wrapper.find('a')
-    const message = '[vue-test-utils]: $ref selectors can only be used on Vue component wrappers'
+    const message =
+      '[vue-test-utils]: $ref selectors can only be used on Vue component wrappers'
     const fn = () => a.findAll({ ref: 'foo' })
-    expect(fn).to.throw().with.property('message', message)
+    expect(fn)
+      .to.throw()
+      .with.property('message', message)
   })
 
   it('returns an array of Wrapper of elements matching the ref in options object if they are nested in a transition', () => {
-    const compiled = compileToFunctions('<transition><div ref="foo" /></transition>')
+    const compiled = compileToFunctions(
+      '<transition><div ref="foo" /></transition>'
+    )
     const wrapper = mountingMethod(compiled)
     const divArr = wrapper.findAll({ ref: 'foo' })
     expect(divArr.length).to.equal(1)
@@ -292,12 +301,44 @@ describeWithShallowAndMount('findAll', (mountingMethod) => {
   it('throws an error if selector is not a valid selector', () => {
     const wrapper = mountingMethod(Component)
     const invalidSelectors = [
-      undefined, null, NaN, 0, 2, true, false, () => {}, {}, { name: undefined }, { ref: 'foo', nope: true }, []
+      undefined,
+      null,
+      NaN,
+      0,
+      2,
+      true,
+      false,
+      () => {},
+      {},
+      { name: undefined },
+      { ref: 'foo', nope: true },
+      []
     ]
-    invalidSelectors.forEach((invalidSelector) => {
-      const message = '[vue-test-utils]: wrapper.findAll() must be passed a valid CSS selector, Vue constructor, or valid find option object'
+    invalidSelectors.forEach(invalidSelector => {
+      const message =
+        '[vue-test-utils]: wrapper.findAll() must be passed a valid CSS selector, Vue constructor, or valid find option object'
       const fn = () => wrapper.findAll(invalidSelector)
-      expect(fn).to.throw().with.property('message', message)
+      expect(fn)
+        .to.throw()
+        .with.property('message', message)
     })
   })
+
+  itDoNotRunIf(
+    mountingMethod.name === 'shallowMount',
+    'returns a WrapperArray which includes VueWrapper if the elements binds a Vue instance', () => {
+      const childComponent = {
+        name: 'bar',
+        template: '<p class="foo" />'
+      }
+      const wrapper = mountingMethod({
+        name: 'foo',
+        template: '<div class="foo"><p class="foo" /><child-component /></div>',
+        components: { childComponent }
+      })
+      const wrappers = wrapper.findAll('.foo')
+      expect(wrappers.at(0).vm.$options.name).to.equal('foo')
+      expect(wrappers.at(1).vm).to.equal(undefined)
+      expect(wrappers.at(2).vm.$options.name).to.equal('bar')
+    })
 })

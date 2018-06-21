@@ -10,11 +10,20 @@ var cheerio = _interopDefault(require('cheerio'));
 
 // 
 
+function startsWithTag (str) {
+  return str && str.trim()[0] === '<'
+}
+
 function createVNodesForSlot (
   h,
   slotValue,
   name
 ) {
+  if (typeof slotValue === 'string' &&
+  !startsWithTag(slotValue)) {
+    return slotValue
+  }
+
   var el = typeof slotValue === 'string'
     ? vueTemplateCompiler.compileToFunctions(slotValue)
     : slotValue;
@@ -199,9 +208,16 @@ function createStubFromString (
 }
 
 function createBlankStub (originalComponent) {
+  var name = (originalComponent.name) + "-stub";
+
+  // ignoreElements does not exist in Vue 2.0.x
+  if (Vue.config.ignoredElements) {
+    Vue.config.ignoredElements.push(name);
+  }
+
   return Object.assign({}, getCoreProperties(originalComponent),
     {render: function render (h) {
-      return h(((originalComponent.name) + "-stub"))
+      return h(name)
     }})
 }
 
@@ -261,10 +277,6 @@ function createComponentStubs (
         } else {
           components[stub] = Object.assign({}, stubs[stub]);
         }
-      }
-      // ignoreElements does not exist in Vue 2.0.x
-      if (Vue.config.ignoredElements) {
-        Vue.config.ignoredElements.push((stub + "-stub"));
       }
     });
   }
@@ -397,8 +409,7 @@ function createInstance (
 
   addEventLogger(_Vue);
 
-  var instanceOptions = Object.assign({}, options,
-    {propsData: Object.assign({}, options.propsData)});
+  var instanceOptions = Object.assign({}, options);
 
   deleteMountingOptions(instanceOptions);
 
@@ -424,11 +435,9 @@ function createInstance (
     _Vue.component(c, stubComponents[c]);
   });
 
-  var Constructor = (typeof component === 'function' && component.prototype instanceof Vue)
+  var Constructor = vueVersion < 2.3 && typeof component === 'function'
     ? component.extend(instanceOptions)
     : _Vue.extend(component).extend(instanceOptions);
-
-  // const Constructor = _Vue.extend(component).extend(instanceOptions)
 
   Object.keys(instanceOptions.components || {}).forEach(function (key) {
     Constructor.component(key, instanceOptions.components[key]);

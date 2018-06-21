@@ -23,11 +23,14 @@ export default function createInstance (
   if (options.mocks) {
     addMocks(options.mocks, _Vue)
   }
-  if ((component.options && component.options.functional) || component.functional) {
+  if (
+    (component.options && component.options.functional) ||
+    component.functional
+  ) {
     component = createFunctionalComponent(component, options)
   } else if (options.context) {
     throwError(
-      'mount.context can only be used when mounting a functional component'
+      `mount.context can only be used when mounting a ` + `functional component`
     )
   }
 
@@ -43,8 +46,12 @@ export default function createInstance (
 
   deleteMountingOptions(instanceOptions)
 
-  // $FlowIgnore
-  const stubComponents = createComponentStubs(component.components, options.stubs)
+  const stubComponents = createComponentStubs(
+    // $FlowIgnore
+    component.components,
+    // $FlowIgnore
+    options.stubs
+  )
   if (options.stubs) {
     instanceOptions.components = {
       ...instanceOptions.components,
@@ -52,20 +59,36 @@ export default function createInstance (
       ...stubComponents
     }
   }
-
-  Object.keys(component.components || {}).forEach((c) => {
-    if (component.components[c].extendOptions &&
-      !instanceOptions.components[c]) {
+  _Vue.mixin({
+    created () {
+      Object.assign(
+        this.$options.components,
+        stubComponents
+      )
+    }
+  })
+  Object.keys(component.components || {}).forEach(c => {
+    if (
+      component.components[c].extendOptions &&
+      !instanceOptions.components[c]
+    ) {
       if (options.logModifiedComponents) {
-        warn(`an extended child component ${c} has been modified to ensure it has the correct instance properties. This means it is not possible to find the component with a component selector. To find the component, you must stub it manually using the stubs mounting option.`)
+        warn(
+          `an extended child component <${c}> has been modified ` +
+          `to ensure it has the correct instance properties. ` +
+          `This means it is not possible to find the component ` +
+          `with a component selector. To find the component, ` +
+          `you must stub it manually using the stubs mounting ` +
+          `option.`
+        )
       }
       instanceOptions.components[c] = _Vue.extend(component.components[c])
     }
   })
 
-  Object.keys(stubComponents).forEach(c => {
-    _Vue.component(c, stubComponents[c])
-  })
+  if (component.options) {
+    component.options._base = _Vue
+  }
 
   const Constructor = vueVersion < 2.3 && typeof component === 'function'
     ? component.extend(instanceOptions)
@@ -82,7 +105,8 @@ export default function createInstance (
 
   // Objects are not resolved in extended components in Vue < 2.5
   // https://github.com/vuejs/vue/issues/6436
-  if (options.provide &&
+  if (
+    options.provide &&
     typeof options.provide === 'object' &&
     vueVersion < 2.5
   ) {
@@ -96,12 +120,16 @@ export default function createInstance (
       const slots = options.slots
         ? createSlotVNodes(h, options.slots)
         : undefined
-      return h(Constructor, {
-        ref: 'vm',
-        props: options.propsData,
-        on: options.listeners,
-        attrs: options.attrs
-      }, slots)
+      return h(
+        Constructor,
+        {
+          ref: 'vm',
+          props: options.propsData,
+          on: options.listeners,
+          attrs: options.attrs
+        },
+        slots
+      )
     }
   })
 

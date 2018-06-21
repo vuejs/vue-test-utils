@@ -2,7 +2,7 @@ import ComponentWithCssModules from '~resources/components/component-with-css-mo
 import { compileToFunctions } from 'vue-template-compiler'
 import { describeWithShallowAndMount } from '~resources/utils'
 
-describeWithShallowAndMount('hasClass', (mountingMethod) => {
+describeWithShallowAndMount('hasClass', mountingMethod => {
   it('returns true if wrapper has class name', () => {
     const compiled = compileToFunctions('<div class="a-class" />')
     const wrapper = mountingMethod(compiled)
@@ -25,12 +25,24 @@ describeWithShallowAndMount('hasClass', (mountingMethod) => {
     const compiled = compileToFunctions('<div />')
     const wrapper = mountingMethod(compiled)
     const invalidSelectors = [
-      undefined, null, NaN, 0, 2, true, false, () => {}, {}, []
+      undefined,
+      null,
+      NaN,
+      0,
+      2,
+      true,
+      false,
+      () => {},
+      {},
+      []
     ]
-    invalidSelectors.forEach((invalidSelector) => {
-      const message = '[vue-test-utils]: wrapper.hasClass() must be passed a string'
+    invalidSelectors.forEach(invalidSelector => {
+      const message =
+        '[vue-test-utils]: wrapper.hasClass() must be passed a string'
       const fn = () => wrapper.hasClass(invalidSelector)
-      expect(fn).to.throw().with.property('message', message)
+      expect(fn)
+        .to.throw()
+        .with.property('message', message)
     })
   })
 
@@ -38,13 +50,6 @@ describeWithShallowAndMount('hasClass', (mountingMethod) => {
     const wrapper = mountingMethod(ComponentWithCssModules)
 
     expect(wrapper.hasClass('color-red')).to.equal(true)
-  })
-
-  it('returns false if wrapper does not contain element', () => {
-    const wrapper = mountingMethod({ render: (h) => h('div.a-class.b-class') })
-    const div = wrapper.find('div')
-    div.element = null
-    expect(wrapper.hasClass('a-class b-class')).to.equal(false)
   })
 
   it('returns true when the element contains multiple classes', () => {

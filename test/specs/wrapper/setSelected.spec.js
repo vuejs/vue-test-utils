@@ -1,7 +1,7 @@
 import ComponentWithInput from '~resources/components/component-with-input.vue'
 import { describeWithShallowAndMount } from '~resources/utils'
 
-describeWithShallowAndMount('setSelected', (mountingMethod) => {
+describeWithShallowAndMount('setSelected', mountingMethod => {
   it('sets element selected true', () => {
     const wrapper = mountingMethod(ComponentWithInput)
     const options = wrapper.find('select').findAll('option')
@@ -22,28 +22,45 @@ describeWithShallowAndMount('setSelected', (mountingMethod) => {
     expect(wrapper.text()).to.contain('selectA')
   })
 
-  it('throws error if wrapper does not contain element', () => {
-    const wrapper = mountingMethod({ render: (h) => h('div') })
-    const div = wrapper.find('div')
-    div.element = null
+  it('updates dom with select v-model for select with optgroups', () => {
+    const wrapper = mountingMethod(ComponentWithInput)
+    const options = wrapper.find('select.with-optgroups').findAll('option')
 
-    const fn = () => div.setSelected()
-    const message = '[vue-test-utils]: cannot call wrapper.setSelected() on a wrapper without an element'
-    expect(fn).to.throw().with.property('message', message)
+    options.at(1).setSelected()
+    expect(wrapper.text()).to.contain('selectB')
+
+    options.at(0).setSelected()
+    expect(wrapper.text()).to.contain('selectA')
+  })
+
+  it('throws error if wrapper does not contain element', () => {
+    const wrapper = mountingMethod({ template: '<div><p/></div>' })
+    const p = wrapper.find('p')
+    p.element = null
+
+    const fn = () => p.setSelected()
+    const message =
+      '[vue-test-utils]: cannot call wrapper.setSelected() on a wrapper without an element'
+    expect(fn)
+      .to.throw()
+      .with.property('message', message)
   })
 
   it('throws error if element is radio', () => {
-    const message = 'wrapper.setSelected() cannot be called on a <input type="radio" /> element. Use wrapper.setChecked() instead'
+    const message =
+      'wrapper.setSelected() cannot be called on a <input type="radio" /> element. Use wrapper.setChecked() instead'
     shouldThrowErrorOnElement('input[type="radio"]', message)
   })
 
   it('throws error if element is radio', () => {
-    const message = 'wrapper.setSelected() cannot be called on a <input type="checkbox" /> element. Use wrapper.setChecked() instead'
+    const message =
+      'wrapper.setSelected() cannot be called on a <input type="checkbox" /> element. Use wrapper.setChecked() instead'
     shouldThrowErrorOnElement('input[type="checkbox"]', message)
   })
 
   it('throws error if element is text like', () => {
-    const message = 'wrapper.setSelected() cannot be called on "text" inputs. Use wrapper.setValue() instead'
+    const message =
+      'wrapper.setSelected() cannot be called on "text" inputs. Use wrapper.setValue() instead'
     shouldThrowErrorOnElement('input[type="text"]', message)
   })
 
@@ -57,6 +74,8 @@ describeWithShallowAndMount('setSelected', (mountingMethod) => {
     const input = wrapper.find(selector)
 
     const fn = () => input.setSelected(value)
-    expect(fn).to.throw().with.property('message', '[vue-test-utils]: ' + message)
+    expect(fn)
+      .to.throw()
+      .with.property('message', '[vue-test-utils]: ' + message)
   }
 })
