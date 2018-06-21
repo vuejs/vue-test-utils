@@ -183,7 +183,7 @@ export default class Wrapper implements BaseWrapper {
     warn(
       `hasAttribute() has been deprecated and will be ` +
       `removed in version 1.0.0. Use attributes() ` +
-      `instead—https://vue-test-utils.vuejs.org/api/wrapper/attributes.html`
+      `instead—https://vue-test-utils.vuejs.org/api/wrapper/#attributes`
     )
 
     if (typeof attribute !== 'string') {
@@ -208,7 +208,7 @@ export default class Wrapper implements BaseWrapper {
     warn(
       `hasClass() has been deprecated and will be removed ` +
       `in version 1.0.0. Use classes() ` +
-      `instead—https://vue-test-utils.vuejs.org/api/wrapper/classes.html`
+      `instead—https://vue-test-utils.vuejs.org/api/wrapper/#classes`
     )
     let targetClass = className
 
@@ -235,7 +235,7 @@ export default class Wrapper implements BaseWrapper {
     warn(
       `hasProp() has been deprecated and will be removed ` +
       `in version 1.0.0. Use props() ` +
-      `instead—https://vue-test-utils.vuejs.org/api/wrapper/props.html`
+      `instead—https://vue-test-utils.vuejs.org/api/wrapper/#props`
     )
 
     if (!this.isVueInstance()) {
@@ -869,7 +869,7 @@ export default class Wrapper implements BaseWrapper {
       throwError(
         `you cannot set the target value of an event. See ` +
           `the notes section of the docs for more ` +
-          `details—https://vue-test-utils.vuejs.org/api/wrapper/trigger.html`
+          `details—https://vue-test-utils.vuejs.org/api/wrapper/#trigger`
       )
     }
 
