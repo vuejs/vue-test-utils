@@ -333,7 +333,6 @@ describeWithMountingMethods('options.stub', mountingMethod => {
     expect(HTML).to.contain('<span>')
   })
 
-
   itDoNotRunIf(
     mountingMethod.name === 'shallowMount' ||
       mountingMethod.name === 'renderToString',
