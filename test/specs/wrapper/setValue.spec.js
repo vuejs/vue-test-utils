@@ -19,17 +19,6 @@ describeWithShallowAndMount('setValue', mountingMethod => {
     expect(wrapper.text()).to.contain('input text awesome binding')
   })
 
-  it('throws error if wrapper does not contain element', () => {
-    const wrapper = mountingMethod({ template: '<div><p/></div>' })
-    const p = wrapper.find('p')
-    p.element = null
-    const fn = () => p.setValue('')
-    const message = '[vue-test-utils]: cannot call wrapper.setValue() on a wrapper without an element'
-    expect(fn)
-      .to.throw()
-      .with.property('message', message)
-  })
-
   it('throws error if element is select', () => {
     const message =
       'wrapper.setValue() cannot be called on a <select> element. Use wrapper.setSelected() instead'

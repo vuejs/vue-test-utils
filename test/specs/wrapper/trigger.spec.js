@@ -157,18 +157,6 @@ describeWithShallowAndMount('trigger', mountingMethod => {
       .with.property('message', message)
   })
 
-  it('throws error if wrapper does not contain element', () => {
-    const wrapper = mountingMethod({ template: '<div><p/></div>' })
-    const p = wrapper.find('p')
-    p.element = null
-    const fn = () => p.trigger('click')
-    const message =
-      '[vue-test-utils]: cannot call wrapper.trigger() on a wrapper without an element'
-    expect(fn)
-      .to.throw()
-      .with.property('message', message)
-  })
-
   it('throws an error if type is not a string', () => {
     const wrapper = mountingMethod(ComponentWithEvents)
     const invalidSelectors = [

@@ -23,32 +23,50 @@ import createWrapper from './create-wrapper'
 import { orderWatchers } from './order-watchers'
 
 export default class Wrapper implements BaseWrapper {
-  vnode: VNode | null;
-  vm: Component | null;
+  +vnode: VNode | null;
+  +vm: Component | null;
   _emitted: { [name: string]: Array<Array<any>> };
   _emittedByOrder: Array<{ name: string, args: Array<any> }>;
   isVm: boolean;
-  element: Element;
+  +element: Element;
   update: Function;
-  options: WrapperOptions;
+  +options: WrapperOptions;
   version: number;
   isFunctionalComponent: boolean;
 
   constructor (node: VNode | Element, options: WrapperOptions) {
-    if (node instanceof Element) {
-      this.element = node
-      this.vnode = null
-    } else {
-      this.vnode = node
-      this.element = node.elm
+    const vnode = node instanceof Element ? null : node
+    const element = node instanceof Element ? node : node.elm
+    // Prevent redefine by VueWrapper
+    if (this.constructor.name === 'Wrapper') {
+      // $FlowIgnore
+      Object.defineProperty(this, 'vnode', {
+        get: () => vnode,
+        set: () => {}
+      })
+      // $FlowIgnore
+      Object.defineProperty(this, 'element', {
+        get: () => element,
+        set: () => {}
+      })
+      // $FlowIgnore
+      Object.defineProperty(this, 'vm', {
+        get: () => undefined,
+        set: () => {}
+      })
     }
+    const freezedOptions = Object.freeze(options)
+    // $FlowIgnore
+    Object.defineProperty(this, 'options', {
+      get: () => freezedOptions,
+      set: () => {}
+    })
     if (
       this.vnode &&
       (this.vnode[FUNCTIONAL_OPTIONS] || this.vnode.functionalContext)
     ) {
       this.isFunctionalComponent = true
     }
-    this.options = options
     this.version = Number(
       `${Vue.version.split('.')[0]}.${Vue.version.split('.')[1]}`
     )
@@ -112,7 +130,7 @@ export default class Wrapper implements BaseWrapper {
    */
   emitted (event?: string) {
     if (!this._emitted && !this.vm) {
-      throwError(`wrapper.emitted() can only be called on a Vue ` + `instance`)
+      throwError(`wrapper.emitted() can only be called on a Vue instance`)
     }
     if (event) {
       return this._emitted[event]
@@ -126,7 +144,7 @@ export default class Wrapper implements BaseWrapper {
   emittedByOrder () {
     if (!this._emittedByOrder && !this.vm) {
       throwError(
-        `wrapper.emittedByOrder() can only be called on a ` + `Vue instance`
+        `wrapper.emittedByOrder() can only be called on a Vue instance`
       )
     }
     return this._emittedByOrder
@@ -155,13 +173,7 @@ export default class Wrapper implements BaseWrapper {
       `visible has been deprecated and will be removed in ` +
         `version 1, use isVisible instead`
     )
-
     let element = this.element
-
-    if (!element) {
-      return false
-    }
-
     while (element) {
       if (
         element.style &&
@@ -188,17 +200,17 @@ export default class Wrapper implements BaseWrapper {
 
     if (typeof attribute !== 'string') {
       throwError(
-        `wrapper.hasAttribute() must be passed attribute as ` + `a string`
+        `wrapper.hasAttribute() must be passed attribute as a string`
       )
     }
 
     if (typeof value !== 'string') {
       throwError(
-        `wrapper.hasAttribute() must be passed value as a ` + `string`
+        `wrapper.hasAttribute() must be passed value as a string`
       )
     }
 
-    return !!(this.element && this.element.getAttribute(attribute) === value)
+    return !!(this.element.getAttribute(attribute) === value)
   }
 
   /**
@@ -270,7 +282,7 @@ export default class Wrapper implements BaseWrapper {
     )
 
     if (typeof style !== 'string') {
-      throwError(`wrapper.hasStyle() must be passed style as a ` + `string`)
+      throwError(`wrapper.hasStyle() must be passed style as a string`)
     }
 
     if (typeof value !== 'string') {
@@ -413,11 +425,6 @@ export default class Wrapper implements BaseWrapper {
    */
   isVisible (): boolean {
     let element = this.element
-
-    if (!element) {
-      return false
-    }
-
     while (element) {
       if (
         element.style &&
@@ -669,41 +676,32 @@ export default class Wrapper implements BaseWrapper {
    * Sets element value and triggers input event
    */
   setValue (value: any) {
-    const el = this.element
-
-    if (!el) {
-      throwError(
-        `cannot call wrapper.setValue() on a wrapper ` + `without an element`
-      )
-    }
-
-    const tag = el.tagName
+    const tagName = this.element.tagName
     const type = this.attributes().type
-    const event = 'input'
 
-    if (tag === 'SELECT') {
+    if (tagName === 'SELECT') {
       throwError(
         `wrapper.setValue() cannot be called on a <select> ` +
           `element. Use wrapper.setSelected() instead`
       )
-    } else if (tag === 'INPUT' && type === 'checkbox') {
+    } else if (tagName === 'INPUT' && type === 'checkbox') {
       throwError(
         `wrapper.setValue() cannot be called on a <input ` +
           `type="checkbox" /> element. Use ` +
           `wrapper.setChecked() instead`
       )
-    } else if (tag === 'INPUT' && type === 'radio') {
+    } else if (tagName === 'INPUT' && type === 'radio') {
       throwError(
         `wrapper.setValue() cannot be called on a <input ` +
           `type="radio" /> element. Use wrapper.setChecked() ` +
           `instead`
       )
-    } else if (tag === 'INPUT' || tag === 'textarea') {
+    } else if (tagName === 'INPUT' || tagName === 'textarea') {
       // $FlowIgnore
-      el.value = value
-      this.trigger(event)
+      this.element.value = value
+      this.trigger('input')
     } else {
-      throwError(`wrapper.setValue() cannot be called on this ` + `element`)
+      throwError(`wrapper.setValue() cannot be called on this element`)
     }
   }
 
@@ -714,36 +712,26 @@ export default class Wrapper implements BaseWrapper {
     if (typeof checked !== 'boolean') {
       throwError('wrapper.setChecked() must be passed a boolean')
     }
-
-    const el = this.element
-
-    if (!el) {
-      throwError(
-        `cannot call wrapper.setChecked() on a wrapper ` + `without an element`
-      )
-    }
-
-    const tag = el.tagName
+    const tagName = this.element.tagName
     const type = this.attributes().type
-    const event = 'change'
 
-    if (tag === 'SELECT') {
+    if (tagName === 'SELECT') {
       throwError(
         `wrapper.setChecked() cannot be called on a ` +
           `<select> element. Use wrapper.setSelected() ` +
           `instead`
       )
-    } else if (tag === 'INPUT' && type === 'checkbox') {
+    } else if (tagName === 'INPUT' && type === 'checkbox') {
       // $FlowIgnore
-      if (el.checked !== checked) {
+      if (this.element.checked !== checked) {
         if (!navigator.userAgent.includes('jsdom')) {
           // $FlowIgnore
-          el.checked = checked
+          this.element.checked = checked
         }
         this.trigger('click')
-        this.trigger(event)
+        this.trigger('change')
       }
-    } else if (tag === 'INPUT' && type === 'radio') {
+    } else if (tagName === 'INPUT' && type === 'radio') {
       if (!checked) {
         throwError(
           `wrapper.setChecked() cannot be called with ` +
@@ -752,18 +740,18 @@ export default class Wrapper implements BaseWrapper {
         )
       } else {
         // $FlowIgnore
-        if (!el.checked) {
+        if (!this.element.checked) {
           this.trigger('click')
-          this.trigger(event)
+          this.trigger('change')
         }
       }
-    } else if (tag === 'INPUT' || tag === 'textarea') {
+    } else if (tagName === 'INPUT' || tagName === 'textarea') {
       throwError(
         `wrapper.setChecked() cannot be called on "text" ` +
           `inputs. Use wrapper.setValue() instead`
       )
     } else {
-      throwError(`wrapper.setChecked() cannot be called on this ` + `element`)
+      throwError(`wrapper.setChecked() cannot be called on this element`)
     }
   }
 
@@ -771,55 +759,46 @@ export default class Wrapper implements BaseWrapper {
    * Selects <option></option> element
    */
   setSelected () {
-    const el = this.element
-
-    if (!el) {
-      throwError(
-        `cannot call wrapper.setSelected() on a wrapper ` + `without an element`
-      )
-    }
-
-    const tag = el.tagName
+    const tagName = this.element.tagName
     const type = this.attributes().type
-    const event = 'change'
 
-    if (tag === 'OPTION') {
+    if (tagName === 'OPTION') {
       // $FlowIgnore
-      el.selected = true
+      this.element.selected = true
       // $FlowIgnore
-      if (el.parentElement.tagName === 'OPTGROUP') {
+      if (this.element.parentElement.tagName === 'OPTGROUP') {
         // $FlowIgnore
-        createWrapper(el.parentElement.parentElement, this.options).trigger(
-          event
-        )
+        createWrapper(this.element.parentElement.parentElement, this.options)
+          .trigger('change')
       } else {
         // $FlowIgnore
-        createWrapper(el.parentElement, this.options).trigger(event)
+        createWrapper(this.element.parentElement, this.options)
+          .trigger('change')
       }
-    } else if (tag === 'SELECT') {
+    } else if (tagName === 'SELECT') {
       throwError(
         `wrapper.setSelected() cannot be called on select. ` +
           `Call it on one of its options`
       )
-    } else if (tag === 'INPUT' && type === 'checkbox') {
+    } else if (tagName === 'INPUT' && type === 'checkbox') {
       throwError(
         `wrapper.setSelected() cannot be called on a <input ` +
           `type="checkbox" /> element. Use ` +
           `wrapper.setChecked() instead`
       )
-    } else if (tag === 'INPUT' && type === 'radio') {
+    } else if (tagName === 'INPUT' && type === 'radio') {
       throwError(
         `wrapper.setSelected() cannot be called on a <input ` +
           `type="radio" /> element. Use wrapper.setChecked() ` +
           `instead`
       )
-    } else if (tag === 'INPUT' || tag === 'textarea') {
+    } else if (tagName === 'INPUT' || tagName === 'textarea') {
       throwError(
         `wrapper.setSelected() cannot be called on "text" ` +
           `inputs. Use wrapper.setValue() instead`
       )
     } else {
-      throwError(`wrapper.setSelected() cannot be called on this ` + `element`)
+      throwError(`wrapper.setSelected() cannot be called on this element`)
     }
   }
 
@@ -827,12 +806,6 @@ export default class Wrapper implements BaseWrapper {
    * Return text of wrapper element
    */
   text (): string {
-    if (!this.element) {
-      throwError(
-        `cannot call wrapper.text() on a wrapper without an ` + `element`
-      )
-    }
-
     return this.element.textContent.trim()
   }
 
@@ -857,12 +830,6 @@ export default class Wrapper implements BaseWrapper {
   trigger (type: string, options: Object = {}) {
     if (typeof type !== 'string') {
       throwError('wrapper.trigger() must be passed a string')
-    }
-
-    if (!this.element) {
-      throwError(
-        `cannot call wrapper.trigger() on a wrapper without ` + `an element`
-      )
     }
 
     if (options.target) {
