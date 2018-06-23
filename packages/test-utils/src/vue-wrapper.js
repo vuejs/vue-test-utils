@@ -12,17 +12,17 @@ export default class VueWrapper extends Wrapper implements BaseWrapper {
     // $FlowIgnore : issue with defineProperty
     Object.defineProperty(this, 'vnode', {
       get: () => vm._vnode,
-      set: () => throwError(`VueWrapper.vnode is read-only`)
+      set: () => throwError('wrapper.vnode is read-only')
     })
     // $FlowIgnore
     Object.defineProperty(this, 'element', {
       get: () => vm.$el,
-      set: () => throwError(`VueWrapper.element is read-only`)
+      set: () => throwError('wrapper.element is read-only')
     })
     // $FlowIgnore
     Object.defineProperty(this, 'vm', {
       get: () => vm,
-      set: () => throwError(`VueWrapper.vm is read-only`)
+      set: () => throwError('wrapper.vm is read-only')
     })
     if (options.sync) {
       setWatchersToSync(vm)

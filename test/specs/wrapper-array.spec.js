@@ -13,7 +13,7 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
   ['wrappers', 'length'].forEach(property => {
     it(`has the ${property} property which is read-only`, () => {
       const wrapperArray = getWrapperArray()
-      const message = `[vue-test-utils]: WrapperArray.${property} is read-only`
+      const message = `[vue-test-utils]: wrapperArray.${property} is read-only`
       expect(() => { wrapperArray[property] = 'foo' })
         .to.throw()
         .with.property('message', message)

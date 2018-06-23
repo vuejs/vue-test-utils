@@ -24,7 +24,6 @@ import { orderWatchers } from './order-watchers'
 
 export default class Wrapper implements BaseWrapper {
   +vnode: VNode | null;
-  _vnode: VNode | null;
   +vm: Component | null;
   _emitted: { [name: string]: Array<Array<any>> };
   _emittedByOrder: Array<{ name: string, args: Array<any> }>;
@@ -40,28 +39,27 @@ export default class Wrapper implements BaseWrapper {
     const element = node instanceof Element ? node : node.elm
     // Prevent redefine by VueWrapper
     if (this.constructor.name === 'Wrapper') {
-      this._vnode = vnode
       // $FlowIgnore
       Object.defineProperty(this, 'vnode', {
-        get: () => this._vnode,
-        set: () => throwError(`Wrapper.vnode is read-only`)
+        get: () => vnode,
+        set: () => throwError('wrapper.vnode is read-only')
       })
       // $FlowIgnore
       Object.defineProperty(this, 'element', {
         get: () => element,
-        set: () => throwError(`Wrapper.element is read-only`)
+        set: () => throwError('wrapper.element is read-only')
       })
       // $FlowIgnore
       Object.defineProperty(this, 'vm', {
         get: () => undefined,
-        set: () => throwError(`Wrapper.vm is read-only`)
+        set: () => throwError('wrapper.vm is read-only')
       })
     }
     const frozenOptions = Object.freeze(options)
     // $FlowIgnore
     Object.defineProperty(this, 'options', {
       get: () => frozenOptions,
-      set: () => throwError(`${this.constructor.name}.options is read-only`)
+      set: () => throwError('wrapper.options is read-only')
     })
     if (
       this.vnode &&
@@ -668,7 +666,6 @@ export default class Wrapper implements BaseWrapper {
     })
 
     // $FlowIgnore : Problem with possibly null this.vm
-    this._vnode = this.vm._vnode
     orderWatchers(this.vm || this.vnode.context.$root)
     Vue.config.silent = originalConfig
   }
