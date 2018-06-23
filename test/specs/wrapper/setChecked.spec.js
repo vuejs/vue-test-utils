@@ -83,19 +83,6 @@ describeWithShallowAndMount('setChecked', mountingMethod => {
     shouldThrowErrorOnElement('#radioFoo', message, false)
   })
 
-  it('throws error if wrapper does not contain element', () => {
-    const wrapper = mountingMethod({ template: '<div><p/></div>' })
-    const p = wrapper.find('p')
-    p.element = null
-
-    const fn = () => p.setChecked()
-    const message =
-      '[vue-test-utils]: cannot call wrapper.setChecked() on a wrapper without an element'
-    expect(fn)
-      .to.throw()
-      .with.property('message', message)
-  })
-
   it('throws error if element is select', () => {
     const message =
       'wrapper.setChecked() cannot be called on a <select> element. Use wrapper.setSelected() instead'

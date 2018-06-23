@@ -18,7 +18,11 @@ export default class VueWrapper extends Wrapper implements BaseWrapper {
       get: () => vm.$el,
       set: () => {}
     })
-    this.vm = vm
+    // $FlowIgnore
+    Object.defineProperty(this, 'vm', {
+      get: () => vm,
+      set: () => {}
+    })
     if (options.sync) {
       setWatchersToSync(vm)
       orderWatchers(vm)
