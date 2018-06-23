@@ -814,7 +814,7 @@ export default class Wrapper implements BaseWrapper {
    */
   destroy () {
     if (!this.isVueInstance()) {
-      throwError(`wrapper.destroy() can only be called on a Vue ` + `instance`)
+      throwError(`wrapper.destroy() can only be called on a Vue instance`)
     }
 
     if (this.element.parentNode) {
