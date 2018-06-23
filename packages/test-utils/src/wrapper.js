@@ -55,10 +55,10 @@ export default class Wrapper implements BaseWrapper {
         set: () => {}
       })
     }
-    const freezedOptions = Object.freeze(options)
+    const frozenOptions = Object.freeze(options)
     // $FlowIgnore
     Object.defineProperty(this, 'options', {
-      get: () => freezedOptions,
+      get: () => frozenOptions,
       set: () => {}
     })
     if (
