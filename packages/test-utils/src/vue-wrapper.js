@@ -1,6 +1,7 @@
 // @flow
 
 import Wrapper from './wrapper'
+import { throwError } from 'shared/util'
 import { setWatchersToSync } from './set-watchers-to-sync'
 import { orderWatchers } from './order-watchers'
 
@@ -11,17 +12,17 @@ export default class VueWrapper extends Wrapper implements BaseWrapper {
     // $FlowIgnore : issue with defineProperty
     Object.defineProperty(this, 'vnode', {
       get: () => vm._vnode,
-      set: () => {}
+      set: () => throwError(`VueWrapper.vnode is read-only`)
     })
     // $FlowIgnore
     Object.defineProperty(this, 'element', {
       get: () => vm.$el,
-      set: () => {}
+      set: () => throwError(`VueWrapper.element is read-only`)
     })
     // $FlowIgnore
     Object.defineProperty(this, 'vm', {
       get: () => vm,
-      set: () => {}
+      set: () => throwError(`VueWrapper.vm is read-only`)
     })
     if (options.sync) {
       setWatchersToSync(vm)

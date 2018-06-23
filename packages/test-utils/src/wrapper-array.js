@@ -13,12 +13,12 @@ export default class WrapperArray implements BaseWrapper {
     // $FlowIgnore
     Object.defineProperty(this, 'wrappers', {
       get: () => wrappers,
-      set: () => {}
+      set: () => throwError(`WrapperArray.wrappers is read-only`)
     })
     // $FlowIgnore
     Object.defineProperty(this, 'length', {
       get: () => length,
-      set: () => {}
+      set: () => throwError(`WrapperArray.length is read-only`)
     })
   }
 

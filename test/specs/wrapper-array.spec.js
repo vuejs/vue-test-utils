@@ -10,6 +10,16 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
     return wrappers ? new wrapperArray.constructor(wrappers) : wrapperArray
   }
 
+  ['wrappers', 'length'].forEach(property => {
+    it(`has the ${property} property which is read-only`, () => {
+      const wrapperArray = getWrapperArray()
+      const message = `[vue-test-utils]: WrapperArray.${property} is read-only`
+      expect(() => { wrapperArray[property] = 'foo' })
+        .to.throw()
+        .with.property('message', message)
+    })
+  })
+
   it('returns class with length equal to length of wrappers passed in constructor', () => {
     const wrapperArray = getWrapperArray()
     expect(wrapperArray.length).to.equal(3)
