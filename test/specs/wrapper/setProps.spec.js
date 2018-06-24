@@ -24,6 +24,20 @@ describeWithShallowAndMount('setProps', mountingMethod => {
     expect(wrapper.find('.prop-2').element.textContent).to.equal(prop2)
   })
 
+  it('sets props and updates when called with same object', () => {
+    const TestComponent = {
+      template: '<div v-if="obj && obj.shouldRender()" />',
+      props: ['obj']
+    }
+    const obj = {
+      shouldRender: () => false
+    }
+    const wrapper = mountingMethod(TestComponent)
+    obj.shouldRender = () => true
+    wrapper.setProps({ obj })
+    expect(wrapper.is('div')).to.equal(true)
+  })
+
   it('throws error if component does not include props key', () => {
     const TestComponent = {
       template: '<div></div>'

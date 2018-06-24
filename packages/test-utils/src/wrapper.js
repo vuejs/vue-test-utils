@@ -664,7 +664,8 @@ export default class Wrapper implements BaseWrapper {
         this.vm.$options.propsData[key] = data[key]
       }
     })
-
+    // $FlowIgnore : Problem with possibly null this.vm
+    this.vm.$forceUpdate()
     // $FlowIgnore : Problem with possibly null this.vm
     orderWatchers(this.vm || this.vnode.context.$root)
     Vue.config.silent = originalConfig
