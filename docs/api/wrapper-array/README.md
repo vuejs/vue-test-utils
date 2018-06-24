@@ -4,13 +4,13 @@ A `WrapperArray` is an object that contains an array of [`Wrappers`](../wrapper/
 
 ## Properties
 
-### `wrappers` 
+### `wrappers`
 
-`array`: the `Wrappers` contained in the `WrapperArray`  
+`array` (read-only): the `Wrappers` contained in the `WrapperArray`
 
-### `length` 
+### `length`
 
-`number`: the number of `Wrappers` contained in the `WrapperArray`
+`number` (read-only): the number of `Wrappers` contained in the `WrapperArray`
 
 ## Methods
 

@@ -42,24 +42,24 @@ export default class Wrapper implements BaseWrapper {
       // $FlowIgnore
       Object.defineProperty(this, 'vnode', {
         get: () => vnode,
-        set: () => {}
+        set: () => throwError('wrapper.vnode is read-only')
       })
       // $FlowIgnore
       Object.defineProperty(this, 'element', {
         get: () => element,
-        set: () => {}
+        set: () => throwError('wrapper.element is read-only')
       })
       // $FlowIgnore
       Object.defineProperty(this, 'vm', {
         get: () => undefined,
-        set: () => {}
+        set: () => throwError('wrapper.vm is read-only')
       })
     }
     const frozenOptions = Object.freeze(options)
     // $FlowIgnore
     Object.defineProperty(this, 'options', {
       get: () => frozenOptions,
-      set: () => {}
+      set: () => throwError('wrapper.options is read-only')
     })
     if (
       this.vnode &&
@@ -399,7 +399,6 @@ export default class Wrapper implements BaseWrapper {
     }
 
     return !!(
-      this.element &&
       this.element.getAttribute &&
       this.element.matches(selector)
     )
@@ -667,7 +666,6 @@ export default class Wrapper implements BaseWrapper {
     })
 
     // $FlowIgnore : Problem with possibly null this.vm
-    this.vnode = this.vm._vnode
     orderWatchers(this.vm || this.vnode.context.$root)
     Vue.config.silent = originalConfig
   }
@@ -814,7 +812,7 @@ export default class Wrapper implements BaseWrapper {
    */
   destroy () {
     if (!this.isVueInstance()) {
-      throwError(`wrapper.destroy() can only be called on a Vue ` + `instance`)
+      throwError(`wrapper.destroy() can only be called on a Vue instance`)
     }
 
     if (this.element.parentNode) {

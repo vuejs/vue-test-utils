@@ -7,12 +7,18 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
     const wrapper = mountingMethod(compiled)
     const wrapperArray = wrapper.findAll('p')
     expect(wrapperArray.constructor.name).to.equal('WrapperArray')
-    if (wrappers) {
-      wrapperArray.wrappers = wrappers
-      wrapperArray.length = wrappers.length
-    }
-    return wrapperArray
+    return wrappers ? new wrapperArray.constructor(wrappers) : wrapperArray
   }
+
+  ['wrappers', 'length'].forEach(property => {
+    it(`has the ${property} property which is read-only`, () => {
+      const wrapperArray = getWrapperArray()
+      const message = `[vue-test-utils]: wrapperArray.${property} is read-only`
+      expect(() => { wrapperArray[property] = 'foo' })
+        .to.throw()
+        .with.property('message', message)
+    })
+  })
 
   it('returns class with length equal to length of wrappers passed in constructor', () => {
     const wrapperArray = getWrapperArray()
@@ -67,8 +73,7 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
       if (method === 'at') {
         return
       }
-      const wrapperArray = getWrapperArray()
-      wrapperArray.wrappers = []
+      const wrapperArray = getWrapperArray([])
       const message = `[vue-test-utils]: ${method} cannot be called on 0 items`
       expect(() => wrapperArray[method]())
         .to.throw()
@@ -99,8 +104,7 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
       ) {
         return
       }
-      const wrapperArray = getWrapperArray()
-      wrapperArray.wrappers = [1, 2, 3]
+      const wrapperArray = getWrapperArray([1, 2, 3])
       const message = `[vue-test-utils]: ${method} must be called on a single wrapper, use at(i) to access a wrapper`
       expect(() => wrapperArray[method]())
         .to.throw()

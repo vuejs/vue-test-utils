@@ -14,13 +14,13 @@ A `Wrapper` is an object that contains a mounted component or vnode and methods 
 
 `HTMLElement` (read-only): the root DOM node of the wrapper
 
-### `options` 
+### `options`
 
 #### `options.attachedToDocument`
 
 `Boolean` (read-only): True if `attachedToDocument` in mounting options was `true`
 
-#### `options.sync` 
+#### `options.sync`
 
 `Boolean` (read-only): True if `sync` in mounting options was not `false`
 
