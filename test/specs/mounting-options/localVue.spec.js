@@ -70,6 +70,21 @@ describeWithMountingMethods('options.localVue', mountingMethod => {
     }
   })
 
+  it('is applies to child extended components', () => {
+    const ChildComponent = Vue.extend({
+      template: '<div>{{$route.params}}</div>'
+    })
+    const TestComponent = Vue.extend({
+      template: '<child-component />',
+      components: { ChildComponent }
+    })
+    const localVue = createLocalVue()
+    localVue.prototype.$route = {}
+    mountingMethod(TestComponent, {
+      localVue
+    })
+  })
+
   it('does not add created mixin to localVue', () => {
     const localVue = createLocalVue()
     mountingMethod({ render: () => {} }, {

@@ -6,7 +6,7 @@ import { addEventLogger } from './log-events'
 import { createComponentStubs } from 'shared/stub-components'
 import { throwError, warn, vueVersion } from 'shared/util'
 import { compileTemplate } from 'shared/compile-template'
-import deleteMountingOptions from './delete-mounting-options'
+import extractInstanceOptions from './extract-instance-options'
 import createFunctionalComponent from './create-functional-component'
 import { componentNeedsCompiling } from 'shared/validators'
 import { validateSlots } from './validate-slots'
@@ -19,6 +19,18 @@ export default function createInstance (
 ): Component {
   // Remove cached constructor
   delete component._Ctor
+
+  // mounting options are vue-test-utils specific
+  //
+  // instance options are options that are passed to the
+  // root instance when it's instantiated
+  //
+  // component options are the root components options
+  const componentOptions = typeof component === 'function'
+    ? component.extendOptions
+    : component
+
+  const instanceOptions = extractInstanceOptions(options)
 
   if (options.mocks) {
     addMocks(options.mocks, _Vue)
@@ -39,12 +51,6 @@ export default function createInstance (
   }
 
   addEventLogger(_Vue)
-
-  const instanceOptions = {
-    ...options
-  }
-
-  deleteMountingOptions(instanceOptions)
 
   const stubComponents = createComponentStubs(
     // $FlowIgnore
@@ -67,9 +73,9 @@ export default function createInstance (
       )
     }
   })
-  Object.keys(component.components || {}).forEach(c => {
+  Object.keys(componentOptions.components || {}).forEach(c => {
     if (
-      component.components[c].extendOptions &&
+      componentOptions.components[c].extendOptions &&
       !instanceOptions.components[c]
     ) {
       if (options.logModifiedComponents) {
@@ -82,7 +88,9 @@ export default function createInstance (
           `option.`
         )
       }
-      instanceOptions.components[c] = _Vue.extend(component.components[c])
+      instanceOptions.components[c] = _Vue.extend(
+        componentOptions.components[c]
+      )
     }
   })
 
