@@ -103,7 +103,6 @@ export interface Wrapper<V extends Vue> extends BaseWrapper {
   html (): string
   text (): string
   name (): string
-  setSelected(): void
 
   emitted (event?: string): { [name: string]: Array<Array<any>> }
   emittedByOrder (): Array<{ name: string, args: Array<any> }>
