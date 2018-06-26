@@ -24,7 +24,7 @@ import { orderWatchers } from './order-watchers'
 
 export default class Wrapper implements BaseWrapper {
   +vnode: VNode | null;
-  +vm: Component | null;
+  +vm: Component | void;
   _emitted: { [name: string]: Array<Array<any>> };
   _emittedByOrder: Array<{ name: string, args: Array<any> }>;
   isVm: boolean;
