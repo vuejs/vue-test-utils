@@ -695,7 +695,7 @@ export default class Wrapper implements BaseWrapper {
           `type="radio" /> element. Use wrapper.setChecked() ` +
           `instead`
       )
-    } else if (tagName === 'INPUT' || tagName === 'textarea') {
+    } else if (tagName === 'INPUT' || tagName === 'TEXTAREA') {
       // $FlowIgnore
       this.element.value = value
       this.trigger('input')

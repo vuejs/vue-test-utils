@@ -2,12 +2,20 @@ import ComponentWithInput from '~resources/components/component-with-input.vue'
 import { describeWithShallowAndMount } from '~resources/utils'
 
 describeWithShallowAndMount('setValue', mountingMethod => {
-  it('sets element value', () => {
+  it('sets element of input value', () => {
     const wrapper = mountingMethod(ComponentWithInput)
     const input = wrapper.find('input[type="text"]')
     input.setValue('foo')
 
     expect(input.element.value).to.equal('foo')
+  })
+
+  it('sets element of textarea value', () => {
+    const wrapper = mountingMethod(ComponentWithInput)
+    const textarea = wrapper.find('textarea')
+    textarea.setValue('foo')
+
+    expect(textarea.element.value).to.equal('foo')
   })
 
   it('updates dom with v-model', () => {
