@@ -2,7 +2,12 @@
 
 import Vue from 'vue'
 import { compileToFunctions } from 'vue-template-compiler'
-import { throwError } from './util'
+import {
+  throwError,
+  camelize,
+  capitalize,
+  hyphenate
+} from './util'
 import {
   componentNeedsCompiling,
   templateContainsComponent
@@ -21,28 +26,37 @@ function isValidStub (stub: any) {
   )
 }
 
+function resolveComponent (obj, component) {
+  return obj[component] ||
+    obj[hyphenate(component)] ||
+    obj[camelize(component)] ||
+    obj[capitalize(camelize(component))] ||
+    obj[capitalize(component)] ||
+    {}
+}
+
 function isRequiredComponent (name) {
   return (
     name === 'KeepAlive' || name === 'Transition' || name === 'TransitionGroup'
   )
 }
 
-function getCoreProperties (component: Component): Object {
+function getCoreProperties (componentOptions: Component): Object {
   return {
-    attrs: component.attrs,
-    name: component.name,
-    on: component.on,
-    key: component.key,
-    ref: component.ref,
-    props: component.props,
-    domProps: component.domProps,
-    class: component.class,
-    staticClass: component.staticClass,
-    staticStyle: component.staticStyle,
-    style: component.style,
-    normalizedStyle: component.normalizedStyle,
-    nativeOn: component.nativeOn,
-    functional: component.functional
+    attrs: componentOptions.attrs,
+    name: componentOptions.name,
+    on: componentOptions.on,
+    key: componentOptions.key,
+    ref: componentOptions.ref,
+    props: componentOptions.props,
+    domProps: componentOptions.domProps,
+    class: componentOptions.class,
+    staticClass: componentOptions.staticClass,
+    staticStyle: componentOptions.staticStyle,
+    style: componentOptions.style,
+    normalizedStyle: componentOptions.normalizedStyle,
+    nativeOn: componentOptions.nativeOn,
+    functional: componentOptions.functional
   }
 }
 function createStubFromString (
@@ -62,24 +76,31 @@ function createStubFromString (
     throwError('options.stub cannot contain a circular reference')
   }
 
+  const componentOptions = typeof originalComponent === 'function'
+    ? originalComponent.extendOptions
+    : originalComponent
+
   return {
-    ...getCoreProperties(originalComponent),
+    ...getCoreProperties(componentOptions),
     ...compileToFunctions(templateString)
   }
 }
 
-function createBlankStub (originalComponent: Component) {
-  const name = `${originalComponent.name}-stub`
+function createBlankStub (originalComponent: Component, name: string) {
+  const componentOptions = typeof originalComponent === 'function'
+    ? originalComponent.extendOptions
+    : originalComponent
+  const tagName = `${name}-stub`
 
   // ignoreElements does not exist in Vue 2.0.x
   if (Vue.config.ignoredElements) {
-    Vue.config.ignoredElements.push(name)
+    Vue.config.ignoredElements.push(tagName)
   }
 
   return {
-    ...getCoreProperties(originalComponent),
+    ...getCoreProperties(componentOptions),
     render (h) {
-      return h(name)
+      return h(tagName)
     }
   }
 }
@@ -101,7 +122,9 @@ export function createComponentStubs (
       if (typeof stub !== 'string') {
         throwError(`each item in an options.stubs array must be a ` + `string`)
       }
-      components[stub] = createBlankStub({ name: stub })
+      const component = resolveComponent(originalComponents, stub)
+
+      components[stub] = createBlankStub(component, stub)
     })
   } else {
     Object.keys(stubs).forEach(stub => {
@@ -114,7 +137,8 @@ export function createComponentStubs (
         )
       }
       if (stubs[stub] === true) {
-        components[stub] = createBlankStub({ name: stub })
+        const component = resolveComponent(originalComponents, stub)
+        components[stub] = createBlankStub(component, stub)
         return
       }
 
@@ -162,12 +186,16 @@ export function createComponentStubs (
 
 function stubComponents (components: Object, stubbedComponents: Object) {
   Object.keys(components).forEach(component => {
+    const cmp = components[component]
+    const componentOptions = typeof cmp === 'function'
+      ? cmp.extendOptions
+      : cmp
     // Remove cached constructor
-    delete components[component]._Ctor
-    if (!components[component].name) {
-      components[component].name = component
+    delete componentOptions._Ctor
+    if (!componentOptions.name) {
+      componentOptions.name = component
     }
-    stubbedComponents[component] = createBlankStub(components[component])
+    stubbedComponents[component] = createBlankStub(componentOptions, component)
   })
 }
 
@@ -178,7 +206,7 @@ export function createComponentStubsForAll (component: Component): Object {
     stubComponents(component.components, stubbedComponents)
   }
 
-  stubbedComponents[component.name] = createBlankStub(component)
+  stubbedComponents[component.name] = createBlankStub(component, component.name)
 
   let extended = component.extends
 
@@ -204,7 +232,7 @@ export function createComponentStubsForGlobals (instance: Component): Object {
       return
     }
 
-    components[c] = createBlankStub(instance.options.components[c])
+    components[c] = createBlankStub(instance.options.components[c], c)
     delete instance.options.components[c]._Ctor
     delete components[c]._Ctor
   })

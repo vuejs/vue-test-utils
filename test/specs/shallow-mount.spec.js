@@ -239,6 +239,23 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
     ).to.equal(3)
   })
 
+  it('handles extended stubs', () => {
+    const ChildComponent = Vue.extend({
+      template: '<div />',
+      props: ['propA']
+    })
+    const TestComponent = {
+      template: '<child-component propA="hey" />',
+      components: { ChildComponent }
+    }
+    const wrapper = shallowMount(TestComponent, {
+      stubs: ['child-component']
+    })
+
+    expect(wrapper.find(ChildComponent).vm.propA)
+      .to.equal('hey')
+  })
+
   it('throws an error when the component fails to mount', () => {
     expect(() =>
       shallowMount({
