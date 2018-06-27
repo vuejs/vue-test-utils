@@ -102,6 +102,25 @@ describeWithMountingMethods('options.stub', mountingMethod => {
     }
   )
 
+  it('renders slot content in stubs', () => {
+    const TestComponent = {
+      template: `
+      <div>
+      <stub-with-child>
+        <child-component />
+      </stub-with-child>
+      </div>
+      `
+    }
+    const wrapper = mountingMethod(TestComponent, {
+      stubs: ['child-component', 'stub-with-child']
+    })
+    const HTML = mountingMethod.name === 'renderToString'
+      ? wrapper
+      : wrapper.html()
+    expect(HTML).to.contain('<child-component-stub>')
+  })
+
   it('stubs components on component if they do not already exist', () => {
     const ComponentWithGlobalComponent = {
       render: h => h('registered-component')
