@@ -34,11 +34,15 @@ export default class Wrapper implements BaseWrapper {
   version: number;
   isFunctionalComponent: boolean;
 
-  constructor (node: VNode | Element, options: WrapperOptions) {
+  constructor (
+    node: VNode | Element,
+    options: WrapperOptions,
+    isVueWrapper?: boolean
+  ) {
     const vnode = node instanceof Element ? null : node
     const element = node instanceof Element ? node : node.elm
     // Prevent redefine by VueWrapper
-    if (this.constructor.name === 'Wrapper') {
+    if (!isVueWrapper) {
       // $FlowIgnore
       Object.defineProperty(this, 'vnode', {
         get: () => vnode,
