@@ -47,15 +47,13 @@ function findAllFunctionalComponentsFromVnode (
 
 export function vmCtorMatchesName (vm: Component, name: string): boolean {
   return !!(
-    (vm.$vnode &&
-      vm.$vnode.componentOptions &&
-      vm.$vnode.componentOptions.Ctor.options.name === name) ||
-    (vm._vnode &&
+    name && (
+      (vm._vnode &&
       vm._vnode.functionalOptions &&
       vm._vnode.functionalOptions.name === name) ||
     (vm.$options && vm.$options.name === name) ||
     (vm.options && vm.options.name === name)
-  )
+    ))
 }
 
 export function vmCtorMatchesSelector (component: Component, selector: Object) {
