@@ -4,6 +4,7 @@
     <input type="radio" v-model="radioVal" id="radioFoo" value="radioFooResult">
     <input type="radio" v-model="radioVal" id="radioBar" value="radioBarResult">
     <input type="text" v-model="textVal">
+    <textarea v-model="textareaVal"></textarea>
     <select v-model="selectVal">
       <option value="selectA"></option>
       <option value="selectB"></option>
@@ -35,6 +36,7 @@
       return {
         checkboxVal: undefined,
         textVal: undefined,
+        textareaVal: undefined,
         radioVal: undefined,
         selectVal: undefined,
         counter: 0
