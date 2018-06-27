@@ -398,6 +398,26 @@ describeWithShallowAndMount('find', mountingMethod => {
     })
   })
 
+  it('handles unnamed components', () => {
+    const ChildComponent = {
+      template: '<div />'
+    }
+    const TestComponent = {
+      template: '<child-component v-if="renderChild" />',
+      components: { ChildComponent },
+      data: function () {
+        return {
+          renderChild: false
+        }
+      }
+    }
+    const wrapper = mountingMethod(TestComponent)
+
+    expect(wrapper.find(ChildComponent).vnode).to.be.undefined
+    wrapper.vm.renderChild = true
+    expect(wrapper.find(ChildComponent).vnode).to.be.an('object')
+  })
+
   itDoNotRunIf(
     mountingMethod.name === 'shallowMount',
     'returns a VueWrapper instance by CSS selector if the element binds a Vue instance', () => {
