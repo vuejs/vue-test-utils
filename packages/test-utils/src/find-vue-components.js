@@ -106,7 +106,7 @@ export default function findVueComponents (
     )
   }
   const nameSelector =
-    typeof selector === 'function' ? selector.options.name : selector.name
+    typeof selector === 'function' ? selector.extendOptions.name : selector.name
   const components = root._isVue
     ? findAllVueComponentsFromVm(root)
     : findAllVueComponentsFromVnode(root)

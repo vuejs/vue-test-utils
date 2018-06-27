@@ -1,5 +1,6 @@
 import { compileToFunctions } from 'vue-template-compiler'
 import { createLocalVue } from '~vue/test-utils'
+import Vue from 'vue'
 import ComponentWithChild from '~resources/components/component-with-child.vue'
 import ComponentWithoutName from '~resources/components/component-without-name.vue'
 import ComponentWithSlots from '~resources/components/component-with-slots.vue'
@@ -77,6 +78,19 @@ describeWithShallowAndMount('find', mountingMethod => {
     const compiled = compileToFunctions('<div><div id="foo" /></div>')
     const wrapper = mountingMethod(compiled)
     expect(wrapper.find('#foo').vnode).to.be.an('object')
+  })
+
+  it('returns matching extended component', () => {
+    const ChildComponent = Vue.extend({
+      template: '<div />',
+      props: ['propA']
+    })
+    const TestComponent = {
+      template: '<child-component propA="hey" />',
+      components: { ChildComponent }
+    }
+    const wrapper = mountingMethod(TestComponent)
+    expect(wrapper.find(ChildComponent).vnode).to.be.an('object')
   })
 
   it('returns Wrapper of elements matching attribute selector passed', () => {
