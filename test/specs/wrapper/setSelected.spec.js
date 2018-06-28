@@ -49,6 +49,7 @@ describeWithShallowAndMount('setSelected', mountingMethod => {
     const message =
       'wrapper.setSelected() cannot be called on "text" inputs. Use wrapper.setValue() instead'
     shouldThrowErrorOnElement('input[type="text"]', message)
+    shouldThrowErrorOnElement('textarea', message)
   })
 
   it('throws error if element is not valid', () => {
