@@ -100,7 +100,10 @@ function createBlankStub (originalComponent: Component, name: string) {
   return {
     ...getCoreProperties(componentOptions),
     render (h) {
-      return h(tagName)
+      return h(
+        tagName,
+        !componentOptions.functional && this.$slots.default
+      )
     }
   }
 }

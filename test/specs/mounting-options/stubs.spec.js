@@ -174,6 +174,25 @@ describeWithMountingMethods('options.stub', mountingMethod => {
       expect(HTML).not.to.contain('<span>')
     })
 
+  it('renders slot content in stubs', () => {
+    const TestComponent = {
+      template: `
+    <div>
+      <stub-with-child>
+          <child-component />
+    </stub-with-child>
+      </div>
+      `
+    }
+    const wrapper = mountingMethod(TestComponent, {
+      stubs: ['child-component', 'stub-with-child']
+    })
+    const HTML = mountingMethod.name === 'renderToString'
+      ? wrapper
+      : wrapper.html()
+    expect(HTML).to.contain('<child-component-stub>')
+  })
+
   itDoNotRunIf(
     mountingMethod.name === 'renderToString',
     'stubs components with dummy which has name when passed a boolean', () => {
@@ -320,19 +339,20 @@ describeWithMountingMethods('options.stub', mountingMethod => {
     'stubs on child components',
     () => {
       const TestComponent = {
-        template: '<transition><span /></transition>'
+        template: '<transition></transition>'
       }
-
       const wrapper = mountingMethod(
         {
           components: { 'test-component': TestComponent },
           template: '<test-component />'
         },
         {
-          stubs: ['transition']
+          stubs: {
+            'transition': 'time'
+          }
         }
       )
-      expect(wrapper.find('span').exists()).to.equal(false)
+      expect(wrapper.find('time').exists()).to.equal(false)
     }
   )
 
