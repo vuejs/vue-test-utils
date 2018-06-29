@@ -28,7 +28,6 @@ export default class VueWrapper extends Wrapper implements BaseWrapper {
       setWatchersToSync(vm)
       orderWatchers(vm)
     }
-    this.isVm = true
     this.isFunctionalComponent = vm.$options._isFunctionalContainer
     this._emitted = vm.__emitted
     this._emittedByOrder = vm.__emittedByOrder
