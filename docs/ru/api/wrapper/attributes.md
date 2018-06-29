@@ -1,4 +1,4 @@
-### attributes()
+## attributes()
 
 Возвращает объект атрибута DOM-узла `Wrapper`.
 
