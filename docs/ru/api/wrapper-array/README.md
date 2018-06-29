@@ -4,13 +4,13 @@
 
 ## **Свойства**
 
-### `wrappers` 
+### `wrappers`
 
-`array`: `array`: массив `Wrappers` содержащихся в `WrapperArray` 
+`array` (только для чтения): `array`: массив `Wrappers` содержащихся в `WrapperArray`
 
-### `length` 
+### `length`
 
-`number`: `array`: массив `Wrappers` содержащихся в `WrapperArray`
+`number` (только для чтения): `array`: массив `Wrappers` содержащихся в `WrapperArray`
 
 ## **Методы**
 
