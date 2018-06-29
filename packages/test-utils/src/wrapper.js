@@ -748,7 +748,7 @@ export default class Wrapper implements BaseWrapper {
           this.trigger('change')
         }
       }
-    } else if (tagName === 'INPUT' || tagName === 'textarea') {
+    } else if (tagName === 'INPUT' || tagName === 'TEXTAREA') {
       throwError(
         `wrapper.setChecked() cannot be called on "text" ` +
           `inputs. Use wrapper.setValue() instead`
@@ -795,7 +795,7 @@ export default class Wrapper implements BaseWrapper {
           `type="radio" /> element. Use wrapper.setChecked() ` +
           `instead`
       )
-    } else if (tagName === 'INPUT' || tagName === 'textarea') {
+    } else if (tagName === 'INPUT' || tagName === 'TEXTAREA') {
       throwError(
         `wrapper.setSelected() cannot be called on "text" ` +
           `inputs. Use wrapper.setValue() instead`
