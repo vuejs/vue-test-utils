@@ -27,7 +27,6 @@ export default class Wrapper implements BaseWrapper {
   +vm: Component | void;
   _emitted: { [name: string]: Array<Array<any>> };
   _emittedByOrder: Array<{ name: string, args: Array<any> }>;
-  isVm: boolean;
   +element: Element;
   update: Function;
   +options: WrapperOptions;
@@ -446,7 +445,7 @@ export default class Wrapper implements BaseWrapper {
    * Checks if wrapper is a vue instance
    */
   isVueInstance (): boolean {
-    return !!this.isVm
+    return !!this.vm
   }
 
   /**
@@ -640,7 +639,7 @@ export default class Wrapper implements BaseWrapper {
         `functional component`
       )
     }
-    if (!this.isVm) {
+    if (!this.vm) {
       throwError(
         `wrapper.setProps() can only be called on a Vue ` +
         `instance`
