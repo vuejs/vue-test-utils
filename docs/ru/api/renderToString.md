@@ -7,8 +7,8 @@
     - `{Object} context`
       - `{Array<Component|Object>|Component} children`
     - `{Object} slots`
-        - `{Array<Componet|Object>|Component|String} default`
-        - `{Array<Componet|Object>|Component|String} named`
+        - `{Array<Component|Object>|Component|String} default`
+        - `{Array<Component|Object>|Component|String} named`
     - `{Object} mocks`
     - `{Object|Array<string>} stubs`
     - `{Vue} localVue`
@@ -72,7 +72,7 @@ describe('Foo', () => {
     const renderedString = renderToString(Foo, {
       slots: {
         default: [Bar, FooBar],
-        fooBar: FooBar, // Will match <slot name="FooBar" />,
+        fooBar: FooBar, // Будет соответствовать <slot name="FooBar" />,
         foo: '<div />'
       }
     })
