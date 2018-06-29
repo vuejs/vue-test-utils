@@ -28,12 +28,6 @@ describeWithShallowAndMount('is', mountingMethod => {
     expect(wrapper.is('#div')).to.equal(true)
   })
 
-  it('returns false if wrapper does not contain element', () => {
-    const wrapper = mountingMethod(ComponentWithChild)
-    wrapper.element = null
-    expect(wrapper.is('a')).to.equal(false)
-  })
-
   it('returns true if root node matches Vue Component selector', () => {
     const wrapper = mountingMethod(ComponentWithChild)
     const component = wrapper.findAll(Component).at(0)

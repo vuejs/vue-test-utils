@@ -5,12 +5,21 @@ import type VueWrapper from './vue-wrapper'
 import { throwError, warn } from 'shared/util'
 
 export default class WrapperArray implements BaseWrapper {
-  wrappers: Array<Wrapper | VueWrapper>;
-  length: number;
+  +wrappers: Array<Wrapper | VueWrapper>;
+  +length: number;
 
   constructor (wrappers: Array<Wrapper | VueWrapper>) {
-    this.wrappers = wrappers || []
-    this.length = this.wrappers.length
+    const length = wrappers.length
+    // $FlowIgnore
+    Object.defineProperty(this, 'wrappers', {
+      get: () => wrappers,
+      set: () => throwError('wrapperArray.wrappers is read-only')
+    })
+    // $FlowIgnore
+    Object.defineProperty(this, 'length', {
+      get: () => length,
+      set: () => throwError('wrapperArray.length is read-only')
+    })
   }
 
   at (index: number): Wrapper | VueWrapper {

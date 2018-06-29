@@ -9,7 +9,7 @@ import getSelectorTypeOrThrow from './get-selector-type'
 import { throwError } from 'shared/util'
 
 export default function find (
-  vm: Component | null,
+  vm: Component | void,
   vnode: VNode | null,
   element: Element,
   selector: Selector

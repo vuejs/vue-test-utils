@@ -8,21 +8,21 @@ A `Wrapper` is an object that contains a mounted component or vnode and methods 
 
 ### `vm`
 
-`Component`: This is the `Vue` instance. You can access all the [instance methods and properties of a vm](https://vuejs.org/v2/api/#Instance-Properties) with `wrapper.vm`. This only exists on Vue component wrappers  
+`Component` (read-only): This is the `Vue` instance. You can access all the [instance methods and properties of a vm](https://vuejs.org/v2/api/#Instance-Properties) with `wrapper.vm`. This only exists on Vue component wrapper or HTMLElement binding Vue component wrapper.
 
 ### `element`
 
-`HTMLElement`: the root DOM node of the wrapper  
+`HTMLElement` (read-only): the root DOM node of the wrapper
 
-### `options` 
+### `options`
 
 #### `options.attachedToDocument`
 
-`Boolean`: True if `attachedToDocument` in mounting options was true  
+`Boolean` (read-only): True if `attachedToDocument` in mounting options was `true`
 
-#### `options.sync` 
+#### `options.sync`
 
-`Boolean`: True if `sync` in mounting options was not `false`
+`Boolean` (read-only): True if `sync` in mounting options was not `false`
 
 ## Methods
 

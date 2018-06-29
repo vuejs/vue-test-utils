@@ -1,4 +1,4 @@
-### attributes()
+## attributes()
 
 Returns `Wrapper` DOM node attribute object.
 

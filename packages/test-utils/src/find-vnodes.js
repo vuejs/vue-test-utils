@@ -55,7 +55,7 @@ function findVNodesBySelector (vNode: VNode, selector: string): Array<VNode> {
 
 export default function findVnodes (
   vnode: VNode,
-  vm: Component | null,
+  vm: Component | void,
   selectorType: ?string,
   selector: Object | string
 ): Array<VNode> {

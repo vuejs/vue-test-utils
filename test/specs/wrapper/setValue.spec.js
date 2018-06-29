@@ -2,12 +2,20 @@ import ComponentWithInput from '~resources/components/component-with-input.vue'
 import { describeWithShallowAndMount } from '~resources/utils'
 
 describeWithShallowAndMount('setValue', mountingMethod => {
-  it('sets element value', () => {
+  it('sets element of input value', () => {
     const wrapper = mountingMethod(ComponentWithInput)
     const input = wrapper.find('input[type="text"]')
     input.setValue('foo')
 
     expect(input.element.value).to.equal('foo')
+  })
+
+  it('sets element of textarea value', () => {
+    const wrapper = mountingMethod(ComponentWithInput)
+    const textarea = wrapper.find('textarea')
+    textarea.setValue('foo')
+
+    expect(textarea.element.value).to.equal('foo')
   })
 
   it('updates dom with v-model', () => {
@@ -17,17 +25,6 @@ describeWithShallowAndMount('setValue', mountingMethod => {
     input.setValue('input text awesome binding')
 
     expect(wrapper.text()).to.contain('input text awesome binding')
-  })
-
-  it('throws error if wrapper does not contain element', () => {
-    const wrapper = mountingMethod({ template: '<div><p/></div>' })
-    const p = wrapper.find('p')
-    p.element = null
-    const fn = () => p.setValue('')
-    const message = '[vue-test-utils]: cannot call wrapper.setValue() on a wrapper without an element'
-    expect(fn)
-      .to.throw()
-      .with.property('message', message)
   })
 
   it('throws error if element is select', () => {

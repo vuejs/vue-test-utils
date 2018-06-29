@@ -44,7 +44,7 @@ expect(wrapper.emitted('foo').length).toBe(2)
 expect(wrapper.emitted('foo')[1]).toEqual([123])
 ```
 
-The `.emitted() method returns the same object every time it is called, not a new one, and so the object will update when new events are fired:
+The `.emitted()` method returns the same object every time it is called, not a new one, and so the object will update when new events are fired:
 
 ```js
 const emitted = wrapper.emitted()

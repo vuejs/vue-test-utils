@@ -19,14 +19,12 @@ function createVNodesForSlot (
   slotValue,
   name
 ) {
-  if (typeof slotValue === 'string' &&
-  !startsWithTag(slotValue)) {
+  if (typeof slotValue === 'string' && !startsWithTag(slotValue)) {
     return slotValue
   }
 
-  var el = typeof slotValue === 'string'
-    ? vueTemplateCompiler.compileToFunctions(slotValue)
-    : slotValue;
+  var el =
+    typeof slotValue === 'string' ? vueTemplateCompiler.compileToFunctions(slotValue) : slotValue;
 
   var vnode = h(el);
   vnode.data.slot = name;
@@ -40,13 +38,11 @@ function createSlotVNodes (
   return Object.keys(slots).reduce(function (acc, key) {
     var content = slots[key];
     if (Array.isArray(content)) {
-      var nodes = content.reduce(function (accInner, slotDef) {
-        return accInner.concat(createVNodesForSlot(h, slotDef, key))
-      }, []);
+      var nodes = content.map(function (slotDef) { return createVNodesForSlot(h, slotDef, key); });
       return acc.concat(nodes)
-    } else {
-      return acc.concat(createVNodesForSlot(h, content, key))
     }
+
+    return acc.concat(createVNodesForSlot(h, content, key))
   }, [])
 }
 
@@ -62,7 +58,10 @@ function warn (msg) {
 
 var camelizeRE = /-(\w)/g;
 var camelize = function (str) {
-  var camelizedStr = str.replace(camelizeRE, function (_, c) { return c ? c.toUpperCase() : ''; });
+  var camelizedStr = str.replace(
+    camelizeRE,
+    function (_, c) { return (c ? c.toUpperCase() : ''); }
+  );
   return camelizedStr.charAt(0).toLowerCase() + camelizedStr.slice(1)
 };
 
@@ -77,7 +76,9 @@ var capitalize = function (str) { return str.charAt(0).toUpperCase() + str.slice
 var hyphenateRE = /\B([A-Z])/g;
 var hyphenate = function (str) { return str.replace(hyphenateRE, '-$1').toLowerCase(); };
 
-var vueVersion = Number(((Vue.version.split('.')[0]) + "." + (Vue.version.split('.')[1])));
+var vueVersion = Number(
+  ((Vue.version.split('.')[0]) + "." + (Vue.version.split('.')[1]))
+);
 
 // 
 
@@ -86,7 +87,11 @@ function addMocks (mockedProperties, Vue$$1) {
     try {
       Vue$$1.prototype[key] = mockedProperties[key];
     } catch (e) {
-      warn(("could not overwrite property " + key + ", this usually caused by a plugin that has added the property as a read-only value"));
+      warn(
+        "could not overwrite property " + key + ", this is " +
+        "usually caused by a plugin that has added " +
+        "the property as a read-only value"
+      );
     }
     Vue.util.defineReactive(Vue$$1, key, mockedProperties[key]);
   });
@@ -94,7 +99,11 @@ function addMocks (mockedProperties, Vue$$1) {
 
 // 
 
-function logEvents (vm, emitted, emittedByOrder) {
+function logEvents (
+  vm,
+  emitted,
+  emittedByOrder
+) {
   var emit = vm.$emit;
   vm.$emit = function (name) {
     var args = [], len = arguments.length - 1;
@@ -119,12 +128,12 @@ function addEventLogger (vue) {
 // 
 
 function componentNeedsCompiling (component) {
-  return component &&
+  return (
+    component &&
     !component.render &&
-    (component.template ||
-      component.extends ||
-      component.extendOptions) &&
+    (component.template || component.extends || component.extendOptions) &&
     !component.functional
+  )
 }
 
 function templateContainsComponent (template, name) {
@@ -166,10 +175,11 @@ function isVueComponent$1 (comp) {
 }
 
 function isValidStub (stub) {
-  return !!stub &&
-      typeof stub === 'string' ||
-      (stub === true) ||
-      (isVueComponent$1(stub))
+  return (
+    (!!stub && typeof stub === 'string') ||
+    stub === true ||
+    isVueComponent$1(stub)
+  )
 }
 
 function getCoreProperties (component) {
@@ -196,7 +206,11 @@ function createStubFromString (
   name
 ) {
   if (!vueTemplateCompiler.compileToFunctions) {
-    throwError('vueTemplateCompiler is undefined, you must pass precompiled components if vue-template-compiler is undefined');
+    throwError(
+      "vueTemplateCompiler is undefined, you must pass " +
+        "precompiled components if vue-template-compiler is " +
+        "undefined"
+    );
   }
 
   if (templateContainsComponent(templateString, name)) {
@@ -238,7 +252,7 @@ function createComponentStubs (
       }
 
       if (typeof stub !== 'string') {
-        throwError('each item in an options.stubs array must be a string');
+        throwError("each item in an options.stubs array must be a " + "string");
       }
       components[stub] = createBlankStub({ name: stub });
     });
@@ -248,7 +262,9 @@ function createComponentStubs (
         return
       }
       if (!isValidStub(stubs[stub])) {
-        throwError('options.stub values must be passed a string or component');
+        throwError(
+          "options.stub values must be passed a string or " + "component"
+        );
       }
       if (stubs[stub] === true) {
         components[stub] = createBlankStub({ name: stub });
@@ -263,7 +279,11 @@ function createComponentStubs (
         // Remove cached constructor
         delete originalComponents[stub]._Ctor;
         if (typeof stubs[stub] === 'string') {
-          components[stub] = createStubFromString(stubs[stub], originalComponents[stub], stub);
+          components[stub] = createStubFromString(
+            stubs[stub],
+            originalComponents[stub],
+            stub
+          );
         } else {
           components[stub] = Object.assign({}, stubs[stub],
             {name: originalComponents[stub].name});
@@ -271,7 +291,11 @@ function createComponentStubs (
       } else {
         if (typeof stubs[stub] === 'string') {
           if (!vueTemplateCompiler.compileToFunctions) {
-            throwError('vueTemplateCompiler is undefined, you must pass precompiled components if vue-template-compiler is undefined');
+            throwError(
+              "vueTemplateCompiler is undefined, you must pass " +
+                "precompiled components if vue-template-compiler is " +
+                "undefined"
+            );
           }
           components[stub] = Object.assign({}, vueTemplateCompiler.compileToFunctions(stubs[stub]));
         } else {
@@ -299,21 +323,29 @@ function deleteMountingOptions (options) {
 // 
 
 function isValidSlot (slot) {
-  return Array.isArray(slot) ||
-   (slot !== null && typeof slot === 'object') ||
-   typeof slot === 'string'
+  return (
+    Array.isArray(slot) ||
+    (slot !== null && typeof slot === 'object') ||
+    typeof slot === 'string'
+  )
 }
 
 function requiresTemplateCompiler (slot) {
   if (typeof slot === 'string' && !vueTemplateCompiler.compileToFunctions) {
-    throwError('vueTemplateCompiler is undefined, you must pass precompiled components if vue-template-compiler is undefined');
+    throwError(
+      "vueTemplateCompiler is undefined, you must pass " +
+        "precompiled components if vue-template-compiler is " +
+        "undefined"
+    );
   }
 }
 
 function validateSlots (slots) {
   Object.keys(slots).forEach(function (key) {
     if (!isValidSlot(slots[key])) {
-      throwError('slots[key] must be a Component, string or an array of Components');
+      throwError(
+        "slots[key] must be a Component, string or an array " + "of Components"
+      );
     }
 
     requiresTemplateCompiler(slots[key]);
@@ -321,7 +353,10 @@ function validateSlots (slots) {
     if (Array.isArray(slots[key])) {
       slots[key].forEach(function (slotValue) {
         if (!isValidSlot(slotValue)) {
-          throwError('slots[key] must be a Component, string or an array of Components');
+          throwError(
+            "slots[key] must be a Component, string or an array " +
+              "of Components"
+          );
         }
         requiresTemplateCompiler(slotValue);
       });
@@ -331,36 +366,10 @@ function validateSlots (slots) {
 
 // 
 
-function createFunctionalSlots (slots, h) {
-  if ( slots === void 0 ) slots = {};
-
-  if (Array.isArray(slots.default)) {
-    return slots.default.map(h)
-  }
-
-  if (typeof slots.default === 'string') {
-    return [h(vueTemplateCompiler.compileToFunctions(slots.default))]
-  }
-  var children = [];
-  Object.keys(slots).forEach(function (slotType) {
-    if (Array.isArray(slots[slotType])) {
-      slots[slotType].forEach(function (slot) {
-        var component = typeof slot === 'string' ? vueTemplateCompiler.compileToFunctions(slot) : slot;
-        var newSlot = h(component);
-        newSlot.data.slot = slotType;
-        children.push(newSlot);
-      });
-    } else {
-      var component = typeof slots[slotType] === 'string' ? vueTemplateCompiler.compileToFunctions(slots[slotType]) : slots[slotType];
-      var slot = h(component);
-      slot.data.slot = slotType;
-      children.push(slot);
-    }
-  });
-  return children
-}
-
-function createFunctionalComponent (component, mountingOptions) {
+function createFunctionalComponent (
+  component,
+  mountingOptions
+) {
   if (mountingOptions.context && typeof mountingOptions.context !== 'object') {
     throwError('mount.context must be an object');
   }
@@ -373,7 +382,12 @@ function createFunctionalComponent (component, mountingOptions) {
       return h(
         component,
         mountingOptions.context || component.FunctionalRenderContext,
-        (mountingOptions.context && mountingOptions.context.children && mountingOptions.context.children.map(function (x) { return typeof x === 'function' ? x(h) : x; })) || createFunctionalSlots(mountingOptions.slots, h)
+        (mountingOptions.context &&
+          mountingOptions.context.children &&
+          mountingOptions.context.children.map(
+            function (x) { return (typeof x === 'function' ? x(h) : x); }
+          )) ||
+          createSlotVNodes(h, mountingOptions.slots || {})
       )
     },
     name: component.name,
@@ -395,11 +409,14 @@ function createInstance (
   if (options.mocks) {
     addMocks(options.mocks, _Vue);
   }
-  if ((component.options && component.options.functional) || component.functional) {
+  if (
+    (component.options && component.options.functional) ||
+    component.functional
+  ) {
     component = createFunctionalComponent(component, options);
   } else if (options.context) {
     throwError(
-      'mount.context can only be used when mounting a functional component'
+      "mount.context can only be used when mounting a " + "functional component"
     );
   }
 
@@ -413,27 +430,47 @@ function createInstance (
 
   deleteMountingOptions(instanceOptions);
 
-  // $FlowIgnore
-  var stubComponents = createComponentStubs(component.components, options.stubs);
+  var stubComponents = createComponentStubs(
+    // $FlowIgnore
+    component.components,
+    // $FlowIgnore
+    options.stubs
+  );
   if (options.stubs) {
     instanceOptions.components = Object.assign({}, instanceOptions.components,
       // $FlowIgnore
       stubComponents);
   }
-
+  _Vue.mixin({
+    created: function created () {
+      Object.assign(
+        this.$options.components,
+        stubComponents
+      );
+    }
+  });
   Object.keys(component.components || {}).forEach(function (c) {
-    if (component.components[c].extendOptions &&
-      !instanceOptions.components[c]) {
+    if (
+      component.components[c].extendOptions &&
+      !instanceOptions.components[c]
+    ) {
       if (options.logModifiedComponents) {
-        warn(("an extended child component " + c + " has been modified to ensure it has the correct instance properties. This means it is not possible to find the component with a component selector. To find the component, you must stub it manually using the stubs mounting option."));
+        warn(
+          "an extended child component <" + c + "> has been modified " +
+          "to ensure it has the correct instance properties. " +
+          "This means it is not possible to find the component " +
+          "with a component selector. To find the component, " +
+          "you must stub it manually using the stubs mounting " +
+          "option."
+        );
       }
       instanceOptions.components[c] = _Vue.extend(component.components[c]);
     }
   });
 
-  Object.keys(stubComponents).forEach(function (c) {
-    _Vue.component(c, stubComponents[c]);
-  });
+  if (component.options) {
+    component.options._base = _Vue;
+  }
 
   var Constructor = vueVersion < 2.3 && typeof component === 'function'
     ? component.extend(instanceOptions)
@@ -450,7 +487,8 @@ function createInstance (
 
   // Objects are not resolved in extended components in Vue < 2.5
   // https://github.com/vuejs/vue/issues/6436
-  if (options.provide &&
+  if (
+    options.provide &&
     typeof options.provide === 'object' &&
     vueVersion < 2.5
   ) {
@@ -464,12 +502,16 @@ function createInstance (
       var slots = options.slots
         ? createSlotVNodes(h, options.slots)
         : undefined;
-      return h(Constructor, {
-        ref: 'vm',
-        props: options.propsData,
-        on: options.listeners,
-        attrs: options.attrs
-      }, slots)
+      return h(
+        Constructor,
+        {
+          ref: 'vm',
+          props: options.propsData,
+          on: options.listeners,
+          attrs: options.attrs
+        },
+        slots
+      )
     }
   });
 
@@ -479,8 +521,7 @@ function createInstance (
 // 
 
 function getOptions (key, options, config) {
-  if (options ||
-    (config[key] && Object.keys(config[key]).length > 0)) {
+  if (options || (config[key] && Object.keys(config[key]).length > 0)) {
     if (options instanceof Function) {
       return options
     } else if (Array.isArray(options)) {
@@ -494,17 +535,14 @@ function getOptions (key, options, config) {
   }
 }
 
-function mergeOptions (
-  options,
-  config
-) {
+function mergeOptions (options, config) {
   return Object.assign({}, options,
     {logModifiedComponents: config.logModifiedComponents,
     stubs: getOptions('stubs', options.stubs, config),
     mocks: getOptions('mocks', options.mocks, config),
     methods: getOptions('methods', options.methods, config),
     provide: getOptions('provide', options.provide, config),
-    sync: !!((options.sync || options.sync === undefined))})
+    sync: !!(options.sync || options.sync === undefined)})
 }
 
 var config = testUtils.config
@@ -514,22 +552,31 @@ var config = testUtils.config
 Vue.config.productionTip = false;
 Vue.config.devtools = false;
 
-function renderToString (component, options) {
+function renderToString (
+  component,
+  options
+) {
   if ( options === void 0 ) options = {};
 
   var renderer = vueServerRenderer.createRenderer();
 
   if (!renderer) {
-    throwError('renderToString must be run in node. It cannot be run in a browser');
+    throwError(
+      "renderToString must be run in node. It cannot be " + "run in a browser"
+    );
   }
   // Remove cached constructor
   delete component._Ctor;
 
   if (options.attachToDocument) {
-    throwError('you cannot use attachToDocument with renderToString');
+    throwError("you cannot use attachToDocument with " + "renderToString");
   }
-  var vueClass = options.localVue || testUtils.createLocalVue();
-  var vm = createInstance(component, mergeOptions(options, config), vueClass);
+  var vueConstructor = testUtils.createLocalVue(options.localVue);
+  var vm = createInstance(
+    component,
+    mergeOptions(options, config),
+    vueConstructor
+  );
   var renderedString = '';
 
   // $FlowIgnore
@@ -544,7 +591,10 @@ function renderToString (component, options) {
 
 // 
 
-function render (component, options) {
+function render (
+  component,
+  options
+) {
   if ( options === void 0 ) options = {};
 
   var renderedString = renderToString(component, options);

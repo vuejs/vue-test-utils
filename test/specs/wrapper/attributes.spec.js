@@ -15,11 +15,4 @@ describeWithShallowAndMount('attributes', mountingMethod => {
     const wrapper = mountingMethod(compiled)
     expect(wrapper.attributes()).to.eql({})
   })
-
-  it('returns empty object if wrapper element is null', () => {
-    const compiled = compileToFunctions('<div />')
-    const wrapper = mountingMethod(compiled)
-    wrapper.element = null
-    expect(wrapper.attributes()).to.eql({})
-  })
 })
