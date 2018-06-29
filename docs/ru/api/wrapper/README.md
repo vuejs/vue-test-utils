@@ -8,19 +8,19 @@ Vue Test Utils — это API основанное на использовани
 
 ### `vm`
 
-`Component`: Это экземпляр `Vue`. Вы можете получить доступ ко всем [методам и свойствам экземпляра](https://ru.vuejs.org/v2/api/index.html#Опции-—-данные) через `wrapper.vm`. Это существует только в обёртках для компонентов Vue 
+`Component` (только для чтения): Это экземпляр `Vue`. Вы можете получить доступ ко всем [методам и свойствам экземпляра](https://ru.vuejs.org/v2/api/index.html#Опции-—-данные) через `wrapper.vm`. Это существует только в обёртках для компонентов Vue.
 
 ### `element`
 
-`HTMLElement`: Корневой DOM-узел обёртки   
+`HTMLElement` (только для чтения): Корневой DOM-узел обёртки
 
-### `options` 
+### `options`
 
 #### `options.attachedToDocument`
 
-`Boolean`: True, если `attachedToDocument` в опциях монтирования было true  
+`Boolean` (только для чтения): True, если `attachedToDocument` в опциях монтирования было `true`
 
-#### `options.sync` 
+#### `options.sync`
 
 `Boolean`: True, если `sync` в опциях монтирования не было `false`
 
