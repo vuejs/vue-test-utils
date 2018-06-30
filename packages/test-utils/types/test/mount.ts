@@ -75,7 +75,6 @@ mount(ClassComponent, {
 /**
  * Test for config
  */
-config.stubs = ['a']
 config.stubs = {
   foo: normalOptions,
   bar: functionalOptions,

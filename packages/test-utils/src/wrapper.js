@@ -75,7 +75,7 @@ export default class Wrapper implements BaseWrapper {
     )
   }
 
-  at () {
+  at (): void {
     throwError('at() must be called on a WrapperArray')
   }
 
@@ -121,7 +121,7 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Checks if wrapper contains provided selector.
    */
-  contains (selector: Selector) {
+  contains (selector: Selector): boolean {
     const selectorType = getSelectorTypeOrThrow(selector, 'contains')
     const nodes = findAll(this.vm, this.vnode, this.element, selector)
     const is = selectorType === REF_SELECTOR ? false : this.is(selector)
@@ -131,7 +131,9 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Returns an object containing custom events emitted by the Wrapper vm
    */
-  emitted (event?: string) {
+  emitted (
+    event?: string
+  ): Array<Array<any>> | { [name: string]: Array<Array<any>> } {
     if (!this._emitted && !this.vm) {
       throwError(`wrapper.emitted() can only be called on a Vue instance`)
     }
@@ -144,7 +146,7 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Returns an Array containing custom events emitted by the Wrapper vm
    */
-  emittedByOrder () {
+  emittedByOrder (): Array<{ name: string, args: Array<any> }> {
     if (!this._emittedByOrder && !this.vm) {
       throwError(
         `wrapper.emittedByOrder() can only be called on a Vue instance`
@@ -194,7 +196,7 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Checks if wrapper has an attribute with matching value
    */
-  hasAttribute (attribute: string, value: string) {
+  hasAttribute (attribute: string, value: string): boolean {
     warn(
       `hasAttribute() has been deprecated and will be ` +
       `removed in version 1.0.0. Use attributes() ` +
@@ -219,7 +221,7 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Asserts wrapper has a class name
    */
-  hasClass (className: string) {
+  hasClass (className: string): boolean {
     warn(
       `hasClass() has been deprecated and will be removed ` +
       `in version 1.0.0. Use classes() ` +
@@ -246,7 +248,7 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Asserts wrapper has a prop name
    */
-  hasProp (prop: string, value: string) {
+  hasProp (prop: string, value: string): boolean {
     warn(
       `hasProp() has been deprecated and will be removed ` +
       `in version 1.0.0. Use props() ` +
@@ -277,7 +279,7 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Checks if wrapper has a style with value
    */
-  hasStyle (style: string, value: string) {
+  hasStyle (style: string, value: string): boolean {
     warn(
       `hasStyle() has been deprecated and will be removed ` +
       `in version 1.0.0. Use wrapper.element.style ` +
@@ -493,7 +495,7 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Sets vm data
    */
-  setData (data: Object) {
+  setData (data: Object): void {
     if (this.isFunctionalComponent) {
       throwError(
         `wrapper.setData() cannot be called on a functional ` +
@@ -534,7 +536,7 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Sets vm computed
    */
-  setComputed (computed: Object) {
+  setComputed (computed: Object): void {
     if (!this.isVueInstance()) {
       throwError(
         `wrapper.setComputed() can only be called on a Vue ` +
@@ -607,7 +609,7 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Sets vm methods
    */
-  setMethods (methods: Object) {
+  setMethods (methods: Object): void {
     if (!this.isVueInstance()) {
       throwError(
         `wrapper.setMethods() can only be called on a Vue ` +
@@ -630,7 +632,7 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Sets vm props
    */
-  setProps (data: Object) {
+  setProps (data: Object): void {
     const originalConfig = Vue.config.silent
     Vue.config.silent = config.silent
     if (this.isFunctionalComponent) {
@@ -677,7 +679,7 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Sets element value and triggers input event
    */
-  setValue (value: any) {
+  setValue (value: any): void {
     const tagName = this.element.tagName
     const type = this.attributes().type
 
@@ -710,7 +712,7 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Checks radio button or checkbox element
    */
-  setChecked (checked: boolean = true) {
+  setChecked (checked: boolean = true): void {
     if (typeof checked !== 'boolean') {
       throwError('wrapper.setChecked() must be passed a boolean')
     }
@@ -760,7 +762,7 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Selects <option></option> element
    */
-  setSelected () {
+  setSelected (): void {
     const tagName = this.element.tagName
     const type = this.attributes().type
 
@@ -814,7 +816,7 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Calls destroy on vm
    */
-  destroy () {
+  destroy (): void {
     if (!this.isVueInstance()) {
       throwError(`wrapper.destroy() can only be called on a Vue instance`)
     }
@@ -898,7 +900,7 @@ export default class Wrapper implements BaseWrapper {
     }
   }
 
-  update () {
+  update (): void {
     warn(
       `update has been removed from vue-test-utils. All ` +
         `updates are now synchronous by default`
