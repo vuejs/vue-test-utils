@@ -1,3 +1,5 @@
+// @flow
+
 const MOUNTING_OPTIONS = [
   'attachToDocument',
   'mocks',
@@ -11,7 +13,9 @@ const MOUNTING_OPTIONS = [
   'propsData'
 ]
 
-export default function extractInstanceOptions (options) {
+export default function extractInstanceOptions (
+  options: Object
+): Object {
   const instanceOptions = { ...options }
   MOUNTING_OPTIONS.forEach(mountingOption => {
     delete instanceOptions[mountingOption]

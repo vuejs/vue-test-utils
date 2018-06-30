@@ -2,8 +2,8 @@
 
 import { compileToFunctions } from 'vue-template-compiler'
 
-function startsWithTag (str) {
-  return str && str.trim()[0] === '<'
+function startsWithTag (str: SlotValue): boolean {
+  return typeof str === 'string' && str.trim()[0] === '<'
 }
 
 function createVNodesForSlot (
