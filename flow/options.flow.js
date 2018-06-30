@@ -11,7 +11,7 @@ declare type Options = {
   stubs?: Stubs,
   context?: Object,
   attrs?: { [key: string]: string },
-  listeners?: { [key: string]: Function | Function[] },
+  listeners?: { [key: string]: Function | Array<Function> },
   logModifiedComponents?: boolean,
   sync?: boolean
 };
