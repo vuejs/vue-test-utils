@@ -4,6 +4,7 @@ import type Wrapper from '~src/Wrapper'
 import type WrapperArray from '~src/WrapperArray'
 
 declare type Selector = any;
+declare type Components = { [name: string]: Component };
 
 declare interface BaseWrapper {
   // eslint-disable-line no-undef
