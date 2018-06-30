@@ -14,6 +14,11 @@ module.exports = {
       lang: 'zh-CN',
       title: 'Vue Test Utils',
       description: '测试 Vue 组件的实用工具'
+    },
+    '/ru/': {
+      lang: 'ru',
+      title: 'Vue Test Utils',
+      description: 'Библиотека для тестирования Vue-компонентов'
     }
   },
   serviceWorker: true,
@@ -93,7 +98,31 @@ module.exports = {
           '/ja/api/options',
           '/ja/api/components/'
         ]
-      }
+      },
+      '/ru/': {
+        label: 'Русский',
+        selectText: 'Переводы',
+        editLinkText: 'Изменить эту страницу на GitHub',
+        nav: [
+          {
+            text: 'API',
+            link: '/ru/api/'
+          },
+          {
+            text: 'Руководства',
+            link: '/ru/guides/'
+          }
+        ],
+        sidebar: [
+          '/ru/',
+          '/ru/guides/',
+          '/ru/api/',
+          '/ru/api/wrapper/',
+          '/ru/api/wrapper-array/',
+          '/ru/api/options',
+          '/ru/api/components/'
+        ]
+      },
     }
   },
   markdown: {
