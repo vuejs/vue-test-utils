@@ -1,10 +1,12 @@
+// @flow
+
 import { VUE_VERSION } from './consts'
 
-function setDepsSync (dep) {
+function setDepsSync (dep): void {
   dep.subs.forEach(setWatcherSync)
 }
 
-function setWatcherSync (watcher) {
+function setWatcherSync (watcher): void {
   if (watcher.sync === true) {
     return
   }
@@ -12,7 +14,7 @@ function setWatcherSync (watcher) {
   watcher.deps.forEach(setDepsSync)
 }
 
-export function setWatchersToSync (vm) {
+export function setWatchersToSync (vm: Component): void {
   if (vm._watchers) {
     vm._watchers.forEach(setWatcherSync)
   }

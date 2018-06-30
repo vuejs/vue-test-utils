@@ -2,7 +2,10 @@
 import $$Vue from 'vue'
 import { warn } from 'shared/util'
 
-export default function addMocks (mockedProperties: Object, Vue: Component) {
+export default function addMocks (
+  mockedProperties: Object,
+  Vue: Component
+): void {
   Object.keys(mockedProperties).forEach(key => {
     try {
       Vue.prototype[key] = mockedProperties[key]

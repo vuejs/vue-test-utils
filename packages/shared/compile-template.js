@@ -2,7 +2,7 @@
 
 import { compileToFunctions } from 'vue-template-compiler'
 
-export function compileTemplate (component: Component) {
+export function compileTemplate (component: Component): void {
   if (component.template) {
     Object.assign(component, compileToFunctions(component.template))
   }

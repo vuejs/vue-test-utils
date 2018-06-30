@@ -32,7 +32,10 @@ function getVueTemplateCompilerHelpers (proxy: Object): Object {
   return helpers
 }
 
-export function addScopedSlots (vm: Component, scopedSlots: any) {
+export function addScopedSlots (
+  vm: Component,
+  scopedSlots: { [name: string]: string }
+): void {
   if (window.navigator.userAgent.match(/PhantomJS/i)) {
     throwError(
       `the scopedSlots option does not support PhantomJS. ` +

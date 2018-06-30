@@ -11,7 +11,7 @@ function isValidSlot (slot: any): boolean {
   )
 }
 
-function requiresTemplateCompiler (slot) {
+function requiresTemplateCompiler (slot: any): void {
   if (typeof slot === 'string' && !compileToFunctions) {
     throwError(
       `vueTemplateCompiler is undefined, you must pass ` +
