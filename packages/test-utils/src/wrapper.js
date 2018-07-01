@@ -659,7 +659,25 @@ export default class Wrapper implements BaseWrapper {
       }
 
       if (this.vm && this.vm._props) {
-        this.vm._props[key] = data[key]
+        // SetProps on object prop child changes trigger computed or watcher
+        // https://github.com/vuejs/vue-test-utils/issues/761
+        if (
+          typeof data[key] === 'object' &&
+          data[key] !== null &&
+          !Array.isArray(data[key])
+        ) {
+          const newObj = mergeWith(
+            Object.create(Object.getPrototypeOf(data[key])),
+            data[key],
+            (objValue, srcValue) => {
+              return Array.isArray(srcValue) ? srcValue : undefined
+            }
+          )
+          // $FlowIgnore : Problem with possibly null this.vm._props
+          this.vm._props[key] = newObj
+        } else {
+          this.vm._props[key] = data[key]
+        }
       } else {
         // $FlowIgnore : Problem with possibly null this.vm
         this.vm[key] = data[key]
