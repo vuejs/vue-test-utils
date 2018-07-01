@@ -658,31 +658,32 @@ export default class Wrapper implements BaseWrapper {
         )
       }
 
-      if (this.vm && this.vm._props) {
-        // SetProps on object prop child changes trigger computed or watcher
-        // https://github.com/vuejs/vue-test-utils/issues/761
-        if (
-          typeof data[key] === 'object' &&
+      // SetProps on object prop child changes trigger computed or watcher
+      // https://github.com/vuejs/vue-test-utils/issues/761
+      let newData
+      if (
+        typeof data[key] === 'object' &&
           data[key] !== null &&
           !Array.isArray(data[key])
-        ) {
-          const newObj = mergeWith(
-            Object.create(Object.getPrototypeOf(data[key])),
-            data[key],
-            (objValue, srcValue) => {
-              return Array.isArray(srcValue) ? srcValue : undefined
-            }
-          )
-          // $FlowIgnore : Problem with possibly null this.vm._props
-          this.vm._props[key] = newObj
-        } else {
-          this.vm._props[key] = data[key]
-        }
+      ) {
+        newData = mergeWith(
+          Object.create(Object.getPrototypeOf(data[key])),
+          data[key],
+          (objValue, srcValue) => {
+            return Array.isArray(srcValue) ? srcValue : undefined
+          }
+        )
+      } else {
+        newData = data[key]
+      }
+
+      if (this.vm && this.vm._props) {
+        this.vm._props[key] = newData
       } else {
         // $FlowIgnore : Problem with possibly null this.vm
-        this.vm[key] = data[key]
+        this.vm[key] = newData
         // $FlowIgnore : Problem with possibly null this.vm.$options
-        this.vm.$options.propsData[key] = data[key]
+        this.vm.$options.propsData[key] = newData
       }
     })
     // $FlowIgnore : Problem with possibly null this.vm
