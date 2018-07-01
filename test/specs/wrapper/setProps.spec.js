@@ -169,6 +169,110 @@ describeWithShallowAndMount('setProps', mountingMethod => {
     expect(wrapper.vm.data).to.equal('1,2,3,4,5')
   })
 
+  it('runs computed when prop is object', () => {
+    class TestClass {
+      constructor (text) {
+        this._text = text
+      }
+
+      get text () {
+        return this._text
+      }
+
+      set text (text) {
+        this._text = text
+      }
+    }
+
+    const TestComponent = {
+      template: `<div id="app">
+        <div class="shallow">{{ shallowObjText }}</div>
+        <div class="deep">{{ deepObjText }}</div>
+        <div class="class">{{ classText }}</div>
+      </div>`,
+      props: {
+        shallowObj: Object,
+        deepObj: Object,
+        classInstance: TestClass
+      },
+      computed: {
+        shallowObjText () {
+          return this.shallowObj.text
+        },
+        deepObjText () {
+          return this.deepObj.obj.text
+        },
+        classText () {
+          return this.classInstance.text
+        }
+      }
+    }
+
+    const shallowObj = {
+      text: 'initial shallow'
+    }
+    const deepObj = {
+      obj: {
+        text: 'initial deep'
+      }
+    }
+    const classInstance = new TestClass('initial class')
+    const wrapper = mountingMethod(TestComponent, {
+      propsData: { shallowObj, deepObj, classInstance }
+    })
+    const shallowWraper = wrapper.find('.shallow')
+    const deepWrapper = wrapper.find('.deep')
+    const classWrapper = wrapper.find('.class')
+
+    expect(shallowWraper.text()).to.equal('initial shallow')
+    expect(deepWrapper.text()).to.equal('initial deep')
+    expect(classWrapper.text()).to.equal('initial class')
+
+    shallowObj.text = 'updated shallow'
+    deepObj.obj.text = 'updated deep'
+    classInstance.text = 'updated class'
+    wrapper.setProps({ shallowObj, deepObj, classInstance })
+    expect(shallowWraper.text()).to.equal('updated shallow')
+    expect(deepWrapper.text()).to.equal('updated deep')
+    expect(classWrapper.text()).to.equal('updated class')
+  })
+
+  it('runs watcher when prop is object', () => {
+    const TestComponent = {
+      template: `<div id="app">
+        <div class="watch">{{ watchText }}</div>
+      </div>`,
+      props: {
+        obj: Object
+      },
+      data: () => ({
+        watchText: 'initial'
+      }),
+      watch: {
+        'obj.text': 'execute'
+      },
+      methods: {
+        execute () {
+          this.watchText = 'updated'
+        }
+      }
+    }
+
+    const obj = {
+      text: 'initial shallow'
+    }
+    const wrapper = mountingMethod(TestComponent, {
+      propsData: { obj }
+    })
+    const watchWrapper = wrapper.find('.watch')
+
+    expect(watchWrapper.text()).to.equal('initial')
+
+    obj.text = 'updated shallow'
+    wrapper.setProps({ obj })
+    expect(watchWrapper.text()).to.equal('updated')
+  })
+
   it('throws an error if node is not a Vue instance', () => {
     const message = 'wrapper.setProps() can only be called on a Vue instance'
     const compiled = compileToFunctions('<div><p></p></div>')

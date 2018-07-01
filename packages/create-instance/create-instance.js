@@ -2,6 +2,7 @@
 
 import { createSlotVNodes } from './add-slots'
 import addMocks from './add-mocks'
+import { createProps } from './add-props'
 import { addEventLogger } from './log-events'
 import { createComponentStubs } from 'shared/stub-components'
 import { throwError, warn, vueVersion } from 'shared/util'
@@ -128,11 +129,14 @@ export default function createInstance (
       const slots = options.slots
         ? createSlotVNodes(h, options.slots)
         : undefined
+      const props = options.propsData
+        ? createProps(options.propsData)
+        : undefined
       return h(
         Constructor,
         {
           ref: 'vm',
-          props: options.propsData,
+          props,
           on: options.listeners,
           attrs: options.attrs
         },

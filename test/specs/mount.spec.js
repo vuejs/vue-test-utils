@@ -52,9 +52,9 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     const wrapper = mount(ComponentWithProps, { propsData: { prop1 }})
     expect(wrapper.vm).to.be.an('object')
     if (wrapper.vm.$props) {
-      expect(wrapper.vm.$props.prop1).to.equal(prop1)
+      expect(wrapper.vm.$props.prop1).to.deep.equal(prop1)
     } else {
-      expect(wrapper.vm.$options.propsData.prop1).to.equal(prop1)
+      expect(wrapper.vm.$options.propsData.prop1).to.deep.equal(prop1)
     }
   })
 
