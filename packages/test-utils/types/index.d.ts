@@ -74,7 +74,7 @@ interface BaseWrapper {
   setProps (props: object): void
 
   setValue (value: any): void
-  setChecked (checked: boolean): void
+  setChecked (checked?: boolean): void
   setSelected (): void
 
   trigger (eventName: string, options?: object): void
