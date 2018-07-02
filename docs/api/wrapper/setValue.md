@@ -3,7 +3,7 @@
 Sets value of a text-control input element and updates `v-model` bound data.
 
 - **Arguments:**
-  - `{String} value`
+  - `{any} value`
 
 - **Example:**
 
