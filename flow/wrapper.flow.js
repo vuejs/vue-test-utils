@@ -37,7 +37,7 @@ declare interface BaseWrapper {
   setComputed(computed: Object): void;
   setMethods(methods: Object): void;
   setValue(value: any): void;
-  setChecked(checked: boolean): void;
+  setChecked(checked?: boolean): void;
   setSelected(): void;
   setProps(data: Object): void;
   trigger(type: string, options: Object): void;

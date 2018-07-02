@@ -28,6 +28,9 @@ describeWithShallowAndMount('ErrorWrapper', mountingMethod => {
     'setMethods',
     'setData',
     'setProps',
+    'setChecked',
+    'setSelected',
+    'setValue',
     'trigger',
     'destroy'
   ]

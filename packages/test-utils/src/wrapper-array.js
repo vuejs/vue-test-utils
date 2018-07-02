@@ -225,7 +225,7 @@ export default class WrapperArray implements BaseWrapper {
     this.wrappers.forEach(wrapper => wrapper.setValue(value))
   }
 
-  setChecked (checked: boolean): void {
+  setChecked (checked: boolean = true): void {
     this.throwErrorIfWrappersIsEmpty('setChecked')
 
     this.wrappers.forEach(wrapper => wrapper.setChecked(checked))
