@@ -657,6 +657,17 @@ export default class Wrapper implements BaseWrapper {
           `is not defined on the component`
         )
       }
+      if (
+        typeof data[key] === 'object' &&
+        data[key] !== null &&
+        // $FlowIgnore : Problem with possibly null this.vm
+        data[key] === this.vm[key]
+      ) {
+        throwError(
+          `wrapper.setProps() called with ${key} property ` +
+          `needs to create a new Object`
+        )
+      }
 
       if (this.vm && this.vm._props) {
         this.vm._props[key] = data[key]
