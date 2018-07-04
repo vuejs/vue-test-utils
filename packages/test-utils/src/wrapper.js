@@ -664,8 +664,10 @@ export default class Wrapper implements BaseWrapper {
         data[key] === this.vm[key]
       ) {
         throwError(
-          `wrapper.setProps() called with ${key} property ` +
-          `needs to create a new Object`
+          `wrapper.setProps() called with the same object ` +
+          `of the existing ${key} property. ` +
+          `You must call wrapper.setProps() with a new object ` +
+          `to trigger reactivity`
         )
       }
 

@@ -192,7 +192,7 @@ describeWithShallowAndMount('setProps', mountingMethod => {
       }
     })
 
-    const message = '[vue-test-utils]: wrapper.setProps() called with obj property needs to create a new Object'
+    const message = '[vue-test-utils]: wrapper.setProps() called with the same object of the existing obj property. You must call wrapper.setProps() with a new object to trigger reactivity'
     const fn = () => wrapper.setProps({ obj })
     expect(fn)
       .to.throw()
