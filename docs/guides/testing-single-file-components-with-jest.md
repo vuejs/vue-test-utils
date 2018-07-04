@@ -53,7 +53,7 @@ Next, create a `jest` block in `package.json`:
 }
 ```
 
-> **Note:** `vue-jest` currently does not support all the features of `vue-loader`, for example custom block support and style loading. In addition, some webpack-specific features such as code-splitting are not supported either. To use these unsupported features, you need to use Mocha instead of Jest to run your tests, and webpack to compile your components. To get started,  read the guide on [testing SFCs with Mocha + webpack](./testing-SFCs-with-mocha-webpack.md).
+> **Note:** `vue-jest` currently does not support all the features of `vue-loader`, for example custom block support and style loading. In addition, some webpack-specific features such as code-splitting are not supported either. To use these unsupported features, you need to use Mocha instead of Jest to run your tests, and webpack to compile your components. To get started,  read the guide on [testing SFCs with Mocha + webpack](./testing-single-file-components-with-mocha-webpack.md).
 
 ### Handling webpack Aliases
 

@@ -53,7 +53,7 @@ npm install --save-dev vue-jest
 }
 ```
 
-> **注意:** `vue-jest` は現在、カスタムブロックのサポートやスタイルのロードなど、`vue-loader` のすべての機能をサポートしていません。さらに、コード分割などのWebpack固有の機能はサポートされていません。サポートされていない機能を使用するには、 Jest の代わりに Mocha をテストランナーとして使用します。そして、 Webpack をコンポーネントをコンパイルするために使用します。やり方は [Mocha + webpackによる単一ファイルコンポーネントのテスト](./testing-SFCs-with-mocha-webpack.md)のガイドをお読みください。
+> **注意:** `vue-jest` は現在、カスタムブロックのサポートやスタイルのロードなど、`vue-loader` のすべての機能をサポートしていません。さらに、コード分割などのWebpack固有の機能はサポートされていません。サポートされていない機能を使用するには、 Jest の代わりに Mocha をテストランナーとして使用します。そして、 Webpack をコンポーネントをコンパイルするために使用します。やり方は [Mocha + webpackによる単一ファイルコンポーネントのテスト](./testing-single-file-components-with-mocha-webpack.md)のガイドをお読みください。
 
 ### Webpack エイリアスの処理
 
