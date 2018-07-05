@@ -169,6 +169,36 @@ describeWithShallowAndMount('setProps', mountingMethod => {
     expect(wrapper.vm.data).to.equal('1,2,3,4,5')
   })
 
+  it('should same reference when called with same object', () => {
+    const TestComponent = {
+      template: `<div></div>`,
+      props: ['obj']
+    }
+    const wrapper = mountingMethod(TestComponent)
+    const obj = {}
+    wrapper.setProps({ obj })
+    expect(wrapper.props().obj).to.equal(obj)
+  })
+
+  it('throws an error if property is same reference', () => {
+    const TestComponent = {
+      template: `<div></div>`,
+      props: ['obj']
+    }
+    const obj = {}
+    const wrapper = mountingMethod(TestComponent, {
+      propsData: {
+        obj
+      }
+    })
+
+    const message = '[vue-test-utils]: wrapper.setProps() called with the same object of the existing obj property. You must call wrapper.setProps() with a new object to trigger reactivity'
+    const fn = () => wrapper.setProps({ obj })
+    expect(fn)
+      .to.throw()
+      .with.property('message', message)
+  })
+
   it('throws an error if node is not a Vue instance', () => {
     const message = 'wrapper.setProps() can only be called on a Vue instance'
     const compiled = compileToFunctions('<div><p></p></div>')
