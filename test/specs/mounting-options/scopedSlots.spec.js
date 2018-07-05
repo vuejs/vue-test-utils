@@ -15,6 +15,30 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
 
   itDoNotRunIf(
     vueVersion < 2.5 || isRunningPhantomJS,
+    'mounts component scoped slots in render function',
+    () => {
+      const wrapper = mountingMethod(
+        {
+          render: function () {
+            return this.$scopedSlots.default({
+              index: 1,
+              item: 'foo'
+            })
+          }
+        },
+        {
+          scopedSlots: {
+            default:
+              '<p slot-scope="{ index, item }">{{index}},{{item}}</p>'
+          }
+        }
+      )
+      expect(wrapper.html()).to.equal('<p>1,foo</p>')
+    }
+  )
+
+  itDoNotRunIf(
+    vueVersion < 2.5 || isRunningPhantomJS,
     'mounts component scoped slots',
     () => {
       const wrapper = mountingMethod(ComponentWithScopedSlots, {
