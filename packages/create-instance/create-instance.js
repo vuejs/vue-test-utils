@@ -10,7 +10,7 @@ import extractInstanceOptions from './extract-instance-options'
 import createFunctionalComponent from './create-functional-component'
 import { componentNeedsCompiling } from 'shared/validators'
 import { validateSlots } from './validate-slots'
-import getScopedSlots from './get-scoped-slots'
+import createScopedSlots from './create-scoped-slots'
 
 export default function createInstance (
   component: Component,
@@ -123,7 +123,7 @@ export default function createInstance (
     options.provide = () => obj
   }
 
-  const scopedSlots = getScopedSlots(options.scopedSlots)
+  const scopedSlots = createScopedSlots(options.scopedSlots)
 
   const Parent = _Vue.extend({
     provide: options.provide,

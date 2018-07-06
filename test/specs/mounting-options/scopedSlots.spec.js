@@ -17,7 +17,7 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
     vueVersion < 2.5 || isRunningPhantomJS,
     'mounts component scoped slots in render function',
     () => {
-      const wrapper = mountingMethod(
+      const destructuringWrapper = mountingMethod(
         {
           render: function () {
             return this.$scopedSlots.default({
@@ -33,7 +33,25 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
           }
         }
       )
-      expect(wrapper.html()).to.equal('<p>1,foo</p>')
+      expect(destructuringWrapper.html()).to.equal('<p>1,foo</p>')
+
+      const notDestructuringWrapper = mountingMethod(
+        {
+          render: function () {
+            return this.$scopedSlots.default({
+              index: 1,
+              item: 'foo'
+            })
+          }
+        },
+        {
+          scopedSlots: {
+            default:
+              '<p slot-scope="props">{{props.index}},{{props.item}}</p>'
+          }
+        }
+      )
+      expect(notDestructuringWrapper.html()).to.equal('<p>1,foo</p>')
     }
   )
 

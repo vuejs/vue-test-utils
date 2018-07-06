@@ -56,7 +56,7 @@ function validateTempldate (template: string): void {
   }
 }
 
-export default function getScopedSlots (
+export default function createScopedSlots (
   scopedSlotsOption: ?{ [slotName: string]: string }
 ): { [slotName: string]: (props: Object) => VNode } {
   const scopedSlots = {}
