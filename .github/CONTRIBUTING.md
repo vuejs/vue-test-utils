@@ -37,7 +37,7 @@ Hi! I’m really excited that you are interested in contributing to Vue Test Uti
 
 You will need [Node.js](http://nodejs.org) **version 6+**
 
-Vue Test Utils is a monorepo. It contains a root package.json for running scripts across the project. The code is inside sepearte packages in the `packages` directory. The project uses [lerna](https://lernajs.io/) to manage the workspaces.
+Vue Test Utils is a monorepo. It contains a root package.json for running scripts across the project. The code is inside separate packages in the `packages` directory. The project uses [lerna](https://lernajs.io/) to manage the workspaces.
 
 After cloning the repo, run:
 
