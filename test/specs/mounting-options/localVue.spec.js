@@ -17,7 +17,7 @@ describeWithMountingMethods('options.localVue', mountingMethod => {
         template: `
         <div>{{test}}</div>
       `,
-        data: { test: '' }
+        data: ()=> ({ test: '' })
       }
       const localVue = Vue.extend()
       localVue.version = '2.3'
