@@ -1,6 +1,6 @@
 // @flow
 
-import { createSlotVNodes } from './add-slots'
+import { createSlotVNodes } from './create-slot-vnodes'
 import addMocks from './add-mocks'
 import { addEventLogger } from './log-events'
 import { createComponentStubs } from 'shared/stub-components'

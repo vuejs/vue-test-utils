@@ -2,8 +2,10 @@ import { compileToFunctions } from 'vue-template-compiler'
 import Component from '~resources/components/component.vue'
 import ComponentWithSlots from '~resources/components/component-with-slots.vue'
 import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
+import ComponentWithParentName from '~resources/components/component-with-parent-name.vue'
 import { describeWithMountingMethods, vueVersion } from '~resources/utils'
 import { itSkipIf, itDoNotRunIf } from 'conditional-specs'
+import { mount } from '~vue/test-utils'
 
 describeWithMountingMethods('options.slots', mountingMethod => {
   it('mounts component with default slot if passed component in slot object', () => {
@@ -568,4 +570,32 @@ describeWithMountingMethods('options.slots', mountingMethod => {
       expect(wrapper.contains(ComponentAsAClass)).to.equal(true)
     }
   })
+
+  itDoNotRunIf(
+    mountingMethod.name === 'renderToString',
+    'sets a component which can access the parent component',
+    () => {
+      const wrapperComponent = mount(
+        {
+          name: 'parentComponent',
+          template: '<div><slot /></div>',
+          data () {
+            return {
+              childName: ''
+            }
+          }
+        },
+        {
+          components: {
+            ComponentWithParentName
+          },
+          slots: {
+            default: '<component-with-parent-name />'
+          }
+        }
+      )
+      expect(wrapperComponent.vm.childName).to.equal('component-with-parent-name')
+      expect(wrapperComponent.html()).to.equal('<div><div foo="bar"><span baz="qux">quux</span></div></div>')
+    }
+  )
 })

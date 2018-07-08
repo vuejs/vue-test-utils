@@ -1,5 +1,6 @@
 // @flow
 
+import Vue from 'vue'
 import { compileToFunctions } from 'vue-template-compiler'
 
 function startsWithTag (str: SlotValue): boolean {
@@ -18,7 +19,17 @@ function createVNodesForSlot (
   const el =
     typeof slotValue === 'string' ? compileToFunctions(slotValue) : slotValue
 
-  const vnode = h(el)
+  let vnode = h(el)
+  if (typeof slotValue === 'string') {
+    const vue = new Vue()
+    try {
+      // $FlowIgnore
+      vnode = el.render.call(vue._renderProxy, h)
+      vnode = h(vnode.tag, vnode.data || {}, vnode.children)
+    } catch (e) {
+    }
+  }
+
   vnode.data.slot = name
   return vnode
 }
