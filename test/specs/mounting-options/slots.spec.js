@@ -5,7 +5,7 @@ import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
 import ComponentWithParentName from '~resources/components/component-with-parent-name.vue'
 import { describeWithMountingMethods, vueVersion } from '~resources/utils'
 import { itSkipIf, itDoNotRunIf } from 'conditional-specs'
-import { mount } from '~vue/test-utils'
+import { mount, createLocalVue } from '~vue/test-utils'
 
 describeWithMountingMethods('options.slots', mountingMethod => {
   it('mounts component with default slot if passed component in slot object', () => {
@@ -575,6 +575,8 @@ describeWithMountingMethods('options.slots', mountingMethod => {
     mountingMethod.name === 'renderToString',
     'sets a component which can access the parent component',
     () => {
+      const localVue = createLocalVue()
+      localVue.prototype.bar = 'FOO'
       const wrapperComponent = mount(
         {
           name: 'parentComponent',
@@ -590,12 +592,13 @@ describeWithMountingMethods('options.slots', mountingMethod => {
             ComponentWithParentName
           },
           slots: {
-            default: '<component-with-parent-name />'
-          }
+            default: '<component-with-parent-name :foo="bar" />'
+          },
+          localVue
         }
       )
       expect(wrapperComponent.vm.childName).to.equal('component-with-parent-name')
-      expect(wrapperComponent.html()).to.equal('<div><div foo="bar"><span baz="qux">quux</span></div></div>')
+      expect(wrapperComponent.html()).to.equal('<div><div foo="FOO"><span baz="qux">quux</span></div></div>')
     }
   )
 })

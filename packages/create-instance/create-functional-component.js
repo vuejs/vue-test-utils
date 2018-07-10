@@ -6,7 +6,8 @@ import { createSlotVNodes } from './create-slot-vnodes'
 
 export default function createFunctionalComponent (
   component: Component,
-  mountingOptions: Options
+  mountingOptions: Options,
+  _Vue: Component
 ): Component {
   if (mountingOptions.context && typeof mountingOptions.context !== 'object') {
     throwError('mount.context must be an object')
@@ -25,7 +26,7 @@ export default function createFunctionalComponent (
           mountingOptions.context.children.map(
             x => (typeof x === 'function' ? x(h) : x)
           )) ||
-          createSlotVNodes(h, mountingOptions.slots || {})
+          createSlotVNodes(h, mountingOptions.slots || {}, _Vue)
       )
     },
     name: component.name,
