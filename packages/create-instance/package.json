@@ -1,6 +1,6 @@
 {
   "name": "create-instance",
   "version": "1.0.0-beta.20",
-  "main": "create-instance.js",
+  "main": "index.js",
   "private": true
 }

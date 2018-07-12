@@ -1,9 +1,9 @@
 // @flow
 
-import { createSlotVNodes } from './add-slots'
 import addMocks from './add-mocks'
 import { addEventLogger } from './log-events'
 import { createComponentStubs } from 'shared/stub-components'
+import { createSlotVNodes } from './create-slot-vnodes'
 import { throwError, warn, vueVersion } from 'shared/util'
 import { compileTemplate } from 'shared/compile-template'
 import extractInstanceOptions from './extract-instance-options'

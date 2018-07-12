@@ -1,7 +1,7 @@
 // @flow
 
 import Vue from 'vue'
-import createInstance from 'create-instance'
+import { createInstance, createRenderSlot } from 'create-instance'
 import { throwError } from 'shared/util'
 import { createRenderer } from 'vue-server-renderer'
 import testUtils from '@vue/test-utils'
@@ -29,6 +29,8 @@ export default function renderToString (
     throwError(`you cannot use attachToDocument with ` + `renderToString`)
   }
   const vueConstructor = testUtils.createLocalVue(options.localVue)
+  vueConstructor.prototype._t = createRenderSlot(options)
+
   const vm = createInstance(
     component,
     mergeOptions(options, config),

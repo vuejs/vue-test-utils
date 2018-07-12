@@ -2,7 +2,7 @@
 
 import { throwError } from 'shared/util'
 import { validateSlots } from './validate-slots'
-import { createSlotVNodes } from './add-slots'
+import { createSlotVNodes } from './create-slot-vnodes'
 
 export default function createFunctionalComponent (
   component: Component,
