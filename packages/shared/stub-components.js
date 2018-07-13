@@ -16,7 +16,7 @@ import {
 import { compileTemplate } from './compile-template'
 
 function isVueComponentStub (comp): boolean {
-  return comp && comp.template || isVueComponent(comp);
+  return comp && comp.template || isVueComponent(comp)
 }
 
 function isValidStub (stub: any): boolean {
