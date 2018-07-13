@@ -2,14 +2,6 @@ import ComponentWithInput from '~resources/components/component-with-input.vue'
 import { describeWithShallowAndMount } from '~resources/utils'
 
 describeWithShallowAndMount('setValue', mountingMethod => {
-  it('sets element of select value', () => {
-    const wrapper = mountingMethod(ComponentWithInput)
-    const select = wrapper.find('select')
-    select.setValue('selectB')
-
-    expect(select.element.value).to.equal('selectB')
-  })
-  
   it('sets element of input value', () => {
     const wrapper = mountingMethod(ComponentWithInput)
     const input = wrapper.find('input[type="text"]')
@@ -26,13 +18,36 @@ describeWithShallowAndMount('setValue', mountingMethod => {
     expect(textarea.element.value).to.equal('foo')
   })
 
-  it('updates dom with v-model', () => {
+  it('updates dom with input v-model', () => {
     const wrapper = mountingMethod(ComponentWithInput)
     const input = wrapper.find('input[type="text"]')
-
     input.setValue('input text awesome binding')
 
     expect(wrapper.text()).to.contain('input text awesome binding')
+  })
+
+  it('sets element of select value if option exists', () => {
+    const wrapper = mountingMethod(ComponentWithInput)
+    const select = wrapper.find('select')
+    select.setValue('selectB')
+
+    expect(select.element.value).to.equal('selectB')
+  })
+
+  it('keeps same value if option does not exist', () => {
+    const wrapper = mountingMethod(ComponentWithInput)
+    const select = wrapper.find('select')
+    select.setValue('selectZ')
+
+    expect(select.element.value).to.equal('selectA')
+  })
+
+  it('updates dom with select v-model', () => {
+    const wrapper = mountingMethod(ComponentWithInput)
+    const select = wrapper.find('select')
+    select.setValue('selectB')
+
+    expect(wrapper.text()).to.contain('selectB')
   })
 
   it('throws error if element is option', () => {
