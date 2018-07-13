@@ -2,6 +2,14 @@ import ComponentWithInput from '~resources/components/component-with-input.vue'
 import { describeWithShallowAndMount } from '~resources/utils'
 
 describeWithShallowAndMount('setValue', mountingMethod => {
+  it('sets element of select value', () => {
+    const wrapper = mountingMethod(ComponentWithInput)
+    const select = wrapper.find('select')
+    select.setValue('selectB')
+
+    expect(select.element.value).to.equal('selectB')
+  })
+  
   it('sets element of input value', () => {
     const wrapper = mountingMethod(ComponentWithInput)
     const input = wrapper.find('input[type="text"]')
@@ -27,10 +35,10 @@ describeWithShallowAndMount('setValue', mountingMethod => {
     expect(wrapper.text()).to.contain('input text awesome binding')
   })
 
-  it('throws error if element is select', () => {
+  it('throws error if element is option', () => {
     const message =
-      'wrapper.setValue() cannot be called on a <select> element. Use wrapper.setSelected() instead'
-    shouldThrowErrorOnElement('select', message)
+      'wrapper.setValue() cannot be called on a <option> element. Use wrapper.setSelected() instead'
+    shouldThrowErrorOnElement('option', message)
   })
 
   it('throws error if element is radio', () => {

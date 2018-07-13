@@ -697,8 +697,12 @@ export default class Wrapper implements BaseWrapper {
     const type = this.attributes().type
 
     if (tagName === 'SELECT') {
+      // $FlowIgnore
+      this.element.value = value
+      this.trigger('change')
+    } else if (tagName === 'OPTION') {
       throwError(
-        `wrapper.setValue() cannot be called on a <select> ` +
+        `wrapper.setValue() cannot be called on a <option> ` +
           `element. Use wrapper.setSelected() instead`
       )
     } else if (tagName === 'INPUT' && type === 'checkbox') {
