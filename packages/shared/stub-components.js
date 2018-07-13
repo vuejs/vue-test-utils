@@ -10,19 +10,20 @@ import {
 } from './util'
 import {
   componentNeedsCompiling,
-  templateContainsComponent
+  templateContainsComponent,
+  isVueComponent
 } from './validators'
 import { compileTemplate } from './compile-template'
 
-function isVueComponent (comp): boolean {
-  return comp && (comp.render || comp.template || comp.options)
+function isVueComponentStub (comp): boolean {
+  return comp && comp.template || isVueComponent(comp);
 }
 
 function isValidStub (stub: any): boolean {
   return (
     (!!stub && typeof stub === 'string') ||
     stub === true ||
-    isVueComponent(stub)
+    isVueComponentStub(stub)
   )
 }
 
