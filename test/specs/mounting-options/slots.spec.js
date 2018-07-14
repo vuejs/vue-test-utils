@@ -546,4 +546,26 @@ describeWithMountingMethods('options.slots', mountingMethod => {
       wrapper.find('div').trigger('click')
     }
   )
+
+  it('mounts component with default slot if passed class component in slot object', () => {
+    const wrapper = mountingMethod(ComponentWithSlots, {
+      slots: { default: ComponentAsAClass }
+    })
+    if (mountingMethod.name === 'renderToString') {
+      expect(wrapper).contains('<div></div>')
+    } else {
+      expect(wrapper.contains(ComponentAsAClass)).to.equal(true)
+    }
+  })
+
+  it('mounts component with default slot if passed class component in array in slot object', () => {
+    const wrapper = mountingMethod(ComponentWithSlots, {
+      slots: { default: [ComponentAsAClass] }
+    })
+    if (mountingMethod.name === 'renderToString') {
+      expect(wrapper).contains('<div></div>')
+    } else {
+      expect(wrapper.contains(ComponentAsAClass)).to.equal(true)
+    }
+  })
 })
