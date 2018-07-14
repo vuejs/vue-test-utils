@@ -33,13 +33,15 @@ describeWithMountingMethods('options.stub', mountingMethod => {
   it('accepts valid component stubs', () => {
     const ComponentWithRender = { render: h => h('div') }
     const ComponentWithoutRender = { template: '<div></div>' }
-    const ExtendedComponent = Vue.extend({ template: '<div></div>' })
+    const ExtendedComponent = { extends: ComponentWithRender }
+    const SubclassedComponent = Vue.extend({ template: '<div></div>' })
     mountingMethod(ComponentWithChild, {
       stubs: {
         ChildComponent: ComponentAsAClass,
         ChildComponent2: ComponentWithRender,
         ChildComponent3: ComponentWithoutRender,
-        ChildComponent4: ExtendedComponent
+        ChildComponent4: ExtendedComponent,
+        ChildComponent5: SubclassedComponent
       }
     })
   })
