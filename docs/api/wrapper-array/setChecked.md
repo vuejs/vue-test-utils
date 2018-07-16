@@ -7,7 +7,7 @@ wrapperArray.wrappers.forEach(wrapper => wrapper.setChecked(checked))
 ```
 
 - **Arguments:**
-  - ``{Boolean} checked (default: true)``
+  - `{Boolean} checked (default: true)`
 
 - **Example:**
 
