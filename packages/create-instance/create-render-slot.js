@@ -10,7 +10,7 @@ function createVNodes (
   slotValue: Component | string
 ): ?Array<VNode> {
   if (typeof slotValue === 'string') {
-    const compiledResult = compileToFunctions(`<div>${slotValue}{{ }}</div>`)
+    const compiledResult = compileToFunctions(`<div>${slotValue}</div>`)
     const _staticRenderFns = vm._renderProxy.$options.staticRenderFns
     vm._renderProxy.$options.staticRenderFns = compiledResult.staticRenderFns
     const vnodes = compiledResult.render.call(
