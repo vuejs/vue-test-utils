@@ -17,14 +17,14 @@ describeWithMountingMethods('options.localVue', mountingMethod => {
         template: `
         <div>{{test}}</div>
       `,
-        data: { test: '' }
+        data: () => ({ test: '' })
       }
       const localVue = Vue.extend()
       localVue.version = '2.3'
       const wrapper = mountingMethod(TestComponent, {
-        localVue: localVue,
-        mocks: { test: 'some value' }
+        localVue: localVue
       })
+      wrapper.vm.test = 'some value'
       const HTML =
         mountingMethod.name === 'renderToString' ? wrapper : wrapper.html()
       expect(HTML).to.contain('some value')
