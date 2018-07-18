@@ -2,8 +2,10 @@ import { compileToFunctions } from 'vue-template-compiler'
 import Component from '~resources/components/component.vue'
 import ComponentWithSlots from '~resources/components/component-with-slots.vue'
 import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
+import ComponentWithParentName from '~resources/components/component-with-parent-name.vue'
 import { describeWithMountingMethods, vueVersion } from '~resources/utils'
 import { itSkipIf, itDoNotRunIf } from 'conditional-specs'
+import { mount, createLocalVue } from '~vue/test-utils'
 
 describeWithMountingMethods('options.slots', mountingMethod => {
   it('mounts component with default slot if passed component in slot object', () => {
@@ -224,14 +226,18 @@ describeWithMountingMethods('options.slots', mountingMethod => {
   it('mounts component with text slot', () => {
     const wrapper = mountingMethod(ComponentWithSlots, {
       slots: {
-        default: 'hello,',
-        header: 'world'
+        header: 'hello,',
+        default: 'world'
       }
     })
     if (mountingMethod.name === 'renderToString') {
-      expect(wrapper).contains('hello,world')
+      expect(wrapper).contains(
+        '<div data-server-rendered="true" class="container"><header>hello,</header> <main>world</main> <footer></footer></div>'
+      )
     } else {
-      expect(wrapper.text()).to.contain('hello,world')
+      expect(wrapper.html()).to.equal(
+        '<div class="container"><header>hello,</header> <main>world</main> <footer></footer></div>'
+      )
     }
   })
 
@@ -568,4 +574,72 @@ describeWithMountingMethods('options.slots', mountingMethod => {
       expect(wrapper.contains(ComponentAsAClass)).to.equal(true)
     }
   })
+
+  itDoNotRunIf(
+    mountingMethod.name === 'renderToString',
+    'mounts component with default slot if passed string in slot object',
+    () => {
+      const wrapper1 = mount(ComponentWithSlots, { slots: { default: 'foo<span>123</span>{{ foo }}' }})
+      expect(wrapper1.find('main').html()).to.equal('<main>foo<span>123</span>bar</main>')
+      const wrapper2 = mount(ComponentWithSlots, { slots: { default: '<p>1</p>{{ foo }}2' }})
+      expect(wrapper2.find('main').html()).to.equal('<main><p>1</p>bar2</main>')
+      const wrapper3 = mount(ComponentWithSlots, { slots: { default: '<p>1</p>{{ foo }}<p>2</p>' }})
+      expect(wrapper3.find('main').html()).to.equal('<main><p>1</p>bar<p>2</p></main>')
+      const wrapper4 = mount(ComponentWithSlots, { slots: { default: '123' }})
+      expect(wrapper4.find('main').html()).to.equal('<main>123</main>')
+      const wrapper5 = mount(ComponentWithSlots, { slots: { default: '1{{ foo }}2' }})
+      expect(wrapper5.find('main').html()).to.equal('<main>1bar2</main>')
+      wrapper5.trigger('keydown')
+      expect(wrapper5.find('main').html()).to.equal('<main>1BAR2</main>')
+      const wrapper6 = mount(ComponentWithSlots, { slots: { default: '<p>1</p><p>2</p>' }})
+      expect(wrapper6.find('main').html()).to.equal('<main><p>1</p><p>2</p></main>')
+      const wrapper7 = mount(ComponentWithSlots, { slots: { default: '1<p>2</p>3' }})
+      expect(wrapper7.find('main').html()).to.equal('<main>1<p>2</p>3</main>')
+      const wrapper8 = mountingMethod(ComponentWithSlots, { slots: { default: '   space ' }})
+      expect(wrapper8.find('main').html()).to.equal('<main>   space </main>')
+    }
+  )
+
+  itDoNotRunIf(
+    mountingMethod.name === 'renderToString',
+    'sets a component which can access the parent component and the child component',
+    () => {
+      const localVue = createLocalVue()
+      localVue.prototype.bar = 'FOO'
+      const ParentComponent = mount(
+        {
+          name: 'parentComponent',
+          template: '<div><slot /></div>',
+          data () {
+            return {
+              time: 1,
+              childComponentName: ''
+            }
+          }
+        },
+        {
+          components: {
+            ComponentWithParentName
+          },
+          slots: {
+            default: [
+              '<component-with-parent-name :fromLocalVue="bar" :time="time" />',
+              '<component-with-parent-name :fromLocalVue="bar" :time="time" />'
+            ]
+          },
+          localVue
+        }
+      )
+      const childComponentName = 'component-with-parent-name'
+      expect(ParentComponent.vm.childComponentName).to.equal(childComponentName)
+      expect(ParentComponent.vm.$children.length).to.equal(2)
+      expect(ParentComponent.vm.$children.every(c => c.$options.name === childComponentName)).to.equal(true)
+      expect(ParentComponent.html()).to.equal('<div><div><span baz="qux">1,FOO,quux</span></div><div><span baz="qux">1,FOO,quux</span></div></div>')
+      ParentComponent.vm.time = 2
+      expect(ParentComponent.vm.childComponentName).to.equal(childComponentName)
+      expect(ParentComponent.vm.$children.length).to.equal(2)
+      expect(ParentComponent.vm.$children.every(c => c.$options.name === childComponentName)).to.equal(true)
+      expect(ParentComponent.html()).to.equal('<div><div><span baz="qux">2,FOO,quux</span></div><div><span baz="qux">2,FOO,quux</span></div></div>')
+    }
+  )
 })

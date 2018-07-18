@@ -4,7 +4,6 @@ import './matches-polyfill'
 import './object-assign-polyfill'
 import Vue from 'vue'
 import VueWrapper from './vue-wrapper'
-import createInstance from 'create-instance'
 import createElement from './create-element'
 import createLocalVue from './create-local-vue'
 import errorHandler from './error-handler'
@@ -12,6 +11,7 @@ import { findAllVueComponentsFromVm } from './find-vue-components'
 import { mergeOptions } from 'shared/merge-options'
 import config from './config'
 import warnIfNoWindow from './warn-if-no-window'
+import { createInstance, createRenderSlot } from 'create-instance'
 
 Vue.config.productionTip = false
 Vue.config.devtools = false
@@ -28,6 +28,7 @@ export default function mount (
   // Remove cached constructor
   delete component._Ctor
   const vueConstructor = createLocalVue(options.localVue)
+  vueConstructor.prototype._t = createRenderSlot(options)
 
   const elm = options.attachToDocument ? createElement() : undefined
 

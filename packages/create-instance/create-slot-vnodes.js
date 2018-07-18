@@ -1,6 +1,7 @@
 // @flow
 
 import { compileToFunctions } from 'vue-template-compiler'
+import { checkCompileToFunctions } from 'shared/validators'
 
 function startsWithTag (str: SlotValue): boolean {
   return typeof str === 'string' && str.trim()[0] === '<'
@@ -15,6 +16,7 @@ function createVNodesForSlot (
     return slotValue
   }
 
+  checkCompileToFunctions()
   const el =
     typeof slotValue === 'string' ? compileToFunctions(slotValue) : slotValue
 

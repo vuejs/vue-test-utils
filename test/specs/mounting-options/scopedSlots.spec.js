@@ -4,7 +4,7 @@ import {
   isRunningPhantomJS
 } from '~resources/utils'
 import ComponentWithScopedSlots from '~resources/components/component-with-scoped-slots.vue'
-import { itDoNotRunIf } from 'conditional-specs'
+import { itSkipIf, itDoNotRunIf } from 'conditional-specs'
 
 describeWithShallowAndMount('scopedSlots', mountingMethod => {
   const windowSave = window
@@ -163,6 +163,45 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
       expect(fn)
         .to.throw()
         .with.property('message', message)
+    }
+  )
+
+  itSkipIf(
+    mountingMethod.name === 'renderToString',
+    'throws error if passed string in default slot object and vue-template-compiler is undefined',
+    () => {
+      const compilerSave =
+        require.cache[require.resolve('vue-template-compiler')].exports
+          .compileToFunctions
+      require.cache[
+        require.resolve('vue-template-compiler')
+      ].exports.compileToFunctions = undefined
+      delete require.cache[require.resolve('../../../packages/test-utils')]
+      const mountingMethodFresh = require('../../../packages/test-utils')[
+        mountingMethod.name
+      ]
+      const message =
+        '[vue-test-utils]: vueTemplateCompiler is undefined, you must pass precompiled components if vue-template-compiler is undefined'
+      const fn = () => {
+        mountingMethodFresh(ComponentWithScopedSlots, {
+          scopedSlots: {
+            list: '<p slot-scope="foo">{{foo.index}},{{foo.text}}</p>'
+          }
+        })
+      }
+      try {
+        expect(fn)
+          .to.throw()
+          .with.property('message', message)
+      } catch (err) {
+        require.cache[
+          require.resolve('vue-template-compiler')
+        ].exports.compileToFunctions = compilerSave
+        throw err
+      }
+      require.cache[
+        require.resolve('vue-template-compiler')
+      ].exports.compileToFunctions = compilerSave
     }
   )
 })
