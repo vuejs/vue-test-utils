@@ -51,7 +51,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
   })
 
   // FIXME
-  it('stubs globally registered components when options.localVue is provided', () => {
+  it.only('stubs globally registered components when options.localVue is provided', () => {
     const myPlugin = {
       install: function (Vue, opts) {
         Vue.mixin({ })
@@ -62,7 +62,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
     const TestComponent = {
       render: h => h('registered-component')
     }
-    localVue.use(myPlugin)
+    //localVue.use(myPlugin)
 
     shallowMount(TestComponent, { localVue })
     localVue.component('registered-component', ComponentWithLifecycleHooks)

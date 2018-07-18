@@ -128,7 +128,7 @@ describeWithShallowAndMount('createLocalVue', mountingMethod => {
     }
   }
 
-  it.only('installs a plugin followed by Vuetify without conflict', () => {
+  it('installs a plugin followed by Vuetify without conflict', () => {
     const localVue = createLocalVue()
     localVue.use(myPlugin)
     localVue.use(Vuetify)
@@ -138,7 +138,7 @@ describeWithShallowAndMount('createLocalVue', mountingMethod => {
     expect(wrapper.vm.$el.children.length).to.equal(0)
   })
 
-  it.only('installs Vuetify followed by a plugin without conflict', () => {
+  it('installs Vuetify followed by a plugin without conflict', () => {
     const localVue = createLocalVue()
     localVue.use(Vuetify)
     localVue.use(myPlugin)
