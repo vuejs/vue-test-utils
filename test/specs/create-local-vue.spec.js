@@ -2,8 +2,10 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import Vuetify from 'vuetify'
 import VueRouter from 'vue-router'
-import { createLocalVue } from '~vue/test-utils'
+import { createLocalVue, shallowMount } from '~vue/test-utils'
 import Component from '~resources/components/component.vue'
+import ComponentWithChild from '~resources/components/component-with-child.vue'
+import ComponentUsingVuetify from '~resources/components/component-using-vuetify.vue'
 import ComponentWithVuex from '~resources/components/component-with-vuex.vue'
 import ComponentWithRouter from '~resources/components/component-with-router.vue'
 import { describeWithShallowAndMount } from '~resources/utils'
@@ -112,9 +114,38 @@ describeWithShallowAndMount('createLocalVue', mountingMethod => {
     localVue.use(plugin, pluginOptions)
   })
 
-  it('installs Vutify successfuly', () => {
+  it('installs Vuetify successfully', () => {
     const localVue = createLocalVue()
     localVue.use(Vuetify)
+  })
+
+  const myPlugin = {
+    install: function (Vue, opts) {
+      Vue.mixin({
+        created: function() { console.log(Vue.components) }
+        // doing Vue.mixin breaks existing plugins
+      })
+    }
+  }
+
+  it.only('installs a plugin followed by Vuetify without conflict', () => {
+    const localVue = createLocalVue()
+    localVue.use(myPlugin)
+    localVue.use(Vuetify)
+
+    const wrapper = mountingMethod(ComponentUsingVuetify, { localVue })
+
+    expect(wrapper.vm.$el.children.length).to.equal(0)
+  })
+
+  it.only('installs Vuetify followed by a plugin without conflict', () => {
+    const localVue = createLocalVue()
+    localVue.use(Vuetify)
+    localVue.use(myPlugin)
+
+    const wrapper = mountingMethod(ComponentUsingVuetify, { localVue })
+
+    expect(wrapper.vm.$el.children.length).to.equal(0)
   })
 
   it('installs plugin into local Vue regardless of previous install in Vue', () => {
