@@ -10,6 +10,8 @@ function createVNodes (
   slotValue: Component | string
 ): ?Array<VNode> {
   if (typeof slotValue === 'string') {
+    // Since compileToFunctions is checked in createSlotVNodes(),
+    // it is not necessary to check compileToFunctions.
     const compiledResult = compileToFunctions(`<div>${slotValue}</div>`)
     const _staticRenderFns = vm._renderProxy.$options.staticRenderFns
     vm._renderProxy.$options.staticRenderFns = compiledResult.staticRenderFns

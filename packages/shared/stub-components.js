@@ -9,6 +9,7 @@ import {
   hyphenate
 } from './util'
 import {
+  checkCompileToFunctions,
   componentNeedsCompiling,
   templateContainsComponent,
   isVueComponent
@@ -66,13 +67,7 @@ function createStubFromString (
   originalComponent: Component,
   name: string
 ): Component {
-  if (!compileToFunctions) {
-    throwError(
-      `vueTemplateCompiler is undefined, you must pass ` +
-        `precompiled components if vue-template-compiler is ` +
-        `undefined`
-    )
-  }
+  checkCompileToFunctions()
 
   if (templateContainsComponent(templateString, name)) {
     throwError('options.stub cannot contain a circular reference')
@@ -176,13 +171,7 @@ export function createComponentStubs (
         }
       } else {
         if (typeof stub === 'string') {
-          if (!compileToFunctions) {
-            throwError(
-              `vueTemplateCompiler is undefined, you must pass ` +
-                `precompiled components if vue-template-compiler is ` +
-                `undefined`
-            )
-          }
+          checkCompileToFunctions()
           components[stubName] = {
             ...compileToFunctions(stub)
           }

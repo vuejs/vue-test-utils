@@ -1,5 +1,16 @@
 // @flow
+import { compileToFunctions } from 'vue-template-compiler'
 import { throwError, capitalize, camelize, hyphenate } from './util'
+
+export function checkCompileToFunctions (): void {
+  if (!compileToFunctions) {
+    throwError(
+      `vueTemplateCompiler is undefined, you must pass ` +
+        `precompiled components if vue-template-compiler is ` +
+        `undefined`
+    )
+  }
+}
 
 export function isDomSelector (selector: any): boolean {
   if (typeof selector !== 'string') {

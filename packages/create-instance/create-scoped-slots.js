@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import { compileToFunctions } from 'vue-template-compiler'
 import { throwError, vueVersion } from 'shared/util'
+import { checkCompileToFunctions } from 'shared/validators'
 
 function isDestructuringSlotScope (slotScope: string): boolean {
   return slotScope[0] === '{' && slotScope[slotScope.length - 1] === '}'
@@ -36,6 +37,7 @@ function getVueTemplateCompilerHelpers (): { [name: string]: Function } {
 }
 
 function validateEnvironment (): void {
+  checkCompileToFunctions()
   if (window.navigator.userAgent.match(/PhantomJS/i)) {
     throwError(
       `the scopedSlots option does not support PhantomJS. ` +
