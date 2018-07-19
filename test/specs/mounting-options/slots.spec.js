@@ -573,17 +573,17 @@ describeWithMountingMethods('options.slots', mountingMethod => {
 
   itDoNotRunIf(
     mountingMethod.name === 'renderToString',
-    'sets a component which can access the parent component',
+    'sets a component which can access the parent component and the child component',
     () => {
       const localVue = createLocalVue()
       localVue.prototype.bar = 'FOO'
-      const wrapperComponent = mount(
+      const ParentComponent = mount(
         {
           name: 'parentComponent',
           template: '<div><slot /></div>',
           data () {
             return {
-              childName: ''
+              childComponentName: ''
             }
           }
         },
@@ -592,13 +592,19 @@ describeWithMountingMethods('options.slots', mountingMethod => {
             ComponentWithParentName
           },
           slots: {
-            default: '<component-with-parent-name :foo="bar" />'
+            default: [
+              '<component-with-parent-name :fromLocalVue="bar" />',
+              '<component-with-parent-name :fromLocalVue="bar" />'
+            ]
           },
           localVue
         }
       )
-      expect(wrapperComponent.vm.childName).to.equal('component-with-parent-name')
-      expect(wrapperComponent.html()).to.equal('<div><div foo="FOO"><span baz="qux">quux</span></div></div>')
+      const childComponentName = 'component-with-parent-name'
+      expect(ParentComponent.vm.childComponentName).to.equal(childComponentName)
+      expect(ParentComponent.vm.$children.length).to.equal(2)
+      expect(ParentComponent.vm.$children.every(c => c.$options.name === childComponentName)).to.equal(true)
+      expect(ParentComponent.html()).to.equal('<div><div><span baz="qux">FOO,quux</span></div><div><span baz="qux">FOO,quux</span></div></div>')
     }
   )
 })

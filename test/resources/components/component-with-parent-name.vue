@@ -1,17 +1,18 @@
 <template>
-  <div foo="bar"><span baz="qux">{{ quux }}</span></div>
+  <div><span baz="qux">{{ fromLocalVue }},{{ bar }}</span></div>
 </template>
 
 <script>
   export default{
     name: 'component-with-parent-name',
+    props: ['fromLocalVue'],
     data () {
       return {
-        quux: 'quux'
+        bar: 'quux'
       }
     },
     mounted () {
-      this.$parent.childName = this.$options.name
+      this.$parent.childComponentName = this.$options.name
     }
   }
 </script>
