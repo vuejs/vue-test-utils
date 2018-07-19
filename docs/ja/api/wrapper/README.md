@@ -6,24 +6,24 @@ vue-test-utils はラッパベースの API です。
 
 ## プロパティ
 
-### `vm` 
+### `vm`
 
-`Component`：これは vue のインスタンスです。`wrapper.vm` を使って [vm のプロパティとインスタンスメソッド](https://jp.vuejs.org/v2/api/#インスタンスプロパティ)にアクセスできます。これは、Vue コンポーネントラッパにのみ存在します。  
+`Component` (読み込み専用)：これは vue のインスタンスです。`wrapper.vm` を使って [vm のプロパティとインスタンスメソッド](https://jp.vuejs.org/v2/api/#インスタンスプロパティ)にアクセスできます。これは、Vue コンポーネントラッパにのみ存在します。
 
-### `element` 
+### `element`
 
-`HTMLElement`: ラッパのルート DOM  
+`HTMLElement` (読み込み専用): ラッパのルート DOM
 
-### `options` 
+### `options`
 
-#### `options.attachedToDocument` 
+#### `options.attachedToDocument`
 
-`Boolean`: マウンティングオプションで `attachedToDocument` が `true` だった場合は True です。
+`Boolean` (読み込み専用): マウンティングオプションで `attachedToDocument` が `true` だった場合は True です。
 
 
-#### `options.sync` 
+#### `options.sync`
 
-`Boolean`: マウンティングオプションで `sync` が `false` ではなかった場合は True です。  
+`Boolean` (読み込み専用): マウンティングオプションで `sync` が `false` ではなかった場合は True です。
 
 ## メソッド
 
@@ -43,8 +43,11 @@ vue-test-utils はラッパベースの API です。
 !!!include(docs/ja/api/wrapper/isVueInstance.md)!!!
 !!!include(docs/ja/api/wrapper/name.md)!!!
 !!!include(docs/ja/api/wrapper/props.md)!!!
+!!!include(docs/api/wrapper/setChecked.md)!!!
 !!!include(docs/ja/api/wrapper/setData.md)!!!
 !!!include(docs/ja/api/wrapper/setMethods.md)!!!
 !!!include(docs/ja/api/wrapper/setProps.md)!!!
+!!!include(docs/api/wrapper/setSelected.md)!!!
+!!!include(docs/api/wrapper/setValue.md)!!!
 !!!include(docs/ja/api/wrapper/text.md)!!!
 !!!include(docs/ja/api/wrapper/trigger.md)!!!
