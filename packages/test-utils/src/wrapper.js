@@ -853,7 +853,7 @@ export default class Wrapper implements BaseWrapper {
       throwError(
         `you cannot set the target value of an event. See ` +
           `the notes section of the docs for more ` +
-          `details—https://vue-test-utils.vuejs.org/api/wrapper/trigger.html`
+          `details—https://vue-test-utils.vuejs.org/api/wrapper/#trigger`
       )
     }
 
