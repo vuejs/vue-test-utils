@@ -26,20 +26,12 @@ describeWithShallowAndMount('setValue', mountingMethod => {
     expect(wrapper.text()).to.contain('input text awesome binding')
   })
 
-  it('sets element of select value if option exists', () => {
+  it('sets element of select value', () => {
     const wrapper = mountingMethod(ComponentWithInput)
     const select = wrapper.find('select')
     select.setValue('selectB')
 
     expect(select.element.value).to.equal('selectB')
-  })
-
-  it('keeps same value if option does not exist', () => {
-    const wrapper = mountingMethod(ComponentWithInput)
-    const select = wrapper.find('select')
-    select.setValue('selectZ')
-
-    expect(select.element.value).to.equal('selectA')
   })
 
   it('updates dom with select v-model', () => {
