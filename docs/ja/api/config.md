@@ -6,7 +6,7 @@ vue-test-utils にはオプションを定義するための `config` オプシ�
 
 #### `stubs`
 
-- 型: `Object`
+- 型: `{ [name: string]: Component | boolean | string }`
 - デフォルト: `{
   transition: TransitionStub,
   'transition-group': TransitionGroupStub
@@ -45,7 +45,7 @@ VueTestUtils.config.mocks['$store'] = {
 
 #### `methods`
 
-- 型: `Object`
+- 型: `{ [name: string]: Function }`
 - デフォルト: `{}`
 
 `config` オブジェクトを使用してデフォルトのメソッドを設定することができます。これは [VeeValidate](https://vee-validate.logaretm.com/) のようなコンポーネントにメソッドを注入するプラグインに役立ちます。`config` にセットした methods はマウンティングオプションに `methods` を渡すことで上書きすることができます。

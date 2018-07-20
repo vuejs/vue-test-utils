@@ -21,7 +21,9 @@
 !!!include(docs/ja/api/wrapper-array/is.md)!!!
 !!!include(docs/ja/api/wrapper-array/isEmpty.md)!!!
 !!!include(docs/ja/api/wrapper-array/isVueInstance.md)!!!
+!!!include(docs/ja/api/wrapper-array/setChecked.md)!!!
 !!!include(docs/ja/api/wrapper-array/setData.md)!!!
 !!!include(docs/ja/api/wrapper-array/setMethods.md)!!!
 !!!include(docs/ja/api/wrapper-array/setProps.md)!!!
+!!!include(docs/ja/api/wrapper-array/setValue.md)!!!
 !!!include(docs/ja/api/wrapper-array/trigger.md)!!!
