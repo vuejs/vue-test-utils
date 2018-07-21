@@ -12,19 +12,27 @@ function createdFrom (extendOptions, componentOptions) {
   }
 }
 
+function resolveComponents (options = {}, components = {}) {
+  Object.assign(components, options.components)
+  let extendOptions = options.extendOptions
+  while (extendOptions) {
+    resolveComponents(extendOptions, components)
+    extendOptions = extendOptions.extendOptions
+  }
+  return components
+}
+
 export function extendExtendedComponents (
   component,
   _Vue,
   logModifiedComponents,
   excludedComponents = { }
 ) {
-  const componentOptions = typeof component === 'function'
-    ? component.extendOptions
-    : component
   const extendedComponents = Object.create(null)
-  Object.keys(componentOptions.components || {}).forEach(c => {
+  const components = resolveComponents(component)
+  Object.keys(components).forEach(c => {
     if (
-      componentOptions.components[c].extendOptions &&
+      components[c].extendOptions &&
       !excludedComponents[c]
     ) {
       if (logModifiedComponents) {
@@ -38,11 +46,11 @@ export function extendExtendedComponents (
         )
       }
       extendedComponents[c] = _Vue.extend(
-        componentOptions.components[c]
+        components[c]
       )
     }
     extendExtendedComponents(
-      componentOptions.components[c],
+      components[c],
       _Vue,
       logModifiedComponents
     )

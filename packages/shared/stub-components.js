@@ -235,8 +235,12 @@ export function createComponentStubsForAll (component: Component): Components {
     extended = extended.extends
   }
 
-  if (component.extendOptions && component.extendOptions.components) {
-    stubComponents(component.extendOptions.components, stubbedComponents)
+  let extendOptions = component.extendOptions
+  while (extendOptions) {
+    if (extendOptions && extendOptions.components) {
+      stubComponents(extendOptions.components, stubbedComponents)
+    }
+    extendOptions = extendOptions.extendOptions
   }
 
   return stubbedComponents

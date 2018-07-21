@@ -61,14 +61,60 @@ describeWithMountingMethods('options.localVue', mountingMethod => {
     }
   })
 
-  it('is applied to child extended components', () => {
-    const ChildComponent = Vue.extend({
+  it('is applied to deeply extended components', () => {
+    const GrandChildComponent = Vue.extend(Vue.extend({
       template: '<div>{{$route.params}}</div>'
-    })
-    const TestComponent = Vue.extend({
+    }))
+    const ChildComponent = Vue.extend(Vue.extend(Vue.extend({
+      template: '<div><grand-child-component />{{$route.params}}</div>',
+      components: {
+        GrandChildComponent
+      }
+    })))
+    const TestComponent = Vue.extend(Vue.extend({
       template: '<child-component />',
       components: { ChildComponent }
+    }))
+    const localVue = createLocalVue()
+    localVue.prototype.$route = {}
+
+    mountingMethod(TestComponent, {
+      localVue
     })
+  })
+
+  it.skip('is applied to mixed extended components', () => {
+    const BaseComponent = {
+      created () {
+        this.$route.params
+      }
+    }
+    const BaseGrandChildComponent = {
+      extends: BaseComponent,
+      created () {
+        this.$route.params
+      }
+    }
+    const GrandChildComponent = {
+      template: '<div>{{$route.params}}</div>',
+      extends: BaseGrandChildComponent
+    }
+    const BaseChildComponent = Vue.extend({
+      created () {
+        this.$route.params
+      }
+    })
+    const ChildComponent = Vue.extend(({
+      template: '<div><grand-child-component />{{$route.params}}</div>',
+      extends: BaseChildComponent,
+      components: {
+        GrandChildComponent
+      }
+    }))
+    const TestComponent = Vue.extend(Vue.extend({
+      template: '<child-component />',
+      components: { ChildComponent }
+    }))
     const localVue = createLocalVue()
     localVue.prototype.$route = {}
 
