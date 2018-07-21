@@ -1,5 +1,7 @@
 import { createLocalVue } from '~vue/test-utils'
 import { describeWithShallowAndMount } from '~resources/utils'
+import { itDoNotRunIf } from 'conditional-specs'
+import Vue from 'vue'
 
 describeWithShallowAndMount('emitted', mountingMethod => {
   it('captures emitted events with a different api', () => {
@@ -102,4 +104,58 @@ describeWithShallowAndMount('emitted', mountingMethod => {
     expect(wrapper2.emitted().foo).to.eql(undefined)
     expect(wrapper2.emitted().bar).to.eql([[]])
   })
+
+  itDoNotRunIf(
+    mountingMethod.name === 'shallowMount',
+    'works correctly on nested extended components', () => {
+      const GrandChildComponent = Vue.extend({
+        template: '<div />',
+        name: 'bar',
+        beforeCreate () {
+          this.$emit('foo')
+        }
+      })
+      const ChildComponent = {
+        template: '<grand-child-component />',
+        components: {
+          GrandChildComponent
+        }
+      }
+      const wrapper = mountingMethod({
+        template: '<child-component />',
+        components: {
+          ChildComponent
+        }
+      })
+
+      expect(wrapper.find({ name: 'bar' }).emitted('foo')).to.exist
+    })
+
+  itDoNotRunIf(
+    mountingMethod.name === 'shallowMount',
+    'works correctly on nested extended components inside extended component', () => {
+      const GrandChildComponent = Vue.extend({
+        template: '<div />',
+        name: 'bar',
+        beforeCreate () {
+          this.$emit('foo')
+        }
+      })
+      const ChildComponent = Vue.extend({
+        template: '<grand-child-component />',
+        name: 'child',
+        components: {
+          GrandChildComponent
+        }
+      })
+      const wrapper = mountingMethod({
+        template: '<child-component />',
+        name: 'parent',
+        components: {
+          ChildComponent
+        }
+      })
+
+      expect(wrapper.find({ name: 'bar' }).emitted('foo')).to.exist
+    })
 })

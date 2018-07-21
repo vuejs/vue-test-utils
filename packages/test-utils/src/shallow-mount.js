@@ -14,7 +14,7 @@ export default function shallowMount (
   component: Component,
   options: Options = {}
 ): VueWrapper {
-  const vue = options.localVue || Vue
+  const _Vue = options.localVue || Vue
 
   // remove any recursive components added to the constructor
   // in vm._init from previous tests
@@ -26,7 +26,7 @@ export default function shallowMount (
   return mount(component, {
     ...options,
     components: {
-      ...createComponentStubsForGlobals(vue),
+      ...createComponentStubsForGlobals(_Vue),
       ...createComponentStubsForAll(component)
     }
   })

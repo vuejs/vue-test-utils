@@ -61,7 +61,7 @@ describeWithMountingMethods('options.localVue', mountingMethod => {
     }
   })
 
-  it('is applies to child extended components', () => {
+  it('is applied to child extended components', () => {
     const ChildComponent = Vue.extend({
       template: '<div>{{$route.params}}</div>'
     })
@@ -71,6 +71,7 @@ describeWithMountingMethods('options.localVue', mountingMethod => {
     })
     const localVue = createLocalVue()
     localVue.prototype.$route = {}
+
     mountingMethod(TestComponent, {
       localVue
     })

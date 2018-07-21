@@ -4,6 +4,7 @@ import ComponentWithSlots from '~resources/components/component-with-slots.vue'
 import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
 import { describeWithMountingMethods, vueVersion } from '~resources/utils'
 import { itSkipIf, itDoNotRunIf } from 'conditional-specs'
+import { createLocalVue } from '~vue/test-utils'
 
 describeWithMountingMethods('options.slots', mountingMethod => {
   it('mounts component with default slot if passed component in slot object', () => {
@@ -24,19 +25,16 @@ describeWithMountingMethods('options.slots', mountingMethod => {
       const CustomComponent = {
         render: h => h('time')
       }
+      const localVue = createLocalVue()
+      localVue.component('custom-component', CustomComponent)
       const TestComponent = {
-        template: '<div><slot /></div>',
-        components: {
-          'custom-component': CustomComponent
-        }
+        template: '<div><slot /></div>'
       }
       const wrapper = mountingMethod(TestComponent, {
         slots: {
           default: '<custom-component />'
         },
-        components: {
-          'custom-component': CustomComponent
-        }
+        localVue
       })
       if (mountingMethod.name === 'renderToString') {
         expect(wrapper).contains('<time>')

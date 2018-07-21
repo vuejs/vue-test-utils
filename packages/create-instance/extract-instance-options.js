@@ -10,13 +10,18 @@ const MOUNTING_OPTIONS = [
   'clone',
   'attrs',
   'listeners',
-  'propsData'
+  'propsData',
+  'logModifiedComponents',
+  'sync'
 ]
 
 export default function extractInstanceOptions (
   options: Object
 ): Object {
-  const instanceOptions = { ...options }
+  const instanceOptions = {
+    ...options,
+    _vueTestUtilsRootExtendOptions: true
+  }
   MOUNTING_OPTIONS.forEach(mountingOption => {
     delete instanceOptions[mountingOption]
   })

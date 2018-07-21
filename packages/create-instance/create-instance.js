@@ -4,13 +4,14 @@ import { createSlotVNodes } from './add-slots'
 import addMocks from './add-mocks'
 import { addEventLogger } from './log-events'
 import { createComponentStubs } from 'shared/stub-components'
-import { throwError, warn, vueVersion } from 'shared/util'
+import { throwError, vueVersion } from 'shared/util'
 import { compileTemplate } from 'shared/compile-template'
 import extractInstanceOptions from './extract-instance-options'
 import createFunctionalComponent from './create-functional-component'
 import { componentNeedsCompiling } from 'shared/validators'
 import { validateSlots } from './validate-slots'
 import createScopedSlots from './create-scoped-slots'
+import { extendExtendedComponents } from './extend-extended-components'
 
 export default function createInstance (
   component: Component,
@@ -27,9 +28,6 @@ export default function createInstance (
   // root instance when it's instantiated
   //
   // component options are the root components options
-  const componentOptions = typeof component === 'function'
-    ? component.extendOptions
-    : component
 
   const instanceOptions = extractInstanceOptions(options)
 
@@ -59,38 +57,20 @@ export default function createInstance (
     // $FlowIgnore
     options.stubs
   )
-  if (options.stubs) {
-    instanceOptions.components = {
-      ...instanceOptions.components,
-      // $FlowIgnore
-      ...stubComponents
-    }
-  }
+
+  extendExtendedComponents(
+    component,
+    _Vue,
+    options.logModifiedComponents,
+    instanceOptions.components
+  )
+
+  // stub components should override every component defined in a component
   _Vue.mixin({
     created () {
       Object.assign(
         this.$options.components,
         stubComponents
-      )
-    }
-  })
-  Object.keys(componentOptions.components || {}).forEach(c => {
-    if (
-      componentOptions.components[c].extendOptions &&
-      !instanceOptions.components[c]
-    ) {
-      if (options.logModifiedComponents) {
-        warn(
-          `an extended child component <${c}> has been modified ` +
-          `to ensure it has the correct instance properties. ` +
-          `This means it is not possible to find the component ` +
-          `with a component selector. To find the component, ` +
-          `you must stub it manually using the stubs mounting ` +
-          `option.`
-        )
-      }
-      instanceOptions.components[c] = _Vue.extend(
-        componentOptions.components[c]
       )
     }
   })
@@ -103,9 +83,10 @@ export default function createInstance (
     ? component.extend(instanceOptions)
     : _Vue.extend(component).extend(instanceOptions)
 
-  Object.keys(instanceOptions.components || {}).forEach(key => {
-    Constructor.component(key, instanceOptions.components[key])
-    _Vue.component(key, instanceOptions.components[key])
+  Constructor._vueTestUtilsRoot = component
+
+  Object.keys(instanceOptions.components || {}).forEach(c => {
+    Constructor.component(c, instanceOptions.components[c])
   })
 
   if (options.slots) {

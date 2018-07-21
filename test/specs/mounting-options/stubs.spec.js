@@ -201,6 +201,7 @@ describeWithMountingMethods('options.stub', mountingMethod => {
       const ComponentWithGlobalComponent = {
         render: h => h('div', [h('registered-component')])
       }
+
       const wrapper = mountingMethod(ComponentWithGlobalComponent, {
         stubs: {
           'registered-component': true
@@ -209,8 +210,6 @@ describeWithMountingMethods('options.stub', mountingMethod => {
       const HTML =
         mountingMethod.name === 'renderToString' ? wrapper : wrapper.html()
       expect(HTML).to.contain('<registered-component-stub>')
-      expect(wrapper.find({ name: 'registered-component' }).html())
-        .to.equal('<registered-component-stub></registered-component-stub>')
     })
 
   it('stubs components with dummy when passed as an array', () => {
