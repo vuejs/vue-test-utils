@@ -44,7 +44,7 @@ describeWithShallowAndMount('setValue', mountingMethod => {
 
   it('throws error if element is option', () => {
     const message =
-      'wrapper.setValue() cannot be called on a <option> element. Use wrapper.setSelected() instead'
+      'wrapper.setValue() cannot be called on an <option> element. Use wrapper.setSelected() instead'
     shouldThrowErrorOnElement('option', message)
   })
 

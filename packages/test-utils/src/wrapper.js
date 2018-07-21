@@ -702,7 +702,7 @@ export default class Wrapper implements BaseWrapper {
       this.trigger('change')
     } else if (tagName === 'OPTION') {
       throwError(
-        `wrapper.setValue() cannot be called on a <option> ` +
+        `wrapper.setValue() cannot be called on an <option> ` +
           `element. Use wrapper.setSelected() instead`
       )
     } else if (tagName === 'INPUT' && type === 'checkbox') {
