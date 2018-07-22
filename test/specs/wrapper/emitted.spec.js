@@ -1,5 +1,5 @@
 import { createLocalVue } from '~vue/test-utils'
-import { describeWithShallowAndMount } from '~resources/utils'
+import { describeWithShallowAndMount, vueVersion } from '~resources/utils'
 import { itDoNotRunIf } from 'conditional-specs'
 import Vue from 'vue'
 
@@ -106,7 +106,7 @@ describeWithShallowAndMount('emitted', mountingMethod => {
   })
 
   itDoNotRunIf(
-    mountingMethod.name === 'shallowMount',
+    mountingMethod.name === 'shallowMount' || vueVersion < 2.3,
     'works correctly on nested extended components', () => {
       const GrandChildComponent = Vue.extend({
         template: '<div />',
@@ -132,7 +132,7 @@ describeWithShallowAndMount('emitted', mountingMethod => {
     })
 
   itDoNotRunIf(
-    mountingMethod.name === 'shallowMount',
+    mountingMethod.name === 'shallowMount' || vueVersion < 2.3,
     'works correctly on nested extended components inside extended component', () => {
       const GrandChildComponent = Vue.extend({
         template: '<div />',
