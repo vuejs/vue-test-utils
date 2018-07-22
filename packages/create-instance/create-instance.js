@@ -142,7 +142,7 @@ export default function createInstance (
     provide: options.provide,
     render (h) {
       const slots = options.slots
-        ? createSlotVNodes(h, options.slots, this)
+        ? createSlotVNodes(this, options.slots)
         : undefined
       return h(
         Constructor,

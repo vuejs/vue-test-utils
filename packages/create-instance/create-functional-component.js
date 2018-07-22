@@ -25,7 +25,7 @@ export default function createFunctionalComponent (
           mountingOptions.context.children.map(
             x => (typeof x === 'function' ? x(h) : x)
           )) ||
-          createSlotVNodes(h, mountingOptions.slots || {}, this)
+          createSlotVNodes(this, mountingOptions.slots || {})
       )
     },
     name: component.name,
