@@ -199,6 +199,24 @@ describeWithShallowAndMount('setProps', mountingMethod => {
       .with.property('message', message)
   })
 
+  it('updates watched prop', () => {
+    const TestComponent = {
+      template: '<div />',
+      props: ['propA'],
+      mounted () {
+        this.$watch('propA', function () {
+          this.propA
+        }, { immediate: true }
+        )
+      }
+    }
+    const wrapper = mountingMethod(TestComponent, { propsData: { propA: 'none' }})
+
+    wrapper.setProps({ propA: 'value' })
+    expect(wrapper.props().propA).to.equal('value')
+    expect(wrapper.vm.propA).to.equal('value')
+  })
+
   it('throws an error if node is not a Vue instance', () => {
     const message = 'wrapper.setProps() can only be called on a Vue instance'
     const compiled = compileToFunctions('<div><p></p></div>')
