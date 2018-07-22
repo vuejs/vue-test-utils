@@ -34,7 +34,3 @@ export const hyphenate = (str: string): string =>
 export const vueVersion = Number(
   `${Vue.version.split('.')[0]}.${Vue.version.split('.')[1]}`
 )
-
-export function isPlainObject (obj: any): boolean {
-  return Object.prototype.toString.call(obj) === '[object Object]'
-}

@@ -41,6 +41,10 @@ export function isVueComponent (component: any): boolean {
     return true
   }
 
+  if (typeof component.template === 'string') {
+    return true
+  }
+
   return typeof component.render === 'function'
 }
 
@@ -80,4 +84,8 @@ export function templateContainsComponent (
     const re = new RegExp(`<${format(name)}\\s*(\\s|>|(\/>))`, 'g')
     return re.test(template)
   })
+}
+
+export function isPlainObject (obj: any): boolean {
+  return Object.prototype.toString.call(obj) === '[object Object]'
 }

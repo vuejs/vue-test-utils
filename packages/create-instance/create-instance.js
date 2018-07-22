@@ -8,7 +8,7 @@ import { throwError, warn, vueVersion } from 'shared/util'
 import { compileTemplate } from 'shared/compile-template'
 import extractInstanceOptions from './extract-instance-options'
 import createFunctionalComponent from './create-functional-component'
-import { componentNeedsCompiling } from 'shared/validators'
+import { componentNeedsCompiling, isPlainObject } from 'shared/validators'
 import { validateSlots } from './validate-slots'
 import createScopedSlots from './create-scoped-slots'
 
@@ -138,25 +138,32 @@ export default function createInstance (
 
   const scopedSlots = createScopedSlots(options.scopedSlots)
 
-  const Parent = _Vue.extend({
-    provide: options.provide,
-    render (h) {
-      const slots = options.slots
-        ? createSlotVNodes(this, options.slots)
-        : undefined
-      return h(
-        Constructor,
-        {
-          ref: 'vm',
-          props: options.propsData,
-          on: options.listeners,
-          attrs: options.attrs,
-          scopedSlots
-        },
-        slots
-      )
-    }
-  })
+  if (options.parentComponent && !isPlainObject(options.parentComponent)) {
+    throwError(
+      `options.parentComponent should be a valid Vue component ` +
+      `options object`
+    )
+  }
+
+  const parentComponentOptions = options.parentComponent || {}
+  parentComponentOptions.provide = options.provide
+  parentComponentOptions.render = function (h) {
+    const slots = options.slots
+      ? createSlotVNodes(this, options.slots)
+      : undefined
+    return h(
+      Constructor,
+      {
+        ref: 'vm',
+        props: options.propsData,
+        on: options.listeners,
+        attrs: options.attrs,
+        scopedSlots
+      },
+      slots
+    )
+  }
+  const Parent = _Vue.extend(parentComponentOptions)
 
   return new Parent()
 }

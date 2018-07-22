@@ -1,4 +1,4 @@
-import { isPlainObject } from 'shared/util'
+import { isPlainObject } from 'shared/validators'
 
 export function recursivelySetData (vm, target, obj) {
   Object.keys(obj).forEach(key => {
