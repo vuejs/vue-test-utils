@@ -8,7 +8,7 @@ vue-test-utils はラッパベースの API です。
 
 ### `vm`
 
-`Component` (読み込み専用)：これは vue のインスタンスです。`wrapper.vm` を使って [vm のプロパティとインスタンスメソッド](https://jp.vuejs.org/v2/api/#インスタンスプロパティ)にアクセスできます。これは、Vue コンポーネントラッパにのみ存在します。
+`Component` (読み込み専用)：これは vue のインスタンスです。`wrapper.vm` を使って [vm のプロパティとインスタンスメソッド](https://jp.vuejs.org/v2/api/#インスタンスプロパティ)にアクセスできます。これは、Vue コンポーネントのラッパもしくは Vue コンポーネントをバインディングしている HTMLElement のラッパにのみ存在します。
 
 ### `element`
 
