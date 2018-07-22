@@ -223,7 +223,7 @@ describeWithMountingMethods('options.slots', mountingMethod => {
     }
   })
 
-  it('mounts component with text slot', () => {
+  it('mounts component with default and named text slot', () => {
     const wrapper = mountingMethod(ComponentWithSlots, {
       slots: {
         default: 'hello,',
@@ -234,6 +234,24 @@ describeWithMountingMethods('options.slots', mountingMethod => {
       expect(wrapper).contains('hello,world')
     } else {
       expect(wrapper.text()).to.contain('hello,world')
+    }
+  })
+
+  it('mounts functional component with only named text slot', () => {
+    const TestComponent = {
+      name: 'component-with-slots',
+      functional: true,
+      render: (h, ctx) => h('div', ctx.data, [ctx.slots().default, ctx.slots().footer])
+    }
+    const wrapper = mountingMethod(TestComponent, {
+      slots: {
+        footer: 'foo'
+      }
+    })
+    if (mountingMethod.name === 'renderToString') {
+      expect(wrapper).contains('foo')
+    } else {
+      expect(wrapper.text()).to.contain('foo')
     }
   })
 
