@@ -674,12 +674,17 @@ export default class Wrapper implements BaseWrapper {
       }
 
       if (this.vm && this.vm._props) {
+        // Set actual props value
         this.vm._props[key] = data[key]
-      } else {
         // $FlowIgnore : Problem with possibly null this.vm
         this.vm[key] = data[key]
+      } else {
         // $FlowIgnore : Problem with possibly null this.vm.$options
         this.vm.$options.propsData[key] = data[key]
+        // $FlowIgnore : Problem with possibly null this.vm
+        this.vm[key] = data[key]
+        // $FlowIgnore : Need to call this twice to fix watcher bug in 2.0.x
+        this.vm[key] = data[key]
       }
     })
     // $FlowIgnore : Problem with possibly null this.vm
