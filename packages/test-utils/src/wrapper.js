@@ -676,7 +676,6 @@ export default class Wrapper implements BaseWrapper {
       if (this.vm && this.vm._props) {
         // Set actual props value
         this.vm._props[key] = data[key]
-        // Set vm proxy property to trigger watchers
         // $FlowIgnore : Problem with possibly null this.vm
         this.vm[key] = data[key]
       } else {
