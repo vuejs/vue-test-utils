@@ -251,7 +251,7 @@ describeWithMountingMethods('options.slots', mountingMethod => {
     if (mountingMethod.name === 'renderToString') {
       expect(wrapper).contains('foo')
     } else {
-      expect(wrapper.text()).to.contain('foo')
+      expect(wrapper.text()).to.equal('foo')
     }
   })
 
