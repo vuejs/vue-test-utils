@@ -1,7 +1,6 @@
 // @flow
 
 import Vue from 'vue'
-import mergeWith from 'lodash/mergeWith'
 import getSelectorTypeOrThrow from './get-selector-type'
 import {
   REF_SELECTOR,
@@ -17,10 +16,11 @@ import {
 } from './find-vue-components'
 import WrapperArray from './wrapper-array'
 import ErrorWrapper from './error-wrapper'
-import { throwError, warn } from 'shared/util'
+import { throwError, warn } from '../../shared/util'
 import findAll from './find'
 import createWrapper from './create-wrapper'
 import { orderWatchers } from './order-watchers'
+import { recursivelySetData } from './recursively-set-data'
 
 export default class Wrapper implements BaseWrapper {
   +vnode: VNode | null;
@@ -510,27 +510,7 @@ export default class Wrapper implements BaseWrapper {
       )
     }
 
-    Object.keys(data).forEach(key => {
-      if (
-        typeof data[key] === 'object' &&
-        data[key] !== null &&
-        !Array.isArray(data[key])
-      ) {
-        const newObj = mergeWith(
-          // $FlowIgnore : Problem with possibly null this.vm
-          this.vm[key],
-          data[key],
-          (objValue, srcValue) => {
-            return Array.isArray(srcValue) ? srcValue : undefined
-          }
-        )
-        // $FlowIgnore : Problem with possibly null this.vm
-        this.vm.$set(this.vm, [key], newObj)
-      } else {
-        // $FlowIgnore : Problem with possibly null this.vm
-        this.vm.$set(this.vm, [key], data[key])
-      }
-    })
+    recursivelySetData(this.vm, this.vm, data)
   }
 
   /**
