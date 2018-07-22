@@ -575,9 +575,10 @@ describeWithMountingMethods('options.slots', mountingMethod => {
     mountingMethod.name === 'renderToString',
     'sets a component which can access the parent component and the child component',
     () => {
+      const childComponentName = 'component-with-parent-name'
       const localVue = createLocalVue()
       localVue.prototype.bar = 'FOO'
-      const ParentComponent = mount(
+      let ParentComponent = mount(
         {
           name: 'parentComponent',
           template: '<div><slot /></div>',
@@ -600,11 +601,37 @@ describeWithMountingMethods('options.slots', mountingMethod => {
           localVue
         }
       )
-      const childComponentName = 'component-with-parent-name'
       expect(ParentComponent.vm.childComponentName).to.equal(childComponentName)
       expect(ParentComponent.vm.$children.length).to.equal(2)
       expect(ParentComponent.vm.$children.every(c => c.$options.name === childComponentName)).to.equal(true)
       expect(ParentComponent.html()).to.equal('<div><div><span baz="qux">FOO,quux</span></div><div><span baz="qux">FOO,quux</span></div></div>')
+
+      ParentComponent = mount(
+        {
+          name: 'parentComponent',
+          template: '<div><slot /></div>',
+          data () {
+            return {
+              childComponentName: ''
+            }
+          }
+        },
+        {
+          slots: {
+            default: {
+              name: childComponentName,
+              template: '<p>1234</p>',
+              mounted () {
+                this.$parent.childComponentName = this.$options.name
+              }
+            }
+          }
+        }
+      )
+      expect(ParentComponent.vm.childComponentName).to.equal(childComponentName)
+      expect(ParentComponent.vm.$children.length).to.equal(1)
+      expect(ParentComponent.vm.$children.every(c => c.$options.name === childComponentName)).to.equal(true)
+      expect(ParentComponent.html()).to.equal('<div><p>1234</p></div>')
     }
   )
 })

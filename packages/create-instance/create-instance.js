@@ -12,6 +12,17 @@ import { componentNeedsCompiling } from 'shared/validators'
 import { validateSlots } from './validate-slots'
 import createScopedSlots from './create-scoped-slots'
 
+function compileTemplateForSlots (slots: Object): void {
+  Object.keys(slots).forEach(key => {
+    const slot = Array.isArray(slots[key]) ? slots[key] : [slots[key]]
+    slot.forEach(slotValue => {
+      if (componentNeedsCompiling(slotValue)) {
+        compileTemplate(slotValue)
+      }
+    })
+  })
+}
+
 export default function createInstance (
   component: Component,
   options: Options,
@@ -109,6 +120,8 @@ export default function createInstance (
   })
 
   if (options.slots) {
+    compileTemplateForSlots(options.slots)
+    // $FlowIgnore
     validateSlots(options.slots)
   }
 
