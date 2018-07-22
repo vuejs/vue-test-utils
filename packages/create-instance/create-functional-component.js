@@ -6,7 +6,7 @@ import { createSlotVNodes } from './create-slot-vnodes'
 
 export default function createFunctionalComponent (
   component: Component,
-  mountingOptions: Options,
+  mountingOptions: Options
 ): Component {
   if (mountingOptions.context && typeof mountingOptions.context !== 'object') {
     throwError('mount.context must be an object')

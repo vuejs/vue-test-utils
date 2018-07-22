@@ -10,7 +10,7 @@ function createVNodesForSlot (
 ): VNode | string {
   let vnode
   if (typeof slotValue === 'string') {
-    const el = compileToFunctions(`<div>${slotValue}{{ }}</div>`)
+    const el = compileToFunctions(`<div>${slotValue}</div>`)
     const _staticRenderFns = vm._renderProxy.$options.staticRenderFns
     // version < 2.5
     if (!vm._renderProxy._staticTrees) {
