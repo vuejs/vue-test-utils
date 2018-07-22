@@ -221,7 +221,7 @@ describeWithMountingMethods('options.slots', mountingMethod => {
     }
   })
 
-  it('mounts component with text slot', () => {
+  it('mounts component with named and default text slot', () => {
     const wrapper = mountingMethod(ComponentWithSlots, {
       slots: {
         default: 'hello,',
@@ -235,7 +235,20 @@ describeWithMountingMethods('options.slots', mountingMethod => {
     }
   })
 
-  it('mounts functional component with text slot', () => {
+  it('mounts component with named text slot', () => {
+    const wrapper = mountingMethod(ComponentWithSlots, {
+      slots: {
+        header: 'world'
+      }
+    })
+    if (mountingMethod.name === 'renderToString') {
+      expect(wrapper).contains('world')
+    } else {
+      expect(wrapper.text()).to.contain('world')
+    }
+  })
+
+  it('mounts functional component with named and default text slot', () => {
     const TestComponent = {
       name: 'component-with-slots',
       functional: true,
@@ -251,6 +264,24 @@ describeWithMountingMethods('options.slots', mountingMethod => {
       expect(wrapper).contains('hello,world')
     } else {
       expect(wrapper.text()).to.contain('hello,world')
+    }
+  })
+
+  it('mounts functional component with named text slot', () => {
+    const TestComponent = {
+      name: 'component-with-slots',
+      functional: true,
+      render: (h, ctx) => h('div', ctx.data, [ctx.slots().header])
+    }
+    const wrapper = mountingMethod(TestComponent, {
+      slots: {
+        header: 'world'
+      }
+    })
+    if (mountingMethod.name === 'renderToString') {
+      expect(wrapper).contains('world')
+    } else {
+      expect(wrapper.text()).to.contain('world')
     }
   })
 
