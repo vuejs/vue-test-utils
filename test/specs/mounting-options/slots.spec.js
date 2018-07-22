@@ -241,7 +241,7 @@ describeWithMountingMethods('options.slots', mountingMethod => {
     const TestComponent = {
       name: 'component-with-slots',
       functional: true,
-      render: (h, ctx) => h('div', ctx.data, [ctx.slots().default, ctx.slots().footer])
+      render: (h, ctx) => h('div', ctx.data, [ctx.slots().footer])
     }
     const wrapper = mountingMethod(TestComponent, {
       slots: {
