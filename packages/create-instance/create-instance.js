@@ -51,7 +51,7 @@ export default function createInstance (
     (component.options && component.options.functional) ||
     component.functional
   ) {
-    component = createFunctionalComponent(component, options, _Vue)
+    component = createFunctionalComponent(component, options)
   } else if (options.context) {
     throwError(
       `mount.context can only be used when mounting a ` + `functional component`
@@ -142,7 +142,7 @@ export default function createInstance (
     provide: options.provide,
     render (h) {
       const slots = options.slots
-        ? createSlotVNodes(h, options.slots, _Vue)
+        ? createSlotVNodes(h, options.slots, this)
         : undefined
       return h(
         Constructor,
