@@ -23,6 +23,7 @@ export default function shallowMount (
     delete component.components[hyphenate(component.name)]
   }
 
+  console.log(createComponentStubsForGlobals(vue))
   return mount(component, {
     ...options,
     components: {
