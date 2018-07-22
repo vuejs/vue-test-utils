@@ -1,6 +1,6 @@
 // @flow
 
-import { createSlotVNodes } from './add-slots'
+import { createSlotVNodes } from './create-slot-vnodes'
 import addMocks from './add-mocks'
 import { addEventLogger } from './log-events'
 import { createComponentStubs } from 'shared/stub-components'
@@ -11,6 +11,17 @@ import createFunctionalComponent from './create-functional-component'
 import { componentNeedsCompiling, isPlainObject } from 'shared/validators'
 import { validateSlots } from './validate-slots'
 import createScopedSlots from './create-scoped-slots'
+
+function compileTemplateForSlots (slots: Object): void {
+  Object.keys(slots).forEach(key => {
+    const slot = Array.isArray(slots[key]) ? slots[key] : [slots[key]]
+    slot.forEach(slotValue => {
+      if (componentNeedsCompiling(slotValue)) {
+        compileTemplate(slotValue)
+      }
+    })
+  })
+}
 
 export default function createInstance (
   component: Component,
@@ -109,6 +120,8 @@ export default function createInstance (
   })
 
   if (options.slots) {
+    compileTemplateForSlots(options.slots)
+    // $FlowIgnore
     validateSlots(options.slots)
   }
 
@@ -125,15 +138,18 @@ export default function createInstance (
 
   const scopedSlots = createScopedSlots(options.scopedSlots)
 
-  if (options.parent && !isPlainObject(options.parent)) {
-    throwError('options.parent should be a valid Vue component options object')
+  if (options.parentComponent && !isPlainObject(options.parentComponent)) {
+    throwError(
+      `options.parentComponent should be a valid Vue component ` +
+      `options object`
+    )
   }
 
-  const parentComponentOptions = options.parent || {}
+  const parentComponentOptions = options.parentComponent || {}
   parentComponentOptions.provide = options.provide
   parentComponentOptions.render = function (h) {
     const slots = options.slots
-      ? createSlotVNodes(h, options.slots)
+      ? createSlotVNodes(this, options.slots)
       : undefined
     return h(
       Constructor,

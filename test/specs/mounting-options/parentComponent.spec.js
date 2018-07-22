@@ -1,7 +1,7 @@
 import { describeWithMountingMethods } from '~resources/utils'
 
-describeWithMountingMethods('options.parent', mountingMethod => {
-  it('mounts component with $parent set to options.parent', () => {
+describeWithMountingMethods('options.parentComponent', mountingMethod => {
+  it('mounts component with $parent set to options.parentComponent', () => {
     const Parent = {
       data: () => ({
         customName: 'Parent Name'
@@ -11,20 +11,23 @@ describeWithMountingMethods('options.parent', mountingMethod => {
       template: '<div>{{$parent.customName}}</div>'
     }
     const wrapper = mountingMethod(TestComponent, {
-      parent: Parent
+      parentComponent: Parent
     })
-    expect(wrapper.html()).to.contain('Parent Name')
+    const HTML = mountingMethod.name === 'renderToString'
+      ? wrapper
+      : wrapper.html()
+    expect(HTML).to.contain('Parent Name')
   })
 
-  it('validates parent option', () => {
+  it('validates parentComponent option', () => {
     ;['str', 123, [], () => {}].forEach(invalidParent => {
       const TestComponent = {
         template: '<div>{{$parent.customName}}</div>'
       }
       const fn = () => mountingMethod(TestComponent, {
-        parent: invalidParent
+        parentComponent: invalidParent
       })
-      const message = '[vue-test-utils]: options.parent should be a valid Vue component options object'
+      const message = '[vue-test-utils]: options.parentComponent should be a valid Vue component options object'
       expect(fn).to.throw()
         .with.property('message', message)
     })

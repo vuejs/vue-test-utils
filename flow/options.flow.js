@@ -12,6 +12,7 @@ declare type Options = {
   context?: Object,
   attrs?: { [key: string]: string },
   listeners?: { [key: string]: Function | Array<Function> },
+  parentComponent?: Object,
   logModifiedComponents?: boolean,
   sync?: boolean
 };

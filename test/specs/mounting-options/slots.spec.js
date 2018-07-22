@@ -2,8 +2,10 @@ import { compileToFunctions } from 'vue-template-compiler'
 import Component from '~resources/components/component.vue'
 import ComponentWithSlots from '~resources/components/component-with-slots.vue'
 import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
+import ComponentWithParentName from '~resources/components/component-with-parent-name.vue'
 import { describeWithMountingMethods, vueVersion } from '~resources/utils'
 import { itSkipIf, itDoNotRunIf } from 'conditional-specs'
+import { mount, createLocalVue } from '~vue/test-utils'
 
 describeWithMountingMethods('options.slots', mountingMethod => {
   it('mounts component with default slot if passed component in slot object', () => {
@@ -221,7 +223,7 @@ describeWithMountingMethods('options.slots', mountingMethod => {
     }
   })
 
-  it('mounts component with text slot', () => {
+  it('mounts component with default and named text slot', () => {
     const wrapper = mountingMethod(ComponentWithSlots, {
       slots: {
         default: 'hello,',
@@ -232,6 +234,24 @@ describeWithMountingMethods('options.slots', mountingMethod => {
       expect(wrapper).contains('hello,world')
     } else {
       expect(wrapper.text()).to.contain('hello,world')
+    }
+  })
+
+  it('mounts functional component with only named text slot', () => {
+    const TestComponent = {
+      name: 'component-with-slots',
+      functional: true,
+      render: (h, ctx) => h('div', ctx.data, [ctx.slots().default, ctx.slots().footer])
+    }
+    const wrapper = mountingMethod(TestComponent, {
+      slots: {
+        footer: 'foo'
+      }
+    })
+    if (mountingMethod.name === 'renderToString') {
+      expect(wrapper).contains('foo')
+    } else {
+      expect(wrapper.text()).to.equal('foo')
     }
   })
 
@@ -568,4 +588,68 @@ describeWithMountingMethods('options.slots', mountingMethod => {
       expect(wrapper.contains(ComponentAsAClass)).to.equal(true)
     }
   })
+
+  itDoNotRunIf(
+    mountingMethod.name === 'renderToString',
+    'sets a component which can access the parent component and the child component',
+    () => {
+      const childComponentName = 'component-with-parent-name'
+      const localVue = createLocalVue()
+      localVue.prototype.bar = 'FOO'
+      let ParentComponent = mount(
+        {
+          name: 'parentComponent',
+          template: '<div><slot /></div>',
+          data () {
+            return {
+              childComponentName: ''
+            }
+          }
+        },
+        {
+          components: {
+            ComponentWithParentName
+          },
+          slots: {
+            default: [
+              '<component-with-parent-name :fromLocalVue="bar" />',
+              '<component-with-parent-name :fromLocalVue="bar" />'
+            ]
+          },
+          localVue
+        }
+      )
+      expect(ParentComponent.vm.childComponentName).to.equal(childComponentName)
+      expect(ParentComponent.vm.$children.length).to.equal(2)
+      expect(ParentComponent.vm.$children.every(c => c.$options.name === childComponentName)).to.equal(true)
+      expect(ParentComponent.html()).to.equal('<div><div><span baz="qux">FOO,quux</span></div><div><span baz="qux">FOO,quux</span></div></div>')
+
+      ParentComponent = mount(
+        {
+          name: 'parentComponent',
+          template: '<div><slot /></div>',
+          data () {
+            return {
+              childComponentName: ''
+            }
+          }
+        },
+        {
+          slots: {
+            default: {
+              name: childComponentName,
+              template: '<p>1234</p>',
+              mounted () {
+                this.$parent.childComponentName = this.$options.name
+              }
+            }
+          }
+        }
+      )
+      expect(ParentComponent.vm.childComponentName).to.equal(childComponentName)
+      expect(ParentComponent.vm.$children.length).to.equal(1)
+      expect(ParentComponent.vm.$children.every(c => c.$options.name === childComponentName)).to.equal(true)
+      expect(ParentComponent.html()).to.equal('<div><p>1234</p></div>')
+    }
+  )
 })
