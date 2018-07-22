@@ -2,7 +2,7 @@
 
 import { throwError } from 'shared/util'
 import { validateSlots } from './validate-slots'
-import { createSlotVNodes } from './add-slots'
+import { createSlotVNodes } from './create-slot-vnodes'
 
 export default function createFunctionalComponent (
   component: Component,
@@ -25,7 +25,7 @@ export default function createFunctionalComponent (
           mountingOptions.context.children.map(
             x => (typeof x === 'function' ? x(h) : x)
           )) ||
-          createSlotVNodes(h, mountingOptions.slots || {})
+          createSlotVNodes(this, mountingOptions.slots || {})
       )
     },
     name: component.name,
