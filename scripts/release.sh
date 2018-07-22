@@ -1,4 +1,4 @@
-yarn release
+npm run release
 
 VERSION=$(jq -r .version packages/test-utils/package.json)
 
