@@ -83,36 +83,45 @@ describeWithMountingMethods('options.localVue', mountingMethod => {
     })
   })
 
-  it.skip('is applied to mixed extended components', () => {
-    const BaseComponent = {
+  it('is applied to extended components', () => {
+    const localVue = createLocalVue()
+    localVue.prototype.$route = {}
+
+    const Extends = {
       created () {
-        this.$route.params
+        console.log(this.$route.params)
       }
     }
+    const TestComponent = {
+      extends: Extends
+    }
+    mountingMethod(TestComponent, {
+      localVue
+    })
+  })
+
+  it('is applied to mixed extended components', () => {
     const BaseGrandChildComponent = {
-      extends: BaseComponent,
       created () {
         this.$route.params
       }
     }
     const GrandChildComponent = {
-      template: '<div>{{$route.params}}</div>',
-      extends: BaseGrandChildComponent
-    }
-    const BaseChildComponent = Vue.extend({
       created () {
         this.$route.params
-      }
-    })
+      },
+      template: '<div/>',
+      extends: BaseGrandChildComponent
+    }
     const ChildComponent = Vue.extend(({
       template: '<div><grand-child-component />{{$route.params}}</div>',
-      extends: BaseChildComponent,
+      // extends: BaseChildComponent,
       components: {
         GrandChildComponent
       }
     }))
     const TestComponent = Vue.extend(Vue.extend({
-      template: '<child-component />',
+      template: '<div><child-component /></div>',
       components: { ChildComponent }
     }))
     const localVue = createLocalVue()
