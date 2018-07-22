@@ -246,14 +246,13 @@ export function createComponentStubsForGlobals (
   instance: Component
 ): Components {
   const components = {}
-  Object.keys(instance.options.components).forEach(c => {
+  for (const c in instance.options.components) {
     if (isRequiredComponent(c)) {
-      return
+      continue
     }
-
     components[c] = createBlankStub(instance.options.components[c], c)
     delete instance.options.components[c]._Ctor
     delete components[c]._Ctor
-  })
+  }
   return components
 }
