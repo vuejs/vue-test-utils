@@ -11,6 +11,7 @@
 - [`attachToDocument`](#attachtodocument)
 - [`attrs`](#attrs)
 - [`listeners`](#listeners)
+- [`parentComponent`](#parentComponent)
 - [`provide`](#provide)
 - [`sync`](#sync)
 
@@ -106,7 +107,9 @@ shallowMount(Component, {
   stubs: {
     // 使用一个特定的实现作为存根
     'registered-component': Foo,
-    // 使用创建默认的实现作为存根
+    // 使用创建默认的实现作为存根。
+    // 这里默认存根的组件名是 `another-component`。
+    // 默认存根是 `<${the component name of default stub}-stub>`。
     'another-component': true
   }
 })
@@ -179,6 +182,23 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 - 类型：`Object`
 
 设置组件实例的 `$listeners` 对象。
+
+## parentComponent
+
+- 类型：`Object`
+
+用来作为被挂载组件的父级组件。
+
+示例：
+
+```js
+import Foo from './Foo.vue'
+
+const wrapper = shallowMount(Component, {
+  parentComponent: Foo
+})
+expect(wrapper.vm.$parent.name).toBe('foo')
+```
 
 ## provide
 

@@ -6,7 +6,7 @@ Vue Test Utils 包含了一个定义其选项的配置对象。
 
 ### `stubs`
 
-- 类型：`Object`
+- 类型：`{ [name: string]: Component | boolean | string }`
 - 默认值：`{
   transition: TransitionStub,
   'transition-group': TransitionGroupStub
@@ -46,7 +46,7 @@ VueTestUtils.config.mocks['$store'] = {
 
 ### `methods`
 
-- 类型：`Object`
+- 类型：`{ [name: string]: Function }`
 - 默认值：`{}`
 
 你可以使用 `config` 对象配置默认的方法。它可以用于为组件注入方法的插件，例如 [VeeValidate](https://vee-validate.logaretm.com/)。你可以通过在挂载选项中传入 `methods` 来覆写 `config` 中的方法集合。
@@ -93,4 +93,19 @@ VueTestUtils.config.provide['$logger'] = {
 import VueTestUtils from '@vue/test-utils'
 
 VueTestUtils.config.logModifiedComponents = false
+```
+
+### `silent`
+
+- 类型：`Boolean`
+- 默认值：`true`
+
+在组件的可观察内容 (如 props) 发生突变时，警告会被 Vue 阻止。当设置为 `false` 时，所有的警告都会出现在控制台中。这是一个 `Vue.config.silent` 的配置方式。
+
+示例；
+
+```js
+import VueTestUtils from '@vue/test-utils'
+
+VueTestUtils.config.silent = false
 ```
