@@ -69,7 +69,7 @@ describe('Actions.vue', () => {
     })
   })
 
-  it('当输入框的值是“input”且一个“input”事件被触发时会调用“actionInput”的 action', () => {
+  it('当事件的值是“input”时会 dispatch“actionInput”', () => {
     const wrapper = shallowMount(Actions, { store, localVue })
     const input = wrapper.find('input')
     input.element.value = 'input'
@@ -77,7 +77,7 @@ describe('Actions.vue', () => {
     expect(actions.actionInput).toHaveBeenCalled()
   })
 
-  it('当输入框的值不是“input”但有“input”事件触发时不会掉用“actionInput”的 action', () => {
+  it('当事件的值不是“input”时不会 dispatch “actionInput”', () => {
     const wrapper = shallowMount(Actions, { store, localVue })
     const input = wrapper.find('input')
     input.element.value = 'not input'
@@ -390,4 +390,3 @@ test('updates evenOrOdd getter when increment is commited', () => {
 - [测试 store 的示例工程](https://github.com/eddyerburgh/testing-vuex-store-example)
 - [`localVue`](../api/options.md#localvue)
 - [`createLocalVue`](../api/createLocalVue.md)
-
