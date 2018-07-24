@@ -32,8 +32,8 @@ require('jsdom-global')()
 `vue-jest` プリプロセッサは基本的な SFC 機能をサポートしていますが、現在 `vue-loader` でのみサポートされているスタイルブロックやカスタムブロックは扱いません。これらの機能やその他の Webpack 固有の設定に依存する場合は、webpack + `vue-loader` ベースの設定を使用する必要があります。
 
 さまざまな設定については、次のガイドをお読みください:
-- [Jest による単一ファイルコンポーネントのテスト](./testing-SFCs-with-jest.md)
-- [Mocha + webpack による単一ファイルコンポーネントのテスト](./testing-SFCs-with-mocha-webpack.md)
+- [Jest による単一ファイルコンポーネントのテスト](./testing-single-file-components-with-jest.md)
+- [Mocha + webpack による単一ファイルコンポーネントのテスト](./testing-single-file-components-with-mocha-webpack.md)
 
 ### リソース
 

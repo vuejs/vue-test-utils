@@ -33,8 +33,8 @@ require('jsdom-global')()
 
 Изучите следующие руководства по вариантам настройки:
 
-- [Тестирование однофайловых компонентов с Jest](./testing-SFCs-with-jest.md)
-- [Тестирование однофайловых компонентов с Mocha + webpack](./testing-SFCs-with-mocha-webpack.md)
+- [Тестирование однофайловых компонентов с Jest](./testing-single-file-components-with-jest.md)
+- [Тестирование однофайловых компонентов с Mocha + webpack](./testing-single-file-components-with-mocha-webpack.md)
 
 ### Дополнительные ресурсы
 
