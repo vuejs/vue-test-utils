@@ -11,6 +11,7 @@
 - [`attachToDocument`](#attachtodocument)
 - [`attrs`](#attrs)
 - [`listeners`](#listeners)
+- [`parentComponent`](#parentComponent)
 - [`provide`](#provide)
 - [`sync`](#sync)
 
@@ -182,6 +183,23 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 - Тип: `Object`
 
 Устанавливает объект `$listeners` на экземпляре компонента.
+
+## parentComponent
+
+- type: `Object`
+
+Компонент для использования в качестве родительского для смонтированного компонента.
+
+Пример:
+
+```js
+import Foo from './Foo.vue'
+
+const wrapper = shallowMount(Component, {
+  parentComponent: Foo
+})
+expect(wrapper.vm.$parent.name).toBe('foo')
+```
 
 ## provide
 
