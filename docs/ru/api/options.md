@@ -47,16 +47,23 @@ expect(wrapper.is(Component)).toBe(true)
 
 ```js
 import Foo from './Foo.vue'
-import Bar from './Bar.vue'
+
+const bazComponent = {
+  name: 'baz-component',
+  template: '<p>baz</p>'
+}
 
 const wrapper = shallowMount(Component, {
   slots: {
-    default: [Foo, Bar],
+    default: [Foo, '<my-component />', 'text'],
     fooBar: Foo, // будет соответствовать `<slot name="FooBar" />`
     foo: '<div />',
-    bar: 'bar'
+    bar: 'bar',
+    baz: bazComponent,
+    qux: '<my-component />'
   }
 })
+
 expect(wrapper.find('div')).toBe(true)
 ```
 
