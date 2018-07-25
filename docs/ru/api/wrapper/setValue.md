@@ -1,6 +1,6 @@
 ## setValue(value)
 
-Устанавливает значение ввода текстового элемента и обновляет связанные данные `v-model`.
+Устанавливает значение элемента поле ввода текста или выпадающего списка и обновляет связанные данные `v-model`.
 
 - **Аргументы:**
   - `{any} value`
@@ -12,15 +12,26 @@ import { mount } from '@vue/test-utils'
 import Foo from './Foo.vue'
 
 const wrapper = mount(Foo)
+
 const input = wrapper.find('input[type="text"]')
 input.setValue('some value')
+
+const select = wrapper.find('select')
+select.setValue('option value')
 ```
 
 - **Примечание:**
 
-`textInput.setValue(value)` — псевдоним следующего кода.
+  - `textInput.setValue(value)` — псевдоним следующего кода.
 
-```js
-textInput.element.value = value
-textInput.trigger('input')
-```
+  ```js
+  textInput.element.value = value
+  textInput.trigger('input')
+  ```
+
+  - `select.setValue(value)` — псевдоним следующего кода.
+
+  ```js
+  select.element.value = value
+  select.trigger('change')
+  ```
