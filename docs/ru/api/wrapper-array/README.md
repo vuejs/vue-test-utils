@@ -21,7 +21,9 @@
 !!!include(docs/ru/api/wrapper-array/is.md)!!!
 !!!include(docs/ru/api/wrapper-array/isEmpty.md)!!!
 !!!include(docs/ru/api/wrapper-array/isVueInstance.md)!!!
+!!!include(docs/api/wrapper-array/setChecked.md)!!!
 !!!include(docs/ru/api/wrapper-array/setData.md)!!!
 !!!include(docs/ru/api/wrapper-array/setMethods.md)!!!
 !!!include(docs/ru/api/wrapper-array/setProps.md)!!!
+!!!include(docs/api/wrapper-array/setValue.md)!!!
 !!!include(docs/ru/api/wrapper-array/trigger.md)!!!
