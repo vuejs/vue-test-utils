@@ -86,7 +86,7 @@ expect(wrapper.find('#fooWrapper').html()).toBe(
 
 - type: `{ [name: string]: Component | boolean } | Array<string>`
 
-子コンポーネントをスタブします。スタブまたはオブジェクトに対するコンポーネント名の配列になります。`stubs` が配列の場合、すべてのスタブは `<${component name}-stub>` になります。
+子コンポーネントをスタブします。スタブまたはオブジェクトに対するコンポーネント名の配列になります。`stubs` が配列の場合、すべてのスタブは `<${コンポーネント名}-stub>` になります。
 
 例:
 
@@ -101,7 +101,9 @@ shallowMount(Component, {
   stubs: {
     // 特定の実装によるスタブ
     'registered-component': Foo,
-    // デフォルトのスタブを作成します
+    // デフォルトのスタブを作成します。
+    // このケースではデフォルトのスタブのコンポーネント名は another-component です。
+    // デフォルトのスタブは <${デフォルトのスタブのコンポーネント名}-stub> です。
     'another-component': true
   }
 })

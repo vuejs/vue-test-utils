@@ -6,23 +6,23 @@ Vue Test Utils 是一个基于包裹器的 API。
 
 ## 属性
 
-### `vm` 
+### `vm`
 
-`Component`：这是该 Vue 实例。你可以通过 `wrapper.vm` 访问一个实例所有的[方法和属性](https://vuejs.org/v2/api/#Instance-Properties)。这只存在于 Vue 组件包裹器中。
+`Component` (只读)：这是该 Vue 实例。你可以通过 `wrapper.vm` 访问一个实例所有的[方法和属性](https://vuejs.org/v2/api/#Instance-Properties)。这只存在于 Vue 组件包裹器或绑定了 Vue 组件包裹器的 HTMLElement 中。
 
-### `element` 
+### `element`
 
-`HTMLElement`：包裹器的根 DOM 节点  
+`HTMLElement` (只读)：包裹器的根 DOM 节点
 
-### `options` 
+### `options`
 
-#### `options.attachedToDom` 
+#### `options.attachedToDom`
 
-`Boolean`：如果 `attachToDom` 传递给了 `mount` 或 `shallowMount` 则为真
+`Boolean` (只读)：如果 `attachToDom` 传递给了 `mount` 或 `shallowMount` 则为真
 
-#### `options.sync` 
+#### `options.sync`
 
-`Boolean`：如果挂载选项里的 `sync` 不是 `false` 则为真
+`Boolean` (只读)：如果挂载选项里的 `sync` 不是 `false` 则为真
 
 ## 方法
 

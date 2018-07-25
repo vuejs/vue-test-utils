@@ -14,26 +14,17 @@ describeWithMountingMethods('options.localVue', mountingMethod => {
     'mounts component using passed localVue as base Vue',
     () => {
       const TestComponent = {
-        template: `
-        <div>{{test}}</div>
-      `,
-        data: { test: '' }
+        template: `<div>{{test}}</div>`
       }
-      const localVue = Vue.extend()
-      localVue.version = '2.3'
+      const localVue = createLocalVue()
+      localVue.prototype.test = 'some value'
       const wrapper = mountingMethod(TestComponent, {
-        localVue: localVue,
-        mocks: { test: 'some value' }
+        localVue: localVue
       })
-      const HTML =
-        mountingMethod.name === 'renderToString' ? wrapper : wrapper.html()
+      const HTML = mountingMethod.name === 'renderToString'
+        ? wrapper
+        : wrapper.html()
       expect(HTML).to.contain('some value')
-      const freshWrapper = mountingMethod(TestComponent)
-      const freshHTML =
-        mountingMethod.name === 'renderToString'
-          ? freshWrapper
-          : freshWrapper.html()
-      expect(freshHTML).to.not.contain('some value')
     }
   )
 
@@ -91,5 +82,15 @@ describeWithMountingMethods('options.localVue', mountingMethod => {
       localVue
     })
     expect(localVue.options.created).to.equal(undefined)
+  })
+
+  it('handles merging Vue instances', () => {
+    const localVue = createLocalVue()
+    localVue.use((_Vue) => {
+      _Vue.$el = new _Vue()
+    })
+    mountingMethod({ template: '<div />' }, {
+      localVue
+    })
   })
 })

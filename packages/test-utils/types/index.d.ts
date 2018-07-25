@@ -74,7 +74,7 @@ interface BaseWrapper {
   setProps (props: object): void
 
   setValue (value: any): void
-  setChecked (checked: boolean): void
+  setChecked (checked?: boolean): void
   setSelected (): void
 
   trigger (eventName: string, options?: object): void
@@ -126,6 +126,7 @@ interface MountOptions<V extends Vue> extends ComponentOptions<V> {
   context?: VNodeData
   localVue?: typeof Vue
   mocks?: object
+  parentComponent?: Component
   slots?: Slots
   scopedSlots?: Record<string, string>
   stubs?: Stubs,
@@ -141,7 +142,7 @@ type ShallowMountOptions<V extends Vue> = MountOptions<V>
 type ThisTypedShallowMountOptions<V extends Vue> = ShallowMountOptions<V> & ThisType<V>
 
 interface VueTestUtilsConfigOptions {
-  stubs?: Stubs
+  stubs?: Record<string, Component | boolean | string>
   mocks?: object
   methods?: Record<string, Function>
   provide?: object,

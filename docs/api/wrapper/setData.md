@@ -2,7 +2,7 @@
 
 Sets `Wrapper` `vm` data.
 
-setData works by merging existing properties, except for arrays which are overwritten.
+setData works by recursively calling Vue.set.
 
 **Note the Wrapper must contain a Vue instance.**
 

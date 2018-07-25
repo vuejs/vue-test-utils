@@ -63,6 +63,7 @@ array = wrapper.findAll(ClassComponent)
 array = wrapper.findAll({ ref: 'myButton' })
 array = wrapper.findAll({ name: 'my-button' })
 
+wrapper.setChecked()
 wrapper.setChecked(true)
 wrapper.setValue('some string')
 wrapper.setSelected()

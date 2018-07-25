@@ -33,13 +33,15 @@ describeWithMountingMethods('options.stub', mountingMethod => {
   it('accepts valid component stubs', () => {
     const ComponentWithRender = { render: h => h('div') }
     const ComponentWithoutRender = { template: '<div></div>' }
-    const ExtendedComponent = Vue.extend({ template: '<div></div>' })
+    const ExtendedComponent = { extends: ComponentWithRender }
+    const SubclassedComponent = Vue.extend({ template: '<div></div>' })
     mountingMethod(ComponentWithChild, {
       stubs: {
-        ChildComponent: ComponentAsAClass,
-        ChildComponent2: ComponentWithRender,
+        ChildComponent: ComponentWithRender,
+        ChildComponent2: ComponentAsAClass,
         ChildComponent3: ComponentWithoutRender,
-        ChildComponent4: ExtendedComponent
+        ChildComponent4: ExtendedComponent,
+        ChildComponent5: SubclassedComponent
       }
     })
   })
@@ -173,6 +175,25 @@ describeWithMountingMethods('options.stub', mountingMethod => {
         : wrapper.html()
       expect(HTML).not.to.contain('<span>')
     })
+
+  it('renders slot content in stubs', () => {
+    const TestComponent = {
+      template: `
+    <div>
+      <stub-with-child>
+          <child-component />
+    </stub-with-child>
+      </div>
+      `
+    }
+    const wrapper = mountingMethod(TestComponent, {
+      stubs: ['child-component', 'stub-with-child']
+    })
+    const HTML = mountingMethod.name === 'renderToString'
+      ? wrapper
+      : wrapper.html()
+    expect(HTML).to.contain('<child-component-stub>')
+  })
 
   itDoNotRunIf(
     mountingMethod.name === 'renderToString',
@@ -320,19 +341,20 @@ describeWithMountingMethods('options.stub', mountingMethod => {
     'stubs on child components',
     () => {
       const TestComponent = {
-        template: '<transition><span /></transition>'
+        template: '<transition></transition>'
       }
-
       const wrapper = mountingMethod(
         {
           components: { 'test-component': TestComponent },
           template: '<test-component />'
         },
         {
-          stubs: ['transition']
+          stubs: {
+            'transition': 'time'
+          }
         }
       )
-      expect(wrapper.find('span').exists()).to.equal(false)
+      expect(wrapper.find('time').exists()).to.equal(false)
     }
   )
 

@@ -4,6 +4,7 @@ import type Wrapper from '~src/Wrapper'
 import type WrapperArray from '~src/WrapperArray'
 
 declare type Selector = any;
+declare type Components = { [name: string]: Component };
 
 declare interface BaseWrapper {
   // eslint-disable-line no-undef
@@ -36,7 +37,7 @@ declare interface BaseWrapper {
   setComputed(computed: Object): void;
   setMethods(methods: Object): void;
   setValue(value: any): void;
-  setChecked(checked: boolean): void;
+  setChecked(checked?: boolean): void;
   setSelected(): void;
   setProps(data: Object): void;
   trigger(type: string, options: Object): void;

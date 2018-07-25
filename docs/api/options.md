@@ -11,6 +11,7 @@ Options for `mount` and `shallowMount`. The options object can contain both Vue 
 - [`attachToDocument`](#attachtodocument)
 - [`attrs`](#attrs)
 - [`listeners`](#listeners)
+- [`parentComponent`](#parentComponent)
 - [`provide`](#provide)
 - [`sync`](#sync)
 
@@ -46,16 +47,23 @@ Example:
 
 ```js
 import Foo from './Foo.vue'
-import Bar from './Bar.vue'
+
+const bazComponent = {
+  name: 'baz-component',
+  template: '<p>baz</p>'
+}
 
 const wrapper = shallowMount(Component, {
   slots: {
-    default: [Foo, Bar],
+    default: [Foo, '<my-component />', 'text'],
     fooBar: Foo, // Will match `<slot name="FooBar" />`.
     foo: '<div />',
-    bar: 'bar'
+    bar: 'bar',
+    baz: bazComponent,
+    qux: '<my-component />'
   }
 })
+
 expect(wrapper.find('div')).toBe(true)
 ```
 
@@ -181,6 +189,23 @@ Set the component instance's `$attrs` object.
 - type: `Object`
 
 Set the component instance's `$listeners` object.
+
+## parentComponent
+
+- type: `Object`
+
+Component to use as parent for mounted component.
+
+Example:
+
+```js
+import Foo from './Foo.vue'
+
+const wrapper = shallowMount(Component, {
+  parentComponent: Foo
+})
+expect(wrapper.vm.$parent.name).toBe('foo')
+```
 
 ## provide
 

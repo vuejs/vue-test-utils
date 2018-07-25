@@ -28,6 +28,7 @@ mount(ClassComponent, {
   mocks: {
     $store: store
   },
+  parentComponent: normalOptions,
   slots: {
     default: `<div>Foo</div>`,
     foo: [normalOptions, functionalOptions],
@@ -75,7 +76,6 @@ mount(ClassComponent, {
 /**
  * Test for config
  */
-config.stubs = ['a']
 config.stubs = {
   foo: normalOptions,
   bar: functionalOptions,

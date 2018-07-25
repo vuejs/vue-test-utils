@@ -1,7 +1,6 @@
 // @flow
 
 import Vue from 'vue'
-import mergeWith from 'lodash/mergeWith'
 import getSelectorTypeOrThrow from './get-selector-type'
 import {
   REF_SELECTOR,
@@ -17,17 +16,17 @@ import {
 } from './find-vue-components'
 import WrapperArray from './wrapper-array'
 import ErrorWrapper from './error-wrapper'
-import { throwError, warn } from 'shared/util'
+import { throwError, warn } from '../../shared/util'
 import findAll from './find'
 import createWrapper from './create-wrapper'
 import { orderWatchers } from './order-watchers'
+import { recursivelySetData } from './recursively-set-data'
 
 export default class Wrapper implements BaseWrapper {
   +vnode: VNode | null;
   +vm: Component | void;
   _emitted: { [name: string]: Array<Array<any>> };
   _emittedByOrder: Array<{ name: string, args: Array<any> }>;
-  isVm: boolean;
   +element: Element;
   update: Function;
   +options: WrapperOptions;
@@ -76,7 +75,7 @@ export default class Wrapper implements BaseWrapper {
     )
   }
 
-  at () {
+  at (): void {
     throwError('at() must be called on a WrapperArray')
   }
 
@@ -122,7 +121,7 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Checks if wrapper contains provided selector.
    */
-  contains (selector: Selector) {
+  contains (selector: Selector): boolean {
     const selectorType = getSelectorTypeOrThrow(selector, 'contains')
     const nodes = findAll(this.vm, this.vnode, this.element, selector)
     const is = selectorType === REF_SELECTOR ? false : this.is(selector)
@@ -132,7 +131,9 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Returns an object containing custom events emitted by the Wrapper vm
    */
-  emitted (event?: string) {
+  emitted (
+    event?: string
+  ): Array<Array<any>> | { [name: string]: Array<Array<any>> } {
     if (!this._emitted && !this.vm) {
       throwError(`wrapper.emitted() can only be called on a Vue instance`)
     }
@@ -145,7 +146,7 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Returns an Array containing custom events emitted by the Wrapper vm
    */
-  emittedByOrder () {
+  emittedByOrder (): Array<{ name: string, args: Array<any> }> {
     if (!this._emittedByOrder && !this.vm) {
       throwError(
         `wrapper.emittedByOrder() can only be called on a Vue instance`
@@ -195,11 +196,11 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Checks if wrapper has an attribute with matching value
    */
-  hasAttribute (attribute: string, value: string) {
+  hasAttribute (attribute: string, value: string): boolean {
     warn(
       `hasAttribute() has been deprecated and will be ` +
       `removed in version 1.0.0. Use attributes() ` +
-      `instead—https://vue-test-utils.vuejs.org/en/api/wrapper/attributes`
+      `instead—https://vue-test-utils.vuejs.org/api/wrapper/#attributes`
     )
 
     if (typeof attribute !== 'string') {
@@ -220,11 +221,11 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Asserts wrapper has a class name
    */
-  hasClass (className: string) {
+  hasClass (className: string): boolean {
     warn(
       `hasClass() has been deprecated and will be removed ` +
       `in version 1.0.0. Use classes() ` +
-      `instead—https://vue-test-utils.vuejs.org/en/api/wrapper/classes`
+      `instead—https://vue-test-utils.vuejs.org/api/wrapper/#classes`
     )
     let targetClass = className
 
@@ -247,11 +248,11 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Asserts wrapper has a prop name
    */
-  hasProp (prop: string, value: string) {
+  hasProp (prop: string, value: string): boolean {
     warn(
       `hasProp() has been deprecated and will be removed ` +
       `in version 1.0.0. Use props() ` +
-      `instead—https://vue-test-utils.vuejs.org/en/api/wrapper/props`
+      `instead—https://vue-test-utils.vuejs.org/api/wrapper/#props`
     )
 
     if (!this.isVueInstance()) {
@@ -278,7 +279,7 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Checks if wrapper has a style with value
    */
-  hasStyle (style: string, value: string) {
+  hasStyle (style: string, value: string): boolean {
     warn(
       `hasStyle() has been deprecated and will be removed ` +
       `in version 1.0.0. Use wrapper.element.style ` +
@@ -446,7 +447,7 @@ export default class Wrapper implements BaseWrapper {
    * Checks if wrapper is a vue instance
    */
   isVueInstance (): boolean {
-    return !!this.isVm
+    return !!this.vm
   }
 
   /**
@@ -494,7 +495,7 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Sets vm data
    */
-  setData (data: Object) {
+  setData (data: Object): void {
     if (this.isFunctionalComponent) {
       throwError(
         `wrapper.setData() cannot be called on a functional ` +
@@ -509,33 +510,13 @@ export default class Wrapper implements BaseWrapper {
       )
     }
 
-    Object.keys(data).forEach(key => {
-      if (
-        typeof data[key] === 'object' &&
-        data[key] !== null &&
-        !Array.isArray(data[key])
-      ) {
-        const newObj = mergeWith(
-          // $FlowIgnore : Problem with possibly null this.vm
-          this.vm[key],
-          data[key],
-          (objValue, srcValue) => {
-            return Array.isArray(srcValue) ? srcValue : undefined
-          }
-        )
-        // $FlowIgnore : Problem with possibly null this.vm
-        this.vm.$set(this.vm, [key], newObj)
-      } else {
-        // $FlowIgnore : Problem with possibly null this.vm
-        this.vm.$set(this.vm, [key], data[key])
-      }
-    })
+    recursivelySetData(this.vm, this.vm, data)
   }
 
   /**
    * Sets vm computed
    */
-  setComputed (computed: Object) {
+  setComputed (computed: Object): void {
     if (!this.isVueInstance()) {
       throwError(
         `wrapper.setComputed() can only be called on a Vue ` +
@@ -608,7 +589,7 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Sets vm methods
    */
-  setMethods (methods: Object) {
+  setMethods (methods: Object): void {
     if (!this.isVueInstance()) {
       throwError(
         `wrapper.setMethods() can only be called on a Vue ` +
@@ -631,7 +612,7 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Sets vm props
    */
-  setProps (data: Object) {
+  setProps (data: Object): void {
     const originalConfig = Vue.config.silent
     Vue.config.silent = config.silent
     if (this.isFunctionalComponent) {
@@ -640,7 +621,7 @@ export default class Wrapper implements BaseWrapper {
         `functional component`
       )
     }
-    if (!this.isVm) {
+    if (!this.vm) {
       throwError(
         `wrapper.setProps() can only be called on a Vue ` +
         `instance`
@@ -658,14 +639,32 @@ export default class Wrapper implements BaseWrapper {
           `is not defined on the component`
         )
       }
+      if (
+        typeof data[key] === 'object' &&
+        data[key] !== null &&
+        // $FlowIgnore : Problem with possibly null this.vm
+        data[key] === this.vm[key]
+      ) {
+        throwError(
+          `wrapper.setProps() called with the same object ` +
+          `of the existing ${key} property. ` +
+          `You must call wrapper.setProps() with a new object ` +
+          `to trigger reactivity`
+        )
+      }
 
       if (this.vm && this.vm._props) {
+        // Set actual props value
         this.vm._props[key] = data[key]
-      } else {
         // $FlowIgnore : Problem with possibly null this.vm
         this.vm[key] = data[key]
+      } else {
         // $FlowIgnore : Problem with possibly null this.vm.$options
         this.vm.$options.propsData[key] = data[key]
+        // $FlowIgnore : Problem with possibly null this.vm
+        this.vm[key] = data[key]
+        // $FlowIgnore : Need to call this twice to fix watcher bug in 2.0.x
+        this.vm[key] = data[key]
       }
     })
     // $FlowIgnore : Problem with possibly null this.vm
@@ -678,13 +677,17 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Sets element value and triggers input event
    */
-  setValue (value: any) {
+  setValue (value: any): void {
     const tagName = this.element.tagName
     const type = this.attributes().type
 
     if (tagName === 'SELECT') {
+      // $FlowIgnore
+      this.element.value = value
+      this.trigger('change')
+    } else if (tagName === 'OPTION') {
       throwError(
-        `wrapper.setValue() cannot be called on a <select> ` +
+        `wrapper.setValue() cannot be called on an <option> ` +
           `element. Use wrapper.setSelected() instead`
       )
     } else if (tagName === 'INPUT' && type === 'checkbox') {
@@ -711,7 +714,7 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Checks radio button or checkbox element
    */
-  setChecked (checked: boolean = true) {
+  setChecked (checked: boolean = true): void {
     if (typeof checked !== 'boolean') {
       throwError('wrapper.setChecked() must be passed a boolean')
     }
@@ -761,7 +764,7 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Selects <option></option> element
    */
-  setSelected () {
+  setSelected (): void {
     const tagName = this.element.tagName
     const type = this.attributes().type
 
@@ -815,7 +818,7 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Calls destroy on vm
    */
-  destroy () {
+  destroy (): void {
     if (!this.isVueInstance()) {
       throwError(`wrapper.destroy() can only be called on a Vue instance`)
     }
@@ -899,7 +902,7 @@ export default class Wrapper implements BaseWrapper {
     }
   }
 
-  update () {
+  update (): void {
     warn(
       `update has been removed from vue-test-utils. All ` +
         `updates are now synchronous by default`
