@@ -153,6 +153,28 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     expect(stub).not.called
   })
 
+  it('overrides component prototype', () => {
+    const mountSpy = sinon.spy()
+    const destroySpy = sinon.spy()
+    const Component = Vue.extend({})
+    const { $mount: originalMount, $destroy: originalDestroy } = Component.prototype
+    Component.prototype.$mount = function (...args) {
+      mountSpy()
+      originalMount.apply(this, args)
+      return this
+    }
+    Component.prototype.$destroy = function () {
+      originalDestroy.apply(this)
+      destroySpy()
+    }
+
+    const wrapper = mount(Component)
+    expect(mountSpy).called
+    expect(destroySpy).not.called
+    wrapper.destroy()
+    expect(destroySpy).called
+  })
+
   // Problems accessing options of twice extended components in Vue < 2.3
   itDoNotRunIf(vueVersion < 2.3, 'compiles extended components', () => {
     const TestComponent = Vue.component('test-component', {
