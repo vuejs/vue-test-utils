@@ -76,7 +76,7 @@ export function vmFunctionalCtorMatchesSelector (
 ): boolean {
   if (VUE_VERSION < 2.3) {
     throwError(
-      `find for functional components is not support in ` + `Vue < 2.3`
+      `find for functional components is not supported in ` + `Vue < 2.3`
     )
   }
 

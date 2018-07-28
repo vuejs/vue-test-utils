@@ -6,6 +6,7 @@ import { addEventLogger } from './log-events'
 import { createComponentStubs } from 'shared/stub-components'
 import { throwError, warn, vueVersion } from 'shared/util'
 import { compileTemplate } from 'shared/compile-template'
+import { isRequiredComponent } from 'shared/validators'
 import extractInstanceOptions from './extract-instance-options'
 import createFunctionalComponent from './create-functional-component'
 import { componentNeedsCompiling, isPlainObject } from 'shared/validators'
@@ -64,8 +65,20 @@ export default function createInstance (
 
   addEventLogger(_Vue)
 
+  // Replace globally registered components with components extended
+  // from localVue. This makes sure the beforeMount mixins to add stubs
+  // is applied to globally registered components.
+  // Vue version must be 2.3 or greater, because of a bug resolving
+  // extended constructor options (https://github.com/vuejs/vue/issues/4976)
+  if (vueVersion > 2.2) {
+    for (const c in _Vue.options.components) {
+      if (!isRequiredComponent(c)) {
+        _Vue.component(c, _Vue.extend(_Vue.options.components[c]))
+      }
+    }
+  }
+
   const stubComponents = createComponentStubs(
-    // $FlowIgnore
     component.components,
     // $FlowIgnore
     options.stubs
@@ -73,12 +86,11 @@ export default function createInstance (
   if (options.stubs) {
     instanceOptions.components = {
       ...instanceOptions.components,
-      // $FlowIgnore
       ...stubComponents
     }
   }
   _Vue.mixin({
-    created () {
+    beforeMount () {
       Object.assign(
         this.$options.components,
         stubComponents

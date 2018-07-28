@@ -186,7 +186,7 @@ describeWithShallowAndMount('find', mountingMethod => {
     const wrapper = mountingMethod(TestComponent)
     if (vueVersion < 2.3) {
       const message =
-        '[vue-test-utils]: find for functional components is not support in Vue < 2.3'
+        '[vue-test-utils]: find for functional components is not supported in Vue < 2.3'
       const fn = () => wrapper.find(TestFunctionalComponent)
       expect(fn)
         .to.throw()

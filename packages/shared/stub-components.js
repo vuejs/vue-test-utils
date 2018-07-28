@@ -11,7 +11,8 @@ import {
 import {
   componentNeedsCompiling,
   templateContainsComponent,
-  isVueComponent
+  isVueComponent,
+  isRequiredComponent
 } from './validators'
 import { compileTemplate } from './compile-template'
 
@@ -34,12 +35,6 @@ function resolveComponent (obj: Object, component: string): Object {
     obj[capitalize(camelize(component))] ||
     obj[capitalize(component)] ||
     {}
-}
-
-function isRequiredComponent (name): boolean {
-  return (
-    name === 'KeepAlive' || name === 'Transition' || name === 'TransitionGroup'
-  )
 }
 
 function getCoreProperties (componentOptions: Component): Object {
