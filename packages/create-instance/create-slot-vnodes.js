@@ -8,13 +8,12 @@ function createVNodes (
 ): Array<VNode> {
   const el = compileToFunctions(`<div>${slotValue}</div>`)
   const _staticRenderFns = vm._renderProxy.$options.staticRenderFns
-  // version < 2.5
-  if (!vm._renderProxy._staticTrees) {
-    vm._renderProxy._staticTrees = []
-  }
+  const _staticTrees = vm._renderProxy._staticTrees
+  vm._renderProxy._staticTrees = []
   vm._renderProxy.$options.staticRenderFns = el.staticRenderFns
   const vnode = el.render.call(vm._renderProxy, vm.$createElement)
   vm._renderProxy.$options.staticRenderFns = _staticRenderFns
+  vm._renderProxy._staticTrees = _staticTrees
   return vnode.children
 }
 

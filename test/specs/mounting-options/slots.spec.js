@@ -223,11 +223,25 @@ describeWithMountingMethods('options.slots', mountingMethod => {
     }
   })
 
+  it('mounts component with default and named slots', () => {
+    const wrapper = mountingMethod(ComponentWithSlots, {
+      slots: {
+        default: '<span>hello</span>',
+        footer: '<p>world</p>'
+      }
+    })
+    const HTML = mountingMethod.name === 'renderToString'
+      ? wrapper
+      : wrapper.html()
+    expect(HTML).to.contain('<span>hello</span>')
+    expect(HTML).to.contain('<p>world</p>')
+  })
+
   it('mounts component with default and named text slot', () => {
     const wrapper = mountingMethod(ComponentWithSlots, {
       slots: {
         default: 'hello,',
-        header: 'world'
+        footer: '<template>world</template>'
       }
     })
     if (mountingMethod.name === 'renderToString') {
