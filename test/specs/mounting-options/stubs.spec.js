@@ -5,7 +5,7 @@ import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
 import { createLocalVue, config } from '~vue/test-utils'
 import { config as serverConfig } from '~vue/server-test-utils'
 import Vue from 'vue'
-import { describeWithMountingMethods } from '~resources/utils'
+import { describeWithMountingMethods, vueVersion } from '~resources/utils'
 import { itDoNotRunIf } from 'conditional-specs'
 
 describeWithMountingMethods('options.stub', mountingMethod => {
@@ -133,19 +133,19 @@ describeWithMountingMethods('options.stub', mountingMethod => {
   itDoNotRunIf(
     mountingMethod.name === 'shallowMount',
     'stubs nested components', () => {
-      const GrandchildComponent = {
+      const GrandChildComponent = {
         template: '<span />'
       }
       const ChildComponent = {
-        template: '<grandchild-component />',
-        components: { GrandchildComponent }
+        template: '<grand-child-component />',
+        components: { GrandChildComponent }
       }
       const TestComponent = {
         template: '<child-component />',
         components: { ChildComponent }
       }
       const wrapper = mountingMethod(TestComponent, {
-        stubs: ['grandchild-component']
+        stubs: ['grand-child-component']
       })
       const HTML = mountingMethod.name === 'renderToString'
         ? wrapper
@@ -154,21 +154,49 @@ describeWithMountingMethods('options.stub', mountingMethod => {
     })
 
   itDoNotRunIf(
+    mountingMethod.name === 'shallowMount' || vueVersion < 2.3,
+    'stubs nested components registered globally', () => {
+      const GrandChildComponent = {
+        render: h => h('span', ['hello'])
+      }
+      const ChildComponent = {
+        render: h => h('grand-child-component')
+      }
+      const TestComponent = {
+        render: h => h('child-component')
+      }
+      Vue.component('child-component', ChildComponent)
+      Vue.component('grand-child-component', GrandChildComponent)
+
+      const wrapper = mountingMethod(TestComponent, {
+        stubs: {
+          'grand-child-component': true
+        }
+      })
+      const HTML = mountingMethod.name === 'renderToString'
+        ? wrapper
+        : wrapper.html()
+      expect(HTML).not.to.contain('<span>')
+      delete Vue.options.components['child-component']
+      delete Vue.options.components['grand-child-component']
+    })
+
+  itDoNotRunIf(
     mountingMethod.name === 'shallowMount',
     'stubs nested components on extended components', () => {
-      const GrandchildComponent = {
+      const GrandChildComponent = {
         template: '<span />'
       }
       const ChildComponent = {
-        template: '<grandchild-component />',
-        components: { GrandchildComponent }
+        template: '<grand-child-component />',
+        components: { GrandChildComponent }
       }
       const TestComponent = {
         template: '<div><child-component /></div>',
         components: { ChildComponent }
       }
       const wrapper = mountingMethod(Vue.extend(TestComponent), {
-        stubs: ['grandchild-component']
+        stubs: ['grand-child-component']
       })
       const HTML = mountingMethod.name === 'renderToString'
         ? wrapper
