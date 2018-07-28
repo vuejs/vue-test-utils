@@ -109,10 +109,9 @@ function createBlankStub (
         tagName,
         {
           attrs: componentOptions.functional ? {
-            ...context.data.attrs,
-            ...context.props
+            ...context.props,
+            ...context.data.attrs
           } : {
-            ...this.$attrs,
             ...this.$props
           }
         },
