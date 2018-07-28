@@ -24,7 +24,7 @@ describeWithShallowAndMount('destroy', mountingMethod => {
     expect(spy.calledOnce).to.equal(true)
   })
 
-  it.only('removes element from document.body', () => {
+  it('removes element from document.body', () => {
     const wrapper = mountingMethod({ template: '<div />' }, { attachToDocument: true })
     expect(wrapper.vm.$el.parentNode).to.equal(document.body)
     wrapper.destroy()
