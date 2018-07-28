@@ -347,6 +347,15 @@ describeWithMountingMethods('options.slots', mountingMethod => {
     }
   )
 
+  it('supports multiple root nodes in default slot option', () => {
+    const wrapper = mountingMethod(ComponentWithSlots, {
+      slots: {
+        default: ['<time /><time />']
+      }
+    })
+    expect(wrapper.findAll('time').length).to.equal(2)
+  })
+
   itDoNotRunIf(
     process.env.TEST_ENV === 'node',
     'mounts component with named slot if passed string in slot object',

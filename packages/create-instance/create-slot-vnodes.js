@@ -22,10 +22,13 @@ function createVNodesForSlot (
   vm: Component,
   slotValue: SlotValue,
   name: string,
-): VNode | string {
+): VNode | Array<VNode> {
   let vnode
   if (typeof slotValue === 'string') {
     const vnodes = createVNodes(vm, slotValue)
+    if (vnodes.length > 1) {
+      return vnodes
+    }
     vnode = vnodes[0]
   } else {
     vnode = vm.$createElement(slotValue)
@@ -41,7 +44,7 @@ function createVNodesForSlot (
 export function createSlotVNodes (
   vm: Component,
   slots: SlotsObject
-): Array<VNode | string> {
+): Array<VNode | Array<VNode>> {
   return Object.keys(slots).reduce((acc, key) => {
     const content = slots[key]
     if (Array.isArray(content)) {
