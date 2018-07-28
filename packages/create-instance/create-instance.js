@@ -89,7 +89,7 @@ export default function createInstance (
       ...stubComponents
     }
   }
-  function addStubComponentsMixin(){
+  function addStubComponentsMixin () {
     Object.assign(
       this.$options.components,
       stubComponents
