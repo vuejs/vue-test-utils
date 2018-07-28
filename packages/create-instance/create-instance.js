@@ -89,13 +89,17 @@ export default function createInstance (
       ...stubComponents
     }
   }
+  function addStubComponentsMixin(){
+    Object.assign(
+      this.$options.components,
+      stubComponents
+    )
+  }
   _Vue.mixin({
-    beforeMount () {
-      Object.assign(
-        this.$options.components,
-        stubComponents
-      )
-    }
+    beforeMount: addStubComponentsMixin,
+    // beforeCreate is for components created in node, which
+    // never mount
+    beforeCreate: addStubComponentsMixin
   })
   Object.keys(componentOptions.components || {}).forEach(c => {
     if (
