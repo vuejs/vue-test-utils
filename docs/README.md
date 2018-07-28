@@ -28,6 +28,7 @@ Vue Test Utils is the official unit testing utility library for Vue.js.
     - [attachToDocument](api/options.md#attachtodocument)
     - [attrs](api/options.md#attrs)
     - [listeners](api/options.md#listeners)
+    - [parentComponent](api/options.md#parentComponent)
     - [provide](api/options.md#provide)
     - [sync](api/options.md#sync)
     - [other options](api/options.md#other-options)
