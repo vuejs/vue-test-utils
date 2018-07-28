@@ -162,7 +162,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     expect(wrapper.html()).to.equal(`<div></div>`)
   })
 
-  it('handles async components', (done) => {
+  it('handles components as dynamic imports', (done) => {
     const TestComponent = {
       template: '<div><async-component /></div>',
       components: {
