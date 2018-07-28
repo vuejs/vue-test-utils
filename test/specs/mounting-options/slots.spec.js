@@ -353,7 +353,11 @@ describeWithMountingMethods('options.slots', mountingMethod => {
         default: ['<time /><time />']
       }
     })
-    expect(wrapper.findAll('time').length).to.equal(2)
+    if (mountingMethod.name === 'renderToString') {
+      expect(wrapper).to.contain('<time></time><time></time>')
+    } else {
+      expect(wrapper.findAll('time').length).to.equal(2)
+    }
   })
 
   itDoNotRunIf(
