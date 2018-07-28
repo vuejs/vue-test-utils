@@ -202,6 +202,11 @@ function stubComponents (
     const componentOptions = typeof cmp === 'function'
       ? cmp.extendOptions
       : cmp
+
+    if (!componentOptions) {
+      stubbedComponents[component] = createBlankStub({}, component)
+      return
+    }
     // Remove cached constructor
     delete componentOptions._Ctor
     if (!componentOptions.name) {
