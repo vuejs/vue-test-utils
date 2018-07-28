@@ -99,10 +99,10 @@ function createBlankStub (
 
   return {
     ...getCoreProperties(componentOptions),
-    render (h) {
+    render (h, context) {
       return h(
         tagName,
-        !componentOptions.functional && this.$slots.default
+        context ? context.children : this.$slots.default
       )
     }
   }

@@ -63,6 +63,44 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
     expect(console.info.callCount).to.equal(4)
   })
 
+  it('renders children', () => {
+    const localVue = createLocalVue()
+    localVue.component('child', {
+      template: '<div />'
+    })
+    const TestComponent = {
+      template: `<child>{{'Hello'}}</child>`
+    }
+    const wrapper = shallowMount(TestComponent, {
+      localVue
+    })
+    expect(wrapper.html()).to.equal('<child-stub>Hello</child-stub>')
+  })
+
+  it('renders no children if none supplied', () => {
+    const TestComponent = {
+      template: '<child />',
+      components: { Child: { }}
+    }
+    const wrapper = shallowMount(TestComponent)
+    expect(wrapper.html()).to.equal('<child-stub></child-stub>')
+  })
+
+  it('renders children for functional components', () => {
+    const localVue = createLocalVue()
+    localVue.component('child', {
+      template: '<div />',
+      functional: true
+    })
+    const TestComponent = {
+      template: `<child>{{'Hello'}}</child>`
+    }
+    const wrapper = shallowMount(TestComponent, {
+      localVue
+    })
+    expect(wrapper.html()).to.equal('<child-stub>Hello</child-stub>')
+  })
+
   it('stubs globally registered components', () => {
     Vue.component('registered-component', ComponentWithLifecycleHooks)
     const Component = {
