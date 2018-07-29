@@ -1,5 +1,5 @@
 import { mount, createWrapper } from '../'
-import { normalOptions, functionalOptions, Normal, ClassComponent } from './resources'
+import { normalOptions, functionalOptions, ClassComponent } from './resources'
 import Vue from 'vue'
 
 /**
