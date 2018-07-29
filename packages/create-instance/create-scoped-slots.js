@@ -38,15 +38,17 @@ function getVueTemplateCompilerHelpers (): { [name: string]: Function } {
 
 function validateEnvironment (): void {
   if (vueVersion < 2.1) {
-    throwError(`the scopedSlots option is only supported in ` + `vue@2.1+.`)
+    throwError(`the scopedSlots option is only supported in vue@2.1+.`)
   }
 }
 
-const scopedSlotRe = /<[^>]+ slot-scope=\"(.+)\"/
+const slotScopeRe = /<[^>]+ slot-scope=\"(.+)\"/
 
 export default function createScopedSlots (
   scopedSlotsOption: ?{ [slotName: string]: string | Function }
-): { [slotName: string]: (props: Object) => VNode | Array<VNode>} {
+): {
+  [slotName: string]: (props: Object) => VNode | Array<VNode>
+} {
   const scopedSlots = {}
   if (!scopedSlotsOption) {
     return scopedSlots
@@ -56,14 +58,13 @@ export default function createScopedSlots (
   for (const s in scopedSlotsOption) {
     const slot = scopedSlotsOption[s]
     const isFn = typeof slot === 'function'
-    const renderFn = isFn
+    // Type check in render function to silence flow
+    const renderFn = typeof slot === 'function'
       ? slot
-      : compileToFunctions(slot).renderFn
+      : compileToFunctions(slot).render
 
-    const hasSlotScopeAttr = !isFn && slot.match(scopedSlotRe)
-    // // $FlowIgnore
+    const hasSlotScopeAttr = !isFn && slot.match(slotScopeRe)
     const slotScope = hasSlotScopeAttr && hasSlotScopeAttr[1]
-
     scopedSlots[s] = function (props) {
       if (isFn) {
         return renderFn.call({ ...helpers }, props)

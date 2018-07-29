@@ -13,7 +13,7 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
   })
 
   itDoNotRunIf(
-    vueVersion < 2.5,
+    vueVersion < 2.1,
     'mounts component scoped slots in render function',
     () => {
       const destructuringWrapper = mountingMethod(
@@ -55,7 +55,7 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
   )
 
   itDoNotRunIf(
-    vueVersion < 2.5,
+    vueVersion < 2.1,
     'mounts component scoped slots',
     () => {
       const wrapper = mountingMethod(ComponentWithScopedSlots, {

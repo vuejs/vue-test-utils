@@ -5,7 +5,7 @@ declare type Options = {
   mocks?: Object,
   methods?: { [key: string]: Function },
   slots?: SlotsObject,
-  scopedSlots?: { [key: string]: string },
+  scopedSlots?: { [key: string]: string | Function },
   localVue?: Component,
   provide?: Object,
   stubs?: Stubs,
