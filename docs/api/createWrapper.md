@@ -1,4 +1,11 @@
-## createWrapper()
+## createWrapper(node, options)
+
+- **Arguments:**
+
+  - `{vm|HTMLElement} node`
+  - `{Object} options`
+    - `{Boolean} sync`
+    - `{Boolean} attachedToDocument
 
 - **Returns:**
   - `{Wrapper}`
