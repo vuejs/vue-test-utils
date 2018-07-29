@@ -12,7 +12,7 @@ const normalFoo: string = normalWrapper.vm.foo
 const classWrapper = mount(ClassComponent)
 const classFoo: string = classWrapper.vm.bar
 
-const functinalWrapper = mount(functionalOptions)
+const functionalWrapper = mount(functionalOptions)
 
 /**
  * Test for mount options
