@@ -22,7 +22,7 @@ Vue Test Utils включает объект конфигурации для о�
 ```js
 import { config } from '@vue/test-utils'
 
-config.stubs = { 
+config.stubs = {
   'my-component': '<div />'
 }
 ```
