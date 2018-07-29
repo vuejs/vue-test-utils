@@ -149,7 +149,7 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
       }, {
         scopedSlots: {
           single ({ text }) {
-            return <p>{{ text }}</p>
+            return <p>{ text }</p>
           }
         }
       })
