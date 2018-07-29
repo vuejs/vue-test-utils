@@ -103,7 +103,7 @@ jobs:
       - attach_workspace:
           at: ~/repo
       - *restore_node_modules
-      - run: yarn test:compat "2.5.13"
+      - run: yarn test:compat "2.5.16"
 workflows:
   version: 2
   install-tests:

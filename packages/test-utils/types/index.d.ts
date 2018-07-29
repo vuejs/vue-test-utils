@@ -81,7 +81,7 @@ interface BaseWrapper {
   destroy (): void
 }
 
-export interface Wrapper<V extends Vue> extends BaseWrapper {
+export interface Wrapper<V extends Vue | null> extends BaseWrapper {
   readonly vm: V
   readonly element: HTMLElement
   readonly options: WrapperOptions
@@ -117,8 +117,8 @@ export interface WrapperArray<V extends Vue> extends BaseWrapper {
 }
 
 interface WrapperOptions {
-  attachedToDocument: boolean
-  sync: boolean
+  attachedToDocument?: boolean
+  sync?: boolean
 }
 
 interface MountOptions<V extends Vue> extends ComponentOptions<V> {
@@ -160,6 +160,9 @@ export declare function mount (component: FunctionalComponentOptions, options?: 
 export declare function shallowMount<V extends Vue> (component: VueClass<V>, options?: ThisTypedShallowMountOptions<V>): Wrapper<V>
 export declare function shallowMount<V extends Vue> (component: ComponentOptions<V>, options?: ThisTypedShallowMountOptions<V>): Wrapper<V>
 export declare function shallowMount (component: FunctionalComponentOptions, options?: ShallowMountOptions<Vue>): Wrapper<Vue>
+
+export declare function createWrapper(node: Vue, options?: WrapperOptions): Wrapper<Vue>
+export declare function createWrapper(node: HTMLElement, options?: WrapperOptions): Wrapper<null>
 
 export declare let TransitionStub: Component | string | true
 export declare let TransitionGroupStub: Component | string | true
