@@ -5,7 +5,7 @@
   - `{vm|HTMLElement} node`
   - `{Object} options`
     - `{Boolean} sync`
-    - `{Boolean} attachedToDocument
+    - `{Boolean} attachedToDocument`
 
 - **Returns:**
   - `{Wrapper}`
