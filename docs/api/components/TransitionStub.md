@@ -7,18 +7,14 @@ This is set to stub all `transition` components by default in the Vue Test Utils
 ```js
 import { config } from '@vue/test-utils'
 
-config.stubs = {
-  transition: false
-}
+config.stubs.transition = false
 ```
 
 To reset it to stub `transition` components:
 ```js
 import { config, TransitionStub } from '@vue/test-utils'
 
-config.stubs = {
-  transition: TransitionStub
-}
+config.stubs.transition = TransitionStub
 ```
 
 To set it as a stub in mounting options:

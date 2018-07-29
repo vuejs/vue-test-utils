@@ -7,9 +7,7 @@
 ```js
 import { config } from '@vue/test-utils'
 
-config.stubs = {
-  transition: false
-}
+config.stubs.transition = false
 ```
 
 `transition` コンポーネントをスタブするために再びセットするには以下のようにします。
@@ -17,9 +15,7 @@ config.stubs = {
 ```js
 import { config, TransitionStub } from '@vue/test-utils'
 
-config.stubs = {
-  transition: TransitionStub
-}
+config.stubs.transition = TransitionStub
 ```
 
 マウンティングオプションでスタブとしてセットするには以下のようにします。

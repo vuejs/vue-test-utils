@@ -22,9 +22,7 @@ Vue Test Utils 包含了一个定义其选项的配置对象。
 ```js
 import { config } from '@vue/test-utils'
 
-config.stubs = {
-  'my-component': '<div />'
-}
+config.stubs['my-component'] = '<div />'
 ```
 
 ### `mocks`
@@ -39,11 +37,9 @@ config.stubs = {
 ```js
 import { config } from '@vue/test-utils'
 
-config.mocks = {
-  $store: {
-    state: {
-      id: 1
-    }
+config.mocks['$store'] = {
+  state: {
+    id: 1
   }
 }
 ```
@@ -60,10 +56,8 @@ config.mocks = {
 ```js
 import { config } from '@vue/test-utils'
 
-config.methods = {
-  errors: {
-    any: () => false
-  }
+config.methods['errors'] = () => {
+  any: () => false
 }
 ```
 
@@ -79,11 +73,9 @@ config.methods = {
 ```js
 import { config } from '@vue/test-utils'
 
-config.provide = {
-  $logger: {
-    log: (...args) => {
-      console.log(...args)
-    }
+config.provide['$logger'] = {
+  log: (...args) => {
+    console.log(...args)
   }
 }
 ```

@@ -7,9 +7,7 @@
 ```js
 import { config } from '@vue/test-utils'
 
-config.stubs = {
-  'transition-group': false
-}
+config.stubs['transition-group'] = false
 ```
 
 Чтобы переустановить обратно на заглушки компонентов `transition-group`:
@@ -17,9 +15,7 @@ config.stubs = {
 ```js
 import { config, TransitionGroupStub } from '@vue/test-utils'
 
-config.stubs = {
-  'transition-group': TransitionGroupStub
-}
+config.stubs['transition-group'] = TransitionGroupStub
 ```
 
 Для установки заглушек в настройках монтирования:

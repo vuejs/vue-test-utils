@@ -7,9 +7,7 @@
 ```js
 import { config } from '@vue/test-utils'
 
-config.stubs = {
-  'transition-group': false
-}
+config.stubs['transition-group'] = false
 ```
 
 将其重置可以存根 `transition-group` 组件：
@@ -17,9 +15,7 @@ config.stubs = {
 ```js
 import { config, TransitionGroupStub } from '@vue/test-utils'
 
-config.stubs = {
-  'transition-group': TransitionGroupStub
-}
+config.stubs['transition-group'] = TransitionGroupStub
 ```
 
 还可以在挂载选项中将其设置为一个存根：

@@ -7,18 +7,14 @@
 ```js
 import { config } from '@vue/test-utils'
 
-config.stubs = {
-  transition: false
-}
+config.stubs.transition = false
 ```
 
 Чтобы переустановить обратно на заглушки компонентов `transition`:
 ```js
 import { config, TransitionStub } from '@vue/test-utils'
 
-config.stubs = {
-  transition: TransitionStub
-}
+config.stubs.transition = TransitionStub
 ```
 
 Для установки заглушек в настройках монтирования:
