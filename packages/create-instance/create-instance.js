@@ -171,9 +171,13 @@ export default function createInstance (
       Constructor,
       {
         ref: 'vm',
-        props: options.propsData,
         on: options.listeners,
-        attrs: options.attrs,
+        attrs: {
+          ...options.attrs,
+          // pass as attrs so that inheritAttrs works correctly
+          // propsData should take precedence over attrs
+          ...options.propsData
+        },
         scopedSlots
       },
       slots
