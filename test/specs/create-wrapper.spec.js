@@ -25,7 +25,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
       sync: true,
       attachToDocument: true
     })
-    expect(wrapper.attachToDocument).to.equal(true)
-    expect(wrapper.sync).to.equal(true)
+    expect(wrapper.options.attachToDocument).to.equal(true)
+    expect(wrapper.options.sync).to.equal(true)
   })
 })
