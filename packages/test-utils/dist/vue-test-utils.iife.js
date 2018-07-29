@@ -184,6 +184,12 @@ function isPlainObject (obj) {
   return Object.prototype.toString.call(obj) === '[object Object]'
 }
 
+function isRequiredComponent (name) {
+  return (
+    name === 'KeepAlive' || name === 'Transition' || name === 'TransitionGroup'
+  )
+}
+
 var NAME_SELECTOR = 'NAME_SELECTOR';
 var COMPONENT_SELECTOR = 'COMPONENT_SELECTOR';
 var REF_SELECTOR = 'REF_SELECTOR';
@@ -451,7 +457,7 @@ function vmFunctionalCtorMatchesSelector (
 ) {
   if (VUE_VERSION < 2.3) {
     throwError(
-      "find for functional components is not support in " + "Vue < 2.3"
+      "find for functional components is not supported in " + "Vue < 2.3"
     );
   }
 
@@ -1096,6 +1102,8 @@ function createWrapper (
   node,
   options
 ) {
+  if ( options === void 0 ) options = {};
+
   var componentInstance = node.componentInstance || node.child;
   if (componentInstance) {
     return new VueWrapper(componentInstance, options)
@@ -2135,13 +2143,12 @@ function createVNodes (
 ) {
   var el = vueTemplateCompiler.compileToFunctions(("<div>" + slotValue + "</div>"));
   var _staticRenderFns = vm._renderProxy.$options.staticRenderFns;
-  // version < 2.5
-  if (!vm._renderProxy._staticTrees) {
-    vm._renderProxy._staticTrees = [];
-  }
+  var _staticTrees = vm._renderProxy._staticTrees;
+  vm._renderProxy._staticTrees = [];
   vm._renderProxy.$options.staticRenderFns = el.staticRenderFns;
   var vnode = el.render.call(vm._renderProxy, vm.$createElement);
   vm._renderProxy.$options.staticRenderFns = _staticRenderFns;
+  vm._renderProxy._staticTrees = _staticTrees;
   return vnode.children
 }
 
@@ -2153,6 +2160,9 @@ function createVNodesForSlot (
   var vnode;
   if (typeof slotValue === 'string') {
     var vnodes = createVNodes(vm, slotValue);
+    if (vnodes.length > 1) {
+      return vnodes
+    }
     vnode = vnodes[0];
   } else {
     vnode = vm.$createElement(slotValue);
@@ -2278,12 +2288,6 @@ function resolveComponent (obj, component) {
     {}
 }
 
-function isRequiredComponent (name) {
-  return (
-    name === 'KeepAlive' || name === 'Transition' || name === 'TransitionGroup'
-  )
-}
-
 function getCoreProperties (componentOptions) {
   return {
     attrs: componentOptions.attrs,
@@ -2343,10 +2347,14 @@ function createBlankStub (
   }
 
   return Object.assign({}, getCoreProperties(componentOptions),
-    {render: function render (h) {
+    {render: function render (h, context) {
       return h(
         tagName,
-        !componentOptions.functional && this.$slots.default
+        {
+          attrs: componentOptions.functional ? Object.assign({}, context.props,
+            context.data.attrs) : Object.assign({}, this.$props)
+        },
+        context ? context.children : this.$slots.default
       )
     }})
 }
@@ -2441,6 +2449,11 @@ function stubComponents (
     var componentOptions = typeof cmp === 'function'
       ? cmp.extendOptions
       : cmp;
+
+    if (!componentOptions) {
+      stubbedComponents[component] = createBlankStub({}, component);
+      return
+    }
     // Remove cached constructor
     delete componentOptions._Ctor;
     if (!componentOptions.name) {
@@ -2529,8 +2542,8 @@ function requiresTemplateCompiler (slot) {
   if (typeof slot === 'string' && !vueTemplateCompiler.compileToFunctions) {
     throwError(
       "vueTemplateCompiler is undefined, you must pass " +
-        "precompiled components if vue-template-compiler is " +
-        "undefined"
+      "precompiled components if vue-template-compiler is " +
+      "undefined"
     );
   }
 }
@@ -2612,27 +2625,22 @@ function getVueTemplateCompilerHelpers () {
   names.forEach(function (name) {
     helpers[name] = vue._renderProxy[name];
   });
+  helpers.$createElement = vue._renderProxy.$createElement;
   return helpers
 }
 
 function validateEnvironment () {
-  if (window.navigator.userAgent.match(/PhantomJS/i)) {
-    throwError(
-      "the scopedSlots option does not support PhantomJS. " +
-        "Please use Puppeteer, or pass a component."
-    );
-  }
-  if (vueVersion < 2.5) {
-    throwError("the scopedSlots option is only supported in " + "vue@2.5+.");
+  if (vueVersion < 2.1) {
+    throwError("the scopedSlots option is only supported in vue@2.1+.");
   }
 }
 
-function validateTempldate (template) {
-  if (template.trim().substr(0, 9) === '<template') {
-    throwError(
-      "the scopedSlots option does not support a template " +
-        "tag as the root element."
-    );
+var slotScopeRe = /<[^>]+ slot-scope=\"(.+)\"/;
+
+// Hide warning about <template> disallowed as root element
+function customWarn (msg) {
+  if (msg.indexOf('Cannot use <template> as component root element') === -1) {
+    console.error(msg);
   }
 }
 
@@ -2645,28 +2653,35 @@ function createScopedSlots (
   }
   validateEnvironment();
   var helpers = getVueTemplateCompilerHelpers();
-  var loop = function ( name ) {
-    var template = scopedSlotsOption[name];
-    validateTempldate(template);
-    var render = vueTemplateCompiler.compileToFunctions(template).render;
-    var domParser = new window.DOMParser();
-    var _document = domParser.parseFromString(template, 'text/html');
-    var slotScope = _document.body.firstChild.getAttribute(
-      'slot-scope'
-    );
-    var isDestructuring = isDestructuringSlotScope(slotScope);
-    scopedSlots[name] = function (props) {
+  var loop = function ( scopedSlotName ) {
+    var slot = scopedSlotsOption[scopedSlotName];
+    var isFn = typeof slot === 'function';
+    // Type check to silence flow (can't use isFn)
+    var renderFn = typeof slot === 'function'
+      ? slot
+      : vueTemplateCompiler.compileToFunctions(slot, { warn: customWarn }).render;
+
+    var hasSlotScopeAttr = !isFn && slot.match(slotScopeRe);
+    var slotScope = hasSlotScopeAttr && hasSlotScopeAttr[1];
+    scopedSlots[scopedSlotName] = function (props) {
       var obj;
 
-      if (isDestructuring) {
-        return render.call(Object.assign({}, helpers, props))
+      var res;
+      if (isFn) {
+        res = renderFn.call(Object.assign({}, helpers), props);
+      } else if (slotScope && !isDestructuringSlotScope(slotScope)) {
+        res = renderFn.call(Object.assign({}, helpers, ( obj = {}, obj[slotScope] = props, obj)));
+      } else if (slotScope && isDestructuringSlotScope(slotScope)) {
+        res = renderFn.call(Object.assign({}, helpers, props));
       } else {
-        return render.call(Object.assign({}, helpers, ( obj = {}, obj[slotScope] = props, obj)))
+        res = renderFn.call(Object.assign({}, helpers, {props: props}));
       }
+      // res is Array if <template> is a root element
+      return Array.isArray(res) ? res[0] : res
     };
   };
 
-  for (var name in scopedSlotsOption) loop( name );
+  for (var scopedSlotName in scopedSlotsOption) loop( scopedSlotName );
   return scopedSlots
 }
 
@@ -2724,24 +2739,39 @@ function createInstance (
 
   addEventLogger(_Vue);
 
+  // Replace globally registered components with components extended
+  // from localVue. This makes sure the beforeMount mixins to add stubs
+  // is applied to globally registered components.
+  // Vue version must be 2.3 or greater, because of a bug resolving
+  // extended constructor options (https://github.com/vuejs/vue/issues/4976)
+  if (vueVersion > 2.2) {
+    for (var c in _Vue.options.components) {
+      if (!isRequiredComponent(c)) {
+        _Vue.component(c, _Vue.extend(_Vue.options.components[c]));
+      }
+    }
+  }
+
   var stubComponents = createComponentStubs(
-    // $FlowIgnore
     component.components,
     // $FlowIgnore
     options.stubs
   );
   if (options.stubs) {
     instanceOptions.components = Object.assign({}, instanceOptions.components,
-      // $FlowIgnore
       stubComponents);
   }
+  function addStubComponentsMixin () {
+    Object.assign(
+      this.$options.components,
+      stubComponents
+    );
+  }
   _Vue.mixin({
-    created: function created () {
-      Object.assign(
-        this.$options.components,
-        stubComponents
-      );
-    }
+    beforeMount: addStubComponentsMixin,
+    // beforeCreate is for components created in node, which
+    // never mount
+    beforeCreate: addStubComponentsMixin
   });
   Object.keys(componentOptions.components || {}).forEach(function (c) {
     if (
@@ -2768,7 +2798,9 @@ function createInstance (
     component.options._base = _Vue;
   }
 
-  var Constructor = vueVersion < 2.3 && typeof component === 'function'
+  // when component constructed by Vue.extend,
+  // use its own extend method to keep component information
+  var Constructor = typeof component === 'function'
     ? component.extend(instanceOptions)
     : _Vue.extend(component).extend(instanceOptions);
 
@@ -2813,9 +2845,11 @@ function createInstance (
       Constructor,
       {
         ref: 'vm',
-        props: options.propsData,
         on: options.listeners,
-        attrs: options.attrs,
+        attrs: Object.assign({}, options.attrs,
+          // pass as attrs so that inheritAttrs works correctly
+          // propsData should take precedence over attrs
+          options.propsData),
         scopedSlots: scopedSlots
       },
       slots
@@ -4067,13 +4101,10 @@ var reIsUint = /^(?:0|[1-9]\d*)$/;
  * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
  */
 function isIndex(value, length) {
-  var type = typeof value;
   length = length == null ? MAX_SAFE_INTEGER : length;
-
   return !!length &&
-    (type == 'number' ||
-      (type != 'symbol' && reIsUint.test(value))) &&
-        (value > -1 && value % 1 == 0 && value < length);
+    (typeof value == 'number' || reIsUint.test(value)) &&
+    (value > -1 && value % 1 == 0 && value < length);
 }
 
 var _isIndex = isIndex;
@@ -4202,14 +4233,6 @@ var freeProcess = moduleExports && _freeGlobal.process;
 /** Used to access faster Node.js helpers. */
 var nodeUtil = (function() {
   try {
-    // Use `util.types` for Node.js 10+.
-    var types = freeModule && freeModule.require && freeModule.require('util').types;
-
-    if (types) {
-      return types;
-    }
-
-    // Legacy `process.binding('util')` for Node.js < 10.
     return freeProcess && freeProcess.binding && freeProcess.binding('util');
   } catch (e) {}
 }());
@@ -4868,7 +4891,7 @@ var hasOwnProperty$9 = objectProto$12.hasOwnProperty;
  */
 function initCloneArray(array) {
   var length = array.length,
-      result = new array.constructor(length);
+      result = array.constructor(length);
 
   // Add properties assigned by `RegExp#exec`.
   if (length && typeof array[0] == 'string' && hasOwnProperty$9.call(array, 'index')) {
@@ -4915,6 +4938,87 @@ function cloneDataView(dataView, isDeep) {
 
 var _cloneDataView = cloneDataView;
 
+/**
+ * Adds the key-value `pair` to `map`.
+ *
+ * @private
+ * @param {Object} map The map to modify.
+ * @param {Array} pair The key-value pair to add.
+ * @returns {Object} Returns `map`.
+ */
+function addMapEntry(map, pair) {
+  // Don't return `map.set` because it's not chainable in IE 11.
+  map.set(pair[0], pair[1]);
+  return map;
+}
+
+var _addMapEntry = addMapEntry;
+
+/**
+ * A specialized version of `_.reduce` for arrays without support for
+ * iteratee shorthands.
+ *
+ * @private
+ * @param {Array} [array] The array to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @param {*} [accumulator] The initial value.
+ * @param {boolean} [initAccum] Specify using the first element of `array` as
+ *  the initial value.
+ * @returns {*} Returns the accumulated value.
+ */
+function arrayReduce(array, iteratee, accumulator, initAccum) {
+  var index = -1,
+      length = array == null ? 0 : array.length;
+
+  if (initAccum && length) {
+    accumulator = array[++index];
+  }
+  while (++index < length) {
+    accumulator = iteratee(accumulator, array[index], index, array);
+  }
+  return accumulator;
+}
+
+var _arrayReduce = arrayReduce;
+
+/**
+ * Converts `map` to its key-value pairs.
+ *
+ * @private
+ * @param {Object} map The map to convert.
+ * @returns {Array} Returns the key-value pairs.
+ */
+function mapToArray(map) {
+  var index = -1,
+      result = Array(map.size);
+
+  map.forEach(function(value, key) {
+    result[++index] = [key, value];
+  });
+  return result;
+}
+
+var _mapToArray = mapToArray;
+
+/** Used to compose bitmasks for cloning. */
+var CLONE_DEEP_FLAG = 1;
+
+/**
+ * Creates a clone of `map`.
+ *
+ * @private
+ * @param {Object} map The map to clone.
+ * @param {Function} cloneFunc The function to clone values.
+ * @param {boolean} [isDeep] Specify a deep clone.
+ * @returns {Object} Returns the cloned map.
+ */
+function cloneMap(map, isDeep, cloneFunc) {
+  var array = isDeep ? cloneFunc(_mapToArray(map), CLONE_DEEP_FLAG) : _mapToArray(map);
+  return _arrayReduce(array, _addMapEntry, new map.constructor);
+}
+
+var _cloneMap = cloneMap;
+
 /** Used to match `RegExp` flags from their coerced string values. */
 var reFlags = /\w*$/;
 
@@ -4932,6 +5036,60 @@ function cloneRegExp(regexp) {
 }
 
 var _cloneRegExp = cloneRegExp;
+
+/**
+ * Adds `value` to `set`.
+ *
+ * @private
+ * @param {Object} set The set to modify.
+ * @param {*} value The value to add.
+ * @returns {Object} Returns `set`.
+ */
+function addSetEntry(set, value) {
+  // Don't return `set.add` because it's not chainable in IE 11.
+  set.add(value);
+  return set;
+}
+
+var _addSetEntry = addSetEntry;
+
+/**
+ * Converts `set` to an array of its values.
+ *
+ * @private
+ * @param {Object} set The set to convert.
+ * @returns {Array} Returns the values.
+ */
+function setToArray(set) {
+  var index = -1,
+      result = Array(set.size);
+
+  set.forEach(function(value) {
+    result[++index] = value;
+  });
+  return result;
+}
+
+var _setToArray = setToArray;
+
+/** Used to compose bitmasks for cloning. */
+var CLONE_DEEP_FLAG$1 = 1;
+
+/**
+ * Creates a clone of `set`.
+ *
+ * @private
+ * @param {Object} set The set to clone.
+ * @param {Function} cloneFunc The function to clone values.
+ * @param {boolean} [isDeep] Specify a deep clone.
+ * @returns {Object} Returns the cloned set.
+ */
+function cloneSet(set, isDeep, cloneFunc) {
+  var array = isDeep ? cloneFunc(_setToArray(set), CLONE_DEEP_FLAG$1) : _setToArray(set);
+  return _arrayReduce(array, _addSetEntry, new set.constructor);
+}
+
+var _cloneSet = cloneSet;
 
 /** Used to convert symbols to primitives and strings. */
 var symbolProto = _Symbol ? _Symbol.prototype : undefined,
@@ -4991,15 +5149,16 @@ var arrayBufferTag$1 = '[object ArrayBuffer]',
  * Initializes an object clone based on its `toStringTag`.
  *
  * **Note:** This function only supports cloning values with tags of
- * `Boolean`, `Date`, `Error`, `Map`, `Number`, `RegExp`, `Set`, or `String`.
+ * `Boolean`, `Date`, `Error`, `Number`, `RegExp`, or `String`.
  *
  * @private
  * @param {Object} object The object to clone.
  * @param {string} tag The `toStringTag` of the object to clone.
+ * @param {Function} cloneFunc The function to clone values.
  * @param {boolean} [isDeep] Specify a deep clone.
  * @returns {Object} Returns the initialized clone.
  */
-function initCloneByTag(object, tag, isDeep) {
+function initCloneByTag(object, tag, cloneFunc, isDeep) {
   var Ctor = object.constructor;
   switch (tag) {
     case arrayBufferTag$1:
@@ -5018,7 +5177,7 @@ function initCloneByTag(object, tag, isDeep) {
       return _cloneTypedArray(object, isDeep);
 
     case mapTag$2:
-      return new Ctor;
+      return _cloneMap(object, isDeep, cloneFunc);
 
     case numberTag$1:
     case stringTag$1:
@@ -5028,7 +5187,7 @@ function initCloneByTag(object, tag, isDeep) {
       return _cloneRegExp(object);
 
     case setTag$2:
-      return new Ctor;
+      return _cloneSet(object, isDeep, cloneFunc);
 
     case symbolTag:
       return _cloneSymbol(object);
@@ -5081,88 +5240,8 @@ function initCloneObject(object) {
 
 var _initCloneObject = initCloneObject;
 
-/** `Object#toString` result references. */
-var mapTag$3 = '[object Map]';
-
-/**
- * The base implementation of `_.isMap` without Node.js optimizations.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a map, else `false`.
- */
-function baseIsMap(value) {
-  return isObjectLike_1(value) && _getTag(value) == mapTag$3;
-}
-
-var _baseIsMap = baseIsMap;
-
-/* Node.js helper references. */
-var nodeIsMap = _nodeUtil && _nodeUtil.isMap;
-
-/**
- * Checks if `value` is classified as a `Map` object.
- *
- * @static
- * @memberOf _
- * @since 4.3.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a map, else `false`.
- * @example
- *
- * _.isMap(new Map);
- * // => true
- *
- * _.isMap(new WeakMap);
- * // => false
- */
-var isMap = nodeIsMap ? _baseUnary(nodeIsMap) : _baseIsMap;
-
-var isMap_1 = isMap;
-
-/** `Object#toString` result references. */
-var setTag$3 = '[object Set]';
-
-/**
- * The base implementation of `_.isSet` without Node.js optimizations.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a set, else `false`.
- */
-function baseIsSet(value) {
-  return isObjectLike_1(value) && _getTag(value) == setTag$3;
-}
-
-var _baseIsSet = baseIsSet;
-
-/* Node.js helper references. */
-var nodeIsSet = _nodeUtil && _nodeUtil.isSet;
-
-/**
- * Checks if `value` is classified as a `Set` object.
- *
- * @static
- * @memberOf _
- * @since 4.3.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a set, else `false`.
- * @example
- *
- * _.isSet(new Set);
- * // => true
- *
- * _.isSet(new WeakSet);
- * // => false
- */
-var isSet = nodeIsSet ? _baseUnary(nodeIsSet) : _baseIsSet;
-
-var isSet_1 = isSet;
-
 /** Used to compose bitmasks for cloning. */
-var CLONE_DEEP_FLAG = 1,
+var CLONE_DEEP_FLAG$2 = 1,
     CLONE_FLAT_FLAG = 2,
     CLONE_SYMBOLS_FLAG = 4;
 
@@ -5174,11 +5253,11 @@ var argsTag$2 = '[object Arguments]',
     errorTag$1 = '[object Error]',
     funcTag$2 = '[object Function]',
     genTag$1 = '[object GeneratorFunction]',
-    mapTag$4 = '[object Map]',
+    mapTag$3 = '[object Map]',
     numberTag$2 = '[object Number]',
     objectTag$2 = '[object Object]',
     regexpTag$2 = '[object RegExp]',
-    setTag$4 = '[object Set]',
+    setTag$3 = '[object Set]',
     stringTag$2 = '[object String]',
     symbolTag$1 = '[object Symbol]',
     weakMapTag$2 = '[object WeakMap]';
@@ -5202,9 +5281,9 @@ cloneableTags[arrayBufferTag$2] = cloneableTags[dataViewTag$3] =
 cloneableTags[boolTag$2] = cloneableTags[dateTag$2] =
 cloneableTags[float32Tag$2] = cloneableTags[float64Tag$2] =
 cloneableTags[int8Tag$2] = cloneableTags[int16Tag$2] =
-cloneableTags[int32Tag$2] = cloneableTags[mapTag$4] =
+cloneableTags[int32Tag$2] = cloneableTags[mapTag$3] =
 cloneableTags[numberTag$2] = cloneableTags[objectTag$2] =
-cloneableTags[regexpTag$2] = cloneableTags[setTag$4] =
+cloneableTags[regexpTag$2] = cloneableTags[setTag$3] =
 cloneableTags[stringTag$2] = cloneableTags[symbolTag$1] =
 cloneableTags[uint8Tag$2] = cloneableTags[uint8ClampedTag$2] =
 cloneableTags[uint16Tag$2] = cloneableTags[uint32Tag$2] = true;
@@ -5229,7 +5308,7 @@ cloneableTags[weakMapTag$2] = false;
  */
 function baseClone(value, bitmask, customizer, key, object, stack) {
   var result,
-      isDeep = bitmask & CLONE_DEEP_FLAG,
+      isDeep = bitmask & CLONE_DEEP_FLAG$2,
       isFlat = bitmask & CLONE_FLAT_FLAG,
       isFull = bitmask & CLONE_SYMBOLS_FLAG;
 
@@ -5266,7 +5345,7 @@ function baseClone(value, bitmask, customizer, key, object, stack) {
       if (!cloneableTags[tag]) {
         return object ? value : {};
       }
-      result = _initCloneByTag(value, tag, isDeep);
+      result = _initCloneByTag(value, tag, baseClone, isDeep);
     }
   }
   // Check for circular references and return its corresponding clone.
@@ -5276,22 +5355,6 @@ function baseClone(value, bitmask, customizer, key, object, stack) {
     return stacked;
   }
   stack.set(value, result);
-
-  if (isSet_1(value)) {
-    value.forEach(function(subValue) {
-      result.add(baseClone(subValue, bitmask, customizer, subValue, value, stack));
-    });
-
-    return result;
-  }
-
-  if (isMap_1(value)) {
-    value.forEach(function(subValue, key) {
-      result.set(key, baseClone(subValue, bitmask, customizer, key, value, stack));
-    });
-
-    return result;
-  }
 
   var keysFunc = isFull
     ? (isFlat ? _getAllKeysIn : _getAllKeys)
@@ -5312,7 +5375,7 @@ function baseClone(value, bitmask, customizer, key, object, stack) {
 var _baseClone = baseClone;
 
 /** Used to compose bitmasks for cloning. */
-var CLONE_DEEP_FLAG$1 = 1,
+var CLONE_DEEP_FLAG$3 = 1,
     CLONE_SYMBOLS_FLAG$1 = 4;
 
 /**
@@ -5334,7 +5397,7 @@ var CLONE_DEEP_FLAG$1 = 1,
  * // => false
  */
 function cloneDeep(value) {
-  return _baseClone(value, CLONE_DEEP_FLAG$1 | CLONE_SYMBOLS_FLAG$1);
+  return _baseClone(value, CLONE_DEEP_FLAG$3 | CLONE_SYMBOLS_FLAG$1);
 }
 
 var cloneDeep_1 = cloneDeep;
@@ -5477,9 +5540,6 @@ function mount (
 
   var vm = parentVm.$mount(elm).$refs.vm;
 
-  // Workaround for Vue < 2.5
-  vm._staticTrees = [];
-
   var componentsWithError = findAllVueComponentsFromVm(vm).filter(
     function (c) { return c._error; }
   );
@@ -5560,13 +5620,16 @@ function shallow (component, options) {
 
 var index = {
   createLocalVue: createLocalVue,
+  createWrapper: createWrapper,
   config: config,
   mount: mount,
   shallow: shallow,
   shallowMount: shallowMount,
   TransitionStub: TransitionStub,
   TransitionGroupStub: TransitionGroupStub,
-  RouterLinkStub: RouterLinkStub
+  RouterLinkStub: RouterLinkStub,
+  Wrapper: Wrapper,
+  WrapperArray: WrapperArray
 }
 
 return index;

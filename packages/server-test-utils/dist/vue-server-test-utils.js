@@ -16,13 +16,12 @@ function createVNodes (
 ) {
   var el = vueTemplateCompiler.compileToFunctions(("<div>" + slotValue + "</div>"));
   var _staticRenderFns = vm._renderProxy.$options.staticRenderFns;
-  // version < 2.5
-  if (!vm._renderProxy._staticTrees) {
-    vm._renderProxy._staticTrees = [];
-  }
+  var _staticTrees = vm._renderProxy._staticTrees;
+  vm._renderProxy._staticTrees = [];
   vm._renderProxy.$options.staticRenderFns = el.staticRenderFns;
   var vnode = el.render.call(vm._renderProxy, vm.$createElement);
   vm._renderProxy.$options.staticRenderFns = _staticRenderFns;
+  vm._renderProxy._staticTrees = _staticTrees;
   return vnode.children
 }
 
@@ -34,6 +33,9 @@ function createVNodesForSlot (
   var vnode;
   if (typeof slotValue === 'string') {
     var vnodes = createVNodes(vm, slotValue);
+    if (vnodes.length > 1) {
+      return vnodes
+    }
     vnode = vnodes[0];
   } else {
     vnode = vm.$createElement(slotValue);
@@ -190,6 +192,12 @@ function isPlainObject (obj) {
   return Object.prototype.toString.call(obj) === '[object Object]'
 }
 
+function isRequiredComponent (name) {
+  return (
+    name === 'KeepAlive' || name === 'Transition' || name === 'TransitionGroup'
+  )
+}
+
 // 
 
 function compileTemplate (component) {
@@ -297,10 +305,14 @@ function createBlankStub (
   }
 
   return Object.assign({}, getCoreProperties(componentOptions),
-    {render: function render (h) {
+    {render: function render (h, context) {
       return h(
         tagName,
-        !componentOptions.functional && this.$slots.default
+        {
+          attrs: componentOptions.functional ? Object.assign({}, context.props,
+            context.data.attrs) : Object.assign({}, this.$props)
+        },
+        context ? context.children : this.$slots.default
       )
     }})
 }
@@ -424,8 +436,8 @@ function requiresTemplateCompiler (slot) {
   if (typeof slot === 'string' && !vueTemplateCompiler.compileToFunctions) {
     throwError(
       "vueTemplateCompiler is undefined, you must pass " +
-        "precompiled components if vue-template-compiler is " +
-        "undefined"
+      "precompiled components if vue-template-compiler is " +
+      "undefined"
     );
   }
 }
@@ -507,27 +519,22 @@ function getVueTemplateCompilerHelpers () {
   names.forEach(function (name) {
     helpers[name] = vue._renderProxy[name];
   });
+  helpers.$createElement = vue._renderProxy.$createElement;
   return helpers
 }
 
 function validateEnvironment () {
-  if (window.navigator.userAgent.match(/PhantomJS/i)) {
-    throwError(
-      "the scopedSlots option does not support PhantomJS. " +
-        "Please use Puppeteer, or pass a component."
-    );
-  }
-  if (vueVersion < 2.5) {
-    throwError("the scopedSlots option is only supported in " + "vue@2.5+.");
+  if (vueVersion < 2.1) {
+    throwError("the scopedSlots option is only supported in vue@2.1+.");
   }
 }
 
-function validateTempldate (template) {
-  if (template.trim().substr(0, 9) === '<template') {
-    throwError(
-      "the scopedSlots option does not support a template " +
-        "tag as the root element."
-    );
+var slotScopeRe = /<[^>]+ slot-scope=\"(.+)\"/;
+
+// Hide warning about <template> disallowed as root element
+function customWarn (msg) {
+  if (msg.indexOf('Cannot use <template> as component root element') === -1) {
+    console.error(msg);
   }
 }
 
@@ -540,28 +547,35 @@ function createScopedSlots (
   }
   validateEnvironment();
   var helpers = getVueTemplateCompilerHelpers();
-  var loop = function ( name ) {
-    var template = scopedSlotsOption[name];
-    validateTempldate(template);
-    var render = vueTemplateCompiler.compileToFunctions(template).render;
-    var domParser = new window.DOMParser();
-    var _document = domParser.parseFromString(template, 'text/html');
-    var slotScope = _document.body.firstChild.getAttribute(
-      'slot-scope'
-    );
-    var isDestructuring = isDestructuringSlotScope(slotScope);
-    scopedSlots[name] = function (props) {
+  var loop = function ( scopedSlotName ) {
+    var slot = scopedSlotsOption[scopedSlotName];
+    var isFn = typeof slot === 'function';
+    // Type check to silence flow (can't use isFn)
+    var renderFn = typeof slot === 'function'
+      ? slot
+      : vueTemplateCompiler.compileToFunctions(slot, { warn: customWarn }).render;
+
+    var hasSlotScopeAttr = !isFn && slot.match(slotScopeRe);
+    var slotScope = hasSlotScopeAttr && hasSlotScopeAttr[1];
+    scopedSlots[scopedSlotName] = function (props) {
       var obj;
 
-      if (isDestructuring) {
-        return render.call(Object.assign({}, helpers, props))
+      var res;
+      if (isFn) {
+        res = renderFn.call(Object.assign({}, helpers), props);
+      } else if (slotScope && !isDestructuringSlotScope(slotScope)) {
+        res = renderFn.call(Object.assign({}, helpers, ( obj = {}, obj[slotScope] = props, obj)));
+      } else if (slotScope && isDestructuringSlotScope(slotScope)) {
+        res = renderFn.call(Object.assign({}, helpers, props));
       } else {
-        return render.call(Object.assign({}, helpers, ( obj = {}, obj[slotScope] = props, obj)))
+        res = renderFn.call(Object.assign({}, helpers, {props: props}));
       }
+      // res is Array if <template> is a root element
+      return Array.isArray(res) ? res[0] : res
     };
   };
 
-  for (var name in scopedSlotsOption) loop( name );
+  for (var scopedSlotName in scopedSlotsOption) loop( scopedSlotName );
   return scopedSlots
 }
 
@@ -619,24 +633,39 @@ function createInstance (
 
   addEventLogger(_Vue);
 
+  // Replace globally registered components with components extended
+  // from localVue. This makes sure the beforeMount mixins to add stubs
+  // is applied to globally registered components.
+  // Vue version must be 2.3 or greater, because of a bug resolving
+  // extended constructor options (https://github.com/vuejs/vue/issues/4976)
+  if (vueVersion > 2.2) {
+    for (var c in _Vue.options.components) {
+      if (!isRequiredComponent(c)) {
+        _Vue.component(c, _Vue.extend(_Vue.options.components[c]));
+      }
+    }
+  }
+
   var stubComponents = createComponentStubs(
-    // $FlowIgnore
     component.components,
     // $FlowIgnore
     options.stubs
   );
   if (options.stubs) {
     instanceOptions.components = Object.assign({}, instanceOptions.components,
-      // $FlowIgnore
       stubComponents);
   }
+  function addStubComponentsMixin () {
+    Object.assign(
+      this.$options.components,
+      stubComponents
+    );
+  }
   _Vue.mixin({
-    created: function created () {
-      Object.assign(
-        this.$options.components,
-        stubComponents
-      );
-    }
+    beforeMount: addStubComponentsMixin,
+    // beforeCreate is for components created in node, which
+    // never mount
+    beforeCreate: addStubComponentsMixin
   });
   Object.keys(componentOptions.components || {}).forEach(function (c) {
     if (
@@ -663,7 +692,9 @@ function createInstance (
     component.options._base = _Vue;
   }
 
-  var Constructor = vueVersion < 2.3 && typeof component === 'function'
+  // when component constructed by Vue.extend,
+  // use its own extend method to keep component information
+  var Constructor = typeof component === 'function'
     ? component.extend(instanceOptions)
     : _Vue.extend(component).extend(instanceOptions);
 
@@ -708,9 +739,11 @@ function createInstance (
       Constructor,
       {
         ref: 'vm',
-        props: options.propsData,
         on: options.listeners,
-        attrs: options.attrs,
+        attrs: Object.assign({}, options.attrs,
+          // pass as attrs so that inheritAttrs works correctly
+          // propsData should take precedence over attrs
+          options.propsData),
         scopedSlots: scopedSlots
       },
       slots
