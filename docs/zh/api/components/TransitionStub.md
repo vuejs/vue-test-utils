@@ -8,7 +8,9 @@
 ```js
 import { config } from '@vue/test-utils'
 
-config.stubs.transition = false
+config.stubs = { 
+  transition: false
+}
 ```
 
 将其重置可以存根 `transition` 组件：
@@ -16,7 +18,9 @@ config.stubs.transition = false
 ```js
 import { config, TransitionStub } from '@vue/test-utils'
 
-config.stubs.transition = TransitionStub
+config.stubs = { 
+  transition: TransitionStub
+}
 ```
 
 还可以在挂载选项中将其设置为一个存根：

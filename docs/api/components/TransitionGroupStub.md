@@ -7,7 +7,9 @@ This is set to stub all `transition-group` components by default in the Vue Test
 ```js
 import { config } from '@vue/test-utils'
 
-config.stubs['transition-group'] = false
+config.stubs = {
+  'transition-group': false
+}
 ```
 
 To reset it to stub `transition-group` components:
@@ -15,7 +17,9 @@ To reset it to stub `transition-group` components:
 ```js
 import { config, TransitionGroupStub } from '@vue/test-utils'
 
-config.stubs['transition-group'] = TransitionGroupStub
+config.stubs = {
+  'transition-group': TransitionGroupStub
+}
 ```
 
 To set it as a stub in mounting options:

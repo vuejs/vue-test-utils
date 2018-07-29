@@ -21,7 +21,9 @@ vue-test-utils にはオプションを定義するための `config` オプシ�
 ```js
 import { config } from '@vue/test-utils'
 
-config.stubs['my-component'] = '<div />'
+config.stubs = {
+  'my-component': '<div />'
+}
 ```
 
 #### `mocks`
@@ -36,9 +38,11 @@ config.stubs['my-component'] = '<div />'
 ```js
 import { config } from '@vue/test-utils'
 
-config.mocks['$store'] = {
-  state: {
-    id: 1
+config.mocks = {
+  $store: {
+    state: {
+      id: 1
+    }
   }
 }
 ```
@@ -55,8 +59,10 @@ config.mocks['$store'] = {
 ```js
 import { config } from '@vue/test-utils'
 
-config.methods['errors'] = () => {
-  any: () => false
+config.methods = {
+  errors: {
+    any: () => false
+  }
 }
 ```
 
@@ -72,9 +78,11 @@ config.methods['errors'] = () => {
 ```js
 import { config } from '@vue/test-utils'
 
-config.provide['$logger'] = {
-  log: (...args) => {
-    console.log(...args)
+config.provide = {
+  $logger: {
+    log: (...args) => {
+      console.log(...args)
+    }
   }
 }
 ```
