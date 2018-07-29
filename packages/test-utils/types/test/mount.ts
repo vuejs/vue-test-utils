@@ -93,9 +93,7 @@ config.mocks['foo'] = {
 config.methods = {
   foo: () => {}
 }
-config.methods['foo'] = () => ({
-  bar: true
-})
+config.methods['foo'] = () => true
 config.provide = {
   foo: {}
 }
