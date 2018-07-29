@@ -6,10 +6,10 @@
 wrapperArray.wrappers.forEach(wrapper => wrapper.setValue(value))
 ```
 
-- **Arguments:**
+- **Принимает:**
   - `{any} value`
 
-- **Example:**
+- **Пример:**
 
 ```js
 import { mount } from '@vue/test-utils'
