@@ -65,7 +65,7 @@ export default function createScopedSlots (
   for (const scopedSlotName in scopedSlotsOption) {
     const slot = scopedSlotsOption[scopedSlotName]
     const isFn = typeof slot === 'function'
-    // Type check in render function to silence flow
+    // Type check to silence flow (can't use isFn)
     const renderFn = typeof slot === 'function'
       ? slot
       : compileToFunctions(slot, { warn: customWarn }).render
@@ -83,7 +83,7 @@ export default function createScopedSlots (
       } else {
         res = renderFn.call({ ...helpers, props })
       }
-      // res is Array if <template> is root element
+      // res is Array if <template> is a root element
       return Array.isArray(res) ? res[0] : res
     }
   }
