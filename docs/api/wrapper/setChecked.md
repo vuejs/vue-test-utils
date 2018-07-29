@@ -12,8 +12,8 @@ import { mount } from '@vue/test-utils'
 import Foo from './Foo.vue'
 
 const wrapper = mount(Foo)
-const option = wrapper.find('input[type="radio"]')
-option.setChecked()
+const radioInput = wrapper.find('input[type="radio"]')
+radioInput.setChecked()
 ```
 
 - **Note:**

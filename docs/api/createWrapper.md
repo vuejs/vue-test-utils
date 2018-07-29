@@ -1,4 +1,4 @@
-## createWrapper(node, options)
+## createWrapper(node [, options])
 
 - **Arguments:**
 
