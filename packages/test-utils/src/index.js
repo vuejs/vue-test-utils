@@ -4,6 +4,7 @@ import createLocalVue from './create-local-vue'
 import TransitionStub from './components/TransitionStub'
 import TransitionGroupStub from './components/TransitionGroupStub'
 import RouterLinkStub from './components/RouterLinkStub'
+import createWrapper from './create-wrapper'
 import Wrapper from './wrapper'
 import WrapperArray from './wrapper-array'
 import config from './config'
@@ -19,6 +20,7 @@ function shallow (component, options) {
 
 export default {
   createLocalVue,
+  createWrapper,
   config,
   mount,
   shallow,

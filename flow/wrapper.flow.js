@@ -46,6 +46,6 @@ declare interface BaseWrapper {
 
 declare type WrapperOptions = {
   // eslint-disable-line no-undef
-  attachedToDocument: boolean,
+  attachedToDocument?: boolean,
   sync?: boolean
 };
