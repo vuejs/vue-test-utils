@@ -28,6 +28,7 @@ Vue Test Utils — официальная библиотека модульно�
     - [attachToDocument](api/options.md#attachtodocument)
     - [attrs](api/options.md#attrs)
     - [listeners](api/options.md#listeners)
+    - [parentComponent](api/options.md#parentComponent)
     - [provide](api/options.md#provide)
     - [sync](api/options.md#sync)
     - [другие опции](api/options.md#other-options)
