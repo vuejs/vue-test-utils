@@ -321,6 +321,25 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     Vue.config.errorHandler = null
   })
 
+  it('adds unused propsData as attributes', () => {
+    const wrapper = mount(
+      ComponentWithProps, {
+        attachToDocument: true,
+        propsData: {
+          prop1: 'prop1',
+          extra: 'attr'
+        },
+        attrs: {
+          height: '50px'
+        }
+      })
+
+    if (vueVersion > 2.3) {
+      expect(wrapper.vm.$attrs).to.eql({ height: '50px', extra: 'attr' })
+    }
+    expect(wrapper.html()).to.equal(`<div height="50px" extra="attr"><p class="prop-1">prop1</p> <p class="prop-2"></p></div>`)
+  })
+
   it('overwrites the component options with the instance options', () => {
     const Component = {
       template: '<div>{{ foo() }}{{ bar() }}{{ baz() }}</div>',
