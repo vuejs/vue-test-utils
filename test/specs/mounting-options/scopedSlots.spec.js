@@ -14,7 +14,7 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
   })
 
   itDoNotRunIf(
-    vueVersion < 2.5 || isRunningPhantomJS,
+    vueVersion < 2.5,
     'mounts component scoped slots in render function',
     () => {
       const destructuringWrapper = mountingMethod(
@@ -56,7 +56,7 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
   )
 
   itDoNotRunIf(
-    vueVersion < 2.5 || isRunningPhantomJS,
+    vueVersion < 2.5,
     'mounts component scoped slots',
     () => {
       const wrapper = mountingMethod(ComponentWithScopedSlots, {
@@ -64,7 +64,7 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
         scopedSlots: {
           destructuring:
             '<p slot-scope="{ index, item }">{{index}},{{item}}</p>',
-          list: '<p slot-scope="foo">{{foo.index}},{{foo.text}}</p>',
+          list: '<template  slot-scope="foo"><p>{{foo.index}},{{foo.text}}</p></template>',
           single: '<p slot-scope="bar">{{bar.text}}</p>',
           noProps: '<p slot-scope="baz">baz</p>'
         }
@@ -106,25 +106,6 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
   )
 
   itDoNotRunIf(
-    vueVersion < 2.5 || isRunningPhantomJS,
-    'throws exception when it is seted to a template tag at top',
-    () => {
-      const fn = () => {
-        mountingMethod(ComponentWithScopedSlots, {
-          scopedSlots: {
-            single: '<template></template>'
-          }
-        })
-      }
-      const message =
-        '[vue-test-utils]: the scopedSlots option does not support a template tag as the root element.'
-      expect(fn)
-        .to.throw()
-        .with.property('message', message)
-    }
-  )
-
-  itDoNotRunIf(
     vueVersion >= 2.5 || isRunningPhantomJS,
     'throws exception when vue version < 2.5',
     () => {
@@ -143,23 +124,18 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
     }
   )
 
-  itDoNotRunIf(
-    vueVersion < 2.5,
-    'throws exception when using PhantomJS',
+  it(
+    'throws exception when template does not include slot-scope attribute',
     () => {
-      if (window.navigator.userAgent.match(/Chrome|PhantomJS/i)) {
-        return
-      }
-      window = { navigator: { userAgent: 'PhantomJS' }} // eslint-disable-line no-native-reassign
       const fn = () => {
         mountingMethod(ComponentWithScopedSlots, {
           scopedSlots: {
-            list: '<p slot-scope="foo">{{foo.index}},{{foo.text}}</p>'
+            list: '<p>{{foo.index}},{{foo.text}}</p>'
           }
         })
       }
       const message =
-        '[vue-test-utils]: the scopedSlots option does not support PhantomJS. Please use Puppeteer, or pass a component.'
+        '[vue-test-utils]: the root tag in a scopedSlot template must have a slot-scope attribute'
       expect(fn)
         .to.throw()
         .with.property('message', message)

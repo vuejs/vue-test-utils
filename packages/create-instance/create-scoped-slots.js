@@ -36,25 +36,12 @@ function getVueTemplateCompilerHelpers (): { [name: string]: Function } {
 }
 
 function validateEnvironment (): void {
-  if (window.navigator.userAgent.match(/PhantomJS/i)) {
-    throwError(
-      `the scopedSlots option does not support PhantomJS. ` +
-        `Please use Puppeteer, or pass a component.`
-    )
-  }
   if (vueVersion < 2.5) {
     throwError(`the scopedSlots option is only supported in ` + `vue@2.5+.`)
   }
 }
 
-function validateTempldate (template: string): void {
-  if (template.trim().substr(0, 9) === '<template') {
-    throwError(
-      `the scopedSlots option does not support a template ` +
-        `tag as the root element.`
-    )
-  }
-}
+const scopedSlotRe = /<[^>]+ slot-scope=\"(.+)\"/
 
 export default function createScopedSlots (
   scopedSlotsOption: ?{ [slotName: string]: string }
@@ -67,13 +54,18 @@ export default function createScopedSlots (
   const helpers = getVueTemplateCompilerHelpers()
   for (const name in scopedSlotsOption) {
     const template = scopedSlotsOption[name]
-    validateTempldate(template)
     const render = compileToFunctions(template).render
-    const domParser = new window.DOMParser()
-    const _document = domParser.parseFromString(template, 'text/html')
-    const slotScope = _document.body.firstChild.getAttribute(
-      'slot-scope'
-    )
+    const match = template.match(scopedSlotRe)
+
+    if (!match) {
+      throwError(
+        `the root tag in a scopedSlot template must have a ` +
+        `slot-scope attribute`
+      )
+    }
+
+    // $FlowIgnore
+    const slotScope = match[1]
     const isDestructuring = isDestructuringSlotScope(slotScope)
     scopedSlots[name] = function (props) {
       if (isDestructuring) {
