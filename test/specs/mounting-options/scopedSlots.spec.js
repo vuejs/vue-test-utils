@@ -14,6 +14,40 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
 
   itDoNotRunIf(
     vueVersion < 2.1,
+    'handles templates as the root node', () => {
+      const wrapper = mountingMethod({
+        template: '<div><slot name="single" :text="foo" :i="123"></slot></div>',
+        data: () => ({
+          foo: 'bar'
+        })
+      }, {
+        scopedSlots: {
+          single: '<template><p>{{props.text}},{{props.i}}</p></template>'
+        }
+      })
+      expect(wrapper.html()).to.equal('<div><p>bar,123</p></div>')
+    })
+
+  itDoNotRunIf(
+    vueVersion < 2.1,
+    'handles render functions', () => {
+      const wrapper = mountingMethod({
+        template: '<div><slot name="single" :text="foo" /></div>',
+        data: () => ({
+          foo: 'bar'
+        })
+      }, {
+        scopedSlots: {
+          single: function (props) {
+            return this.$createElement('p', props.text)
+          }
+        }
+      })
+      expect(wrapper.html()).to.equal('<div><p>bar</p></div>')
+    })
+
+  itDoNotRunIf(
+    vueVersion < 2.5,
     'mounts component scoped slots in render function',
     () => {
       const destructuringWrapper = mountingMethod(
@@ -28,7 +62,7 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
         {
           scopedSlots: {
             default:
-              '<p slot-scope="{ index, item }">{{index}},{{item}}</p>'
+              '<template slot-scope="{ index, item }"><p>{{index}},{{item}}</p></template>'
           }
         }
       )
@@ -46,7 +80,7 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
         {
           scopedSlots: {
             named:
-              '<p slot-scope="props">{{props.index}},{{props.item}}</p>'
+              '<p slot-scope="foo">{{foo.index}},{{foo.item}}</p>'
           }
         }
       )
@@ -55,7 +89,7 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
   )
 
   itDoNotRunIf(
-    vueVersion < 2.1,
+    vueVersion < 2.5,
     'mounts component scoped slots',
     () => {
       const wrapper = mountingMethod(ComponentWithScopedSlots, {
@@ -104,35 +138,39 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
     }
   )
 
-  it('handles JSX', () => {
-    const wrapper = mountingMethod({
-      template: '<div><slot name="single" :text="foo"></slot></div>',
-      data: () => ({
-        foo: 'bar'
-      })
-    }, {
-      scopedSlots: {
-        single ({ text }) {
-          return <p>{{ text }}</p>
+  itDoNotRunIf(
+    vueVersion < 2.5,
+    'handles JSX', () => {
+      const wrapper = mountingMethod({
+        template: '<div><slot name="single" :text="foo"></slot></div>',
+        data: () => ({
+          foo: 'bar'
+        })
+      }, {
+        scopedSlots: {
+          single ({ text }) {
+            return <p>{{ text }}</p>
+          }
         }
-      }
-    })
-    expect(wrapper.html()).to.equal('<div><p>bar</p></div>')
-  })
-
-  it('handles no slot-scope', () => {
-    const wrapper = mountingMethod({
-      template: '<div><slot name="single" :text="foo" :i="123"></slot></div>',
-      data: () => ({
-        foo: 'bar'
       })
-    }, {
-      scopedSlots: {
-        single: '<p>{{text}},{{i}}</p>'
-      }
+      expect(wrapper.html()).to.equal('<div><p>bar</p></div>')
     })
-    expect(wrapper.html()).to.equal('<div><p>bar,123</p></div>')
-  })
+
+  itDoNotRunIf(
+    vueVersion < 2.5,
+    'handles no slot-scope', () => {
+      const wrapper = mountingMethod({
+        template: '<div><slot name="single" :text="foo" :i="123"></slot></div>',
+        data: () => ({
+          foo: 'bar'
+        })
+      }, {
+        scopedSlots: {
+          single: '<p>{{props.text}},{{props.i}}</p>'
+        }
+      })
+      expect(wrapper.html()).to.equal('<div><p>bar,123</p></div>')
+    })
 
   itDoNotRunIf(
     vueVersion > 2.0,

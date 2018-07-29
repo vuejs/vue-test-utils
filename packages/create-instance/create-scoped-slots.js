@@ -44,6 +44,13 @@ function validateEnvironment (): void {
 
 const slotScopeRe = /<[^>]+ slot-scope=\"(.+)\"/
 
+// Hide warning about <template> disallowed as root element
+function customWarn (msg) {
+  if (msg.indexOf('Cannot use <template> as component root element') === -1) {
+    console.error(msg)
+  }
+}
+
 export default function createScopedSlots (
   scopedSlotsOption: ?{ [slotName: string]: string | Function }
 ): {
@@ -55,24 +62,29 @@ export default function createScopedSlots (
   }
   validateEnvironment()
   const helpers = getVueTemplateCompilerHelpers()
-  for (const s in scopedSlotsOption) {
-    const slot = scopedSlotsOption[s]
+  for (const scopedSlotName in scopedSlotsOption) {
+    const slot = scopedSlotsOption[scopedSlotName]
     const isFn = typeof slot === 'function'
     // Type check in render function to silence flow
     const renderFn = typeof slot === 'function'
       ? slot
-      : compileToFunctions(slot).render
+      : compileToFunctions(slot, { warn: customWarn }).render
 
     const hasSlotScopeAttr = !isFn && slot.match(slotScopeRe)
     const slotScope = hasSlotScopeAttr && hasSlotScopeAttr[1]
-    scopedSlots[s] = function (props) {
+    scopedSlots[scopedSlotName] = function (props) {
+      let res
       if (isFn) {
-        return renderFn.call({ ...helpers }, props)
+        res = renderFn.call({ ...helpers }, props)
       } else if (slotScope && !isDestructuringSlotScope(slotScope)) {
-        return renderFn.call({ ...helpers, [slotScope]: props })
+        res = renderFn.call({ ...helpers, [slotScope]: props })
+      } else if (slotScope && isDestructuringSlotScope(slotScope)) {
+        res = renderFn.call({ ...helpers, ...props })
       } else {
-        return renderFn.call({ ...helpers, ...props })
+        res = renderFn.call({ ...helpers, props })
       }
+      // res is Array if <template> is root element
+      return Array.isArray(res) ? res[0] : res
     }
   }
   return scopedSlots
