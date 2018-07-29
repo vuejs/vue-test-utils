@@ -1,6 +1,6 @@
 ## setData(data)
 
-`WrapperArray` の `Wrapper` ごとに `Wrapper` に `vm` データをセットし、強制的に更新します。
+`WrapperArray` の `Wrapper` ごとに `Wrapper` に `vm` データをセットします。
 
 **すべての `Wrapper` は Vue インスタンスを含んでいなければならないことに注意してください。**
 

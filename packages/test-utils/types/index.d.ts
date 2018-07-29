@@ -126,6 +126,7 @@ interface MountOptions<V extends Vue> extends ComponentOptions<V> {
   context?: VNodeData
   localVue?: typeof Vue
   mocks?: object
+  parentComponent?: Component
   slots?: Slots
   scopedSlots?: Record<string, string>
   stubs?: Stubs,

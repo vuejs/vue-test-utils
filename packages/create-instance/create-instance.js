@@ -1,16 +1,28 @@
 // @flow
 
-import { createSlotVNodes } from './add-slots'
+import { createSlotVNodes } from './create-slot-vnodes'
 import addMocks from './add-mocks'
 import { addEventLogger } from './log-events'
 import { createComponentStubs } from 'shared/stub-components'
 import { throwError, warn, vueVersion } from 'shared/util'
 import { compileTemplate } from 'shared/compile-template'
+import { isRequiredComponent } from 'shared/validators'
 import extractInstanceOptions from './extract-instance-options'
 import createFunctionalComponent from './create-functional-component'
-import { componentNeedsCompiling } from 'shared/validators'
+import { componentNeedsCompiling, isPlainObject } from 'shared/validators'
 import { validateSlots } from './validate-slots'
 import createScopedSlots from './create-scoped-slots'
+
+function compileTemplateForSlots (slots: Object): void {
+  Object.keys(slots).forEach(key => {
+    const slot = Array.isArray(slots[key]) ? slots[key] : [slots[key]]
+    slot.forEach(slotValue => {
+      if (componentNeedsCompiling(slotValue)) {
+        compileTemplate(slotValue)
+      }
+    })
+  })
+}
 
 export default function createInstance (
   component: Component,
@@ -53,8 +65,20 @@ export default function createInstance (
 
   addEventLogger(_Vue)
 
+  // Replace globally registered components with components extended
+  // from localVue. This makes sure the beforeMount mixins to add stubs
+  // is applied to globally registered components.
+  // Vue version must be 2.3 or greater, because of a bug resolving
+  // extended constructor options (https://github.com/vuejs/vue/issues/4976)
+  if (vueVersion > 2.2) {
+    for (const c in _Vue.options.components) {
+      if (!isRequiredComponent(c)) {
+        _Vue.component(c, _Vue.extend(_Vue.options.components[c]))
+      }
+    }
+  }
+
   const stubComponents = createComponentStubs(
-    // $FlowIgnore
     component.components,
     // $FlowIgnore
     options.stubs
@@ -62,17 +86,20 @@ export default function createInstance (
   if (options.stubs) {
     instanceOptions.components = {
       ...instanceOptions.components,
-      // $FlowIgnore
       ...stubComponents
     }
   }
+  function addStubComponentsMixin () {
+    Object.assign(
+      this.$options.components,
+      stubComponents
+    )
+  }
   _Vue.mixin({
-    created () {
-      Object.assign(
-        this.$options.components,
-        stubComponents
-      )
-    }
+    beforeMount: addStubComponentsMixin,
+    // beforeCreate is for components created in node, which
+    // never mount
+    beforeCreate: addStubComponentsMixin
   })
   Object.keys(componentOptions.components || {}).forEach(c => {
     if (
@@ -109,6 +136,8 @@ export default function createInstance (
   })
 
   if (options.slots) {
+    compileTemplateForSlots(options.slots)
+    // $FlowIgnore
     validateSlots(options.slots)
   }
 
@@ -125,25 +154,36 @@ export default function createInstance (
 
   const scopedSlots = createScopedSlots(options.scopedSlots)
 
-  const Parent = _Vue.extend({
-    provide: options.provide,
-    render (h) {
-      const slots = options.slots
-        ? createSlotVNodes(h, options.slots)
-        : undefined
-      return h(
-        Constructor,
-        {
-          ref: 'vm',
-          props: options.propsData,
-          on: options.listeners,
-          attrs: options.attrs,
-          scopedSlots
+  if (options.parentComponent && !isPlainObject(options.parentComponent)) {
+    throwError(
+      `options.parentComponent should be a valid Vue component ` +
+      `options object`
+    )
+  }
+
+  const parentComponentOptions = options.parentComponent || {}
+  parentComponentOptions.provide = options.provide
+  parentComponentOptions.render = function (h) {
+    const slots = options.slots
+      ? createSlotVNodes(this, options.slots)
+      : undefined
+    return h(
+      Constructor,
+      {
+        ref: 'vm',
+        on: options.listeners,
+        attrs: {
+          ...options.attrs,
+          // pass as attrs so that inheritAttrs works correctly
+          // propsData should take precedence over attrs
+          ...options.propsData
         },
-        slots
-      )
-    }
-  })
+        scopedSlots
+      },
+      slots
+    )
+  }
+  const Parent = _Vue.extend(parentComponentOptions)
 
   return new Parent()
 }

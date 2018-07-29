@@ -23,7 +23,7 @@ Vue Test Utils 允许你通过 `shallowMount` 方法只挂载一个组件而不�
 ```js
 import { shallowMount } from '@vue/test-utils'
 
-const wrapper = shallowMount(Component) // 返回一个包裹器，包含一个挂载的组件实例
+const wrapper = shallowMount(Component)
 wrapper.vm // 挂载的 Vue 实例
 ```
 
@@ -125,7 +125,9 @@ const $route = {
 
 mount(Component, {
   mocks: {
-    $route // 在挂载组件之前添加仿造的 `$route` 对象到 Vue 实例中
+    // 在挂载组件之前
+    // 添加仿造的 `$route` 对象到 Vue 实例中
+    $route
   }
 })
 ```
