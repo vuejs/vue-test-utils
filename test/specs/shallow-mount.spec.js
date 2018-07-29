@@ -294,6 +294,19 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
       .to.equal('hey')
   })
 
+  itDoNotRunIf(
+    vueVersion < 2.4, // auto resolve of default export added in 2.4
+    'handles component as dynamic import', () => {
+      const TestComponent = {
+        template: '<div><async-component /></div>',
+        components: {
+          AsyncComponent: () => import('~resources/components/component.vue')
+        }
+      }
+      const wrapper = shallowMount(TestComponent)
+      expect(wrapper.find({ name: 'AsyncComponent' }).exists()).to.equal(true)
+    })
+
   it('stubs components registered on localVue after multiple installs', () => {
     const myPlugin = function (_Vue, opts) {
       _Vue.mixin({ })

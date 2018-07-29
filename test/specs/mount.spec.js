@@ -162,6 +162,22 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     expect(wrapper.html()).to.equal(`<div></div>`)
   })
 
+  itDoNotRunIf(
+    vueVersion < 2.4, // auto resolve of default export added in 2.4
+    'handles components as dynamic imports', (done) => {
+      const TestComponent = {
+        template: '<div><async-component /></div>',
+        components: {
+          AsyncComponent: () => import('~resources/components/component.vue')
+        }
+      }
+      const wrapper = mount(TestComponent)
+      setTimeout(() => {
+        expect(wrapper.find(Component).exists()).to.equal(true)
+        done()
+      })
+    })
+
   it('logs if component is extended', () => {
     const msg =
       `[vue-test-utils]: an extended child component <ChildComponent> ` +
