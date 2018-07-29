@@ -12,7 +12,7 @@ const normalFoo: string = normalWrapper.vm.foo
 const classWrapper = mount(ClassComponent)
 const classFoo: string = classWrapper.vm.bar
 
-const functinalWrapper = mount(functionalOptions)
+const functionalWrapper = mount(functionalOptions)
 
 /**
  * Test for mount options
@@ -83,14 +83,22 @@ config.stubs = {
   qux: `<div>Test</div>`,
   quux: true
 }
+config.stubs['quuux'] = true
 config.mocks = {
   foo: 'bar',
+}
+config.mocks['foo'] = {
+  bar: 'baz'
 }
 config.methods = {
   foo: () => {}
 }
+config.methods['foo'] = () => true
 config.provide = {
   foo: {}
+}
+config.provide['foo'] = {
+  bar: {}
 }
 config.logModifiedComponents = true
 config.silent = true

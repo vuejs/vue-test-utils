@@ -56,9 +56,7 @@ Example:
 ```js
 import { config } from '@vue/test-utils'
 
-config.methods['errors'] = () => {
-  any: () => false
-}
+config.methods['getData'] = () => {}
 ```
 
 ### `provide`

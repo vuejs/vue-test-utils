@@ -143,9 +143,9 @@ type ThisTypedShallowMountOptions<V extends Vue> = ShallowMountOptions<V> & This
 
 interface VueTestUtilsConfigOptions {
   stubs?: Record<string, Component | boolean | string>
-  mocks?: object
+  mocks?: Record<string, any>
   methods?: Record<string, Function>
-  provide?: object,
+  provide?: Record<string, any>,
   logModifiedComponents?: Boolean
   silent?: Boolean
 }
