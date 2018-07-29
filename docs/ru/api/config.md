@@ -56,9 +56,7 @@ VueTestUtils.config.mocks['$store'] = {
 ```js
 import VueTestUtils from '@vue/test-utils'
 
-VueTestUtils.config.methods['errors'] = () => {
-  any: () => false
-}
+VueTestUtils.config.methods['getData'] = () => {}
 ```
 
 ### `provide`
