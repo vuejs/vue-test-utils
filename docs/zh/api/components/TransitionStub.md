@@ -8,7 +8,7 @@
 ```js
 import { config } from '@vue/test-utils'
 
-config.stubs = { 
+config.stubs = {
   transition: false
 }
 ```
@@ -18,7 +18,7 @@ config.stubs = {
 ```js
 import { config, TransitionStub } from '@vue/test-utils'
 
-config.stubs = { 
+config.stubs = {
   transition: TransitionStub
 }
 ```

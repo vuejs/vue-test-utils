@@ -23,7 +23,7 @@ Vue Test Utils включает объект конфигурации для о�
 import { config } from '@vue/test-utils'
 
 config.stubs = { 
-'my-component': '<div />'
+  'my-component': '<div />'
 }
 ```
 
@@ -40,7 +40,7 @@ config.stubs = {
 import { config } from '@vue/test-utils'
 
 config.mocks = {
-  $store : {
+  $store: {
     state: {
       id: 1
     }
@@ -80,7 +80,7 @@ config.methods = {
 import { config } from '@vue/test-utils'
 
 config.provide = {
-  $logger : {
+  $logger: {
     log: (...args) => {
       console.log(...args)
     }
