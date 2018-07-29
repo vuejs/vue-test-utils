@@ -32,19 +32,20 @@ function getVueTemplateCompilerHelpers (): { [name: string]: Function } {
   names.forEach(name => {
     helpers[name] = vue._renderProxy[name]
   })
+  helpers.$createElement = vue._renderProxy.$createElement
   return helpers
 }
 
 function validateEnvironment (): void {
-  if (vueVersion < 2.5) {
-    throwError(`the scopedSlots option is only supported in ` + `vue@2.5+.`)
+  if (vueVersion < 2.1) {
+    throwError(`the scopedSlots option is only supported in ` + `vue@2.1+.`)
   }
 }
 
 const scopedSlotRe = /<[^>]+ slot-scope=\"(.+)\"/
 
 export default function createScopedSlots (
-  scopedSlotsOption: ?{ [slotName: string]: string }
+  scopedSlotsOption: ?{ [slotName: string]: string | Function }
 ): { [slotName: string]: (props: Object) => VNode | Array<VNode>} {
   const scopedSlots = {}
   if (!scopedSlotsOption) {
@@ -52,26 +53,24 @@ export default function createScopedSlots (
   }
   validateEnvironment()
   const helpers = getVueTemplateCompilerHelpers()
-  for (const name in scopedSlotsOption) {
-    const template = scopedSlotsOption[name]
-    const render = compileToFunctions(template).render
-    const match = template.match(scopedSlotRe)
+  for (const s in scopedSlotsOption) {
+    const slot = scopedSlotsOption[s]
+    const isFn = typeof slot === 'function'
+    const renderFn = isFn
+      ? slot
+      : compileToFunctions(slot).renderFn
 
-    if (!match) {
-      throwError(
-        `the root tag in a scopedSlot template must have a ` +
-        `slot-scope attribute`
-      )
-    }
+    const hasSlotScopeAttr = !isFn && slot.match(scopedSlotRe)
+    // // $FlowIgnore
+    const slotScope = hasSlotScopeAttr && hasSlotScopeAttr[1]
 
-    // $FlowIgnore
-    const slotScope = match[1]
-    const isDestructuring = isDestructuringSlotScope(slotScope)
-    scopedSlots[name] = function (props) {
-      if (isDestructuring) {
-        return render.call({ ...helpers, ...props })
+    scopedSlots[s] = function (props) {
+      if (isFn) {
+        return renderFn.call({ ...helpers }, props)
+      } else if (slotScope && !isDestructuringSlotScope(slotScope)) {
+        return renderFn.call({ ...helpers, [slotScope]: props })
       } else {
-        return render.call({ ...helpers, [slotScope]: props })
+        return renderFn.call({ ...helpers, ...props })
       }
     }
   }

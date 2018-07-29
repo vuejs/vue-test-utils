@@ -1,7 +1,6 @@
 import {
   describeWithShallowAndMount,
-  vueVersion,
-  isRunningPhantomJS
+  vueVersion
 } from '~resources/utils'
 import ComponentWithScopedSlots from '~resources/components/component-with-scoped-slots.vue'
 import { itDoNotRunIf } from 'conditional-specs'
@@ -38,7 +37,7 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
       const notDestructuringWrapper = mountingMethod(
         {
           render: function () {
-            return this.$scopedSlots.default({
+            return this.$scopedSlots.named({
               index: 1,
               item: 'foo'
             })
@@ -46,7 +45,7 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
         },
         {
           scopedSlots: {
-            default:
+            named:
               '<p slot-scope="props">{{props.index}},{{props.item}}</p>'
           }
         }
@@ -64,7 +63,7 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
         scopedSlots: {
           destructuring:
             '<p slot-scope="{ index, item }">{{index}},{{item}}</p>',
-          list: '<template  slot-scope="foo"><p>{{foo.index}},{{foo.text}}</p></template>',
+          list: '<template slot-scope="foo"><p>{{foo.index}},{{foo.text}}</p></template>',
           single: '<p slot-scope="bar">{{bar.text}}</p>',
           noProps: '<p slot-scope="baz">baz</p>'
         }
@@ -105,9 +104,39 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
     }
   )
 
+  it('handles JSX', () => {
+    const wrapper = mountingMethod({
+      template: '<div><slot name="single" :text="foo"></slot></div>',
+      data: () => ({
+        foo: 'bar'
+      })
+    }, {
+      scopedSlots: {
+        single ({ text }) {
+          return <p>{{ text }}</p>
+        }
+      }
+    })
+    expect(wrapper.html()).to.equal('<div><p>bar</p></div>')
+  })
+
+  it('handles no slot-scope', () => {
+    const wrapper = mountingMethod({
+      template: '<div><slot name="single" :text="foo" :i="123"></slot></div>',
+      data: () => ({
+        foo: 'bar'
+      })
+    }, {
+      scopedSlots: {
+        single: '<p>{{text}},{{i}}</p>'
+      }
+    })
+    expect(wrapper.html()).to.equal('<div><p>bar,123</p></div>')
+  })
+
   itDoNotRunIf(
-    vueVersion >= 2.5 || isRunningPhantomJS,
-    'throws exception when vue version < 2.5',
+    vueVersion > 2.0,
+    'throws exception when vue version < 2.1',
     () => {
       const fn = () => {
         mountingMethod(ComponentWithScopedSlots, {
@@ -117,25 +146,7 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
         })
       }
       const message =
-        '[vue-test-utils]: the scopedSlots option is only supported in vue@2.5+.'
-      expect(fn)
-        .to.throw()
-        .with.property('message', message)
-    }
-  )
-
-  it(
-    'throws exception when template does not include slot-scope attribute',
-    () => {
-      const fn = () => {
-        mountingMethod(ComponentWithScopedSlots, {
-          scopedSlots: {
-            list: '<p>{{foo.index}},{{foo.text}}</p>'
-          }
-        })
-      }
-      const message =
-        '[vue-test-utils]: the root tag in a scopedSlot template must have a slot-scope attribute'
+        '[vue-test-utils]: the scopedSlots option is only supported in vue@2.1+.'
       expect(fn)
         .to.throw()
         .with.property('message', message)
