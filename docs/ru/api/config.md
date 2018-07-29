@@ -20,9 +20,9 @@ Vue Test Utils включает объект конфигурации для о�
 Пример:
 
 ```js
-import VueTestUtils from '@vue/test-utils'
+import { config } from '@vue/test-utils'
 
-VueTestUtils.config.stubs['my-component'] = '<div />'
+config.stubs['my-component'] = '<div />'
 ```
 
 ### `mocks`
@@ -35,9 +35,9 @@ VueTestUtils.config.stubs['my-component'] = '<div />'
 Пример:
 
 ```js
-import VueTestUtils from '@vue/test-utils'
+import { config } from '@vue/test-utils'
 
-VueTestUtils.config.mocks['$store'] = {
+config.mocks['$store'] = {
   state: {
     id: 1
   }
@@ -54,9 +54,9 @@ VueTestUtils.config.mocks['$store'] = {
 Пример:
 
 ```js
-import VueTestUtils from '@vue/test-utils'
+import { config } from '@vue/test-utils'
 
-VueTestUtils.config.methods['errors'] = () => {
+config.methods['errors'] = () => {
   any: () => false
 }
 ```
@@ -71,9 +71,9 @@ VueTestUtils.config.methods['errors'] = () => {
 Пример:
 
 ```js
-import VueTestUtils from '@vue/test-utils'
+import { config } from '@vue/test-utils'
 
-VueTestUtils.config.provide['$logger'] = {
+config.provide['$logger'] = {
   log: (...args) => {
     console.log(...args)
   }
@@ -90,9 +90,9 @@ VueTestUtils.config.provide['$logger'] = {
 Пример:
 
 ```js
-import VueTestUtils from '@vue/test-utils'
+import { config } from '@vue/test-utils'
 
-VueTestUtils.config.logModifiedComponents = false
+config.logModifiedComponents = false
 ```
 
 ### `silent`
@@ -105,7 +105,7 @@ VueTestUtils.config.logModifiedComponents = false
 Пример:
 
 ```js
-import VueTestUtils from '@vue/test-utils'
+import { config } from '@vue/test-utils'
 
-VueTestUtils.config.silent = false
+config.silent = false
 ```
