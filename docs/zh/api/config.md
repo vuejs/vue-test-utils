@@ -20,9 +20,9 @@ Vue Test Utils 包含了一个定义其选项的配置对象。
 示例：
 
 ```js
-import VueTestUtils from '@vue/test-utils'
+import { config } from '@vue/test-utils'
 
-VueTestUtils.config.stubs['my-component'] = '<div />'
+config.stubs['my-component'] = '<div />'
 ```
 
 ### `mocks`
@@ -35,9 +35,9 @@ VueTestUtils.config.stubs['my-component'] = '<div />'
 示例：
 
 ```js
-import VueTestUtils from '@vue/test-utils'
+import { config } from '@vue/test-utils'
 
-VueTestUtils.config.mocks['$store'] = {
+config.mocks['$store'] = {
   state: {
     id: 1
   }
@@ -54,9 +54,9 @@ VueTestUtils.config.mocks['$store'] = {
 示例：
 
 ```js
-import VueTestUtils from '@vue/test-utils'
+import { config } from '@vue/test-utils'
 
-VueTestUtils.config.methods['getData'] = () => {}
+config.methods['getData'] = () => {}
 ```
 
 ### `provide`
@@ -69,9 +69,9 @@ VueTestUtils.config.methods['getData'] = () => {}
 示例：
 
 ```js
-import VueTestUtils from '@vue/test-utils'
+import { config } from '@vue/test-utils'
 
-VueTestUtils.config.provide['$logger'] = {
+config.provide['$logger'] = {
   log: (...args) => {
     console.log(...args)
   }
@@ -88,9 +88,9 @@ VueTestUtils.config.provide['$logger'] = {
 示例：
 
 ```js
-import VueTestUtils from '@vue/test-utils'
+import { config } from '@vue/test-utils'
 
-VueTestUtils.config.logModifiedComponents = false
+config.logModifiedComponents = false
 ```
 
 ### `silent`
@@ -103,7 +103,7 @@ VueTestUtils.config.logModifiedComponents = false
 示例；
 
 ```js
-import VueTestUtils from '@vue/test-utils'
+import { config } from '@vue/test-utils'
 
-VueTestUtils.config.silent = false
+config.silent = false
 ```
