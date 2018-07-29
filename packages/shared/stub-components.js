@@ -102,6 +102,14 @@ function createBlankStub (
     render (h, context) {
       return h(
         tagName,
+        {
+          attrs: componentOptions.functional ? {
+            ...context.props,
+            ...context.data.attrs
+          } : {
+            ...this.$props
+          }
+        },
         context ? context.children : this.$slots.default
       )
     }

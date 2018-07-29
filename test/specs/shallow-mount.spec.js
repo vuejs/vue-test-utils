@@ -138,6 +138,41 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
     }
   )
 
+  itDoNotRunIf(
+    vueVersion < 2.2, // $props does not exist in Vue < 2.2
+    'renders stubs props', () => {
+      const TestComponent = {
+        template: `<child :prop="propA" attr="hello" />`,
+        data: () => ({
+          'propA': 'a'
+        }),
+        components: {
+          child: {
+            props: ['prop']
+          }
+        }
+      }
+      const wrapper = shallowMount(TestComponent)
+      expect(wrapper.html()).to.contain('<child-stub prop="a" attr="hello"')
+    })
+
+  it('renders stubs props for functional components', () => {
+    const TestComponent = {
+      template: `<child :prop="propA" attr="hello" />`,
+      data: () => ({
+        'propA': 'a'
+      }),
+      components: {
+        Child: {
+          props: ['prop'],
+          functional: true
+        }
+      }
+    }
+    const wrapper = shallowMount(TestComponent)
+    expect(wrapper.html()).to.contain('<child-stub prop="a" attr="hello"')
+  })
+
   itDoNotRunIf(vueVersion < 2.1, 'handles recursive components', () => {
     const TestComponent = {
       template: `
