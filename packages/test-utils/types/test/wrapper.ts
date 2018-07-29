@@ -1,6 +1,6 @@
 import { mount, createWrapper } from '../'
 import { normalOptions, functionalOptions, Normal, ClassComponent } from './resources'
-import Vue from 'Vue'
+import Vue from 'vue'
 
 /**
  * Tests for BaseWrapper API
