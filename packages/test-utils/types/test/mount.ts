@@ -1,6 +1,6 @@
 import Vuex from 'vuex'
-import { mount, createLocalVue, config } from '../'
-import { normalOptions, functionalOptions, Normal, ClassComponent } from './resources'
+import VueTestUtils, { mount, createLocalVue, config } from '../'
+import { normalOptions, functionalOptions, ClassComponent } from './resources'
 
 /**
  * Should create wrapper vm based on (function) component options or constructors
@@ -94,3 +94,6 @@ config.provide = {
 }
 config.logModifiedComponents = true
 config.silent = true
+
+// Check we can use default export
+VueTestUtils.config.silent = false
