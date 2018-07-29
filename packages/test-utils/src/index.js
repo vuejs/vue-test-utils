@@ -4,6 +4,8 @@ import createLocalVue from './create-local-vue'
 import TransitionStub from './components/TransitionStub'
 import TransitionGroupStub from './components/TransitionGroupStub'
 import RouterLinkStub from './components/RouterLinkStub'
+import Wrapper from './wrapper'
+import WrapperArray from './wrapper-array'
 import config from './config'
 import { warn } from 'shared/util'
 
@@ -23,5 +25,7 @@ export default {
   shallowMount,
   TransitionStub,
   TransitionGroupStub,
-  RouterLinkStub
+  RouterLinkStub,
+  Wrapper,
+  WrapperArray
 }
