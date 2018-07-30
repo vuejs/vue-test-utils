@@ -11,6 +11,7 @@
   * [Mocha + webpack による単一ファイルコンポーネントのテスト](guides/testing-single-file-components-with-mocha-webpack.md)
   * [Karma による単一ファイルコンポーネントのテスト](guides/testing-single-file-components-with-karma.md)
   * [非同期動作のテスト](guides/testing-async-components.md)
+  * [TypeScript と一緒に使う](guides/using-with-typescript.md)
   * [Vue Router と一緒に使う](guides/using-with-vue-router.md)
   * [Vuex と一緒に使う](guides/using-with-vuex.md)
 * [API](api/)
