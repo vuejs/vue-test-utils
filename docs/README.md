@@ -11,6 +11,7 @@ Vue Test Utils is the official unit testing utility library for Vue.js.
   * [Testing SFCs with Mocha + webpack](guides/testing-single-file-components-with-mocha-webpack.md)
   * [Testing SFCs with Karma](guides/testing-single-file-components-with-karma.md)
   * [Testing Asynchronous Behavior](guides/testing-async-components.md)
+  * [Using with TypeScript](guides/using-with-typescript.md)
   * [Using with Vue Router](guides/using-with-vue-router.md)
   * [Using with Vuex](guides/using-with-vuex.md)
 * [API](api/)

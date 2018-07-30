@@ -47,7 +47,7 @@ Next, create a `jest` block in `package.json`:
     ],
     "transform": {
       // process `*.vue` files with `vue-jest`
-      ".*\\.(vue)$": "<rootDir>/node_modules/vue-jest"
+      ".*\\.(vue)$": "vue-jest"
     }
   }
 }
@@ -123,31 +123,6 @@ Example `.babelrc`:
 }
 ```
 
-### Snapshot Testing
-
-You can use [`vue-server-renderer`](https://github.com/vuejs/vue/tree/dev/packages/vue-server-renderer) to render a component into a string so that it can be saved as a snapshot for [Jest snapshot testing](https://facebook.github.io/jest/docs/en/snapshot-testing.html).
-
-The render result of `vue-server-renderer` includes a few SSR-specific attributes, and it ignores whitespaces, making it harder to scan a diff. We can improve the saved snapshot with a custom serializer:
-
-``` bash
-npm install --save-dev jest-serializer-vue
-```
-
-Then configure it in `package.json`:
-
-``` json
-{
-  // ...
-  "jest": {
-    // ...
-    // serializer for snapshots
-    "snapshotSerializers": [
-      "<rootDir>/node_modules/jest-serializer-vue"
-    ]
-  }
-}
-```
-
 ### Placing Test Files
 
 By default, Jest will recursively pick up all files that have a `.spec.js` or `.test.js` extension in the entire project. If this does not fit your needs, it's possible [to change the `testRegex`](https://facebook.github.io/jest/docs/en/configuration.html#testregex-string) in the config section in the `package.json` file.
@@ -200,6 +175,38 @@ describe('Component', () => {
     expect(wrapper.isVueInstance()).toBeTruthy()
   })
 })
+```
+
+### Snapshot Testing
+
+When you mount a component with Vue Test Utils, you get access to the root HTML element. This can be saved as a snapshot for [Jest snapshot testing](https://facebook.github.io/jest/docs/en/snapshot-testing.html):
+
+```js
+test('renders correctly', () => {
+  const wrapper = mount(Component)
+  expect(wrapper.element).toMatchSnapshot()
+})
+```
+
+We can improve the saved snapshot with a custom serializer:
+
+``` bash
+npm install --save-dev jest-serializer-vue
+```
+
+Then configure it in `package.json`:
+
+``` json
+{
+  // ...
+  "jest": {
+    // ...
+    // serializer for snapshots
+    "snapshotSerializers": [
+      "jest-serializer-vue"
+    ]
+  }
+}
 ```
 
 ### Resources
