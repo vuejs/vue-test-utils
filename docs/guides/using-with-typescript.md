@@ -111,7 +111,7 @@ Next, we need to tell Jest to process JavaScript test files with `ts-jest` by ad
 
 By default, Jest will recursively pick up all files that have a `.spec.js` or `.test.js` extension in the entire project. 
 
-To run test files with a .ts, we need to change the `testRegex` in the config section in the `package.json` file.
+To run test files with a `.ts` extension, we need to change the `testRegex` in the config section in the `package.json` file.
 
 Add the following to the `jest` field in `package.json`:
 
