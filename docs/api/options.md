@@ -105,7 +105,7 @@ shallowMount(Component, {
 })
 ```
 
-Or you can use JSX. If write JSX in a method, `this.$createElement` is auto-injected by babel-plugin-transform-vue-jsx:
+Or you can use JSX. If you write JSX in a method, `this.$createElement` is auto-injected by babel-plugin-transform-vue-jsx:
 
 ```js
 shallowMount(Component, {
