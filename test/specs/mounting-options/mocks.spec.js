@@ -1,4 +1,5 @@
 import { createLocalVue, config } from '~vue/test-utils'
+import Vue from 'vue'
 import Component from '~resources/components/component.vue'
 import ComponentWithVuex from '~resources/components/component-with-vuex.vue'
 import { describeWithMountingMethods } from '~resources/utils'
@@ -38,6 +39,25 @@ describeWithMountingMethods('options.mocks', mountingMethod => {
     const HTML =
       mountingMethod.name === 'renderToString' ? wrapper : wrapper.html()
     expect(HTML).contains('true')
+    expect(HTML).contains('http://test.com')
+  })
+
+  it('adds variables to extended components', () => {
+    const TestComponent = Vue.extend({
+      template: `
+        <div>
+          {{$route.path}}
+        </div>
+      `
+    })
+    const $route = { path: 'http://test.com' }
+    const wrapper = mountingMethod(TestComponent, {
+      mocks: {
+        $route
+      }
+    })
+    const HTML =
+      mountingMethod.name === 'renderToString' ? wrapper : wrapper.html()
     expect(HTML).contains('http://test.com')
   })
 
