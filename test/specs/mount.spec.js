@@ -153,7 +153,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     expect(stub).not.called
   })
 
-  it('overrides component prototype', () => {
+  it.skip('overrides component prototype', () => {
     const mountSpy = sinon.spy()
     const destroySpy = sinon.spy()
     const Component = Vue.extend({})
