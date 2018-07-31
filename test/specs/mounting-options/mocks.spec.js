@@ -1,7 +1,8 @@
 import { createLocalVue, config } from '~vue/test-utils'
+import Vue from 'vue'
 import Component from '~resources/components/component.vue'
 import ComponentWithVuex from '~resources/components/component-with-vuex.vue'
-import { describeWithMountingMethods } from '~resources/utils'
+import { describeWithMountingMethods, vueVersion } from '~resources/utils'
 import { itDoNotRunIf } from 'conditional-specs'
 
 describeWithMountingMethods('options.mocks', mountingMethod => {
@@ -40,6 +41,27 @@ describeWithMountingMethods('options.mocks', mountingMethod => {
     expect(HTML).contains('true')
     expect(HTML).contains('http://test.com')
   })
+
+  itDoNotRunIf(
+    vueVersion < 2.3,
+    'adds variables to extended components', () => {
+      const TestComponent = Vue.extend({
+        template: `
+        <div>
+          {{$route.path}}
+        </div>
+      `
+      })
+      const $route = { path: 'http://test.com' }
+      const wrapper = mountingMethod(TestComponent, {
+        mocks: {
+          $route
+        }
+      })
+      const HTML =
+      mountingMethod.name === 'renderToString' ? wrapper : wrapper.html()
+      expect(HTML).contains('http://test.com')
+    })
 
   // render returns a string so reactive does not apply
   itDoNotRunIf(

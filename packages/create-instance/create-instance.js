@@ -126,9 +126,8 @@ export default function createInstance (
     component.options._base = _Vue
   }
 
-  // when component constructed by Vue.extend,
-  // use its own extend method to keep component information
-  const Constructor = typeof component === 'function'
+  // extend component from _Vue to add properties and mixins
+  const Constructor = typeof component === 'function' && vueVersion < 2.3
     ? component.extend(instanceOptions)
     : _Vue.extend(component).extend(instanceOptions)
 
