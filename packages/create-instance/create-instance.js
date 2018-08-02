@@ -126,9 +126,23 @@ export default function createInstance (
     component.options._base = _Vue
   }
 
+  function getExtendedComponent (component, instanceOptions) {
+    const extendedComponent = component.extend(instanceOptions)
+    // to keep the possible overridden prototype and _Vue mixins,
+    // we need change the proto chains manually
+    // @see https://github.com/vuejs/vue-test-utils/pull/856
+    // code below equals to
+    // `extendedComponent.prototype.__proto__.__proto__ = _Vue.prototype`
+    const extendedComponentProto =
+      Object.getPrototypeOf(extendedComponent.prototype)
+    Object.setPrototypeOf(extendedComponentProto, _Vue.prototype)
+
+    return extendedComponent
+  }
+
   // extend component from _Vue to add properties and mixins
-  const Constructor = typeof component === 'function' && vueVersion < 2.3
-    ? component.extend(instanceOptions)
+  const Constructor = typeof component === 'function'
+    ? getExtendedComponent(component, instanceOptions)
     : _Vue.extend(component).extend(instanceOptions)
 
   Object.keys(instanceOptions.components || {}).forEach(key => {
