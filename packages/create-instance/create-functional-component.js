@@ -3,6 +3,7 @@
 import { throwError } from 'shared/util'
 import { validateSlots } from './validate-slots'
 import { createSlotVNodes } from './create-slot-vnodes'
+import createScopedSlots from './create-scoped-slots'
 
 export default function createFunctionalComponent (
   component: Component,
@@ -15,11 +16,15 @@ export default function createFunctionalComponent (
     validateSlots(mountingOptions.slots)
   }
 
+  const data = mountingOptions.context ||
+    component.FunctionalRenderContext || {}
+  data.scopedSlots = createScopedSlots(mountingOptions.scopedSlots)
+
   return {
     render (h: Function) {
       return h(
         component,
-        mountingOptions.context || component.FunctionalRenderContext,
+        data,
         (mountingOptions.context &&
           mountingOptions.context.children &&
           mountingOptions.context.children.map(
