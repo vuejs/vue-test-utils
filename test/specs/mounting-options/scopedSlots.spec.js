@@ -90,6 +90,50 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
 
   itDoNotRunIf(
     vueVersion < 2.5,
+    'mounts component scoped slots in render function which exists in functional component',
+    () => {
+      const destructuringWrapper = mountingMethod(
+        {
+          functional: true,
+          render: function (createElement, context) {
+            return context.data.scopedSlots.default({
+              index: 1,
+              item: 'foo'
+            })
+          }
+        },
+        {
+          scopedSlots: {
+            default:
+              '<template slot-scope="{ index, item }"><p>{{index}},{{item}}</p></template>'
+          }
+        }
+      )
+      expect(destructuringWrapper.html()).to.equal('<p>1,foo</p>')
+
+      const notDestructuringWrapper = mountingMethod(
+        {
+          functional: true,
+          render: function (createElement, context) {
+            return context.data.scopedSlots.named({
+              index: 1,
+              item: 'foo'
+            })
+          }
+        },
+        {
+          scopedSlots: {
+            named:
+              '<p slot-scope="foo">{{foo.index}},{{foo.item}}</p>'
+          }
+        }
+      )
+      expect(notDestructuringWrapper.html()).to.equal('<p>1,foo</p>')
+    }
+  )
+
+  itDoNotRunIf(
+    vueVersion < 2.5,
     'mounts component scoped slots',
     () => {
       const wrapper = mountingMethod(ComponentWithScopedSlots, {
