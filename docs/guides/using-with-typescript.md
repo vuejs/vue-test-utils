@@ -20,7 +20,7 @@ And create a project by running:
 $ vue create hello-world
 ```
 
-In the CLI prompt, choose to manually select features, select TypeScript, and press enter. This will create a project with TypeScript already configured.
+In the CLI prompt, choose to `Manually select features`, select TypeScript, and press enter. This will create a project with TypeScript already configured.
 
 ::: tip NOTE
 If you want a more detailed guide on setting up Vue with TypeScript, checkout the [TypeScript Vue starter guide](https://github.com/Microsoft/TypeScript-Vue-Starter).
