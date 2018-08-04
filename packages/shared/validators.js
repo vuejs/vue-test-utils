@@ -1,5 +1,12 @@
 // @flow
-import { throwError, capitalize, camelize, hyphenate } from './util'
+import {
+  camelize,
+  capitalize,
+  htmlTags,
+  hyphenate,
+  svgElements,
+  throwError
+} from './util'
 
 export function isDomSelector (selector: any): boolean {
   if (typeof selector !== 'string') {
@@ -74,6 +81,20 @@ export function isNameSelector (nameOptionsObject: any): boolean {
   }
 
   return !!nameOptionsObject.name
+}
+
+export function isTagSelector (selector: any) {
+  if (typeof selector !== 'string') {
+    return false
+  }
+  const pseudoSelectors = ['.', '#', '[', ':', '>', ' ']
+  if (htmlTags.includes(selector) ||
+    svgElements.includes(selector) ||
+    selector.split('').some(char => pseudoSelectors.includes(char))) {
+    return false
+  } else {
+    return true
+  }
 }
 
 export function templateContainsComponent (

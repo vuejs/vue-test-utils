@@ -24,6 +24,11 @@ describeWithShallowAndMount('find', mountingMethod => {
     expect(wrapper.find('p').vm).to.equal(undefined)
   })
 
+  it('returns Wrapper matching component tag passed', () => {
+    const wrapper = mountingMethod(ComponentWithChild)
+    expect(wrapper.find('child-component').vnode).to.be.an('object')
+  })
+
   it('returns Wrapper matching class selector passed', () => {
     const compiled = compileToFunctions('<div><div class="foo" /></div>')
     const wrapper = mountingMethod(compiled)

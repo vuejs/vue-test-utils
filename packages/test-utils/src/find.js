@@ -3,7 +3,12 @@
 import findVnodes from './find-vnodes'
 import findVueComponents from './find-vue-components'
 import findDOMNodes from './find-dom-nodes'
-import { COMPONENT_SELECTOR, NAME_SELECTOR, DOM_SELECTOR } from './consts'
+import {
+  COMPONENT_SELECTOR,
+  DOM_SELECTOR,
+  NAME_SELECTOR,
+  TAG_SELECTOR
+} from './consts'
 import Vue from 'vue'
 import getSelectorTypeOrThrow from './get-selector-type'
 import { throwError } from 'shared/util'
@@ -24,7 +29,9 @@ export default function find (
     )
   }
 
-  if (selectorType === COMPONENT_SELECTOR || selectorType === NAME_SELECTOR) {
+  if (selectorType === COMPONENT_SELECTOR ||
+    selectorType === NAME_SELECTOR ||
+    selectorType === TAG_SELECTOR) {
     const root = vm || vnode
     if (!root) {
       return []
