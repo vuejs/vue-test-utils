@@ -11,7 +11,7 @@ TypeScript は JavaScript に型とクラスを加えた人気のある JavaScri
 最初にプロジェクトを作成します。もし、Vue CLI をインストールしていないなら、 Vue CLI をグローバルにインストールしてください。
 
 ```shell
-$ npm install -g @vue/cli-service-global
+$ npm install -g @vue/cli
 ```
 
 以下のようにプロジェクトを作成します。
@@ -52,7 +52,7 @@ $ npm install --save-dev jest @vue/test-utils
 }
 ```
 
-### Jest での SFCs の処理
+### Jest での単一ファイルコンポーネントの処理
 
 Jest が `*.vue` ファイルを処理するために `vue-jest` プリプロセッサをインストールして設定します。
 

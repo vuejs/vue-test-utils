@@ -11,7 +11,7 @@ In this guide, we'll walk through how to setup a testing setup for a TypeScript 
 First you need to create a project. If you don't have Vue CLI installed, install it globally:
 
 ```shell
-$ npm install -g @vue/cli-service-global
+$ npm install -g @vue/cli
 ```
 
 And create a project by running:
