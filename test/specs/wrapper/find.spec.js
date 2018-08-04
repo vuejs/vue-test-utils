@@ -29,7 +29,77 @@ describeWithShallowAndMount('find', mountingMethod => {
     expect(wrapper.find('child-component').vnode).to.be.an('object')
   })
 
+  it('returns Wrapper matching sub class component tag passed', () => {
+    const ChildComponent = Vue.extend({
+     template: '<div />'
+    })
+    const TestComponent = {
+      template: '<child-component />',
+      components: { ChildComponent }
+    }
+    const wrapper = mountingMethod(TestComponent)
+    expect(wrapper.find('child-component').vnode).to.be.an('object')
+  })
+
+  it('returns Wrapper matching extended component tag passed', () => {
+    const BaseComponent = {
+      template: '<div><a-component /></div>',
+      components: {
+        AComponent: Component
+      }
+    }
+    const TestComponent = {
+      extends: BaseComponent,
+      name: 'test-component'
+    }
+    const wrapper = mountingMethod(TestComponent)
+    expect(wrapper.find('a-component').exists()).to.equal(true)
+    expect(wrapper.find('a-component').isVueInstance()).to.equal(true)
+  })
+
+  xit('returns Wrapper matching functional component tag passed', () => {
+    if (!functionalSFCsSupported) {
+      return
+    }
+    const TestComponent = {
+      template: `
+        <div>
+          <functional-component />
+        </div>
+      `,
+      components: {
+        FunctionalComponent
+      }
+    }
+
+    const wrapper = mountingMethod(TestComponent)
+    console.log(wrapper.html())
+    expect(wrapper.find('functional-component').vnode).to.be.an('object')
+    expect(wrapper.find('functional-component').vm).to.equal(undefined)
+  })
+
+  it('throws an error when passed a hierarchy pseudo selector and component tag', () => {
+    const wrapper = mountingMethod(ComponentWithChild)
+    const message =
+      '[vue-test-utils]: Pseudo selectors cannot be used with component tag selectors'
+    const fn = () => wrapper.find('a > child-component')
+    expect(fn)
+      .to.throw()
+      .with.property('message', message)
+  })
+
+  it('throws an error when passed a class pseudo selector and component tag', () => {
+    const wrapper = mountingMethod(ComponentWithChild)
+    const message =
+      '[vue-test-utils]: Pseudo selectors cannot be used with component tag selectors'
+    const fn = () => wrapper.find('child-component.class-name')
+    expect(fn)
+      .to.throw()
+      .with.property('message', message)
+  })
+
   it('returns Wrapper matching class selector passed', () => {
+
     const compiled = compileToFunctions('<div><div class="foo" /></div>')
     const wrapper = mountingMethod(compiled)
     expect(wrapper.find('.foo').vnode).to.be.an('object')

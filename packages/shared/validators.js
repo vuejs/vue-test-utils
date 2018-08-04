@@ -1,4 +1,6 @@
 // @flow
+import intersection from 'lodash/intersection'
+import concat from 'lodash/concat'
 import {
   camelize,
   capitalize,
@@ -88,9 +90,18 @@ export function isTagSelector (selector: any) {
     return false
   }
   const pseudoSelectors = ['.', '#', '[', ':', '>', ' ']
+
   if (htmlTags.includes(selector) ||
     svgElements.includes(selector) ||
     selector.split('').some(char => pseudoSelectors.includes(char))) {
+
+    const tags = selector.split(/\.|\[|\s|>|#|:/).filter(tag => tag.length > 0)
+    const componentTags = 
+      tags.filter(tag => {
+        return !concat(htmlTags, pseudoSelectors, svgElements).includes(tag)
+      })
+
+    // throwError('Pseudo selectors cannot be used with component tag selectors')
     return false
   } else {
     return true
