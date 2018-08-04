@@ -190,6 +190,38 @@ describeWithShallowAndMount('setData', mountingMethod => {
     expect(wrapper.vm.anObject.propA.prop2).to.equal('b')
   })
 
+  it('handles null, undefined, and boolean values', () => {
+    const TestComponent = {
+      template: `
+      <div>
+        {{nullProperty && nullProperty.foo}}
+        {{undefinedProperty && undefinedProperty.foo}}
+        {{booleanProperty && booleanProperty.foo}}
+      </div>
+      `,
+      data: () => ({
+        nullProperty: null,
+        undefinedProperty: undefined,
+        booleanProperty: false
+      })
+    }
+    const wrapper = mountingMethod(TestComponent)
+    wrapper.setData({
+      nullProperty: {
+        foo: 'bar'
+      },
+      undefinedProperty: {
+        foo: 'baz'
+      },
+      booleanProperty: {
+        foo: 'foobar'
+      }
+    })
+    expect(wrapper.text()).to.contain('bar')
+    expect(wrapper.text()).to.contain('baz')
+    expect(wrapper.text()).to.contain('foobar')
+  })
+
   it('does not merge arrays', () => {
     const TestComponent = {
       template: '<div>{{nested.nested.nestedArray[0]}}</div>',
