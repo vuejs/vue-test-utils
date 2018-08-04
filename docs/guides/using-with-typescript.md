@@ -6,7 +6,7 @@ TypeScript is a popular superset of JavaScript that adds types and classes on to
 
 In this guide, we'll walk through how to setup a testing setup for a TypeScript project using Jest and Vue Test Utils from a basic Vue CLI TypeScript setup.
 
-#### Adding TypeScript
+### Adding TypeScript
 
 First you need to create a project. If you don't have Vue CLI installed, install it globally:
 
@@ -28,7 +28,7 @@ If you want a more detailed guide on setting up Vue with TypeScript, checkout th
 
 The next step is to add Jest to the project.
 
-#### Setting up Jest
+### Setting up Jest
 
 Jest is a test runner developed by Facebook, aiming to deliver a battery-included unit testing solution. You can learn more about Jest on its [official documentation](https://facebook.github.io/jest/).
 
@@ -109,7 +109,7 @@ Next, we need to tell Jest to process JavaScript test files with `ts-jest` by ad
 
 ### Placing Test Files
 
-By default, Jest will recursively pick up all files that have a `.spec.js` or `.test.js` extension in the entire project. 
+By default, Jest will recursively pick up all files that have a `.spec.js` or `.test.js` extension in the entire project.
 
 To run test files with a `.ts` extension, we need to change the `testRegex` in the config section in the `package.json` file.
 
