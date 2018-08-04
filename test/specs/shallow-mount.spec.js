@@ -156,6 +156,22 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
       expect(wrapper.html()).to.contain('<child-stub prop="a" attr="hello"')
     })
 
+  itDoNotRunIf(
+    vueVersion < 2.2, // $props does not exist in Vue < 2.2
+    'renders stubs classes', () => {
+      const TestComponent = {
+        template: `<child :class="classA" class="b" />`,
+        data: () => ({
+          'classA': 'a'
+        }),
+        components: {
+          child: { template: '<div />' }
+        }
+      }
+      const wrapper = shallowMount(TestComponent)
+      expect(wrapper.html()).to.contain('<child-stub class="b a"')
+    })
+
   it('renders stubs props for functional components', () => {
     const TestComponent = {
       template: `<child :prop="propA" attr="hello" />`,
@@ -171,6 +187,41 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
     }
     const wrapper = shallowMount(TestComponent)
     expect(wrapper.html()).to.contain('<child-stub prop="a" attr="hello"')
+  })
+
+  it('renders classes for functional components', () => {
+    const components = {
+      Child: {
+        functional: true
+      }
+    }
+    const TestComponent = {
+      template: `<child :class="classA" class="b" />`,
+      data: () => ({
+        'classA': 'a'
+      }),
+      components
+    }
+    const wrapper = shallowMount(TestComponent)
+    expect(wrapper.html()).to.contain('<child-stub class="b a"')
+    const TestComponent2 = {
+      template: `<child :class="classA"/>`,
+      data: () => ({
+        'classA': 'a'
+      }),
+      components
+    }
+    const wrapper2 = shallowMount(TestComponent2)
+    expect(wrapper2.html()).to.contain('<child-stub class="a"')
+    const TestComponent3 = {
+      template: `<child class="b" />`,
+      data: () => ({
+        'classA': 'a'
+      }),
+      components
+    }
+    const wrapper3 = shallowMount(TestComponent3)
+    expect(wrapper3.html()).to.contain('<child-stub class="b"')
   })
 
   itDoNotRunIf(vueVersion < 2.1, 'handles recursive components', () => {
