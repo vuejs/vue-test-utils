@@ -49,10 +49,10 @@ export function vmCtorMatchesName (vm: Component, name: string): boolean {
   return !!(
     name && (
       (vm._vnode &&
-        vm._vnode.functionalOptions &&
-        vm._vnode.functionalOptions.name === name) ||
-      (vm.$options && vm.$options.name === name) ||
-      (vm.options && vm.options.name === name)
+      vm._vnode.functionalOptions &&
+      vm._vnode.functionalOptions.name === name) ||
+    (vm.$options && vm.$options.name === name) ||
+    (vm.options && vm.options.name === name)
     ))
 }
 
@@ -112,11 +112,11 @@ export default function findVueComponents (
     return nodes.filter(
       node =>
         vmFunctionalCtorMatchesSelector(node, selector._Ctor) ||
-      node[FUNCTIONAL_OPTIONS].name === selector.name
+        node[FUNCTIONAL_OPTIONS].name === selector.name
     )
   }
   const nameSelector =
-  typeof selector === 'function' ? selector.extendOptions.name : selector.name
+    typeof selector === 'function' ? selector.extendOptions.name : selector.name
   const components = root._isVue
     ? findAllVueComponentsFromVm(root)
     : findAllVueComponentsFromVnode(root)
