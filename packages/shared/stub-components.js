@@ -83,6 +83,13 @@ function createStubFromString (
   }
 }
 
+function createClassString (staticClass, dynamicClass) {
+  if (staticClass && dynamicClass) {
+    return staticClass + ' ' + dynamicClass
+  }
+  return staticClass || dynamicClass
+}
+
 function createBlankStub (
   originalComponent: Component,
   name: string
@@ -105,7 +112,11 @@ function createBlankStub (
         {
           attrs: componentOptions.functional ? {
             ...context.props,
-            ...context.data.attrs
+            ...context.data.attrs,
+            class: createClassString(
+              context.data.staticClass,
+              context.data.class
+            )
           } : {
             ...this.$props
           }
