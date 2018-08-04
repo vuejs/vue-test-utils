@@ -20,7 +20,7 @@ And create a project by running:
 $ vue create hello-world
 ```
 
-In the CLI prompt, choose to manually select features, select TypeScript, and press enter. This will create a project with TypeScript already configured.
+In the CLI prompt, choose to `Manually select features`, select TypeScript, and press enter. This will create a project with TypeScript already configured.
 
 ::: tip NOTE
 If you want a more detailed guide on setting up Vue with TypeScript, checkout the [TypeScript Vue starter guide](https://github.com/Microsoft/TypeScript-Vue-Starter).
@@ -90,7 +90,7 @@ In order to use TypeScript files in tests, we need to set up Jest to compile Typ
 $ npm install --save-dev ts-jest
 ```
 
-Next, we need to tell Jest to process JavaScript test files with `ts-jest` by adding an entry under `jest.transform` in `package.json`:
+Next, we need to tell Jest to process TypeScript test files with `ts-jest` by adding an entry under `jest.transform` in `package.json`:
 
 ``` json
 {
