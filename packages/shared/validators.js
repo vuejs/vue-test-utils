@@ -1,6 +1,5 @@
 // @flow
-import intersection from 'lodash/intersection'
-import concat from 'lodash/concat'
+// import concat from 'lodash/concat'
 import {
   camelize,
   capitalize,
@@ -94,14 +93,28 @@ export function isTagSelector (selector: any) {
   if (htmlTags.includes(selector) ||
     svgElements.includes(selector) ||
     selector.split('').some(char => pseudoSelectors.includes(char))) {
-
+    /* TODO: Throw error for cases such as find("a > my-component")
     const tags = selector.split(/\.|\[|\s|>|#|:/).filter(tag => tag.length > 0)
-    const componentTags = 
+    const componentTags =
       tags.filter(tag => {
         return !concat(htmlTags, pseudoSelectors, svgElements).includes(tag)
       })
 
-    // throwError('Pseudo selectors cannot be used with component tag selectors')
+        componentTags.forEach(tag => {
+          const selectorWithoutWhitespace = selector.replace(/\s/g, '')
+          const tagIndex = selectorWithoutWhitespace.indexOf(tag)
+          if (
+            pseudoSelectors.includes(
+              selectorWithoutWhitespace[tagIndex + tag.length]) ||
+            (tagIndex !== 0 &&
+            pseudoSelectors.includes(
+              selectorWithoutWhitespace[tagIndex - 1]))
+          ) {
+            throwError(
+              'Pseudo selectors cannot be used with component tag selectors')
+          }
+        })
+    */
     return false
   } else {
     return true

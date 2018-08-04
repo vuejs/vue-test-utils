@@ -31,7 +31,7 @@ describeWithShallowAndMount('find', mountingMethod => {
 
   it('returns Wrapper matching sub class component tag passed', () => {
     const ChildComponent = Vue.extend({
-     template: '<div />'
+      template: '<div />'
     })
     const TestComponent = {
       template: '<child-component />',
@@ -99,7 +99,6 @@ describeWithShallowAndMount('find', mountingMethod => {
   })
 
   it('returns Wrapper matching class selector passed', () => {
-
     const compiled = compileToFunctions('<div><div class="foo" /></div>')
     const wrapper = mountingMethod(compiled)
     expect(wrapper.find('.foo').vnode).to.be.an('object')
