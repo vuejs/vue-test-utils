@@ -58,16 +58,17 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     }
   })
 
-  it('handles propsData for extended components', () => {
-    const prop1 = 'test'
-    const TestComponent = Vue.extend(ComponentWithProps)
-    const wrapper = mount(TestComponent, {
-      propsData: {
-        prop1
-      }
+  itDoNotRunIf(vueVersion < 2.3,
+    'handles propsData for extended components', () => {
+      const prop1 = 'test'
+      const TestComponent = Vue.extend(ComponentWithProps)
+      const wrapper = mount(TestComponent, {
+        propsData: {
+          prop1
+        }
+      })
+      expect(wrapper.text()).to.contain(prop1)
     })
-    expect(wrapper.text()).to.contain(prop1)
-  })
 
   it('handles uncompiled extended Vue component', () => {
     const BaseComponent = {

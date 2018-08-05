@@ -182,7 +182,7 @@ describeWithMountingMethods('options.stub', mountingMethod => {
     })
 
   itDoNotRunIf(
-    mountingMethod.name === 'shallowMount',
+    mountingMethod.name === 'shallowMount' || vueVersion < 2.3,
     'stubs nested components on extended components', () => {
       const GrandChildComponent = {
         template: '<span />'
