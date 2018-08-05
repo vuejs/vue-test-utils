@@ -6,7 +6,6 @@ import mount from './mount'
 import type VueWrapper from './vue-wrapper'
 import {
   createStubsForComponent,
-  createComponentStubsForGlobals,
   createStubFromComponent
 } from '../../shared/create-component-stubs'
 import { normalizeStubs } from '../../shared/normalize'
@@ -19,7 +18,7 @@ export default function shallowMount (
 
   options.stubs = normalizeStubs(options.stubs)
 
-  // In Vue.extends, Vue adds a recursive component to the options
+  // Vue registers a recursive component on the original options
   // This stub will override the component added by Vue
   // $FlowIgnore
   if (!options.stubs[component.name]) {
@@ -33,7 +32,7 @@ export default function shallowMount (
   return mount(component, {
     ...options,
     components: {
-      ...createComponentStubsForGlobals(_Vue),
+      ...createStubsForComponent(_Vue),
       ...createStubsForComponent(component)
     }
   })

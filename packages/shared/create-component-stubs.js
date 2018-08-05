@@ -58,25 +58,6 @@ function getCoreProperties (componentOptions: Component): Object {
   }
 }
 
-function createStubFromString (
-  templateString: string,
-  originalComponent: Component = {},
-  name: string
-): Component {
-  if (templateContainsComponent(templateString, name)) {
-    throwError('options.stub cannot contain a circular reference')
-  }
-
-  const componentOptions = typeof originalComponent === 'function'
-    ? originalComponent.extendOptions
-    : originalComponent
-
-  return {
-    ...getCoreProperties(componentOptions),
-    ...compileFromString(templateString)
-  }
-}
-
 function createClassString (staticClass, dynamicClass) {
   if (staticClass && dynamicClass) {
     return staticClass + ' ' + dynamicClass
@@ -120,6 +101,26 @@ export function createStubFromComponent (
     }
   }
 }
+
+function createStubFromString (
+  templateString: string,
+  originalComponent: Component = {},
+  name: string
+): Component {
+  if (templateContainsComponent(templateString, name)) {
+    throwError('options.stub cannot contain a circular reference')
+  }
+
+  const componentOptions = typeof originalComponent === 'function'
+    ? originalComponent.extendOptions
+    : originalComponent
+
+  return {
+    ...getCoreProperties(componentOptions),
+    ...compileFromString(templateString)
+  }
+}
+
 function validateStub (stub) {
   if (!isValidStub(stub)) {
     throwError(
@@ -128,8 +129,7 @@ function validateStub (stub) {
     )
   }
 }
-// Takes an originalComponents object and a stubs options
-// returns stubs
+
 export function createStubsFromStubsObject (
   originalComponents: Object = {},
   stubs: Object
@@ -189,7 +189,10 @@ function stubComponents (
       : cmp
 
     if (!componentOptions) {
-      stubbedComponents[component] = createStubFromComponent({}, component)
+      stubbedComponents[component] = createStubFromComponent(
+        {},
+        component
+      )
       return
     }
     // Remove cached constructor
@@ -209,13 +212,15 @@ export function createStubsForComponent (
 ): Components {
   const stubbedComponents = {}
 
+  if (component.options) {
+    stubComponents(component.options.components, stubbedComponents)
+  }
+
   if (component.components) {
     stubComponents(component.components, stubbedComponents)
   }
 
   let extended = component.extends
-
-  // Loop through extended component chains to stub all child components
   while (extended) {
     if (extended.components) {
       stubComponents(extended.components, stubbedComponents)
@@ -232,19 +237,4 @@ export function createStubsForComponent (
   }
 
   return stubbedComponents
-}
-
-export function createComponentStubsForGlobals (
-  instance: Component
-): Components {
-  const components = {}
-  for (const c in instance.options.components) {
-    if (isRequiredComponent(c)) {
-      continue
-    }
-    components[c] = createStubFromComponent(instance.options.components[c], c)
-    delete instance.options.components[c]._Ctor
-    delete components[c]._Ctor
-  }
-  return components
 }
