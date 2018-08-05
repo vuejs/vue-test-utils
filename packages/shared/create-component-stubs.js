@@ -10,8 +10,7 @@ import {
 import {
   componentNeedsCompiling,
   templateContainsComponent,
-  isVueComponent,
-  isRequiredComponent
+  isVueComponent
 } from './validators'
 import {
   compileTemplate,

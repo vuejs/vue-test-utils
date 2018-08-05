@@ -905,7 +905,7 @@ export default class Wrapper implements BaseWrapper {
   update (): void {
     warn(
       `update has been removed from vue-test-utils. All ` +
-        `updates are now synchronous by default`
+      `updates are now synchronous by default`
     )
   }
 }
