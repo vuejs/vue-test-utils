@@ -1,10 +1,8 @@
 import { createComponentStubs } from 'shared/stub-components'
 
 export function addStubs (component, stubs, _Vue) {
-  // if the component has a name, add a stub
   const stubComponents = createComponentStubs(
     component.components,
-    // $FlowIgnore
     stubs
   )
 
