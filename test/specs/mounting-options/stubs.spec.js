@@ -385,7 +385,7 @@ describeWithMountingMethods('options.stub', mountingMethod => {
     }
   )
 
-  it('converts config to array if stubs is an array', () => {
+  it('config handles stubs as an array', () => {
     const localVue = createLocalVue()
     config.stubs['time-component'] = '<p />'
     serverConfig.stubs['time-component'] = '<p />'
@@ -404,7 +404,7 @@ describeWithMountingMethods('options.stub', mountingMethod => {
 
     const HTML =
       mountingMethod.name === 'renderToString' ? wrapper : wrapper.html()
-    expect(HTML).to.contain('<time-component-stub>')
+    expect(HTML).to.contain('</p>')
   })
 
   it('handles components without a render function', () => {

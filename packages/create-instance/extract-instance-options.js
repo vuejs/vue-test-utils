@@ -19,8 +19,7 @@ export default function extractInstanceOptions (
   options: Object
 ): Object {
   const instanceOptions = {
-    ...options,
-    _vueTestUtilsRootExtendOptions: true
+    ...options
   }
   MOUNTING_OPTIONS.forEach(mountingOption => {
     delete instanceOptions[mountingOption]

@@ -613,7 +613,7 @@ describeWithMountingMethods('options.slots', mountingMethod => {
           }
         },
         {
-          components: {
+          stubs: {
             ComponentWithParentName
           },
           slots: {

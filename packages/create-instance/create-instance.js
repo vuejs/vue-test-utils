@@ -34,10 +34,9 @@ export default function createInstance (
   // Remove cached constructor
   delete component._Ctor
 
-
   // instance options are options that are passed to the
   // root instance when it's instantiated
- const instanceOptions = extractInstanceOptions(options)
+  const instanceOptions = extractInstanceOptions(options)
 
   addEventLogger(_Vue)
   addMocks(options.mocks, _Vue)
@@ -57,7 +56,6 @@ export default function createInstance (
   if (componentNeedsCompiling(component)) {
     compileTemplate(component)
   }
-
 
   // Replace globally registered components with components extended
   // from localVue. This makes sure the beforeMount mixins to add stubs
