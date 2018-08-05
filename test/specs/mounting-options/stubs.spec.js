@@ -87,6 +87,28 @@ describeWithMountingMethods('options.stub', mountingMethod => {
     })
   })
 
+  it('overrides components in extended components', () => {
+    const extendedComponent = Vue.extend({
+      name: 'extended-component',
+      components: {
+        ToStubComponent: {
+          template: '<span />'
+        }
+      }
+    })
+    const TestComponent = extendedComponent.extend({
+      template: `<to-stub-component />`
+    })
+    const wrapper = mountingMethod(TestComponent, {
+      stubs: {
+        ToStubComponent: { template: '<date />' }
+      }
+    })
+    const HTML =
+    mountingMethod.name === 'renderToString' ? wrapper : wrapper.html()
+    expect(HTML).contains('<date')
+  })
+
   itDoNotRunIf(
     mountingMethod.name === 'shallowMount' ||
       mountingMethod.name === 'renderToString',
