@@ -65,12 +65,16 @@ export function extendExtendedComponents (
     if (shouldExtendComponent) {
       if (logModifiedComponents) {
         warn(
-          `an extended child component <${c}> has been modified ` +
-          `to ensure it has the correct instance properties. ` +
-          `This means it is not possible to find the component ` +
-          `with a component selector. To find the component, ` +
-          `you must stub it manually using the stubs mounting ` +
-          `option.`
+          `The child component <${c}> has been modified to ensure ` +
+          `it is created with properties injected by Vue Test Utils. \n` +
+          `This is because the component was created with Vue.extend, ` +
+          `or uses the Vue Class Component decorator. \n` +
+          `Because the component has been modified, it is not possible ` +
+          `to find it with a component selector. To find the ` +
+          `component, you must stub it manually using the stubs mounting ` +
+          `option, or use a name or ref selector. \n` +
+          `You can hide this warning by setting the Vue Test Utils ` +
+          `config.logModifiedComponents option to false.`
         )
       }
       extendedComponents[c] = _Vue.extend(comp)
