@@ -1,6 +1,6 @@
 ## setData(data)
 
-为 `WrapperArray` 的每个 `Wrapper` `vm` 都设置数据并强行更新。
+为 `WrapperArray` 的每个 `Wrapper` `vm` 都设置数据。
 
 **注意：该包裹器必须包含一个 Vue 示例。**
 

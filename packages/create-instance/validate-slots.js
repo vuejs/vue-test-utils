@@ -15,8 +15,8 @@ function requiresTemplateCompiler (slot: any): void {
   if (typeof slot === 'string' && !compileToFunctions) {
     throwError(
       `vueTemplateCompiler is undefined, you must pass ` +
-        `precompiled components if vue-template-compiler is ` +
-        `undefined`
+      `precompiled components if vue-template-compiler is ` +
+      `undefined`
     )
   }
 }

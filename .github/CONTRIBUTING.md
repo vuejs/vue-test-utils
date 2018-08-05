@@ -82,7 +82,7 @@ The default test script will do the following: lint with ESLint -> type check wi
 
   - **`create-instance`**: private package that creates an instance and applies mounting options.
 
-  - **`shared`**: private package that contains utilities used by the other packzges.
+  - **`shared`**: private package that contains utilities used by the other packages.
 
 - **`scripts`**: contains build-related scripts and configuration files. In most cases you don't need to touch them.
 

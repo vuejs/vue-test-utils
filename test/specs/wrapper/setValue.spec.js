@@ -18,19 +18,34 @@ describeWithShallowAndMount('setValue', mountingMethod => {
     expect(textarea.element.value).to.equal('foo')
   })
 
-  it('updates dom with v-model', () => {
+  it('updates dom with input v-model', () => {
     const wrapper = mountingMethod(ComponentWithInput)
     const input = wrapper.find('input[type="text"]')
-
     input.setValue('input text awesome binding')
 
     expect(wrapper.text()).to.contain('input text awesome binding')
   })
 
-  it('throws error if element is select', () => {
+  it('sets element of select value', () => {
+    const wrapper = mountingMethod(ComponentWithInput)
+    const select = wrapper.find('select')
+    select.setValue('selectB')
+
+    expect(select.element.value).to.equal('selectB')
+  })
+
+  it('updates dom with select v-model', () => {
+    const wrapper = mountingMethod(ComponentWithInput)
+    const select = wrapper.find('select')
+    select.setValue('selectB')
+
+    expect(wrapper.text()).to.contain('selectB')
+  })
+
+  it('throws error if element is option', () => {
     const message =
-      'wrapper.setValue() cannot be called on a <select> element. Use wrapper.setSelected() instead'
-    shouldThrowErrorOnElement('select', message)
+      'wrapper.setValue() cannot be called on an <option> element. Use wrapper.setSelected() instead'
+    shouldThrowErrorOnElement('option', message)
   })
 
   it('throws error if element is radio', () => {

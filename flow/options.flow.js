@@ -5,13 +5,14 @@ declare type Options = {
   mocks?: Object,
   methods?: { [key: string]: Function },
   slots?: SlotsObject,
-  scopedSlots?: { [key: string]: string },
+  scopedSlots?: { [key: string]: string | Function },
   localVue?: Component,
   provide?: Object,
   stubs?: Stubs,
   context?: Object,
   attrs?: { [key: string]: string },
   listeners?: { [key: string]: Function | Array<Function> },
+  parentComponent?: Object,
   logModifiedComponents?: boolean,
   sync?: boolean
 };

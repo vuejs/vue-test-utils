@@ -81,9 +81,9 @@ describeWithShallowAndMount('trigger', mountingMethod => {
   it('causes DOM to update after clickHandler method that changes components data is called', () => {
     const wrapper = mountingMethod(ComponentWithEvents)
     const toggle = wrapper.find('.toggle')
-    expect(toggle.hasClass('active')).to.equal(false)
+    expect(toggle.classes()).not.to.contain('active')
     toggle.trigger('click')
-    expect(toggle.hasClass('active')).to.equal(true)
+    expect(toggle.classes()).to.contain('active')
   })
 
   it('adds options to event', () => {

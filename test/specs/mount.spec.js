@@ -153,6 +153,28 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     expect(stub).not.called
   })
 
+  it('overrides component prototype', () => {
+    const mountSpy = sinon.spy()
+    const destroySpy = sinon.spy()
+    const Component = Vue.extend({})
+    const { $mount: originalMount, $destroy: originalDestroy } = Component.prototype
+    Component.prototype.$mount = function (...args) {
+      originalMount.apply(this, args)
+      mountSpy()
+      return this
+    }
+    Component.prototype.$destroy = function () {
+      originalDestroy.apply(this)
+      destroySpy()
+    }
+
+    const wrapper = mount(Component)
+    expect(mountSpy).called
+    expect(destroySpy).not.called
+    wrapper.destroy()
+    expect(destroySpy).called
+  })
+
   // Problems accessing options of twice extended components in Vue < 2.3
   itDoNotRunIf(vueVersion < 2.3, 'compiles extended components', () => {
     const TestComponent = Vue.component('test-component', {
@@ -161,6 +183,22 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     const wrapper = mount(TestComponent)
     expect(wrapper.html()).to.equal(`<div></div>`)
   })
+
+  itDoNotRunIf(
+    vueVersion < 2.4, // auto resolve of default export added in 2.4
+    'handles components as dynamic imports', (done) => {
+      const TestComponent = {
+        template: '<div><async-component /></div>',
+        components: {
+          AsyncComponent: () => import('~resources/components/component.vue')
+        }
+      }
+      const wrapper = mount(TestComponent)
+      setTimeout(() => {
+        expect(wrapper.find(Component).exists()).to.equal(true)
+        done()
+      })
+    })
 
   it('logs if component is extended', () => {
     const msg =
@@ -308,6 +346,25 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     mount(TestComponent)
     expect(Vue.config.errorHandler).to.equal(existingErrorHandler)
     Vue.config.errorHandler = null
+  })
+
+  it('adds unused propsData as attributes', () => {
+    const wrapper = mount(
+      ComponentWithProps, {
+        attachToDocument: true,
+        propsData: {
+          prop1: 'prop1',
+          extra: 'attr'
+        },
+        attrs: {
+          height: '50px'
+        }
+      })
+
+    if (vueVersion > 2.3) {
+      expect(wrapper.vm.$attrs).to.eql({ height: '50px', extra: 'attr' })
+    }
+    expect(wrapper.html()).to.equal(`<div height="50px" extra="attr"><p class="prop-1">prop1</p> <p class="prop-2"></p></div>`)
   })
 
   it('overwrites the component options with the instance options', () => {

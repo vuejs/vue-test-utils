@@ -11,6 +11,7 @@
 - [`attachToDocument`](#attachtodocument)
 - [`attrs`](#attrs)
 - [`listeners`](#listeners)
+- [`parentComponent`](#parentComponent)
 - [`provide`](#provide)
 - [`sync`](#sync)
 
@@ -46,16 +47,23 @@ expect(wrapper.is(Component)).toBe(true)
 
 ```js
 import Foo from './Foo.vue'
-import Bar from './Bar.vue'
+
+const bazComponent = {
+  name: 'baz-component',
+  template: '<p>baz</p>'
+}
 
 const wrapper = shallowMount(Component, {
   slots: {
-    default: [Foo, Bar],
+    default: [Foo, '<my-component />', 'text'],
     fooBar: Foo, // будет соответствовать `<slot name="FooBar" />`
     foo: '<div />',
-    bar: 'bar'
+    bar: 'bar',
+    baz: bazComponent,
+    qux: '<my-component />'
   }
 })
+
 expect(wrapper.find('div')).toBe(true)
 ```
 
@@ -182,6 +190,23 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 - Тип: `Object`
 
 Устанавливает объект `$listeners` на экземпляре компонента.
+
+## parentComponent
+
+- Тип: `Object`
+
+Компонент для использования в качестве родительского для смонтированного компонента.
+
+Пример:
+
+```js
+import Foo from './Foo.vue'
+
+const wrapper = shallowMount(Component, {
+  parentComponent: Foo
+})
+expect(wrapper.vm.$parent.name).toBe('foo')
+```
 
 ## provide
 

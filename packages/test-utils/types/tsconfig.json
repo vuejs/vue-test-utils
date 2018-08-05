@@ -4,7 +4,8 @@
     "module": "es2015",
     "moduleResolution": "node",
     "strict": true,
-    "noEmit": true
+    "noEmit": true,
+    "allowSyntheticDefaultImports": true
   },
   "include": [
     "**/*.ts"

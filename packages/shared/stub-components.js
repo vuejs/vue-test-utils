@@ -11,7 +11,8 @@ import {
 import {
   componentNeedsCompiling,
   templateContainsComponent,
-  isVueComponent
+  isVueComponent,
+  isRequiredComponent
 } from './validators'
 import { compileTemplate } from './compile-template'
 
@@ -34,12 +35,6 @@ function resolveComponent (obj: Object, component: string): Object {
     obj[capitalize(camelize(component))] ||
     obj[capitalize(component)] ||
     {}
-}
-
-function isRequiredComponent (name): boolean {
-  return (
-    name === 'KeepAlive' || name === 'Transition' || name === 'TransitionGroup'
-  )
 }
 
 function getCoreProperties (componentOptions: Component): Object {
@@ -88,6 +83,13 @@ function createStubFromString (
   }
 }
 
+function createClassString (staticClass, dynamicClass) {
+  if (staticClass && dynamicClass) {
+    return staticClass + ' ' + dynamicClass
+  }
+  return staticClass || dynamicClass
+}
+
 function createBlankStub (
   originalComponent: Component,
   name: string
@@ -104,10 +106,22 @@ function createBlankStub (
 
   return {
     ...getCoreProperties(componentOptions),
-    render (h) {
+    render (h, context) {
       return h(
         tagName,
-        !componentOptions.functional && this.$slots.default
+        {
+          attrs: componentOptions.functional ? {
+            ...context.props,
+            ...context.data.attrs,
+            class: createClassString(
+              context.data.staticClass,
+              context.data.class
+            )
+          } : {
+            ...this.$props
+          }
+        },
+        context ? context.children : this.$slots.default
       )
     }
   }
@@ -207,6 +221,11 @@ function stubComponents (
     const componentOptions = typeof cmp === 'function'
       ? cmp.extendOptions
       : cmp
+
+    if (!componentOptions) {
+      stubbedComponents[component] = createBlankStub({}, component)
+      return
+    }
     // Remove cached constructor
     delete componentOptions._Ctor
     if (!componentOptions.name) {
@@ -250,14 +269,13 @@ export function createComponentStubsForGlobals (
   instance: Component
 ): Components {
   const components = {}
-  Object.keys(instance.options.components).forEach(c => {
+  for (const c in instance.options.components) {
     if (isRequiredComponent(c)) {
-      return
+      continue
     }
-
     components[c] = createBlankStub(instance.options.components[c], c)
     delete instance.options.components[c]._Ctor
     delete components[c]._Ctor
-  })
+  }
   return components
 }

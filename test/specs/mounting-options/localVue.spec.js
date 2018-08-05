@@ -144,4 +144,14 @@ describeWithMountingMethods('options.localVue', mountingMethod => {
     })
     expect(localVue.options.created).to.equal(undefined)
   })
+
+  it('handles merging Vue instances', () => {
+    const localVue = createLocalVue()
+    localVue.use((_Vue) => {
+      _Vue.$el = new _Vue()
+    })
+    mountingMethod({ template: '<div />' }, {
+      localVue
+    })
+  })
 })
