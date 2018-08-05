@@ -129,86 +129,70 @@ export function createBlankStub (
 
 export function createComponentStubs (
   originalComponents: Object = {},
-  stubs: Stubs
+  stubs: Object
 ): Components {
   const components = {}
   if (!stubs) {
     return components
   }
-  if (Array.isArray(stubs)) {
-    stubs.forEach(stub => {
-      if (stub === false) {
-        return
-      }
+  Object.keys(stubs).forEach(stubName => {
+    const stub = stubs[stubName]
+    if (stub === false) {
+      return
+    }
 
-      if (typeof stub !== 'string') {
-        throwError(`each item in an options.stubs array must be a ` + `string`)
-      }
-      const component = resolveComponent(originalComponents, stub)
+    if (!isValidStub(stub)) {
+      throwError(
+        `options.stub values must be passed a string or ` + `component`
+      )
+    }
 
-      components[stub] = createBlankStub(component, stub)
-    })
-  } else {
-    const stubsObject = (stubs: { [name: string]: Component | string | true })
-    Object.keys(stubsObject).forEach(stubName => {
-      const stub = stubsObject[stubName]
-      if (stub === false) {
-        return
-      }
+    if (stub === true) {
+      const component = resolveComponent(originalComponents, stubName)
+      components[stubName] = createBlankStub(component, stubName)
+      return
+    }
 
-      if (!isValidStub(stub)) {
-        throwError(
-          `options.stub values must be passed a string or ` + `component`
+    if (typeof stub !== 'string' && componentNeedsCompiling(stub)) {
+      compileTemplate(stub)
+    }
+
+    if (originalComponents[stubName]) {
+      // Remove cached constructor
+      delete originalComponents[stubName]._Ctor
+      if (typeof stub === 'string') {
+        components[stubName] = createStubFromString(
+          stub,
+          originalComponents[stubName],
+          stubName
         )
-      }
-
-      if (stub === true) {
-        const component = resolveComponent(originalComponents, stubName)
-        components[stubName] = createBlankStub(component, stubName)
-        return
-      }
-
-      if (typeof stub !== 'string' && componentNeedsCompiling(stub)) {
-        compileTemplate(stub)
-      }
-
-      if (originalComponents[stubName]) {
-        // Remove cached constructor
-        delete originalComponents[stubName]._Ctor
-        if (typeof stub === 'string') {
-          components[stubName] = createStubFromString(
-            stub,
-            originalComponents[stubName],
-            stubName
-          )
-        } else {
-          const stubObject = (stub: Object)
-          components[stubName] = {
-            ...stubObject,
-            name: originalComponents[stubName].name
-          }
-        }
       } else {
-        if (typeof stub === 'string') {
-          if (!compileToFunctions) {
-            throwError(
-              `vueTemplateCompiler is undefined, you must pass ` +
+        const stubObject = (stub: Object)
+        components[stubName] = {
+          ...stubObject,
+          name: originalComponents[stubName].name
+        }
+      }
+    } else {
+      if (typeof stub === 'string') {
+        if (!compileToFunctions) {
+          throwError(
+            `vueTemplateCompiler is undefined, you must pass ` +
                 `precompiled components if vue-template-compiler is ` +
                 `undefined`
-            )
-          }
-          components[stubName] = {
-            ...compileToFunctions(stub)
-          }
-        } else {
-          const stubObject = (stub: Object)
-          components[stubName] = {
-            ...stubObject
-          }
+          )
+        }
+        components[stubName] = {
+          ...compileToFunctions(stub)
+        }
+      } else {
+        const stubObject = (stub: Object)
+        components[stubName] = {
+          ...stubObject
         }
       }
-    })
-  }
+    }
+  })
   return components
 }
 
