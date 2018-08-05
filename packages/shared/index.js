@@ -1,4 +1,4 @@
 export * from './compile-template'
-export * from './stub-components'
+export * from './create-component-stubs'
 export * from './util'
 export * from './validators'
