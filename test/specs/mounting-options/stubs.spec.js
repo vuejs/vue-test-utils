@@ -204,7 +204,7 @@ describeWithMountingMethods('options.stub', mountingMethod => {
     })
 
   itDoNotRunIf(
-    mountingMethod.name === 'shallowMount',
+    mountingMethod.name === 'shallowMount' || vueVersion < 2.3,
     'stubs nested components on extended components', () => {
       const GrandChildComponent = {
         template: '<span />'
@@ -251,6 +251,7 @@ describeWithMountingMethods('options.stub', mountingMethod => {
       const ComponentWithGlobalComponent = {
         render: h => h('div', [h('registered-component')])
       }
+
       const wrapper = mountingMethod(ComponentWithGlobalComponent, {
         stubs: {
           'registered-component': true
@@ -259,8 +260,6 @@ describeWithMountingMethods('options.stub', mountingMethod => {
       const HTML =
         mountingMethod.name === 'renderToString' ? wrapper : wrapper.html()
       expect(HTML).to.contain('<registered-component-stub>')
-      expect(wrapper.find({ name: 'registered-component' }).html())
-        .to.equal('<registered-component-stub></registered-component-stub>')
     })
 
   it('stubs components with dummy when passed as an array', () => {
@@ -408,7 +407,7 @@ describeWithMountingMethods('options.stub', mountingMethod => {
     }
   )
 
-  it('converts config to array if stubs is an array', () => {
+  it('config handles stubs as an array', () => {
     const localVue = createLocalVue()
     config.stubs['time-component'] = '<p />'
     serverConfig.stubs['time-component'] = '<p />'
@@ -427,7 +426,7 @@ describeWithMountingMethods('options.stub', mountingMethod => {
 
     const HTML =
       mountingMethod.name === 'renderToString' ? wrapper : wrapper.html()
-    expect(HTML).to.contain('<time-component-stub>')
+    expect(HTML).to.contain('</p>')
   })
 
   it('handles components without a render function', () => {

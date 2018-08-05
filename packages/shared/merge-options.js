@@ -1,18 +1,17 @@
 // @flow
+import { normalizeStubs } from './normalize'
 
 function getOption (option, config?: Object): any {
   if (option || (config && Object.keys(config).length > 0)) {
     if (option instanceof Function) {
       return option
-    } else if (Array.isArray(option)) {
-      return [...option, ...Object.keys(config || {})]
-    } else if (config instanceof Function) {
+    }
+    if (config instanceof Function) {
       throw new Error(`Config can't be a Function.`)
-    } else {
-      return {
-        ...config,
-        ...option
-      }
+    }
+    return {
+      ...config,
+      ...option
     }
   }
 }
@@ -25,7 +24,7 @@ export function mergeOptions (options: Options, config: Config): Options {
   return {
     ...options,
     logModifiedComponents: config.logModifiedComponents,
-    stubs: getOption(options.stubs, config.stubs),
+    stubs: getOption(normalizeStubs(options.stubs), config.stubs),
     mocks,
     methods,
     provide,

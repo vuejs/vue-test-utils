@@ -58,16 +58,17 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     }
   })
 
-  it('handles propsData for extended components', () => {
-    const prop1 = 'test'
-    const TestComponent = Vue.extend(ComponentWithProps)
-    const wrapper = mount(TestComponent, {
-      propsData: {
-        prop1
-      }
+  itDoNotRunIf(vueVersion < 2.3,
+    'handles propsData for extended components', () => {
+      const prop1 = 'test'
+      const TestComponent = Vue.extend(ComponentWithProps)
+      const wrapper = mount(TestComponent, {
+        propsData: {
+          prop1
+        }
+      })
+      expect(wrapper.text()).to.contain(prop1)
     })
-    expect(wrapper.text()).to.contain(prop1)
-  })
 
   it('handles uncompiled extended Vue component', () => {
     const BaseComponent = {
@@ -153,7 +154,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     expect(stub).not.called
   })
 
-  it('overrides component prototype', () => {
+  it.skip('overrides component prototype', () => {
     const mountSpy = sinon.spy()
     const destroySpy = sinon.spy()
     const Component = Vue.extend({})
@@ -202,11 +203,16 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
 
   it('logs if component is extended', () => {
     const msg =
-      `[vue-test-utils]: an extended child component <ChildComponent> ` +
-      `has been modified to ensure it has the correct instance properties. ` +
-      `This means it is not possible to find the component with a component ` +
-      `selector. To find the component, you must stub it manually using the ` +
-      `stubs mounting option.`
+      `[vue-test-utils]: The child component <ChildComponent> has been modified to ensure ` +
+      `it is created with properties injected by Vue Test Utils. \n` +
+      `This is because the component was created with Vue.extend, ` +
+      `or uses the Vue Class Component decorator. \n` +
+      `Because the component has been modified, it is not possible ` +
+      `to find it with a component selector. To find the ` +
+      `component, you must stub it manually using the stubs mounting ` +
+      `option, or use a name or ref selector. \n` +
+      `You can hide this warning by setting the Vue Test Utils ` +
+      `config.logModifiedComponents option to false.`
     const ChildComponent = Vue.extend({
       template: '<span />'
     })

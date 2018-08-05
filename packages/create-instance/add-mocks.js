@@ -3,7 +3,7 @@ import $$Vue from 'vue'
 import { warn } from 'shared/util'
 
 export default function addMocks (
-  mockedProperties: Object,
+  mockedProperties: Object = {},
   Vue: Component
 ): void {
   Object.keys(mockedProperties).forEach(key => {

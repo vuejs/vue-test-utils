@@ -26,19 +26,16 @@ describeWithMountingMethods('options.slots', mountingMethod => {
       const CustomComponent = {
         render: h => h('time')
       }
+      const localVue = createLocalVue()
+      localVue.component('custom-component', CustomComponent)
       const TestComponent = {
-        template: '<div><slot /></div>',
-        components: {
-          'custom-component': CustomComponent
-        }
+        template: '<div><slot /></div>'
       }
       const wrapper = mountingMethod(TestComponent, {
         slots: {
           default: '<custom-component />'
         },
-        components: {
-          'custom-component': CustomComponent
-        }
+        localVue
       })
       if (mountingMethod.name === 'renderToString') {
         expect(wrapper).contains('<time>')
@@ -616,7 +613,7 @@ describeWithMountingMethods('options.slots', mountingMethod => {
           }
         },
         {
-          components: {
+          stubs: {
             ComponentWithParentName
           },
           slots: {
