@@ -16,6 +16,17 @@ import {
 } from './validators'
 import { compileTemplate } from './compile-template'
 
+function compileFromString (str) {
+  if (!compileToFunctions) {
+    throwError(
+      `vueTemplateCompiler is undefined, you must pass ` +
+        `precompiled components if vue-template-compiler is ` +
+        `undefined`
+    )
+  }
+  return compileToFunctions(str)
+}
+
 function isVueComponentStub (comp): boolean {
   return comp && comp.template || isVueComponent(comp)
 }
@@ -61,14 +72,6 @@ function createStubFromString (
   originalComponent: Component,
   name: string
 ): Component {
-  if (!compileToFunctions) {
-    throwError(
-      `vueTemplateCompiler is undefined, you must pass ` +
-        `precompiled components if vue-template-compiler is ` +
-        `undefined`
-    )
-  }
-
   if (templateContainsComponent(templateString, name)) {
     throwError('options.stub cannot contain a circular reference')
   }
@@ -79,7 +82,7 @@ function createStubFromString (
 
   return {
     ...getCoreProperties(componentOptions),
-    ...compileToFunctions(templateString)
+    ...compileFromString(templateString)
   }
 }
 
@@ -175,15 +178,8 @@ export function createComponentStubs (
       }
     } else {
       if (typeof stub === 'string') {
-        if (!compileToFunctions) {
-          throwError(
-            `vueTemplateCompiler is undefined, you must pass ` +
-                `precompiled components if vue-template-compiler is ` +
-                `undefined`
-          )
-        }
         components[stubName] = {
-          ...compileToFunctions(stub)
+          ...compileFromString(stub)
         }
       } else {
         const stubObject = (stub: Object)
