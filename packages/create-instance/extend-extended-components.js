@@ -38,12 +38,10 @@ function shouldExtend (component) {
   }
 }
 
-// Components created with Vue.extend will not inherit from
-// a localVue constructor by default. To make sure they inherit
-// from a localVue constructor, we must create new components by
+// Components created with Vue.extend are not created internally in Vue
+// by extending a localVue constructor. To make sure they inherit
+// properties add to a localVue constructor, we must create new components by
 // extending the original extended components from the localVue constructor.
-// The registered original extended components should only be
-// overwritten in the component that they are registered on.
 // We apply a global mixin that overwrites the components original
 // components with the extended components when they are created.
 export function extendExtendedComponents (
