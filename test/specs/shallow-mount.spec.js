@@ -389,8 +389,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
           AsyncComponent: () => import('~resources/components/component.vue')
         }
       }
-      const wrapper = shallowMount(TestComponent)
-      expect(wrapper.find({ name: 'AsyncComponent' }).exists()).to.equal(true)
+      shallowMount(TestComponent)
     })
 
   it('stubs components registered on localVue after multiple installs', () => {

@@ -3,7 +3,7 @@
 import { createSlotVNodes } from './create-slot-vnodes'
 import addMocks from './add-mocks'
 import { addEventLogger } from './log-events'
-import { createComponentStubs } from 'shared/stub-components'
+import { addStubs } from './add-stubs'
 import { throwError, vueVersion } from 'shared/util'
 import { compileTemplate } from 'shared/compile-template'
 import { isRequiredComponent } from 'shared/validators'
@@ -34,18 +34,15 @@ export default function createInstance (
   // Remove cached constructor
   delete component._Ctor
 
-  // mounting options are vue-test-utils specific
-  //
+
   // instance options are options that are passed to the
   // root instance when it's instantiated
-  //
-  // component options are the root components options
+ const instanceOptions = extractInstanceOptions(options)
 
-  const instanceOptions = extractInstanceOptions(options)
+  addEventLogger(_Vue)
+  addMocks(options.mocks, _Vue)
+  addStubs(component, options.stubs, _Vue)
 
-  if (options.mocks) {
-    addMocks(options.mocks, _Vue)
-  }
   if (
     (component.options && component.options.functional) ||
     component.functional
@@ -61,7 +58,6 @@ export default function createInstance (
     compileTemplate(component)
   }
 
-  addEventLogger(_Vue)
 
   // Replace globally registered components with components extended
   // from localVue. This makes sure the beforeMount mixins to add stubs
@@ -76,12 +72,6 @@ export default function createInstance (
     }
   }
 
-  const stubComponents = createComponentStubs(
-    component.components,
-    // $FlowIgnore
-    options.stubs
-  )
-
   extendExtendedComponents(
     component,
     _Vue,
@@ -89,54 +79,14 @@ export default function createInstance (
     instanceOptions.components
   )
 
-  // stub components should override every component defined in a component
-  if (options.stubs) {
-    instanceOptions.components = {
-      ...instanceOptions.components,
-      ...stubComponents
-    }
-  }
-  function addStubComponentsMixin () {
-    Object.assign(
-      this.$options.components,
-      stubComponents
-    )
-  }
-  _Vue.mixin({
-    beforeMount: addStubComponentsMixin,
-    // beforeCreate is for components created in node, which
-    // never mount
-    beforeCreate: addStubComponentsMixin
-  })
-
   if (component.options) {
     component.options._base = _Vue
   }
 
-  function getExtendedComponent (component, instanceOptions) {
-    const extendedComponent = component.extend(instanceOptions)
-    // to keep the possible overridden prototype and _Vue mixins,
-    // we need change the proto chains manually
-    // @see https://github.com/vuejs/vue-test-utils/pull/856
-    // code below equals to
-    // `extendedComponent.prototype.__proto__.__proto__ = _Vue.prototype`
-    const extendedComponentProto =
-      Object.getPrototypeOf(extendedComponent.prototype)
-    Object.setPrototypeOf(extendedComponentProto, _Vue.prototype)
-
-    return extendedComponent
-  }
-
   // extend component from _Vue to add properties and mixins
-  const Constructor = typeof component === 'function'
-    ? getExtendedComponent(component, instanceOptions)
-    : _Vue.extend(component).extend(instanceOptions)
+  const Constructor = _Vue.extend(component).extend(instanceOptions)
 
   Constructor._vueTestUtilsRoot = component
-
-  Object.keys(instanceOptions.components || {}).forEach(c => {
-    Constructor.component(c, instanceOptions.components[c])
-  })
 
   if (options.slots) {
     compileTemplateForSlots(options.slots)

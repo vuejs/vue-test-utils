@@ -90,7 +90,7 @@ function createClassString (staticClass, dynamicClass) {
   return staticClass || dynamicClass
 }
 
-function createBlankStub (
+export function createBlankStub (
   originalComponent: Component,
   name: string
 ): Component {
@@ -241,8 +241,6 @@ export function createComponentStubsForAll (component: Component): Components {
   if (component.components) {
     stubComponents(component.components, stubbedComponents)
   }
-
-  stubbedComponents[component.name] = createBlankStub(component, component.name)
 
   let extended = component.extends
 
