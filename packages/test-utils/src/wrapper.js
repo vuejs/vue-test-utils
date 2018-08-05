@@ -21,6 +21,7 @@ import findAll from './find'
 import createWrapper from './create-wrapper'
 import { orderWatchers } from './order-watchers'
 import { recursivelySetData } from './recursively-set-data'
+import { matches } from './matches'
 
 export default class Wrapper implements BaseWrapper {
   +vnode: VNode | null;
@@ -100,17 +101,15 @@ export default class Wrapper implements BaseWrapper {
     let classes = className ? className.split(' ') : []
     // Handle converting cssmodules identifiers back to the original class name
     if (this.vm && this.vm.$style) {
-      const cssModuleIdentifiers = {}
-      let moduleIdent
-      Object.keys(this.vm.$style).forEach(key => {
-        moduleIdent = this.vm && this.vm.$style[key]
-        // CSS Modules may be multi-class if they extend others.
-        // Extended classes should be already present in $style.
-        if (moduleIdent) {
-          moduleIdent = moduleIdent.split(' ')[0]
-          cssModuleIdentifiers[moduleIdent] = key
-        }
-      })
+      const cssModuleIdentifiers = Object.keys(this.vm.$style)
+        .reduce((acc, key) => {
+        // $FlowIgnore
+          const moduleIdent = this.vm.$style[key]
+          if (moduleIdent) {
+            acc[moduleIdent.split(' ')[0]] = key
+          }
+          return acc
+        }, {})
       classes = classes.map(
         className => cssModuleIdentifiers[className] || className
       )
@@ -122,10 +121,8 @@ export default class Wrapper implements BaseWrapper {
    * Checks if wrapper contains provided selector.
    */
   contains (selector: Selector): boolean {
-    const selectorType = getSelectorTypeOrThrow(selector, 'contains')
     const nodes = findAll(this.vm, this.vnode, this.element, selector)
-    const is = selectorType === REF_SELECTOR ? false : this.is(selector)
-    return nodes.length > 0 || is
+    return nodes.length > 0
   }
 
   /**
@@ -176,7 +173,7 @@ export default class Wrapper implements BaseWrapper {
   visible (): boolean {
     warn(
       `visible has been deprecated and will be removed in ` +
-        `version 1, use isVisible instead`
+      `version 1, use isVisible instead`
     )
     let element = this.element
     while (element) {
@@ -331,8 +328,8 @@ export default class Wrapper implements BaseWrapper {
    * matches the provided selector.
    */
   find (selector: Selector): Wrapper | ErrorWrapper {
-    const nodes = findAll(this.vm, this.vnode, this.element, selector)
-    if (nodes.length === 0) {
+    const node = findAll(this.vm, this.vnode, this.element, selector)[0]
+    if (!node) {
       if (selector.ref) {
         return new ErrorWrapper(`ref="${selector.ref}"`)
       }
@@ -342,10 +339,10 @@ export default class Wrapper implements BaseWrapper {
     }
     // Using CSS Selector, returns a VueWrapper instance if the root element
     // binds a Vue instance.
-    if (nodes[0].elm === this.element) {
+    if (node.elm === this.element) {
       return this
     }
-    return createWrapper(nodes[0], this.options)
+    return createWrapper(node, this.options)
   }
 
   /**
@@ -353,7 +350,6 @@ export default class Wrapper implements BaseWrapper {
    * the provided selector.
    */
   findAll (selector: Selector): WrapperArray {
-    getSelectorTypeOrThrow(selector, 'findAll')
     const nodes = findAll(this.vm, this.vnode, this.element, selector)
     const wrappers = nodes.map(node => {
       // Using CSS Selector, returns a VueWrapper instance if the root element
@@ -378,35 +374,11 @@ export default class Wrapper implements BaseWrapper {
   is (selector: Selector): boolean {
     const selectorType = getSelectorTypeOrThrow(selector, 'is')
 
-    if (selectorType === NAME_SELECTOR) {
-      if (!this.vm) {
-        return false
-      }
-      return vmCtorMatchesName(this.vm, selector.name)
-    }
-
-    if (selectorType === COMPONENT_SELECTOR) {
-      if (!this.vm) {
-        return false
-      }
-      if (selector.functional) {
-        return vmFunctionalCtorMatchesSelector(this.vm._vnode, selector._Ctor)
-      }
-      return vmCtorMatchesSelector(this.vm, selector)
-    }
-
     if (selectorType === REF_SELECTOR) {
       throwError('$ref selectors can not be used with wrapper.is()')
     }
 
-    if (typeof selector === 'object') {
-      return false
-    }
-
-    return !!(
-      this.element.getAttribute &&
-      this.element.matches(selector)
-    )
+    return matches(this.vnode || this.element, selectorType, selector)
   }
 
   /**
@@ -483,7 +455,7 @@ export default class Wrapper implements BaseWrapper {
     const keys = this.vm && this.vm.$options._propKeys
 
     if (keys) {
-      keys.forEach(key => {
+      (keys || {}).forEach(key => {
         if (this.vm) {
           props[key] = this.vm[key]
         }

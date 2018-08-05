@@ -19,8 +19,8 @@ export default function find (
   if (!vnode && !vm && selectorType !== DOM_SELECTOR) {
     throwError(
       `cannot find a Vue instance on a DOM node. The node ` +
-        `you are calling find on does not exist in the ` +
-        `VDom. Are you adding the node as innerHTML?`
+      `you are calling find on does not exist in the ` +
+      `VDom. Are you adding the node as innerHTML?`
     )
   }
 
