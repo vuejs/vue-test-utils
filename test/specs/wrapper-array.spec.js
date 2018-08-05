@@ -1,5 +1,4 @@
 import { Wrapper, WrapperArray } from '~vue/test-utils'
-import { compileToFunctions } from 'vue-template-compiler'
 import { describeWithShallowAndMount } from '~resources/utils'
 
 describeWithShallowAndMount('WrapperArray', mountingMethod => {
