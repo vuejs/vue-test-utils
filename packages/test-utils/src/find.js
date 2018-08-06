@@ -9,6 +9,16 @@ import Vue from 'vue'
 import { throwError } from 'shared/util'
 import { matches } from './matches'
 
+export function findAllInstances (vm, instances = []) {
+  instances.push(vm)
+
+  ;(vm.$children || []).forEach(child => {
+    findAllInstances(child, instances)
+  })
+
+  return instances
+}
+
 function findAllVNodes (
   vnode: VNode,
   nodes: Array<VNode> = [],

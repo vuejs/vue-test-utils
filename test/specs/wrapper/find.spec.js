@@ -83,14 +83,16 @@ describeWithShallowAndMount('find', mountingMethod => {
   it('returns matching extended component', () => {
     const ChildComponent = Vue.extend({
       template: '<div />',
-      props: ['propA']
+      props: ['propA'],
+      name: 'child-component'
     })
     const TestComponent = {
       template: '<child-component propA="hey" />',
       components: { ChildComponent }
     }
     const wrapper = mountingMethod(TestComponent)
-    expect(wrapper.find(ChildComponent).vnode).to.be.an('object')
+
+    expect(wrapper.find(ChildComponent).name()).to.equal('child-component')
   })
 
   it('returns Wrapper of elements matching attribute selector passed', () => {

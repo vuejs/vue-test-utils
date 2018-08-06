@@ -18,9 +18,6 @@ export function vmMatchesName (vm: Component, name: string): boolean {
 }
 
 function vmCtorMatches (vm, component) {
-  // const componentOptions = typeof component === 'function'
-  //   ? component.options
-  //   : component
   const isFunctional = component.functional
   const Ctor = component._Ctor
 

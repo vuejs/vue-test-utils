@@ -8,7 +8,7 @@ import createInstance from 'create-instance'
 import createElement from './create-element'
 import createLocalVue from './create-local-vue'
 import errorHandler from './error-handler'
-import { findAllVueComponentsFromVm } from './find-vue-components'
+import { findAllInstances } from './find'
 import { mergeOptions } from 'shared/merge-options'
 import config from './config'
 import warnIfNoWindow from './warn-if-no-window'
@@ -42,7 +42,7 @@ export default function mount (
 
   const vm = parentVm.$mount(elm).$refs.vm
 
-  const componentsWithError = findAllVueComponentsFromVm(vm).filter(
+  const componentsWithError = findAllInstances(vm).filter(
     c => c._error
   )
 
