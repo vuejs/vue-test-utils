@@ -1,22 +1,48 @@
 // @flow
 
-import findVnodes from './find-vnodes'
-import findVueComponents from './find-vue-components'
 import findDOMNodes from './find-dom-nodes'
-import { COMPONENT_SELECTOR, NAME_SELECTOR, DOM_SELECTOR } from './consts'
+import {
+  DOM_SELECTOR,
+  REF_SELECTOR
+} from './consts'
 import Vue from 'vue'
-import getSelectorTypeOrThrow from './get-selector-type'
 import { throwError } from 'shared/util'
+import { matches } from './matches'
 
-export default function find (
-  vm: Component | void,
+function findAllVNodes (
+  vnode: VNode,
+  nodes: Array<VNode> = [],
+  selector: any
+): Array<VNode> {
+  if (matches(vnode, selector)) {
+    nodes.push(vnode)
+  }
+
+  if (Array.isArray(vnode.children)) {
+    vnode.children.forEach(v => {
+      findAllVNodes(v, nodes, selector)
+    })
+  }
+  if (vnode.child) {
+    findAllVNodes(vnode.child._vnode, nodes, selector)
+  }
+  return nodes
+}
+
+function removeDuplicateNodes (vNodes: Array<VNode>): Array<VNode> {
+  const vNodeElms = vNodes.map(vNode => vNode.elm)
+  return vNodes.filter(
+    (vNode, index) => index === vNodeElms.indexOf(vNode.elm)
+  )
+}
+
+export default function findAll (
   vnode: VNode | null,
   element: Element,
+  vm: Component,
   selector: Selector
 ): Array<VNode | Component> {
-  const selectorType = getSelectorTypeOrThrow(selector, 'find')
-
-  if (!vnode && !vm && selectorType !== DOM_SELECTOR) {
+  if (!vnode && selector.type !== DOM_SELECTOR) {
     throwError(
       `cannot find a Vue instance on a DOM node. The node ` +
       `you are calling find on does not exist in the ` +
@@ -24,30 +50,40 @@ export default function find (
     )
   }
 
-  if (selectorType === COMPONENT_SELECTOR || selectorType === NAME_SELECTOR) {
-    const root = vm || vnode
-    if (!root) {
-      return []
-    }
-    return findVueComponents(root, selectorType, selector)
+  if (!vnode) {
+    return findDOMNodes(element, selector.value)
+  }
+
+  if (!vnode && selector.type !== DOM_SELECTOR) {
+    throwError(
+      `cannot find a Vue instance on a DOM node. The node ` +
+      `you are calling find on does not exist in the ` +
+      `VDom. Are you adding the node as innerHTML?`
+    )
+  }
+
+  if (!vm && selector.type === REF_SELECTOR) {
+    throwError(
+      `$ref selectors can only be used on Vue component ` + `wrappers`
+    )
   }
 
   if (
     vm &&
     vm.$refs &&
-    selector.ref in vm.$refs &&
-    vm.$refs[selector.ref] instanceof Vue
+    selector.value.ref in vm.$refs
   ) {
-    return [vm.$refs[selector.ref]]
+    const refs = vm.$refs[selector.value.ref]
+    return Array.isArray(refs) ? refs : [refs]
   }
+  const rootVnode = vm && vm.$vnode
+    ? vm.$vnode
+    : vm && vm._vnode
+  const nodes = findAllVNodes(vm ? rootVnode : vnode, [], selector)
+  const dedupedNodes = removeDuplicateNodes(nodes)
 
-  if (vnode) {
-    const nodes = findVnodes(vnode, vm, selectorType, selector)
-    if (selectorType !== DOM_SELECTOR) {
-      return nodes
-    }
-    return nodes.length > 0 ? nodes : findDOMNodes(element, selector)
+  if (nodes.length > 0 || selector.type !== DOM_SELECTOR) {
+    return dedupedNodes
   }
-
-  return findDOMNodes(element, selector)
+  return findDOMNodes(element, selector.value)
 }
