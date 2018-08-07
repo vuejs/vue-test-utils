@@ -6,17 +6,10 @@
 wrapperArray.wrappers.forEach(wrapper => wrapper.setValue(value))
 ```
 
-<<<<<<< HEAD
-- **Arguments:**
-  - `{any} value`
-
-- **Example:**
-=======
 - **Принимает:**
   - `{any} value`
 
 - **Пример:**
->>>>>>> 1998c5341065fbe6a5e6bc6310ccaa5a9e604fd1
 
 ```js
 import { mount } from '@vue/test-utils'
@@ -41,8 +34,4 @@ expect(wrapper.vm.t2).to.equal('')
 wrapperArray.setValue('foo')
 expect(wrapper.vm.t1).to.equal('foo')
 expect(wrapper.vm.t2).to.equal('foo')
-<<<<<<< HEAD
 ```
-=======
-```
->>>>>>> 1998c5341065fbe6a5e6bc6310ccaa5a9e604fd1
