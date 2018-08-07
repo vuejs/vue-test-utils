@@ -6,7 +6,7 @@ import { createLocalVue, config } from '~vue/test-utils'
 import { config as serverConfig } from '~vue/server-test-utils'
 import Vue from 'vue'
 import { describeWithMountingMethods, vueVersion } from '~resources/utils'
-import { itDoNotRunIf } from 'conditional-specs'
+import { itDoNotRunIf, itSkipIf } from 'conditional-specs'
 
 describeWithMountingMethods('options.stub', mountingMethod => {
   let info
@@ -87,27 +87,29 @@ describeWithMountingMethods('options.stub', mountingMethod => {
     })
   })
 
-  it('overrides components in extended components', () => {
-    const extendedComponent = Vue.extend({
-      name: 'extended-component',
-      components: {
-        ToStubComponent: {
-          template: '<span />'
+  itSkipIf(
+    vueVersion < 2.3,
+    'overrides components in extended components', () => {
+      const extendedComponent = Vue.extend({
+        name: 'extended-component',
+        components: {
+          ToStubComponent: {
+            template: '<span />'
+          }
         }
-      }
-    })
-    const TestComponent = extendedComponent.extend({
-      template: `<to-stub-component />`
-    })
-    const wrapper = mountingMethod(TestComponent, {
-      stubs: {
-        ToStubComponent: { template: '<date />' }
-      }
-    })
-    const HTML =
+      })
+      const TestComponent = extendedComponent.extend({
+        template: `<to-stub-component />`
+      })
+      const wrapper = mountingMethod(TestComponent, {
+        stubs: {
+          ToStubComponent: { template: '<date />' }
+        }
+      })
+      const HTML =
     mountingMethod.name === 'renderToString' ? wrapper : wrapper.html()
-    expect(HTML).contains('<date')
-  })
+      expect(HTML).contains('<date')
+    })
 
   itDoNotRunIf(
     mountingMethod.name === 'shallowMount' ||
