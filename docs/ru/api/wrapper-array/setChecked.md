@@ -7,7 +7,11 @@ wrapperArray.wrappers.forEach(wrapper => wrapper.setChecked(checked))
 ```
 
 - **Принимает:**
+<<<<<<< HEAD
   - `{Boolean} checked (default: true)`
+=======
+  - `{Boolean} checked (по умолчанию: true)`
+>>>>>>> 1998c5341065fbe6a5e6bc6310ccaa5a9e604fd1
 
 - **Пример:**
 
@@ -35,4 +39,8 @@ expect(wrapper.vm.t2).to.equal('')
 wrapperArray.setChecked()
 expect(wrapper.vm.t1).to.equal(true)
 expect(wrapper.vm.t2).to.equal('foo')
+<<<<<<< HEAD
 ```
+=======
+```
+>>>>>>> 1998c5341065fbe6a5e6bc6310ccaa5a9e604fd1

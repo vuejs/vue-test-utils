@@ -8,5 +8,6 @@
 !!!include(docs/guides/testing-single-file-components-with-mocha-webpack.md)!!!
 !!!include(docs/guides/testing-single-file-components-with-karma.md)!!!
 !!!include(docs/guides/testing-async-components.md)!!!
+!!!include(docs/guides/using-with-typescript.md)!!!
 !!!include(docs/guides/using-with-vue-router.md)!!!
 !!!include(docs/guides/using-with-vuex.md)!!!

@@ -6,4 +6,5 @@
 !!!include(docs/ja/api/renderToString.md)!!!
 !!!include(docs/ja/api/selectors.md)!!!
 !!!include(docs/ja/api/createLocalVue.md)!!!
+!!!include(docs/ja/api/createWrapper.md)!!!
 !!!include(docs/ja/api/config.md)!!!

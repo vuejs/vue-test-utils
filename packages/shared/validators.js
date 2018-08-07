@@ -89,3 +89,9 @@ export function templateContainsComponent (
 export function isPlainObject (obj: any): boolean {
   return Object.prototype.toString.call(obj) === '[object Object]'
 }
+
+export function isRequiredComponent (name: string): boolean {
+  return (
+    name === 'KeepAlive' || name === 'Transition' || name === 'TransitionGroup'
+  )
+}

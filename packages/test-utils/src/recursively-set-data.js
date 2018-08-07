@@ -1,10 +1,12 @@
 import { isPlainObject } from 'shared/validators'
 
-export function recursivelySetData (vm, target, obj) {
-  Object.keys(obj).forEach(key => {
-    const val = obj[key]
-    if (isPlainObject(val)) {
-      recursivelySetData(vm, target[key], val)
+export function recursivelySetData (vm, target, data) {
+  Object.keys(data).forEach(key => {
+    const val = data[key]
+    const targetVal = target[key]
+
+    if (isPlainObject(val) && isPlainObject(targetVal)) {
+      recursivelySetData(vm, targetVal, val)
     } else {
       vm.$set(target, key, val)
     }

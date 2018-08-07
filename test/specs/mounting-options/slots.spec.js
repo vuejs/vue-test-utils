@@ -26,19 +26,16 @@ describeWithMountingMethods('options.slots', mountingMethod => {
       const CustomComponent = {
         render: h => h('time')
       }
+      const localVue = createLocalVue()
+      localVue.component('custom-component', CustomComponent)
       const TestComponent = {
-        template: '<div><slot /></div>',
-        components: {
-          'custom-component': CustomComponent
-        }
+        template: '<div><slot /></div>'
       }
       const wrapper = mountingMethod(TestComponent, {
         slots: {
           default: '<custom-component />'
         },
-        components: {
-          'custom-component': CustomComponent
-        }
+        localVue
       })
       if (mountingMethod.name === 'renderToString') {
         expect(wrapper).contains('<time>')
@@ -223,11 +220,25 @@ describeWithMountingMethods('options.slots', mountingMethod => {
     }
   })
 
+  it('mounts component with default and named slots', () => {
+    const wrapper = mountingMethod(ComponentWithSlots, {
+      slots: {
+        default: '<span>hello</span>',
+        footer: '<p>world</p>'
+      }
+    })
+    const HTML = mountingMethod.name === 'renderToString'
+      ? wrapper
+      : wrapper.html()
+    expect(HTML).to.contain('<span>hello</span>')
+    expect(HTML).to.contain('<p>world</p>')
+  })
+
   it('mounts component with default and named text slot', () => {
     const wrapper = mountingMethod(ComponentWithSlots, {
       slots: {
         default: 'hello,',
-        header: 'world'
+        footer: '<template>world</template>'
       }
     })
     if (mountingMethod.name === 'renderToString') {
@@ -346,6 +357,19 @@ describeWithMountingMethods('options.slots', mountingMethod => {
       }
     }
   )
+
+  it('supports multiple root nodes in default slot option', () => {
+    const wrapper = mountingMethod(ComponentWithSlots, {
+      slots: {
+        default: ['<time /><time />']
+      }
+    })
+    if (mountingMethod.name === 'renderToString') {
+      expect(wrapper).to.contain('<time></time><time></time>')
+    } else {
+      expect(wrapper.findAll('time').length).to.equal(2)
+    }
+  })
 
   itDoNotRunIf(
     process.env.TEST_ENV === 'node',
@@ -589,7 +613,7 @@ describeWithMountingMethods('options.slots', mountingMethod => {
           }
         },
         {
-          components: {
+          stubs: {
             ComponentWithParentName
           },
           slots: {

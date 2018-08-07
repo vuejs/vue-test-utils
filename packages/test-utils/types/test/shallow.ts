@@ -1,6 +1,6 @@
 import Vuex from 'vuex'
 import { shallowMount, createLocalVue } from '../'
-import { normalOptions, functionalOptions, Normal, ClassComponent } from './resources'
+import { normalOptions, functionalOptions, ClassComponent } from './resources'
 
 /**
  * Should create wrapper vm based on (function) component options or constructors

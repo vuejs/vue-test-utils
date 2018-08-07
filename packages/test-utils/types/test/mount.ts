@@ -1,6 +1,6 @@
 import Vuex from 'vuex'
-import { mount, createLocalVue, config } from '../'
-import { normalOptions, functionalOptions, Normal, ClassComponent } from './resources'
+import VueTestUtils, { mount, createLocalVue, config } from '../'
+import { normalOptions, functionalOptions, ClassComponent } from './resources'
 
 /**
  * Should create wrapper vm based on (function) component options or constructors
@@ -12,7 +12,7 @@ const normalFoo: string = normalWrapper.vm.foo
 const classWrapper = mount(ClassComponent)
 const classFoo: string = classWrapper.vm.bar
 
-const functinalWrapper = mount(functionalOptions)
+const functionalWrapper = mount(functionalOptions)
 
 /**
  * Test for mount options
@@ -83,14 +83,25 @@ config.stubs = {
   qux: `<div>Test</div>`,
   quux: true
 }
+config.stubs['quuux'] = true
 config.mocks = {
   foo: 'bar',
+}
+config.mocks['foo'] = {
+  bar: 'baz'
 }
 config.methods = {
   foo: () => {}
 }
+config.methods['foo'] = () => true
 config.provide = {
   foo: {}
 }
+config.provide['foo'] = {
+  bar: {}
+}
 config.logModifiedComponents = true
 config.silent = true
+
+// Check we can use default export
+VueTestUtils.config.silent = false

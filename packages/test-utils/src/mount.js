@@ -42,9 +42,6 @@ export default function mount (
 
   const vm = parentVm.$mount(elm).$refs.vm
 
-  // Workaround for Vue < 2.5
-  vm._staticTrees = []
-
   const componentsWithError = findAllVueComponentsFromVm(vm).filter(
     c => c._error
   )

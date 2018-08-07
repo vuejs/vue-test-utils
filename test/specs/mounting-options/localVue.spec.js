@@ -28,53 +28,114 @@ describeWithMountingMethods('options.localVue', mountingMethod => {
     }
   )
 
-  itSkipIf(vueVersion < 2.3, 'works correctly with extended children', () => {
-    const localVue = createLocalVue()
-    localVue.use(Vuex)
-    const store = new Vuex.Store({
-      state: { val: 2 }
-    })
-    const ChildComponent = Vue.extend({
-      template: '<span>{{val}}</span>',
-      computed: {
-        val () {
-          return this.$store.state.val
+  itSkipIf(
+    vueVersion < 2.3,
+    'works correctly with extended children', () => {
+      const localVue = createLocalVue()
+      localVue.use(Vuex)
+      const store = new Vuex.Store({
+        state: { val: 2 }
+      })
+      const ChildComponent = Vue.extend({
+        template: '<span>{{val}}</span>',
+        computed: {
+          val () {
+            return this.$store.state.val
+          }
+        }
+      })
+      const TestComponent = {
+        template: '<div><child-component /></div>',
+        components: {
+          ChildComponent
         }
       }
-    })
-    const TestComponent = {
-      template: '<div><child-component /></div>',
-      components: {
-        ChildComponent
-      }
-    }
-    const wrapper = mountingMethod(TestComponent, {
-      localVue,
-      store
-    })
-    const HTML =
+      const wrapper = mountingMethod(TestComponent, {
+        localVue,
+        store
+      })
+      const HTML =
       mountingMethod.name === 'renderToString' ? wrapper : wrapper.html()
-    if (mountingMethod.name === 'shallowMount') {
-      expect(HTML).to.not.contain('2')
-    } else {
-      expect(HTML).to.contain('2')
-    }
-  })
+      if (mountingMethod.name === 'shallowMount') {
+        expect(HTML).to.not.contain('2')
+      } else {
+        expect(HTML).to.contain('2')
+      }
+    })
 
-  it('is applies to child extended components', () => {
-    const ChildComponent = Vue.extend({
-      template: '<div>{{$route.params}}</div>'
+  itSkipIf(
+    vueVersion < 2.3,
+    'is applied to deeply extended components', () => {
+      const GrandChildComponent = Vue.extend(Vue.extend({
+        template: '<div>{{$route.params}}</div>'
+      }))
+      const ChildComponent = Vue.extend(Vue.extend(Vue.extend({
+        template: '<div><grand-child-component />{{$route.params}}</div>',
+        components: {
+          GrandChildComponent
+        }
+      })))
+      const TestComponent = Vue.extend(Vue.extend({
+        template: '<child-component />',
+        components: { ChildComponent }
+      }))
+      const localVue = createLocalVue()
+      localVue.prototype.$route = {}
+
+      mountingMethod(TestComponent, {
+        localVue
+      })
     })
-    const TestComponent = Vue.extend({
-      template: '<child-component />',
-      components: { ChildComponent }
-    })
+
+  it('is applied to components that extend from other components', () => {
     const localVue = createLocalVue()
     localVue.prototype.$route = {}
+
+    const Extends = {
+      created () {
+        console.log(this.$route.params)
+      }
+    }
+    const TestComponent = {
+      extends: Extends
+    }
     mountingMethod(TestComponent, {
       localVue
     })
   })
+
+  itSkipIf(
+    vueVersion < 2.3,
+    'is applied to mixed extended components', () => {
+      const BaseGrandChildComponent = {
+        created () {
+          this.$route.params
+        }
+      }
+      const GrandChildComponent = {
+        created () {
+          this.$route.params
+        },
+        template: '<div/>',
+        extends: BaseGrandChildComponent
+      }
+      const ChildComponent = Vue.extend(({
+        template: '<div><grand-child-component />{{$route.params}}</div>',
+        components: {
+          GrandChildComponent
+        }
+      }))
+      const TestComponent = Vue.extend(Vue.extend({
+        template: '<div><child-component /></div>',
+        components: { ChildComponent }
+      }))
+      const localVue = createLocalVue()
+      localVue.prototype.$route = {}
+
+      mountingMethod(TestComponent, {
+        localVue
+      })
+    })
 
   it('does not add created mixin to localVue', () => {
     const localVue = createLocalVue()

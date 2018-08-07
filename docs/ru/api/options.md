@@ -193,7 +193,11 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 
 ## parentComponent
 
+<<<<<<< HEAD
 - type: `Object`
+=======
+- Тип: `Object`
+>>>>>>> 1998c5341065fbe6a5e6bc6310ccaa5a9e604fd1
 
 Компонент для использования в качестве родительского для смонтированного компонента.
 

@@ -19,9 +19,9 @@ vue-test-utils にはオプションを定義するための `config` オプシ�
 例:
 
 ```js
-import VueTestUtils from '@vue/test-utils'
+import { config } from '@vue/test-utils'
 
-VueTestUtils.config.stubs['my-component'] = '<div />'
+config.stubs['my-component'] = '<div />'
 ```
 
 #### `mocks`
@@ -34,9 +34,9 @@ VueTestUtils.config.stubs['my-component'] = '<div />'
 例:
 
 ```js
-import VueTestUtils from '@vue/test-utils'
+import { config } from '@vue/test-utils'
 
-VueTestUtils.config.mocks['$store'] = {
+config.mocks['$store'] = {
   state: {
     id: 1
   }
@@ -53,11 +53,9 @@ VueTestUtils.config.mocks['$store'] = {
 例:
 
 ```js
-import VueTestUtils from '@vue/test-utils'
+import { config } from '@vue/test-utils'
 
-VueTestUtils.config.methods['errors'] = () => {
-  any: () => false
-}
+config.methods['getData'] = () => {}
 ```
 
 #### `provide`
@@ -70,9 +68,9 @@ VueTestUtils.config.methods['errors'] = () => {
 例:
 
 ```js
-import VueTestUtils from '@vue/test-utils'
+import { config } from '@vue/test-utils'
 
-VueTestUtils.config.provide['$logger'] = {
+config.provide['$logger'] = {
   log: (...args) => {
     console.log(...args)
   }
@@ -89,9 +87,9 @@ VueTestUtils.config.provide['$logger'] = {
 例:
 
 ```js
-import VueTestUtils from '@vue/test-utils'
+import { config } from '@vue/test-utils'
 
-VueTestUtils.config.logModifiedComponents = false
+config.logModifiedComponents = false
 ```
 
 ### `silent`
@@ -104,7 +102,7 @@ Vue がコンポーネントの変更を感知するプロパティ(例えば pr
 例:
 
 ```js
-import VueTestUtils from '@vue/test-utils'
+import { config } from '@vue/test-utils'
 
-VueTestUtils.config.silent = false
+config.silent = false
 ```

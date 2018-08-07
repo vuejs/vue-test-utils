@@ -184,6 +184,12 @@ function isPlainObject (obj) {
   return Object.prototype.toString.call(obj) === '[object Object]'
 }
 
+function isRequiredComponent (name) {
+  return (
+    name === 'KeepAlive' || name === 'Transition' || name === 'TransitionGroup'
+  )
+}
+
 var NAME_SELECTOR = 'NAME_SELECTOR';
 var COMPONENT_SELECTOR = 'COMPONENT_SELECTOR';
 var REF_SELECTOR = 'REF_SELECTOR';
@@ -451,7 +457,7 @@ function vmFunctionalCtorMatchesSelector (
 ) {
   if (VUE_VERSION < 2.3) {
     throwError(
-      "find for functional components is not support in " + "Vue < 2.3"
+      "find for functional components is not supported in " + "Vue < 2.3"
     );
   }
 
@@ -1096,6 +1102,8 @@ function createWrapper (
   node,
   options
 ) {
+  if ( options === void 0 ) options = {};
+
   var componentInstance = node.componentInstance || node.child;
   if (componentInstance) {
     return new VueWrapper(componentInstance, options)
@@ -1141,11 +1149,13 @@ function orderWatchers (vm) {
   i++;
 }
 
-function recursivelySetData (vm, target, obj) {
-  Object.keys(obj).forEach(function (key) {
-    var val = obj[key];
-    if (isPlainObject(val)) {
-      recursivelySetData(vm, target[key], val);
+function recursivelySetData (vm, target, data) {
+  Object.keys(data).forEach(function (key) {
+    var val = data[key];
+    var targetVal = target[key];
+
+    if (isPlainObject(val) && isPlainObject(targetVal)) {
+      recursivelySetData(vm, targetVal, val);
     } else {
       vm.$set(target, key, val);
     }
@@ -2135,13 +2145,12 @@ function createVNodes (
 ) {
   var el = vueTemplateCompiler.compileToFunctions(("<div>" + slotValue + "</div>"));
   var _staticRenderFns = vm._renderProxy.$options.staticRenderFns;
-  // version < 2.5
-  if (!vm._renderProxy._staticTrees) {
-    vm._renderProxy._staticTrees = [];
-  }
+  var _staticTrees = vm._renderProxy._staticTrees;
+  vm._renderProxy._staticTrees = [];
   vm._renderProxy.$options.staticRenderFns = el.staticRenderFns;
   var vnode = el.render.call(vm._renderProxy, vm.$createElement);
   vm._renderProxy.$options.staticRenderFns = _staticRenderFns;
+  vm._renderProxy._staticTrees = _staticTrees;
   return vnode.children
 }
 
@@ -2153,6 +2162,9 @@ function createVNodesForSlot (
   var vnode;
   if (typeof slotValue === 'string') {
     var vnodes = createVNodes(vm, slotValue);
+    if (vnodes.length > 1) {
+      return vnodes
+    }
     vnode = vnodes[0];
   } else {
     vnode = vm.$createElement(slotValue);
@@ -2188,6 +2200,8 @@ function addMocks (
   mockedProperties,
   Vue$$1
 ) {
+  if ( mockedProperties === void 0 ) mockedProperties = {};
+
   Object.keys(mockedProperties).forEach(function (key) {
     try {
       Vue$$1.prototype[key] = mockedProperties[key];
@@ -2257,6 +2271,17 @@ function compileTemplate (component) {
 
 // 
 
+function compileFromString (str) {
+  if (!vueTemplateCompiler.compileToFunctions) {
+    throwError(
+      "vueTemplateCompiler is undefined, you must pass " +
+        "precompiled components if vue-template-compiler is " +
+        "undefined"
+    );
+  }
+  return vueTemplateCompiler.compileToFunctions(str)
+}
+
 function isVueComponentStub (comp) {
   return comp && comp.template || isVueComponent(comp)
 }
@@ -2276,12 +2301,6 @@ function resolveComponent (obj, component) {
     obj[capitalize(camelize(component))] ||
     obj[capitalize(component)] ||
     {}
-}
-
-function isRequiredComponent (name) {
-  return (
-    name === 'KeepAlive' || name === 'Transition' || name === 'TransitionGroup'
-  )
 }
 
 function getCoreProperties (componentOptions) {
@@ -2308,14 +2327,6 @@ function createStubFromString (
   originalComponent,
   name
 ) {
-  if (!vueTemplateCompiler.compileToFunctions) {
-    throwError(
-      "vueTemplateCompiler is undefined, you must pass " +
-        "precompiled components if vue-template-compiler is " +
-        "undefined"
-    );
-  }
-
   if (templateContainsComponent(templateString, name)) {
     throwError('options.stub cannot contain a circular reference');
   }
@@ -2325,7 +2336,14 @@ function createStubFromString (
     : originalComponent;
 
   return Object.assign({}, getCoreProperties(componentOptions),
-    vueTemplateCompiler.compileToFunctions(templateString))
+    compileFromString(templateString))
+}
+
+function createClassString (staticClass, dynamicClass) {
+  if (staticClass && dynamicClass) {
+    return staticClass + ' ' + dynamicClass
+  }
+  return staticClass || dynamicClass
 }
 
 function createBlankStub (
@@ -2343,10 +2361,18 @@ function createBlankStub (
   }
 
   return Object.assign({}, getCoreProperties(componentOptions),
-    {render: function render (h) {
+    {render: function render (h, context) {
       return h(
         tagName,
-        !componentOptions.functional && this.$slots.default
+        {
+          attrs: componentOptions.functional ? Object.assign({}, context.props,
+            context.data.attrs,
+            {class: createClassString(
+              context.data.staticClass,
+              context.data.class
+            )}) : Object.assign({}, this.$props)
+        },
+        context ? context.children : this.$slots.default
       )
     }})
 }
@@ -2361,74 +2387,51 @@ function createComponentStubs (
   if (!stubs) {
     return components
   }
-  if (Array.isArray(stubs)) {
-    stubs.forEach(function (stub) {
-      if (stub === false) {
-        return
-      }
+  Object.keys(stubs).forEach(function (stubName) {
+    var stub = stubs[stubName];
+    if (stub === false) {
+      return
+    }
 
-      if (typeof stub !== 'string') {
-        throwError("each item in an options.stubs array must be a " + "string");
-      }
-      var component = resolveComponent(originalComponents, stub);
+    if (!isValidStub(stub)) {
+      throwError(
+        "options.stub values must be passed a string or " + "component"
+      );
+    }
 
-      components[stub] = createBlankStub(component, stub);
-    });
-  } else {
-    var stubsObject = (stubs);
-    Object.keys(stubsObject).forEach(function (stubName) {
-      var stub = stubsObject[stubName];
-      if (stub === false) {
-        return
-      }
+    if (stub === true) {
+      var component = resolveComponent(originalComponents, stubName);
+      components[stubName] = createBlankStub(component, stubName);
+      return
+    }
 
-      if (!isValidStub(stub)) {
-        throwError(
-          "options.stub values must be passed a string or " + "component"
+    if (typeof stub !== 'string' && componentNeedsCompiling(stub)) {
+      compileTemplate(stub);
+    }
+
+    if (originalComponents[stubName]) {
+      // Remove cached constructor
+      delete originalComponents[stubName]._Ctor;
+      if (typeof stub === 'string') {
+        components[stubName] = createStubFromString(
+          stub,
+          originalComponents[stubName],
+          stubName
         );
-      }
-
-      if (stub === true) {
-        var component = resolveComponent(originalComponents, stubName);
-        components[stubName] = createBlankStub(component, stubName);
-        return
-      }
-
-      if (typeof stub !== 'string' && componentNeedsCompiling(stub)) {
-        compileTemplate(stub);
-      }
-
-      if (originalComponents[stubName]) {
-        // Remove cached constructor
-        delete originalComponents[stubName]._Ctor;
-        if (typeof stub === 'string') {
-          components[stubName] = createStubFromString(
-            stub,
-            originalComponents[stubName],
-            stubName
-          );
-        } else {
-          var stubObject = (stub);
-          components[stubName] = Object.assign({}, stubObject,
-            {name: originalComponents[stubName].name});
-        }
       } else {
-        if (typeof stub === 'string') {
-          if (!vueTemplateCompiler.compileToFunctions) {
-            throwError(
-              "vueTemplateCompiler is undefined, you must pass " +
-                "precompiled components if vue-template-compiler is " +
-                "undefined"
-            );
-          }
-          components[stubName] = Object.assign({}, vueTemplateCompiler.compileToFunctions(stub));
-        } else {
-          var stubObject$1 = (stub);
-          components[stubName] = Object.assign({}, stubObject$1);
-        }
+        var stubObject = (stub);
+        components[stubName] = Object.assign({}, stubObject,
+          {name: originalComponents[stubName].name});
       }
-    });
-  }
+    } else {
+      if (typeof stub === 'string') {
+        components[stubName] = Object.assign({}, compileFromString(stub));
+      } else {
+        var stubObject$1 = (stub);
+        components[stubName] = Object.assign({}, stubObject$1);
+      }
+    }
+  });
   return components
 }
 
@@ -2441,6 +2444,11 @@ function stubComponents (
     var componentOptions = typeof cmp === 'function'
       ? cmp.extendOptions
       : cmp;
+
+    if (!componentOptions) {
+      stubbedComponents[component] = createBlankStub({}, component);
+      return
+    }
     // Remove cached constructor
     delete componentOptions._Ctor;
     if (!componentOptions.name) {
@@ -2457,8 +2465,6 @@ function createComponentStubsForAll (component) {
     stubComponents(component.components, stubbedComponents);
   }
 
-  stubbedComponents[component.name] = createBlankStub(component, component.name);
-
   var extended = component.extends;
 
   // Loop through extended component chains to stub all child components
@@ -2469,8 +2475,12 @@ function createComponentStubsForAll (component) {
     extended = extended.extends;
   }
 
-  if (component.extendOptions && component.extendOptions.components) {
-    stubComponents(component.extendOptions.components, stubbedComponents);
+  var extendOptions = component.extendOptions;
+  while (extendOptions) {
+    if (extendOptions && extendOptions.components) {
+      stubComponents(extendOptions.components, stubbedComponents);
+    }
+    extendOptions = extendOptions.extendOptions;
   }
 
   return stubbedComponents
@@ -2491,6 +2501,27 @@ function createComponentStubsForGlobals (
   return components
 }
 
+function addStubs (component, stubs, _Vue) {
+  var stubComponents = createComponentStubs(
+    component.components,
+    stubs
+  );
+
+  function addStubComponentsMixin () {
+    Object.assign(
+      this.$options.components,
+      stubComponents
+    );
+  }
+
+  _Vue.mixin({
+    beforeMount: addStubComponentsMixin,
+    // beforeCreate is for components created in node, which
+    // never mount
+    beforeCreate: addStubComponentsMixin
+  });
+}
+
 // 
 
 var MOUNTING_OPTIONS = [
@@ -2503,7 +2534,9 @@ var MOUNTING_OPTIONS = [
   'clone',
   'attrs',
   'listeners',
-  'propsData'
+  'propsData',
+  'logModifiedComponents',
+  'sync'
 ];
 
 function extractInstanceOptions (
@@ -2529,8 +2562,8 @@ function requiresTemplateCompiler (slot) {
   if (typeof slot === 'string' && !vueTemplateCompiler.compileToFunctions) {
     throwError(
       "vueTemplateCompiler is undefined, you must pass " +
-        "precompiled components if vue-template-compiler is " +
-        "undefined"
+      "precompiled components if vue-template-compiler is " +
+      "undefined"
     );
   }
 }
@@ -2549,37 +2582,6 @@ function validateSlots (slots) {
       requiresTemplateCompiler(slotValue);
     });
   });
-}
-
-// 
-
-function createFunctionalComponent (
-  component,
-  mountingOptions
-) {
-  if (mountingOptions.context && typeof mountingOptions.context !== 'object') {
-    throwError('mount.context must be an object');
-  }
-  if (mountingOptions.slots) {
-    validateSlots(mountingOptions.slots);
-  }
-
-  return {
-    render: function render (h) {
-      return h(
-        component,
-        mountingOptions.context || component.FunctionalRenderContext,
-        (mountingOptions.context &&
-          mountingOptions.context.children &&
-          mountingOptions.context.children.map(
-            function (x) { return (typeof x === 'function' ? x(h) : x); }
-          )) ||
-          createSlotVNodes(this, mountingOptions.slots || {})
-      )
-    },
-    name: component.name,
-    _isFunctionalContainer: true
-  }
 }
 
 // 
@@ -2612,27 +2614,22 @@ function getVueTemplateCompilerHelpers () {
   names.forEach(function (name) {
     helpers[name] = vue._renderProxy[name];
   });
+  helpers.$createElement = vue._renderProxy.$createElement;
   return helpers
 }
 
 function validateEnvironment () {
-  if (window.navigator.userAgent.match(/PhantomJS/i)) {
-    throwError(
-      "the scopedSlots option does not support PhantomJS. " +
-        "Please use Puppeteer, or pass a component."
-    );
-  }
-  if (vueVersion < 2.5) {
-    throwError("the scopedSlots option is only supported in " + "vue@2.5+.");
+  if (vueVersion < 2.1) {
+    throwError("the scopedSlots option is only supported in vue@2.1+.");
   }
 }
 
-function validateTempldate (template) {
-  if (template.trim().substr(0, 9) === '<template') {
-    throwError(
-      "the scopedSlots option does not support a template " +
-        "tag as the root element."
-    );
+var slotScopeRe = /<[^>]+ slot-scope=\"(.+)\"/;
+
+// Hide warning about <template> disallowed as root element
+function customWarn (msg) {
+  if (msg.indexOf('Cannot use <template> as component root element') === -1) {
+    console.error(msg);
   }
 }
 
@@ -2645,29 +2642,178 @@ function createScopedSlots (
   }
   validateEnvironment();
   var helpers = getVueTemplateCompilerHelpers();
-  var loop = function ( name ) {
-    var template = scopedSlotsOption[name];
-    validateTempldate(template);
-    var render = vueTemplateCompiler.compileToFunctions(template).render;
-    var domParser = new window.DOMParser();
-    var _document = domParser.parseFromString(template, 'text/html');
-    var slotScope = _document.body.firstChild.getAttribute(
-      'slot-scope'
-    );
-    var isDestructuring = isDestructuringSlotScope(slotScope);
-    scopedSlots[name] = function (props) {
+  var loop = function ( scopedSlotName ) {
+    var slot = scopedSlotsOption[scopedSlotName];
+    var isFn = typeof slot === 'function';
+    // Type check to silence flow (can't use isFn)
+    var renderFn = typeof slot === 'function'
+      ? slot
+      : vueTemplateCompiler.compileToFunctions(slot, { warn: customWarn }).render;
+
+    var hasSlotScopeAttr = !isFn && slot.match(slotScopeRe);
+    var slotScope = hasSlotScopeAttr && hasSlotScopeAttr[1];
+    scopedSlots[scopedSlotName] = function (props) {
       var obj;
 
-      if (isDestructuring) {
-        return render.call(Object.assign({}, helpers, props))
+      var res;
+      if (isFn) {
+        res = renderFn.call(Object.assign({}, helpers), props);
+      } else if (slotScope && !isDestructuringSlotScope(slotScope)) {
+        res = renderFn.call(Object.assign({}, helpers, ( obj = {}, obj[slotScope] = props, obj)));
+      } else if (slotScope && isDestructuringSlotScope(slotScope)) {
+        res = renderFn.call(Object.assign({}, helpers, props));
       } else {
-        return render.call(Object.assign({}, helpers, ( obj = {}, obj[slotScope] = props, obj)))
+        res = renderFn.call(Object.assign({}, helpers, {props: props}));
       }
+      // res is Array if <template> is a root element
+      return Array.isArray(res) ? res[0] : res
     };
   };
 
-  for (var name in scopedSlotsOption) loop( name );
+  for (var scopedSlotName in scopedSlotsOption) loop( scopedSlotName );
   return scopedSlots
+}
+
+// 
+
+function createFunctionalComponent (
+  component,
+  mountingOptions
+) {
+  if (mountingOptions.context && typeof mountingOptions.context !== 'object') {
+    throwError('mount.context must be an object');
+  }
+  if (mountingOptions.slots) {
+    validateSlots(mountingOptions.slots);
+  }
+
+  var data = mountingOptions.context ||
+    component.FunctionalRenderContext || {};
+  data.scopedSlots = createScopedSlots(mountingOptions.scopedSlots);
+
+  return {
+    render: function render (h) {
+      return h(
+        component,
+        data,
+        (mountingOptions.context &&
+          mountingOptions.context.children &&
+          mountingOptions.context.children.map(
+            function (x) { return (typeof x === 'function' ? x(h) : x); }
+          )) ||
+          createSlotVNodes(this, mountingOptions.slots || {})
+      )
+    },
+    name: component.name,
+    _isFunctionalContainer: true
+  }
+}
+
+function createdFrom (extendOptions, componentOptions) {
+  while (extendOptions) {
+    if (extendOptions === componentOptions) {
+      return true
+    }
+    if (extendOptions._vueTestUtilsRoot === componentOptions) {
+      return true
+    }
+    extendOptions = extendOptions.extendOptions;
+  }
+}
+
+function resolveComponents (options, components) {
+  if ( options === void 0 ) options = {};
+  if ( components === void 0 ) components = {};
+
+  var extendOptions = options.extendOptions;
+  while (extendOptions) {
+    resolveComponents(extendOptions, components);
+    extendOptions = extendOptions.extendOptions;
+  }
+  var extendsFrom = options.extends;
+  while (extendsFrom) {
+    resolveComponents(extendsFrom, components);
+    extendsFrom = extendsFrom.extends;
+  }
+  Object.keys(options.components || {}).forEach(function (c) {
+    components[c] = options.components[c];
+  });
+  return components
+}
+
+function shouldExtend (component) {
+  while (component) {
+    if (component.extendOptions) {
+      return true
+    }
+    component = component.extends;
+  }
+}
+
+// Components created with Vue.extend are not created internally in Vue
+// by extending a localVue constructor. To make sure they inherit
+// properties add to a localVue constructor, we must create new components by
+// extending the original extended components from the localVue constructor.
+// We apply a global mixin that overwrites the components original
+// components with the extended components when they are created.
+function extendExtendedComponents (
+  component,
+  _Vue,
+  logModifiedComponents,
+  excludedComponents,
+  stubAllComponents
+) {
+  if ( excludedComponents === void 0 ) excludedComponents = { };
+  if ( stubAllComponents === void 0 ) stubAllComponents = false;
+
+  var extendedComponents = Object.create(null);
+  var components = resolveComponents(component);
+
+  Object.keys(components).forEach(function (c) {
+    var comp = components[c];
+    var shouldExtendComponent =
+      (shouldExtend(comp) &&
+      !excludedComponents[c]) ||
+      stubAllComponents;
+    if (shouldExtendComponent) {
+      if (logModifiedComponents) {
+        warn(
+          "The child component <" + c + "> has been modified to ensure " +
+          "it is created with properties injected by Vue Test Utils. \n" +
+          "This is because the component was created with Vue.extend, " +
+          "or uses the Vue Class Component decorator. \n" +
+          "Because the component has been modified, it is not possible " +
+          "to find it with a component selector. To find the " +
+          "component, you must stub it manually using the stubs mounting " +
+          "option, or use a name or ref selector. \n" +
+          "You can hide this warning by setting the Vue Test Utils " +
+          "config.logModifiedComponents option to false."
+        );
+      }
+      extendedComponents[c] = _Vue.extend(comp);
+    }
+    // If a component has been replaced with an extended component
+    // all its child components must also be replaced.
+    extendExtendedComponents(
+      comp,
+      _Vue,
+      logModifiedComponents,
+      {},
+      shouldExtendComponent
+    );
+  });
+  if (extendedComponents) {
+    _Vue.mixin({
+      created: function created () {
+        if (createdFrom(this.constructor, component)) {
+          Object.assign(
+            this.$options.components,
+            extendedComponents
+          );
+        }
+      }
+    });
+  }
 }
 
 // 
@@ -2692,21 +2838,14 @@ function createInstance (
   // Remove cached constructor
   delete component._Ctor;
 
-  // mounting options are vue-test-utils specific
-  //
   // instance options are options that are passed to the
   // root instance when it's instantiated
-  //
-  // component options are the root components options
-  var componentOptions = typeof component === 'function'
-    ? component.extendOptions
-    : component;
-
   var instanceOptions = extractInstanceOptions(options);
 
-  if (options.mocks) {
-    addMocks(options.mocks, _Vue);
-  }
+  addEventLogger(_Vue);
+  addMocks(options.mocks, _Vue);
+  addStubs(component, options.stubs, _Vue);
+
   if (
     (component.options && component.options.functional) ||
     component.functional
@@ -2722,60 +2861,38 @@ function createInstance (
     compileTemplate(component);
   }
 
-  addEventLogger(_Vue);
-
-  var stubComponents = createComponentStubs(
-    // $FlowIgnore
-    component.components,
-    // $FlowIgnore
-    options.stubs
-  );
-  if (options.stubs) {
-    instanceOptions.components = Object.assign({}, instanceOptions.components,
-      // $FlowIgnore
-      stubComponents);
-  }
-  _Vue.mixin({
-    created: function created () {
-      Object.assign(
-        this.$options.components,
-        stubComponents
-      );
-    }
-  });
-  Object.keys(componentOptions.components || {}).forEach(function (c) {
-    if (
-      componentOptions.components[c].extendOptions &&
-      !instanceOptions.components[c]
-    ) {
-      if (options.logModifiedComponents) {
-        warn(
-          "an extended child component <" + c + "> has been modified " +
-          "to ensure it has the correct instance properties. " +
-          "This means it is not possible to find the component " +
-          "with a component selector. To find the component, " +
-          "you must stub it manually using the stubs mounting " +
-          "option."
-        );
+  // Replace globally registered components with components extended
+  // from localVue. This makes sure the beforeMount mixins to add stubs
+  // is applied to globally registered components.
+  // Vue version must be 2.3 or greater, because of a bug resolving
+  // extended constructor options (https://github.com/vuejs/vue/issues/4976)
+  if (vueVersion > 2.2) {
+    for (var c in _Vue.options.components) {
+      if (!isRequiredComponent(c)) {
+        _Vue.component(c, _Vue.extend(_Vue.options.components[c]));
       }
-      instanceOptions.components[c] = _Vue.extend(
-        componentOptions.components[c]
-      );
     }
-  });
+  }
+
+  extendExtendedComponents(
+    component,
+    _Vue,
+    options.logModifiedComponents,
+    instanceOptions.components
+  );
 
   if (component.options) {
     component.options._base = _Vue;
   }
 
-  var Constructor = vueVersion < 2.3 && typeof component === 'function'
+  // extend component from _Vue to add properties and mixins
+  // extend does not work correctly for sub class components in Vue < 2.2
+  var Constructor = typeof component === 'function' && vueVersion < 2.3
     ? component.extend(instanceOptions)
     : _Vue.extend(component).extend(instanceOptions);
 
-  Object.keys(instanceOptions.components || {}).forEach(function (key) {
-    Constructor.component(key, instanceOptions.components[key]);
-    _Vue.component(key, instanceOptions.components[key]);
-  });
+  // Keep reference to component mount was called with
+  Constructor._vueTestUtilsRoot = component;
 
   if (options.slots) {
     compileTemplateForSlots(options.slots);
@@ -2813,9 +2930,11 @@ function createInstance (
       Constructor,
       {
         ref: 'vm',
-        props: options.propsData,
         on: options.listeners,
-        attrs: options.attrs,
+        attrs: Object.assign({}, options.attrs,
+          // pass as attrs so that inheritAttrs works correctly
+          // propsData should take precedence over attrs
+          options.propsData),
         scopedSlots: scopedSlots
       },
       slots
@@ -4067,13 +4186,10 @@ var reIsUint = /^(?:0|[1-9]\d*)$/;
  * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
  */
 function isIndex(value, length) {
-  var type = typeof value;
   length = length == null ? MAX_SAFE_INTEGER : length;
-
   return !!length &&
-    (type == 'number' ||
-      (type != 'symbol' && reIsUint.test(value))) &&
-        (value > -1 && value % 1 == 0 && value < length);
+    (typeof value == 'number' || reIsUint.test(value)) &&
+    (value > -1 && value % 1 == 0 && value < length);
 }
 
 var _isIndex = isIndex;
@@ -4202,14 +4318,6 @@ var freeProcess = moduleExports && _freeGlobal.process;
 /** Used to access faster Node.js helpers. */
 var nodeUtil = (function() {
   try {
-    // Use `util.types` for Node.js 10+.
-    var types = freeModule && freeModule.require && freeModule.require('util').types;
-
-    if (types) {
-      return types;
-    }
-
-    // Legacy `process.binding('util')` for Node.js < 10.
     return freeProcess && freeProcess.binding && freeProcess.binding('util');
   } catch (e) {}
 }());
@@ -4868,7 +4976,7 @@ var hasOwnProperty$9 = objectProto$12.hasOwnProperty;
  */
 function initCloneArray(array) {
   var length = array.length,
-      result = new array.constructor(length);
+      result = array.constructor(length);
 
   // Add properties assigned by `RegExp#exec`.
   if (length && typeof array[0] == 'string' && hasOwnProperty$9.call(array, 'index')) {
@@ -4915,6 +5023,87 @@ function cloneDataView(dataView, isDeep) {
 
 var _cloneDataView = cloneDataView;
 
+/**
+ * Adds the key-value `pair` to `map`.
+ *
+ * @private
+ * @param {Object} map The map to modify.
+ * @param {Array} pair The key-value pair to add.
+ * @returns {Object} Returns `map`.
+ */
+function addMapEntry(map, pair) {
+  // Don't return `map.set` because it's not chainable in IE 11.
+  map.set(pair[0], pair[1]);
+  return map;
+}
+
+var _addMapEntry = addMapEntry;
+
+/**
+ * A specialized version of `_.reduce` for arrays without support for
+ * iteratee shorthands.
+ *
+ * @private
+ * @param {Array} [array] The array to iterate over.
+ * @param {Function} iteratee The function invoked per iteration.
+ * @param {*} [accumulator] The initial value.
+ * @param {boolean} [initAccum] Specify using the first element of `array` as
+ *  the initial value.
+ * @returns {*} Returns the accumulated value.
+ */
+function arrayReduce(array, iteratee, accumulator, initAccum) {
+  var index = -1,
+      length = array == null ? 0 : array.length;
+
+  if (initAccum && length) {
+    accumulator = array[++index];
+  }
+  while (++index < length) {
+    accumulator = iteratee(accumulator, array[index], index, array);
+  }
+  return accumulator;
+}
+
+var _arrayReduce = arrayReduce;
+
+/**
+ * Converts `map` to its key-value pairs.
+ *
+ * @private
+ * @param {Object} map The map to convert.
+ * @returns {Array} Returns the key-value pairs.
+ */
+function mapToArray(map) {
+  var index = -1,
+      result = Array(map.size);
+
+  map.forEach(function(value, key) {
+    result[++index] = [key, value];
+  });
+  return result;
+}
+
+var _mapToArray = mapToArray;
+
+/** Used to compose bitmasks for cloning. */
+var CLONE_DEEP_FLAG = 1;
+
+/**
+ * Creates a clone of `map`.
+ *
+ * @private
+ * @param {Object} map The map to clone.
+ * @param {Function} cloneFunc The function to clone values.
+ * @param {boolean} [isDeep] Specify a deep clone.
+ * @returns {Object} Returns the cloned map.
+ */
+function cloneMap(map, isDeep, cloneFunc) {
+  var array = isDeep ? cloneFunc(_mapToArray(map), CLONE_DEEP_FLAG) : _mapToArray(map);
+  return _arrayReduce(array, _addMapEntry, new map.constructor);
+}
+
+var _cloneMap = cloneMap;
+
 /** Used to match `RegExp` flags from their coerced string values. */
 var reFlags = /\w*$/;
 
@@ -4932,6 +5121,60 @@ function cloneRegExp(regexp) {
 }
 
 var _cloneRegExp = cloneRegExp;
+
+/**
+ * Adds `value` to `set`.
+ *
+ * @private
+ * @param {Object} set The set to modify.
+ * @param {*} value The value to add.
+ * @returns {Object} Returns `set`.
+ */
+function addSetEntry(set, value) {
+  // Don't return `set.add` because it's not chainable in IE 11.
+  set.add(value);
+  return set;
+}
+
+var _addSetEntry = addSetEntry;
+
+/**
+ * Converts `set` to an array of its values.
+ *
+ * @private
+ * @param {Object} set The set to convert.
+ * @returns {Array} Returns the values.
+ */
+function setToArray(set) {
+  var index = -1,
+      result = Array(set.size);
+
+  set.forEach(function(value) {
+    result[++index] = value;
+  });
+  return result;
+}
+
+var _setToArray = setToArray;
+
+/** Used to compose bitmasks for cloning. */
+var CLONE_DEEP_FLAG$1 = 1;
+
+/**
+ * Creates a clone of `set`.
+ *
+ * @private
+ * @param {Object} set The set to clone.
+ * @param {Function} cloneFunc The function to clone values.
+ * @param {boolean} [isDeep] Specify a deep clone.
+ * @returns {Object} Returns the cloned set.
+ */
+function cloneSet(set, isDeep, cloneFunc) {
+  var array = isDeep ? cloneFunc(_setToArray(set), CLONE_DEEP_FLAG$1) : _setToArray(set);
+  return _arrayReduce(array, _addSetEntry, new set.constructor);
+}
+
+var _cloneSet = cloneSet;
 
 /** Used to convert symbols to primitives and strings. */
 var symbolProto = _Symbol ? _Symbol.prototype : undefined,
@@ -4991,15 +5234,16 @@ var arrayBufferTag$1 = '[object ArrayBuffer]',
  * Initializes an object clone based on its `toStringTag`.
  *
  * **Note:** This function only supports cloning values with tags of
- * `Boolean`, `Date`, `Error`, `Map`, `Number`, `RegExp`, `Set`, or `String`.
+ * `Boolean`, `Date`, `Error`, `Number`, `RegExp`, or `String`.
  *
  * @private
  * @param {Object} object The object to clone.
  * @param {string} tag The `toStringTag` of the object to clone.
+ * @param {Function} cloneFunc The function to clone values.
  * @param {boolean} [isDeep] Specify a deep clone.
  * @returns {Object} Returns the initialized clone.
  */
-function initCloneByTag(object, tag, isDeep) {
+function initCloneByTag(object, tag, cloneFunc, isDeep) {
   var Ctor = object.constructor;
   switch (tag) {
     case arrayBufferTag$1:
@@ -5018,7 +5262,7 @@ function initCloneByTag(object, tag, isDeep) {
       return _cloneTypedArray(object, isDeep);
 
     case mapTag$2:
-      return new Ctor;
+      return _cloneMap(object, isDeep, cloneFunc);
 
     case numberTag$1:
     case stringTag$1:
@@ -5028,7 +5272,7 @@ function initCloneByTag(object, tag, isDeep) {
       return _cloneRegExp(object);
 
     case setTag$2:
-      return new Ctor;
+      return _cloneSet(object, isDeep, cloneFunc);
 
     case symbolTag:
       return _cloneSymbol(object);
@@ -5081,88 +5325,8 @@ function initCloneObject(object) {
 
 var _initCloneObject = initCloneObject;
 
-/** `Object#toString` result references. */
-var mapTag$3 = '[object Map]';
-
-/**
- * The base implementation of `_.isMap` without Node.js optimizations.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a map, else `false`.
- */
-function baseIsMap(value) {
-  return isObjectLike_1(value) && _getTag(value) == mapTag$3;
-}
-
-var _baseIsMap = baseIsMap;
-
-/* Node.js helper references. */
-var nodeIsMap = _nodeUtil && _nodeUtil.isMap;
-
-/**
- * Checks if `value` is classified as a `Map` object.
- *
- * @static
- * @memberOf _
- * @since 4.3.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a map, else `false`.
- * @example
- *
- * _.isMap(new Map);
- * // => true
- *
- * _.isMap(new WeakMap);
- * // => false
- */
-var isMap = nodeIsMap ? _baseUnary(nodeIsMap) : _baseIsMap;
-
-var isMap_1 = isMap;
-
-/** `Object#toString` result references. */
-var setTag$3 = '[object Set]';
-
-/**
- * The base implementation of `_.isSet` without Node.js optimizations.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a set, else `false`.
- */
-function baseIsSet(value) {
-  return isObjectLike_1(value) && _getTag(value) == setTag$3;
-}
-
-var _baseIsSet = baseIsSet;
-
-/* Node.js helper references. */
-var nodeIsSet = _nodeUtil && _nodeUtil.isSet;
-
-/**
- * Checks if `value` is classified as a `Set` object.
- *
- * @static
- * @memberOf _
- * @since 4.3.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a set, else `false`.
- * @example
- *
- * _.isSet(new Set);
- * // => true
- *
- * _.isSet(new WeakSet);
- * // => false
- */
-var isSet = nodeIsSet ? _baseUnary(nodeIsSet) : _baseIsSet;
-
-var isSet_1 = isSet;
-
 /** Used to compose bitmasks for cloning. */
-var CLONE_DEEP_FLAG = 1,
+var CLONE_DEEP_FLAG$2 = 1,
     CLONE_FLAT_FLAG = 2,
     CLONE_SYMBOLS_FLAG = 4;
 
@@ -5174,11 +5338,11 @@ var argsTag$2 = '[object Arguments]',
     errorTag$1 = '[object Error]',
     funcTag$2 = '[object Function]',
     genTag$1 = '[object GeneratorFunction]',
-    mapTag$4 = '[object Map]',
+    mapTag$3 = '[object Map]',
     numberTag$2 = '[object Number]',
     objectTag$2 = '[object Object]',
     regexpTag$2 = '[object RegExp]',
-    setTag$4 = '[object Set]',
+    setTag$3 = '[object Set]',
     stringTag$2 = '[object String]',
     symbolTag$1 = '[object Symbol]',
     weakMapTag$2 = '[object WeakMap]';
@@ -5202,9 +5366,9 @@ cloneableTags[arrayBufferTag$2] = cloneableTags[dataViewTag$3] =
 cloneableTags[boolTag$2] = cloneableTags[dateTag$2] =
 cloneableTags[float32Tag$2] = cloneableTags[float64Tag$2] =
 cloneableTags[int8Tag$2] = cloneableTags[int16Tag$2] =
-cloneableTags[int32Tag$2] = cloneableTags[mapTag$4] =
+cloneableTags[int32Tag$2] = cloneableTags[mapTag$3] =
 cloneableTags[numberTag$2] = cloneableTags[objectTag$2] =
-cloneableTags[regexpTag$2] = cloneableTags[setTag$4] =
+cloneableTags[regexpTag$2] = cloneableTags[setTag$3] =
 cloneableTags[stringTag$2] = cloneableTags[symbolTag$1] =
 cloneableTags[uint8Tag$2] = cloneableTags[uint8ClampedTag$2] =
 cloneableTags[uint16Tag$2] = cloneableTags[uint32Tag$2] = true;
@@ -5229,7 +5393,7 @@ cloneableTags[weakMapTag$2] = false;
  */
 function baseClone(value, bitmask, customizer, key, object, stack) {
   var result,
-      isDeep = bitmask & CLONE_DEEP_FLAG,
+      isDeep = bitmask & CLONE_DEEP_FLAG$2,
       isFlat = bitmask & CLONE_FLAT_FLAG,
       isFull = bitmask & CLONE_SYMBOLS_FLAG;
 
@@ -5266,7 +5430,7 @@ function baseClone(value, bitmask, customizer, key, object, stack) {
       if (!cloneableTags[tag]) {
         return object ? value : {};
       }
-      result = _initCloneByTag(value, tag, isDeep);
+      result = _initCloneByTag(value, tag, baseClone, isDeep);
     }
   }
   // Check for circular references and return its corresponding clone.
@@ -5276,22 +5440,6 @@ function baseClone(value, bitmask, customizer, key, object, stack) {
     return stacked;
   }
   stack.set(value, result);
-
-  if (isSet_1(value)) {
-    value.forEach(function(subValue) {
-      result.add(baseClone(subValue, bitmask, customizer, subValue, value, stack));
-    });
-
-    return result;
-  }
-
-  if (isMap_1(value)) {
-    value.forEach(function(subValue, key) {
-      result.set(key, baseClone(subValue, bitmask, customizer, key, value, stack));
-    });
-
-    return result;
-  }
 
   var keysFunc = isFull
     ? (isFlat ? _getAllKeysIn : _getAllKeys)
@@ -5312,7 +5460,7 @@ function baseClone(value, bitmask, customizer, key, object, stack) {
 var _baseClone = baseClone;
 
 /** Used to compose bitmasks for cloning. */
-var CLONE_DEEP_FLAG$1 = 1,
+var CLONE_DEEP_FLAG$3 = 1,
     CLONE_SYMBOLS_FLAG$1 = 4;
 
 /**
@@ -5334,7 +5482,7 @@ var CLONE_DEEP_FLAG$1 = 1,
  * // => false
  */
 function cloneDeep(value) {
-  return _baseClone(value, CLONE_DEEP_FLAG$1 | CLONE_SYMBOLS_FLAG$1);
+  return _baseClone(value, CLONE_DEEP_FLAG$3 | CLONE_SYMBOLS_FLAG$1);
 }
 
 var cloneDeep_1 = cloneDeep;
@@ -5413,20 +5561,36 @@ function createLocalVue (_Vue) {
   return instance
 }
 
+function normalizeStubs (stubs) {
+  if ( stubs === void 0 ) stubs = {};
+
+  if (isPlainObject(stubs)) {
+    return stubs
+  }
+  if (Array.isArray(stubs)) {
+    return stubs.reduce(function (acc, stub) {
+      if (typeof stub !== 'string') {
+        throwError('each item in an options.stubs array must be a string');
+      }
+      acc[stub] = true;
+      return acc
+    }, {})
+  }
+  throwError('options.stubs must be an object or an Array');
+}
+
 // 
 
 function getOption (option, config) {
   if (option || (config && Object.keys(config).length > 0)) {
     if (option instanceof Function) {
       return option
-    } else if (Array.isArray(option)) {
-      return option.concat( Object.keys(config || {}))
-    } else if (config instanceof Function) {
-      throw new Error("Config can't be a Function.")
-    } else {
-      return Object.assign({}, config,
-        option)
     }
+    if (config instanceof Function) {
+      throw new Error("Config can't be a Function.")
+    }
+    return Object.assign({}, config,
+      option)
   }
 }
 
@@ -5437,7 +5601,7 @@ function mergeOptions (options, config) {
   var provide = ((getOption(options.provide, config.provide)));
   return Object.assign({}, options,
     {logModifiedComponents: config.logModifiedComponents,
-    stubs: getOption(options.stubs, config.stubs),
+    stubs: getOption(normalizeStubs(options.stubs), config.stubs),
     mocks: mocks,
     methods: methods,
     provide: provide,
@@ -5477,9 +5641,6 @@ function mount (
 
   var vm = parentVm.$mount(elm).$refs.vm;
 
-  // Workaround for Vue < 2.5
-  vm._staticTrees = [];
-
   var componentsWithError = findAllVueComponentsFromVm(vm).filter(
     function (c) { return c._error; }
   );
@@ -5506,7 +5667,7 @@ function shallowMount (
 ) {
   if ( options === void 0 ) options = {};
 
-  var vue = options.localVue || Vue;
+  var _Vue = options.localVue || Vue;
 
   // remove any recursive components added to the constructor
   // in vm._init from previous tests
@@ -5515,8 +5676,18 @@ function shallowMount (
     delete component.components[hyphenate(component.name)];
   }
 
+  options.stubs = normalizeStubs(options.stubs);
+
+  // In Vue.extends, Vue adds a recursive component to the options
+  // This stub will override the component added by Vue
+  // $FlowIgnore
+  if (!options.stubs[component.name]) {
+    // $FlowIgnore
+    options.stubs[component.name] = createBlankStub(component, component.name);
+  }
+
   return mount(component, Object.assign({}, options,
-    {components: Object.assign({}, createComponentStubsForGlobals(vue),
+    {components: Object.assign({}, createComponentStubsForGlobals(_Vue),
       createComponentStubsForAll(component))}))
 }
 
@@ -5560,13 +5731,16 @@ function shallow (component, options) {
 
 var index = {
   createLocalVue: createLocalVue,
+  createWrapper: createWrapper,
   config: config,
   mount: mount,
   shallow: shallow,
   shallowMount: shallowMount,
   TransitionStub: TransitionStub,
   TransitionGroupStub: TransitionGroupStub,
-  RouterLinkStub: RouterLinkStub
+  RouterLinkStub: RouterLinkStub,
+  Wrapper: Wrapper,
+  WrapperArray: WrapperArray
 }
 
 return index;

@@ -32,55 +32,59 @@ function getVueTemplateCompilerHelpers (): { [name: string]: Function } {
   names.forEach(name => {
     helpers[name] = vue._renderProxy[name]
   })
+  helpers.$createElement = vue._renderProxy.$createElement
   return helpers
 }
 
 function validateEnvironment (): void {
-  if (window.navigator.userAgent.match(/PhantomJS/i)) {
-    throwError(
-      `the scopedSlots option does not support PhantomJS. ` +
-        `Please use Puppeteer, or pass a component.`
-    )
-  }
-  if (vueVersion < 2.5) {
-    throwError(`the scopedSlots option is only supported in ` + `vue@2.5+.`)
+  if (vueVersion < 2.1) {
+    throwError(`the scopedSlots option is only supported in vue@2.1+.`)
   }
 }
 
-function validateTempldate (template: string): void {
-  if (template.trim().substr(0, 9) === '<template') {
-    throwError(
-      `the scopedSlots option does not support a template ` +
-        `tag as the root element.`
-    )
+const slotScopeRe = /<[^>]+ slot-scope=\"(.+)\"/
+
+// Hide warning about <template> disallowed as root element
+function customWarn (msg) {
+  if (msg.indexOf('Cannot use <template> as component root element') === -1) {
+    console.error(msg)
   }
 }
 
 export default function createScopedSlots (
-  scopedSlotsOption: ?{ [slotName: string]: string }
-): { [slotName: string]: (props: Object) => VNode | Array<VNode>} {
+  scopedSlotsOption: ?{ [slotName: string]: string | Function }
+): {
+  [slotName: string]: (props: Object) => VNode | Array<VNode>
+} {
   const scopedSlots = {}
   if (!scopedSlotsOption) {
     return scopedSlots
   }
   validateEnvironment()
   const helpers = getVueTemplateCompilerHelpers()
-  for (const name in scopedSlotsOption) {
-    const template = scopedSlotsOption[name]
-    validateTempldate(template)
-    const render = compileToFunctions(template).render
-    const domParser = new window.DOMParser()
-    const _document = domParser.parseFromString(template, 'text/html')
-    const slotScope = _document.body.firstChild.getAttribute(
-      'slot-scope'
-    )
-    const isDestructuring = isDestructuringSlotScope(slotScope)
-    scopedSlots[name] = function (props) {
-      if (isDestructuring) {
-        return render.call({ ...helpers, ...props })
+  for (const scopedSlotName in scopedSlotsOption) {
+    const slot = scopedSlotsOption[scopedSlotName]
+    const isFn = typeof slot === 'function'
+    // Type check to silence flow (can't use isFn)
+    const renderFn = typeof slot === 'function'
+      ? slot
+      : compileToFunctions(slot, { warn: customWarn }).render
+
+    const hasSlotScopeAttr = !isFn && slot.match(slotScopeRe)
+    const slotScope = hasSlotScopeAttr && hasSlotScopeAttr[1]
+    scopedSlots[scopedSlotName] = function (props) {
+      let res
+      if (isFn) {
+        res = renderFn.call({ ...helpers }, props)
+      } else if (slotScope && !isDestructuringSlotScope(slotScope)) {
+        res = renderFn.call({ ...helpers, [slotScope]: props })
+      } else if (slotScope && isDestructuringSlotScope(slotScope)) {
+        res = renderFn.call({ ...helpers, ...props })
       } else {
-        return render.call({ ...helpers, [slotScope]: props })
+        res = renderFn.call({ ...helpers, props })
       }
+      // res is Array if <template> is a root element
+      return Array.isArray(res) ? res[0] : res
     }
   }
   return scopedSlots

@@ -69,30 +69,52 @@ expect(wrapper.find('div')).toBe(true)
 
 ## scopedSlots
 
-- type: `{ [name: string]: string }`
+- type: `{ [name: string]: string|Function }`
 
-Provide an object of scoped slots contents to the component. The key corresponds to the slot name. The value can be a template string.
+Provide an object of scoped slots to the component. The key corresponds to the slot name.
 
-There are three limitations.
-
-* This option is only supported in vue@2.5+.
-
-* You can not use `<template>` tag as the root element in the `scopedSlots` option.
-
-* This does not support PhantomJS.  
-You can use [Puppeteer](https://github.com/karma-runner/karma-chrome-launcher#headless-chromium-with-puppeteer) as an alternative.
-
-Example:
+You can set the name of the props using the slot-scope attribute:
 
 ```js
-const wrapper = shallowMount(Component, {
+shallowMount(Component, {
   scopedSlots: {
-    foo: '<p slot-scope="props">{{props.index}},{{props.text}}</p>'
+    foo: '<p slot-scope="foo">{{foo.index}},{{foo.text}}</p>'
   }
 })
-expect(wrapper.find('#fooWrapper').html()).toBe(
-  `<div id="fooWrapper"><p>0,text1</p><p>1,text2</p><p>2,text3</p></div>`
-)
+```
+
+Otherwise props are available as a `props` object when the slot is evaluated:
+
+```js
+shallowMount(Component, {
+  scopedSlots: {
+    default: '<p>{{props.index}},{{props.text}}</p>'
+  }
+})
+```
+
+You can also pass a function that takes the props as an argument:
+
+```js
+shallowMount(Component, {
+  scopedSlots: {
+    foo: function (props) {
+      return this.$createElement('div', props.index)
+    }
+  }
+})
+```
+
+Or you can use JSX. If you write JSX in a method, `this.$createElement` is auto-injected by babel-plugin-transform-vue-jsx:
+
+```js
+shallowMount(Component, {
+  scopedSlots: {
+    foo (props) {
+      return <div>{ props.text }</div>
+    }
+  }
+})
 ```
 
 ## stubs

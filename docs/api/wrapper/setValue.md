@@ -13,8 +13,8 @@ import Foo from './Foo.vue'
 
 const wrapper = mount(Foo)
 
-const input = wrapper.find('input[type="text"]')
-input.setValue('some value')
+const textInput = wrapper.find('input[type="text"]')
+textInput.setValue('some value')
 
 const select = wrapper.find('select')
 select.setValue('option value')
