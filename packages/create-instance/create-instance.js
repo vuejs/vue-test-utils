@@ -56,7 +56,6 @@ export default function createInstance (
     component.options
   ) {
     UNSUPPORTED_VERSION_OPTIONS.forEach((option) => {
-      console.log(options.localVue)
       if (options[option]) {
         throwError(vueExtendUnsupportedOption(option))
       }
