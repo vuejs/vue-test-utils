@@ -2,6 +2,9 @@
 import { normalizeStubs } from './normalize'
 
 function getOption (option, config?: Object): any {
+  if (option === false) {
+    return false
+  }
   if (option || (config && Object.keys(config).length > 0)) {
     if (option instanceof Function) {
       return option
