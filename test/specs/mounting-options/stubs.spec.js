@@ -6,7 +6,7 @@ import { createLocalVue, config } from '~vue/test-utils'
 import { config as serverConfig } from '~vue/server-test-utils'
 import Vue from 'vue'
 import { describeWithMountingMethods, vueVersion } from '~resources/utils'
-import { itDoNotRunIf, itSkipIf } from 'conditional-specs'
+import { itDoNotRunIf, itSkipIf, itRunIf } from 'conditional-specs'
 
 describeWithMountingMethods('options.stub', mountingMethod => {
   let info
@@ -512,4 +512,24 @@ describeWithMountingMethods('options.stub', mountingMethod => {
         .with.property('message', error)
     })
   })
+
+  itRunIf(
+    vueVersion < 2.3,
+    'throws an error if used with an extended component in Vue 2.3', () => {
+      const TestComponent = Vue.extend({
+        template: '<div></div>'
+      })
+      const message =
+    `[vue-test-utils]: options.stubs is not supported for components ` +
+    `created with Vue.extend in Vue < 2.3. You can set stubs to false ` +
+    `to mount the component.`
+      const fn = () => mountingMethod(TestComponent, {
+        stubs: {
+          something: 'true'
+        },
+        mocks: false
+      })
+      expect(fn).to.throw()
+        .with.property('message', message)
+    })
 })

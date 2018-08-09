@@ -135,24 +135,26 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     expect(wrapper.html()).to.equal(`<div>foo</div>`)
   })
 
-  it('overrides methods', () => {
-    const stub = sinon.stub()
-    const TestComponent = Vue.extend({
-      template: '<div />',
-      methods: {
-        callStub () {
-          stub()
+  itDoNotRunIf(
+    vueVersion < 2.3,
+    'overrides methods', () => {
+      const stub = sinon.stub()
+      const TestComponent = Vue.extend({
+        template: '<div />',
+        methods: {
+          callStub () {
+            stub()
+          }
         }
-      }
-    })
-    mount(TestComponent, {
-      methods: {
-        callStub () {}
-      }
-    }).vm.callStub()
+      })
+      mount(TestComponent, {
+        methods: {
+          callStub () {}
+        }
+      }).vm.callStub()
 
-    expect(stub).not.called
-  })
+      expect(stub).not.called
+    })
 
   it.skip('overrides component prototype', () => {
     const mountSpy = sinon.spy()
@@ -268,22 +270,24 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     expect(wrapper.vm.$options.listeners).to.equal(undefined)
   })
 
-  it('injects store correctly', () => {
-    const localVue = createLocalVue()
-    localVue.use(Vuex)
-    const store = new Vuex.Store()
-    const wrapper = mount(ComponentAsAClass, {
-      store,
-      localVue
+  itDoNotRunIf(
+    vueVersion < 2.3,
+    'injects store correctly', () => {
+      const localVue = createLocalVue()
+      localVue.use(Vuex)
+      const store = new Vuex.Store()
+      const wrapper = mount(ComponentAsAClass, {
+        store,
+        localVue
+      })
+      wrapper.vm.getters
+      mount(
+        {
+          template: '<div>{{$store.getters}}</div>'
+        },
+        { store, localVue }
+      )
     })
-    wrapper.vm.getters
-    mount(
-      {
-        template: '<div>{{$store.getters}}</div>'
-      },
-      { store, localVue }
-    )
-  })
 
   it('propagates errors when they are thrown', () => {
     const TestComponent = {

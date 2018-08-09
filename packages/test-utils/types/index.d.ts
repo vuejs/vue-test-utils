@@ -125,11 +125,11 @@ interface MountOptions<V extends Vue> extends ComponentOptions<V> {
   attachToDocument?: boolean
   context?: VNodeData
   localVue?: typeof Vue
-  mocks?: object
+  mocks?: object | false
   parentComponent?: Component
   slots?: Slots
   scopedSlots?: Record<string, string>
-  stubs?: Stubs,
+  stubs?: Stubs | false,
   attrs?: Record<string, string>
   listeners?: Record<string, Function | Function[]>
   sync?: boolean

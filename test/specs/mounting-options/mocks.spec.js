@@ -3,7 +3,7 @@ import Vue from 'vue'
 import Component from '~resources/components/component.vue'
 import ComponentWithVuex from '~resources/components/component-with-vuex.vue'
 import { describeWithMountingMethods, vueVersion } from '~resources/utils'
-import { itDoNotRunIf, itSkipIf } from 'conditional-specs'
+import { itDoNotRunIf, itSkipIf, itRunIf } from 'conditional-specs'
 
 describeWithMountingMethods('options.mocks', mountingMethod => {
   let configMocksSave
@@ -200,4 +200,22 @@ describeWithMountingMethods('options.mocks', mountingMethod => {
       mountingMethod.name === 'renderToString' ? wrapper : wrapper.html()
     expect(HTML).to.contain('locallyMockedValue')
   })
+
+  itRunIf(
+    vueVersion < 2.3,
+    'throws an error if used with an extended component in Vue 2.3', () => {
+      const TestComponent = Vue.extend({
+        template: '<div></div>'
+      })
+      const message =
+    `[vue-test-utils]: options.mocks is not supported for components ` +
+    `created with Vue.extend in Vue < 2.3. You can set mocks to false ` +
+    `to mount the component.`
+      const fn = () => mountingMethod(TestComponent, {
+        mocks: { something: 'true' },
+        stubs: false
+      })
+      expect(fn).to.throw()
+        .with.property('message', message)
+    })
 })
