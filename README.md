@@ -16,7 +16,7 @@ npm install --save-dev @vue/server-test-utils
 ```
 
 ## Peer Dependencies
-You need to install `vue-template-compiler` which is used to compiled components. It should be the same version as the version of Vue you are using.
+You need to install `vue-template-compiler` which is used to compile components. It should be the same version as the version of Vue you are using.
 
 ```
 npm install --save-dev vue-template-compiler
