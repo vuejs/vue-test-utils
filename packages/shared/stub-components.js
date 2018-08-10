@@ -110,6 +110,20 @@ export function createBlankStub (
   return {
     ...getCoreProperties(componentOptions),
     render (h, context) {
+      let innerContent = null
+      if (context) {
+        innerContent = context.children
+      } else {
+        innerContent = Object.keys(this.$slots).map(slotName => {
+          const slot = this.$slots[slotName]
+          if (slotName !== 'default') {
+            return slot
+          } else {
+            const element = h('div', { class: `${slotName}-slot` }, slot)
+            return element
+          }
+        })
+      }
       return h(
         tagName,
         {
@@ -124,7 +138,7 @@ export function createBlankStub (
             ...this.$props
           }
         },
-        context ? context.children : this.$slots.default
+        innerContent
       )
     }
   }
