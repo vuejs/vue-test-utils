@@ -123,31 +123,6 @@ npm install --save-dev babel-jest
 }
 ```
 
-### Тестирование моментальными снимками
-
-Вы можете использовать [`vue-server-renderer`](https://github.com/vuejs/vue/tree/dev/packages/vue-server-renderer) для рендеринга компонента в строку, чтобы его можно было сохранить в качестве снимка для [тестирования моментальными снимками в Jest](https://facebook.github.io/jest/docs/en/snapshot-testing.html).
-
-Результат рендеринга `vue-server-renderer` включает в себя несколько атрибутов, специфичных для SSR, и игнорирует пробелы, что затрудняет сравнивать diff. Мы можем улучшить сохранённый снимок с помощью специального сериализатора:
-
-``` bash
-npm install --save-dev jest-serializer-vue
-```
-
-Затем добавьте конфигурацию в `package.json`:
-
-``` json
-{
-  // ...
-  "jest": {
-    // ...
-    // сериализатор для снимков
-    "snapshotSerializers": [
-      "<rootDir>/node_modules/jest-serializer-vue"
-    ]
-  }
-}
-```
-
 ### Расположение файлов тестов
 
 По умолчанию Jest будет рекурсивно выбирать все файлы с расширением `.spec.js` или `.test.js` во всём проекте. Если это поведение не соответствует вашим потребностям, то возможно [изменить `testRegex`](https://facebook.github.io/jest/docs/en/configuration.html#testregex-string) в секции конфигурации в файле `package.json`.
@@ -200,6 +175,36 @@ describe('Component', () => {
     expect(wrapper.isVueInstance()).toBeTruthy()
   })
 })
+```
+
+### Тестирование моментальными снимками
+
+Когда вы монтируете компонент с помощью Vue Test Utils, вы получаете доступ к корневому элементу HTML. Это можно сохранить в виде моментального снимка для [тестирования моментальными снимками в Jest](https://facebook.github.io/jest/docs/en/snapshot-testing.html):
+
+```js
+test('renders correctly', () => {
+  const wrapper = mount(Component)
+  expect(wrapper.element).toMatchSnapshot()
+})
+```
+
+``` bash
+npm install --save-dev jest-serializer-vue
+```
+
+Затем добавьте конфигурацию в `package.json`:
+
+``` json
+{
+  // ...
+  "jest": {
+    // ...
+    // serializer for snapshots
+    "snapshotSerializers": [
+      "jest-serializer-vue"
+    ]
+  }
+}
 ```
 
 ### Ресурсы

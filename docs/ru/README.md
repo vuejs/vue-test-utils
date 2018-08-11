@@ -11,6 +11,7 @@ Vue Test Utils — официальная библиотека модульно�
   * [Тестирование однофайловых компонентов с Mocha + webpack](guides/testing-single-file-components-with-mocha-webpack.md)
   * [Testing однофайловых компонентов с Karma](guides/testing-single-file-components-with-karma.md)
   * [Тестирование асинхронной логики](guides/testing-async-components.md)
+  * [Использование с TypeScript](guides/using-with-typescript.md)
   * [Использование с Vue Router](guides/using-with-vue-router.md)
   * [Использование с Vuex](guides/using-with-vuex.md)
 * [API](api/)
