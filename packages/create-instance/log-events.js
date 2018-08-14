@@ -4,7 +4,7 @@ export function logEvents (
   vm: Component,
   emitted: Object,
   emittedByOrder: Array<any>
-) {
+): void {
   const emit = vm.$emit
   vm.$emit = (name, ...args) => {
     (emitted[name] || (emitted[name] = [])).push(args)
@@ -13,7 +13,7 @@ export function logEvents (
   }
 }
 
-export function addEventLogger (vue: Component) {
+export function addEventLogger (vue: Component): void {
   vue.mixin({
     beforeCreate: function () {
       this.__emitted = Object.create(null)

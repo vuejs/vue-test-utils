@@ -10,35 +10,42 @@ import {
 } from './util'
 import {
   componentNeedsCompiling,
-  templateContainsComponent
+  templateContainsComponent,
+  isVueComponent,
+  isRequiredComponent
 } from './validators'
 import { compileTemplate } from './compile-template'
 
-function isVueComponent (comp) {
-  return comp && (comp.render || comp.template || comp.options)
+function compileFromString (str) {
+  if (!compileToFunctions) {
+    throwError(
+      `vueTemplateCompiler is undefined, you must pass ` +
+        `precompiled components if vue-template-compiler is ` +
+        `undefined`
+    )
+  }
+  return compileToFunctions(str)
 }
 
-function isValidStub (stub: any) {
+function isVueComponentStub (comp): boolean {
+  return comp && comp.template || isVueComponent(comp)
+}
+
+function isValidStub (stub: any): boolean {
   return (
     (!!stub && typeof stub === 'string') ||
     stub === true ||
-    isVueComponent(stub)
+    isVueComponentStub(stub)
   )
 }
 
-function resolveComponent (obj, component) {
+function resolveComponent (obj: Object, component: string): Object {
   return obj[component] ||
     obj[hyphenate(component)] ||
     obj[camelize(component)] ||
     obj[capitalize(camelize(component))] ||
     obj[capitalize(component)] ||
     {}
-}
-
-function isRequiredComponent (name) {
-  return (
-    name === 'KeepAlive' || name === 'Transition' || name === 'TransitionGroup'
-  )
 }
 
 function getCoreProperties (componentOptions: Component): Object {
@@ -59,19 +66,12 @@ function getCoreProperties (componentOptions: Component): Object {
     functional: componentOptions.functional
   }
 }
+
 function createStubFromString (
   templateString: string,
   originalComponent: Component,
   name: string
-): Object {
-  if (!compileToFunctions) {
-    throwError(
-      `vueTemplateCompiler is undefined, you must pass ` +
-        `precompiled components if vue-template-compiler is ` +
-        `undefined`
-    )
-  }
-
+): Component {
   if (templateContainsComponent(templateString, name)) {
     throwError('options.stub cannot contain a circular reference')
   }
@@ -82,11 +82,21 @@ function createStubFromString (
 
   return {
     ...getCoreProperties(componentOptions),
-    ...compileToFunctions(templateString)
+    ...compileFromString(templateString)
   }
 }
 
-function createBlankStub (originalComponent: Component, name: string) {
+function createClassString (staticClass, dynamicClass) {
+  if (staticClass && dynamicClass) {
+    return staticClass + ' ' + dynamicClass
+  }
+  return staticClass || dynamicClass
+}
+
+export function createBlankStub (
+  originalComponent: Component,
+  name: string
+): Component {
   const componentOptions = typeof originalComponent === 'function'
     ? originalComponent.extendOptions
     : originalComponent
@@ -99,10 +109,22 @@ function createBlankStub (originalComponent: Component, name: string) {
 
   return {
     ...getCoreProperties(componentOptions),
-    render (h) {
+    render (h, context) {
       return h(
         tagName,
-        !componentOptions.functional && this.$slots.default
+        {
+          attrs: componentOptions.functional ? {
+            ...context.props,
+            ...context.data.attrs,
+            class: createClassString(
+              context.data.staticClass,
+              context.data.class
+            )
+          } : {
+            ...this.$props
+          }
+        },
+        context ? context.children : this.$slots.default
       )
     }
   }
@@ -111,88 +133,79 @@ function createBlankStub (originalComponent: Component, name: string) {
 export function createComponentStubs (
   originalComponents: Object = {},
   stubs: Object
-): Object {
+): Components {
   const components = {}
   if (!stubs) {
     return components
   }
-  if (Array.isArray(stubs)) {
-    stubs.forEach(stub => {
-      if (stub === false) {
-        return
-      }
+  Object.keys(stubs).forEach(stubName => {
+    const stub = stubs[stubName]
+    if (stub === false) {
+      return
+    }
 
-      if (typeof stub !== 'string') {
-        throwError(`each item in an options.stubs array must be a ` + `string`)
-      }
-      const component = resolveComponent(originalComponents, stub)
+    if (!isValidStub(stub)) {
+      throwError(
+        `options.stub values must be passed a string or ` + `component`
+      )
+    }
 
-      components[stub] = createBlankStub(component, stub)
-    })
-  } else {
-    Object.keys(stubs).forEach(stub => {
-      if (stubs[stub] === false) {
-        return
-      }
-      if (!isValidStub(stubs[stub])) {
-        throwError(
-          `options.stub values must be passed a string or ` + `component`
+    if (stub === true) {
+      const component = resolveComponent(originalComponents, stubName)
+      components[stubName] = createBlankStub(component, stubName)
+      return
+    }
+
+    if (typeof stub !== 'string' && componentNeedsCompiling(stub)) {
+      compileTemplate(stub)
+    }
+
+    if (originalComponents[stubName]) {
+      // Remove cached constructor
+      delete originalComponents[stubName]._Ctor
+      if (typeof stub === 'string') {
+        components[stubName] = createStubFromString(
+          stub,
+          originalComponents[stubName],
+          stubName
         )
+      } else {
+        const stubObject = (stub: Object)
+        components[stubName] = {
+          ...stubObject,
+          name: originalComponents[stubName].name
+        }
       }
-      if (stubs[stub] === true) {
-        const component = resolveComponent(originalComponents, stub)
-        components[stub] = createBlankStub(component, stub)
-        return
-      }
-
-      if (componentNeedsCompiling(stubs[stub])) {
-        compileTemplate(stubs[stub])
-      }
-
-      if (originalComponents[stub]) {
-        // Remove cached constructor
-        delete originalComponents[stub]._Ctor
-        if (typeof stubs[stub] === 'string') {
-          components[stub] = createStubFromString(
-            stubs[stub],
-            originalComponents[stub],
-            stub
-          )
-        } else {
-          components[stub] = {
-            ...stubs[stub],
-            name: originalComponents[stub].name
-          }
+    } else {
+      if (typeof stub === 'string') {
+        components[stubName] = {
+          ...compileFromString(stub)
         }
       } else {
-        if (typeof stubs[stub] === 'string') {
-          if (!compileToFunctions) {
-            throwError(
-              `vueTemplateCompiler is undefined, you must pass ` +
-                `precompiled components if vue-template-compiler is ` +
-                `undefined`
-            )
-          }
-          components[stub] = {
-            ...compileToFunctions(stubs[stub])
-          }
-        } else {
-          components[stub] = {
-            ...stubs[stub]
-          }
+        const stubObject = (stub: Object)
+        components[stubName] = {
+          ...stubObject
         }
       }
-    })
-  }
+    }
+  })
   return components
 }
 
-function stubComponents (components: Object, stubbedComponents: Object) {
+function stubComponents (
+  components: Components,
+  stubbedComponents: Components
+): void {
   Object.keys(components).forEach(component => {
     const cmp = components[component]
     const componentOptions = typeof cmp === 'function'
       ? cmp.extendOptions
       : cmp
+
+    if (!componentOptions) {
+      stubbedComponents[component] = createBlankStub({}, component)
+      return
+    }
     // Remove cached constructor
     delete componentOptions._Ctor
     if (!componentOptions.name) {
@@ -202,14 +215,12 @@ function stubComponents (components: Object, stubbedComponents: Object) {
   })
 }
 
-export function createComponentStubsForAll (component: Component): Object {
+export function createComponentStubsForAll (component: Component): Components {
   const stubbedComponents = {}
 
   if (component.components) {
     stubComponents(component.components, stubbedComponents)
   }
-
-  stubbedComponents[component.name] = createBlankStub(component, component.name)
 
   let extended = component.extends
 
@@ -221,23 +232,28 @@ export function createComponentStubsForAll (component: Component): Object {
     extended = extended.extends
   }
 
-  if (component.extendOptions && component.extendOptions.components) {
-    stubComponents(component.extendOptions.components, stubbedComponents)
+  let extendOptions = component.extendOptions
+  while (extendOptions) {
+    if (extendOptions && extendOptions.components) {
+      stubComponents(extendOptions.components, stubbedComponents)
+    }
+    extendOptions = extendOptions.extendOptions
   }
 
   return stubbedComponents
 }
 
-export function createComponentStubsForGlobals (instance: Component): Object {
+export function createComponentStubsForGlobals (
+  instance: Component
+): Components {
   const components = {}
-  Object.keys(instance.options.components).forEach(c => {
+  for (const c in instance.options.components) {
     if (isRequiredComponent(c)) {
-      return
+      continue
     }
-
     components[c] = createBlankStub(instance.options.components[c], c)
     delete instance.options.components[c]._Ctor
     delete components[c]._Ctor
-  })
+  }
   return components
 }

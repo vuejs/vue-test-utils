@@ -6,7 +6,7 @@ Vue Test Utils includes a config object to defined options used by Vue Test Util
 
 ### `stubs`
 
-- type: `Object`
+- type: `{ [name: string]: Component | boolean | string }`
 - default: `{
   transition: TransitionStub,
   'transition-group': TransitionGroupStub
@@ -20,9 +20,9 @@ When passing `stubs` as an array in the mounting options, `config.stubs` are con
 Example:
 
 ```js
-import VueTestUtils from '@vue/test-utils'
+import { config } from '@vue/test-utils'
 
-VueTestUtils.config.stubs['my-component'] = '<div />'
+config.stubs['my-component'] = '<div />'
 ```
 
 ### `mocks`
@@ -35,9 +35,9 @@ Like `stubs`, the values passed to `config.mocks` are used by default. Any value
 Example:
 
 ```js
-import VueTestUtils from '@vue/test-utils'
+import { config } from '@vue/test-utils'
 
-VueTestUtils.config.mocks['$store'] = {
+config.mocks['$store'] = {
   state: {
     id: 1
   }
@@ -46,7 +46,7 @@ VueTestUtils.config.mocks['$store'] = {
 
 ### `methods`
 
-- type: `Object`
+- type: `{ [name: string]: Function }`
 - default: `{}`
 
 You can configure default methods using the `config` object. This can be useful for plugins that inject methods to components, like [VeeValidate](https://vee-validate.logaretm.com/). You can override methods set in `config` by passing `methods` in the mounting options.
@@ -54,11 +54,9 @@ You can configure default methods using the `config` object. This can be useful 
 Example:
 
 ```js
-import VueTestUtils from '@vue/test-utils'
+import { config } from '@vue/test-utils'
 
-VueTestUtils.config.methods['errors'] = () => {
-  any: () => false
-}
+config.methods['getData'] = () => {}
 ```
 
 ### `provide`
@@ -71,9 +69,9 @@ Like `stubs` or `mocks`, the values passed to `config.provide` are used by defau
 Example:
 
 ```js
-import VueTestUtils from '@vue/test-utils'
+import { config } from '@vue/test-utils'
 
-VueTestUtils.config.provide['$logger'] = {
+config.provide['$logger'] = {
   log: (...args) => {
     console.log(...args)
   }
@@ -90,9 +88,9 @@ Logs warning when extended child components are automatically stubbed. Hides war
 Example:
 
 ```js
-import VueTestUtils from '@vue/test-utils'
+import { config } from '@vue/test-utils'
 
-VueTestUtils.config.logModifiedComponents = false
+config.logModifiedComponents = false
 ```
 
 ### `silent`
@@ -105,7 +103,7 @@ It suppresses warnings triggered by Vue while mutating component's observables (
 Example:
 
 ```js
-import VueTestUtils from '@vue/test-utils'
+import { config } from '@vue/test-utils'
 
-VueTestUtils.config.silent = false
+config.silent = false
 ```

@@ -3,15 +3,16 @@ declare type Options = {
   attachToDocument?: boolean,
   propsData?: Object,
   mocks?: Object,
-  methods?: Object,
+  methods?: { [key: string]: Function },
   slots?: SlotsObject,
-  scopedSlots?: Object,
+  scopedSlots?: { [key: string]: string | Function },
   localVue?: Component,
   provide?: Object,
-  stubs?: Object,
+  stubs?: Stubs,
   context?: Object,
-  attrs?: Object,
-  listeners?: Object,
+  attrs?: { [key: string]: string },
+  listeners?: { [key: string]: Function | Array<Function> },
+  parentComponent?: Object,
   logModifiedComponents?: boolean,
   sync?: boolean
 };
@@ -19,3 +20,7 @@ declare type Options = {
 declare type SlotValue = Component | string | Array<Component | string>;
 
 declare type SlotsObject = { [name: string]: SlotValue };
+
+declare type Stubs = {
+  [name: string]: Component | true | string
+} | Array<string>

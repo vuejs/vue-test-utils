@@ -1,5 +1,5 @@
 {
   "presets": ["env", "stage-2", "flow-vue"],
-  "plugins": ["transform-decorators-legacy"],
+  "plugins": ["transform-decorators-legacy", "transform-vue-jsx"],
   "comments": false
 }

@@ -1,7 +1,7 @@
 // @flow
 import { throwError, capitalize, camelize, hyphenate } from './util'
 
-export function isDomSelector (selector: any) {
+export function isDomSelector (selector: any): boolean {
   if (typeof selector !== 'string') {
     return false
   }
@@ -28,7 +28,7 @@ export function isDomSelector (selector: any) {
   }
 }
 
-export function isVueComponent (component: any) {
+export function isVueComponent (component: any): boolean {
   if (typeof component === 'function' && component.options) {
     return true
   }
@@ -41,10 +41,14 @@ export function isVueComponent (component: any) {
     return true
   }
 
+  if (typeof component.template === 'string') {
+    return true
+  }
+
   return typeof component.render === 'function'
 }
 
-export function componentNeedsCompiling (component: Component) {
+export function componentNeedsCompiling (component: Component): boolean {
   return (
     component &&
     !component.render &&
@@ -53,7 +57,7 @@ export function componentNeedsCompiling (component: Component) {
   )
 }
 
-export function isRefSelector (refOptionsObject: any) {
+export function isRefSelector (refOptionsObject: any): boolean {
   if (
     typeof refOptionsObject !== 'object' ||
     Object.keys(refOptionsObject || {}).length !== 1
@@ -64,7 +68,7 @@ export function isRefSelector (refOptionsObject: any) {
   return typeof refOptionsObject.ref === 'string'
 }
 
-export function isNameSelector (nameOptionsObject: any) {
+export function isNameSelector (nameOptionsObject: any): boolean {
   if (typeof nameOptionsObject !== 'object' || nameOptionsObject === null) {
     return false
   }
@@ -72,9 +76,22 @@ export function isNameSelector (nameOptionsObject: any) {
   return !!nameOptionsObject.name
 }
 
-export function templateContainsComponent (template: string, name: string) {
+export function templateContainsComponent (
+  template: string,
+  name: string
+): boolean {
   return [capitalize, camelize, hyphenate].some(format => {
     const re = new RegExp(`<${format(name)}\\s*(\\s|>|(\/>))`, 'g')
     return re.test(template)
   })
+}
+
+export function isPlainObject (obj: any): boolean {
+  return Object.prototype.toString.call(obj) === '[object Object]'
+}
+
+export function isRequiredComponent (name: string): boolean {
+  return (
+    name === 'KeepAlive' || name === 'Transition' || name === 'TransitionGroup'
+  )
 }

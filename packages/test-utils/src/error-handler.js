@@ -1,4 +1,9 @@
-export default function errorHandler (errorOrString, vm) {
+// @flow
+
+export default function errorHandler (
+  errorOrString: any,
+  vm: Component
+): void {
   const error =
     typeof errorOrString === 'object'
       ? errorOrString

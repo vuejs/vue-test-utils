@@ -1,30 +1,36 @@
 // @flow
+import { normalizeStubs } from './normalize'
 
-function getOptions (key, options, config) {
-  if (options || (config[key] && Object.keys(config[key]).length > 0)) {
-    if (options instanceof Function) {
-      return options
-    } else if (Array.isArray(options)) {
-      return [...options, ...Object.keys(config[key] || {})]
-    } else if (!(config[key] instanceof Function)) {
-      return {
-        ...config[key],
-        ...options
-      }
-    } else {
+function getOption (option, config?: Object): any {
+  if (option === false) {
+    return false
+  }
+  if (option || (config && Object.keys(config).length > 0)) {
+    if (option instanceof Function) {
+      return option
+    }
+    if (config instanceof Function) {
       throw new Error(`Config can't be a Function.`)
+    }
+    return {
+      ...config,
+      ...option
     }
   }
 }
 
-export function mergeOptions (options: Options, config: Options): Options {
+export function mergeOptions (options: Options, config: Config): Options {
+  const mocks = (getOption(options.mocks, config.mocks): Object)
+  const methods = (
+    (getOption(options.methods, config.methods)): { [key: string]: Function })
+  const provide = ((getOption(options.provide, config.provide)): Object)
   return {
     ...options,
     logModifiedComponents: config.logModifiedComponents,
-    stubs: getOptions('stubs', options.stubs, config),
-    mocks: getOptions('mocks', options.mocks, config),
-    methods: getOptions('methods', options.methods, config),
-    provide: getOptions('provide', options.provide, config),
+    stubs: getOption(normalizeStubs(options.stubs), config.stubs),
+    mocks,
+    methods,
+    provide,
     sync: !!(options.sync || options.sync === undefined)
   }
 }

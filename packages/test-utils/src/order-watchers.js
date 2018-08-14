@@ -1,6 +1,8 @@
+// @flow
+
 let i = 0
 
-function orderDeps (watcher) {
+function orderDeps (watcher): void {
   watcher.deps.forEach(dep => {
     if (dep._sortedId === i) {
       return
@@ -11,7 +13,7 @@ function orderDeps (watcher) {
   })
 }
 
-function orderVmWatchers (vm) {
+function orderVmWatchers (vm: Component): void {
   if (vm._watchers) {
     vm._watchers.forEach(orderDeps)
   }
@@ -27,7 +29,7 @@ function orderVmWatchers (vm) {
   vm.$children.forEach(orderVmWatchers)
 }
 
-export function orderWatchers (vm) {
+export function orderWatchers (vm: Component): void {
   orderVmWatchers(vm)
   i++
 }

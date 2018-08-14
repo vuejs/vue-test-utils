@@ -37,7 +37,7 @@ Hi! I’m really excited that you are interested in contributing to Vue Test Uti
 
 You will need [Node.js](http://nodejs.org) **version 6+**
 
-Vue Test Utils is a monorepo. It contains a root package.json for running scripts across the project. The code is inside sepearte packages in the `packages` directory. The project uses [lerna](https://lernajs.io/) to manage the workspaces.
+Vue Test Utils is a monorepo. It contains a root package.json for running scripts across the project. The code is inside separate packages in the `packages` directory. The project uses [lerna](https://lernajs.io/) to manage the workspaces.
 
 After cloning the repo, run:
 
@@ -66,7 +66,7 @@ The default test script will do the following: lint with ESLint -> type check wi
 
 ## Project Structure
 
-- **`docs`**: contains files used to generate https://vue-test-utils.vuejs.org/ with [GitBook](https://www.gitbook.com/).
+- **`docs`**: contains files used to generate https://vue-test-utils.vuejs.org/ with [VuePress](https://github.com/vuejs/vuepress).
 
 - **`flow`**: contains type declarations for [Flow](https://flowtype.org/). These declarations are loaded **globally** and you will see them used in type annotations in normal source code.
 
@@ -80,11 +80,11 @@ The default test script will do the following: lint with ESLint -> type check wi
 
     - **`dist`**: contains built files for distribution. Note this directory is only updated when a release happens; they do not reflect the latest changes in development branches.
 
-  - **`create-instance`**: private package that creates an instance and applies mounting options. 
+  - **`create-instance`**: private package that creates an instance and applies mounting options.
 
-  - **`shared`**: private package that contains utilities used by the other packzges.
+  - **`shared`**: private package that contains utilities used by the other packages.
 
-- **`scripts`**: contains build-related scripts and configuration files. In most cases you don't need to touch them. 
+- **`scripts`**: contains build-related scripts and configuration files. In most cases you don't need to touch them.
 
 - **`test`**: contains all tests. The unit tests are written with [Mocha](https://mochajs.org/) and run with [Karma](http://karma-runner.github.io/0.13/index.html) and [mocha-webpack](http://zinserjan.github.io/mocha-webpack/), which compiles the code with webpack before running it in mocha.
 

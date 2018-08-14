@@ -11,6 +11,7 @@
 - [`attachToDocument`](#attachtodocument)
 - [`attrs`](#attrs)
 - [`listeners`](#listeners)
+- [`parentComponent`](#parentComponent)
 - [`provide`](#provide)
 - [`sync`](#sync)
 
@@ -42,51 +43,81 @@ expect(wrapper.is(Component)).toBe(true)
 
 ```js
 import Foo from './Foo.vue'
-import Bar from './Bar.vue'
+
+const bazComponent = {
+  name: 'baz-component',
+  template: '<p>baz</p>'
+}
 
 const wrapper = shallowMount(Component, {
   slots: {
-    default: [Foo, Bar],
-    fooBar: Foo, // Will match <slot name="FooBar" />,
-    foo: '<div />'
+    default: [Foo, '<my-component />', 'text'],
+    fooBar: Foo, // `<slot name="FooBar" />` にマッチします。
+    foo: '<div />',
+    bar: 'bar',
+    baz: bazComponent,
+    qux: '<my-component />'
   }
 })
+
 expect(wrapper.find('div')).toBe(true)
 ```
 
 ## scopedSlots
 
-- 型: `{ [name: string]: string }`
+- 型: `{ [name: string]: string|Function }`
 
-コンポーネントにスコープ付きスロットのコンテンツのオブジェクトを渡します。key はスロット名に対応します。値はテンプレート文字列を指定します。
+コンポーネントにスコープ付きスロットのオブジェクトを提供します。そのオブジェクトのキーはスロット名になります。
 
-3つ制限事項があります。
-
-* vue@2.5+ のみをサポートします。
-
-* `<template>` タグを `scopedSlots` オプションのルート要素として使用することはできません。
-
-* PhantomJS をサポートしません。  
-代わりに [Puppeteer](https://github.com/karma-runner/karma-chrome-launcher#headless-chromium-with-puppeteer) を使用してください。
-
-例:
+slot-scope 属性を使って props を指定することができます。
 
 ```js
-const wrapper = shallowMount(Component, {
+shallowMount(Component, {
   scopedSlots: {
-    foo: '<p slot-scope="props">{{props.index}},{{props.text}}</p>'
+    foo: '<p slot-scope="foo">{{foo.index}},{{foo.text}}</p>'
   }
 })
-expect(wrapper.find('#fooWrapper').html()).toBe(
-  `<div id="fooWrapper"><p>0,text1</p><p>1,text2</p><p>2,text3</p></div>`
-)
+```
+
+slot-scope 属性を使って props を指定しない場合、スロットが展開されると `props` という変数名で props を使用することができます。
+
+```js
+shallowMount(Component, {
+  scopedSlots: {
+    default: '<p>{{props.index}},{{props.text}}</p>'
+  }
+})
+```
+
+props を引数に取る関数を渡すことができます。
+
+```js
+shallowMount(Component, {
+  scopedSlots: {
+    foo: function (props) {
+      return this.$createElement('div', props.index)
+    }
+  }
+})
+```
+
+または、 JSX を使用することができます。メソッド内に JSX を書いた場合、`this.$createElement` は babel-plugin-transform-vue-jsx によって自動的に注入されます。
+
+```js
+shallowMount(Component, {
+  scopedSlots: {
+    foo (props) {
+      return <div>{ props.text }</div>
+    }
+  }
+})
 ```
 
 ## stubs
 
 - type: `{ [name: string]: Component | boolean } | Array<string>`
 
-子コンポーネントをスタブします。スタブまたはオブジェクトに対するコンポーネント名の配列になります。`stubs` が配列の場合、すべてのスタブは `<${component name}-stub>` になります。
+子コンポーネントをスタブします。スタブまたはオブジェクトに対するコンポーネント名の配列になります。`stubs` が配列の場合、すべてのスタブは `<${コンポーネント名}-stub>` になります。
 
 例:
 
@@ -101,7 +132,9 @@ shallowMount(Component, {
   stubs: {
     // 特定の実装によるスタブ
     'registered-component': Foo,
-    // デフォルトのスタブを作成します
+    // デフォルトのスタブを作成します。
+    // このケースではデフォルトのスタブのコンポーネント名は another-component です。
+    // デフォルトのスタブは <${デフォルトのスタブのコンポーネント名}-stub> です。
     'another-component': true
   }
 })
@@ -174,6 +207,23 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 - 型: `Object`
 
 コンポーネントインスタンスの `$listeners` オブジェクトを設定します。
+
+## parentComponent
+
+- 型: `Object`
+
+マウントされるコンポーネントの親コンポーネントとして使用されるコンポーネントです。
+
+例:
+
+```js
+import Foo from './Foo.vue'
+
+const wrapper = shallowMount(Component, {
+  parentComponent: Foo
+})
+expect(wrapper.vm.$parent.name).toBe('foo')
+```
 
 ## provide
 

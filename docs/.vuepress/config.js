@@ -26,6 +26,8 @@ module.exports = {
   themeConfig: {
     repo: 'vuejs/vue-test-utils',
     docsDir: 'docs',
+    editLinks: true,
+    docsBranch: 'dev',
     locales: {
       '/': {
         label: 'English',

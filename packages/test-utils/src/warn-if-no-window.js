@@ -1,6 +1,8 @@
+// @flow
+
 import { throwError } from 'shared/util'
 
-export default function warnIfNoWindow () {
+export default function warnIfNoWindow (): void {
   if (typeof window === 'undefined') {
     throwError(
       `window is undefined, vue-test-utils needs to be ` +

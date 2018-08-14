@@ -56,7 +56,10 @@ export function vmCtorMatchesName (vm: Component, name: string): boolean {
     ))
 }
 
-export function vmCtorMatchesSelector (component: Component, selector: Object) {
+export function vmCtorMatchesSelector (
+  component: Component,
+  selector: Object
+): boolean {
   const Ctor = selector._Ctor || (selector.options && selector.options._Ctor)
   if (!Ctor) {
     return false
@@ -70,10 +73,10 @@ export function vmCtorMatchesSelector (component: Component, selector: Object) {
 export function vmFunctionalCtorMatchesSelector (
   component: VNode,
   Ctor: Object
-) {
+): boolean {
   if (VUE_VERSION < 2.3) {
     throwError(
-      `find for functional components is not support in ` + `Vue < 2.3`
+      `find for functional components is not supported in ` + `Vue < 2.3`
     )
   }
 

@@ -33,8 +33,8 @@ Vue 的单文件组件在它们运行于 Node 或浏览器之前是需要预编�
 
 对于不同的设置方式请移步下面的教程：
 
-- [用 Jest 测试单文件组件](./testing-SFCs-with-jest.md)
-- [用 Mocha 和 webpack 测试单文件组件](./testing-SFCs-with-mocha-webpack.md)
+- [用 Jest 测试单文件组件](./testing-single-file-components-with-jest.md)
+- [用 Mocha 和 webpack 测试单文件组件](./testing-single-file-components-with-mocha-webpack.md)
 
 ### 相关资料
 

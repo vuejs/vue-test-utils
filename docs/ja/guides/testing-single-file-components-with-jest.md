@@ -47,13 +47,13 @@ npm install --save-dev vue-jest
     ],
     "transform": {
       // vue-jest で *.vue ファイルを処理する
-      ".*\\.(vue)$": "<rootDir>/node_modules/vue-jest"
+      ".*\\.(vue)$": "vue-jest"
     }
   }
 }
 ```
 
-> **注意:** `vue-jest` は現在、カスタムブロックのサポートやスタイルのロードなど、`vue-loader` のすべての機能をサポートしていません。さらに、コード分割などのWebpack固有の機能はサポートされていません。サポートされていない機能を使用するには、 Jest の代わりに Mocha をテストランナーとして使用します。そして、 Webpack をコンポーネントをコンパイルするために使用します。やり方は [Mocha + webpackによる単一ファイルコンポーネントのテスト](./testing-SFCs-with-mocha-webpack.md)のガイドをお読みください。
+> **注意:** `vue-jest` は現在、カスタムブロックのサポートやスタイルのロードなど、`vue-loader` のすべての機能をサポートしていません。さらに、コード分割などのWebpack固有の機能はサポートされていません。サポートされていない機能を使用するには、 Jest の代わりに Mocha をテストランナーとして使用します。そして、 Webpack をコンポーネントをコンパイルするために使用します。やり方は [Mocha + webpackによる単一ファイルコンポーネントのテスト](./testing-single-file-components-with-mocha-webpack.md)のガイドをお読みください。
 
 ### Webpack エイリアスの処理
 
@@ -122,31 +122,6 @@ webpack で `babel-preset-env` を使用するとした場合、webpack は ES M
 }
 ```
 
-### スナップショットテスト
-
-[`vue-server-renderer`](https://github.com/vuejs/vue/tree/dev/packages/vue-server-renderer) を使ってコンポーネントを文字列に描画して保存することができます。[Jest のスナップショットテスト](https://facebook.github.io/jest/docs/en/snapshot-testing.html) のスナップショットとして表示されます。 
-
-`vue-server-renderer` の描画結果には、いくつかの SSR (Server-Side Rendering: サーバサイドレンダリング) 固有の属性が含まれており、空白を無視するため、diff をスキャンするのが難しくなります。カスタムシリアライザを使用して、保存されたスナップショットを改善することができます。
-
-``` bash
-npm install --save-dev jest-serializer-vue
-```
-
-次に `package.json` で設定します:
-
-``` json
-{
-  // ...
-  "jest": {
-    // ...
-    // スナップショットのシリアライザ
-    "snapshotSerializers": [
-      "<rootDir>/node_modules/jest-serializer-vue"
-    ]
-  }
-}
-```
-
 ### テストファイルの配置
 
 デフォルトでは、Jest はプロジェクト全体で `.spec.js` または `.test.js` 拡張子を持つすべてのファイルを再帰的に取得します。これがあなたのニーズに合わない場合は、`package.json` ファイルの config セクションで[testRegex を変更する](https://facebook.github.io/jest/docs/en/configuration.html#testregex-string)ことが可能です。
@@ -200,6 +175,38 @@ describe('Component', () => {
     expect(wrapper.isVueInstance()).toBeTruthy()
   })
 })
+```
+
+### スナップショットテスト
+
+Vue Test Utils でコンポーネントをマウントすると、コンポーネントのルート HTML 要素にアクセスすることができます。 [Jest のスナップショットテスト](https://facebook.github.io/jest/docs/en/snapshot-testing.html)で使用するためにこれを保存することができます。
+
+```js
+test('renders correctly', () => {
+  const wrapper = mount(Component)
+  expect(wrapper.element).toMatchSnapshot()
+})
+```
+
+カスタムシリアライザを使用することによって保存されたスナップショットを改善することができます。
+
+``` bash
+npm install --save-dev jest-serializer-vue
+```
+
+`package.json` でその設定をします。
+
+``` json
+{
+  // ...
+  "jest": {
+    // ...
+    // スナップショットに対するシリアライズ
+    "snapshotSerializers": [
+      "jest-serializer-vue"
+    ]
+  }
+}
 ```
 
 ### リソース

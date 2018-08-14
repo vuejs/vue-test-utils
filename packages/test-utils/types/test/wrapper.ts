@@ -1,5 +1,6 @@
-import { mount } from '../'
-import { normalOptions, functionalOptions, Normal, ClassComponent } from './resources'
+import { mount, createWrapper } from '../'
+import { normalOptions, functionalOptions, ClassComponent } from './resources'
+import Vue from 'vue'
 
 /**
  * Tests for BaseWrapper API
@@ -47,8 +48,6 @@ wrapper.vm.$emit('event', 'arg')
 
 let el: HTMLElement = wrapper.element
 
-bool = wrapper.options.attachedToDocument
-
 let found = wrapper.find('.foo')
 found = wrapper.find(normalOptions)
 found = wrapper.find(functionalOptions)
@@ -63,6 +62,7 @@ array = wrapper.findAll(ClassComponent)
 array = wrapper.findAll({ ref: 'myButton' })
 array = wrapper.findAll({ name: 'my-button' })
 
+wrapper.setChecked()
 wrapper.setChecked(true)
 wrapper.setValue('some string')
 wrapper.setSelected()
@@ -77,3 +77,14 @@ str = wrapper.name()
 let num: number = array.length
 found = array.at(1)
 array = array.filter((a: any) => a === true)
+
+let createdWrapper = createWrapper(new Vue().$mount())
+createdWrapper.text()
+createWrapper(document.createElement('div'))
+createWrapper(document.createElement('div'), {
+  sync: false,
+  attachedToDocument: true
+})
+createWrapper(document.createElement('div'), {
+  attachedToDocument: true
+})

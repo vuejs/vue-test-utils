@@ -53,7 +53,7 @@ npm install --save-dev vue-jest
 }
 ```
 
-> **注意：**`vue-jest` 目前并不支持 `vue-loader` 所有的功能，比如自定义块和样式加载。额外的，诸如代码分隔等 webpack 特有的功能也是不支持的。如果要使用这些不支持的特性，你需要用 Mocha 取代 Jest 来运行你的测试，同时用 webpack 来编译你的组件。想知道如何起步，请阅读教程里的[用 Mocha + webpack 测试单文件组件](./testing-SFCs-with-mocha-webpack.md)。
+> **注意：**`vue-jest` 目前并不支持 `vue-loader` 所有的功能，比如自定义块和样式加载。额外的，诸如代码分隔等 webpack 特有的功能也是不支持的。如果要使用这些不支持的特性，你需要用 Mocha 取代 Jest 来运行你的测试，同时用 webpack 来编译你的组件。想知道如何起步，请阅读教程里的[用 Mocha + webpack 测试单文件组件](./testing-single-file-components-with-mocha-webpack.md)。
 
 ### 处理 webpack 别名
 

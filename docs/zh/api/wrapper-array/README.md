@@ -10,7 +10,7 @@
 
 ### `length`
 
-`number`：该 `WrapperArray` 中包含的 `Wrapper` 的数量。
+`number` (只读)：该 `WrapperArray` 中包含的 `Wrapper` 的数量。
 
 ## 方法
 
@@ -21,7 +21,9 @@
 !!!include(docs/zh/api/wrapper-array/is.md)!!!
 !!!include(docs/zh/api/wrapper-array/isEmpty.md)!!!
 !!!include(docs/zh/api/wrapper-array/isVueInstance.md)!!!
+!!!include(docs/zh/api/wrapper-array/setChecked.md)!!!
 !!!include(docs/zh/api/wrapper-array/setData.md)!!!
 !!!include(docs/zh/api/wrapper-array/setMethods.md)!!!
 !!!include(docs/zh/api/wrapper-array/setProps.md)!!!
+!!!include(docs/zh/api/wrapper-array/setValue.md)!!!
 !!!include(docs/zh/api/wrapper-array/trigger.md)!!!
