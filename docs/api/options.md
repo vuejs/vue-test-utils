@@ -20,7 +20,7 @@ Options for `mount` and `shallowMount`. The options object can contain both Vue 
 
 - type: `Object`
 
-Passes context to functional component. Can only be used with functional components.
+Passes context to functional component. Can only be used with [functional components](https://vuejs.org/v2/guide/render-function.html#Functional-Components).
 
 Example:
 
