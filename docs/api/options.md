@@ -229,7 +229,7 @@ expect(wrapper.text()).toBe('aBC')
 ```
 
 ::: tip 
-It's worth noting that `propsData` is actually a [Vue API](https://vuejs.org/v2/api/#propsData), not a proprietary
+It's worth noting that `propsData` is actually a [Vue API](https://vuejs.org/v2/api/#propsData), not a 
 `vue-test-utils` option. It is processed through [`extends`](#other-options).
 ::: 
 
