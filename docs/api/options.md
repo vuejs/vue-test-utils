@@ -12,7 +12,7 @@ Options for `mount` and `shallowMount`. The options object can contain both Vue 
 - [`propsData`](#propsdata)
 - [`attrs`](#attrs)
 - [`listeners`](#listeners)
-- [`parentComponent`](#parentComponent)
+- [`parentComponent`](#parentcomponent)
 - [`provide`](#provide)
 - [`sync`](#sync)
 
