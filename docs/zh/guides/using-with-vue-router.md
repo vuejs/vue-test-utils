@@ -69,7 +69,7 @@ const wrapper = shallowMount(Component, {
   }
 })
 
-wrapper.vm.$router.path // /some/path
+wrapper.vm.$route.path // /some/path
 ```
 
 ### 常识
