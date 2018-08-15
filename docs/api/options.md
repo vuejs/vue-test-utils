@@ -9,6 +9,7 @@ Options for `mount` and `shallowMount`. The options object can contain both Vue 
 - [`mocks`](#mocks)
 - [`localVue`](#localvue)
 - [`attachToDocument`](#attachtodocument)
+- [`propsData`](#propsdata)
 - [`attrs`](#attrs)
 - [`listeners`](#listeners)
 - [`parentComponent`](#parentComponent)
@@ -205,6 +206,32 @@ Component will be attached to DOM when rendered if set to `true`.
 - type: `Object`
 
 Set the component instance's `$attrs` object.
+
+## propsData
+
+- type: `Object`
+
+Set the component instance's props. 
+
+Example:
+
+```js
+const Component = {
+  template: '<div>{{ msg }}</div>',
+  props: ['msg']
+}
+const wrapper = mount(Component, {
+  propsData: {
+    msg: 'aBC'
+  }
+})
+expect(wrapper.text()).toBe('aBC')
+```
+
+::: tip 
+It's worth noting that `propsData` is actually a [Vue API](https://vuejs.org/v2/api/#propsData), not a proprietary
+`vue-test-utils` option. It is processed through [`extends`](#other-options).
+::: 
 
 ## listeners
 
