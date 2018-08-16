@@ -89,7 +89,7 @@ describe('Foo', () => {
         foo: '<div />'
       }
     })
-    expect(wrapper.find('div')).toBe(true)
+    expect(wrapper.contains('div')).toBe(true)
   })
 })
 ```
