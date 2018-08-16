@@ -262,6 +262,25 @@ expect(wrapper.vm.$parent.name).toBe('foo')
 
 Pass properties for components to use in injection. See [provide/inject](https://vuejs.org/v2/api/#provide-inject).
 
+Example:
+
+```js
+const Component = {
+  inject: ["foo"],
+  template: "<div>{{this.foo()}}</div>"
+};
+
+const wrapper = shallowMount(Component, {
+  provide: {
+    foo() {
+      return "fooValue";
+    }
+  }
+});
+
+expect(wrapper.text()).toBe("fooValue");
+```
+
 ## sync
 
 - type: `boolean`
