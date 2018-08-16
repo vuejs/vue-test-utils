@@ -266,19 +266,19 @@ Example:
 
 ```js
 const Component = {
-  inject: ["foo"],
-  template: "<div>{{this.foo()}}</div>"
-};
+  inject: ['foo'],
+  template: '<div>{{this.foo()}}</div>'
+}
 
 const wrapper = shallowMount(Component, {
   provide: {
-    foo() {
-      return "fooValue";
+    foo () {
+      return 'fooValue'
     }
   }
-});
+})
 
-expect(wrapper.text()).toBe("fooValue");
+expect(wrapper.text()).toBe('fooValue')
 ```
 
 ## sync
