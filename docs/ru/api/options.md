@@ -206,7 +206,7 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
  
 Пример:
 
- ```js
+```js
 const Component = {
   template: '<div>{{ msg }}</div>',
   props: ['msg']
