@@ -124,7 +124,7 @@ export function createBlankStub (
             ...this.$props
           }
         },
-        context ? context.children : this.$slots.default
+        context ? context.children : this.$options._renderChildren
       )
     }
   }
