@@ -9,9 +9,10 @@
 - [`mocks`](#mocks)
 - [`localVue`](#localvue)
 - [`attachToDocument`](#attachtodocument)
+- [`propsData`](#propsdata)
 - [`attrs`](#attrs)
 - [`listeners`](#listeners)
-- [`parentComponent`](#parentComponent)
+- [`parentComponent`](#parentcomponent)
 - [`provide`](#provide)
 - [`sync`](#sync)
 
@@ -19,7 +20,7 @@
 
 - Тип: `Object`
 
-Передаёт контекст в функциональный компонент. Может использоваться только с функциональными компонентами.
+Передаёт контекст в функциональный компонент. Может использоваться только с [функциональными компонентами](https://ru.vuejs.org/v2/guide/render-function.html#%D0%A4%D1%83%D0%BD%D0%BA%D1%86%D0%B8%D0%BE%D0%BD%D0%B0%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5-%D0%BA%D0%BE%D0%BC%D0%BF%D0%BE%D0%BD%D0%B5%D0%BD%D1%82%D1%8B).
 
 Пример:
 
@@ -196,6 +197,32 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 - Тип: `Object`
 
 Устанавливает объект `$attrs` на экземпляре компонента.
+
+## propsData
+
+- Тип: `Object`
+ 
+Установите входные параметры экземпляра компонента.
+ 
+Пример:
+
+ ```js
+const Component = {
+  template: '<div>{{ msg }}</div>',
+  props: ['msg']
+}
+const wrapper = mount(Component, {
+  propsData: {
+    msg: 'aBC'
+  }
+})
+expect(wrapper.text()).toBe('aBC')
+```
+
+::: tip 
+Стоит отметить, что `propsData` относятся на самом деле к [API Vue](https://ru.vuejs.org/v2/api/#propsData),
+а не к `vue-test-utils`. Он обрабатывается через [`extends`](#other-options).
+::: 
 
 ## listeners
 
