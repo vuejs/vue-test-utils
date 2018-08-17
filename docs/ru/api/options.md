@@ -221,7 +221,7 @@ expect(wrapper.text()).toBe('aBC')
 
 ::: tip 
 Стоит отметить, что `propsData` относятся на самом деле к [API Vue](https://ru.vuejs.org/v2/api/#propsData),
-а не к `vue-test-utils`. Он обрабатывается через [`extends`](#other-options).
+а не к `vue-test-utils`. Он обрабатывается через [`extends`](#другие-опции).
 ::: 
 
 ## listeners
