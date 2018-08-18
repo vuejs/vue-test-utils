@@ -104,7 +104,8 @@ export interface Wrapper<V extends Vue | null> extends BaseWrapper {
   text (): string
   name (): string
 
-  emitted (event?: string): { [name: string]: Array<Array<any>> }
+  emitted (): { [name: string]: Array<Array<any>> }
+  emitted (event: string): Array<any>
   emittedByOrder (): Array<{ name: string, args: Array<any> }>
 }
 
