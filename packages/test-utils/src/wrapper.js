@@ -362,10 +362,7 @@ export default class Wrapper implements BaseWrapper {
       throwError('$ref selectors can not be used with wrapper.is()')
     }
 
-    const root = this.vm && !this.isFunctionalComponent
-      ? (this.vm.$vnode || this.vm)
-      : this.vnode
-    return matches(root || this.element, selector)
+    return matches(this.vnode || this.element, selector)
   }
 
   /**
@@ -375,12 +372,27 @@ export default class Wrapper implements BaseWrapper {
     if (!this.vnode) {
       return this.element.innerHTML === ''
     }
-    if (this.vnode.children) {
-      return this.vnode.children.every(vnode => vnode.isComment)
+    const nodes = []
+    const rootVnodes = []
+    let node = this.vm
+      ? this.vm._vnode
+      : this.vnode
+    while (node) {
+      if (node.componentInstance) {
+        rootVnodes.push(node.componentInstance._vnode)
+      } else {
+        nodes.push(node)
+      }
+      node.children && node.children.forEach(n => {
+        if (n.componentInstance) {
+          rootVnodes.push(n)
+        } else {
+          nodes.push(n)
+        }
+      })
+      node = rootVnodes.shift()
     }
-    return (
-      this.vnode.children === undefined || this.vnode.children.length === 0
-    )
+    return nodes.every(n => n.isComment)
   }
 
   /**

@@ -12,6 +12,7 @@ import { findAllInstances } from './find'
 import { mergeOptions } from 'shared/merge-options'
 import config from './config'
 import warnIfNoWindow from './warn-if-no-window'
+import createWrapper from './create-wrapper'
 
 Vue.config.productionTip = false
 Vue.config.devtools = false
@@ -56,6 +57,8 @@ export default function mount (
     attachedToDocument: !!mergedOptions.attachToDocument,
     sync: mergedOptions.sync
   }
-
-  return new VueWrapper(vm, wrapperOptions)
+  const root = vm.$options._isFunctionalContainer
+    ? vm._vnode
+    : vm
+  return createWrapper(root, wrapperOptions)
 }

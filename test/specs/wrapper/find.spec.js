@@ -51,7 +51,7 @@ describeWithShallowAndMount('find', mountingMethod => {
   )
 
   it('returns Wrapper matching class selector passed if they are declared inside a functional component', () => {
-    const Component = {
+    const TestComponent = {
       functional: true,
       render (h, { props }) {
         return h('div', {}, [
@@ -68,7 +68,7 @@ describeWithShallowAndMount('find', mountingMethod => {
     const context = {
       data: { hello: true }
     }
-    const wrapper = mountingMethod(Component, {
+    const wrapper = mountingMethod(TestComponent, {
       context
     })
     expect(wrapper.find('.foo').vnode).to.be.an('object')

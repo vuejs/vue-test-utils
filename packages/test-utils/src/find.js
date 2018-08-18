@@ -33,8 +33,8 @@ function findAllVNodes (
       findAllVNodes(v, nodes, selector)
     })
   }
-  if (vnode.child) {
-    findAllVNodes(vnode.child._vnode, nodes, selector)
+  if (vnode.componentInstance) {
+    findAllVNodes(vnode.componentInstance._vnode, nodes, selector)
   }
   return nodes
 }
@@ -86,10 +86,8 @@ export default function findAll (
     const refs = vm.$refs[selector.value.ref]
     return Array.isArray(refs) ? refs : [refs]
   }
-  const rootVnode = vm && vm.$vnode
-    ? vm.$vnode
-    : vm && vm._vnode
-  const nodes = findAllVNodes(vm ? rootVnode : vnode, [], selector)
+
+  const nodes = findAllVNodes(vnode, [], selector)
   const dedupedNodes = removeDuplicateNodes(nodes)
 
   if (nodes.length > 0 || selector.type !== DOM_SELECTOR) {
