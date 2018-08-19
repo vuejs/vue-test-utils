@@ -13,6 +13,7 @@ import { componentNeedsCompiling, isPlainObject } from 'shared/validators'
 import { validateSlots } from './validate-slots'
 import createScopedSlots from './create-scoped-slots'
 import { extendExtendedComponents } from './extend-extended-components'
+import Vue from 'vue'
 
 function compileTemplateForSlots (slots: Object): void {
   Object.keys(slots).forEach(key => {
@@ -43,12 +44,17 @@ const UNSUPPORTED_VERSION_OPTIONS = [
 
 export default function createInstance (
   component: Component,
-  options: Options,
-  _Vue: Component,
-  elm?: Element
+  options: Options
 ): Component {
   // Remove cached constructor
   delete component._Ctor
+
+  const _Vue = options.localVue
+    ? options.localVue.extend()
+    : Vue.extend()
+
+  // make sure all extends are based on this instance
+  _Vue.options._base = _Vue
 
   if (
     vueVersion < 2.3 &&
