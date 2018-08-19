@@ -26,8 +26,8 @@ bool = wrapper.isVueInstance()
 
 wrapper.vm.$emit('hello')
 
-const emitted = wrapper.emitted()
-const arr: Array<any> = emitted.hello
+let n: number = wrapper.emitted().hello[0][0]
+let o: string = wrapper.emitted('hello')[0]
 
 const emittedByOrder = wrapper.emittedByOrder()
 const name: string = emittedByOrder[0].name
