@@ -6,7 +6,6 @@ import Vue from 'vue'
 import VueWrapper from './vue-wrapper'
 import createInstance from 'create-instance'
 import createElement from './create-element'
-import createLocalVue from './create-local-vue'
 import errorHandler from './error-handler'
 import { findAllVueComponentsFromVm } from './find-vue-components'
 import { mergeOptions } from 'shared/merge-options'
@@ -27,7 +26,6 @@ export default function mount (
 
   // Remove cached constructor
   delete component._Ctor
-  const vueConstructor = createLocalVue(options.localVue)
 
   const elm = options.attachToDocument ? createElement() : undefined
 
@@ -35,9 +33,7 @@ export default function mount (
 
   const parentVm = createInstance(
     component,
-    mergedOptions,
-    vueConstructor,
-    elm
+    mergedOptions
   )
 
   const vm = parentVm.$mount(elm).$refs.vm
