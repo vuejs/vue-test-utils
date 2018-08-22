@@ -8,9 +8,7 @@ API 调用和 Vuex action 都是最常见的异步行为之一。下列例子展
 
 ``` js
 export default {
-  get: () => new Promise(resolve => {
-    resolve({ data: 'value' })
-  })
+  get: () => Promise.resolve({ data: 'value' })
 }
 ```
 
