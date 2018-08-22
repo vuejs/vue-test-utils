@@ -23,11 +23,11 @@ module.exports = {
   },
   serviceWorker: true,
   theme: 'vue',
-  algolia: {
-    apiKey: 'ee1b8516c9e5a5be9b6c25684eafc42f',
-    indexName: 'vue_test_utils'
-  },
   themeConfig: {
+    algolia: {
+      apiKey: 'ee1b8516c9e5a5be9b6c25684eafc42f',
+      indexName: 'vue_test_utils'
+    },
     repo: 'vuejs/vue-test-utils',
     docsDir: 'docs',
     editLinks: true,
