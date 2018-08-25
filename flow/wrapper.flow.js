@@ -9,8 +9,8 @@ declare type Components = { [name: string]: Component };
 declare interface BaseWrapper {
   // eslint-disable-line no-undef
   at(index: number): Wrapper | void;
-  attributes(): { [name: string]: string } | void;
-  classes(): Array<string> | void;
+  attributes(key?: string): { [name: string]: string } | string | void;
+  classes(className?: string): Array<string> | boolean | void;
   contains(selector: Selector): boolean | void;
   emitted(
     event?: string
@@ -31,7 +31,7 @@ declare interface BaseWrapper {
   isVisible(): boolean | void;
   isVueInstance(): boolean | void;
   name(): string | void;
-  props(): { [name: string]: any } | void;
+  props(key?: string): { [name: string]: any } | any | void;
   text(): string | void;
   setData(data: Object): void;
   setComputed(computed: Object): void;

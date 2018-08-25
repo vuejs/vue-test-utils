@@ -91,4 +91,23 @@ describeWithShallowAndMount('props', mountingMethod => {
       .to.throw()
       .with.property('message', message)
   })
+
+  it('returns the given prop if a key is provided', () => {
+    const prop1 = {}
+    const prop2 = 'string val'
+    const wrapper = mountingMethod(ComponentWithProps, {
+      propsData: { prop1, prop2 }
+    })
+    expect(wrapper.props('prop1')).to.eql({})
+    expect(wrapper.props('prop2')).to.eql('string val')
+  })
+
+  it('returns undefined if the given key is not found', () => {
+    const prop1 = {}
+    const prop2 = 'string val'
+    const wrapper = mountingMethod(ComponentWithProps, {
+      propsData: { prop1, prop2 }
+    })
+    expect(wrapper.props('propNotHere')).to.eql(undefined)
+  })
 })

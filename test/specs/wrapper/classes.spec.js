@@ -30,4 +30,20 @@ describeWithShallowAndMount('classes', mountingMethod => {
     expect(wrapper.classes()).to.contain('b-class')
     expect(wrapper.find('text').classes()).to.contain('c-class')
   })
+
+  it('returns true if the element has the class', () => {
+    const compiled = compileToFunctions(
+      '<svg class="a-class b-class"><text class="c-class"/></svg>'
+    )
+    const wrapper = mountingMethod(compiled)
+    expect(wrapper.classes('a-class')).to.eql(true)
+    expect(wrapper.classes('b-class')).to.eql(true)
+    expect(wrapper.find('text').classes('c-class')).to.eql(true)
+    expect(wrapper.classes('x-class')).to.eql(false)
+  })
+
+  it('returns false if the element does not have the class', () => {
+    const wrapper = mountingMethod(ComponentWithCssModules)
+    expect(wrapper.classes('x-class')).to.eql(false)
+  })
 })
