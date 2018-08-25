@@ -20,7 +20,7 @@ Vue.config.devtools = false
 export default function mount (
   component: Component,
   options: Options = {}
-): VueWrapper {
+): VueWrapper | Wrapper {
   const existingErrorHandler = Vue.config.errorHandler
   Vue.config.errorHandler = errorHandler
 

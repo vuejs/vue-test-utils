@@ -3,12 +3,13 @@
 import findDOMNodes from './find-dom-nodes'
 import {
   DOM_SELECTOR,
-  REF_SELECTOR
+  REF_SELECTOR,
+  COMPONENT_SELECTOR
 } from './consts'
-import { throwError } from 'shared/util'
+import { throwError, vueVersion } from 'shared/util'
 import { matches } from './matches'
 
-export function findAllInstances (rootVm) {
+export function findAllInstances (rootVm: any) {
   const instances = [rootVm]
   let i = 0
   while (i < instances.length) {
@@ -35,8 +36,8 @@ function findAllVNodes (
         nodes.unshift(n)
       })
     }
-    if (node.componentInstance) {
-      nodes.unshift(node.componentInstance._vnode)
+    if (node.child) {
+      nodes.unshift(node.child._vnode)
     }
     if (matches(node, selector)) {
       matchingNodes.push(node)
@@ -55,7 +56,7 @@ function removeDuplicateNodes (vNodes: Array<VNode>): Array<VNode> {
 
 export default function findAll (
   root: VNode | Element,
-  vm: Component,
+  vm?: Component,
   selector: Selector
 ): Array<VNode | Component> {
   if ((root instanceof Element) && selector.type !== DOM_SELECTOR) {
@@ -63,6 +64,17 @@ export default function findAll (
       `cannot find a Vue instance on a DOM node. The node ` +
       `you are calling find on does not exist in the ` +
       `VDom. Are you adding the node as innerHTML?`
+    )
+  }
+  console.log(selector.type)
+  if (
+    selector.type === COMPONENT_SELECTOR &&
+    selector.value.functional &&
+    vueVersion < 2.3
+  ) {
+    throwError(
+      `find for functional components is not supported ` +
+        `in Vue < 2.3`
     )
   }
 

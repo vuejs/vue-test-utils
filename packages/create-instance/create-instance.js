@@ -82,6 +82,8 @@ export default function createInstance (
   // Keep reference to component mount was called with
   Constructor._vueTestUtilsRoot = component
 
+  // used to identify extended component using constructor
+  Constructor.options.$_vueTestUtils_original = component
   if (options.slots) {
     compileTemplateForSlots(options.slots)
     // validate slots outside of the createSlots function so

@@ -148,16 +148,16 @@ describeWithShallowAndMount('find', mountingMethod => {
         ComponentAsAClass
       }
     }
-
     const wrapper = mountingMethod(TestComponent)
+
     expect(wrapper.find(ComponentAsAClass).vnode).to.be.an('object')
   })
 
   itDoNotRunIf(
     mountingMethod.name === 'shallowMount',
     'follows DOM tree order', () => {
-    const TestComponent = {
-      template: `
+      const TestComponent = {
+        template: `
       <main>
         <div class="1">
           <div class="1a"><div class="1aa"/></div><div class="1b" />
@@ -166,17 +166,17 @@ describeWithShallowAndMount('find', mountingMethod => {
         <div class="3" />
       </main>
       `,
-      components: {
-        'component-2' : {
-          template: '<div class="2" />'
+        components: {
+          'component-2': {
+            template: '<div class="2" />'
+          }
         }
       }
-    }
-    const wrapper = mountingMethod(TestComponent)
-    const wrappers = wrapper.findAll('div').wrappers
-    const expectedClasses = ['1', '1a', '1aa', '1b', '2', '3']
-    wrappers.forEach((w, i) => expect(w.classes()).to.contain(expectedClasses[i]))
-  })
+      const wrapper = mountingMethod(TestComponent)
+      const wrappers = wrapper.findAll('div').wrappers
+      const expectedClasses = ['1', '1a', '1aa', '1b', '2', '3']
+      wrappers.forEach((w, i) => expect(w.classes()).to.contain(expectedClasses[i]))
+    })
 
   it('returns Wrapper of Vue Component matching functional component', () => {
     if (!functionalSFCsSupported) {

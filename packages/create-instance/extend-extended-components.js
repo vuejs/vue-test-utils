@@ -75,7 +75,13 @@ export function extendExtendedComponents (
           `config.logModifiedComponents option to false.`
         )
       }
-      extendedComponents[c] = _Vue.extend(comp)
+      const extendedComp = _Vue.extend(comp)
+      // used to identify instance when calling find with component selector
+      if (extendedComp.extendOptions.options) {
+        extendedComp.extendOptions.options.$_vueTestUtils_original = comp
+      }
+      extendedComp.extendOptions.$_vueTestUtils_original = comp
+      extendedComponents[c] = extendedComp
     }
     // If a component has been replaced with an extended component
     // all its child components must also be replaced.

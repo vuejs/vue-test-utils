@@ -26,6 +26,7 @@ export default class Wrapper implements BaseWrapper {
   +options: WrapperOptions;
   version: number;
   isFunctionalComponent: boolean;
+  rootNode: VNode | Element
 
   constructor (
     node: VNode | Element,
@@ -36,6 +37,7 @@ export default class Wrapper implements BaseWrapper {
     const element = node instanceof Element ? node : node.elm
     // Prevent redefine by VueWrapper
     if (!isVueWrapper) {
+      // $FlowIgnore : issue with defineProperty
       Object.defineProperty(this, 'rootNode', {
         get: () => vnode || element,
         set: () => throwError('wrapper.vnode is read-only')
@@ -380,17 +382,16 @@ export default class Wrapper implements BaseWrapper {
     let node = this.vnode
     let i = 0
 
-    // if(this.root.componentInstance)
     while (node) {
-      if (node.componentInstance) {
-        nodes.push(node.componentInstance._vnode)
+      if (node.child) {
+        nodes.push(node.child._vnode)
       }
       node.children && node.children.forEach(n => {
         nodes.push(n)
       })
       node = nodes[i++]
     }
-    return nodes.every(n => n.isComment || n.componentInstance)
+    return nodes.every(n => n.isComment || n.child)
   }
 
   /**
@@ -424,7 +425,9 @@ export default class Wrapper implements BaseWrapper {
    */
   name (): string {
     if (this.vm) {
-      return this.vm.$options.name
+      return this.vm.$options.name ||
+      // compat for Vue < 2.3
+      (this.vm.$options.extendOptions && this.vm.$options.extendOptions.name)
     }
 
     if (!this.vnode) {
