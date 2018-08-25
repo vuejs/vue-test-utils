@@ -9,8 +9,8 @@ import {
 import config from './config'
 import WrapperArray from './wrapper-array'
 import ErrorWrapper from './error-wrapper'
-import { throwError, warn } from '../../shared/util'
-import findAll from './find'
+import { throwError, warn, vueVersion } from 'shared/util'
+import find from './find'
 import createWrapper from './create-wrapper'
 import { orderWatchers } from './order-watchers'
 import { recursivelySetData } from './recursively-set-data'
@@ -24,7 +24,6 @@ export default class Wrapper implements BaseWrapper {
   +element: Element;
   update: Function;
   +options: WrapperOptions;
-  version: number;
   isFunctionalComponent: boolean;
   rootNode: VNode | Element
 
@@ -70,9 +69,6 @@ export default class Wrapper implements BaseWrapper {
     ) {
       this.isFunctionalComponent = true
     }
-    this.version = Number(
-      `${Vue.version.split('.')[0]}.${Vue.version.split('.')[1]}`
-    )
   }
 
   at (): void {
@@ -121,7 +117,7 @@ export default class Wrapper implements BaseWrapper {
    */
   contains (rawSelector: Selector): boolean {
     const selector = getSelector(rawSelector, 'contains')
-    const nodes = findAll(this.rootNode, this.vm, selector)
+    const nodes = find(this.rootNode, this.vm, selector)
     return nodes.length > 0
   }
 
@@ -187,7 +183,7 @@ export default class Wrapper implements BaseWrapper {
    */
   find (rawSelector: Selector): Wrapper | ErrorWrapper {
     const selector = getSelector(rawSelector, 'find')
-    const node = findAll(this.rootNode, this.vm, selector)[0]
+    const node = find(this.rootNode, this.vm, selector)[0]
 
     if (!node) {
       if (selector.type === REF_SELECTOR) {
@@ -209,7 +205,7 @@ export default class Wrapper implements BaseWrapper {
    */
   findAll (rawSelector: Selector): WrapperArray {
     const selector = getSelector(rawSelector, 'findAll')
-    const nodes = findAll(this.rootNode, this.vm, selector)
+    const nodes = find(this.rootNode, this.vm, selector)
     const wrappers = nodes.map(node => {
       // Using CSS Selector, returns a VueWrapper instance if the root element
       // binds a Vue instance.
@@ -580,7 +576,7 @@ export default class Wrapper implements BaseWrapper {
     )
 
     Object.keys(computed).forEach(key => {
-      if (this.version > 2.1) {
+      if (vueVersion > 2.1) {
         // $FlowIgnore : Problem with possibly null this.vm
         if (!this.vm._computedWatchers[key]) {
           throwError(

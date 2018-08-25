@@ -54,7 +54,7 @@ function removeDuplicateNodes (vNodes: Array<VNode>): Array<VNode> {
   )
 }
 
-export default function findAll (
+export default function find (
   root: VNode | Element,
   vm?: Component,
   selector: Selector
@@ -111,5 +111,8 @@ export default function findAll (
   if (nodes.length > 0 || selector.type !== DOM_SELECTOR) {
     return dedupedNodes
   }
+
+  // Fallback in case element exists in HTML, but not in vnode tree
+  // (e.g. if innerHTML is set as a domProp)
   return findDOMNodes(root.elm, selector.value)
 }
