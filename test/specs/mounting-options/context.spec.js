@@ -45,7 +45,7 @@ describeWithMountingMethods('options.context', mountingMethod => {
       render: h => h('div')
     })
     const context = {}
-    const fn = () => mountingMethod(Component, { context })
+    const fn = () => mountingMethod(Component, { context, stubs: false, mocks: false })
     expect(fn).not.to.throw()
   })
 

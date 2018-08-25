@@ -104,7 +104,8 @@ export interface Wrapper<V extends Vue | null> extends BaseWrapper {
   text (): string
   name (): string
 
-  emitted (event?: string): { [name: string]: Array<Array<any>> }
+  emitted (): { [name: string]: Array<Array<any>> }
+  emitted (event: string): Array<any>
   emittedByOrder (): Array<{ name: string, args: Array<any> }>
 }
 
@@ -125,11 +126,11 @@ interface MountOptions<V extends Vue> extends ComponentOptions<V> {
   attachToDocument?: boolean
   context?: VNodeData
   localVue?: typeof Vue
-  mocks?: object
+  mocks?: object | false
   parentComponent?: Component
   slots?: Slots
   scopedSlots?: Record<string, string>
-  stubs?: Stubs,
+  stubs?: Stubs | false,
   attrs?: Record<string, string>
   listeners?: Record<string, Function | Function[]>
   sync?: boolean

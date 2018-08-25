@@ -96,7 +96,7 @@ export function createStubFromComponent (
             ...this.$props
           }
         },
-        context ? context.children : this.$slots.default
+        context ? context.children : this.$options._renderChildren
       )
     }
   }

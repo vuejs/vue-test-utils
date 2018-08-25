@@ -16,15 +16,49 @@ import { componentNeedsCompiling, isPlainObject } from 'shared/validators'
 import { validateSlots } from './validate-slots'
 import createScopedSlots from './create-scoped-slots'
 import { extendExtendedComponents } from './extend-extended-components'
+import Vue from 'vue'
+
+function vueExtendUnsupportedOption (option: string) {
+  return `options.${option} is not supported for ` +
+  `components created with Vue.extend in Vue < 2.3. ` +
+  `You can set ${option} to false to mount the component.`
+}
+
+// these options aren't supported if Vue is version < 2.3
+// for components using Vue.extend. This is due to a bug
+// that means the mixins we use to add properties are not applied
+// correctly
+const UNSUPPORTED_VERSION_OPTIONS = [
+  'mocks',
+  'stubs',
+  'localVue'
+]
 
 export default function createInstance (
   component: Component,
-  options: Options,
-  _Vue: Component,
-  elm?: Element
+  options: Options
 ): Component {
   // Remove cached constructor
   delete component._Ctor
+
+  const _Vue = options.localVue
+    ? options.localVue.extend()
+    : Vue.extend()
+
+  // make sure all extends are based on this instance
+  _Vue.options._base = _Vue
+
+  if (
+    vueVersion < 2.3 &&
+    typeof component === 'function' &&
+    component.options
+  ) {
+    UNSUPPORTED_VERSION_OPTIONS.forEach((option) => {
+      if (options[option]) {
+        throwError(vueExtendUnsupportedOption(option))
+      }
+    })
+  }
 
   // instance options are options that are passed to the
   // root instance when it's instantiated

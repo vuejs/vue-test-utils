@@ -13,8 +13,6 @@ describeWithShallowAndMount('config', mountingMethod => {
   let configStubsSave, consoleError, configLogSave, configSilentSave
 
   beforeEach(() => {
-    TransitionGroupStub.name = 'another-temp-name'
-    TransitionStub.name = 'a-temp-name'
     configStubsSave = config.stubs
     configLogSave = config.logModifiedComponents
     configSilentSave = config.silent
@@ -22,8 +20,6 @@ describeWithShallowAndMount('config', mountingMethod => {
   })
 
   afterEach(() => {
-    TransitionGroupStub.name = 'transition-group'
-    TransitionStub.name = 'transition'
     config.stubs = configStubsSave
     config.logModifiedComponents = configLogSave
     config.silent = configSilentSave

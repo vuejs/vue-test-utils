@@ -19,8 +19,8 @@ function getSelectorType (
   selector: Selector
 ): string {
   if (isDomSelector(selector)) return DOM_SELECTOR
-  if (isNameSelector(selector)) return NAME_SELECTOR
   if (isVueComponent(selector)) return COMPONENT_SELECTOR
+  if (isNameSelector(selector)) return NAME_SELECTOR
   if (isRefSelector(selector)) return REF_SELECTOR
 
   return INVALID_SELECTOR

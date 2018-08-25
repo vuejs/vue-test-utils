@@ -69,31 +69,43 @@ expect(wrapper.find('div')).toBe(true)
 
 ## scopedSlots
 
-- Тип: `{ [name: string]: string }`
+- Тип: `{ [name: string]: string|Function }`
 
-Предоставляет объект содержимое слотов с ограниченной областью видимости для компонента. Ключ соответствует имени слота. Значение может быть строкой шаблона.
+Предоставляет объект содержимое слотов с ограниченной областью видимости для компонента. Ключ соответствует имени слота.
 
-Есть три ограничения.
-
-* Эта опция поддерживается только с vue@2.5+.
-
-* Вы не можете использовать тег `<template>` в качестве корневого элемента в опции `scopedSlots`.
-
-* Это не поддерживает PhantomJS.  
-Вы можете использовать [Puppeteer](https://github.com/karma-runner/karma-chrome-launcher#headless-chromium-with-puppeteer) как альтернативу.
-
-Пример:
+Вы можете установить имя входного параметра, используя атрибут slot-scope:
 
 ```js
-const wrapper = shallowMount(Component, {
+shallowMount(Component, {
   scopedSlots: {
-    foo: '<p slot-scope="props">{{props.index}},{{props.text}}</p>'
+    foo: '<p slot-scope="foo">{{foo.index}},{{foo.text}}</p>'
   }
 })
-expect(wrapper.find('#fooWrapper').html()).toBe(
-  `<div id="fooWrapper"><p>0,text1</p><p>1,text2</p><p>2,text3</p></div>`
-)
 ```
+
+В противном случае входные параметры будут доступны как объект `props` при вычислении слота:
+
+```js
+shallowMount(Component, {
+  scopedSlots: {
+    default: '<p>{{props.index}},{{props.text}}</p>'
+  }
+})
+```
+
+Вы также можете передать функцию, которая принимает входные параметры в качестве аргумента:
+
+```js
+shallowMount(Component, {
+  scopedSlots: {
+    foo: function (props) {
+      return this.$createElement('div', props.index)
+    }
+  }
+})
+```
+
+Или вы можете использовать JSX. Если вы пишете JSX в методе, `this.$createElement` автоматически внедряется babel-plugin-transform-vue-jsx:
 
 ## stubs
 

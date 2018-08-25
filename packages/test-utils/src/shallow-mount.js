@@ -21,7 +21,7 @@ export default function shallowMount (
   // Vue registers a recursive component on the original options
   // This stub will override the component added by Vue
   // $FlowIgnore
-  if (!options.stubs[component.name]) {
+  if (options.stubs && !options.stubs[component.name]) {
     // $FlowIgnore
     options.stubs[component.name] = createStubFromComponent(
       component,

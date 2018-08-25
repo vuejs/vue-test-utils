@@ -5,7 +5,7 @@ import {
   vueVersion
 } from '~resources/utils'
 import { createLocalVue } from '~vue/test-utils'
-import { itSkipIf } from 'conditional-specs'
+import { itSkipIf, itRunIf } from 'conditional-specs'
 import Vuex from 'vuex'
 
 describeWithMountingMethods('options.localVue', mountingMethod => {
@@ -154,4 +154,24 @@ describeWithMountingMethods('options.localVue', mountingMethod => {
       localVue
     })
   })
+
+  itRunIf(
+    vueVersion < 2.3,
+    'throws an error if used with an extended component in Vue 2.3', () => {
+      const TestComponent = Vue.extend({
+        template: '<div></div>'
+      })
+      const message =
+    `[vue-test-utils]: options.localVue is not supported for components ` +
+    `created with Vue.extend in Vue < 2.3. You can set localVue to false ` +
+    `to mount the component.`
+
+      const fn = () => mountingMethod(TestComponent, {
+        localVue: createLocalVue(),
+        stubs: false,
+        mocks: false
+      })
+      expect(fn).to.throw()
+        .with.property('message', message)
+    })
 })

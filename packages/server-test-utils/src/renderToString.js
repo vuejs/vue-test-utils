@@ -4,7 +4,6 @@ import Vue from 'vue'
 import createInstance from 'create-instance'
 import { throwError } from 'shared/util'
 import { createRenderer } from 'vue-server-renderer'
-import testUtils from '@vue/test-utils'
 import { mergeOptions } from 'shared/merge-options'
 import config from './config'
 
@@ -28,11 +27,10 @@ export default function renderToString (
   if (options.attachToDocument) {
     throwError(`you cannot use attachToDocument with ` + `renderToString`)
   }
-  const vueConstructor = testUtils.createLocalVue(options.localVue)
+
   const vm = createInstance(
     component,
-    mergeOptions(options, config),
-    vueConstructor
+    mergeOptions(options, config)
   )
   let renderedString = ''
 
