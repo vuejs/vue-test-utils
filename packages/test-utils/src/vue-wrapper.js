@@ -7,11 +7,14 @@ import { orderWatchers } from './order-watchers'
 
 export default class VueWrapper extends Wrapper implements BaseWrapper {
   constructor (vm: Component, options: WrapperOptions) {
-    super(vm.$vnode, options, true)
-
+    super(vm._vnode, options, true)
+    Object.defineProperty(this, 'rootNode', {
+      get: () => vm.$vnode || { componentInstance: this.vm },
+      set: () => throwError('wrapper.vnode is read-only')
+    })
     // $FlowIgnore : issue with defineProperty
     Object.defineProperty(this, 'vnode', {
-      get: () => vm.$vnode,
+      get: () => vm._vnode,
       set: () => throwError('wrapper.vnode is read-only')
     })
     // $FlowIgnore

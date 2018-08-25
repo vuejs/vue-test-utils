@@ -3,9 +3,9 @@ import {
   describeWithShallowAndMount,
   isRunningPhantomJS
 } from '~resources/utils'
-import { itSkipIf } from 'conditional-specs'
+import { itSkipIf, itDoNotRunIf } from 'conditional-specs'
 
-describeWithShallowAndMount.only('isEmpty', mountingMethod => {
+describeWithShallowAndMount('isEmpty', mountingMethod => {
   it('returns true if node is empty', () => {
     const compiled = compileToFunctions('<div></div>')
     const wrapper = mountingMethod(compiled)
@@ -19,7 +19,9 @@ describeWithShallowAndMount.only('isEmpty', mountingMethod => {
     expect(wrapper.isEmpty()).to.equal(true)
   })
 
-  it('returns true if node contains empty components', () => {
+  itDoNotRunIf(
+    mountingMethod.name === 'shallowMount',
+    'returns true if node contains empty components', () => {
     const GrandChildComponent = {
       render () {}
     }
@@ -39,7 +41,9 @@ describeWithShallowAndMount.only('isEmpty', mountingMethod => {
     expect(wrapper.isEmpty()).to.equal(true)
   })
 
-  it('returns false if nest child component renders element', () => {
+  itDoNotRunIf(
+    mountingMethod.name === 'shallowMount',
+    'returns false if nested child component renders element', () => {
     const GrandChildComponent = {
       template: '<div />'
     }

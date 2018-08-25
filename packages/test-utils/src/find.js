@@ -47,12 +47,11 @@ function removeDuplicateNodes (vNodes: Array<VNode>): Array<VNode> {
 }
 
 export default function findAll (
-  vnode: VNode | null,
-  element: Element,
+  root: VNode | Element,
   vm: Component,
   selector: Selector
 ): Array<VNode | Component> {
-  if (!vnode && selector.type !== DOM_SELECTOR) {
+  if ((root instanceof Element) && selector.type !== DOM_SELECTOR) {
     throwError(
       `cannot find a Vue instance on a DOM node. The node ` +
       `you are calling find on does not exist in the ` +
@@ -60,11 +59,11 @@ export default function findAll (
     )
   }
 
-  if (!vnode) {
-    return findDOMNodes(element, selector.value)
+  if (root instanceof Element) {
+    return findDOMNodes(root, selector.value)
   }
 
-  if (!vnode && selector.type !== DOM_SELECTOR) {
+  if (!root && selector.type !== DOM_SELECTOR) {
     throwError(
       `cannot find a Vue instance on a DOM node. The node ` +
       `you are calling find on does not exist in the ` +
@@ -87,11 +86,11 @@ export default function findAll (
     return Array.isArray(refs) ? refs : [refs]
   }
 
-  const nodes = findAllVNodes(vnode, [], selector)
+  const nodes = findAllVNodes(root, [], selector)
   const dedupedNodes = removeDuplicateNodes(nodes)
 
   if (nodes.length > 0 || selector.type !== DOM_SELECTOR) {
     return dedupedNodes
   }
-  return findDOMNodes(element, selector.value)
+  return findDOMNodes(root.elm, selector.value)
 }

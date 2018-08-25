@@ -36,6 +36,10 @@ export default class Wrapper implements BaseWrapper {
     const element = node instanceof Element ? node : node.elm
     // Prevent redefine by VueWrapper
     if (!isVueWrapper) {
+      Object.defineProperty(this, 'rootNode', {
+        get: () => vnode || element,
+        set: () => throwError('wrapper.vnode is read-only')
+      })
       // $FlowIgnore
       Object.defineProperty(this, 'vnode', {
         get: () => vnode,
@@ -115,7 +119,7 @@ export default class Wrapper implements BaseWrapper {
    */
   contains (rawSelector: Selector): boolean {
     const selector = getSelector(rawSelector, 'contains')
-    const nodes = findAll(this.vnode, this.element, this.vm, selector)
+    const nodes = findAll(this.rootNode, this.vm, selector)
     return nodes.length > 0
   }
 
@@ -181,7 +185,7 @@ export default class Wrapper implements BaseWrapper {
    */
   find (rawSelector: Selector): Wrapper | ErrorWrapper {
     const selector = getSelector(rawSelector, 'find')
-    const node = findAll(this.vnode, this.element, this.vm, selector)[0]
+    const node = findAll(this.rootNode, this.vm, selector)[0]
 
     if (!node) {
       if (selector.type === REF_SELECTOR) {
@@ -203,7 +207,7 @@ export default class Wrapper implements BaseWrapper {
    */
   findAll (rawSelector: Selector): WrapperArray {
     const selector = getSelector(rawSelector, 'findAll')
-    const nodes = findAll(this.vnode, this.element, this.vm, selector)
+    const nodes = findAll(this.rootNode, this.vm, selector)
     const wrappers = nodes.map(node => {
       // Using CSS Selector, returns a VueWrapper instance if the root element
       // binds a Vue instance.
@@ -362,7 +366,7 @@ export default class Wrapper implements BaseWrapper {
       throwError('$ref selectors can not be used with wrapper.is()')
     }
 
-    return matches(this.vnode || this.element, selector)
+    return matches(this.rootNode, selector)
   }
 
   /**
@@ -373,26 +377,20 @@ export default class Wrapper implements BaseWrapper {
       return this.element.innerHTML === ''
     }
     const nodes = []
-    const rootVnodes = []
-    let node = this.vm
-      ? this.vm._vnode
-      : this.vnode
+    let node = this.vnode
+    let i = 0
+    debugger
+    // if(this.root.componentInstance)
     while (node) {
       if (node.componentInstance) {
-        rootVnodes.push(node.componentInstance._vnode)
-      } else {
-        nodes.push(node)
+        nodes.push(node.componentInstance._vnode)
       }
       node.children && node.children.forEach(n => {
-        if (n.componentInstance) {
-          rootVnodes.push(n)
-        } else {
-          nodes.push(n)
-        }
+        nodes.push(n)
       })
-      node = rootVnodes.shift()
+      node = nodes[i++]
     }
-    return nodes.every(n => n.isComment)
+    return nodes.every(n => n.isComment || n.componentInstance)
   }
 
   /**
