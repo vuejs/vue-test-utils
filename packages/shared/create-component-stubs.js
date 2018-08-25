@@ -199,7 +199,7 @@ function stubComponents (
     delete componentOptions._Ctor
 
     stubbedComponents[component] = createStubFromComponent(
-      componentOptions,
+      cmp,
       component
     )
   }

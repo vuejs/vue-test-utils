@@ -335,6 +335,20 @@ describeWithShallowAndMount('find', mountingMethod => {
     expect(wrapper.find(TestComponent).isVueInstance()).to.equal(true)
   })
 
+  it('works for extended child components', () => {
+    const ChildComponent = Vue.extend({
+      template: '<div />'
+    })
+    const TestComponent = {
+      template: '<child-component />',
+      components: {
+        ChildComponent
+      }
+    }
+    const wrapper = mountingMethod(TestComponent)
+    expect(wrapper.find(ChildComponent).exists()).to.equal(true)
+  })
+
   it('returns a Wrapper matching a component name in options object', () => {
     const wrapper = mountingMethod(ComponentWithChild)
     expect(wrapper.find({ name: 'test-component' }).name()).to.equal(
