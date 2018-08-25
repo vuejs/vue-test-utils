@@ -8,34 +8,42 @@ import {
 import { throwError } from 'shared/util'
 import { matches } from './matches'
 
-export function findAllInstances (vm, instances = []) {
-  instances.push(vm)
-
-  ;(vm.$children || []).forEach(child => {
-    findAllInstances(child, instances)
-  })
-
+export function findAllInstances (rootVm) {
+  const instances = [rootVm]
+  let i = 0
+  while (i < instances.length) {
+    const vm = instances[i]
+    ;(vm.$children || []).forEach(child => {
+      instances.push(child)
+    })
+    i++
+  }
   return instances
 }
 
 function findAllVNodes (
   vnode: VNode,
-  nodes: Array<VNode> = [],
   selector: any
 ): Array<VNode> {
-  if (matches(vnode, selector)) {
-    nodes.push(vnode)
+  const matchingNodes = []
+  const nodes = [vnode]
+  while (nodes.length) {
+    const node = nodes.shift()
+    if (node.children) {
+      const children = [...node.children].reverse()
+      children.forEach((n) => {
+        nodes.unshift(n)
+      })
+    }
+    if (node.componentInstance) {
+      nodes.push(node.componentInstance._vnode)
+    }
+    if (matches(node, selector)) {
+      matchingNodes.push(node)
+    }
   }
 
-  if (Array.isArray(vnode.children)) {
-    vnode.children.forEach(v => {
-      findAllVNodes(v, nodes, selector)
-    })
-  }
-  if (vnode.componentInstance) {
-    findAllVNodes(vnode.componentInstance._vnode, nodes, selector)
-  }
-  return nodes
+  return matchingNodes
 }
 
 function removeDuplicateNodes (vNodes: Array<VNode>): Array<VNode> {
@@ -85,7 +93,7 @@ export default function findAll (
     return Array.isArray(refs) ? refs : [refs]
   }
 
-  const nodes = findAllVNodes(root, [], selector)
+  const nodes = findAllVNodes(root, selector)
   const dedupedNodes = removeDuplicateNodes(nodes)
 
   if (nodes.length > 0 || selector.type !== DOM_SELECTOR) {
