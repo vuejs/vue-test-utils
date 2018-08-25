@@ -379,7 +379,7 @@ export default class Wrapper implements BaseWrapper {
     const nodes = []
     let node = this.vnode
     let i = 0
-    debugger
+
     // if(this.root.componentInstance)
     while (node) {
       if (node.componentInstance) {

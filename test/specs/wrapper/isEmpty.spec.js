@@ -22,46 +22,46 @@ describeWithShallowAndMount('isEmpty', mountingMethod => {
   itDoNotRunIf(
     mountingMethod.name === 'shallowMount',
     'returns true if node contains empty components', () => {
-    const GrandChildComponent = {
-      render () {}
-    }
-    const ChildComponent = {
-      template: '<grand-child-component />',
-      components: {
-        GrandChildComponent
+      const GrandChildComponent = {
+        render () {}
       }
-    }
-    const TestComponent = {
-      template: `<child-component />`,
-      components: {
-        ChildComponent
+      const ChildComponent = {
+        template: '<grand-child-component />',
+        components: {
+          GrandChildComponent
+        }
       }
-    }
-    const wrapper = mountingMethod(TestComponent)
-    expect(wrapper.isEmpty()).to.equal(true)
-  })
+      const TestComponent = {
+        template: `<child-component />`,
+        components: {
+          ChildComponent
+        }
+      }
+      const wrapper = mountingMethod(TestComponent)
+      expect(wrapper.isEmpty()).to.equal(true)
+    })
 
   itDoNotRunIf(
     mountingMethod.name === 'shallowMount',
     'returns false if nested child component renders element', () => {
-    const GrandChildComponent = {
-      template: '<div />'
-    }
-    const ChildComponent = {
-      template: '<grand-child-component />',
-      components: {
-        GrandChildComponent
+      const GrandChildComponent = {
+        template: '<div />'
       }
-    }
-    const TestComponent = {
-      template: `<child-component />`,
-      components: {
-        ChildComponent
+      const ChildComponent = {
+        template: '<grand-child-component />',
+        components: {
+          GrandChildComponent
+        }
       }
-    }
-    const wrapper = mountingMethod(TestComponent)
-    expect(wrapper.isEmpty()).to.equal(false)
-  })
+      const TestComponent = {
+        template: `<child-component />`,
+        components: {
+          ChildComponent
+        }
+      }
+      const wrapper = mountingMethod(TestComponent)
+      expect(wrapper.isEmpty()).to.equal(false)
+    })
 
   itSkipIf(isRunningPhantomJS, 'returns true if innerHTML is empty', () => {
     const TestComponent = {

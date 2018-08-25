@@ -169,6 +169,7 @@ describeWithShallowAndMount('find', mountingMethod => {
     }
 
     const wrapper = mountingMethod(TestComponent)
+
     expect(wrapper.find(FunctionalComponent).vnode).to.be.an('object')
     expect(wrapper.find(FunctionalComponent).vm).to.equal(undefined)
   })

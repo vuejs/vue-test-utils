@@ -18,9 +18,6 @@ import {
 function getSelectorType (
   selector: Selector
 ): string {
-  const selectorObject = {
-
-  }
   if (isDomSelector(selector)) return DOM_SELECTOR
   if (isNameSelector(selector)) return NAME_SELECTOR
   if (isVueComponent(selector)) return COMPONENT_SELECTOR

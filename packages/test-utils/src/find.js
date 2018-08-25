@@ -5,7 +5,6 @@ import {
   DOM_SELECTOR,
   REF_SELECTOR
 } from './consts'
-import Vue from 'vue'
 import { throwError } from 'shared/util'
 import { matches } from './matches'
 

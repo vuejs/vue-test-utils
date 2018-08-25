@@ -80,6 +80,7 @@ export function createStubFromComponent (
 
   return {
     ...getCoreProperties(componentOptions),
+    $_vueTestUtils_original: originalComponent,
     render (h, context) {
       return h(
         tagName,
@@ -196,9 +197,7 @@ function stubComponents (
     }
     // Remove cached constructor
     delete componentOptions._Ctor
-    if (!componentOptions.name) {
-      componentOptions.name = component
-    }
+
     stubbedComponents[component] = createStubFromComponent(
       componentOptions,
       component

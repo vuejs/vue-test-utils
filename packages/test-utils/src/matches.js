@@ -20,6 +20,10 @@ export function vmMatchesName (vm: Component, name: string): boolean {
 function vmCtorMatches (vm, component) {
   const isFunctional = component.functional
   const Ctor = component._Ctor
+  if (vm.$options && vm.$options.$_vueTestUtils_original === component ||
+  vm.$_vueTestUtils_original === component) {
+    return true
+  }
 
   if (!Ctor) {
     return false
