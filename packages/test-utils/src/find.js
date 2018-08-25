@@ -36,7 +36,7 @@ function findAllVNodes (
       })
     }
     if (node.componentInstance) {
-      nodes.push(node.componentInstance._vnode)
+      nodes.unshift(node.componentInstance._vnode)
     }
     if (matches(node, selector)) {
       matchingNodes.push(node)

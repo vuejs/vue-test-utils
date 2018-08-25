@@ -153,20 +153,28 @@ describeWithShallowAndMount('find', mountingMethod => {
     expect(wrapper.find(ComponentAsAClass).vnode).to.be.an('object')
   })
 
-  it('follows DOM tree order', () => {
+  itDoNotRunIf(
+    mountingMethod.name === 'shallowMount',
+    'follows DOM tree order', () => {
     const TestComponent = {
       template: `
       <main>
         <div class="1">
           <div class="1a"><div class="1aa"/></div><div class="1b" />
         </div>
-        <div class="2" />
+        <component-2 />
+        <div class="3" />
       </main>
-      `
+      `,
+      components: {
+        'component-2' : {
+          template: '<div class="2" />'
+        }
+      }
     }
     const wrapper = mountingMethod(TestComponent)
     const wrappers = wrapper.findAll('div').wrappers
-    const expectedClasses = ['1', '1a', '1aa', '1b', '2']
+    const expectedClasses = ['1', '1a', '1aa', '1b', '2', '3']
     wrappers.forEach((w, i) => expect(w.classes()).to.contain(expectedClasses[i]))
   })
 
