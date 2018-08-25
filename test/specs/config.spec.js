@@ -34,13 +34,13 @@ describeWithShallowAndMount('config', mountingMethod => {
         template: `
         <div>
           <transition><p /></transition>
-          <transition-group><p /><p /></transition-group>
+          <transition-group><span /><p /></transition-group>
         </div>
       `
       }
       const wrapper = mountingMethod(testComponent)
-      expect(wrapper.contains(TransitionStub)).to.equal(true)
-      expect(wrapper.contains(TransitionGroupStub)).to.equal(true)
+      expect(wrapper.contains('p')).to.equal(true)
+      expect(wrapper.contains('span')).to.equal(true)
     }
   )
 

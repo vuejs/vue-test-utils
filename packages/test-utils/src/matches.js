@@ -1,12 +1,11 @@
 import {
   DOM_SELECTOR,
-  NAME_SELECTOR,
   COMPONENT_SELECTOR,
   FUNCTIONAL_OPTIONS
 } from './consts'
 
 export function vmMatchesName (vm, name) {
-  return !!(
+  return !!name && (
     (vm.name === name) ||
     (vm.$options && vm.$options.name === name)
   )
@@ -52,17 +51,16 @@ export function matches (node, selector) {
     return false
   }
 
-  if (selector.type === NAME_SELECTOR) {
-    const nameSelector =
-    typeof selector.value === 'function'
-      ? selector.value.extendOptions.name
-      : selector.value.name
-    return vmMatchesName(componentInstance, nameSelector)
-  }
-
   if (selector.type === COMPONENT_SELECTOR) {
-    return vmCtorMatches(componentInstance, selector.value)
+    if (vmCtorMatches(componentInstance, selector.value)) {
+      return true
+    }
   }
 
-  return false
+  // Fallback to name selector for COMPONENT_SELECTOR for Vue < 2.1
+  const nameSelector =
+  typeof selector.value === 'function'
+    ? selector.value.extendOptions.name
+    : selector.value.name
+  return vmMatchesName(componentInstance, nameSelector)
 }

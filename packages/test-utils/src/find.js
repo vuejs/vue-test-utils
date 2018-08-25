@@ -66,7 +66,7 @@ export default function findAll (
       `VDom. Are you adding the node as innerHTML?`
     )
   }
-  console.log(selector.type)
+
   if (
     selector.type === COMPONENT_SELECTOR &&
     selector.value.functional &&
