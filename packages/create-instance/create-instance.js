@@ -36,7 +36,7 @@ const UNSUPPORTED_VERSION_OPTIONS = [
 export default function createInstance (
   component: Component,
   options: Options,
-  _Vue
+  _Vue: Component
 ): Component {
   // Remove cached constructor
   delete component._Ctor
