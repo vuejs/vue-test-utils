@@ -3,7 +3,7 @@ import VeeValidate from 'vee-validate'
 import { describeWithShallowAndMount } from '~resources/utils'
 
 describeWithShallowAndMount('external libraries', () => {
-  it('works with vee validate', () => {
+  it.skip('works with vee validate', () => {
     const TestComponent = {
       template: '<div />'
     }
