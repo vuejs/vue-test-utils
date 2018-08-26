@@ -1,7 +1,8 @@
 import { createLocalVue, mount } from '~vue/test-utils'
 import VeeValidate from 'vee-validate'
+import { describeWithShallowAndMount } from '~resources/utils'
 
-describe('external libraries', () => {
+describeWithShallowAndMount('external libraries', () => {
   it('works with vee validate', () => {
     const TestComponent = {
       template: '<div />'
