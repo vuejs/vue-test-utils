@@ -7,10 +7,11 @@ import VueWrapper from './vue-wrapper'
 import createInstance from 'create-instance'
 import createElement from './create-element'
 import errorHandler from './error-handler'
-import { findAllVueComponentsFromVm } from './find-vue-components'
+import { findAllInstances } from './find'
 import { mergeOptions } from 'shared/merge-options'
 import config from './config'
 import warnIfNoWindow from './warn-if-no-window'
+import createWrapper from './create-wrapper'
 
 Vue.config.productionTip = false
 Vue.config.devtools = false
@@ -18,7 +19,7 @@ Vue.config.devtools = false
 export default function mount (
   component: Component,
   options: Options = {}
-): VueWrapper {
+): VueWrapper | Wrapper {
   const existingErrorHandler = Vue.config.errorHandler
   Vue.config.errorHandler = errorHandler
 
@@ -38,7 +39,7 @@ export default function mount (
 
   const vm = parentVm.$mount(elm).$refs.vm
 
-  const componentsWithError = findAllVueComponentsFromVm(vm).filter(
+  const componentsWithError = findAllInstances(vm).filter(
     c => c._error
   )
 
@@ -52,6 +53,8 @@ export default function mount (
     attachedToDocument: !!mergedOptions.attachToDocument,
     sync: mergedOptions.sync
   }
-
-  return new VueWrapper(vm, wrapperOptions)
+  const root = vm.$options._isFunctionalContainer
+    ? vm._vnode
+    : vm
+  return createWrapper(root, wrapperOptions)
 }

@@ -1,26 +1,20 @@
 // @flow
 
 import Vue from 'vue'
-import getSelectorTypeOrThrow from './get-selector-type'
+import getSelector from './get-selector'
 import {
   REF_SELECTOR,
-  COMPONENT_SELECTOR,
-  NAME_SELECTOR,
   FUNCTIONAL_OPTIONS
 } from './consts'
 import config from './config'
-import {
-  vmCtorMatchesName,
-  vmCtorMatchesSelector,
-  vmFunctionalCtorMatchesSelector
-} from './find-vue-components'
 import WrapperArray from './wrapper-array'
 import ErrorWrapper from './error-wrapper'
-import { throwError, warn } from '../../shared/util'
-import findAll from './find'
+import { throwError, warn, vueVersion } from 'shared/util'
+import find from './find'
 import createWrapper from './create-wrapper'
 import { orderWatchers } from './order-watchers'
 import { recursivelySetData } from './recursively-set-data'
+import { matches } from './matches'
 
 export default class Wrapper implements BaseWrapper {
   +vnode: VNode | null;
@@ -30,8 +24,8 @@ export default class Wrapper implements BaseWrapper {
   +element: Element;
   update: Function;
   +options: WrapperOptions;
-  version: number;
   isFunctionalComponent: boolean;
+  rootNode: VNode | Element
 
   constructor (
     node: VNode | Element,
@@ -42,6 +36,11 @@ export default class Wrapper implements BaseWrapper {
     const element = node instanceof Element ? node : node.elm
     // Prevent redefine by VueWrapper
     if (!isVueWrapper) {
+      // $FlowIgnore : issue with defineProperty
+      Object.defineProperty(this, 'rootNode', {
+        get: () => vnode || element,
+        set: () => throwError('wrapper.vnode is read-only')
+      })
       // $FlowIgnore
       Object.defineProperty(this, 'vnode', {
         get: () => vnode,
@@ -70,9 +69,6 @@ export default class Wrapper implements BaseWrapper {
     ) {
       this.isFunctionalComponent = true
     }
-    this.version = Number(
-      `${Vue.version.split('.')[0]}.${Vue.version.split('.')[1]}`
-    )
   }
 
   at (): void {
@@ -100,17 +96,15 @@ export default class Wrapper implements BaseWrapper {
     let classes = className ? className.split(' ') : []
     // Handle converting cssmodules identifiers back to the original class name
     if (this.vm && this.vm.$style) {
-      const cssModuleIdentifiers = {}
-      let moduleIdent
-      Object.keys(this.vm.$style).forEach(key => {
-        moduleIdent = this.vm && this.vm.$style[key]
-        // CSS Modules may be multi-class if they extend others.
-        // Extended classes should be already present in $style.
-        if (moduleIdent) {
-          moduleIdent = moduleIdent.split(' ')[0]
-          cssModuleIdentifiers[moduleIdent] = key
-        }
-      })
+      const cssModuleIdentifiers = Object.keys(this.vm.$style)
+        .reduce((acc, key) => {
+        // $FlowIgnore
+          const moduleIdent = this.vm.$style[key]
+          if (moduleIdent) {
+            acc[moduleIdent.split(' ')[0]] = key
+          }
+          return acc
+        }, {})
       classes = classes.map(
         className => cssModuleIdentifiers[className] || className
       )
@@ -121,11 +115,25 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Checks if wrapper contains provided selector.
    */
-  contains (selector: Selector): boolean {
-    const selectorType = getSelectorTypeOrThrow(selector, 'contains')
-    const nodes = findAll(this.vm, this.vnode, this.element, selector)
-    const is = selectorType === REF_SELECTOR ? false : this.is(selector)
-    return nodes.length > 0 || is
+  contains (rawSelector: Selector): boolean {
+    const selector = getSelector(rawSelector, 'contains')
+    const nodes = find(this.rootNode, this.vm, selector)
+    return nodes.length > 0
+  }
+
+  /**
+   * Calls destroy on vm
+   */
+  destroy (): void {
+    if (!this.isVueInstance()) {
+      throwError(`wrapper.destroy() can only be called on a Vue instance`)
+    }
+
+    if (this.element.parentNode) {
+      this.element.parentNode.removeChild(this.element)
+    }
+    // $FlowIgnore
+    this.vm.$destroy()
   }
 
   /**
@@ -170,27 +178,40 @@ export default class Wrapper implements BaseWrapper {
   }
 
   /**
-   * Utility to check wrapper is visible. Returns false if a parent
-   * element has display: none or visibility: hidden style.
+   * Finds first node in tree of the current wrapper that
+   * matches the provided selector.
    */
-  visible (): boolean {
-    warn(
-      `visible has been deprecated and will be removed in ` +
-        `version 1, use isVisible instead`
-    )
-    let element = this.element
-    while (element) {
-      if (
-        element.style &&
-        (element.style.visibility === 'hidden' ||
-          element.style.display === 'none')
-      ) {
-        return false
+  find (rawSelector: Selector): Wrapper | ErrorWrapper {
+    const selector = getSelector(rawSelector, 'find')
+    const node = find(this.rootNode, this.vm, selector)[0]
+
+    if (!node) {
+      if (selector.type === REF_SELECTOR) {
+        return new ErrorWrapper(`ref="${selector.value.ref}"`)
       }
-      element = element.parentElement
+      return new ErrorWrapper(
+        typeof selector.value === 'string'
+          ? selector.value
+          : 'Component'
+      )
     }
 
-    return true
+    return createWrapper(node, this.options)
+  }
+
+  /**
+   * Finds node in tree of the current wrapper that matches
+   * the provided selector.
+   */
+  findAll (rawSelector: Selector): WrapperArray {
+    const selector = getSelector(rawSelector, 'findAll')
+    const nodes = find(this.rootNode, this.vm, selector)
+    const wrappers = nodes.map(node => {
+      // Using CSS Selector, returns a VueWrapper instance if the root element
+      // binds a Vue instance.
+      return createWrapper(node, this.options)
+    })
+    return new WrapperArray(wrappers)
   }
 
   /**
@@ -327,45 +348,6 @@ export default class Wrapper implements BaseWrapper {
   }
 
   /**
-   * Finds first node in tree of the current wrapper that
-   * matches the provided selector.
-   */
-  find (selector: Selector): Wrapper | ErrorWrapper {
-    const nodes = findAll(this.vm, this.vnode, this.element, selector)
-    if (nodes.length === 0) {
-      if (selector.ref) {
-        return new ErrorWrapper(`ref="${selector.ref}"`)
-      }
-      return new ErrorWrapper(
-        typeof selector === 'string' ? selector : 'Component'
-      )
-    }
-    // Using CSS Selector, returns a VueWrapper instance if the root element
-    // binds a Vue instance.
-    if (nodes[0].elm === this.element) {
-      return this
-    }
-    return createWrapper(nodes[0], this.options)
-  }
-
-  /**
-   * Finds node in tree of the current wrapper that matches
-   * the provided selector.
-   */
-  findAll (selector: Selector): WrapperArray {
-    getSelectorTypeOrThrow(selector, 'findAll')
-    const nodes = findAll(this.vm, this.vnode, this.element, selector)
-    const wrappers = nodes.map(node => {
-      // Using CSS Selector, returns a VueWrapper instance if the root element
-      // binds a Vue instance.
-      return node.elm === this.element
-        ? this
-        : createWrapper(node, this.options)
-    })
-    return new WrapperArray(wrappers)
-  }
-
-  /**
    * Returns HTML of element as a string
    */
   html (): string {
@@ -375,38 +357,14 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Checks if node matches selector
    */
-  is (selector: Selector): boolean {
-    const selectorType = getSelectorTypeOrThrow(selector, 'is')
+  is (rawSelector: Selector): boolean {
+    const selector = getSelector(rawSelector, 'is')
 
-    if (selectorType === NAME_SELECTOR) {
-      if (!this.vm) {
-        return false
-      }
-      return vmCtorMatchesName(this.vm, selector.name)
-    }
-
-    if (selectorType === COMPONENT_SELECTOR) {
-      if (!this.vm) {
-        return false
-      }
-      if (selector.functional) {
-        return vmFunctionalCtorMatchesSelector(this.vm._vnode, selector._Ctor)
-      }
-      return vmCtorMatchesSelector(this.vm, selector)
-    }
-
-    if (selectorType === REF_SELECTOR) {
+    if (selector.type === REF_SELECTOR) {
       throwError('$ref selectors can not be used with wrapper.is()')
     }
 
-    if (typeof selector === 'object') {
-      return false
-    }
-
-    return !!(
-      this.element.getAttribute &&
-      this.element.matches(selector)
-    )
+    return matches(this.rootNode, selector)
   }
 
   /**
@@ -416,12 +374,20 @@ export default class Wrapper implements BaseWrapper {
     if (!this.vnode) {
       return this.element.innerHTML === ''
     }
-    if (this.vnode.children) {
-      return this.vnode.children.every(vnode => vnode.isComment)
+    const nodes = []
+    let node = this.vnode
+    let i = 0
+
+    while (node) {
+      if (node.child) {
+        nodes.push(node.child._vnode)
+      }
+      node.children && node.children.forEach(n => {
+        nodes.push(n)
+      })
+      node = nodes[i++]
     }
-    return (
-      this.vnode.children === undefined || this.vnode.children.length === 0
-    )
+    return nodes.every(n => n.isComment || n.child)
   }
 
   /**
@@ -455,7 +421,9 @@ export default class Wrapper implements BaseWrapper {
    */
   name (): string {
     if (this.vm) {
-      return this.vm.$options.name
+      return this.vm.$options.name ||
+      // compat for Vue < 2.3
+      (this.vm.$options.extendOptions && this.vm.$options.extendOptions.name)
     }
 
     if (!this.vnode) {
@@ -483,7 +451,7 @@ export default class Wrapper implements BaseWrapper {
     const keys = this.vm && this.vm.$options._propKeys
 
     if (keys) {
-      keys.forEach(key => {
+      (keys || {}).forEach(key => {
         if (this.vm) {
           props[key] = this.vm[key]
         }
@@ -493,24 +461,100 @@ export default class Wrapper implements BaseWrapper {
   }
 
   /**
-   * Sets vm data
+   * Checks radio button or checkbox element
    */
-  setData (data: Object): void {
-    if (this.isFunctionalComponent) {
-      throwError(
-        `wrapper.setData() cannot be called on a functional ` +
-        `component`
-      )
+  setChecked (checked: boolean = true): void {
+    if (typeof checked !== 'boolean') {
+      throwError('wrapper.setChecked() must be passed a boolean')
     }
+    const tagName = this.element.tagName
+    const type = this.attributes().type
 
-    if (!this.vm) {
+    if (tagName === 'SELECT') {
       throwError(
-        `wrapper.setData() can only be called on a Vue ` +
-        `instance`
+        `wrapper.setChecked() cannot be called on a ` +
+          `<select> element. Use wrapper.setSelected() ` +
+          `instead`
       )
+    } else if (tagName === 'INPUT' && type === 'checkbox') {
+      // $FlowIgnore
+      if (this.element.checked !== checked) {
+        if (!navigator.userAgent.includes('jsdom')) {
+          // $FlowIgnore
+          this.element.checked = checked
+        }
+        this.trigger('click')
+        this.trigger('change')
+      }
+    } else if (tagName === 'INPUT' && type === 'radio') {
+      if (!checked) {
+        throwError(
+          `wrapper.setChecked() cannot be called with ` +
+            `parameter false on a <input type="radio" /> ` +
+            `element.`
+        )
+      } else {
+        // $FlowIgnore
+        if (!this.element.checked) {
+          this.trigger('click')
+          this.trigger('change')
+        }
+      }
+    } else if (tagName === 'INPUT' || tagName === 'TEXTAREA') {
+      throwError(
+        `wrapper.setChecked() cannot be called on "text" ` +
+          `inputs. Use wrapper.setValue() instead`
+      )
+    } else {
+      throwError(`wrapper.setChecked() cannot be called on this element`)
     }
+  }
 
-    recursivelySetData(this.vm, this.vm, data)
+  /**
+   * Selects <option></option> element
+   */
+  setSelected (): void {
+    const tagName = this.element.tagName
+    const type = this.attributes().type
+
+    if (tagName === 'OPTION') {
+      // $FlowIgnore
+      this.element.selected = true
+      // $FlowIgnore
+      if (this.element.parentElement.tagName === 'OPTGROUP') {
+        // $FlowIgnore
+        createWrapper(this.element.parentElement.parentElement, this.options)
+          .trigger('change')
+      } else {
+        // $FlowIgnore
+        createWrapper(this.element.parentElement, this.options)
+          .trigger('change')
+      }
+    } else if (tagName === 'SELECT') {
+      throwError(
+        `wrapper.setSelected() cannot be called on select. ` +
+          `Call it on one of its options`
+      )
+    } else if (tagName === 'INPUT' && type === 'checkbox') {
+      throwError(
+        `wrapper.setSelected() cannot be called on a <input ` +
+          `type="checkbox" /> element. Use ` +
+          `wrapper.setChecked() instead`
+      )
+    } else if (tagName === 'INPUT' && type === 'radio') {
+      throwError(
+        `wrapper.setSelected() cannot be called on a <input ` +
+          `type="radio" /> element. Use wrapper.setChecked() ` +
+          `instead`
+      )
+    } else if (tagName === 'INPUT' || tagName === 'TEXTAREA') {
+      throwError(
+        `wrapper.setSelected() cannot be called on "text" ` +
+          `inputs. Use wrapper.setValue() instead`
+      )
+    } else {
+      throwError(`wrapper.setSelected() cannot be called on this element`)
+    }
   }
 
   /**
@@ -532,7 +576,7 @@ export default class Wrapper implements BaseWrapper {
     )
 
     Object.keys(computed).forEach(key => {
-      if (this.version > 2.1) {
+      if (vueVersion > 2.1) {
         // $FlowIgnore : Problem with possibly null this.vm
         if (!this.vm._computedWatchers[key]) {
           throwError(
@@ -584,6 +628,27 @@ export default class Wrapper implements BaseWrapper {
     this.vm._watchers.forEach(watcher => {
       watcher.run()
     })
+  }
+
+  /**
+   * Sets vm data
+   */
+  setData (data: Object): void {
+    if (this.isFunctionalComponent) {
+      throwError(
+        `wrapper.setData() cannot be called on a functional ` +
+        `component`
+      )
+    }
+
+    if (!this.vm) {
+      throwError(
+        `wrapper.setData() can only be called on a Vue ` +
+        `instance`
+      )
+    }
+
+    recursivelySetData(this.vm, this.vm, data)
   }
 
   /**
@@ -712,122 +777,10 @@ export default class Wrapper implements BaseWrapper {
   }
 
   /**
-   * Checks radio button or checkbox element
-   */
-  setChecked (checked: boolean = true): void {
-    if (typeof checked !== 'boolean') {
-      throwError('wrapper.setChecked() must be passed a boolean')
-    }
-    const tagName = this.element.tagName
-    const type = this.attributes().type
-
-    if (tagName === 'SELECT') {
-      throwError(
-        `wrapper.setChecked() cannot be called on a ` +
-          `<select> element. Use wrapper.setSelected() ` +
-          `instead`
-      )
-    } else if (tagName === 'INPUT' && type === 'checkbox') {
-      // $FlowIgnore
-      if (this.element.checked !== checked) {
-        if (!navigator.userAgent.includes('jsdom')) {
-          // $FlowIgnore
-          this.element.checked = checked
-        }
-        this.trigger('click')
-        this.trigger('change')
-      }
-    } else if (tagName === 'INPUT' && type === 'radio') {
-      if (!checked) {
-        throwError(
-          `wrapper.setChecked() cannot be called with ` +
-            `parameter false on a <input type="radio" /> ` +
-            `element.`
-        )
-      } else {
-        // $FlowIgnore
-        if (!this.element.checked) {
-          this.trigger('click')
-          this.trigger('change')
-        }
-      }
-    } else if (tagName === 'INPUT' || tagName === 'TEXTAREA') {
-      throwError(
-        `wrapper.setChecked() cannot be called on "text" ` +
-          `inputs. Use wrapper.setValue() instead`
-      )
-    } else {
-      throwError(`wrapper.setChecked() cannot be called on this element`)
-    }
-  }
-
-  /**
-   * Selects <option></option> element
-   */
-  setSelected (): void {
-    const tagName = this.element.tagName
-    const type = this.attributes().type
-
-    if (tagName === 'OPTION') {
-      // $FlowIgnore
-      this.element.selected = true
-      // $FlowIgnore
-      if (this.element.parentElement.tagName === 'OPTGROUP') {
-        // $FlowIgnore
-        createWrapper(this.element.parentElement.parentElement, this.options)
-          .trigger('change')
-      } else {
-        // $FlowIgnore
-        createWrapper(this.element.parentElement, this.options)
-          .trigger('change')
-      }
-    } else if (tagName === 'SELECT') {
-      throwError(
-        `wrapper.setSelected() cannot be called on select. ` +
-          `Call it on one of its options`
-      )
-    } else if (tagName === 'INPUT' && type === 'checkbox') {
-      throwError(
-        `wrapper.setSelected() cannot be called on a <input ` +
-          `type="checkbox" /> element. Use ` +
-          `wrapper.setChecked() instead`
-      )
-    } else if (tagName === 'INPUT' && type === 'radio') {
-      throwError(
-        `wrapper.setSelected() cannot be called on a <input ` +
-          `type="radio" /> element. Use wrapper.setChecked() ` +
-          `instead`
-      )
-    } else if (tagName === 'INPUT' || tagName === 'TEXTAREA') {
-      throwError(
-        `wrapper.setSelected() cannot be called on "text" ` +
-          `inputs. Use wrapper.setValue() instead`
-      )
-    } else {
-      throwError(`wrapper.setSelected() cannot be called on this element`)
-    }
-  }
-
-  /**
    * Return text of wrapper element
    */
   text (): string {
     return this.element.textContent.trim()
-  }
-
-  /**
-   * Calls destroy on vm
-   */
-  destroy (): void {
-    if (!this.isVueInstance()) {
-      throwError(`wrapper.destroy() can only be called on a Vue instance`)
-    }
-
-    if (this.element.parentNode) {
-      this.element.parentNode.removeChild(this.element)
-    }
-    // $FlowIgnore
-    this.vm.$destroy()
   }
 
   /**
@@ -905,7 +858,31 @@ export default class Wrapper implements BaseWrapper {
   update (): void {
     warn(
       `update has been removed from vue-test-utils. All ` +
-        `updates are now synchronous by default`
+      `updates are now synchronous by default`
     )
+  }
+
+  /**
+   * Utility to check wrapper is visible. Returns false if a parent
+   * element has display: none or visibility: hidden style.
+   */
+  visible (): boolean {
+    warn(
+      `visible has been deprecated and will be removed in ` +
+      `version 1, use isVisible instead`
+    )
+    let element = this.element
+    while (element) {
+      if (
+        element.style &&
+        (element.style.visibility === 'hidden' ||
+          element.style.display === 'none')
+      ) {
+        return false
+      }
+      element = element.parentElement
+    }
+
+    return true
   }
 }

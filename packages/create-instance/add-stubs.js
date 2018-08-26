@@ -1,7 +1,7 @@
-import { createComponentStubs } from 'shared/stub-components'
+import { createStubsFromStubsObject } from 'shared/create-component-stubs'
 
 export function addStubs (component, stubs, _Vue) {
-  const stubComponents = createComponentStubs(
+  const stubComponents = createStubsFromStubsObject(
     component.components,
     stubs
   )

@@ -1,53 +1,118 @@
 // @flow
 
-import findVnodes from './find-vnodes'
-import findVueComponents from './find-vue-components'
 import findDOMNodes from './find-dom-nodes'
-import { COMPONENT_SELECTOR, NAME_SELECTOR, DOM_SELECTOR } from './consts'
-import Vue from 'vue'
-import getSelectorTypeOrThrow from './get-selector-type'
-import { throwError } from 'shared/util'
+import {
+  DOM_SELECTOR,
+  REF_SELECTOR,
+  COMPONENT_SELECTOR
+} from './consts'
+import { throwError, vueVersion } from 'shared/util'
+import { matches } from './matches'
+
+export function findAllInstances (rootVm: any) {
+  const instances = [rootVm]
+  let i = 0
+  while (i < instances.length) {
+    const vm = instances[i]
+    ;(vm.$children || []).forEach(child => {
+      instances.push(child)
+    })
+    i++
+  }
+  return instances
+}
+
+function findAllVNodes (
+  vnode: VNode,
+  selector: any
+): Array<VNode> {
+  const matchingNodes = []
+  const nodes = [vnode]
+  while (nodes.length) {
+    const node = nodes.shift()
+    if (node.children) {
+      const children = [...node.children].reverse()
+      children.forEach((n) => {
+        nodes.unshift(n)
+      })
+    }
+    if (node.child) {
+      nodes.unshift(node.child._vnode)
+    }
+    if (matches(node, selector)) {
+      matchingNodes.push(node)
+    }
+  }
+
+  return matchingNodes
+}
+
+function removeDuplicateNodes (vNodes: Array<VNode>): Array<VNode> {
+  const vNodeElms = vNodes.map(vNode => vNode.elm)
+  return vNodes.filter(
+    (vNode, index) => index === vNodeElms.indexOf(vNode.elm)
+  )
+}
 
 export default function find (
-  vm: Component | void,
-  vnode: VNode | null,
-  element: Element,
+  root: VNode | Element,
+  vm?: Component,
   selector: Selector
 ): Array<VNode | Component> {
-  const selectorType = getSelectorTypeOrThrow(selector, 'find')
-
-  if (!vnode && !vm && selectorType !== DOM_SELECTOR) {
+  if ((root instanceof Element) && selector.type !== DOM_SELECTOR) {
     throwError(
       `cannot find a Vue instance on a DOM node. The node ` +
-        `you are calling find on does not exist in the ` +
-        `VDom. Are you adding the node as innerHTML?`
+      `you are calling find on does not exist in the ` +
+      `VDom. Are you adding the node as innerHTML?`
     )
   }
 
-  if (selectorType === COMPONENT_SELECTOR || selectorType === NAME_SELECTOR) {
-    const root = vm || vnode
-    if (!root) {
-      return []
-    }
-    return findVueComponents(root, selectorType, selector)
+  if (
+    selector.type === COMPONENT_SELECTOR &&
+    selector.value.functional &&
+    vueVersion < 2.3
+  ) {
+    throwError(
+      `find for functional components is not supported ` +
+        `in Vue < 2.3`
+    )
+  }
+
+  if (root instanceof Element) {
+    return findDOMNodes(root, selector.value)
+  }
+
+  if (!root && selector.type !== DOM_SELECTOR) {
+    throwError(
+      `cannot find a Vue instance on a DOM node. The node ` +
+      `you are calling find on does not exist in the ` +
+      `VDom. Are you adding the node as innerHTML?`
+    )
+  }
+
+  if (!vm && selector.type === REF_SELECTOR) {
+    throwError(
+      `$ref selectors can only be used on Vue component ` + `wrappers`
+    )
   }
 
   if (
     vm &&
     vm.$refs &&
-    selector.ref in vm.$refs &&
-    vm.$refs[selector.ref] instanceof Vue
+    selector.value.ref in vm.$refs
   ) {
-    return [vm.$refs[selector.ref]]
+    const refs = vm.$refs[selector.value.ref]
+    return Array.isArray(refs) ? refs : [refs]
   }
 
-  if (vnode) {
-    const nodes = findVnodes(vnode, vm, selectorType, selector)
-    if (selectorType !== DOM_SELECTOR) {
-      return nodes
-    }
-    return nodes.length > 0 ? nodes : findDOMNodes(element, selector)
+  const nodes = findAllVNodes(root, selector)
+  const dedupedNodes = removeDuplicateNodes(nodes)
+
+  if (nodes.length > 0 || selector.type !== DOM_SELECTOR) {
+    return dedupedNodes
   }
 
-  return findDOMNodes(element, selector)
+  // Fallback in case element exists in HTML, but not in vnode tree
+  // (e.g. if innerHTML is set as a domProp)
+  return findDOMNodes(root.elm, selector.value)
 }

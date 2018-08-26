@@ -370,16 +370,6 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
         }
       }).findAll(RecursiveComponent).length
     ).to.equal(3)
-    RecursiveComponent.components = {
-      'recursive-component': { render: h => h('div') }
-    }
-    expect(
-      shallowMount(RecursiveComponent, {
-        propsData: {
-          items: ['', '']
-        }
-      }).findAll(RecursiveComponent).length
-    ).to.equal(3)
   })
 
   it('handles extended stubs', () => {

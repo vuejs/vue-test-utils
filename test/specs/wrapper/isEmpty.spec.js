@@ -3,7 +3,7 @@ import {
   describeWithShallowAndMount,
   isRunningPhantomJS
 } from '~resources/utils'
-import { itSkipIf } from 'conditional-specs'
+import { itSkipIf, itDoNotRunIf } from 'conditional-specs'
 
 describeWithShallowAndMount('isEmpty', mountingMethod => {
   it('returns true if node is empty', () => {
@@ -18,6 +18,50 @@ describeWithShallowAndMount('isEmpty', mountingMethod => {
     const wrapper = mountingMethod(compiled)
     expect(wrapper.isEmpty()).to.equal(true)
   })
+
+  itDoNotRunIf(
+    mountingMethod.name === 'shallowMount',
+    'returns true if node contains empty components', () => {
+      const GrandChildComponent = {
+        render () {}
+      }
+      const ChildComponent = {
+        template: '<grand-child-component />',
+        components: {
+          GrandChildComponent
+        }
+      }
+      const TestComponent = {
+        template: `<child-component />`,
+        components: {
+          ChildComponent
+        }
+      }
+      const wrapper = mountingMethod(TestComponent)
+      expect(wrapper.isEmpty()).to.equal(true)
+    })
+
+  itDoNotRunIf(
+    mountingMethod.name === 'shallowMount',
+    'returns false if nested child component renders element', () => {
+      const GrandChildComponent = {
+        template: '<div />'
+      }
+      const ChildComponent = {
+        template: '<grand-child-component />',
+        components: {
+          GrandChildComponent
+        }
+      }
+      const TestComponent = {
+        template: `<child-component />`,
+        components: {
+          ChildComponent
+        }
+      }
+      const wrapper = mountingMethod(TestComponent)
+      expect(wrapper.isEmpty()).to.equal(false)
+    })
 
   itSkipIf(isRunningPhantomJS, 'returns true if innerHTML is empty', () => {
     const TestComponent = {

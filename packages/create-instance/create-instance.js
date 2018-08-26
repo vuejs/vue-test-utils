@@ -5,7 +5,10 @@ import addMocks from './add-mocks'
 import { addEventLogger } from './log-events'
 import { addStubs } from './add-stubs'
 import { throwError, vueVersion } from 'shared/util'
-import { compileTemplate } from 'shared/compile-template'
+import {
+  compileTemplate,
+  compileTemplateForSlots
+} from 'shared/compile-template'
 import { isRequiredComponent } from 'shared/validators'
 import extractInstanceOptions from './extract-instance-options'
 import createFunctionalComponent from './create-functional-component'
@@ -14,17 +17,6 @@ import { validateSlots } from './validate-slots'
 import createScopedSlots from './create-scoped-slots'
 import { extendExtendedComponents } from './extend-extended-components'
 import Vue from 'vue'
-
-function compileTemplateForSlots (slots: Object): void {
-  Object.keys(slots).forEach(key => {
-    const slot = Array.isArray(slots[key]) ? slots[key] : [slots[key]]
-    slot.forEach(slotValue => {
-      if (componentNeedsCompiling(slotValue)) {
-        compileTemplate(slotValue)
-      }
-    })
-  })
-}
 
 function vueExtendUnsupportedOption (option: string) {
   return `options.${option} is not supported for ` +
@@ -124,8 +116,13 @@ export default function createInstance (
   // Keep reference to component mount was called with
   Constructor._vueTestUtilsRoot = component
 
+  // used to identify extended component using constructor
+  Constructor.options.$_vueTestUtils_original = component
   if (options.slots) {
     compileTemplateForSlots(options.slots)
+    // validate slots outside of the createSlots function so
+    // that we can throw an error without it being caught by
+    // the Vue error handler
     // $FlowIgnore
     validateSlots(options.slots)
   }
