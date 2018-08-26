@@ -73,7 +73,6 @@
     "vue-template-compiler": "2.5.16",
     "vuepress": "^0.14.2",
     "vuepress-theme-vue": "^1.0.3",
-    "vuetify": "^1.1.14",
     "vuex": "^3.0.1",
     "webpack": "^3.0.1",
     "webpack-node-externals": "^1.6.0"
