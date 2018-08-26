@@ -52,7 +52,7 @@ Next define a `test:unit` script in `package.json`.
 }
 ```
 
-### Processing SFCs in Jest
+### Processing Single-File Components in Jest
 
 To teach Jest how to process `*.vue` files, we need to install and configure the `vue-jest` preprocessor:
 

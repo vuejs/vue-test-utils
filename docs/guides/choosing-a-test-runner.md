@@ -33,8 +33,8 @@ The `vue-jest` preprocessor supports basic SFC functionalities, but currently do
 
 Read the following guides for different setups:
 
-- [Testing SFCs with Jest](./testing-single-file-components-with-jest.md)
-- [Testing SFCs with Mocha + webpack](./testing-single-file-components-with-mocha-webpack.md)
+- [Testing Single-File Components with Jest](./testing-single-file-components-with-jest.md)
+- [Testing Single-File Components with Mocha + webpack](./testing-single-file-components-with-mocha-webpack.md)
 
 ### Resources
 
