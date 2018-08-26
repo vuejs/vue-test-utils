@@ -344,20 +344,21 @@ describeWithShallowAndMount('find', mountingMethod => {
     expect(wrapper.find({ ref: 'foo' })).to.be.an('object')
   })
 
-  it('returns functional extended component', () => {
-    const FunctionalExtendedComponent = Vue.extend({
-      functional: true,
-      render: h => h('div')
-    })
-    const TestComponent = {
-      template: '<div><functional-extended-component /></div>',
-      components: {
-        FunctionalExtendedComponent
+  itSkipIf(vueVersion < 2.3,
+    'returns functional extended component', () => {
+      const FunctionalExtendedComponent = Vue.extend({
+        functional: true,
+        render: h => h('div')
+      })
+      const TestComponent = {
+        template: '<div><functional-extended-component /></div>',
+        components: {
+          FunctionalExtendedComponent
+        }
       }
-    }
-    const wrapper = mountingMethod(TestComponent)
-    expect(wrapper.find(FunctionalExtendedComponent).exists()).to.equal(true)
-  })
+      const wrapper = mountingMethod(TestComponent)
+      expect(wrapper.find(FunctionalExtendedComponent).exists()).to.equal(true)
+    })
 
   it('returns Wrapper of Vue Component matching the extended component', () => {
     const BaseComponent = {

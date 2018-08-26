@@ -11375,6 +11375,11 @@ vuepress@^0.14.2:
     webpackbar "^2.6.1"
     workbox-build "^3.1.0"
 
+vuetify@^1.1.14:
+  version "1.1.14"
+  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-1.1.14.tgz#a45b6cd659e31edc8ca8dd2094562f1763f1f223"
+  integrity sha512-azMcdr2EHXe2TSwuisByUZ75wPRZNFPi7VP274G7YCWqXY7o6sldD2e1ClD7antni6f41qdtD9dsSAqXAkJYVA==
+
 vuex@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/vuex/-/vuex-3.0.1.tgz#e761352ebe0af537d4bb755a9b9dc4be3df7efd2"

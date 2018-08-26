@@ -92,8 +92,8 @@ export function extendExtendedComponents (
       shouldExtendComponent
     )
   })
-  if (extendedComponents) {
-    addHook(_Vue.options, 'beforeCreate', function () {
+  if (Object.keys(extendedComponents).length > 0) {
+    addHook(_Vue.options, 'beforeCreate', function addExtendedOverwrites () {
       if (createdFrom(this.constructor, component)) {
         Object.assign(
           this.$options.components,
