@@ -1,4 +1,5 @@
 // @flow
+import { addHook } from './add-hook'
 
 export function logEvents (
   vm: Component,
@@ -13,12 +14,11 @@ export function logEvents (
   }
 }
 
-export function addEventLogger (vue: Component): void {
-  vue.mixin({
-    beforeCreate: function () {
-      this.__emitted = Object.create(null)
-      this.__emittedByOrder = []
-      logEvents(this, this.__emitted, this.__emittedByOrder)
-    }
-  })
+export function addEventLogger (_Vue: Component): void {
+  addHook(_Vue.options, 'beforeCreate', function () {
+    this.__emitted = Object.create(null)
+    this.__emittedByOrder = []
+    logEvents(this, this.__emitted, this.__emittedByOrder)
+  }
+  )
 }

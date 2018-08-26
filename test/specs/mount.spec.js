@@ -101,6 +101,27 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     expect(wrapper.findAll('div').length).to.equal(1)
   })
 
+  it('handles extended components added to Vue constructor', () => {
+    const ChildComponent = Vue.extend({
+      template: '<div />',
+      mounted () {
+        this.$route.params
+      }
+    })
+    Vue.component('child-component', ChildComponent)
+    const TestComponent = {
+      template: '<child-component />'
+    }
+    const wrapper = mount(TestComponent, {
+      mocks: {
+        $route: {}
+      }
+    })
+
+    delete Vue.options.components['child-component']
+    expect(wrapper.find(ChildComponent).exists()).to.equal(true)
+  })
+
   it('does not use cached component', () => {
     ComponentWithMixin.methods.someMethod = sinon.stub()
     mount(ComponentWithMixin)

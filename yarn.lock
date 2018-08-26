@@ -11139,6 +11139,11 @@ vary@^1.0.0:
   resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha1-IpnwLG3tMNSllhsLn3RSShj2NPw=
 
+vee-validate@^2.1.0-beta.8:
+  version "2.1.0-beta.8"
+  resolved "https://registry.yarnpkg.com/vee-validate/-/vee-validate-2.1.0-beta.8.tgz#57e3afa22dfd4b1507362e402be45d9c788a55d8"
+  integrity sha512-kebM06EKj0VYvkX5wa7iD2alZIBPEHrIcNtMf3GdGQ+fvaG5FeSC5vXQxXRmmAPdDIoeOxyjAKqLZZvU5cy0RQ==
+
 vendors@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/vendors/-/vendors-1.0.1.tgz#37ad73c8ee417fb3d580e785312307d274847f22"
@@ -11369,11 +11374,6 @@ vuepress@^0.14.2:
     webpack-serve "^1.0.2"
     webpackbar "^2.6.1"
     workbox-build "^3.1.0"
-
-vuetify@^0.16.9:
-  version "0.16.9"
-  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-0.16.9.tgz#fd61f219e4a40d7afe5e24a803df5658a40b38e4"
-  integrity sha512-HVzdKnMETHINURJhGCMGT3wFw6R8eEHCVcqdC6o/z+eAWNQH7xg1k2hCsKo680lkjiL7tp3vRd9lF+3DpLm/+g==
 
 vuex@^3.0.1:
   version "3.0.1"

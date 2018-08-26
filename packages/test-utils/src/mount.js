@@ -12,7 +12,7 @@ import { mergeOptions } from 'shared/merge-options'
 import config from './config'
 import warnIfNoWindow from './warn-if-no-window'
 import createWrapper from './create-wrapper'
-
+import createLocalVue from './create-local-vue'
 Vue.config.productionTip = false
 Vue.config.devtools = false
 
@@ -34,7 +34,8 @@ export default function mount (
 
   const parentVm = createInstance(
     component,
-    mergedOptions
+    mergedOptions,
+    createLocalVue(options.localVue)
   )
 
   const vm = parentVm.$mount(elm).$refs.vm
