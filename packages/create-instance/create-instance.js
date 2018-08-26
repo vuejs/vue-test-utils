@@ -16,7 +16,6 @@ import { componentNeedsCompiling, isPlainObject } from 'shared/validators'
 import { validateSlots } from './validate-slots'
 import createScopedSlots from './create-scoped-slots'
 import { extendExtendedComponents } from './extend-extended-components'
-import Vue from 'vue'
 
 function vueExtendUnsupportedOption (option: string) {
   return `options.${option} is not supported for ` +
@@ -36,14 +35,11 @@ const UNSUPPORTED_VERSION_OPTIONS = [
 
 export default function createInstance (
   component: Component,
-  options: Options
+  options: Options,
+  _Vue: Component
 ): Component {
   // Remove cached constructor
   delete component._Ctor
-
-  const _Vue = options.localVue
-    ? options.localVue.extend()
-    : Vue.extend()
 
   // make sure all extends are based on this instance
   _Vue.options._base = _Vue
@@ -75,7 +71,8 @@ export default function createInstance (
     component = createFunctionalComponent(component, options)
   } else if (options.context) {
     throwError(
-      `mount.context can only be used when mounting a ` + `functional component`
+      `mount.context can only be used when mounting a ` +
+      `functional component`
     )
   }
 
@@ -84,13 +81,15 @@ export default function createInstance (
   }
 
   // Replace globally registered components with components extended
-  // from localVue. This makes sure the beforeMount mixins to add stubs
-  // is applied to globally registered components.
+  // from localVue.
   // Vue version must be 2.3 or greater, because of a bug resolving
   // extended constructor options (https://github.com/vuejs/vue/issues/4976)
   if (vueVersion > 2.2) {
     for (const c in _Vue.options.components) {
       if (!isRequiredComponent(c)) {
+        const extendedComponent = _Vue.extend(_Vue.options.components[c])
+        extendedComponent.options.$_vueTestUtils_original =
+          _Vue.options.components[c]
         _Vue.component(c, _Vue.extend(_Vue.options.components[c]))
       }
     }

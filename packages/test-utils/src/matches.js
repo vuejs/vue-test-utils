@@ -43,8 +43,12 @@ export function matches (node, selector) {
     return element && element.matches && element.matches(selector.value)
   }
 
-  const componentInstance = selector.value.functional
-    ? node && node[FUNCTIONAL_OPTIONS]
+  const isFunctionalSelector = typeof selector.value === 'function'
+    ? selector.value.options.functional
+    : selector.value.functional
+
+  const componentInstance = isFunctionalSelector
+    ? node[FUNCTIONAL_OPTIONS]
     : node.child
 
   if (!componentInstance) {

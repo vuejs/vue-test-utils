@@ -6,7 +6,7 @@ import ComponentWithProps from '~resources/components/component-with-props.vue'
 import ComponentWithMixin from '~resources/components/component-with-mixin.vue'
 import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
 import { injectSupported, vueVersion } from '~resources/utils'
-import { describeRunIf, itDoNotRunIf } from 'conditional-specs'
+import { describeRunIf, itDoNotRunIf, itSkipIf } from 'conditional-specs'
 import Vuex from 'vuex'
 
 describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
@@ -100,6 +100,32 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     const wrapper = mount(TestComponentD)
     expect(wrapper.findAll('div').length).to.equal(1)
   })
+
+  itSkipIf(
+    vueVersion < 2.3,
+    'handles extended components added to Vue constructor', () => {
+      const ChildComponent = Vue.extend({
+        template: '<div />',
+        mounted () {
+          this.$route.params
+        }
+      })
+      Vue.component('child-component', ChildComponent)
+      const TestComponent = {
+        template: '<child-component />'
+      }
+      let wrapper
+      try {
+        wrapper = mount(TestComponent, {
+          mocks: {
+            $route: {}
+          }
+        })
+      } catch (err) {} finally {
+        delete Vue.options.components['child-component']
+        expect(wrapper.find(ChildComponent).exists()).to.equal(true)
+      }
+    })
 
   it('does not use cached component', () => {
     ComponentWithMixin.methods.someMethod = sinon.stub()

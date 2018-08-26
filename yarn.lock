@@ -10788,6 +10788,11 @@ typescript@^2.6.2:
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.7.2.tgz#2d615a1ef4aee4f574425cdff7026edf81919836"
   integrity sha512-p5TCYZDAO0m4G344hD+wx/LATebLWZNkkh2asWUFqSsD2OrDNhbAHuSjobrmsUmdzjJjEeZVU9g1h3O6vpstnw==
 
+typescript@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.0.1.tgz#43738f29585d3a87575520a4b93ab6026ef11fdb"
+  integrity sha512-zQIMOmC+372pC/CCVLqnQ0zSBiY7HHodU7mpQdjiZddek4GMj31I3dUJ7gAs9o65X7mnRma6OokOkc6f9jjfBg==
+
 uc.micro@^1.0.1, uc.micro@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/uc.micro/-/uc.micro-1.0.5.tgz#0c65f15f815aa08b560a61ce8b4db7ffc3f45376"
@@ -11139,6 +11144,11 @@ vary@^1.0.0:
   resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha1-IpnwLG3tMNSllhsLn3RSShj2NPw=
 
+vee-validate@2.1.0-beta.5:
+  version "2.1.0-beta.5"
+  resolved "https://registry.yarnpkg.com/vee-validate/-/vee-validate-2.1.0-beta.5.tgz#311c4629face2383964beb06768b379500f25a69"
+  integrity sha512-XN0FCHBEWKbxKprjzIwIr7ff5U+aFaJZlkoKr1ReuncMwHgG/6iW0hEI4bDuNXx1YKPmm4SyhoXkAOBHIUIwTA==
+
 vendors@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/vendors/-/vendors-1.0.1.tgz#37ad73c8ee417fb3d580e785312307d274847f22"
@@ -11369,11 +11379,6 @@ vuepress@^0.14.2:
     webpack-serve "^1.0.2"
     webpackbar "^2.6.1"
     workbox-build "^3.1.0"
-
-vuetify@^0.16.9:
-  version "0.16.9"
-  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-0.16.9.tgz#fd61f219e4a40d7afe5e24a803df5658a40b38e4"
-  integrity sha512-HVzdKnMETHINURJhGCMGT3wFw6R8eEHCVcqdC6o/z+eAWNQH7xg1k2hCsKo680lkjiL7tp3vRd9lF+3DpLm/+g==
 
 vuex@^3.0.1:
   version "3.0.1"

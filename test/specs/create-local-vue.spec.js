@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import Vuetify from 'vuetify'
 import VueRouter from 'vue-router'
 import { createLocalVue } from '~vue/test-utils'
 import Component from '~resources/components/component.vue'
@@ -110,11 +109,6 @@ describeWithShallowAndMount('createLocalVue', mountingMethod => {
       }
     }
     localVue.use(plugin, pluginOptions)
-  })
-
-  it('installs Vutify successfuly', () => {
-    const localVue = createLocalVue()
-    localVue.use(Vuetify)
   })
 
   it('installs plugin into local Vue regardless of previous install in Vue', () => {
