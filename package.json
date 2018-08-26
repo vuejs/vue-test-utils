@@ -64,7 +64,7 @@
     "sinon": "^2.3.2",
     "sinon-chai": "^2.10.0",
     "typescript": "^3.0.1",
-    "vee-validate": "^2.1.0-beta.8",
+    "vee-validate": "2.1.0-beta.5",
     "vue": "2.5.16",
     "vue-class-component": "^6.1.2",
     "vue-loader": "^13.6.2",
