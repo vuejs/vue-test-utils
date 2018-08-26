@@ -1,10 +1,13 @@
-## classes()
+## classes([className])
 
 Return `Wrapper` DOM node classes.
 
-Returns Array of class names.
+Returns Array of class names. Or a boolean if a class name is provided.
 
-- **Returns:** `Array<{string}>`
+- **Arguments:**
+  - `{string} className`  **optional**
+
+- **Returns:** `Array<{string}> | boolean`
 
 - **Example:**
 
@@ -14,4 +17,5 @@ import Foo from './Foo.vue'
 
 const wrapper = mount(Foo)
 expect(wrapper.classes()).toContain('bar')
+expect(wrapper.classes('bar')).toBe(true)
 ```

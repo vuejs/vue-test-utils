@@ -78,12 +78,15 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Returns an Object containing all the attribute/value pairs on the element.
    */
-  attributes (): { [name: string]: string } {
+  attributes (key?: string): { [name: string]: string } | string {
     const attributes = this.element.attributes
     const attributeMap = {}
     for (let i = 0; i < attributes.length; i++) {
       const att = attributes.item(i)
       attributeMap[att.localName] = att.value
+    }
+    if (key) {
+      return attributeMap[key]
     }
     return attributeMap
   }
@@ -91,9 +94,9 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Returns an Array containing all the classes on the element
    */
-  classes (): Array<string> {
-    const className = this.element.getAttribute('class')
-    let classes = className ? className.split(' ') : []
+  classes (className?: string): Array<string> | boolean {
+    const classAttribute = this.element.getAttribute('class')
+    let classes = classAttribute ? classAttribute.split(' ') : []
     // Handle converting cssmodules identifiers back to the original class name
     if (this.vm && this.vm.$style) {
       const cssModuleIdentifiers = Object.keys(this.vm.$style)
@@ -106,8 +109,16 @@ export default class Wrapper implements BaseWrapper {
           return acc
         }, {})
       classes = classes.map(
-        className => cssModuleIdentifiers[className] || className
+        name => cssModuleIdentifiers[name] || name
       )
+    }
+
+    if (className) {
+      if (classes.indexOf(className) > -1) {
+        return true
+      } else {
+        return false
+      }
     }
     return classes
   }
@@ -436,7 +447,7 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Returns an Object containing the prop name/value pairs on the element
    */
-  props (): { [name: string]: any } {
+  props (key?: string): { [name: string]: any } | any {
     if (this.isFunctionalComponent) {
       throwError(
         `wrapper.props() cannot be called on a mounted ` +
@@ -457,6 +468,11 @@ export default class Wrapper implements BaseWrapper {
         }
       })
     }
+
+    if (key) {
+      return props[key]
+    }
+
     return props
   }
 
@@ -468,6 +484,7 @@ export default class Wrapper implements BaseWrapper {
       throwError('wrapper.setChecked() must be passed a boolean')
     }
     const tagName = this.element.tagName
+    // $FlowIgnore
     const type = this.attributes().type
 
     if (tagName === 'SELECT') {
@@ -515,6 +532,7 @@ export default class Wrapper implements BaseWrapper {
    */
   setSelected (): void {
     const tagName = this.element.tagName
+    // $FlowIgnore
     const type = this.attributes().type
 
     if (tagName === 'OPTION') {
@@ -744,6 +762,7 @@ export default class Wrapper implements BaseWrapper {
    */
   setValue (value: any): void {
     const tagName = this.element.tagName
+    // $FlowIgnore
     const type = this.attributes().type
 
     if (tagName === 'SELECT') {
