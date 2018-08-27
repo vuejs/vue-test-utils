@@ -1,4 +1,4 @@
-## Testing Single File Components with Karma
+## Testing Single-File Components with Karma
 
 > An example project for this setup is available on [GitHub](https://github.com/eddyerburgh/vue-test-utils-karma-example).
 

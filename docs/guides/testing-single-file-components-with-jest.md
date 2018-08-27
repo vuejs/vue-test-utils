@@ -1,4 +1,4 @@
-## Testing Single File Components with Jest
+## Testing Single-File Components with Jest
 
 > An example project for this setup is available on [GitHub](https://github.com/vuejs/vue-test-utils-jest-example).
 
