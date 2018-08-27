@@ -7,7 +7,6 @@ import Vue from 'vue'
  */
 let wrapper = mount(normalOptions)
 
-
 let bool: boolean = wrapper.contains('.foo')
 bool = wrapper.contains(normalOptions)
 bool = wrapper.contains(ClassComponent)
