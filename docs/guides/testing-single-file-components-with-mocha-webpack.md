@@ -1,4 +1,4 @@
-## Testing Single File Components with Mocha + webpack
+## Testing Single-File Components with Mocha + webpack
 
 > An example project for this setup is available on [GitHub](https://github.com/vuejs/vue-test-utils-mocha-webpack-example).
 
