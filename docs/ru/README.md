@@ -32,7 +32,7 @@ Vue Test Utils — официальная библиотека модульно�
     - [parentComponent](api/options.md#parentComponent)
     - [provide](api/options.md#provide)
     - [sync](api/options.md#sync)
-    - [другие опции](api/options.md#other-options)
+    - [другие опции](api/options.md#другие-опции)
   * [Wrapper](api/wrapper/)
     * [attributes](api/wrapper/attributes.md)
     * [classes](api/wrapper/classes.md)
