@@ -211,7 +211,7 @@ Set the component instance's `$attrs` object.
 
 - type: `Object`
 
-Set the component instance's props. 
+Set the component instance's props when the component is mounted.
 
 Example:
 
@@ -230,7 +230,8 @@ expect(wrapper.text()).toBe('aBC')
 
 ::: tip 
 It's worth noting that `propsData` is actually a [Vue API](https://vuejs.org/v2/api/#propsData), not a 
-`vue-test-utils` option. It is processed through [`extends`](#other-options).
+Vue Test Utils mounting option. It is processed through [`extends`](https://vuejs.org/v2/api/#extends).
+Please see [Other options](#other-options).
 ::: 
 
 ## listeners
