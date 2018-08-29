@@ -28,6 +28,7 @@ Vue Test Utils — официальная библиотека модульно�
     - [localVue](api/options.md#localvue)
     - [attachToDocument](api/options.md#attachtodocument)
     - [attrs](api/options.md#attrs)
+    - [propsData](api/options.md#propsdata)
     - [listeners](api/options.md#listeners)
     - [parentComponent](api/options.md#parentComponent)
     - [provide](api/options.md#provide)

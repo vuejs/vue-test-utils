@@ -202,7 +202,7 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 
 - Тип: `Object`
  
-Установите входные параметры экземпляра компонента.
+Устанавливает входные параметры экземпляра компонента, когда он примонтирован.
  
 Пример:
 
@@ -221,7 +221,8 @@ expect(wrapper.text()).toBe('aBC')
 
 ::: tip 
 Стоит отметить, что `propsData` относятся на самом деле к [API Vue](https://ru.vuejs.org/v2/api/#propsData),
-а не к `vue-test-utils`. Он обрабатывается через [`extends`](#другие-опции).
+а не к опции монтирования Vue Test Utils. Эта опция обрабатывается через [`extends`](https://vuejs.org/v2/api/#extends).
+Смотрите также [другие опции](#другие-опции).
 ::: 
 
 ## listeners
