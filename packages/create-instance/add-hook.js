@@ -1,5 +1,5 @@
 // This is used instead of Vue.mixin. The reason is that
-// Vue.mixin is slower, and remove modfied options
+// Vue.mixin is slower, and remove modified options
 // https://github.com/vuejs/vue/issues/8710
 
 export function addHook (options, hook, fn) {
