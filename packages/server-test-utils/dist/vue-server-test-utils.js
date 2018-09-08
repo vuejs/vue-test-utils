@@ -107,8 +107,12 @@ function addMocks (
 ) {
   if ( mockedProperties === void 0 ) mockedProperties = {};
 
+  if (mockedProperties === false) {
+    return
+  }
   Object.keys(mockedProperties).forEach(function (key) {
     try {
+      // $FlowIgnore
       Vue$$1.prototype[key] = mockedProperties[key];
     } catch (e) {
       warn(
@@ -117,8 +121,20 @@ function addMocks (
         "the property as a read-only value"
       );
     }
+    // $FlowIgnore
     Vue.util.defineReactive(Vue$$1, key, mockedProperties[key]);
   });
+}
+
+// This is used instead of Vue.mixin. The reason is that
+// Vue.mixin is slower, and remove modified options
+// https://github.com/vuejs/vue/issues/8710
+
+function addHook (options, hook, fn) {
+  if (options[hook] && !Array.isArray(options[hook])) {
+    options[hook] = [options[hook]];
+  }
+  (options[hook] || (options[hook] = [])).push(fn);
 }
 
 // 
@@ -139,14 +155,13 @@ function logEvents (
   };
 }
 
-function addEventLogger (vue) {
-  vue.mixin({
-    beforeCreate: function () {
-      this.__emitted = Object.create(null);
-      this.__emittedByOrder = [];
-      logEvents(this, this.__emitted, this.__emittedByOrder);
-    }
-  });
+function addEventLogger (_Vue) {
+  addHook(_Vue.options, 'beforeCreate', function () {
+    this.__emitted = Object.create(null);
+    this.__emittedByOrder = [];
+    logEvents(this, this.__emitted, this.__emittedByOrder);
+  }
+  );
 }
 
 // 
@@ -202,6 +217,17 @@ function isRequiredComponent (name) {
 
 // 
 
+function compileFromString (str) {
+  if (!vueTemplateCompiler.compileToFunctions) {
+    throwError(
+      "vueTemplateCompiler is undefined, you must pass " +
+        "precompiled components if vue-template-compiler is " +
+        "undefined"
+    );
+  }
+  return vueTemplateCompiler.compileToFunctions(str)
+}
+
 function compileTemplate (component) {
   if (component.template) {
     Object.assign(component, vueTemplateCompiler.compileToFunctions(component.template));
@@ -225,18 +251,18 @@ function compileTemplate (component) {
   }
 }
 
-// 
-
-function compileFromString (str) {
-  if (!vueTemplateCompiler.compileToFunctions) {
-    throwError(
-      "vueTemplateCompiler is undefined, you must pass " +
-        "precompiled components if vue-template-compiler is " +
-        "undefined"
-    );
-  }
-  return vueTemplateCompiler.compileToFunctions(str)
+function compileTemplateForSlots (slots) {
+  Object.keys(slots).forEach(function (key) {
+    var slot = Array.isArray(slots[key]) ? slots[key] : [slots[key]];
+    slot.forEach(function (slotValue) {
+      if (componentNeedsCompiling(slotValue)) {
+        compileTemplate(slotValue);
+      }
+    });
+  });
 }
+
+// 
 
 function isVueComponentStub (comp) {
   return comp && comp.template || isVueComponent(comp)
@@ -244,8 +270,8 @@ function isVueComponentStub (comp) {
 
 function isValidStub (stub) {
   return (
+    typeof stub === 'boolean' ||
     (!!stub && typeof stub === 'string') ||
-    stub === true ||
     isVueComponentStub(stub)
   )
 }
@@ -278,23 +304,6 @@ function getCoreProperties (componentOptions) {
   }
 }
 
-function createStubFromString (
-  templateString,
-  originalComponent,
-  name
-) {
-  if (templateContainsComponent(templateString, name)) {
-    throwError('options.stub cannot contain a circular reference');
-  }
-
-  var componentOptions = typeof originalComponent === 'function'
-    ? originalComponent.extendOptions
-    : originalComponent;
-
-  return Object.assign({}, getCoreProperties(componentOptions),
-    compileFromString(templateString))
-}
-
 function createClassString (staticClass, dynamicClass) {
   if (staticClass && dynamicClass) {
     return staticClass + ' ' + dynamicClass
@@ -302,7 +311,7 @@ function createClassString (staticClass, dynamicClass) {
   return staticClass || dynamicClass
 }
 
-function createBlankStub (
+function createStubFromComponent (
   originalComponent,
   name
 ) {
@@ -317,7 +326,8 @@ function createBlankStub (
   }
 
   return Object.assign({}, getCoreProperties(componentOptions),
-    {render: function render (h, context) {
+    {$_vueTestUtils_original: originalComponent,
+    render: function render (h, context) {
       return h(
         tagName,
         {
@@ -328,71 +338,89 @@ function createBlankStub (
               context.data.class
             )}) : Object.assign({}, this.$props)
         },
-        context ? context.children : this.$slots.default
+        context ? context.children : this.$options._renderChildren
       )
     }})
 }
 
-function createComponentStubs (
+function createStubFromString (
+  templateString,
+  originalComponent,
+  name
+) {
+  if ( originalComponent === void 0 ) originalComponent = {};
+
+  if (templateContainsComponent(templateString, name)) {
+    throwError('options.stub cannot contain a circular reference');
+  }
+
+  var componentOptions = typeof originalComponent === 'function'
+    ? originalComponent.extendOptions
+    : originalComponent;
+
+  return Object.assign({}, getCoreProperties(componentOptions),
+    compileFromString(templateString))
+}
+
+function validateStub (stub) {
+  if (!isValidStub(stub)) {
+    throwError(
+      "options.stub values must be passed a string or " +
+      "component"
+    );
+  }
+}
+
+function createStubsFromStubsObject (
   originalComponents,
   stubs
 ) {
   if ( originalComponents === void 0 ) originalComponents = {};
 
-  var components = {};
-  if (!stubs) {
-    return components
-  }
-  Object.keys(stubs).forEach(function (stubName) {
+  return Object.keys(stubs || {}).reduce(function (acc, stubName) {
     var stub = stubs[stubName];
-    if (stub === false) {
-      return
-    }
 
-    if (!isValidStub(stub)) {
-      throwError(
-        "options.stub values must be passed a string or " + "component"
-      );
+    validateStub(stub);
+
+    if (stub === false) {
+      return acc
     }
 
     if (stub === true) {
       var component = resolveComponent(originalComponents, stubName);
-      components[stubName] = createBlankStub(component, stubName);
-      return
-    }
-
-    if (typeof stub !== 'string' && componentNeedsCompiling(stub)) {
-      compileTemplate(stub);
+      acc[stubName] = createStubFromComponent(component, stubName);
+      return acc
     }
 
     if (originalComponents[stubName]) {
       // Remove cached constructor
       delete originalComponents[stubName]._Ctor;
-      if (typeof stub === 'string') {
-        components[stubName] = createStubFromString(
-          stub,
-          originalComponents[stubName],
-          stubName
-        );
-      } else {
-        var stubObject = (stub);
-        components[stubName] = Object.assign({}, stubObject,
-          {name: originalComponents[stubName].name});
-      }
-    } else {
-      if (typeof stub === 'string') {
-        components[stubName] = Object.assign({}, compileFromString(stub));
-      } else {
-        var stubObject$1 = (stub);
-        components[stubName] = Object.assign({}, stubObject$1);
-      }
     }
-  });
-  return components
+
+    if (typeof stub === 'string') {
+      acc[stubName] = createStubFromString(
+        stub,
+        originalComponents[stubName],
+        stubName
+      );
+      return acc
+    }
+
+    if (componentNeedsCompiling(stub)) {
+      compileTemplate(stub);
+    }
+    var name = originalComponents[stubName] &&
+    originalComponents[stubName].name;
+
+    acc[stubName] = Object.assign({}, {name: name},
+      stub);
+
+    return acc
+  }, {})
 }
 
 function addStubs (component, stubs, _Vue) {
-  var stubComponents = createComponentStubs(
+  var stubComponents = createStubsFromStubsObject(
     component.components,
     stubs
   );
@@ -404,12 +432,10 @@ function addStubs (component, stubs, _Vue) {
     );
   }
 
-  _Vue.mixin({
-    beforeMount: addStubComponentsMixin,
-    // beforeCreate is for components created in node, which
-    // never mount
-    beforeCreate: addStubComponentsMixin
-  });
+  addHook(_Vue.options, 'beforeMount', addStubComponentsMixin);
+  // beforeCreate is for components created in node, which
+  // never mount
+  addHook(_Vue.options, 'beforeCreate', addStubComponentsMixin);
 }
 
 // 
@@ -680,7 +706,11 @@ function extendExtendedComponents (
           "config.logModifiedComponents option to false."
         );
       }
-      extendedComponents[c] = _Vue.extend(comp);
+
+      var extendedComp = _Vue.extend(comp);
+      // Used to identify component in a render tree
+      extendedComp.options.$_vueTestUtils_original = comp;
+      extendedComponents[c] = extendedComp;
     }
     // If a component has been replaced with an extended component
     // all its child components must also be replaced.
@@ -692,15 +722,13 @@ function extendExtendedComponents (
       shouldExtendComponent
     );
   });
-  if (extendedComponents) {
-    _Vue.mixin({
-      created: function created () {
-        if (createdFrom(this.constructor, component)) {
-          Object.assign(
-            this.$options.components,
-            extendedComponents
-          );
-        }
+  if (Object.keys(extendedComponents).length > 0) {
+    addHook(_Vue.options, 'beforeCreate', function addExtendedOverwrites () {
+      if (createdFrom(this.constructor, component)) {
+        Object.assign(
+          this.$options.components,
+          extendedComponents
+        );
       }
     });
   }
@@ -708,25 +736,44 @@ function extendExtendedComponents (
 
 // 
 
-function compileTemplateForSlots (slots) {
-  Object.keys(slots).forEach(function (key) {
-    var slot = Array.isArray(slots[key]) ? slots[key] : [slots[key]];
-    slot.forEach(function (slotValue) {
-      if (componentNeedsCompiling(slotValue)) {
-        compileTemplate(slotValue);
-      }
-    });
-  });
+function vueExtendUnsupportedOption (option) {
+  return "options." + option + " is not supported for " +
+  "components created with Vue.extend in Vue < 2.3. " +
+  "You can set " + option + " to false to mount the component."
 }
+
+// these options aren't supported if Vue is version < 2.3
+// for components using Vue.extend. This is due to a bug
+// that means the mixins we use to add properties are not applied
+// correctly
+var UNSUPPORTED_VERSION_OPTIONS = [
+  'mocks',
+  'stubs',
+  'localVue'
+];
 
 function createInstance (
   component,
   options,
-  _Vue,
-  elm
+  _Vue
 ) {
   // Remove cached constructor
   delete component._Ctor;
+
+  // make sure all extends are based on this instance
+  _Vue.options._base = _Vue;
+
+  if (
+    vueVersion < 2.3 &&
+    typeof component === 'function' &&
+    component.options
+  ) {
+    UNSUPPORTED_VERSION_OPTIONS.forEach(function (option) {
+      if (options[option]) {
+        throwError(vueExtendUnsupportedOption(option));
+      }
+    });
+  }
 
   // instance options are options that are passed to the
   // root instance when it's instantiated
@@ -743,7 +790,8 @@ function createInstance (
     component = createFunctionalComponent(component, options);
   } else if (options.context) {
     throwError(
-      "mount.context can only be used when mounting a " + "functional component"
+      "mount.context can only be used when mounting a " +
+      "functional component"
     );
   }
 
@@ -752,13 +800,15 @@ function createInstance (
   }
 
   // Replace globally registered components with components extended
-  // from localVue. This makes sure the beforeMount mixins to add stubs
-  // is applied to globally registered components.
+  // from localVue.
   // Vue version must be 2.3 or greater, because of a bug resolving
   // extended constructor options (https://github.com/vuejs/vue/issues/4976)
   if (vueVersion > 2.2) {
     for (var c in _Vue.options.components) {
       if (!isRequiredComponent(c)) {
+        var extendedComponent = _Vue.extend(_Vue.options.components[c]);
+        extendedComponent.options.$_vueTestUtils_original =
+          _Vue.options.components[c];
         _Vue.component(c, _Vue.extend(_Vue.options.components[c]));
       }
     }
@@ -784,8 +834,13 @@ function createInstance (
   // Keep reference to component mount was called with
   Constructor._vueTestUtilsRoot = component;
 
+  // used to identify extended component using constructor
+  Constructor.options.$_vueTestUtils_original = component;
   if (options.slots) {
     compileTemplateForSlots(options.slots);
+    // validate slots outside of the createSlots function so
+    // that we can throw an error without it being caught by
+    // the Vue error handler
     // $FlowIgnore
     validateSlots(options.slots);
   }
@@ -838,6 +893,9 @@ function createInstance (
 function normalizeStubs (stubs) {
   if ( stubs === void 0 ) stubs = {};
 
+  if (stubs === false) {
+    return false
+  }
   if (isPlainObject(stubs)) {
     return stubs
   }
@@ -856,6 +914,9 @@ function normalizeStubs (stubs) {
 // 
 
 function getOption (option, config) {
+  if (option === false) {
+    return false
+  }
   if (option || (config && Object.keys(config).length > 0)) {
     if (option instanceof Function) {
       return option
@@ -908,11 +969,11 @@ function renderToString (
   if (options.attachToDocument) {
     throwError("you cannot use attachToDocument with " + "renderToString");
   }
-  var vueConstructor = testUtils.createLocalVue(options.localVue);
+
   var vm = createInstance(
     component,
     mergeOptions(options, config),
-    vueConstructor
+    testUtils.createLocalVue(options.localVue)
   );
   var renderedString = '';
 
