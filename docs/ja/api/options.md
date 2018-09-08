@@ -222,7 +222,7 @@ import Foo from './Foo.vue'
 const wrapper = shallowMount(Component, {
   parentComponent: Foo
 })
-expect(wrapper.vm.$parent.name).toBe('foo')
+expect(wrapper.vm.$parent.$options.name).toBe('foo')
 ```
 
 ## provide
