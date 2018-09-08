@@ -132,6 +132,20 @@ mount(Component, {
 })
 ```
 
+### Stubbing components
+
+You can override components that are registered globally or locally by using the `stubs` option:
+
+```js
+import { mount } from '@vue/test-utils'
+
+mount(Component, {
+  // Will resolve globally-registered-component with
+  // empty stub
+  stubs: ['globally-registered-component']
+})
+```
+
 ### Dealing with Routing
 
 Since routing by definition has to do with the overall structure of the application and involves multiple components, it is best tested via integration or end-to-end tests. For individual components that rely on `vue-router` features, you can mock them using the techniques mentioned above.
