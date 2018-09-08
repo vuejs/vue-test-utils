@@ -38,7 +38,6 @@ export default function createInstance (
   options: Options,
   _Vue: Component
 ): Component {
-
   // make sure all extends are based on this instance
   _Vue.options._base = _Vue
 
