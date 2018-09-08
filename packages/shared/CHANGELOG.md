@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.0.0-beta.25"></a>
+# [1.0.0-beta.25](https://github.com/vuejs/vue-test-utils/compare/v1.0.0-beta.24...v1.0.0-beta.25) (2018-09-08)
+
+
+### Bug Fixes
+
+* render all children ([#931](https://github.com/vuejs/vue-test-utils/issues/931)) ([71a2e7b](https://github.com/vuejs/vue-test-utils/commit/71a2e7b))
+* throw error if unsupported options passed in vue < 2.3 ([#910](https://github.com/vuejs/vue-test-utils/issues/910)) ([e8d9547](https://github.com/vuejs/vue-test-utils/commit/e8d9547))
+
+
+
+
 <a name="1.0.0-beta.24"></a>
 # [1.0.0-beta.24](https://github.com/vuejs/vue-test-utils/compare/v1.0.0-beta.23...v1.0.0-beta.24) (2018-08-05)
 
