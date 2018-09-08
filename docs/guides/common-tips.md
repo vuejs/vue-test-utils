@@ -139,10 +139,6 @@ You can override components that are registered globally or locally by using the
 ```js
 import { mount } from '@vue/test-utils'
 
-const Stub = {
-  render () {}
-}
-
 mount(Component, {
   // Will resolve globally-registered-component with
   // empty stub
