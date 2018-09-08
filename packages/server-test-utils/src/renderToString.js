@@ -22,8 +22,6 @@ export default function renderToString (
       `renderToString must be run in node. It cannot be ` + `run in a browser`
     )
   }
-  // Remove cached constructor
-  delete component._Ctor
 
   if (options.attachToDocument) {
     throwError(`you cannot use attachToDocument with ` + `renderToString`)

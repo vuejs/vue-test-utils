@@ -149,11 +149,6 @@ export function createStubsFromStubsObject (
       return acc
     }
 
-    if (originalComponents[stubName]) {
-      // Remove cached constructor
-      delete originalComponents[stubName]._Ctor
-    }
-
     if (typeof stub === 'string') {
       acc[stubName] = createStubFromString(
         stub,
@@ -195,8 +190,6 @@ function stubComponents (
       )
       return
     }
-    // Remove cached constructor
-    delete componentOptions._Ctor
 
     stubbedComponents[component] = createStubFromComponent(
       cmp,

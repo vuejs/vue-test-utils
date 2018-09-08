@@ -38,9 +38,6 @@ export default function createInstance (
   options: Options,
   _Vue: Component
 ): Component {
-  // Remove cached constructor
-  delete component._Ctor
-
   // make sure all extends are based on this instance
   _Vue.options._base = _Vue
 

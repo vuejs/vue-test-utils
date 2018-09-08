@@ -291,16 +291,23 @@ describeWithShallowAndMount('find', mountingMethod => {
     expect(wrapper.find(Component).vnode).to.be.an('object')
   })
 
-  it('returns array of VueWrappers of Vue Components matching component if component name in parent is different to filename', () => {
+  it('returns Wrapper matching selector using Wrapper as reference', () => {
     const wrapper = mountingMethod(ComponentWithChild)
     const div = wrapper.find('span')
     expect(div.find(Component).vnode).to.be.an('object')
   })
 
-  it('returns Wrapper matching selector using Wrapper as reference', () => {
-    const wrapper = mountingMethod(ComponentWithChild)
-    const div = wrapper.find('span')
-    expect(div.find(Component).vnode).to.be.an('object')
+  it('selector works between mounts', () => {
+    const ChildComponent = { template: '<div />' }
+    const TestComponent = {
+      template: '<child-component />',
+      components: {
+        ChildComponent
+      }
+    }
+    const wrapper = mountingMethod(TestComponent)
+    mountingMethod(ChildComponent)
+    expect(wrapper.find(ChildComponent).vnode).to.be.an('object')
   })
 
   it('returns error Wrapper if Vue component is below Wrapper', () => {
