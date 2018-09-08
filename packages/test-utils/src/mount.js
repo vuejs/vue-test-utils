@@ -25,9 +25,6 @@ export default function mount (
 
   warnIfNoWindow()
 
-  // Remove cached constructor
-  delete component._Ctor
-
   const elm = options.attachToDocument ? createElement() : undefined
 
   const mergedOptions = mergeOptions(options, config)
