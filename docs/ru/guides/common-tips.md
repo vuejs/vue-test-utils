@@ -140,8 +140,8 @@ mount(Component, {
 import { mount } from '@vue/test-utils'
 
 mount(Component, {
-  // Будет разрешен globally-registered-component
-  // пустой заглушкой
+  // Компонент globally-registered-component
+  // будет заменяться пустой заглушкой
   stubs: ['globally-registered-component']
 })
 ```
