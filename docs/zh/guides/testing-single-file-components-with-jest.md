@@ -47,7 +47,7 @@ npm install --save-dev vue-jest
     ],
     "transform": {
       // 用 `vue-jest` 处理 `*.vue` 文件
-      ".*\\.(vue)$": "<rootDir>/node_modules/vue-jest"
+      ".*\\.(vue)$": "vue-jest"
     }
   }
 }
@@ -122,31 +122,6 @@ npm install --save-dev babel-jest
 }
 ```
 
-### 测试快照
-
-你可以使用 [`vue-server-renderer`](https://github.com/vuejs/vue/tree/dev/packages/vue-server-renderer) 将组件渲染为一个字符串，这样它就可以为 [Jest 快照测试](https://facebook.github.io/jest/docs/en/snapshot-testing.html) 保存一个快照。
-
-`vue-server-renderer` 的渲染结果包含了一些服务端渲染特有的特性，且忽略空格，也不易于检索变更。我们可以通过一个自定义的序列化程序来改进被保存的快照：
-
-``` bash
-npm install --save-dev jest-serializer-vue
-```
-
-然后在 `package.json` 中配置它：
-
-``` json
-{
-  // ...
-  "jest": {
-    // ...
-    // 快照的序列化程序
-    "snapshotSerializers": [
-      "<rootDir>/node_modules/jest-serializer-vue"
-    ]
-  }
-}
-```
-
 ### 放置测试文件
 
 默认情况下，Jest 将会递归的找到整个工程里所有 `.spec.js` 或 `.test.js` 扩展名的文件。如果这不符合你的需求，你也可以在 `package.json` 里的配置段落中[改变它的 `testRegex`](https://facebook.github.io/jest/docs/en/configuration.html#testregex-string)。
@@ -199,6 +174,38 @@ describe('Component', () => {
     expect(wrapper.isVueInstance()).toBeTruthy()
   })
 })
+```
+
+### 快照测试
+
+当你用 Vue Test Utils 挂载一个组件时，你可以访问到 HTML 根元素。这可以保存为一个快照为 [Jest 快照测试](https://facebook.github.io/jest/docs/en/snapshot-testing.html)所用。
+
+```js
+test('renders correctly', () => {
+  const wrapper = mount(Component)
+  expect(wrapper.element).toMatchSnapshot()
+})
+```
+
+我们可以通过一个自定义的序列化工具改进被保存的快照：
+
+``` bash
+npm install --save-dev jest-serializer-vue
+```
+
+然后在 `package.json` 中配置它：
+
+``` json
+{
+  // ...
+  "jest": {
+    // ...
+    // 快照的序列化工具
+    "snapshotSerializers": [
+      "jest-serializer-vue"
+    ]
+  }
+}
 ```
 
 ### 相关资料

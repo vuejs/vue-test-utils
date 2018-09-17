@@ -1,10 +1,13 @@
-## props()
+## props([key])
 
-返回 `Wrapper` `vm` 的 props 对象。
+返回 `Wrapper` `vm` 的 props 对象。如果提供了 `key`，则返回这个 `key` 对应的值。
 
 **注意：该包裹器必须包含一个 Vue 示例。**
 
-- **返回值：**`{[prop: string]: any}`
+- **参数：**
+  - `{string} key`  **可选的**
+
+- **返回值：**`{[prop: string]: any} | any`
 
 - **示例：**
 
@@ -18,4 +21,5 @@ const wrapper = mount(Foo, {
   }
 })
 expect(wrapper.props().bar).toBe('baz')
+expect(wrapper.props('bar')).toBe('baz')
 ```
