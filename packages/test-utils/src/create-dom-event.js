@@ -48,7 +48,7 @@ export default function createDOMEvent (type, options) {
 
   // Fallback for IE10,11 - https://stackoverflow.com/questions/26596123
   const eventObject = document.createEvent('Event')
-  
+
   eventObject.initEvent(eventType, bubbles, cancelable)
   Object.keys(options || {}).forEach(key => {
     eventObject[key] = options[key]
