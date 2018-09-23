@@ -131,15 +131,15 @@ mount(Component, {
 })
 ```
 
-### Stubbing components
+### スタブコンポーネント
 
-You can override components that are registered globally or locally by using the `stubs` option:
+グローバルまたは `stubs` オプションを使用してローカルに登録されたコンポーネントを上書きできます:
 
  ```js
 import { mount } from '@vue/test-utils'
  mount(Component, {
-  // Will resolve globally-registered-component with
-  // empty stub
+  // 空スタブによってグローバルに登録されたコンポーネントを
+  // 解決します
   stubs: ['globally-registered-component']
 })
 ```

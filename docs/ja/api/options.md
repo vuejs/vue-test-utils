@@ -205,11 +205,11 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 
 ## propsData
 
-- type: `Object`
+- 型: `Object`
 
-Set the component instance's props when the component is mounted.
+コンポーネントがマウントされる時、コンポーネントインスタンスの props をセットします。
 
-Example:
+例:
 
 ```js
 const Component = {
@@ -224,10 +224,10 @@ const wrapper = mount(Component, {
 expect(wrapper.text()).toBe('aBC')
 ```
 
-::: tip 
-It's worth noting that `propsData` is actually a [Vue API](https://vuejs.org/v2/api/#propsData), not a 
-Vue Test Utils mounting option. It is processed through [`extends`](https://vuejs.org/v2/api/#extends).
-Please see [Other options](#other-options).
+::: 注意
+`propsData` は Vue Test Utils のマウティングオプションではなく [Vue API](https://vuejs.org/v2/api/#propsData) です。
+この `propsData` は [`extends`](https://vuejs.org/v2/api/#extends) を内部で利用しています。
+詳しくは[その他のオプション](#その他のオプション)を参照してください。
 ::: 
 
 ## listeners
@@ -259,7 +259,7 @@ expect(wrapper.vm.$parent.$options.name).toBe('foo')
 
 コンポーネントに指定したプロパティを注入します。[provide/inject](https://vuejs.org/v2/api/#provide-inject) を参照してください。
 
-Example:
+例:
 
 ```js
 const Component = {
