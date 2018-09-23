@@ -242,7 +242,7 @@ describeWithMountingMethods('options.slots', mountingMethod => {
       }
     })
     if (mountingMethod.name === 'renderToString') {
-      expect(wrapper).contains('hello, world')
+      expect(wrapper).contains('hello,</main> <footer>world')
     } else {
       expect(wrapper.text()).to.contain('hello, world')
     }
