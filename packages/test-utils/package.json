@@ -37,6 +37,7 @@
     "vue-template-compiler": "^2.x"
   },
   "dependencies": {
+    "dom-event-types": "^1.0.0",
     "lodash": "^4.17.4"
   }
 }
