@@ -10,8 +10,9 @@
 - [`localVue`](#localvue)
 - [`attachToDocument`](#attachtodocument)
 - [`attrs`](#attrs)
+- [`propsData`](#propsdata)
 - [`listeners`](#listeners)
-- [`parentComponent`](#parentComponent)
+- [`parentComponent`](#parentcomponent)
 - [`provide`](#provide)
 - [`sync`](#sync)
 
@@ -202,6 +203,33 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 
 コンポーネントインスタンスの `$attrs` オブジェクトを設定します。
 
+## propsData
+
+- type: `Object`
+
+Set the component instance's props when the component is mounted.
+
+Example:
+
+```js
+const Component = {
+  template: '<div>{{ msg }}</div>',
+  props: ['msg']
+}
+const wrapper = mount(Component, {
+  propsData: {
+    msg: 'aBC'
+  }
+})
+expect(wrapper.text()).toBe('aBC')
+```
+
+::: tip 
+It's worth noting that `propsData` is actually a [Vue API](https://vuejs.org/v2/api/#propsData), not a 
+Vue Test Utils mounting option. It is processed through [`extends`](https://vuejs.org/v2/api/#extends).
+Please see [Other options](#other-options).
+::: 
+
 ## listeners
 
 - 型: `Object`
@@ -230,6 +258,25 @@ expect(wrapper.vm.$parent.$options.name).toBe('foo')
 - 型: `Object`
 
 コンポーネントに指定したプロパティを注入します。[provide/inject](https://vuejs.org/v2/api/#provide-inject) を参照してください。
+
+Example:
+
+```js
+const Component = {
+  inject: ['foo'],
+  template: '<div>{{this.foo()}}</div>'
+}
+
+const wrapper = shallowMount(Component, {
+  provide: {
+    foo () {
+      return 'fooValue'
+    }
+  }
+})
+
+expect(wrapper.text()).toBe('fooValue')
+```
 
 ## sync
 

@@ -131,6 +131,19 @@ mount(Component, {
 })
 ```
 
+### Stubbing components
+
+You can override components that are registered globally or locally by using the `stubs` option:
+
+ ```js
+import { mount } from '@vue/test-utils'
+ mount(Component, {
+  // Will resolve globally-registered-component with
+  // empty stub
+  stubs: ['globally-registered-component']
+})
+```
+
 ### ルーティングの扱い
 
 定義によるルーティングは、アプリケーションの全体的な構造と関連し、複数のコンポーネントが関係するため、統合テストまたはエンドツーエンドテストによってよくテストされます。
