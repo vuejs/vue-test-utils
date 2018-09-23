@@ -4,9 +4,12 @@ import { compileToFunctions } from 'vue-template-compiler'
 
 function createVNodes (
   vm: Component,
-  slotValue: string
+  slotValue: string,
+  name
 ): Array<VNode> {
-  const el = compileToFunctions(`<div>${slotValue}</div>`)
+  const el = compileToFunctions(
+    `<div><template slot=${name}>${slotValue}</template></div>`
+  )
   const _staticRenderFns = vm._renderProxy.$options.staticRenderFns
   const _staticTrees = vm._renderProxy._staticTrees
   vm._renderProxy._staticTrees = []
@@ -14,7 +17,7 @@ function createVNodes (
   const vnode = el.render.call(vm._renderProxy, vm.$createElement)
   vm._renderProxy.$options.staticRenderFns = _staticRenderFns
   vm._renderProxy._staticTrees = _staticTrees
-  return vnode.children
+  return vnode.children[0]
 }
 
 function createVNodesForSlot (
@@ -22,21 +25,11 @@ function createVNodesForSlot (
   slotValue: SlotValue,
   name: string,
 ): VNode | Array<VNode> {
-  let vnode
   if (typeof slotValue === 'string') {
-    const vnodes = createVNodes(vm, slotValue)
-    if (vnodes.length > 1) {
-      return vnodes
-    }
-    vnode = vnodes[0]
-  } else {
-    vnode = vm.$createElement(slotValue)
+    return createVNodes(vm, slotValue, name)
   }
-  if (vnode.data) {
-    vnode.data.slot = name
-  } else {
-    vnode.data = { slot: name }
-  }
+  const vnode = vm.$createElement(slotValue)
+  ;(vnode.data || (vnode.data = {})).slot = name
   return vnode
 }
 
