@@ -2,7 +2,8 @@ import ComponentWithEvents from '~resources/components/component-with-events.vue
 import ComponentWithScopedSlots from '~resources/components/component-with-scoped-slots.vue'
 import {
   describeWithShallowAndMount,
-  scopedSlotsSupported
+  scopedSlotsSupported,
+  isRunningPhantomJS
 } from '~resources/utils'
 import Vue from 'vue'
 import { itDoNotRunIf } from 'conditional-specs'
@@ -92,7 +93,9 @@ describeWithShallowAndMount('trigger', mountingMethod => {
       propsData: { clickHandler }
     })
     const button = wrapper.find('.left-click')
-    button.trigger('mousedown')
+    button.trigger('mousedown', {
+      button: 1
+    })
     button.trigger('mousedown', {
       button: 0
     })
@@ -179,5 +182,36 @@ describeWithShallowAndMount('trigger', mountingMethod => {
         .to.throw()
         .with.property('message', message)
     })
+  })
+
+  itDoNotRunIf(
+    isRunningPhantomJS,
+    'trigger should create events with correct interface', () => {
+      let lastEvent
+      const TestComponent = {
+        template: `
+        <div @click="updateLastEvent" />
+      `,
+        methods: {
+          updateLastEvent (event) {
+            lastEvent = event
+          }
+        }
+      }
+
+      const wrapper = mountingMethod(TestComponent)
+
+      wrapper.trigger('click')
+      expect(lastEvent).to.be.an.instanceof(window.MouseEvent)
+    })
+
+  it('falls back to supported event if not supported by browser', () => {
+    const TestComponent = {
+      template: '<div />'
+    }
+
+    const wrapper = mountingMethod(TestComponent)
+
+    wrapper.trigger('gamepadconnected')
   })
 })

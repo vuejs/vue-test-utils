@@ -15,6 +15,7 @@ import createWrapper from './create-wrapper'
 import { orderWatchers } from './order-watchers'
 import { recursivelySetData } from './recursively-set-data'
 import { matches } from './matches'
+import createDOMEvent from './create-dom-event'
 
 export default class Wrapper implements BaseWrapper {
   +vnode: VNode | null;
@@ -823,52 +824,9 @@ export default class Wrapper implements BaseWrapper {
       return
     }
 
-    const modifiers = {
-      enter: 13,
-      tab: 9,
-      delete: 46,
-      esc: 27,
-      space: 32,
-      up: 38,
-      down: 40,
-      left: 37,
-      right: 39,
-      end: 35,
-      home: 36,
-      backspace: 8,
-      insert: 45,
-      pageup: 33,
-      pagedown: 34
-    }
+    const event = createDOMEvent(type, options)
+    this.element.dispatchEvent(event)
 
-    const event = type.split('.')
-
-    let eventObject
-
-    // Fallback for IE10,11 - https://stackoverflow.com/questions/26596123
-    if (typeof window.Event === 'function') {
-      eventObject = new window.Event(event[0], {
-        bubbles: true,
-        cancelable: true
-      })
-    } else {
-      eventObject = document.createEvent('Event')
-      eventObject.initEvent(event[0], true, true)
-    }
-
-    if (options) {
-      Object.keys(options).forEach(key => {
-        // $FlowIgnore
-        eventObject[key] = options[key]
-      })
-    }
-
-    if (event.length === 2) {
-      // $FlowIgnore
-      eventObject.keyCode = modifiers[event[1]]
-    }
-
-    this.element.dispatchEvent(eventObject)
     if (this.vnode) {
       orderWatchers(this.vm || this.vnode.context.$root)
     }
