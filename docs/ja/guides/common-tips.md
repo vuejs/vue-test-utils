@@ -135,9 +135,10 @@ mount(Component, {
 
 グローバルまたは `stubs` オプションを使用してローカルに登録されたコンポーネントを上書きできます:
 
- ```js
+```js
 import { mount } from '@vue/test-utils'
- mount(Component, {
+
+mount(Component, {
   // 空スタブによってグローバルに登録されたコンポーネントを
   // 解決します
   stubs: ['globally-registered-component']
