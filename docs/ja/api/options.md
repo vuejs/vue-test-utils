@@ -225,7 +225,7 @@ expect(wrapper.text()).toBe('aBC')
 ```
 
 ::: 注意
-`propsData` は Vue Test Utils のマウティングオプションではなく [Vue API](https://vuejs.org/v2/api/#propsData) です。
+`propsData` は Vue Test Utils のマウンティングオプションではなく [Vue API](https://vuejs.org/v2/api/#propsData) です。
 この `propsData` は [`extends`](https://vuejs.org/v2/api/#extends) を内部で利用しています。
 詳しくは[その他のオプション](#その他のオプション)を参照してください。
 ::: 
