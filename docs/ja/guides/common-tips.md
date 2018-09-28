@@ -131,6 +131,20 @@ mount(Component, {
 })
 ```
 
+### スタブコンポーネント
+
+`stubs` オプションを使用して、グローバルまたはローカルに登録されたコンポーネントを上書きできます:
+
+```js
+import { mount } from '@vue/test-utils'
+
+mount(Component, {
+  // globally-registered-component を空のスタブとして
+  // 解決します
+  stubs: ['globally-registered-component']
+})
+```
+
 ### ルーティングの扱い
 
 定義によるルーティングは、アプリケーションの全体的な構造と関連し、複数のコンポーネントが関係するため、統合テストまたはエンドツーエンドテストによってよくテストされます。

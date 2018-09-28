@@ -10,8 +10,9 @@
 - [`localVue`](#localvue)
 - [`attachToDocument`](#attachtodocument)
 - [`attrs`](#attrs)
+- [`propsData`](#propsdata)
 - [`listeners`](#listeners)
-- [`parentComponent`](#parentComponent)
+- [`parentComponent`](#parentcomponent)
 - [`provide`](#provide)
 - [`sync`](#sync)
 
@@ -202,6 +203,33 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 
 コンポーネントインスタンスの `$attrs` オブジェクトを設定します。
 
+## propsData
+
+- 型: `Object`
+
+コンポーネントがマウントされる時、コンポーネントインスタンスの props をセットします。
+
+例:
+
+```js
+const Component = {
+  template: '<div>{{ msg }}</div>',
+  props: ['msg']
+}
+const wrapper = mount(Component, {
+  propsData: {
+    msg: 'aBC'
+  }
+})
+expect(wrapper.text()).toBe('aBC')
+```
+
+::: 注意
+`propsData` は Vue Test Utils のマウンティングオプションではなく [Vue API](https://vuejs.org/v2/api/#propsData) です。
+この `propsData` は [`extends`](https://vuejs.org/v2/api/#extends) を内部で利用しています。
+詳しくは[その他のオプション](#その他のオプション)を参照してください。
+::: 
+
 ## listeners
 
 - 型: `Object`
@@ -230,6 +258,25 @@ expect(wrapper.vm.$parent.$options.name).toBe('foo')
 - 型: `Object`
 
 コンポーネントに指定したプロパティを注入します。[provide/inject](https://vuejs.org/v2/api/#provide-inject) を参照してください。
+
+例:
+
+```js
+const Component = {
+  inject: ['foo'],
+  template: '<div>{{this.foo()}}</div>'
+}
+
+const wrapper = shallowMount(Component, {
+  provide: {
+    foo () {
+      return 'fooValue'
+    }
+  }
+})
+
+expect(wrapper.text()).toBe('fooValue')
+```
 
 ## sync
 
