@@ -132,6 +132,20 @@ mount(Component, {
 })
 ```
 
+### 存根组件
+
+你可以使用 `stubs` 选项覆写全局或局部注册的组件：
+
+```js
+import { mount } from '@vue/test-utils'
+
+mount(Component, {
+  // 将会把 globally-registered-component 解析为
+  // 空的存根
+  stubs: ['globally-registered-component']
+})
+```
+
 ### 处理路由
 
 因为路由需要在应用的全局结构中进行定义，且引入了很多组件，所以最好集成到 end-to-end 测试。对于依赖 `vue-router` 功能的独立的组件来说，你可以使用上面提到的技术仿造它们。
