@@ -138,7 +138,7 @@ Install `karma-coverage`, `babel-plugin-istanbul`, and `cross-env`:
 npm install --save-dev karma-coverage cross-env
 ```
 
-We're going to use `cross-env` to set a `BABEL_ENV` environment variable. This way we can use `babel-plugin-istanbul` when we're compiling for our tests—we don't want to include `babel-plugin-istnabul` when we compile our production code:
+We're going to use `cross-env` to set a `BABEL_ENV` environment variable. This way we can use `babel-plugin-istanbul` when we're compiling for our tests—we don't want to include `babel-plugin-istanbul` when we compile our production code:
 
 ```
 npm install --save-dev babel-plugin-istanbul
