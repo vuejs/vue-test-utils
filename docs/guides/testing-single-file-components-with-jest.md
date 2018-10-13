@@ -14,7 +14,7 @@ The first thing to do is install Jest and Vue Test Utils:
 $ npm install --save-dev jest @vue/test-utils
 ```
 
-Next we need to define a unit script in our `package.json`.
+Next we need to define a test script in our `package.json`.
 
 ```json
 // package.json
