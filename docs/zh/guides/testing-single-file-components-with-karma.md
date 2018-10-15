@@ -138,7 +138,7 @@ Woohoo，我们的测试跑起来了！
 npm install --save-dev karma-coverage cross-env
 ```
 
-我们会使用 `cross-env` 来设置一个 `BABEL_ENV` 环境变量。这样我们就可以在编译测试的时候使用 `babel-plugin-istanbul`——因为我们不想在生产环境下引入 `babel-plugin-istnabul`：
+我们会使用 `cross-env` 来设置一个 `BABEL_ENV` 环境变量。这样我们就可以在编译测试的时候使用 `babel-plugin-istanbul`——因为我们不想在生产环境下引入 `babel-plugin-istanbul`：
 
 ```
 npm install --save-dev babel-plugin-istanbul

@@ -124,10 +124,10 @@ global.expect = require('expect')
 
 ``` html
 <template>
-	<div>
-	  {{ count }}
-	  <button @click="increment">自增</button>
-	</div>
+  <div>
+    {{ count }}
+    <button @click="increment">自增</button>
+  </div>
 </template>
 
 <script>
