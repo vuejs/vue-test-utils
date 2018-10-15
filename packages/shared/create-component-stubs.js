@@ -102,7 +102,7 @@ export function createStubFromComponent (
   }
 }
 
-function createStubFromString (
+export function createStubFromString (
   templateString: string,
   originalComponent: Component = {},
   name: string

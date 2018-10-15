@@ -389,6 +389,23 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
       .to.equal('hey')
   })
 
+  it('stubs lazy registered components', () => {
+    const Child = {
+      render: h => h('p')
+    }
+    const TestComponent = {
+      template: '<div><child /></div>',
+      beforeCreate () {
+        this.$options.components.Child = Child
+      }
+    }
+    const wrapper = shallowMount(TestComponent)
+
+    expect(wrapper.findAll('p').length)
+      .to.equal(0)
+    expect(wrapper.findAll(Child).length).to.equal(1)
+  })
+
   itDoNotRunIf(
     vueVersion < 2.4, // auto resolve of default export added in 2.4
     'handles component as dynamic import', () => {

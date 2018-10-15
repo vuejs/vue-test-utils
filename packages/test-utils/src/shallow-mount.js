@@ -31,6 +31,7 @@ export default function shallowMount (
 
   return mount(component, {
     ...options,
+    shouldProxy: true,
     components: {
       ...createStubsForComponent(_Vue),
       ...createStubsForComponent(component)

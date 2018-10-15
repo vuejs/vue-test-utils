@@ -59,7 +59,7 @@ export default function createInstance (
 
   addEventLogger(_Vue)
   addMocks(options.mocks, _Vue)
-  addStubs(component, options.stubs, _Vue)
+  addStubs(component, options.stubs, _Vue, options.shouldProxy)
 
   if (
     (component.options && component.options.functional) ||
