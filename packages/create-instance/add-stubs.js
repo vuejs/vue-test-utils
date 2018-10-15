@@ -15,7 +15,7 @@ export function addStubs (component, stubs, _Vue, shouldProxy) {
       this.$options.components,
       stubComponents
     )
-    if (shouldProxy) {
+    if (typeof Proxy !== 'undefined' && shouldProxy) {
       this.$options.components = new Proxy(this.$options.components, {
         set (target, prop, value) {
           if (!target[prop]) {
