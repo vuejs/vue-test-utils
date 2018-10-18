@@ -14,7 +14,8 @@ declare type Options = {
   listeners?: { [key: string]: Function | Array<Function> },
   parentComponent?: Object,
   logModifiedComponents?: boolean,
-  sync?: boolean
+  sync?: boolean,
+  shouldProxy?: boolean
 };
 
 declare type SlotValue = Component | string | Array<Component | string>;

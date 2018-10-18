@@ -12,7 +12,8 @@ const MOUNTING_OPTIONS = [
   'listeners',
   'propsData',
   'logModifiedComponents',
-  'sync'
+  'sync',
+  'shouldProxy'
 ]
 
 export default function extractInstanceOptions (

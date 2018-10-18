@@ -9,7 +9,7 @@ import ComponentWithoutName from '~resources/components/component-without-name.v
 import ComponentAsAClassWithChild from '~resources/components/component-as-a-class-with-child.vue'
 import RecursiveComponent from '~resources/components/recursive-component.vue'
 import { vueVersion } from '~resources/utils'
-import { describeRunIf, itDoNotRunIf } from 'conditional-specs'
+import { describeRunIf, itDoNotRunIf, itSkipIf } from 'conditional-specs'
 
 describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
   beforeEach(() => {
@@ -388,6 +388,25 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
     expect(wrapper.find(ChildComponent).vm.propA)
       .to.equal('hey')
   })
+
+  itSkipIf(
+    typeof Proxy === 'undefined',
+    'stubs lazily registered components', () => {
+      const Child = {
+        render: h => h('p')
+      }
+      const TestComponent = {
+        template: '<div><child /></div>',
+        beforeCreate () {
+          this.$options.components.Child = Child
+        }
+      }
+      const wrapper = shallowMount(TestComponent)
+
+      expect(wrapper.findAll('p').length)
+        .to.equal(0)
+      expect(wrapper.findAll(Child).length).to.equal(1)
+    })
 
   itDoNotRunIf(
     vueVersion < 2.4, // auto resolve of default export added in 2.4
