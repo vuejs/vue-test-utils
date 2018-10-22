@@ -43,7 +43,7 @@ describe('Foo', () => {
 })
 ```
 
-**С опциямиVue:**
+**С опциями Vue:**
 
 ```js
 import { render } from '@vue/server-test-utils'
