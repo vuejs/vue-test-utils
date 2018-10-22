@@ -37,19 +37,22 @@ wrapper.trigger('click', { button: 0 })
 
 ```html
 <template>
-<div>
-  <button class="yes" @click="callYes">Yes</button>
-  <button class="no" @click="callNo">No</button>
-</div>
+  <div>
+    <button class="yes" @click="callYes">Yes</button>
+    <button class="no" @click="callNo">No</button>
+  </div>
 </template>
+
 <script>
 export default {
   name: 'YesNoComponent',
+
   props: {
     callMe: {
       type: Function
     }
   },
+
   methods: {
     callYes() {
       this.callMe('yes')
@@ -60,7 +63,6 @@ export default {
   }
 }
 </script>
-
 ```
 
 **测试**
@@ -93,8 +95,9 @@ describe('点击事件', () => {
 
 ```html
 <template>
-<input type="text" @keydown.prevent="onKeydown" v-model="quantity" />
+  <input type="text" @keydown.prevent="onKeydown" v-model="quantity" />
 </template>
+
 <script>
 const KEY_DOWN = 40
 const KEY_UP = 38
@@ -107,6 +110,7 @@ export default {
       quantity: 0
     }
   },
+
   methods: {
     increment() {
       this.quantity += 1
@@ -132,6 +136,7 @@ export default {
       }
     }
   },
+
   watch: {
     quantity: function (newValue) {
       this.$emit('input', newValue)
@@ -139,7 +144,6 @@ export default {
   }
 }
 </script>
-
 ```
 
 **Test**
@@ -182,7 +186,6 @@ describe('键盘事件测试', () => {
     expect(wrapper.vm.quantity).toBe(13)
   })
 })
-
 ```
 
 **限制**

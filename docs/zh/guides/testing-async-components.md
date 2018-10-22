@@ -20,22 +20,22 @@ export default {
 </template>
 
 <script>
-  import axios from 'axios'
+import axios from 'axios'
 
-  export default {
-    data () {
-      return {
-        value: null
-      }
-    },
+export default {
+  data () {
+    return {
+      value: null
+    }
+  },
 
-    methods: {
-      async fetchResults () {
-        const response = await axios.get('mock/service')
-        this.value = response.data
-      }
+  methods: {
+    async fetchResults () {
+      const response = await axios.get('mock/service')
+      this.value = response.data
     }
   }
+}
 </script>
 ```
 
