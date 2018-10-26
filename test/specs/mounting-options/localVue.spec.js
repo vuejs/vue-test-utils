@@ -66,19 +66,19 @@ describeWithMountingMethods('options.localVue', mountingMethod => {
   itSkipIf(
     vueVersion < 2.3,
     'is applied to deeply extended components', () => {
-      const GrandChildComponent = Vue.extend(Vue.extend({
+      const GrandChildComponent = Vue.extend({
         template: '<div>{{$route.params}}</div>'
-      }))
-      const ChildComponent = Vue.extend(Vue.extend(Vue.extend({
+      })
+      const ChildComponent = Vue.extend({
         template: '<div><grand-child-component />{{$route.params}}</div>',
         components: {
           GrandChildComponent
         }
-      })))
-      const TestComponent = Vue.extend(Vue.extend({
+      })
+      const TestComponent = Vue.extend({
         template: '<child-component />',
         components: { ChildComponent }
-      }))
+      })
       const localVue = createLocalVue()
       localVue.prototype.$route = {}
 
@@ -119,16 +119,16 @@ describeWithMountingMethods('options.localVue', mountingMethod => {
         template: '<div/>',
         extends: BaseGrandChildComponent
       }
-      const ChildComponent = Vue.extend(({
+      const ChildComponent = Vue.extend({
         template: '<div><grand-child-component />{{$route.params}}</div>',
         components: {
           GrandChildComponent
         }
-      }))
-      const TestComponent = Vue.extend(Vue.extend({
+      })
+      const TestComponent = Vue.extend({
         template: '<div><child-component /></div>',
         components: { ChildComponent }
-      }))
+      })
       const localVue = createLocalVue()
       localVue.prototype.$route = {}
 
