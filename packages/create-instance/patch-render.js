@@ -2,7 +2,7 @@ import { addHook } from './add-hook'
 
 // This is used to extend component constructors
 // used directly in a render function
-// see #
+// see github.com/vuejs/vue-test-utils/issues/995
 export function patchRender (_Vue) {
   addHook(_Vue.options, 'beforeCreate', function () {
     const createElementSave = this.$createElement
