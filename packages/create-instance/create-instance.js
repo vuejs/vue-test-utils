@@ -4,6 +4,7 @@ import { createSlotVNodes } from './create-slot-vnodes'
 import addMocks from './add-mocks'
 import { addEventLogger } from './log-events'
 import { addStubs } from './add-stubs'
+import { patchRender } from './patch-render'
 import { throwError, vueVersion } from 'shared/util'
 import {
   compileTemplate,
@@ -60,6 +61,7 @@ export default function createInstance (
   addEventLogger(_Vue)
   addMocks(options.mocks, _Vue)
   addStubs(component, options.stubs, _Vue, options.shouldProxy)
+  patchRender(_Vue)
 
   if (
     (component.options && component.options.functional) ||

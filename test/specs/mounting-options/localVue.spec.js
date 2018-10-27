@@ -155,6 +155,23 @@ describeWithMountingMethods('options.localVue', mountingMethod => {
     })
   })
 
+  it('is applied to inline constructor functions', () => {
+    const ChildComponent = Vue.extend({
+      render (h) {
+        h('p', this.$route.params)
+      }
+    })
+    const TestComponent = {
+      render: h => h(ChildComponent)
+    }
+    const localVue = createLocalVue()
+    localVue.prototype.$route = {}
+    const wrapper = mountingMethod(TestComponent, {
+      localVue
+    })
+    expect(wrapper.findAll(ChildComponent).length).to.equal(1)
+  })
+
   itRunIf(
     vueVersion < 2.3,
     'throws an error if used with an extended component in Vue 2.3', () => {
