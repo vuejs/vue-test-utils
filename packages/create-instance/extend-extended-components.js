@@ -1,18 +1,6 @@
 import { warn } from 'shared/util'
 import { addHook } from './add-hook'
 
-function createdFrom (extendOptions, componentOptions) {
-  while (extendOptions) {
-    if (extendOptions === componentOptions) {
-      return true
-    }
-    if (extendOptions._vueTestUtilsRoot === componentOptions) {
-      return true
-    }
-    extendOptions = extendOptions.extendOptions
-  }
-}
-
 function resolveComponents (options = {}, components = {}) {
   let extendOptions = options.extendOptions
   while (extendOptions) {
@@ -76,8 +64,7 @@ export function extendExtendedComponents (
           `config.logModifiedComponents option to false.`
         )
       }
-
-      const extendedComp = _Vue.extend(comp)
+      const extendedComp = _Vue.extend(comp.options)
       // Used to identify component in a render tree
       extendedComp.options.$_vueTestUtils_original = comp
       extendedComponents[c] = extendedComp
@@ -94,7 +81,10 @@ export function extendExtendedComponents (
   })
   if (Object.keys(extendedComponents).length > 0) {
     addHook(_Vue.options, 'beforeCreate', function addExtendedOverwrites () {
-      if (createdFrom(this.constructor, component)) {
+      if (
+        this.constructor.extendOptions === component ||
+        this.$options.$_vueTestUtils_original === component
+      ) {
         Object.assign(
           this.$options.components,
           extendedComponents

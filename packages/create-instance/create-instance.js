@@ -84,10 +84,11 @@ export default function createInstance (
   if (vueVersion > 2.2) {
     for (const c in _Vue.options.components) {
       if (!isRequiredComponent(c)) {
-        const extendedComponent = _Vue.extend(_Vue.options.components[c])
-        extendedComponent.options.$_vueTestUtils_original =
-          _Vue.options.components[c]
-        _Vue.component(c, _Vue.extend(_Vue.options.components[c]))
+        const comp = _Vue.options.components[c]
+        const options = comp.options ? comp.options : comp
+        const extendedComponent = _Vue.extend(options)
+        extendedComponent.options.$_vueTestUtils_original = comp
+        _Vue.component(c, extendedComponent)
       }
     }
   }
@@ -105,12 +106,9 @@ export default function createInstance (
 
   // extend component from _Vue to add properties and mixins
   // extend does not work correctly for sub class components in Vue < 2.2
-  const Constructor = typeof component === 'function' && vueVersion < 2.3
-    ? component.extend(instanceOptions)
+  const Constructor = typeof component === 'function'
+    ? _Vue.extend(component.options).extend(instanceOptions)
     : _Vue.extend(component).extend(instanceOptions)
-
-  // Keep reference to component mount was called with
-  Constructor._vueTestUtilsRoot = component
 
   // used to identify extended component using constructor
   Constructor.options.$_vueTestUtils_original = component
