@@ -58,6 +58,54 @@ expect(wrapper.emitted().foo[1]).toEqual([123])
 
 You can also get an Array of the events in their emit order by calling [`wrapper.emittedByOrder()`](../api/wrapper/emittedByOrder.md).
 
+### Emitting Event from Child Component
+
+You can emit a custom event from a child component by accessing the instance.
+
+**Component under test**
+```html
+<template>
+  <div>
+    <child-component @custom="onCustom"/>
+    <p v-if="emitted">Emitted!</p>
+  </div>
+</template>
+
+<script>
+import ChildComponent from './ChildComponent'
+
+export default {
+    name: 'ParentComponent',
+    components: { ChildComponent },
+    data() {
+        return {
+            emitted: false
+        }
+    },
+    methods: {
+        onCustom () {
+            this.emitted = true
+        }
+    }
+}
+</script>
+```
+
+**Test**
+```js
+import { shallowMount } from '@vue/test-utils'
+import ParentComponent from '@/components/ParentComponent'
+import ChildComponent from '@/components/ChildComponent'
+
+describe('ParentComponent', () => {
+  it("displays 'Emitted!' when custom event is emitted", () => {
+    const wrapper = shallowMount(ParentComponent)
+    wrapper.find(ChildComponent).vm.$emit('custom')
+    expect(wrapper.html()).toContain('Emitted!')
+  })
+})
+```
+
 ### Manipulating Component State
 
 You can directly manipulate the state of the component using the `setData` or `setProps` method on the wrapper:
