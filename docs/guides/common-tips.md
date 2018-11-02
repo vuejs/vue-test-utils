@@ -98,7 +98,7 @@ import ParentComponent from '@/components/ParentComponent'
 import ChildComponent from '@/components/ChildComponent'
 
 describe('ParentComponent', () => {
-  it("displays 'Emitted!' when custom event is emitted by child component", () => {
+  it("displays 'Emitted!' when custom event is emitted", () => {
     const wrapper = shallowMount(ParentComponent)
     wrapper.find(ChildComponent).vm.$emit('custom')
     expect(wrapper.html()).toContain('Emitted!')
