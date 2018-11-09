@@ -1,5 +1,5 @@
 import Vuex from 'vuex'
-import { shallowMount, createLocalVue } from '../'
+import { shallowMount, createLocalVue } from '..'
 import { normalOptions, functionalOptions, ClassComponent } from './resources'
 
 /**
@@ -32,6 +32,12 @@ shallowMount(ClassComponent, {
     default: `<div>Foo</div>`,
     foo: [normalOptions, functionalOptions],
     baz: ClassComponent
+  },
+  scopedSlots: {
+    scopedFoo: `<div>scopedFoo</div>`,
+    scopedBaz() {
+      return `<div>scopedBaz</div>`;
+    },
   },
   stubs: {
     foo: normalOptions,
