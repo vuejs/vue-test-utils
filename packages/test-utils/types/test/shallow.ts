@@ -1,5 +1,5 @@
 import Vuex from 'vuex'
-import { shallowMount, createLocalVue } from '..'
+import { shallowMount, createLocalVue } from '../'
 import { normalOptions, functionalOptions, ClassComponent } from './resources'
 
 /**
