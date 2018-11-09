@@ -33,6 +33,12 @@ shallowMount(ClassComponent, {
     foo: [normalOptions, functionalOptions],
     baz: ClassComponent
   },
+  scopedSlots: {
+    scopedFoo: `<div>scopedFoo</div>`,
+    scopedBaz() {
+      return `<div>scopedBaz</div>`;
+    },
+  },
   stubs: {
     foo: normalOptions,
     bar: functionalOptions,

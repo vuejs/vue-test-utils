@@ -132,7 +132,7 @@ interface MountOptions<V extends Vue> extends ComponentOptions<V> {
   mocks?: object | false
   parentComponent?: Component
   slots?: Slots
-  scopedSlots?: Record<string, string>
+  scopedSlots?: Record<string, string | Function>
   stubs?: Stubs | false,
   attrs?: Record<string, string>
   listeners?: Record<string, Function | Function[]>
