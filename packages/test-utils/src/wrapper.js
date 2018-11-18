@@ -731,9 +731,15 @@ export default class Wrapper implements BaseWrapper {
         !this.vm.$options._propKeys ||
         !this.vm.$options._propKeys.some(prop => prop === key)
       ) {
-        // $FlowIgnore : Problem with possibly null this.vm
-        this.vm.$attrs[key] = data[key]
-        return
+        if (vueVersion > 2.3) {
+          // $FlowIgnore : Problem with possibly null this.vm
+          this.vm.$attrs[key] = data[key]
+          return
+        }
+        throwError(
+          `wrapper.setProps() called with ${key} property which ` +
+          `is not defined on the component`
+        )
       }
 
       if (this.vm && this.vm._props) {

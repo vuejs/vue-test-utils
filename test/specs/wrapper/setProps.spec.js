@@ -2,6 +2,7 @@ import { compileToFunctions } from 'vue-template-compiler'
 import ComponentWithProps from '~resources/components/component-with-props.vue'
 import ComponentWithWatch from '~resources/components/component-with-watch.vue'
 import { describeWithShallowAndMount, vueVersion } from '~resources/utils'
+import { itDoNotRunIf } from 'conditional-specs'
 
 describeWithShallowAndMount('setProps', mountingMethod => {
   let info
@@ -38,7 +39,19 @@ describeWithShallowAndMount('setProps', mountingMethod => {
     expect(wrapper.is('div')).to.equal(true)
   })
 
-  it('attributes not recognized as props are available via the $attrs instance property', () => {
+  itDoNotRunIf(vueVersion > 2.3, 'throws error if component does not include props key', () => {
+    const TestComponent = {
+      template: '<div></div>'
+    }
+    const message = `[vue-test-utils]: wrapper.setProps() called ` +
+      `with prop1 property which is not defined on the component`
+    const fn = () => mountingMethod(TestComponent).setProps({ prop1: 'prop' })
+    expect(fn)
+      .to.throw()
+      .with.property('message', message)
+  })
+
+  itDoNotRunIf(vueVersion < 2.4, 'attributes not recognized as props are available via the $attrs instance property', () => {
     const TestComponent = {
       template: '<div></div>'
     }
