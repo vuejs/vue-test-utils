@@ -75,18 +75,18 @@ You can emit a custom event from a child component by accessing the instance.
 import ChildComponent from './ChildComponent'
 
 export default {
-    name: 'ParentComponent',
-    components: { ChildComponent },
-    data() {
-        return {
-            emitted: false
-        }
-    },
-    methods: {
-        onCustom () {
-            this.emitted = true
-        }
+  name: 'ParentComponent',
+  components: { ChildComponent },
+  data() {
+    return {
+      emitted: false
     }
+  },
+  methods: {
+    onCustom () {
+      this.emitted = true
+    }
+  }
 }
 </script>
 ```
