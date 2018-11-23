@@ -5,8 +5,8 @@ import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
 import { createLocalVue, config } from '~vue/test-utils'
 import { config as serverConfig } from '~vue/server-test-utils'
 import Vue from 'vue'
-import { describeWithMountingMethods } from '~resources/utils'
-import { itDoNotRunIf } from 'conditional-specs'
+import { describeWithMountingMethods, vueVersion } from '~resources/utils'
+import { itDoNotRunIf, itSkipIf, itRunIf } from 'conditional-specs'
 
 describeWithMountingMethods('options.stub', mountingMethod => {
   let info
@@ -37,8 +37,8 @@ describeWithMountingMethods('options.stub', mountingMethod => {
     const SubclassedComponent = Vue.extend({ template: '<div></div>' })
     mountingMethod(ComponentWithChild, {
       stubs: {
-        ChildComponent: ComponentAsAClass,
-        ChildComponent2: ComponentWithRender,
+        ChildComponent: ComponentWithRender,
+        ChildComponent2: ComponentAsAClass,
         ChildComponent3: ComponentWithoutRender,
         ChildComponent4: ExtendedComponent,
         ChildComponent5: SubclassedComponent
@@ -87,6 +87,30 @@ describeWithMountingMethods('options.stub', mountingMethod => {
     })
   })
 
+  itSkipIf(
+    vueVersion < 2.3,
+    'overrides components in extended components', () => {
+      const extendedComponent = Vue.extend({
+        name: 'extended-component',
+        components: {
+          ToStubComponent: {
+            template: '<span />'
+          }
+        }
+      })
+      const TestComponent = extendedComponent.extend({
+        template: `<to-stub-component />`
+      })
+      const wrapper = mountingMethod(TestComponent, {
+        stubs: {
+          ToStubComponent: { template: '<date />' }
+        }
+      })
+      const HTML =
+    mountingMethod.name === 'renderToString' ? wrapper : wrapper.html()
+      expect(HTML).contains('<date')
+    })
+
   itDoNotRunIf(
     mountingMethod.name === 'shallowMount' ||
       mountingMethod.name === 'renderToString',
@@ -133,19 +157,19 @@ describeWithMountingMethods('options.stub', mountingMethod => {
   itDoNotRunIf(
     mountingMethod.name === 'shallowMount',
     'stubs nested components', () => {
-      const GrandchildComponent = {
+      const GrandChildComponent = {
         template: '<span />'
       }
       const ChildComponent = {
-        template: '<grandchild-component />',
-        components: { GrandchildComponent }
+        template: '<grand-child-component />',
+        components: { GrandChildComponent }
       }
       const TestComponent = {
         template: '<child-component />',
         components: { ChildComponent }
       }
       const wrapper = mountingMethod(TestComponent, {
-        stubs: ['grandchild-component']
+        stubs: ['grand-child-component']
       })
       const HTML = mountingMethod.name === 'renderToString'
         ? wrapper
@@ -154,21 +178,49 @@ describeWithMountingMethods('options.stub', mountingMethod => {
     })
 
   itDoNotRunIf(
-    mountingMethod.name === 'shallowMount',
+    mountingMethod.name === 'shallowMount' || vueVersion < 2.3,
+    'stubs nested components registered globally', () => {
+      const GrandChildComponent = {
+        render: h => h('span', ['hello'])
+      }
+      const ChildComponent = {
+        render: h => h('grand-child-component')
+      }
+      const TestComponent = {
+        render: h => h('child-component')
+      }
+      Vue.component('child-component', ChildComponent)
+      Vue.component('grand-child-component', GrandChildComponent)
+
+      const wrapper = mountingMethod(TestComponent, {
+        stubs: {
+          'grand-child-component': true
+        }
+      })
+      const HTML = mountingMethod.name === 'renderToString'
+        ? wrapper
+        : wrapper.html()
+      expect(HTML).not.to.contain('<span>')
+      delete Vue.options.components['child-component']
+      delete Vue.options.components['grand-child-component']
+    })
+
+  itDoNotRunIf(
+    mountingMethod.name === 'shallowMount' || vueVersion < 2.3,
     'stubs nested components on extended components', () => {
-      const GrandchildComponent = {
+      const GrandChildComponent = {
         template: '<span />'
       }
       const ChildComponent = {
-        template: '<grandchild-component />',
-        components: { GrandchildComponent }
+        template: '<grand-child-component />',
+        components: { GrandChildComponent }
       }
       const TestComponent = {
         template: '<div><child-component /></div>',
         components: { ChildComponent }
       }
       const wrapper = mountingMethod(Vue.extend(TestComponent), {
-        stubs: ['grandchild-component']
+        stubs: ['grand-child-component']
       })
       const HTML = mountingMethod.name === 'renderToString'
         ? wrapper
@@ -201,6 +253,7 @@ describeWithMountingMethods('options.stub', mountingMethod => {
       const ComponentWithGlobalComponent = {
         render: h => h('div', [h('registered-component')])
       }
+
       const wrapper = mountingMethod(ComponentWithGlobalComponent, {
         stubs: {
           'registered-component': true
@@ -209,8 +262,6 @@ describeWithMountingMethods('options.stub', mountingMethod => {
       const HTML =
         mountingMethod.name === 'renderToString' ? wrapper : wrapper.html()
       expect(HTML).to.contain('<registered-component-stub>')
-      expect(wrapper.find({ name: 'registered-component' }).html())
-        .to.equal('<registered-component-stub></registered-component-stub>')
     })
 
   it('stubs components with dummy when passed as an array', () => {
@@ -358,7 +409,7 @@ describeWithMountingMethods('options.stub', mountingMethod => {
     }
   )
 
-  it('converts config to array if stubs is an array', () => {
+  it('config handles stubs as an array', () => {
     const localVue = createLocalVue()
     config.stubs['time-component'] = '<p />'
     serverConfig.stubs['time-component'] = '<p />'
@@ -377,7 +428,7 @@ describeWithMountingMethods('options.stub', mountingMethod => {
 
     const HTML =
       mountingMethod.name === 'renderToString' ? wrapper : wrapper.html()
-    expect(HTML).to.contain('<time-component-stub>')
+    expect(HTML).to.contain('</p>')
   })
 
   it('handles components without a render function', () => {
@@ -461,4 +512,24 @@ describeWithMountingMethods('options.stub', mountingMethod => {
         .with.property('message', error)
     })
   })
+
+  itRunIf(
+    vueVersion < 2.3,
+    'throws an error if used with an extended component in Vue 2.3', () => {
+      const TestComponent = Vue.extend({
+        template: '<div></div>'
+      })
+      const message =
+    `[vue-test-utils]: options.stubs is not supported for components ` +
+    `created with Vue.extend in Vue < 2.3. You can set stubs to false ` +
+    `to mount the component.`
+      const fn = () => mountingMethod(TestComponent, {
+        stubs: {
+          something: 'true'
+        },
+        mocks: false
+      })
+      expect(fn).to.throw()
+        .with.property('message', message)
+    })
 })

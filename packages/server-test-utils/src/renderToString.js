@@ -4,9 +4,9 @@ import Vue from 'vue'
 import createInstance from 'create-instance'
 import { throwError } from 'shared/util'
 import { createRenderer } from 'vue-server-renderer'
-import testUtils from '@vue/test-utils'
 import { mergeOptions } from 'shared/merge-options'
 import config from './config'
+import testUtils from '@vue/test-utils'
 
 Vue.config.productionTip = false
 Vue.config.devtools = false
@@ -22,17 +22,15 @@ export default function renderToString (
       `renderToString must be run in node. It cannot be ` + `run in a browser`
     )
   }
-  // Remove cached constructor
-  delete component._Ctor
 
   if (options.attachToDocument) {
     throwError(`you cannot use attachToDocument with ` + `renderToString`)
   }
-  const vueConstructor = testUtils.createLocalVue(options.localVue)
+
   const vm = createInstance(
     component,
     mergeOptions(options, config),
-    vueConstructor
+    testUtils.createLocalVue(options.localVue)
   )
   let renderedString = ''
 

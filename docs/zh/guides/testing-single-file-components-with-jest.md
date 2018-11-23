@@ -47,13 +47,13 @@ npm install --save-dev vue-jest
     ],
     "transform": {
       // 用 `vue-jest` 处理 `*.vue` 文件
-      ".*\\.(vue)$": "<rootDir>/node_modules/vue-jest"
+      ".*\\.(vue)$": "vue-jest"
     }
   }
 }
 ```
 
-> **注意：**`vue-jest` 目前并不支持 `vue-loader` 所有的功能，比如自定义块和样式加载。额外的，诸如代码分隔等 webpack 特有的功能也是不支持的。如果要使用这些不支持的特性，你需要用 Mocha 取代 Jest 来运行你的测试，同时用 webpack 来编译你的组件。想知道如何起步，请阅读教程里的[用 Mocha + webpack 测试单文件组件](./testing-SFCs-with-mocha-webpack.md)。
+> **注意：**`vue-jest` 目前并不支持 `vue-loader` 所有的功能，比如自定义块和样式加载。额外的，诸如代码分隔等 webpack 特有的功能也是不支持的。如果要使用这些不支持的特性，你需要用 Mocha 取代 Jest 来运行你的测试，同时用 webpack 来编译你的组件。想知道如何起步，请阅读教程里的[用 Mocha + webpack 测试单文件组件](./testing-single-file-components-with-mocha-webpack.md)。
 
 ### 处理 webpack 别名
 
@@ -122,31 +122,6 @@ npm install --save-dev babel-jest
 }
 ```
 
-### 测试快照
-
-你可以使用 [`vue-server-renderer`](https://github.com/vuejs/vue/tree/dev/packages/vue-server-renderer) 将组件渲染为一个字符串，这样它就可以为 [Jest 快照测试](https://facebook.github.io/jest/docs/en/snapshot-testing.html) 保存一个快照。
-
-`vue-server-renderer` 的渲染结果包含了一些服务端渲染特有的特性，且忽略空格，也不易于检索变更。我们可以通过一个自定义的序列化程序来改进被保存的快照：
-
-``` bash
-npm install --save-dev jest-serializer-vue
-```
-
-然后在 `package.json` 中配置它：
-
-``` json
-{
-  // ...
-  "jest": {
-    // ...
-    // 快照的序列化程序
-    "snapshotSerializers": [
-      "<rootDir>/node_modules/jest-serializer-vue"
-    ]
-  }
-}
-```
-
 ### 放置测试文件
 
 默认情况下，Jest 将会递归的找到整个工程里所有 `.spec.js` 或 `.test.js` 扩展名的文件。如果这不符合你的需求，你也可以在 `package.json` 里的配置段落中[改变它的 `testRegex`](https://facebook.github.io/jest/docs/en/configuration.html#testregex-string)。
@@ -199,6 +174,38 @@ describe('Component', () => {
     expect(wrapper.isVueInstance()).toBeTruthy()
   })
 })
+```
+
+### 快照测试
+
+当你用 Vue Test Utils 挂载一个组件时，你可以访问到 HTML 根元素。这可以保存为一个快照为 [Jest 快照测试](https://facebook.github.io/jest/docs/en/snapshot-testing.html)所用。
+
+```js
+test('renders correctly', () => {
+  const wrapper = mount(Component)
+  expect(wrapper.element).toMatchSnapshot()
+})
+```
+
+我们可以通过一个自定义的序列化工具改进被保存的快照：
+
+``` bash
+npm install --save-dev jest-serializer-vue
+```
+
+然后在 `package.json` 中配置它：
+
+``` json
+{
+  // ...
+  "jest": {
+    // ...
+    // 快照的序列化工具
+    "snapshotSerializers": [
+      "jest-serializer-vue"
+    ]
+  }
+}
 ```
 
 ### 相关资料

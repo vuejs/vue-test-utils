@@ -3,6 +3,54 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.0.0-beta.25"></a>
+# [1.0.0-beta.25](https://github.com/vuejs/vue-test-utils/compare/v1.0.0-beta.24...v1.0.0-beta.25) (2018-09-08)
+
+
+### Bug Fixes
+
+* handle global stubs and functional extended components ([#943](https://github.com/vuejs/vue-test-utils/issues/943)) ([0d1ddd1](https://github.com/vuejs/vue-test-utils/commit/0d1ddd1))
+
+
+### Performance Improvements
+
+* use extends over createLocalVue ([#934](https://github.com/vuejs/vue-test-utils/issues/934)) ([af45a9d](https://github.com/vuejs/vue-test-utils/commit/af45a9d))
+
+
+
+
+<a name="1.0.0-beta.24"></a>
+# [1.0.0-beta.24](https://github.com/vuejs/vue-test-utils/compare/v1.0.0-beta.23...v1.0.0-beta.24) (2018-08-05)
+
+
+
+
+**Note:** Version bump only for package @vue/server-test-utils
+
+<a name="1.0.0-beta.23"></a>
+# [1.0.0-beta.23](https://github.com/vuejs/vue-test-utils/compare/v1.0.0-beta.22...v1.0.0-beta.23) (2018-07-31)
+
+
+
+
+**Note:** Version bump only for package @vue/server-test-utils
+
+<a name="1.0.0-beta.22"></a>
+# [1.0.0-beta.22](https://github.com/vuejs/vue-test-utils/compare/v1.0.0-beta.21...v1.0.0-beta.22) (2018-07-29)
+
+
+
+
+**Note:** Version bump only for package @vue/server-test-utils
+
+<a name="1.0.0-beta.21"></a>
+# [1.0.0-beta.21](https://github.com/vuejs/vue-test-utils/compare/v1.0.0-beta.20...v1.0.0-beta.21) (2018-07-22)
+
+
+
+
+**Note:** Version bump only for package @vue/server-test-utils
+
 <a name="1.0.0-beta.20"></a>
 # [1.0.0-beta.20](https://github.com/vuejs/vue-test-utils/compare/v1.0.0-beta.19...v1.0.0-beta.20) (2018-06-24)
 

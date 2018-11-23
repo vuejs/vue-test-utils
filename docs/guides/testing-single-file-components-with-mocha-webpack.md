@@ -1,4 +1,4 @@
-## Testing Single File Components with Mocha + webpack
+## Testing Single-File Components with Mocha + webpack
 
 > An example project for this setup is available on [GitHub](https://github.com/vuejs/vue-test-utils-mocha-webpack-example).
 
@@ -124,10 +124,10 @@ Create a file in `src` named `Counter.vue`:
 
 ``` html
 <template>
-	<div>
-	  {{ count }}
-	  <button @click="increment">Increment</button>
-	</div>
+  <div>
+    {{ count }}
+    <button @click="increment">Increment</button>
+  </div>
 </template>
 
 <script>

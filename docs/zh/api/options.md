@@ -9,8 +9,10 @@
 - [`mocks`](#mocks)
 - [`localVue`](#localvue)
 - [`attachToDocument`](#attachtodocument)
+- [`propsData`](#propsdata)
 - [`attrs`](#attrs)
 - [`listeners`](#listeners)
+- [`parentComponent`](#parentcomponent)
 - [`provide`](#provide)
 - [`sync`](#sync)
 
@@ -18,7 +20,7 @@
 
 - 类型：`Object`
 
-将上下文传递给函数式组件。该选项只能用于函数式组件。
+将上下文传递给函数式组件。该选项只能用于[函数式组件](https://cn.vuejs.org/v2/guide/render-function.html#函数式组件)。
 
 示例：
 
@@ -46,45 +48,74 @@ expect(wrapper.is(Component)).toBe(true)
 
 ```js
 import Foo from './Foo.vue'
-import Bar from './Bar.vue'
+
+const bazComponent = {
+  name: 'baz-component',
+  template: '<p>baz</p>'
+}
 
 const wrapper = shallowMount(Component, {
   slots: {
-    default: [Foo, Bar],
-    fooBar: Foo, // 将会匹配 `<slot name="FooBar" />`。
+    default: [Foo, '<my-component />', 'text'],
+    fooBar: Foo, // 将会匹配 `<slot name="FooBar" />`.
     foo: '<div />',
-    bar: 'bar'
+    bar: 'bar',
+    baz: bazComponent,
+    qux: '<my-component />'
   }
 })
+
 expect(wrapper.find('div')).toBe(true)
 ```
 
 ## scopedSlots
 
-- 类型：`{ [name: string]: string }`
+- 类型：`{ [name: string]: string|Function }`
 
-提供一个该组件所有作用域插槽内容的对象。每个键对应到插槽的名字，每个值可以是一个模板字符串。
+提供一个该组件所有作用域插槽的对象。每个键对应到插槽的名字。
 
-这里有三处限制。
-
-* 该选项只支持 vue@2.5+。
-
-* 你不能在 `scopedSlots` 选项中将 `<template>` 标签用作其根元素。
-
-* 我们不支持 PhantomJS。  
-你可以使用 [Puppeteer](https://github.com/karma-runner/karma-chrome-launcher#headless-chromium-with-puppeteer) 作为替代品。
-
-示例：
+你可以使用 slot-scope 特性设置 prop 的名称：
 
 ```js
-const wrapper = shallowMount(Component, {
+shallowMount(Component, {
   scopedSlots: {
-    foo: '<p slot-scope="props">{{props.index}},{{props.text}}</p>'
+    foo: '<p slot-scope="foo">{{foo.index}},{{foo.text}}</p>'
   }
 })
-expect(wrapper.find('#fooWrapper').html()).toBe(
-  `<div id="fooWrapper"><p>0,text1</p><p>1,text2</p><p>2,text3</p></div>`
-)
+```
+
+否则插槽被计算的时候可以通过 `props` 对象使用 prop：
+
+```js
+shallowMount(Component, {
+  scopedSlots: {
+    default: '<p>{{props.index}},{{props.text}}</p>'
+  }
+})
+```
+
+你也可以传递一个函数将 prop 作为参数带入：
+
+```js
+shallowMount(Component, {
+  scopedSlots: {
+    foo: function (props) {
+      return this.$createElement('div', props.index)
+    }
+  }
+})
+```
+
+或者你可以使用 JSX。如果你在一个方法里撰写 JSX，babel-plugin-transform-vue-jsx 会自动注入 `this.$createElement`：
+
+```js
+shallowMount(Component, {
+  scopedSlots: {
+    foo (props) {
+      return <div>{ props.text }</div>
+    }
+  }
+})
 ```
 
 ## stubs
@@ -106,7 +137,9 @@ shallowMount(Component, {
   stubs: {
     // 使用一个特定的实现作为存根
     'registered-component': Foo,
-    // 使用创建默认的实现作为存根
+    // 使用创建默认的实现作为存根。
+    // 这里默认存根的组件名是 `another-component`。
+    // 默认存根是 `<${the component name of default stub}-stub>`。
     'another-component': true
   }
 })
@@ -174,17 +207,78 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 
 设置组件实例的 `$attrs` 对象。
 
+## propsData
+
+- 类型：`Object`
+
+在组件被挂载时设置组件实例的 prop。
+
+示例：
+
+```js
+const Component = {
+  template: '<div>{{ msg }}</div>',
+  props: ['msg']
+}
+const wrapper = mount(Component, {
+  propsData: {
+    msg: 'aBC'
+  }
+})
+expect(wrapper.text()).toBe('aBC')
+```
+
+::: tip 提示 
+值得注意的是 `propsData` 实际上是一个 [Vue API](https://cn.vuejs.org/v2/api/#propsData)，不是 Vue Test Utils 的挂载选项。它会被 [`extends`](https://cn.vuejs.org/v2/api/#extends) 处理。请查阅[其它选项](#其它选项)。
+::: 
+
 ## listeners
 
 - 类型：`Object`
 
 设置组件实例的 `$listeners` 对象。
 
+## parentComponent
+
+- 类型：`Object`
+
+用来作为被挂载组件的父级组件。
+
+示例：
+
+```js
+import Foo from './Foo.vue'
+
+const wrapper = shallowMount(Component, {
+  parentComponent: Foo
+})
+expect(wrapper.vm.$parent.$options.name).toBe('foo')
+```
+
 ## provide
 
 - 类型：`Object`
 
 为组件传递用于注入的属性。可查阅 [provie/inject](https://cn.vuejs.org/v2/api/#provide-inject) 了解更多。
+
+示例：
+
+```js
+const Component = {
+  inject: ['foo'],
+  template: '<div>{{this.foo()}}</div>'
+}
+
+const wrapper = shallowMount(Component, {
+  provide: {
+    foo () {
+      return 'fooValue'
+    }
+  }
+})
+
+expect(wrapper.text()).toBe('fooValue')
+```
 
 ## sync
 

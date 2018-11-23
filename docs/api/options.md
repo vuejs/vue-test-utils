@@ -9,8 +9,10 @@ Options for `mount` and `shallowMount`. The options object can contain both Vue 
 - [`mocks`](#mocks)
 - [`localVue`](#localvue)
 - [`attachToDocument`](#attachtodocument)
+- [`propsData`](#propsdata)
 - [`attrs`](#attrs)
 - [`listeners`](#listeners)
+- [`parentComponent`](#parentcomponent)
 - [`provide`](#provide)
 - [`sync`](#sync)
 
@@ -18,7 +20,7 @@ Options for `mount` and `shallowMount`. The options object can contain both Vue 
 
 - type: `Object`
 
-Passes context to functional component. Can only be used with functional components.
+Passes context to functional component. Can only be used with [functional components](https://vuejs.org/v2/guide/render-function.html#Functional-Components).
 
 Example:
 
@@ -46,45 +48,74 @@ Example:
 
 ```js
 import Foo from './Foo.vue'
-import Bar from './Bar.vue'
+
+const bazComponent = {
+  name: 'baz-component',
+  template: '<p>baz</p>'
+}
 
 const wrapper = shallowMount(Component, {
   slots: {
-    default: [Foo, Bar],
+    default: [Foo, '<my-component />', 'text'],
     fooBar: Foo, // Will match `<slot name="FooBar" />`.
     foo: '<div />',
-    bar: 'bar'
+    bar: 'bar',
+    baz: bazComponent,
+    qux: '<my-component />'
   }
 })
+
 expect(wrapper.find('div')).toBe(true)
 ```
 
 ## scopedSlots
 
-- type: `{ [name: string]: string }`
+- type: `{ [name: string]: string|Function }`
 
-Provide an object of scoped slots contents to the component. The key corresponds to the slot name. The value can be a template string.
+Provide an object of scoped slots to the component. The key corresponds to the slot name.
 
-There are three limitations.
-
-* This option is only supported in vue@2.5+.
-
-* You can not use `<template>` tag as the root element in the `scopedSlots` option.
-
-* This does not support PhantomJS.  
-You can use [Puppeteer](https://github.com/karma-runner/karma-chrome-launcher#headless-chromium-with-puppeteer) as an alternative.
-
-Example:
+You can set the name of the props using the slot-scope attribute:
 
 ```js
-const wrapper = shallowMount(Component, {
+shallowMount(Component, {
   scopedSlots: {
-    foo: '<p slot-scope="props">{{props.index}},{{props.text}}</p>'
+    foo: '<p slot-scope="foo">{{foo.index}},{{foo.text}}</p>'
   }
 })
-expect(wrapper.find('#fooWrapper').html()).toBe(
-  `<div id="fooWrapper"><p>0,text1</p><p>1,text2</p><p>2,text3</p></div>`
-)
+```
+
+Otherwise props are available as a `props` object when the slot is evaluated:
+
+```js
+shallowMount(Component, {
+  scopedSlots: {
+    default: '<p>{{props.index}},{{props.text}}</p>'
+  }
+})
+```
+
+You can also pass a function that takes the props as an argument:
+
+```js
+shallowMount(Component, {
+  scopedSlots: {
+    foo: function (props) {
+      return this.$createElement('div', props.index)
+    }
+  }
+})
+```
+
+Or you can use JSX. If you write JSX in a method, `this.$createElement` is auto-injected by babel-plugin-transform-vue-jsx:
+
+```js
+shallowMount(Component, {
+  scopedSlots: {
+    foo (props) {
+      return <div>{ props.text }</div>
+    }
+  }
+})
 ```
 
 ## stubs
@@ -176,17 +207,80 @@ Component will be attached to DOM when rendered if set to `true`.
 
 Set the component instance's `$attrs` object.
 
+## propsData
+
+- type: `Object`
+
+Set the component instance's props when the component is mounted.
+
+Example:
+
+```js
+const Component = {
+  template: '<div>{{ msg }}</div>',
+  props: ['msg']
+}
+const wrapper = mount(Component, {
+  propsData: {
+    msg: 'aBC'
+  }
+})
+expect(wrapper.text()).toBe('aBC')
+```
+
+::: tip 
+It's worth noting that `propsData` is actually a [Vue API](https://vuejs.org/v2/api/#propsData), not a 
+Vue Test Utils mounting option. It is processed through [`extends`](https://vuejs.org/v2/api/#extends).
+Please see [Other options](#other-options).
+::: 
+
 ## listeners
 
 - type: `Object`
 
 Set the component instance's `$listeners` object.
 
+## parentComponent
+
+- type: `Object`
+
+Component to use as parent for mounted component.
+
+Example:
+
+```js
+import Foo from './Foo.vue'
+
+const wrapper = shallowMount(Component, {
+  parentComponent: Foo
+})
+expect(wrapper.vm.$parent.$options.name).toBe('foo')
+```
+
 ## provide
 
 - type: `Object`
 
 Pass properties for components to use in injection. See [provide/inject](https://vuejs.org/v2/api/#provide-inject).
+
+Example:
+
+```js
+const Component = {
+  inject: ['foo'],
+  template: '<div>{{this.foo()}}</div>'
+}
+
+const wrapper = shallowMount(Component, {
+  provide: {
+    foo () {
+      return 'fooValue'
+    }
+  }
+})
+
+expect(wrapper.text()).toBe('fooValue')
+```
 
 ## sync
 

@@ -1,5 +1,6 @@
-import { mount } from '../'
-import { normalOptions, functionalOptions, Normal, ClassComponent } from './resources'
+import { mount, createWrapper } from '../'
+import { normalOptions, functionalOptions, ClassComponent } from './resources'
+import Vue from 'vue'
 
 /**
  * Tests for BaseWrapper API
@@ -18,6 +19,7 @@ bool = wrapper.hasClass('foo-class')
 bool = wrapper.hasProp('checked', true)
 bool = wrapper.props().checked
 bool = wrapper.hasStyle('color', 'red')
+bool = wrapper.classes('foo')
 
 bool = wrapper.is(normalOptions)
 bool = wrapper.isEmpty()
@@ -25,8 +27,8 @@ bool = wrapper.isVueInstance()
 
 wrapper.vm.$emit('hello')
 
-const emitted = wrapper.emitted()
-const arr: Array<any> = emitted.hello
+let n: number = wrapper.emitted().hello[0][0]
+let o: string = wrapper.emitted('hello')[0]
 
 const emittedByOrder = wrapper.emittedByOrder()
 const name: string = emittedByOrder[0].name
@@ -47,8 +49,6 @@ wrapper.vm.$emit('event', 'arg')
 
 let el: HTMLElement = wrapper.element
 
-bool = wrapper.options.attachedToDocument
-
 let found = wrapper.find('.foo')
 found = wrapper.find(normalOptions)
 found = wrapper.find(functionalOptions)
@@ -67,10 +67,12 @@ wrapper.setChecked()
 wrapper.setChecked(true)
 wrapper.setValue('some string')
 wrapper.setSelected()
+wrapper.props('foo')
 
 let str: string = wrapper.html()
 str = wrapper.text()
 str = wrapper.name()
+wrapper.attributes('foo')
 
 /**
  * Tests for WrapperArray API
@@ -78,3 +80,14 @@ str = wrapper.name()
 let num: number = array.length
 found = array.at(1)
 array = array.filter((a: any) => a === true)
+
+let createdWrapper = createWrapper(new Vue().$mount())
+createdWrapper.text()
+createWrapper(document.createElement('div'))
+createWrapper(document.createElement('div'), {
+  sync: false,
+  attachedToDocument: true
+})
+createWrapper(document.createElement('div'), {
+  attachedToDocument: true
+})

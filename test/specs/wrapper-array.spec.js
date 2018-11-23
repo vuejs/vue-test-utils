@@ -1,13 +1,16 @@
-import { compileToFunctions } from 'vue-template-compiler'
+import { Wrapper, WrapperArray } from '~vue/test-utils'
 import { describeWithShallowAndMount } from '~resources/utils'
 
 describeWithShallowAndMount('WrapperArray', mountingMethod => {
   function getWrapperArray (wrappers) {
-    const compiled = compileToFunctions('<div><p>1</p><p>2</p><p>3</p></div>')
-    const wrapper = mountingMethod(compiled)
-    const wrapperArray = wrapper.findAll('p')
-    expect(wrapperArray.constructor.name).to.equal('WrapperArray')
-    return wrappers ? new wrapperArray.constructor(wrappers) : wrapperArray
+    if (!wrappers) {
+      wrappers = [1, 2, 3].map((v) => {
+        const p = document.createElement('p')
+        p.textContent = v
+        return new Wrapper(p)
+      })
+    }
+    return new WrapperArray(wrappers)
   }
 
   ['wrappers', 'length'].forEach(property => {
@@ -60,10 +63,13 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
     'isVueInstance',
     'name',
     'props',
+    'setChecked',
     'setComputed',
     'setMethods',
     'setData',
     'setProps',
+    'setSelected',
+    'setValue',
     'trigger',
     'update',
     'destroy'
@@ -93,10 +99,12 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
           'isEmpty',
           'isVisible',
           'isVueInstance',
+          'setChecked',
           'setComputed',
           'setMethods',
           'setData',
           'setProps',
+          'setValue',
           'trigger',
           'update',
           'destroy'

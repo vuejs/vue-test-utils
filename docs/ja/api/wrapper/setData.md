@@ -1,6 +1,8 @@
 ## setData(data)
 
-`Wrapper` `vm` データを設定し、更新を強制します。
+`Wrapper` `vm` データを設定します。
+
+setData は再帰的に Vue.set を実行することで動作します。
 
 **Wrapper には Vue インスタンスを含む必要があることに注意してください**
 

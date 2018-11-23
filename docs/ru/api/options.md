@@ -9,8 +9,10 @@
 - [`mocks`](#mocks)
 - [`localVue`](#localvue)
 - [`attachToDocument`](#attachtodocument)
+- [`propsData`](#propsdata)
 - [`attrs`](#attrs)
 - [`listeners`](#listeners)
+- [`parentComponent`](#parentcomponent)
 - [`provide`](#provide)
 - [`sync`](#sync)
 
@@ -18,7 +20,7 @@
 
 - Тип: `Object`
 
-Передаёт контекст в функциональный компонент. Может использоваться только с функциональными компонентами.
+Передаёт контекст в функциональный компонент. Может использоваться только с [функциональными компонентами](https://ru.vuejs.org/v2/guide/render-function.html#%D0%A4%D1%83%D0%BD%D0%BA%D1%86%D0%B8%D0%BE%D0%BD%D0%B0%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5-%D0%BA%D0%BE%D0%BC%D0%BF%D0%BE%D0%BD%D0%B5%D0%BD%D1%82%D1%8B).
 
 Пример:
 
@@ -46,52 +48,71 @@ expect(wrapper.is(Component)).toBe(true)
 
 ```js
 import Foo from './Foo.vue'
-import Bar from './Bar.vue'
+
+const bazComponent = {
+  name: 'baz-component',
+  template: '<p>baz</p>'
+}
 
 const wrapper = shallowMount(Component, {
   slots: {
-    default: [Foo, Bar],
+    default: [Foo, '<my-component />', 'text'],
     fooBar: Foo, // будет соответствовать `<slot name="FooBar" />`
     foo: '<div />',
-    bar: 'bar'
+    bar: 'bar',
+    baz: bazComponent,
+    qux: '<my-component />'
   }
 })
+
 expect(wrapper.find('div')).toBe(true)
 ```
 
 ## scopedSlots
 
-- Тип: `{ [name: string]: string }`
+- Тип: `{ [name: string]: string|Function }`
 
-Предоставляет объект содержимое слотов с ограниченной областью видимости для компонента. Ключ соответствует имени слота. Значение может быть строкой шаблона.
+Предоставляет объект содержимое слотов с ограниченной областью видимости для компонента. Ключ соответствует имени слота.
 
-Есть три ограничения.
-
-* Эта опция поддерживается только с vue@2.5+.
-
-* Вы не можете использовать тег `<template>` в качестве корневого элемента в опции `scopedSlots`.
-
-* Это не поддерживает PhantomJS.  
-Вы можете использовать [Puppeteer](https://github.com/karma-runner/karma-chrome-launcher#headless-chromium-with-puppeteer) как альтернативу.
-
-Пример:
+Вы можете установить имя входного параметра, используя атрибут slot-scope:
 
 ```js
-const wrapper = shallowMount(Component, {
+shallowMount(Component, {
   scopedSlots: {
-    foo: '<p slot-scope="props">{{props.index}},{{props.text}}</p>'
+    foo: '<p slot-scope="foo">{{foo.index}},{{foo.text}}</p>'
   }
 })
-expect(wrapper.find('#fooWrapper').html()).toBe(
-  `<div id="fooWrapper"><p>0,text1</p><p>1,text2</p><p>2,text3</p></div>`
-)
 ```
+
+В противном случае входные параметры будут доступны как объект `props` при вычислении слота:
+
+```js
+shallowMount(Component, {
+  scopedSlots: {
+    default: '<p>{{props.index}},{{props.text}}</p>'
+  }
+})
+```
+
+Вы также можете передать функцию, которая принимает входные параметры в качестве аргумента:
+
+```js
+shallowMount(Component, {
+  scopedSlots: {
+    foo: function (props) {
+      return this.$createElement('div', props.index)
+    }
+  }
+})
+```
+
+Или вы можете использовать JSX. Если вы пишете JSX в методе, `this.$createElement` автоматически внедряется babel-plugin-transform-vue-jsx:
 
 ## stubs
 
 - Тип: `{ [name: string]: Component | boolean } | Array<string>`
 
-Заглушки дочерних компонентов. Может быть массивом имен компонентов заменяемых заглушкой, или объектом. Если `stubs` массив, каждая заглушка - `<${component name}-stub>`.
+Заглушки дочерних компонентов. Может быть массивом имён компонентов заменяемых заглушкой, или объектом. Если `stubs` массив, каждая заглушка - `<${component name}-stub>`.
 
 Пример:
 
@@ -177,17 +198,80 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 
 Устанавливает объект `$attrs` на экземпляре компонента.
 
+## propsData
+
+- Тип: `Object`
+ 
+Устанавливает входные параметры экземпляра компонента, когда он примонтирован.
+ 
+Пример:
+
+```js
+const Component = {
+  template: '<div>{{ msg }}</div>',
+  props: ['msg']
+}
+const wrapper = mount(Component, {
+  propsData: {
+    msg: 'aBC'
+  }
+})
+expect(wrapper.text()).toBe('aBC')
+```
+
+::: tip 
+Стоит отметить, что `propsData` относятся на самом деле к [API Vue](https://ru.vuejs.org/v2/api/#propsData),
+а не к опции монтирования Vue Test Utils. Эта опция обрабатывается через [`extends`](https://ru.vuejs.org/v2/api/#extends).
+Смотрите также [другие опции](#другие-опции).
+::: 
+
 ## listeners
 
 - Тип: `Object`
 
 Устанавливает объект `$listeners` на экземпляре компонента.
 
+## parentComponent
+
+- Тип: `Object`
+
+Компонент для использования в качестве родительского для смонтированного компонента.
+
+Пример:
+
+```js
+import Foo from './Foo.vue'
+
+const wrapper = shallowMount(Component, {
+  parentComponent: Foo
+})
+expect(wrapper.vm.$parent.$options.name).toBe('foo')
+```
+
 ## provide
 
 - Тип: `Object`
 
 Передаёт свойства в компоненты для использования в инъекциях. См. [provide/inject](https://ru.vuejs.org/v2/api/#provide-inject).
+
+Пример:
+
+```js
+const Component = {
+  inject: ['foo'],
+  template: '<div>{{this.foo()}}</div>'
+}
+
+const wrapper = shallowMount(Component, {
+  provide: {
+    foo () {
+      return 'fooValue'
+    }
+  }
+})
+
+expect(wrapper.text()).toBe('fooValue')
+```
 
 ## sync
 

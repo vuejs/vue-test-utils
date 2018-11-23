@@ -33,7 +33,7 @@ describeWithShallowAndMount('setData', mountingMethod => {
     const wrapper = mountingMethod(Component)
     wrapper.setData({ show: true })
     expect(wrapper.element).to.equal(wrapper.vm.$el)
-    expect(wrapper.hasClass('some-class')).to.be.true
+    expect(wrapper.classes()).to.contain('some-class')
   })
 
   it('runs watch function when data is updated', () => {
@@ -117,7 +117,7 @@ describeWithShallowAndMount('setData', mountingMethod => {
     expect(wrapper.vm.basket[0]).to.equal('hello')
   })
 
-  it.skip('should not run watcher if data is null', () => {
+  it('should not run watcher if data is null', () => {
     const TestComponent = {
       template: `
       <div>
@@ -190,6 +190,53 @@ describeWithShallowAndMount('setData', mountingMethod => {
     expect(wrapper.vm.anObject.propA.prop2).to.equal('b')
   })
 
+  it('handles undefined values', () => {
+    const TestComponent = {
+      template: `
+      <div>
+        {{undefinedProperty && undefinedProperty.foo}}
+      </div>
+      `,
+      data: () => ({
+        undefinedProperty: undefined
+      })
+    }
+    const wrapper = mountingMethod(TestComponent)
+    wrapper.setData({
+      undefinedProperty: {
+        foo: 'baz'
+      }
+    })
+    expect(wrapper.text()).to.contain('baz')
+  })
+
+  it('handles null values', () => {
+    const TestComponent = {
+      template: `
+      <div>{{nullProperty && nullProperty.foo}}</div>
+      `,
+      data: () => ({
+        nullProperty: null
+      })
+    }
+    const wrapper = mountingMethod(TestComponent)
+    wrapper.setData({
+      nullProperty: {
+        foo: 'bar',
+        another: null
+      }
+    })
+    expect(wrapper.text()).to.contain('bar')
+    wrapper.setData({
+      nullProperty: {
+        another: {
+          obj: true
+        }
+      }
+    })
+    expect(wrapper.vm.nullProperty.another.obj).to.equal(true)
+  })
+
   it('does not merge arrays', () => {
     const TestComponent = {
       template: '<div>{{nested.nested.nestedArray[0]}}</div>',
@@ -216,5 +263,51 @@ describeWithShallowAndMount('setData', mountingMethod => {
     })
     expect(wrapper.text()).to.equal('10')
     expect(wrapper.vm.nested.nested.nestedArray).to.deep.equal([10])
+  })
+
+  it('should append a new property to an object when the new property is referenced by a template', () => {
+    const TestComponent = {
+      data: () => ({
+        anObject: {
+          propA: 'a',
+          propB: 'b'
+        }
+      }),
+      computed: {
+        anObjectKeys () {
+          return Object.keys(this.anObject).join(',')
+        }
+      },
+      template: `<div>{{ anObjectKeys }}</div>`
+    }
+    const wrapper = mountingMethod(TestComponent)
+    wrapper.setData({
+      anObject: {
+        propC: 'c'
+      }
+    })
+
+    expect(wrapper.vm.anObject.propA).to.equal('a')
+    expect(wrapper.vm.anObject.propB).to.equal('b')
+    expect(wrapper.vm.anObject.propC).to.equal('c')
+    expect(wrapper.vm.anObjectKeys).to.equal('propA,propB,propC')
+    expect(wrapper.html()).to.equal('<div>propA,propB,propC</div>')
+  })
+
+  it('allows setting data of type Date synchronously', () => {
+    const TestComponent = {
+      template: `
+      <div>
+        {{selectedDate}}
+      </div>
+    `,
+      data: () => ({
+        selectedDate: undefined
+      })
+    }
+    const testDate = new Date()
+    const wrapper = mountingMethod(TestComponent)
+    wrapper.setData({ selectedDate: testDate })
+    expect(wrapper.vm.selectedDate).to.equal(testDate)
   })
 })

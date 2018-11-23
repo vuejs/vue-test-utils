@@ -1,10 +1,13 @@
-## props()
+## props([key])
 
-Return `Wrapper` `vm` props object.
+Return `Wrapper` `vm` props object. If `key` is provided, the value for the `key` will be returned.
 
 **Note the Wrapper must contain a Vue instance.**
 
-- **Returns:** `{[prop: string]: any}`
+- **Arguments:**
+  - `{string} key`  **optional**
+
+- **Returns:** `{[prop: string]: any} | any`
 
 - **Example:**
 
@@ -18,4 +21,5 @@ const wrapper = mount(Foo, {
   }
 })
 expect(wrapper.props().bar).toBe('baz')
+expect(wrapper.props('bar')).toBe('baz')
 ```

@@ -6,7 +6,7 @@ import { describeWithShallowAndMount } from '~resources/utils'
 describeWithShallowAndMount('setMethods', mountingMethod => {
   it('sets component data and updates nested vm nodes when called on Vue instance', () => {
     const wrapper = mountingMethod(ComponentWithMethods)
-    const someMethod = () => console.log('hey')
+    const someMethod = () => {}
     wrapper.setMethods({ someMethod })
     expect(wrapper.vm.someMethod).to.equal(someMethod)
   })
@@ -25,7 +25,7 @@ describeWithShallowAndMount('setMethods', mountingMethod => {
     wrapper.find('.toggle').trigger('click')
     expect(wrapper.vm.isActive).to.be.true
     // Replace the toggle function so that the data supposedly won't change
-    const toggleActive = () => console.log('overriden')
+    const toggleActive = () => {}
     wrapper.setMethods({ toggleActive })
     wrapper.find('.toggle').trigger('click')
     expect(wrapper.vm.isActive).to.be.true

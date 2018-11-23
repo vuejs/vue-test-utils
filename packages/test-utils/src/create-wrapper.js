@@ -6,9 +6,9 @@ import VueWrapper from './vue-wrapper'
 
 export default function createWrapper (
   node: VNode | Component,
-  options: WrapperOptions
+  options: WrapperOptions = {}
 ): VueWrapper | Wrapper {
-  const componentInstance = node.componentInstance || node.child
+  const componentInstance = node.child
   if (componentInstance) {
     return new VueWrapper(componentInstance, options)
   }

@@ -1,41 +1,66 @@
 // @flow
 
-import { createSlotVNodes } from './add-slots'
+import { createSlotVNodes } from './create-slot-vnodes'
 import addMocks from './add-mocks'
 import { addEventLogger } from './log-events'
-import { createComponentStubs } from 'shared/stub-components'
-import { throwError, warn, vueVersion } from 'shared/util'
-import { compileTemplate } from 'shared/compile-template'
+import { addStubs } from './add-stubs'
+import { throwError, vueVersion } from 'shared/util'
+import {
+  compileTemplate,
+  compileTemplateForSlots
+} from 'shared/compile-template'
+import { isRequiredComponent } from 'shared/validators'
 import extractInstanceOptions from './extract-instance-options'
 import createFunctionalComponent from './create-functional-component'
-import { componentNeedsCompiling } from 'shared/validators'
+import { componentNeedsCompiling, isPlainObject } from 'shared/validators'
 import { validateSlots } from './validate-slots'
 import createScopedSlots from './create-scoped-slots'
+import { extendExtendedComponents } from './extend-extended-components'
+
+function vueExtendUnsupportedOption (option: string) {
+  return `options.${option} is not supported for ` +
+  `components created with Vue.extend in Vue < 2.3. ` +
+  `You can set ${option} to false to mount the component.`
+}
+
+// these options aren't supported if Vue is version < 2.3
+// for components using Vue.extend. This is due to a bug
+// that means the mixins we use to add properties are not applied
+// correctly
+const UNSUPPORTED_VERSION_OPTIONS = [
+  'mocks',
+  'stubs',
+  'localVue'
+]
 
 export default function createInstance (
   component: Component,
   options: Options,
-  _Vue: Component,
-  elm?: Element
+  _Vue: Component
 ): Component {
-  // Remove cached constructor
-  delete component._Ctor
+  // make sure all extends are based on this instance
+  _Vue.options._base = _Vue
 
-  // mounting options are vue-test-utils specific
-  //
+  if (
+    vueVersion < 2.3 &&
+    typeof component === 'function' &&
+    component.options
+  ) {
+    UNSUPPORTED_VERSION_OPTIONS.forEach((option) => {
+      if (options[option]) {
+        throwError(vueExtendUnsupportedOption(option))
+      }
+    })
+  }
+
   // instance options are options that are passed to the
   // root instance when it's instantiated
-  //
-  // component options are the root components options
-  const componentOptions = typeof component === 'function'
-    ? component.extendOptions
-    : component
-
   const instanceOptions = extractInstanceOptions(options)
 
-  if (options.mocks) {
-    addMocks(options.mocks, _Vue)
-  }
+  addEventLogger(_Vue)
+  addMocks(options.mocks, _Vue)
+  addStubs(component, options.stubs, _Vue, options.shouldProxy)
+
   if (
     (component.options && component.options.functional) ||
     component.functional
@@ -43,7 +68,8 @@ export default function createInstance (
     component = createFunctionalComponent(component, options)
   } else if (options.context) {
     throwError(
-      `mount.context can only be used when mounting a ` + `functional component`
+      `mount.context can only be used when mounting a ` +
+      `functional component`
     )
   }
 
@@ -51,64 +77,47 @@ export default function createInstance (
     compileTemplate(component)
   }
 
-  addEventLogger(_Vue)
-
-  const stubComponents = createComponentStubs(
-    // $FlowIgnore
-    component.components,
-    // $FlowIgnore
-    options.stubs
-  )
-  if (options.stubs) {
-    instanceOptions.components = {
-      ...instanceOptions.components,
-      // $FlowIgnore
-      ...stubComponents
+  // Replace globally registered components with components extended
+  // from localVue.
+  // Vue version must be 2.3 or greater, because of a bug resolving
+  // extended constructor options (https://github.com/vuejs/vue/issues/4976)
+  if (vueVersion > 2.2) {
+    for (const c in _Vue.options.components) {
+      if (!isRequiredComponent(c)) {
+        const comp = _Vue.options.components[c]
+        const options = comp.options ? comp.options : comp
+        const extendedComponent = _Vue.extend(options)
+        extendedComponent.options.$_vueTestUtils_original = comp
+        _Vue.component(c, extendedComponent)
+      }
     }
   }
-  _Vue.mixin({
-    created () {
-      Object.assign(
-        this.$options.components,
-        stubComponents
-      )
-    }
-  })
-  Object.keys(componentOptions.components || {}).forEach(c => {
-    if (
-      componentOptions.components[c].extendOptions &&
-      !instanceOptions.components[c]
-    ) {
-      if (options.logModifiedComponents) {
-        warn(
-          `an extended child component <${c}> has been modified ` +
-          `to ensure it has the correct instance properties. ` +
-          `This means it is not possible to find the component ` +
-          `with a component selector. To find the component, ` +
-          `you must stub it manually using the stubs mounting ` +
-          `option.`
-        )
-      }
-      instanceOptions.components[c] = _Vue.extend(
-        componentOptions.components[c]
-      )
-    }
-  })
+
+  extendExtendedComponents(
+    component,
+    _Vue,
+    options.logModifiedComponents,
+    instanceOptions.components
+  )
 
   if (component.options) {
     component.options._base = _Vue
   }
 
-  const Constructor = vueVersion < 2.3 && typeof component === 'function'
-    ? component.extend(instanceOptions)
+  // extend component from _Vue to add properties and mixins
+  // extend does not work correctly for sub class components in Vue < 2.2
+  const Constructor = typeof component === 'function'
+    ? _Vue.extend(component.options).extend(instanceOptions)
     : _Vue.extend(component).extend(instanceOptions)
 
-  Object.keys(instanceOptions.components || {}).forEach(key => {
-    Constructor.component(key, instanceOptions.components[key])
-    _Vue.component(key, instanceOptions.components[key])
-  })
-
+  // used to identify extended component using constructor
+  Constructor.options.$_vueTestUtils_original = component
   if (options.slots) {
+    compileTemplateForSlots(options.slots)
+    // validate slots outside of the createSlots function so
+    // that we can throw an error without it being caught by
+    // the Vue error handler
+    // $FlowIgnore
     validateSlots(options.slots)
   }
 
@@ -125,25 +134,36 @@ export default function createInstance (
 
   const scopedSlots = createScopedSlots(options.scopedSlots)
 
-  const Parent = _Vue.extend({
-    provide: options.provide,
-    render (h) {
-      const slots = options.slots
-        ? createSlotVNodes(h, options.slots)
-        : undefined
-      return h(
-        Constructor,
-        {
-          ref: 'vm',
-          props: options.propsData,
-          on: options.listeners,
-          attrs: options.attrs,
-          scopedSlots
+  if (options.parentComponent && !isPlainObject(options.parentComponent)) {
+    throwError(
+      `options.parentComponent should be a valid Vue component ` +
+      `options object`
+    )
+  }
+
+  const parentComponentOptions = options.parentComponent || {}
+  parentComponentOptions.provide = options.provide
+  parentComponentOptions.render = function (h) {
+    const slots = options.slots
+      ? createSlotVNodes(this, options.slots)
+      : undefined
+    return h(
+      Constructor,
+      {
+        ref: 'vm',
+        on: options.listeners,
+        attrs: {
+          ...options.attrs,
+          // pass as attrs so that inheritAttrs works correctly
+          // propsData should take precedence over attrs
+          ...options.propsData
         },
-        slots
-      )
-    }
-  })
+        scopedSlots
+      },
+      slots
+    )
+  }
+  const Parent = _Vue.extend(parentComponentOptions)
 
   return new Parent()
 }

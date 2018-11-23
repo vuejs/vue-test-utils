@@ -6,7 +6,7 @@ import ComponentWithProps from '~resources/components/component-with-props.vue'
 import ComponentWithMixin from '~resources/components/component-with-mixin.vue'
 import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
 import { injectSupported, vueVersion } from '~resources/utils'
-import { describeRunIf, itDoNotRunIf } from 'conditional-specs'
+import { describeRunIf, itDoNotRunIf, itSkipIf } from 'conditional-specs'
 import Vuex from 'vuex'
 
 describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
@@ -58,16 +58,17 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     }
   })
 
-  it('handles propsData for extended components', () => {
-    const prop1 = 'test'
-    const TestComponent = Vue.extend(ComponentWithProps)
-    const wrapper = mount(TestComponent, {
-      propsData: {
-        prop1
-      }
+  itDoNotRunIf(vueVersion < 2.3,
+    'handles propsData for extended components', () => {
+      const prop1 = 'test'
+      const TestComponent = Vue.extend(ComponentWithProps)
+      const wrapper = mount(TestComponent, {
+        propsData: {
+          prop1
+        }
+      })
+      expect(wrapper.text()).to.contain(prop1)
     })
-    expect(wrapper.text()).to.contain(prop1)
-  })
 
   it('handles uncompiled extended Vue component', () => {
     const BaseComponent = {
@@ -99,6 +100,32 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     const wrapper = mount(TestComponentD)
     expect(wrapper.findAll('div').length).to.equal(1)
   })
+
+  itSkipIf(
+    vueVersion < 2.3,
+    'handles extended components added to Vue constructor', () => {
+      const ChildComponent = Vue.extend({
+        template: '<div />',
+        mounted () {
+          this.$route.params
+        }
+      })
+      Vue.component('child-component', ChildComponent)
+      const TestComponent = {
+        template: '<child-component />'
+      }
+      let wrapper
+      try {
+        wrapper = mount(TestComponent, {
+          mocks: {
+            $route: {}
+          }
+        })
+      } catch (err) {} finally {
+        delete Vue.options.components['child-component']
+        expect(wrapper.find(ChildComponent).exists()).to.equal(true)
+      }
+    })
 
   it('does not use cached component', () => {
     ComponentWithMixin.methods.someMethod = sinon.stub()
@@ -134,23 +161,47 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     expect(wrapper.html()).to.equal(`<div>foo</div>`)
   })
 
-  it('overrides methods', () => {
-    const stub = sinon.stub()
-    const TestComponent = Vue.extend({
-      template: '<div />',
-      methods: {
-        callStub () {
-          stub()
+  itDoNotRunIf(
+    vueVersion < 2.3,
+    'overrides methods', () => {
+      const stub = sinon.stub()
+      const TestComponent = Vue.extend({
+        template: '<div />',
+        methods: {
+          callStub () {
+            stub()
+          }
         }
-      }
-    })
-    mount(TestComponent, {
-      methods: {
-        callStub () {}
-      }
-    }).vm.callStub()
+      })
+      mount(TestComponent, {
+        methods: {
+          callStub () {}
+        }
+      }).vm.callStub()
 
-    expect(stub).not.called
+      expect(stub).not.called
+    })
+
+  it.skip('overrides component prototype', () => {
+    const mountSpy = sinon.spy()
+    const destroySpy = sinon.spy()
+    const Component = Vue.extend({})
+    const { $mount: originalMount, $destroy: originalDestroy } = Component.prototype
+    Component.prototype.$mount = function (...args) {
+      originalMount.apply(this, args)
+      mountSpy()
+      return this
+    }
+    Component.prototype.$destroy = function () {
+      originalDestroy.apply(this)
+      destroySpy()
+    }
+
+    const wrapper = mount(Component)
+    expect(mountSpy).called
+    expect(destroySpy).not.called
+    wrapper.destroy()
+    expect(destroySpy).called
   })
 
   // Problems accessing options of twice extended components in Vue < 2.3
@@ -162,13 +213,34 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     expect(wrapper.html()).to.equal(`<div></div>`)
   })
 
+  itDoNotRunIf(
+    vueVersion < 2.4, // auto resolve of default export added in 2.4
+    'handles components as dynamic imports', (done) => {
+      const TestComponent = {
+        template: '<div><async-component /></div>',
+        components: {
+          AsyncComponent: () => import('~resources/components/component.vue')
+        }
+      }
+      const wrapper = mount(TestComponent)
+      setTimeout(() => {
+        expect(wrapper.find(Component).exists()).to.equal(true)
+        done()
+      })
+    })
+
   it('logs if component is extended', () => {
     const msg =
-      `[vue-test-utils]: an extended child component <ChildComponent> ` +
-      `has been modified to ensure it has the correct instance properties. ` +
-      `This means it is not possible to find the component with a component ` +
-      `selector. To find the component, you must stub it manually using the ` +
-      `stubs mounting option.`
+      `[vue-test-utils]: The child component <ChildComponent> has been modified to ensure ` +
+      `it is created with properties injected by Vue Test Utils. \n` +
+      `This is because the component was created with Vue.extend, ` +
+      `or uses the Vue Class Component decorator. \n` +
+      `Because the component has been modified, it is not possible ` +
+      `to find it with a component selector. To find the ` +
+      `component, you must stub it manually using the stubs mounting ` +
+      `option, or use a name or ref selector. \n` +
+      `You can hide this warning by setting the Vue Test Utils ` +
+      `config.logModifiedComponents option to false.`
     const ChildComponent = Vue.extend({
       template: '<span />'
     })
@@ -224,22 +296,24 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     expect(wrapper.vm.$options.listeners).to.equal(undefined)
   })
 
-  it('injects store correctly', () => {
-    const localVue = createLocalVue()
-    localVue.use(Vuex)
-    const store = new Vuex.Store()
-    const wrapper = mount(ComponentAsAClass, {
-      store,
-      localVue
+  itDoNotRunIf(
+    vueVersion < 2.3,
+    'injects store correctly', () => {
+      const localVue = createLocalVue()
+      localVue.use(Vuex)
+      const store = new Vuex.Store()
+      const wrapper = mount(ComponentAsAClass, {
+        store,
+        localVue
+      })
+      wrapper.vm.getters
+      mount(
+        {
+          template: '<div>{{$store.getters}}</div>'
+        },
+        { store, localVue }
+      )
     })
-    wrapper.vm.getters
-    mount(
-      {
-        template: '<div>{{$store.getters}}</div>'
-      },
-      { store, localVue }
-    )
-  })
 
   it('propagates errors when they are thrown', () => {
     const TestComponent = {
@@ -303,6 +377,25 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     mount(TestComponent)
     expect(Vue.config.errorHandler).to.equal(existingErrorHandler)
     Vue.config.errorHandler = null
+  })
+
+  it('adds unused propsData as attributes', () => {
+    const wrapper = mount(
+      ComponentWithProps, {
+        attachToDocument: true,
+        propsData: {
+          prop1: 'prop1',
+          extra: 'attr'
+        },
+        attrs: {
+          height: '50px'
+        }
+      })
+
+    if (vueVersion > 2.3) {
+      expect(wrapper.vm.$attrs).to.eql({ height: '50px', extra: 'attr' })
+    }
+    expect(wrapper.html()).to.equal(`<div height="50px" extra="attr"><p class="prop-1">prop1</p> <p class="prop-2"></p></div>`)
   })
 
   it('overwrites the component options with the instance options', () => {

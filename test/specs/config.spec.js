@@ -13,8 +13,6 @@ describeWithShallowAndMount('config', mountingMethod => {
   let configStubsSave, consoleError, configLogSave, configSilentSave
 
   beforeEach(() => {
-    TransitionGroupStub.name = 'another-temp-name'
-    TransitionStub.name = 'a-temp-name'
     configStubsSave = config.stubs
     configLogSave = config.logModifiedComponents
     configSilentSave = config.silent
@@ -22,8 +20,6 @@ describeWithShallowAndMount('config', mountingMethod => {
   })
 
   afterEach(() => {
-    TransitionGroupStub.name = 'transition-group'
-    TransitionStub.name = 'transition'
     config.stubs = configStubsSave
     config.logModifiedComponents = configLogSave
     config.silent = configSilentSave
@@ -38,13 +34,13 @@ describeWithShallowAndMount('config', mountingMethod => {
         template: `
         <div>
           <transition><p /></transition>
-          <transition-group><p /><p /></transition-group>
+          <transition-group><span /><p /></transition-group>
         </div>
       `
       }
       const wrapper = mountingMethod(testComponent)
-      expect(wrapper.contains(TransitionStub)).to.equal(true)
-      expect(wrapper.contains(TransitionGroupStub)).to.equal(true)
+      expect(wrapper.contains('p')).to.equal(true)
+      expect(wrapper.contains('span')).to.equal(true)
     }
   )
 

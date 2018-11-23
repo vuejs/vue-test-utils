@@ -11,8 +11,16 @@ function createLocalVue (_Vue: Component = Vue): Component {
   Object.keys(_Vue).forEach(key => {
     if (!instance.hasOwnProperty(key)) {
       const original = _Vue[key]
-      instance[key] =
-        typeof original === 'object' ? cloneDeep(original) : original
+      // cloneDeep can fail when cloning Vue instances
+      // cloneDeep checks that the instance has a Symbol
+      // which errors in Vue < 2.17 (https://github.com/vuejs/vue/pull/7878)
+      try {
+        instance[key] = typeof original === 'object'
+          ? cloneDeep(original)
+          : original
+      } catch (e) {
+        instance[key] = original
+      }
     }
   })
 
