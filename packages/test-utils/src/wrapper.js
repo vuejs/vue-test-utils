@@ -714,16 +714,6 @@ export default class Wrapper implements BaseWrapper {
 
     Object.keys(data).forEach(key => {
       if (
-        !this.vm ||
-        !this.vm.$options._propKeys ||
-        !this.vm.$options._propKeys.some(prop => prop === key)
-      ) {
-        throwError(
-          `wrapper.setProps() called with ${key} property which ` +
-          `is not defined on the component`
-        )
-      }
-      if (
         typeof data[key] === 'object' &&
         data[key] !== null &&
         // $FlowIgnore : Problem with possibly null this.vm
@@ -734,6 +724,21 @@ export default class Wrapper implements BaseWrapper {
           `of the existing ${key} property. ` +
           `You must call wrapper.setProps() with a new object ` +
           `to trigger reactivity`
+        )
+      }
+      if (
+        !this.vm ||
+        !this.vm.$options._propKeys ||
+        !this.vm.$options._propKeys.some(prop => prop === key)
+      ) {
+        if (vueVersion > 2.3) {
+          // $FlowIgnore : Problem with possibly null this.vm
+          this.vm.$attrs[key] = data[key]
+          return
+        }
+        throwError(
+          `wrapper.setProps() called with ${key} property which ` +
+          `is not defined on the component`
         )
       }
 
