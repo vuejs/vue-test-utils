@@ -10,7 +10,6 @@ import { itDoNotRunIf } from 'conditional-specs'
 describeWithShallowAndMount('options.listeners', mountingMethod => {
   itDoNotRunIf(
     isRunningPhantomJS || !listenersSupported, 'handles inherit listeners', () => {
-      if (!listenersSupported) return
       const aListener = () => {}
       const wrapper = mountingMethod(
         compileToFunctions('<p :id="aListener" />'),
@@ -27,7 +26,6 @@ describeWithShallowAndMount('options.listeners', mountingMethod => {
   itDoNotRunIf(
     isRunningPhantomJS || !listenersSupported,
     'passes listeners to functional components', () => {
-      if (!listenersSupported) return
       const TestComponent = {
         render (h, ctx) {
           ctx.listeners.aListener()
