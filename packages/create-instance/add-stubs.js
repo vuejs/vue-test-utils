@@ -6,7 +6,7 @@ import { resolveComponent } from 'shared/util'
 import { isReservedTag } from 'shared/validators'
 import { addHook } from './add-hook'
 
-const shouldNotBeStubbed = (el, whitelist) => resolveComponent(el, whitelist)
+const isWhitelisted = (el, whitelist) => resolveComponent(el, whitelist)
 const isAlreadyStubbed = (el, stubs) => stubs.has(el)
 
 const isDynamicComponent = cmp => {
@@ -15,27 +15,31 @@ const isDynamicComponent = cmp => {
     !cmp.functional
 }
 
+function createStub (shouldStub, component, _Vue, el) {
+  if (shouldStub) {
+    return createStubFromComponent(component || {}, el)
+  }
+
+  if (
+    (typeof component === 'function' &&
+    (component.options || component.functional) &&
+    !(component instanceof _Vue)) ||
+    (component && component.extends)
+  ) {
+    const stub = _Vue.extend(component.options)
+    stub.options.$_vueTestUtils_original = component
+    return stub
+  }
+}
+
 function resolveElement (
   el,
   options,
   componentStubs,
   originalComponents,
-  whitelist,
   shouldStub,
   _Vue
 ) {
-  if (
-    typeof el === 'string' && isReservedTag(el) ||
-    shouldNotBeStubbed(el, whitelist) ||
-    isAlreadyStubbed(el, componentStubs)
-  ) {
-    return el
-  }
-
-  if (typeof el === 'function' || typeof el === 'object' && shouldStub) {
-    return createStubFromComponent(el, el.name || 'anonymous')
-  }
-
   let original = resolveComponent(el, originalComponents)
 
   if (
@@ -50,18 +54,7 @@ function resolveElement (
     return el
   }
 
-  let stub
-
-  if (shouldStub) {
-    stub = createStubFromComponent(original || {}, el)
-  } else if (
-    (typeof original === 'function' &&
-    (original.options || original.functional) &&
-    !(original instanceof _Vue)) || (original && original.extends)
-  ) {
-    stub = _Vue.extend(original.options)
-    stub.options.$_vueTestUtils_original = original
-  }
+  const stub = createStub(shouldStub, original, _Vue, el)
 
   if (stub) {
     options.components = {
@@ -72,6 +65,19 @@ function resolveElement (
   }
 
   return el
+}
+
+function shouldNotBeStubbed (el, whitelist, existingStubs) {
+  return (
+    typeof el === 'string' && isReservedTag(el) ||
+    isWhitelisted(el, whitelist) ||
+    isAlreadyStubbed(el, existingStubs)
+  )
+}
+
+function isConstructor (el) {
+  (typeof el === 'function' ||
+  typeof el === 'object')
 }
 
 export function addStubs (component, stubs, _Vue, shouldProxy) {
@@ -92,14 +98,17 @@ export function addStubs (component, stubs, _Vue, shouldProxy) {
     const originalComponents = vm.$options.components
 
     const createElement = (el, ...args) => {
-      let element = el
-
-      element = resolveElement(
+      if (shouldNotBeStubbed(el, stubComponents, componentStubs)) {
+        return originalCreateElement(el, ...args)
+      }
+      // isConstructor(el) && shouldProxy
+      // ? createStubFromComponent(el, el.name || 'anonymous')
+      // :
+      const element = resolveElement(
         el,
         vm.$options,
         componentStubs,
         originalComponents,
-        stubComponents,
         shouldProxy,
         _Vue
       )
