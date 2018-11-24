@@ -97,8 +97,8 @@ export function isRequiredComponent (name: string): boolean {
 }
 
 function makeMap (
-  str,
-  expectsLowerCase
+  str: string,
+  expectsLowerCase?: boolean
 ) {
   var map = Object.create(null)
   var list = str.split(',')
@@ -106,8 +106,8 @@ function makeMap (
     map[list[i]] = true
   }
   return expectsLowerCase
-    ? function (val) { return map[val.toLowerCase()] }
-    : function (val) { return map[val] }
+    ? function (val: string) { return map[val.toLowerCase()] }
+    : function (val: string) { return map[val] }
 }
 
 export const isHTMLTag = makeMap(
@@ -133,4 +133,4 @@ export const isSVG = makeMap(
   true
 )
 
-export const isReservedTag = (tag) => isHTMLTag(tag) || isSVG(tag)
+export const isReservedTag = (tag: string) => isHTMLTag(tag) || isSVG(tag)

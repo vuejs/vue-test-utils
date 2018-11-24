@@ -38,7 +38,7 @@ function hasOwnProperty (obj, prop) {
   return Object.prototype.hasOwnProperty.call(obj, prop)
 }
 
-export function resolveComponent (id, components) {
+export function resolveComponent (id: string, components: Object) {
   /* istanbul ignore if */
   if (typeof id !== 'string') {
     return

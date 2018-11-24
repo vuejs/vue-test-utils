@@ -75,10 +75,10 @@ function shouldNotBeStubbed (el, whitelist, existingStubs) {
   )
 }
 
-function isConstructor (el) {
-  (typeof el === 'function' ||
-  typeof el === 'object')
-}
+// function isConstructor (el) {
+//   (typeof el === 'function' ||
+//   typeof el === 'object')
+// }
 
 export function addStubs (component, stubs, _Vue, shouldProxy) {
   const stubComponents = createStubsFromStubsObject(component.components, stubs)
