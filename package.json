@@ -18,7 +18,7 @@
     "lint:fix": "npm run lint -- --fix",
     "release": "npm run build && npm run test:unit:only && lerna publish --conventional-commits -m \"chore(release): publish %s\" --cd-version prerelease",
     "test": "npm run lint && npm run lint:docs && npm run flow && npm run test:types && npm run test:unit && npm run test:unit:karma && npm run test:unit:node",
-    "test:compat": "scripts/test-compat.sh",
+    "test:compat": "scripts/test-compat-all.sh",
     "test:unit": "npm run build:test && npm run test:unit:only",
     "test:unit:only": "mocha-webpack --webpack-config test/setup/webpack.test.config.js test/specs --recursive --require test/setup/mocha.setup.js",
     "test:unit:debug": "npm run build:test && node --inspect-brk node_modules/.bin/mocha-webpack --webpack-config test/setup/webpack.test.config.js test/specs --recursive --require test/setup/mocha.setup.js",

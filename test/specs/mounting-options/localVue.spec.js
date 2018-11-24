@@ -5,7 +5,7 @@ import {
   vueVersion
 } from '~resources/utils'
 import { createLocalVue } from '~vue/test-utils'
-import { itSkipIf, itRunIf } from 'conditional-specs'
+import { itSkipIf, itRunIf, itDoNotRunIf } from 'conditional-specs'
 import Vuex from 'vuex'
 
 describeWithMountingMethods('options.localVue', mountingMethod => {
@@ -175,23 +175,25 @@ describeWithMountingMethods('options.localVue', mountingMethod => {
         .with.property('message', message)
     })
 
-  it('is applied to inline constructor functions', () => {
-    const ChildComponent = Vue.extend({
-      render (h) {
-        h('p', this.$route.params)
+  itDoNotRunIf(
+    vueVersion < 2.3,
+    'is applied to inline constructor functions', () => {
+      const ChildComponent = Vue.extend({
+        render (h) {
+          h('p', this.$route.params)
+        }
+      })
+      const TestComponent = {
+        render: h => h(ChildComponent)
       }
+      const localVue = createLocalVue()
+      localVue.prototype.$route = {}
+      const wrapper = mountingMethod(TestComponent, {
+        localVue
+      })
+      if (mountingMethod.name === 'renderToString') {
+        return
+      }
+      expect(wrapper.findAll(ChildComponent).length).to.equal(1)
     })
-    const TestComponent = {
-      render: h => h(ChildComponent)
-    }
-    const localVue = createLocalVue()
-    localVue.prototype.$route = {}
-    const wrapper = mountingMethod(TestComponent, {
-      localVue
-    })
-    if (mountingMethod.name === 'renderToString') {
-      return
-    }
-    expect(wrapper.findAll(ChildComponent).length).to.equal(1)
-  })
 })

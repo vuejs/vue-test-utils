@@ -1,13 +1,16 @@
 import {
   createStubFromComponent
 } from 'shared/create-component-stubs'
-import { resolveComponent } from 'shared/util'
+import { resolveComponent, vueVersion } from 'shared/util'
 import { isReservedTag } from 'shared/validators'
 import { addHook } from './add-hook'
 
 const isWhitelisted = (el, whitelist) => resolveComponent(el, whitelist)
 const isAlreadyStubbed = (el, stubs) => stubs.has(el)
 const isDynamicComponent = cmp => typeof cmp === 'function' && !cmp.cid
+
+const CREATE_ELEMENT_ALIAS = vueVersion < 2.1 ? '_h' : '_c'
+const LIFECYCLE_HOOK = vueVersion < 2.1 ? 'beforeMount' : 'beforeCreate'
 
 function shouldExtend (component, _Vue) {
   return (typeof component === 'function' &&
@@ -117,9 +120,9 @@ export function patchRender (_Vue, stubs, stubAllComponents) {
       return originalCreateElement(el, ...args)
     }
 
-    vm._c = createElement
+    vm[CREATE_ELEMENT_ALIAS] = createElement
     vm.$createElement = createElement
   }
 
-  addHook(_Vue.options, 'beforeCreate', patchRenderMixin)
+  addHook(_Vue.options, LIFECYCLE_HOOK, patchRenderMixin)
 }

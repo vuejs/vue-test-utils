@@ -29,15 +29,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
     expect(wrapper.vm).to.be.an('object')
   })
 
-  it('returns new VueWrapper of Vue localVue with all children stubbed', () => {
-    const wrapper = shallowMount(ComponentWithNestedChildren)
-    expect(wrapper.isVueInstance()).to.equal(true)
-    expect(wrapper.findAll(Component).length).to.equal(0)
-
-    expect(wrapper.findAll(ComponentWithChild).length).to.equal(1)
-  })
-
-  it('returns new VueWrapper of Vue localVue with all children stubbed', () => {
+  it('returns new VueWrapper with all children stubbed', () => {
     const wrapper = shallowMount(ComponentWithNestedChildren)
     expect(wrapper.isVueInstance()).to.equal(true)
     expect(wrapper.findAll(Component).length).to.equal(0)
@@ -89,7 +81,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
         <child>
           <p slot="header">Hello</p>
           <p slot="footer">World</p>
-      </child>
+        </child>
       `
     }
     const wrapper = shallowMount(TestComponent, {
