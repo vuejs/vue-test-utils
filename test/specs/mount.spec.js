@@ -27,7 +27,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     expect(wrapper.vm).to.be.an('object')
   })
 
-  it('returns new VueWrapper with mounted Vue instance when root is functional component', () => {
+  it('returns new VueWrapper when root is functional component', () => {
     const FunctionalComponent = {
       functional: true,
       render (h) {
@@ -47,7 +47,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     expect(wrapper.findAll('p').length).to.equal(2)
   })
 
-  it('returns new VueWrapper with mounted Vue instance with props, if passed as propsData', () => {
+  it('returns new VueWrapper with correct props data', () => {
     const prop1 = { test: 'TEST' }
     const wrapper = mount(ComponentWithProps, { propsData: { prop1 }})
     expect(wrapper.vm).to.be.an('object')
