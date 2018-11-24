@@ -174,4 +174,21 @@ describeWithMountingMethods('options.localVue', mountingMethod => {
       expect(fn).to.throw()
         .with.property('message', message)
     })
+
+  it('is applied to inline constructor functions', () => {
+    const ChildComponent = Vue.extend({
+      render (h) {
+        h('p', this.$route.params)
+      }
+    })
+    const TestComponent = {
+      render: h => h(ChildComponent)
+    }
+    const localVue = createLocalVue()
+    localVue.prototype.$route = {}
+    const wrapper = mountingMethod(TestComponent, {
+      localVue
+    })
+    expect(wrapper.findAll(ChildComponent).length).to.equal(1)
+  })
 })

@@ -15,17 +15,19 @@ const isDynamicComponent = cmp => {
     !cmp.functional
 }
 
+function shouldExtend (component, _Vue) {
+  return (typeof component === 'function' &&
+  (component.options || component.functional) &&
+  !(component instanceof _Vue)) ||
+  (component && component.extends)
+}
+
 function createStub (shouldStub, component, _Vue, el) {
   if (shouldStub) {
     return createStubFromComponent(component || {}, el)
   }
 
-  if (
-    (typeof component === 'function' &&
-    (component.options || component.functional) &&
-    !(component instanceof _Vue)) ||
-    (component && component.extends)
-  ) {
+  if (shouldExtend(component, _Vue)) {
     const stub = _Vue.extend(component.options)
     stub.options.$_vueTestUtils_original = component
     return stub
@@ -41,7 +43,6 @@ function resolveElement (
   _Vue
 ) {
   let original = resolveComponent(el, originalComponents)
-
   if (
     original &&
     original.options &&
@@ -75,10 +76,10 @@ function shouldNotBeStubbed (el, whitelist, existingStubs) {
   )
 }
 
-// function isConstructor (el) {
-//   (typeof el === 'function' ||
-//   typeof el === 'object')
-// }
+function isConstructor (el) {
+  return (typeof el === 'function' ||
+  typeof el === 'object')
+}
 
 export function addStubs (component, stubs, _Vue, shouldProxy) {
   const stubComponents = createStubsFromStubsObject(component.components, stubs)
@@ -101,9 +102,18 @@ export function addStubs (component, stubs, _Vue, shouldProxy) {
       if (shouldNotBeStubbed(el, stubComponents, componentStubs)) {
         return originalCreateElement(el, ...args)
       }
-      // isConstructor(el) && shouldProxy
-      // ? createStubFromComponent(el, el.name || 'anonymous')
-      // :
+      if (isConstructor(el)) {
+        if (shouldProxy) {
+          const elem = createStubFromComponent(el, el.name || 'anonymous')
+          return originalCreateElement(elem, ...args)
+        }
+        if (shouldExtend(el, _Vue)) {
+          const extended = _Vue.extend(el)
+          extended.options.$_vueTestUtils_original = el
+          return originalCreateElement(extended, ...args)
+        }
+        // return originalCreateElement(element, ...args)
+      }
       const element = resolveElement(
         el,
         vm.$options,

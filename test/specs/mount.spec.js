@@ -398,4 +398,21 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     const wrapper = mount(Component, options)
     expect(wrapper.text()).to.equal('aBC')
   })
+
+  it('handles inline components', () => {
+    const ChildComponent = {
+      render (h) {
+        h('p', this.$route.params)
+      }
+    }
+    const TestComponent = {
+      render: h => h(ChildComponent)
+    }
+    const localVue = createLocalVue()
+    localVue.prototype.$route = {}
+    const wrapper = mount(TestComponent, {
+      localVue
+    })
+    expect(wrapper.findAll(ChildComponent).length).to.equal(1)
+  })
 })
