@@ -8,21 +8,48 @@ import {
 import { itDoNotRunIf } from 'conditional-specs'
 
 describeWithShallowAndMount('options.listeners', mountingMethod => {
-  itDoNotRunIf(isRunningPhantomJS, 'handles inherit listeners', () => {
-    if (!listenersSupported) return
-    const aListener = () => {}
-    const wrapper = mountingMethod(
-      compileToFunctions('<p :id="aListener" />'),
-      {
-        listeners: {
-          aListener
+  itDoNotRunIf(
+    isRunningPhantomJS || !listenersSupported,
+    'handles inherit listeners', () => {
+      const aListener = () => {}
+      const wrapper = mountingMethod(
+        compileToFunctions('<p :id="aListener" />'),
+        {
+          listeners: {
+            aListener
+          }
         }
-      }
-    )
+      )
 
-    expect(wrapper.vm.$listeners.aListener.fns).to.equal(aListener)
-    expect(wrapper.vm.$listeners.aListener.fns).to.equal(aListener)
-  })
+      expect(wrapper.vm.$listeners.aListener.fns).to.equal(aListener)
+    })
+
+  itDoNotRunIf(
+    isRunningPhantomJS || !listenersSupported,
+    'passes listeners to functional components', () => {
+      const TestComponent = {
+        render (h, ctx) {
+          ctx.listeners.aListener()
+          ctx.listeners.bListener()
+          return h('div')
+        },
+        functional: true
+      }
+
+      mountingMethod(
+        TestComponent,
+        {
+          context: {
+            on: {
+              bListener () {}
+            }
+          },
+          listeners: {
+            aListener () {}
+          }
+        }
+      )
+    })
 
   itDoNotRunIf(
     vueVersion < 2.5,

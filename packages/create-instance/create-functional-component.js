@@ -16,15 +16,26 @@ export default function createFunctionalComponent (
     validateSlots(mountingOptions.slots)
   }
 
-  const data = mountingOptions.context ||
-    component.FunctionalRenderContext || {}
-  data.scopedSlots = createScopedSlots(mountingOptions.scopedSlots)
+  const context =
+    mountingOptions.context ||
+    component.FunctionalRenderContext ||
+    {}
+
+  const listeners = mountingOptions.listeners
+
+  if (listeners) {
+    Object.keys(listeners).forEach(key => {
+      context.on[key] = listeners[key]
+    })
+  }
+
+  context.scopedSlots = createScopedSlots(mountingOptions.scopedSlots)
 
   return {
     render (h: Function) {
       return h(
         component,
-        data,
+        context,
         (mountingOptions.context &&
           mountingOptions.context.children &&
           mountingOptions.context.children.map(
