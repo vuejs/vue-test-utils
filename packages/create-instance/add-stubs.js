@@ -20,17 +20,19 @@ function resolveElement (
   options,
   componentStubs,
   originalComponents,
-  whitelist
+  whitelist,
+  shouldStub,
+  _Vue
 ) {
   if (
-    isReservedTag(el) ||
+    typeof el === 'string' && isReservedTag(el) ||
     shouldNotBeStubbed(el, whitelist) ||
     isAlreadyStubbed(el, componentStubs)
   ) {
     return el
   }
 
-  if (typeof el === 'function' || typeof el === 'object') {
+  if (typeof el === 'function' || typeof el === 'object' && shouldStub) {
     return createStubFromComponent(el, el.name || 'anonymous')
   }
 
@@ -48,13 +50,25 @@ function resolveElement (
     return el
   }
 
-  const stub = createStubFromComponent(original || {}, el)
+  let stub
 
-  componentStubs.add(el)
+  if (shouldStub) {
+    stub = createStubFromComponent(original || {}, el)
+  } else if (
+    (typeof original === 'function' &&
+    (original.options || original.functional) &&
+    !(original instanceof _Vue)) || (original && original.extends)
+  ) {
+    stub = _Vue.extend(original.options)
+    stub.options.$_vueTestUtils_original = original
+  }
 
-  options.components = {
-    ...options.components,
-    [el]: stub
+  if (stub) {
+    options.components = {
+      ...options.components,
+      [el]: stub
+    }
+    componentStubs.add(el)
   }
 
   return el
@@ -78,12 +92,16 @@ export function addStubs (component, stubs, _Vue, shouldProxy) {
     const originalComponents = vm.$options.components
 
     const createElement = (el, ...args) => {
-      const element = resolveElement(
+      let element = el
+
+      element = resolveElement(
         el,
         vm.$options,
         componentStubs,
         originalComponents,
-        stubComponents
+        stubComponents,
+        shouldProxy,
+        _Vue
       )
 
       return originalCreateElement(element, ...args)
@@ -93,9 +111,7 @@ export function addStubs (component, stubs, _Vue, shouldProxy) {
     vm.$createElement = createElement
   }
 
-  if (shouldProxy) {
-    addHook(_Vue.options, 'beforeCreate', patchRender)
-  }
+  addHook(_Vue.options, 'beforeCreate', patchRender)
 
   addHook(_Vue.options, 'beforeMount', addStubComponentsMixin)
   // beforeCreate is for components created in node, which

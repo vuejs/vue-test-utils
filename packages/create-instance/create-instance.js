@@ -9,13 +9,11 @@ import {
   compileTemplate,
   compileTemplateForSlots
 } from 'shared/compile-template'
-import { isRequiredComponent } from 'shared/validators'
 import extractInstanceOptions from './extract-instance-options'
 import createFunctionalComponent from './create-functional-component'
 import { componentNeedsCompiling, isPlainObject } from 'shared/validators'
 import { validateSlots } from './validate-slots'
 import createScopedSlots from './create-scoped-slots'
-import { extendExtendedComponents } from './extend-extended-components'
 
 function vueExtendUnsupportedOption (option: string) {
   return `options.${option} is not supported for ` +
@@ -77,29 +75,6 @@ export default function createInstance (
     compileTemplate(component)
   }
 
-  // Replace globally registered components with components extended
-  // from localVue.
-  // Vue version must be 2.3 or greater, because of a bug resolving
-  // extended constructor options (https://github.com/vuejs/vue/issues/4976)
-  if (vueVersion > 2.2) {
-    for (const c in _Vue.options.components) {
-      if (!isRequiredComponent(c)) {
-        const comp = _Vue.options.components[c]
-        const options = comp.options ? comp.options : comp
-        const extendedComponent = _Vue.extend(options)
-        extendedComponent.options.$_vueTestUtils_original = comp
-        _Vue.component(c, extendedComponent)
-      }
-    }
-  }
-
-  extendExtendedComponents(
-    component,
-    _Vue,
-    options.logModifiedComponents,
-    instanceOptions.components
-  )
-
   if (component.options) {
     component.options._base = _Vue
   }
@@ -145,7 +120,6 @@ export default function createInstance (
   const parentComponentOptions = options.parentComponent || {}
   parentComponentOptions.provide = options.provide
   parentComponentOptions.doNotStubRender = true
-  parentComponentOptions.name = 'parent'
 
   parentComponentOptions.render = function (h) {
     const slots = options.slots
