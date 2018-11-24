@@ -81,7 +81,7 @@ export function createStubFromComponent (
   return {
     ...getCoreProperties(componentOptions),
     $_vueTestUtils_original: originalComponent,
-    doNotStubRender: true,
+    $_doNotStubChildren: true,
     render (h, context) {
       return h(
         tagName,
@@ -118,7 +118,7 @@ export function createStubFromString (
 
   return {
     ...getCoreProperties(componentOptions),
-    doNotStubRender: true,
+    $_doNotStubChildren: true,
     ...compileFromString(templateString)
   }
 }

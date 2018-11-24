@@ -14,6 +14,8 @@ import createFunctionalComponent from './create-functional-component'
 import { componentNeedsCompiling, isPlainObject } from 'shared/validators'
 import { validateSlots } from './validate-slots'
 import createScopedSlots from './create-scoped-slots'
+import { createStubsFromStubsObject } from 'shared/create-component-stubs'
+import { patchRender } from './patch-render'
 
 function vueExtendUnsupportedOption (option: string) {
   return `options.${option} is not supported for ` +
@@ -54,10 +56,15 @@ export default function createInstance (
   // instance options are options that are passed to the
   // root instance when it's instantiated
   const instanceOptions = extractInstanceOptions(options)
+  const stubComponentsObject = createStubsFromStubsObject(
+    component.components,
+    options.stubs
+  )
 
   addEventLogger(_Vue)
-  addMocks(options.mocks, _Vue)
-  addStubs(component, options.stubs, _Vue, options.shouldProxy)
+  addMocks(_Vue, options.mocks)
+  addStubs(_Vue, stubComponentsObject)
+  patchRender(_Vue, stubComponentsObject, options.shouldProxy)
 
   if (
     (component.options && component.options.functional) ||
@@ -119,7 +126,7 @@ export default function createInstance (
 
   const parentComponentOptions = options.parentComponent || {}
   parentComponentOptions.provide = options.provide
-  parentComponentOptions.doNotStubRender = true
+  parentComponentOptions.$_doNotStubChildren = true
 
   parentComponentOptions.render = function (h) {
     const slots = options.slots

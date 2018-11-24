@@ -21,7 +21,7 @@ export default function createFunctionalComponent (
   data.scopedSlots = createScopedSlots(mountingOptions.scopedSlots)
 
   return {
-    doNotStubRender: true,
+    $_doNotStubChildren: true,
     render (h: Function) {
       return h(
         component,

@@ -3,8 +3,8 @@ import $$Vue from 'vue'
 import { warn } from 'shared/util'
 
 export default function addMocks (
-  mockedProperties: Object | false = {},
-  Vue: Component
+  Vue: Component,
+  mockedProperties: Object | false = {}
 ): void {
   if (mockedProperties === false) {
     return
