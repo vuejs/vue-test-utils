@@ -445,4 +445,42 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
       })
     ).to.throw()
   })
+
+  it('stubs dynamic components', () => {
+    const ChildComponent = {
+      template: '<div />'
+    }
+    const TestComponent = {
+      template: `
+      <div>
+        <ChildComponent text="normal" />
+        <component :is="dataComponent" text="data" />
+        <component :is="computedComponent" text="computed" />
+        <component :is="methodComponent()" text="method" />
+      </div>
+      `,
+      components: { ChildComponent },
+
+      data () {
+        return {
+          dataComponent: ChildComponent
+        }
+      },
+
+      computed: {
+        computedComponent () {
+          return ChildComponent
+        }
+      },
+
+      methods: {
+        methodComponent () {
+          return ChildComponent
+        }
+      }
+    }
+    const wrapper = shallowMount(TestComponent)
+    expect(wrapper.text()).to.equal('')
+    expect(wrapper.findAll(ChildComponent).length).to.equal(4)
+  })
 })
