@@ -37,7 +37,7 @@ describeWithShallowAndMount('findAll', mountingMethod => {
 
   itDoNotRunIf(
     isRunningPhantomJS,
-    'returns an array of Wrapper of elements matching class selector passed if they are declared inside a slot',
+    'returns nodes matching class selector inside a slot',
     () => {
       const wrapper = mountingMethod(ComponentWithSlots, {
         slots: {
@@ -49,8 +49,8 @@ describeWithShallowAndMount('findAll', mountingMethod => {
     }
   )
 
-  it('returns an array of Wrapper of elements matching class selector passed if they are declared inside a functional component', () => {
-    const Component = {
+  it('returns nodes matching selector in a functional component', () => {
+    const TestComponent = {
       functional: true,
       render (h) {
         return h('p', {}, [
@@ -65,7 +65,7 @@ describeWithShallowAndMount('findAll', mountingMethod => {
       name: 'common'
     }
 
-    const wrapper = mountingMethod(Component)
+    const wrapper = mountingMethod(TestComponent)
     expect(wrapper.findAll('p').length).to.equal(3)
   })
 

@@ -11,9 +11,8 @@ export function warn (msg: string): void {
 
 const camelizeRE = /-(\w)/g
 export const camelize = (str: string): string => {
-  const camelizedStr = str.replace(
-    camelizeRE,
-    (_, c) => (c ? c.toUpperCase() : '')
+  const camelizedStr = str.replace(camelizeRE, (_, c) =>
+    c ? c.toUpperCase() : ''
   )
   return camelizedStr.charAt(0).toLowerCase() + camelizedStr.slice(1)
 }
@@ -34,3 +33,32 @@ export const hyphenate = (str: string): string =>
 export const vueVersion = Number(
   `${Vue.version.split('.')[0]}.${Vue.version.split('.')[1]}`
 )
+
+function hasOwnProperty (obj, prop) {
+  return Object.prototype.hasOwnProperty.call(obj, prop)
+}
+
+export function resolveComponent (id, components) {
+  /* istanbul ignore if */
+  if (typeof id !== 'string') {
+    return
+  }
+  // var components = options['components'];
+
+  // check local registration variations first
+  if (hasOwnProperty(components, id)) {
+    return components[id]
+  }
+  var camelizedId = camelize(id)
+  if (hasOwnProperty(components, camelizedId)) {
+    return components[camelizedId]
+  }
+  var PascalCaseId = capitalize(camelizedId)
+  if (hasOwnProperty(components, PascalCaseId)) {
+    return components[PascalCaseId]
+  }
+  // fallback to prototype chain
+  var res =
+    components[id] || components[camelizedId] || components[PascalCaseId]
+  return res
+}

@@ -112,6 +112,7 @@ export default function createInstance (
 
   // used to identify extended component using constructor
   Constructor.options.$_vueTestUtils_original = component
+
   if (options.slots) {
     compileTemplateForSlots(options.slots)
     // validate slots outside of the createSlots function so
@@ -143,6 +144,9 @@ export default function createInstance (
 
   const parentComponentOptions = options.parentComponent || {}
   parentComponentOptions.provide = options.provide
+  parentComponentOptions.doNotStubRender = true
+  parentComponentOptions.name = 'parent'
+
   parentComponentOptions.render = function (h) {
     const slots = options.slots
       ? createSlotVNodes(this, options.slots)
@@ -151,6 +155,7 @@ export default function createInstance (
       Constructor,
       {
         ref: 'vm',
+        name: 'root',
         on: options.listeners,
         attrs: {
           ...options.attrs,

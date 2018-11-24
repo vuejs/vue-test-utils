@@ -7,22 +7,16 @@ describeWithShallowAndMount('setProps', mountingMethod => {
     const prop1 = 'prop 1'
     const prop2 = 'prop 2'
     const propsData = { prop1: 'a prop', prop2 }
-    const TestComponent = {
-      render: h => h(ComponentWithProps, { props: propsData })
-    }
-    const wrapper = mountingMethod(TestComponent)
+    const wrapper = mountingMethod(ComponentWithProps, { propsData })
     wrapper.findAll(ComponentWithProps).setProps({ prop1 })
     expect(wrapper.find('.prop-1').element.textContent).to.equal(prop1)
     expect(wrapper.find('.prop-2').element.textContent).to.equal(prop2)
   })
 
   it('sets component props, and updates DOM when propsData was not initially passed', () => {
-    const TestComponent = {
-      render: h => h(ComponentWithProps)
-    }
     const prop1 = 'prop 1'
     const prop2 = 'prop s'
-    const wrapper = mountingMethod(TestComponent)
+    const wrapper = mountingMethod(ComponentWithProps)
     wrapper.findAll(ComponentWithProps).setProps({ prop1, prop2 })
     expect(wrapper.find('.prop-1').element.textContent).to.equal(prop1)
     expect(wrapper.find('.prop-2').element.textContent).to.equal(prop2)

@@ -29,9 +29,9 @@ export const functionalSFCsSupported = vueVersion > 2.4
 export const scopedSlotsSupported = vueVersion > 2
 
 const shallowAndMount =
-  process.env.TEST_ENV === 'node' ? [] : [mount, shallowMount]
+  process.env.TEST_ENV === 'node' ? [] : [shallowMount, mount]
 const shallowMountAndRender =
-  process.env.TEST_ENV === 'node' ? [renderToString] : [mount, shallowMount]
+  process.env.TEST_ENV === 'node' ? [renderToString] : [shallowMount, mount]
 
 export function describeWithShallowAndMount (spec, cb) {
   if (shallowAndMount.length > 0) {
