@@ -6,56 +6,57 @@ import { resolveComponent } from 'shared/util'
 import { isReservedTag } from 'shared/validators'
 import { addHook } from './add-hook'
 
-function stubComponent (
+const shouldNotBeStubbed = (el, whitelist) => resolveComponent(el, whitelist)
+const isAlreadyStubbed = (el, stubs) => stubs.has(el)
+
+const isDynamicComponent = cmp => {
+  return typeof cmp === 'function' &&
+    !cmp.options &&
+    !cmp.functional
+}
+
+function resolveElement (
   el,
   options,
   componentStubs,
   originalComponents,
   whitelist
 ) {
-  if (typeof el === 'string' && !isReservedTag(el)) {
-    if (componentStubs.has(el) || resolveComponent(el, whitelist)) {
-      return el
-    }
-
-    let original = resolveComponent(el, originalComponents)
-
-    if (
-      original &&
-      original.options &&
-      original.options.$_vueTestUtils_original
-    ) {
-      original = original.options.$_vueTestUtils_original
-    }
-
-    if (
-      typeof original === 'function' &&
-      !original.options &&
-      !original.functional
-    ) {
-      return el
-    }
-
-    const stub = createStubFromComponent(original || {}, el)
-
-    componentStubs.add(el)
-
-    options.components = {
-      ...options.components,
-      [el]: stub
-    }
-
-    return el
-  }
-
-  if (typeof el === 'function' && !el.options) {
+  if (
+    isReservedTag(el) ||
+    shouldNotBeStubbed(el, whitelist) ||
+    isAlreadyStubbed(el, componentStubs)
+  ) {
     return el
   }
 
   if (typeof el === 'function' || typeof el === 'object') {
-    const stub = createStubFromComponent(el, el.name || 'anonymous')
-    return stub
+    return createStubFromComponent(el, el.name || 'anonymous')
   }
+
+  let original = resolveComponent(el, originalComponents)
+
+  if (
+    original &&
+    original.options &&
+    original.options.$_vueTestUtils_original
+  ) {
+    original = original.options.$_vueTestUtils_original
+  }
+
+  if (isDynamicComponent(original)) {
+    return el
+  }
+
+  const stub = createStubFromComponent(original || {}, el)
+
+  componentStubs.add(el)
+
+  options.components = {
+    ...options.components,
+    [el]: stub
+  }
+
   return el
 }
 
@@ -77,7 +78,7 @@ export function addStubs (component, stubs, _Vue, shouldProxy) {
     const originalComponents = vm.$options.components
 
     const createElement = (el, ...args) => {
-      const comp = stubComponent(
+      const element = resolveElement(
         el,
         vm.$options,
         componentStubs,
@@ -85,7 +86,7 @@ export function addStubs (component, stubs, _Vue, shouldProxy) {
         stubComponents
       )
 
-      return originalCreateElement(comp, ...args)
+      return originalCreateElement(element, ...args)
     }
 
     vm._c = createElement

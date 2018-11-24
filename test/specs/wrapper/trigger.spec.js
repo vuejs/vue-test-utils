@@ -141,7 +141,6 @@ describeWithShallowAndMount('trigger', mountingMethod => {
         }
       }
       const wrapper = mountingMethod(TestComponent)
-      console.log(wrapper.html())
       wrapper.findAll('button').trigger('click')
     }
   )
