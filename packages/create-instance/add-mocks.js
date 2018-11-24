@@ -3,7 +3,7 @@ import $$Vue from 'vue'
 import { warn } from 'shared/util'
 
 export default function addMocks (
-  Vue: Component,
+  _Vue: Component,
   mockedProperties: Object | false = {}
 ): void {
   if (mockedProperties === false) {
@@ -12,7 +12,7 @@ export default function addMocks (
   Object.keys(mockedProperties).forEach(key => {
     try {
       // $FlowIgnore
-      Vue.prototype[key] = mockedProperties[key]
+      _Vue.prototype[key] = mockedProperties[key]
     } catch (e) {
       warn(
         `could not overwrite property ${key}, this is ` +
@@ -21,6 +21,6 @@ export default function addMocks (
       )
     }
     // $FlowIgnore
-    $$Vue.util.defineReactive(Vue, key, mockedProperties[key])
+    $$Vue.util.defineReactive(_Vue, key, mockedProperties[key])
   })
 }

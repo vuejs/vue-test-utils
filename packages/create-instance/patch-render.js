@@ -49,8 +49,8 @@ export function patchRender (_Vue, stubs, stubAllComponents) {
   // before they are rendered in shallow mode. We also need to ensure that
   // component constructors were created from the _Vue constructor. If not,
   // we must replace them with components created from the _Vue constructor
-  // before calling the original $createElement. This ensures that the component
-  // will have the correct instance properties and stubs when it renders.
+  // before calling the original $createElement. This ensures that components
+  // have the correct instance properties and stubs when they are rendered.
   function patchRenderMixin () {
     const vm = this
 
@@ -69,18 +69,18 @@ export function patchRender (_Vue, stubs, stubAllComponents) {
 
       if (isConstructor(el)) {
         if (stubAllComponents) {
-          const elem = createStubFromComponent(
+          const stub = createStubFromComponent(
             el,
             el.name || 'anonymous'
           )
-          return originalCreateElement(elem, ...args)
+          return originalCreateElement(stub, ...args)
         }
 
-        if (shouldExtend(el, _Vue)) {
-          return originalCreateElement(extend(el, _Vue), ...args)
-        }
+        const Constructor = shouldExtend(el, _Vue)
+          ? extend(el, _Vue)
+          : el
 
-        return originalCreateElement(el, ...args)
+        return originalCreateElement(Constructor, ...args)
       }
 
       if (typeof el === 'string') {

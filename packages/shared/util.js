@@ -39,12 +39,9 @@ function hasOwnProperty (obj, prop) {
 }
 
 export function resolveComponent (id: string, components: Object) {
-  /* istanbul ignore if */
   if (typeof id !== 'string') {
     return
   }
-  // var components = options['components'];
-
   // check local registration variations first
   if (hasOwnProperty(components, id)) {
     return components[id]
@@ -58,7 +55,5 @@ export function resolveComponent (id: string, components: Object) {
     return components[PascalCaseId]
   }
   // fallback to prototype chain
-  var res =
-    components[id] || components[camelizedId] || components[PascalCaseId]
-  return res
+  return components[id] || components[camelizedId] || components[PascalCaseId]
 }

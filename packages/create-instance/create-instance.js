@@ -136,7 +136,6 @@ export default function createInstance (
       Constructor,
       {
         ref: 'vm',
-        name: 'root',
         on: options.listeners,
         attrs: {
           ...options.attrs,
