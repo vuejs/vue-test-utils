@@ -58,6 +58,7 @@ export default function createInstance (
   const instanceOptions = extractInstanceOptions(options)
   const stubComponentsObject = createStubsFromStubsObject(
     component.components,
+    // $FlowIgnore
     options.stubs
   )
 

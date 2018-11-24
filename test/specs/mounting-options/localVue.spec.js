@@ -189,6 +189,9 @@ describeWithMountingMethods('options.localVue', mountingMethod => {
     const wrapper = mountingMethod(TestComponent, {
       localVue
     })
+    if (mountingMethod.name === 'renderToString') {
+      return
+    }
     expect(wrapper.findAll(ChildComponent).length).to.equal(1)
   })
 })
