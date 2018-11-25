@@ -10,10 +10,10 @@ export function warn (msg: string): void {
 }
 
 const camelizeRE = /-(\w)/g
+
 export const camelize = (str: string): string => {
-  const camelizedStr = str.replace(
-    camelizeRE,
-    (_, c) => (c ? c.toUpperCase() : '')
+  const camelizedStr = str.replace(camelizeRE, (_, c) =>
+    c ? c.toUpperCase() : ''
   )
   return camelizedStr.charAt(0).toLowerCase() + camelizedStr.slice(1)
 }
@@ -34,3 +34,41 @@ export const hyphenate = (str: string): string =>
 export const vueVersion = Number(
   `${Vue.version.split('.')[0]}.${Vue.version.split('.')[1]}`
 )
+
+function hasOwnProperty (obj, prop) {
+  return Object.prototype.hasOwnProperty.call(obj, prop)
+}
+
+export function resolveComponent (id: string, components: Object) {
+  if (typeof id !== 'string') {
+    return
+  }
+  // check local registration variations first
+  if (hasOwnProperty(components, id)) {
+    return components[id]
+  }
+  var camelizedId = camelize(id)
+  if (hasOwnProperty(components, camelizedId)) {
+    return components[camelizedId]
+  }
+  var PascalCaseId = capitalize(camelizedId)
+  if (hasOwnProperty(components, PascalCaseId)) {
+    return components[PascalCaseId]
+  }
+  // fallback to prototype chain
+  return components[id] || components[camelizedId] || components[PascalCaseId]
+}
+
+export function semVerGreaterThan (a: string, b: string) {
+  const pa = a.split('.')
+  const pb = b.split('.')
+  for (let i = 0; i < 3; i++) {
+    var na = Number(pa[i])
+    var nb = Number(pb[i])
+    if (na > nb) return true
+    if (nb > na) return false
+    if (!isNaN(na) && isNaN(nb)) return true
+    if (isNaN(na) && !isNaN(nb)) return false
+  }
+  return false
+}

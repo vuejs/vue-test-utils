@@ -3,11 +3,8 @@ import ComponentWithVIf from '~resources/components/component-with-v-if.vue'
 import { describeWithShallowAndMount } from '~resources/utils'
 
 describeWithShallowAndMount('setData', mountingMethod => {
-  it('sets component data and updates nested vm nodes when called on Vue instance', () => {
-    const TestComponent = {
-      render: h => h(ComponentWithVIf)
-    }
-    const wrapper = mountingMethod(TestComponent)
+  it('sets component data and updates nested vm nodes', () => {
+    const wrapper = mountingMethod(ComponentWithVIf)
     const componentArr = wrapper.findAll(ComponentWithVIf)
     expect(componentArr.at(0).findAll('.child.ready').length).to.equal(0)
     componentArr.setData({ ready: true })

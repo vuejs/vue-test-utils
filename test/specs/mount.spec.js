@@ -27,7 +27,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     expect(wrapper.vm).to.be.an('object')
   })
 
-  it('returns new VueWrapper with mounted Vue instance when root is functional component', () => {
+  it('returns new VueWrapper when root is functional component', () => {
     const FunctionalComponent = {
       functional: true,
       render (h) {
@@ -47,7 +47,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     expect(wrapper.findAll('p').length).to.equal(2)
   })
 
-  it('returns new VueWrapper with mounted Vue instance with props, if passed as propsData', () => {
+  it('returns new VueWrapper with correct props data', () => {
     const prop1 = { test: 'TEST' }
     const wrapper = mount(ComponentWithProps, { propsData: { prop1 }})
     expect(wrapper.vm).to.be.an('object')
@@ -229,31 +229,6 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
       })
     })
 
-  it('logs if component is extended', () => {
-    const msg =
-      `[vue-test-utils]: The child component <ChildComponent> has been modified to ensure ` +
-      `it is created with properties injected by Vue Test Utils. \n` +
-      `This is because the component was created with Vue.extend, ` +
-      `or uses the Vue Class Component decorator. \n` +
-      `Because the component has been modified, it is not possible ` +
-      `to find it with a component selector. To find the ` +
-      `component, you must stub it manually using the stubs mounting ` +
-      `option, or use a name or ref selector. \n` +
-      `You can hide this warning by setting the Vue Test Utils ` +
-      `config.logModifiedComponents option to false.`
-    const ChildComponent = Vue.extend({
-      template: '<span />'
-    })
-    const TestComponent = {
-      template: '<child-component />',
-      components: {
-        ChildComponent
-      }
-    }
-    mount(TestComponent)
-    expect(console.error).calledWith(msg)
-  })
-
   it('deletes mounting options before passing options to component', () => {
     const wrapper = mount(
       {
@@ -422,5 +397,22 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     }
     const wrapper = mount(Component, options)
     expect(wrapper.text()).to.equal('aBC')
+  })
+
+  it('handles inline components', () => {
+    const ChildComponent = {
+      render (h) {
+        h('p', this.$route.params)
+      }
+    }
+    const TestComponent = {
+      render: h => h(ChildComponent)
+    }
+    const localVue = createLocalVue()
+    localVue.prototype.$route = {}
+    const wrapper = mount(TestComponent, {
+      localVue
+    })
+    expect(wrapper.findAll(ChildComponent).length).to.equal(1)
   })
 })

@@ -81,6 +81,7 @@ export function createStubFromComponent (
   return {
     ...getCoreProperties(componentOptions),
     $_vueTestUtils_original: originalComponent,
+    $_doNotStubChildren: true,
     render (h, context) {
       return h(
         tagName,
@@ -117,6 +118,7 @@ export function createStubFromString (
 
   return {
     ...getCoreProperties(componentOptions),
+    $_doNotStubChildren: true,
     ...compileFromString(templateString)
   }
 }
@@ -171,61 +173,4 @@ export function createStubsFromStubsObject (
 
     return acc
   }, {})
-}
-
-function stubComponents (
-  components: Components,
-  stubbedComponents: Components
-): void {
-  for (const component in components) {
-    const cmp = components[component]
-    const componentOptions = typeof cmp === 'function'
-      ? cmp.extendOptions
-      : cmp
-
-    if (!componentOptions) {
-      stubbedComponents[component] = createStubFromComponent(
-        {},
-        component
-      )
-      return
-    }
-
-    stubbedComponents[component] = createStubFromComponent(
-      cmp,
-      component
-    )
-  }
-}
-
-export function createStubsForComponent (
-  component: Component
-): Components {
-  const stubbedComponents = {}
-
-  if (component.options) {
-    stubComponents(component.options.components, stubbedComponents)
-  }
-
-  if (component.components) {
-    stubComponents(component.components, stubbedComponents)
-  }
-
-  let extended = component.extends
-  while (extended) {
-    if (extended.components) {
-      stubComponents(extended.components, stubbedComponents)
-    }
-    extended = extended.extends
-  }
-
-  let extendOptions = component.extendOptions
-  while (extendOptions) {
-    if (extendOptions && extendOptions.components) {
-      stubComponents(extendOptions.components, stubbedComponents)
-    }
-    extendOptions = extendOptions.extendOptions
-  }
-
-  return stubbedComponents
 }

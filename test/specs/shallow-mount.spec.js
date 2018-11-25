@@ -29,14 +29,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
     expect(wrapper.vm).to.be.an('object')
   })
 
-  it('returns new VueWrapper of Vue localVue with all children stubbed', () => {
-    const wrapper = shallowMount(ComponentWithNestedChildren)
-    expect(wrapper.isVueInstance()).to.equal(true)
-    expect(wrapper.findAll(Component).length).to.equal(0)
-    expect(wrapper.findAll(ComponentWithChild).length).to.equal(1)
-  })
-
-  it('returns new VueWrapper of Vue localVue with all children stubbed', () => {
+  it('returns new VueWrapper with all children stubbed', () => {
     const wrapper = shallowMount(ComponentWithNestedChildren)
     expect(wrapper.isVueInstance()).to.equal(true)
     expect(wrapper.findAll(Component).length).to.equal(0)
@@ -47,6 +40,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
     const wrapper = shallowMount(ComponentWithNestedChildren)
     expect(wrapper.findAll(Component).length).to.equal(0)
     const mountedWrapper = mount(ComponentWithNestedChildren)
+
     expect(mountedWrapper.findAll(Component).length).to.equal(1)
   })
 
@@ -87,7 +81,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
         <child>
           <p slot="header">Hello</p>
           <p slot="footer">World</p>
-      </child>
+        </child>
       `
     }
     const wrapper = shallowMount(TestComponent, {
@@ -359,17 +353,13 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
   it('works correctly with find on recursive components', () => {
     // this is for a bug that I've been unable to replicate.
     // Sometimes components mutate their components, in this line—
-    RecursiveComponent.components = {
-      RecursiveComponent: { render: h => h('div') }
-    }
+    const wrapper = shallowMount(RecursiveComponent, {
+      propsData: {
+        items: ['', '']
+      }
+    })
 
-    expect(
-      shallowMount(RecursiveComponent, {
-        propsData: {
-          items: ['', '']
-        }
-      }).findAll(RecursiveComponent).length
-    ).to.equal(3)
+    expect(wrapper.findAll(RecursiveComponent).length).to.equal(3)
   })
 
   it('handles extended stubs', () => {
@@ -446,5 +436,43 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
         }
       })
     ).to.throw()
+  })
+
+  it('stubs dynamic components', () => {
+    const ChildComponent = {
+      template: '<div />'
+    }
+    const TestComponent = {
+      template: `
+      <div>
+        <ChildComponent text="normal" />
+        <component :is="dataComponent" text="data" />
+        <component :is="computedComponent" text="computed" />
+        <component :is="methodComponent()" text="method" />
+      </div>
+      `,
+      components: { ChildComponent },
+
+      data () {
+        return {
+          dataComponent: ChildComponent
+        }
+      },
+
+      computed: {
+        computedComponent () {
+          return ChildComponent
+        }
+      },
+
+      methods: {
+        methodComponent () {
+          return ChildComponent
+        }
+      }
+    }
+    const wrapper = shallowMount(TestComponent)
+    expect(wrapper.text()).to.equal('')
+    expect(wrapper.findAll(ChildComponent).length).to.equal(4)
   })
 })

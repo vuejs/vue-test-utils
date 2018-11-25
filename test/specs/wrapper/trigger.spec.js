@@ -126,7 +126,7 @@ describeWithShallowAndMount('trigger', mountingMethod => {
   })
 
   itDoNotRunIf(
-    !scopedSlotsSupported,
+    !scopedSlotsSupported || mountingMethod.name === 'shallowMount',
     'handles instances without update watchers',
     () => {
       const vm = new Vue()
@@ -141,7 +141,6 @@ describeWithShallowAndMount('trigger', mountingMethod => {
         }
       }
       const wrapper = mountingMethod(TestComponent)
-
       wrapper.findAll('button').trigger('click')
     }
   )
