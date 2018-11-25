@@ -10,6 +10,7 @@ export function warn (msg: string): void {
 }
 
 const camelizeRE = /-(\w)/g
+
 export const camelize = (str: string): string => {
   const camelizedStr = str.replace(camelizeRE, (_, c) =>
     c ? c.toUpperCase() : ''
@@ -56,4 +57,18 @@ export function resolveComponent (id: string, components: Object) {
   }
   // fallback to prototype chain
   return components[id] || components[camelizedId] || components[PascalCaseId]
+}
+
+export function semVerGreaterThan (a: string, b: string) {
+  const pa = a.split('.')
+  const pb = b.split('.')
+  for (let i = 0; i < 3; i++) {
+    var na = Number(pa[i])
+    var nb = Number(pb[i])
+    if (na > nb) return true
+    if (nb > na) return false
+    if (!isNaN(na) && isNaN(nb)) return true
+    if (isNaN(na) && !isNaN(nb)) return false
+  }
+  return false
 }
