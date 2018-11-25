@@ -12,10 +12,10 @@
 
 ``` html
 <template>
-    <div class="text-align-center">
-      <input type="text" @input="actionInputIfTrue" />
-      <button @click="actionClick()">Click</button>
-    </div>
+  <div class="text-align-center">
+    <input type="text" @input="actionInputIfTrue" />
+    <button @click="actionClick()">Click</button>
+  </div>
 </template>
 
 <script>
@@ -114,10 +114,10 @@ describe('Actions.vue', () => {
 
 ``` html
 <template>
-    <div>
-      <p v-if="inputValue">{{inputValue}}</p>
-      <p v-if="clicks">{{clicks}}</p>
-    </div>
+  <div>
+    <p v-if="inputValue">{{inputValue}}</p>
+    <p v-if="clicks">{{clicks}}</p>
+  </div>
 </template>
 
 <script>
