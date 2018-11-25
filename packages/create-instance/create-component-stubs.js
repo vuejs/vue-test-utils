@@ -6,16 +6,16 @@ import {
   camelize,
   capitalize,
   hyphenate
-} from './util'
+} from '../shared/util'
 import {
   componentNeedsCompiling,
   templateContainsComponent,
   isVueComponent
-} from './validators'
+} from '../shared/validators'
 import {
   compileTemplate,
   compileFromString
-} from './compile-template'
+} from '../shared/compile-template'
 
 function isVueComponentStub (comp): boolean {
   return comp && comp.template || isVueComponent(comp)
@@ -68,10 +68,12 @@ export function createStubFromComponent (
   originalComponent: Component,
   name: string
 ): Component {
-  const componentOptions = typeof originalComponent === 'function'
-    ? originalComponent.extendOptions
-    : originalComponent
-  const tagName = `${name}-stub`
+  const componentOptions =
+    typeof originalComponent === 'function' && originalComponent.cid
+      ? originalComponent.extendOptions
+      : originalComponent
+
+  const tagName = `${name || 'anonymous'}-stub`
 
   // ignoreElements does not exist in Vue 2.0.x
   if (Vue.config.ignoredElements) {
@@ -112,9 +114,10 @@ export function createStubFromString (
     throwError('options.stub cannot contain a circular reference')
   }
 
-  const componentOptions = typeof originalComponent === 'function'
-    ? originalComponent.extendOptions
-    : originalComponent
+  const componentOptions =
+    typeof originalComponent === 'function' && originalComponent.cid
+      ? originalComponent.extendOptions
+      : originalComponent
 
   return {
     ...getCoreProperties(componentOptions),
@@ -152,9 +155,10 @@ export function createStubsFromStubsObject (
     }
 
     if (typeof stub === 'string') {
+      const component = resolveComponent(originalComponents, stubName)
       acc[stubName] = createStubFromString(
         stub,
-        originalComponents[stubName],
+        component,
         stubName
       )
       return acc
