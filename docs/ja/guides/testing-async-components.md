@@ -46,26 +46,22 @@ import { shallowMount } from '@vue/test-utils'
 import Foo from './Foo'
 jest.mock('axios')
 
-test('Foo', () => {
-  it('fetches async when a button is clicked', () => {
-    const wrapper = shallowMount(Foo)
-    wrapper.find('button').trigger('click')
-    expect(wrapper.vm.value).toBe('value')
-  })
+it('fetches async when a button is clicked', () => {
+  const wrapper = shallowMount(Foo)
+  wrapper.find('button').trigger('click')
+  expect(wrapper.vm.value).toBe('value')
 })
 ```
 
 `fetchResults` 内の Promise が resolve する前にアサーションが呼ばれるので、このテストは現時点では失敗します。ほとんどのユニットテストライブラリはテストが完了したことをテストランナーに知らせるためのコールバック関数を提供します。Jest と Mocha は両方とも `done` を使います。アサーションが行われる前に確実に各 Promise が resolve するために `done` を `$nextTick` や `setTimeout` と組み合わせて使うことができます。
 
 ``` js
-test('Foo', () => {
-  it('fetches async when a button is clicked', (done) => {
-    const wrapper = shallowMount(Foo)
-    wrapper.find('button').trigger('click')
-    wrapper.vm.$nextTick(() => {
-      expect(wrapper.vm.value).toBe('value')
-      done()
-    })
+it('fetches async when a button is clicked', (done) => {
+  const wrapper = shallowMount(Foo)
+  wrapper.find('button').trigger('click')
+  wrapper.vm.$nextTick(() => {
+    expect(wrapper.vm.value).toBe('value')
+    done()
   })
 })
 ```
@@ -82,13 +78,11 @@ import flushPromises from 'flush-promises'
 import Foo from './Foo'
 jest.mock('axios')
 
-test('Foo', () => {
-  it('fetches async when a button is clicked', async () => {
-    const wrapper = shallowMount(Foo)
-    wrapper.find('button').trigger('click')
-    await flushPromises()
-    expect(wrapper.vm.value).toBe('value')
-  })
+it('fetches async when a button is clicked', async () => {
+  const wrapper = shallowMount(Foo)
+  wrapper.find('button').trigger('click')
+  await flushPromises()
+  expect(wrapper.vm.value).toBe('value')
 })
 ```
 
