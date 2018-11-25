@@ -556,8 +556,15 @@ describeWithMountingMethods('options.stub', mountingMethod => {
         DynamicHello3: StubComponent
       }
     })
-    expect(wrapper.html()).to.contain('span')
-    expect(wrapper.html()).to.contain('dynamichello2-stub')
-    expect(wrapper.html()).to.contain('h1')
+    const HTML =
+    mountingMethod.name === 'renderToString' ? wrapper : wrapper.html()
+
+    expect(HTML).to.contain('span')
+    expect(HTML).to.contain(
+      mountingMethod.name === 'renderToString'
+        ? 'DymaicHello2-stub'
+        : 'dynamichello2-stub'
+    )
+    expect(HTML).to.contain('h1')
   })
 })
