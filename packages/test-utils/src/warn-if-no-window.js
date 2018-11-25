@@ -8,7 +8,7 @@ export default function warnIfNoWindow (): void {
       `window is undefined, vue-test-utils needs to be ` +
       `run in a browser environment. \n` +
       `You can run the tests in node using jsdom \n` +
-      `See https://vue-test-utils.vuejs.org/guides/common-tips.html ` +
+      `See https://vue-test-utils.vuejs.org/guides/#browser-environment ` +
       `for more details.`
     )
   }
