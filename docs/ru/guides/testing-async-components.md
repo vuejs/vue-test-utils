@@ -46,26 +46,22 @@ import { shallowMount } from '@vue/test-utils'
 import Foo from './Foo'
 jest.mock('axios')
 
-test('Foo', () => {
-  it('делает асинхронный запрос при нажатии кнопки', () => {
-    const wrapper = shallowMount(Foo)
-    wrapper.find('button').trigger('click')
-    expect(wrapper.vm.value).toBe('value')
-  })
+it('делает асинхронный запрос при нажатии кнопки', () => {
+  const wrapper = shallowMount(Foo)
+  wrapper.find('button').trigger('click')
+  expect(wrapper.vm.value).toBe('value')
 })
 ```
 
 В настоящее время этот тест не будет успешно проходить, потому что проверка значения вызывается до разрешения промиса `fetchResults`. Большинство библиотек для модульного тестирования предоставляют коллбэк, чтобы предоставить возможность определять когда тест должен будет завершаться. Jest и Mocha используют `done`. Мы можем использовать `done` в комбинации с `$nextTick` или `setTimeout`, чтобы гарантировать, что любые промисы будут разрешены перед проверками.
 
 ``` js
-test('Foo', () => {
-  it('делает асинхронный запрос при нажатии кнопки', (done) => {
-    const wrapper = shallowMount(Foo)
-    wrapper.find('button').trigger('click')
-    wrapper.vm.$nextTick(() => {
-      expect(wrapper.vm.value).toBe('value')
-      done()
-    })
+it('делает асинхронный запрос при нажатии кнопки', (done) => {
+  const wrapper = shallowMount(Foo)
+  wrapper.find('button').trigger('click')
+  wrapper.vm.$nextTick(() => {
+    expect(wrapper.vm.value).toBe('value')
+    done()
   })
 })
 ```
@@ -82,13 +78,11 @@ import flushPromises from 'flush-promises'
 import Foo from './Foo'
 jest.mock('axios')
 
-test('Foo', () => {
-  it('делает асинхронный запрос при нажатии кнопки', async () => {
-    const wrapper = shallowMount(Foo)
-    wrapper.find('button').trigger('click')
-    await flushPromises()
-    expect(wrapper.vm.value).toBe('value')
-  })
+it('делает асинхронный запрос при нажатии кнопки', async () => {
+  const wrapper = shallowMount(Foo)
+  wrapper.find('button').trigger('click')
+  await flushPromises()
+  expect(wrapper.vm.value).toBe('value')
 })
 ```
 

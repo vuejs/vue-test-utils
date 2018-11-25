@@ -46,26 +46,22 @@ import { shallowMount } from '@vue/test-utils'
 import Foo from './Foo'
 jest.mock('axios')
 
-test('Foo', () => {
-  it('fetches async when a button is clicked', () => {
-    const wrapper = shallowMount(Foo)
-    wrapper.find('button').trigger('click')
-    expect(wrapper.vm.value).toBe('value')
-  })
+it('fetches async when a button is clicked', () => {
+  const wrapper = shallowMount(Foo)
+  wrapper.find('button').trigger('click')
+  expect(wrapper.vm.value).toBe('value')
 })
 ```
 
 This test currently fails because the assertion is called before the promise in `fetchResults` resolves. Most unit test libraries provide a callback to let the runner know when the test is complete. Jest and Mocha both use `done`. We can use `done` in combination with `$nextTick` or `setTimeout` to ensure any promises resolve before the assertion is made. 
 
 ``` js
-test('Foo', () => {
-  it('fetches async when a button is clicked', (done) => {
-    const wrapper = shallowMount(Foo)
-    wrapper.find('button').trigger('click')
-    wrapper.vm.$nextTick(() => {
-      expect(wrapper.vm.value).toBe('value')
-      done()
-    })
+it('fetches async when a button is clicked', (done) => {
+  const wrapper = shallowMount(Foo)
+  wrapper.find('button').trigger('click')
+  wrapper.vm.$nextTick(() => {
+    expect(wrapper.vm.value).toBe('value')
+    done()
   })
 })
 ```
@@ -82,13 +78,11 @@ import flushPromises from 'flush-promises'
 import Foo from './Foo'
 jest.mock('axios')
 
-test('Foo', () => {
-  it('fetches async when a button is clicked', async () => {
-    const wrapper = shallowMount(Foo)
-    wrapper.find('button').trigger('click')
-    await flushPromises()
-    expect(wrapper.vm.value).toBe('value')
-  })
+it('fetches async when a button is clicked', async () => {
+  const wrapper = shallowMount(Foo)
+  wrapper.find('button').trigger('click')
+  await flushPromises()
+  expect(wrapper.vm.value).toBe('value')
 })
 ```
 
