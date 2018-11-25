@@ -1,6 +1,4 @@
-import {
-  createStubFromComponent
-} from 'shared/create-component-stubs'
+import { createStubFromComponent } from 'shared/create-component-stubs'
 import { resolveComponent, semVerGreaterThan } from 'shared/util'
 import { isReservedTag } from 'shared/validators'
 import { addHook } from './add-hook'
@@ -18,10 +16,10 @@ const LIFECYCLE_HOOK = semVerGreaterThan(Vue.version, '2.1.8')
   : 'beforeMount'
 
 function shouldExtend (component, _Vue) {
-  return (typeof component === 'function' &&
-  (component.options || component.functional) &&
-  !(component instanceof _Vue)) ||
-  (component && component.extends)
+  return (
+    (typeof component === 'function' && !isDynamicComponent(component)) ||
+    (component && component.extends)
+  )
 }
 
 function extend (component, _Vue) {
@@ -42,14 +40,14 @@ function createStubIfNeeded (shouldStub, component, _Vue, el) {
 
 function shouldNotBeStubbed (el, whitelist, modifiedComponents) {
   return (
-    typeof el === 'string' && isReservedTag(el) ||
+    (typeof el === 'string' && isReservedTag(el)) ||
     isWhitelisted(el, whitelist) ||
     isAlreadyStubbed(el, modifiedComponents)
   )
 }
 
 function isConstructor (el) {
-  return (typeof el === 'function')
+  return typeof el === 'function'
 }
 
 export function patchRender (_Vue, stubs, stubAllComponents) {
@@ -77,16 +75,11 @@ export function patchRender (_Vue, stubs, stubAllComponents) {
 
       if (isConstructor(el)) {
         if (stubAllComponents) {
-          const stub = createStubFromComponent(
-            el,
-            el.name || 'anonymous'
-          )
+          const stub = createStubFromComponent(el, el.name || 'anonymous')
           return originalCreateElement(stub, ...args)
         }
 
-        const Constructor = shouldExtend(el, _Vue)
-          ? extend(el, _Vue)
-          : el
+        const Constructor = shouldExtend(el, _Vue) ? extend(el, _Vue) : el
 
         return originalCreateElement(Constructor, ...args)
       }
@@ -106,12 +99,7 @@ export function patchRender (_Vue, stubs, stubAllComponents) {
           return originalCreateElement(el, ...args)
         }
 
-        const stub = createStubIfNeeded(
-          stubAllComponents,
-          original,
-          _Vue,
-          el
-        )
+        const stub = createStubIfNeeded(stubAllComponents, original, _Vue, el)
 
         if (stub) {
           vm.$options.components = {
