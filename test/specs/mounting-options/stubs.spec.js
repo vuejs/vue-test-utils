@@ -562,7 +562,7 @@ describeWithMountingMethods('options.stub', mountingMethod => {
     expect(HTML).to.contain('span')
     expect(HTML).to.contain(
       mountingMethod.name === 'renderToString'
-        ? 'DymaicHello2-stub'
+        ? 'DynamicHello2-stub'
         : 'dynamichello2-stub'
     )
     expect(HTML).to.contain('h1')
