@@ -1,4 +1,4 @@
-import { createStubFromComponent } from 'shared/create-component-stubs'
+import { createStubFromComponent } from './create-component-stubs'
 import { resolveComponent, semVerGreaterThan } from 'shared/util'
 import { isReservedTag } from 'shared/validators'
 import { addHook } from './add-hook'

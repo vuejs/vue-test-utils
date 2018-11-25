@@ -532,4 +532,32 @@ describeWithMountingMethods('options.stub', mountingMethod => {
       expect(fn).to.throw()
         .with.property('message', message)
     })
+
+  it('works with async components', () => {
+    const StubComponent = {
+      template: '<h1 />'
+    }
+    const TestComponent = {
+      template: `<div>
+      <dynamic-hello />
+      <dynamic-hello-2 />
+      <dynamic-hello-3 />
+      </div>`,
+      components: {
+        DynamicHello: () => import('~resources/components/component.vue'),
+        DynamicHello2: () => import('~resources/components/component.vue'),
+        DynamicHello3: () => import('~resources/components/component.vue')
+      }
+    }
+    const wrapper = mountingMethod(TestComponent, {
+      stubs: {
+        DynamicHello: '<span />',
+        DynamicHello2: true,
+        DynamicHello3: StubComponent
+      }
+    })
+    expect(wrapper.html()).to.contain('span')
+    expect(wrapper.html()).to.contain('dynamichello2-stub')
+    expect(wrapper.html()).to.contain('h1')
+  })
 })

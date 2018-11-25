@@ -14,7 +14,7 @@ import createFunctionalComponent from './create-functional-component'
 import { componentNeedsCompiling, isPlainObject } from 'shared/validators'
 import { validateSlots } from './validate-slots'
 import createScopedSlots from './create-scoped-slots'
-import { createStubsFromStubsObject } from 'shared/create-component-stubs'
+import { createStubsFromStubsObject } from './create-component-stubs'
 import { patchRender } from './patch-render'
 
 function vueExtendUnsupportedOption (option: string) {
