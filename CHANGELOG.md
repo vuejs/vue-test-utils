@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.0.0-beta.26"></a>
+# [1.0.0-beta.26](https://github.com/vuejs/vue-test-utils/compare/v1.0.0-beta.25...v1.0.0-beta.26) (2018-11-26)
+
+
+### Bug Fixes
+
+* **docs:** replaced `unit script` with `test script` ([#1001](https://github.com/vuejs/vue-test-utils/issues/1001)) ([1576284](https://github.com/vuejs/vue-test-utils/commit/1576284))
+* add functions to scoped slots typing ([#1022](https://github.com/vuejs/vue-test-utils/issues/1022)) ([8db0c20](https://github.com/vuejs/vue-test-utils/commit/8db0c20))
+* create stubs in render ([#1038](https://github.com/vuejs/vue-test-utils/issues/1038)) ([e1fd705](https://github.com/vuejs/vue-test-utils/commit/e1fd705)), closes [#973](https://github.com/vuejs/vue-test-utils/issues/973) [#994](https://github.com/vuejs/vue-test-utils/issues/994) [#995](https://github.com/vuejs/vue-test-utils/issues/995)
+* do not remove cached constructors ([#962](https://github.com/vuejs/vue-test-utils/issues/962)) ([71ec3b9](https://github.com/vuejs/vue-test-utils/commit/71ec3b9))
+* render all slots inside a <template> vnode ([#979](https://github.com/vuejs/vue-test-utils/issues/979)) ([c04d3bf](https://github.com/vuejs/vue-test-utils/commit/c04d3bf))
+* stop extending from constructor functions ([#1014](https://github.com/vuejs/vue-test-utils/issues/1014)) ([2648213](https://github.com/vuejs/vue-test-utils/commit/2648213))
+* support async components in stubs ([#1039](https://github.com/vuejs/vue-test-utils/issues/1039)) ([6a4e19d](https://github.com/vuejs/vue-test-utils/commit/6a4e19d)), closes [#1026](https://github.com/vuejs/vue-test-utils/issues/1026)
+* use correct event interface ([#977](https://github.com/vuejs/vue-test-utils/issues/977)) ([8771b8f](https://github.com/vuejs/vue-test-utils/commit/8771b8f))
+
+
+### Features
+
+* pass listeners to functional components ([#1036](https://github.com/vuejs/vue-test-utils/issues/1036)) ([7a1a49e](https://github.com/vuejs/vue-test-utils/commit/7a1a49e))
+* support lazily added components ([#1005](https://github.com/vuejs/vue-test-utils/issues/1005)) ([3653c60](https://github.com/vuejs/vue-test-utils/commit/3653c60))
+* undefined attributes parsed as $attrs ([#1029](https://github.com/vuejs/vue-test-utils/issues/1029)) ([0d3e46d](https://github.com/vuejs/vue-test-utils/commit/0d3e46d))
+
+
+### BREAKING CHANGES
+
+* The tag name rendered by snapshots will use the rendered component tag, rather than the registered component name
+
+
+
+
 <a name="1.0.0-beta.25"></a>
 # [1.0.0-beta.25](https://github.com/vuejs/vue-test-utils/compare/v1.0.0-beta.24...v1.0.0-beta.25) (2018-09-08)
 
