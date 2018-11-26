@@ -6,54 +6,6 @@
 
 Vue = Vue && Vue.hasOwnProperty('default') ? Vue['default'] : Vue;
 
-// 
-
-function throwError (msg) {
-  throw new Error(("[vue-test-utils]: " + msg))
-}
-
-function warn (msg) {
-  console.error(("[vue-test-utils]: " + msg));
-}
-
-var camelizeRE = /-(\w)/g;
-var camelize = function (str) {
-  var camelizedStr = str.replace(
-    camelizeRE,
-    function (_, c) { return (c ? c.toUpperCase() : ''); }
-  );
-  return camelizedStr.charAt(0).toLowerCase() + camelizedStr.slice(1)
-};
-
-/**
- * Capitalize a string.
- */
-var capitalize = function (str) { return str.charAt(0).toUpperCase() + str.slice(1); };
-
-/**
- * Hyphenate a camelCase string.
- */
-var hyphenateRE = /\B([A-Z])/g;
-var hyphenate = function (str) { return str.replace(hyphenateRE, '-$1').toLowerCase(); };
-
-var vueVersion = Number(
-  ((Vue.version.split('.')[0]) + "." + (Vue.version.split('.')[1]))
-);
-
-// 
-
-function warnIfNoWindow () {
-  if (typeof window === 'undefined') {
-    throwError(
-      "window is undefined, vue-test-utils needs to be " +
-      "run in a browser environment. \n" +
-      "You can run the tests in node using jsdom \n" +
-      "See https://vue-test-utils.vuejs.org/guides/common-tips.html " +
-      "for more details."
-    );
-  }
-}
-
 if (typeof Element !== 'undefined' && !Element.prototype.matches) {
   Element.prototype.matches =
     Element.prototype.matchesSelector ||
@@ -92,6 +44,77 @@ if (typeof Object.assign !== 'function') {
       return output
     };
   })();
+}
+
+// 
+
+function throwError (msg) {
+  throw new Error(("[vue-test-utils]: " + msg))
+}
+
+function warn (msg) {
+  console.error(("[vue-test-utils]: " + msg));
+}
+
+var camelizeRE = /-(\w)/g;
+
+var camelize = function (str) {
+  var camelizedStr = str.replace(camelizeRE, function (_, c) { return c ? c.toUpperCase() : ''; }
+  );
+  return camelizedStr.charAt(0).toLowerCase() + camelizedStr.slice(1)
+};
+
+/**
+ * Capitalize a string.
+ */
+var capitalize = function (str) { return str.charAt(0).toUpperCase() + str.slice(1); };
+
+/**
+ * Hyphenate a camelCase string.
+ */
+var hyphenateRE = /\B([A-Z])/g;
+var hyphenate = function (str) { return str.replace(hyphenateRE, '-$1').toLowerCase(); };
+
+var vueVersion = Number(
+  ((Vue.version.split('.')[0]) + "." + (Vue.version.split('.')[1]))
+);
+
+function hasOwnProperty (obj, prop) {
+  return Object.prototype.hasOwnProperty.call(obj, prop)
+}
+
+function resolveComponent (id, components) {
+  if (typeof id !== 'string') {
+    return
+  }
+  // check local registration variations first
+  if (hasOwnProperty(components, id)) {
+    return components[id]
+  }
+  var camelizedId = camelize(id);
+  if (hasOwnProperty(components, camelizedId)) {
+    return components[camelizedId]
+  }
+  var PascalCaseId = capitalize(camelizedId);
+  if (hasOwnProperty(components, PascalCaseId)) {
+    return components[PascalCaseId]
+  }
+  // fallback to prototype chain
+  return components[id] || components[camelizedId] || components[PascalCaseId]
+}
+
+function semVerGreaterThan (a, b) {
+  var pa = a.split('.');
+  var pb = b.split('.');
+  for (var i = 0; i < 3; i++) {
+    var na = Number(pa[i]);
+    var nb = Number(pb[i]);
+    if (na > nb) { return true }
+    if (nb > na) { return false }
+    if (!isNaN(na) && isNaN(nb)) { return true }
+    if (isNaN(na) && !isNaN(nb)) { return false }
+  }
+  return false
 }
 
 // 
@@ -185,11 +208,44 @@ function isPlainObject (obj) {
   return Object.prototype.toString.call(obj) === '[object Object]'
 }
 
-function isRequiredComponent (name) {
-  return (
-    name === 'KeepAlive' || name === 'Transition' || name === 'TransitionGroup'
-  )
+function makeMap (
+  str,
+  expectsLowerCase
+) {
+  var map = Object.create(null);
+  var list = str.split(',');
+  for (var i = 0; i < list.length; i++) {
+    map[list[i]] = true;
+  }
+  return expectsLowerCase
+    ? function (val) { return map[val.toLowerCase()] }
+    : function (val) { return map[val] }
 }
+
+var isHTMLTag = makeMap(
+  'html,body,base,head,link,meta,style,title,' +
+  'address,article,aside,footer,header,h1,h2,h3,h4,h5,h6,hgroup,nav,section,' +
+  'div,dd,dl,dt,figcaption,figure,picture,hr,img,li,main,ol,p,pre,ul,' +
+  'a,b,abbr,bdi,bdo,br,cite,code,data,dfn,em,i,kbd,mark,q,rp,rt,rtc,ruby,' +
+  's,samp,small,span,strong,sub,sup,time,u,var,wbr,area,audio,map,track,' +
+  'embed,object,param,source,canvas,script,noscript,del,ins,' +
+  'caption,col,colgroup,table,thead,tbody,td,th,tr,video,' +
+  'button,datalist,fieldset,form,input,label,legend,meter,optgroup,option,' +
+  'output,progress,select,textarea,' +
+  'details,dialog,menu,menuitem,summary,' +
+  'content,element,shadow,template,blockquote,iframe,tfoot'
+);
+
+// this map is intentionally selective, only covering SVG elements that may
+// contain child elements.
+var isSVG = makeMap(
+  'svg,animate,circle,clippath,cursor,defs,desc,ellipse,filter,font-face,' +
+  'foreignObject,g,glyph,image,line,marker,mask,missing-glyph,path,pattern,' +
+  'polygon,polyline,rect,switch,symbol,text,textpath,tspan,use,view',
+  true
+);
+
+var isReservedTag = function (tag) { return isHTMLTag(tag) || isSVG(tag); };
 
 var NAME_SELECTOR = 'NAME_SELECTOR';
 var COMPONENT_SELECTOR = 'COMPONENT_SELECTOR';
@@ -1107,6 +1163,590 @@ function recursivelySetData (vm, target, data) {
   });
 }
 
+var abort = {"eventInterface":"Event","bubbles":false,"cancelable":false};
+var afterprint = {"eventInterface":"Event","bubbles":false,"cancelable":false};
+var animationend = {"eventInterface":"AnimationEvent","bubbles":true,"cancelable":false};
+var animationiteration = {"eventInterface":"AnimationEvent","bubbles":true,"cancelable":false};
+var animationstart = {"eventInterface":"AnimationEvent","bubbles":true,"cancelable":false};
+var appinstalled = {"eventInterface":"Event","bubbles":false,"cancelable":false};
+var audioprocess = {"eventInterface":"AudioProcessingEvent"};
+var audioend = {"eventInterface":"Event","bubbles":false,"cancelable":false};
+var audiostart = {"eventInterface":"Event","bubbles":false,"cancelable":false};
+var beforeprint = {"eventInterface":"Event","bubbles":false,"cancelable":false};
+var beforeunload = {"eventInterface":"BeforeUnloadEvent","bubbles":false,"cancelable":true};
+var beginEvent = {"eventInterface":"TimeEvent","bubbles":false,"cancelable":false};
+var blur = {"eventInterface":"FocusEvent","bubbles":false,"cancelable":false};
+var boundary = {"eventInterface":"SpeechSynthesisEvent","bubbles":false,"cancelable":false};
+var cached = {"eventInterface":"Event","bubbles":false,"cancelable":false};
+var canplay = {"eventInterface":"Event","bubbles":false,"cancelable":false};
+var canplaythrough = {"eventInterface":"Event","bubbles":false,"cancelable":false};
+var change = {"eventInterface":"Event","bubbles":true,"cancelable":false};
+var chargingchange = {"eventInterface":"Event","bubbles":false,"cancelable":false};
+var chargingtimechange = {"eventInterface":"Event","bubbles":false,"cancelable":false};
+var checking = {"eventInterface":"Event","bubbles":false,"cancelable":false};
+var click = {"eventInterface":"MouseEvent","bubbles":true,"cancelable":true};
+var close = {"eventInterface":"Event","bubbles":false,"cancelable":false};
+var complete = {"eventInterface":"OfflineAudioCompletionEvent"};
+var compositionend = {"eventInterface":"CompositionEvent","bubbles":true,"cancelable":true};
+var compositionstart = {"eventInterface":"CompositionEvent","bubbles":true,"cancelable":true};
+var compositionupdate = {"eventInterface":"CompositionEvent","bubbles":true,"cancelable":false};
+var contextmenu = {"eventInterface":"MouseEvent","bubbles":true,"cancelable":true};
+var copy = {"eventInterface":"ClipboardEvent"};
+var cut = {"eventInterface":"ClipboardEvent","bubbles":true,"cancelable":true};
+var dblclick = {"eventInterface":"MouseEvent","bubbles":true,"cancelable":true};
+var devicechange = {"eventInterface":"Event","bubbles":false,"cancelable":false};
+var devicelight = {"eventInterface":"DeviceLightEvent","bubbles":false,"cancelable":false};
+var devicemotion = {"eventInterface":"DeviceMotionEvent","bubbles":false,"cancelable":false};
+var deviceorientation = {"eventInterface":"DeviceOrientationEvent","bubbles":false,"cancelable":false};
+var deviceproximity = {"eventInterface":"DeviceProximityEvent","bubbles":false,"cancelable":false};
+var dischargingtimechange = {"eventInterface":"Event","bubbles":false,"cancelable":false};
+var DOMActivate = {"eventInterface":"UIEvent","bubbles":true,"cancelable":true};
+var DOMAttributeNameChanged = {"eventInterface":"MutationNameEvent","bubbles":true,"cancelable":true};
+var DOMAttrModified = {"eventInterface":"MutationEvent","bubbles":true,"cancelable":true};
+var DOMCharacterDataModified = {"eventInterface":"MutationEvent","bubbles":true,"cancelable":true};
+var DOMContentLoaded = {"eventInterface":"Event","bubbles":true,"cancelable":true};
+var DOMElementNameChanged = {"eventInterface":"MutationNameEvent","bubbles":true,"cancelable":true};
+var DOMFocusIn = {"eventInterface":"FocusEvent","bubbles":true,"cancelable":true};
+var DOMFocusOut = {"eventInterface":"FocusEvent","bubbles":true,"cancelable":true};
+var DOMNodeInserted = {"eventInterface":"MutationEvent","bubbles":true,"cancelable":true};
+var DOMNodeInsertedIntoDocument = {"eventInterface":"MutationEvent","bubbles":true,"cancelable":true};
+var DOMNodeRemoved = {"eventInterface":"MutationEvent","bubbles":true,"cancelable":true};
+var DOMNodeRemovedFromDocument = {"eventInterface":"MutationEvent","bubbles":true,"cancelable":true};
+var DOMSubtreeModified = {"eventInterface":"MutationEvent"};
+var downloading = {"eventInterface":"Event","bubbles":false,"cancelable":false};
+var drag = {"eventInterface":"DragEvent","bubbles":true,"cancelable":true};
+var dragend = {"eventInterface":"DragEvent","bubbles":true,"cancelable":false};
+var dragenter = {"eventInterface":"DragEvent","bubbles":true,"cancelable":true};
+var dragleave = {"eventInterface":"DragEvent","bubbles":true,"cancelable":false};
+var dragover = {"eventInterface":"DragEvent","bubbles":true,"cancelable":true};
+var dragstart = {"eventInterface":"DragEvent","bubbles":true,"cancelable":true};
+var drop = {"eventInterface":"DragEvent","bubbles":true,"cancelable":true};
+var durationchange = {"eventInterface":"Event","bubbles":false,"cancelable":false};
+var emptied = {"eventInterface":"Event","bubbles":false,"cancelable":false};
+var end = {"eventInterface":"Event","bubbles":false,"cancelable":false};
+var ended = {"eventInterface":"Event","bubbles":false,"cancelable":false};
+var endEvent = {"eventInterface":"TimeEvent","bubbles":false,"cancelable":false};
+var error = {"eventInterface":"Event","bubbles":false,"cancelable":false};
+var focus = {"eventInterface":"FocusEvent","bubbles":false,"cancelable":false};
+var focusin = {"eventInterface":"FocusEvent","bubbles":true,"cancelable":false};
+var focusout = {"eventInterface":"FocusEvent","bubbles":true,"cancelable":false};
+var fullscreenchange = {"eventInterface":"Event","bubbles":true,"cancelable":false};
+var fullscreenerror = {"eventInterface":"Event","bubbles":true,"cancelable":false};
+var gamepadconnected = {"eventInterface":"GamepadEvent","bubbles":false,"cancelable":false};
+var gamepaddisconnected = {"eventInterface":"GamepadEvent","bubbles":false,"cancelable":false};
+var gotpointercapture = {"eventInterface":"PointerEvent","bubbles":false,"cancelable":false};
+var hashchange = {"eventInterface":"HashChangeEvent","bubbles":true,"cancelable":false};
+var lostpointercapture = {"eventInterface":"PointerEvent","bubbles":false,"cancelable":false};
+var input = {"eventInterface":"Event","bubbles":true,"cancelable":false};
+var invalid = {"eventInterface":"Event","cancelable":true,"bubbles":false};
+var keydown = {"eventInterface":"KeyboardEvent","bubbles":true,"cancelable":true};
+var keypress = {"eventInterface":"KeyboardEvent","bubbles":true,"cancelable":true};
+var keyup = {"eventInterface":"KeyboardEvent","bubbles":true,"cancelable":true};
+var languagechange = {"eventInterface":"Event","bubbles":false,"cancelable":false};
+var levelchange = {"eventInterface":"Event","bubbles":false,"cancelable":false};
+var load = {"eventInterface":"UIEvent","bubbles":false,"cancelable":false};
+var loadeddata = {"eventInterface":"Event","bubbles":false,"cancelable":false};
+var loadedmetadata = {"eventInterface":"Event","bubbles":false,"cancelable":false};
+var loadend = {"eventInterface":"ProgressEvent","bubbles":false,"cancelable":false};
+var loadstart = {"eventInterface":"ProgressEvent","bubbles":false,"cancelable":false};
+var mark = {"eventInterface":"SpeechSynthesisEvent","bubbles":false,"cancelable":false};
+var message = {"eventInterface":"MessageEvent","bubbles":false,"cancelable":false};
+var messageerror = {"eventInterface":"MessageEvent","bubbles":false,"cancelable":false};
+var mousedown = {"eventInterface":"MouseEvent","bubbles":true,"cancelable":true};
+var mouseenter = {"eventInterface":"MouseEvent","bubbles":false,"cancelable":false};
+var mouseleave = {"eventInterface":"MouseEvent","bubbles":false,"cancelable":false};
+var mousemove = {"eventInterface":"MouseEvent","bubbles":true,"cancelable":true};
+var mouseout = {"eventInterface":"MouseEvent","bubbles":true,"cancelable":true};
+var mouseover = {"eventInterface":"MouseEvent","bubbles":true,"cancelable":true};
+var mouseup = {"eventInterface":"MouseEvent","bubbles":true,"cancelable":true};
+var nomatch = {"eventInterface":"SpeechRecognitionEvent","bubbles":false,"cancelable":false};
+var notificationclick = {"eventInterface":"NotificationEvent","bubbles":false,"cancelable":false};
+var noupdate = {"eventInterface":"Event","bubbles":false,"cancelable":false};
+var obsolete = {"eventInterface":"Event","bubbles":false,"cancelable":false};
+var offline = {"eventInterface":"Event","bubbles":false,"cancelable":false};
+var online = {"eventInterface":"Event","bubbles":false,"cancelable":false};
+var open = {"eventInterface":"Event","bubbles":false,"cancelable":false};
+var orientationchange = {"eventInterface":"Event","bubbles":false,"cancelable":false};
+var pagehide = {"eventInterface":"PageTransitionEvent","bubbles":false,"cancelable":false};
+var pageshow = {"eventInterface":"PageTransitionEvent","bubbles":false,"cancelable":false};
+var paste = {"eventInterface":"ClipboardEvent","bubbles":true,"cancelable":true};
+var pause = {"eventInterface":"SpeechSynthesisEvent","bubbles":false,"cancelable":false};
+var pointercancel = {"eventInterface":"PointerEvent","bubbles":true,"cancelable":false};
+var pointerdown = {"eventInterface":"PointerEvent","bubbles":true,"cancelable":true};
+var pointerenter = {"eventInterface":"PointerEvent","bubbles":false,"cancelable":false};
+var pointerleave = {"eventInterface":"PointerEvent","bubbles":false,"cancelable":false};
+var pointerlockchange = {"eventInterface":"Event","bubbles":true,"cancelable":false};
+var pointerlockerror = {"eventInterface":"Event","bubbles":true,"cancelable":false};
+var pointermove = {"eventInterface":"PointerEvent","bubbles":true,"cancelable":true};
+var pointerout = {"eventInterface":"PointerEvent","bubbles":true,"cancelable":true};
+var pointerover = {"eventInterface":"PointerEvent","bubbles":true,"cancelable":true};
+var pointerup = {"eventInterface":"PointerEvent","bubbles":true,"cancelable":true};
+var play = {"eventInterface":"Event","bubbles":false,"cancelable":false};
+var playing = {"eventInterface":"Event","bubbles":false,"cancelable":false};
+var popstate = {"eventInterface":"PopStateEvent","bubbles":true,"cancelable":false};
+var progress = {"eventInterface":"ProgressEvent","bubbles":false,"cancelable":false};
+var push = {"eventInterface":"PushEvent","bubbles":false,"cancelable":false};
+var pushsubscriptionchange = {"eventInterface":"PushEvent","bubbles":false,"cancelable":false};
+var ratechange = {"eventInterface":"Event","bubbles":false,"cancelable":false};
+var readystatechange = {"eventInterface":"Event","bubbles":false,"cancelable":false};
+var repeatEvent = {"eventInterface":"TimeEvent","bubbles":false,"cancelable":false};
+var reset = {"eventInterface":"Event","bubbles":true,"cancelable":true};
+var resize = {"eventInterface":"UIEvent","bubbles":false,"cancelable":false};
+var resourcetimingbufferfull = {"eventInterface":"Performance","bubbles":true,"cancelable":true};
+var result = {"eventInterface":"SpeechRecognitionEvent","bubbles":false,"cancelable":false};
+var resume = {"eventInterface":"SpeechSynthesisEvent","bubbles":false,"cancelable":false};
+var scroll = {"eventInterface":"UIEvent","bubbles":false,"cancelable":false};
+var seeked = {"eventInterface":"Event","bubbles":false,"cancelable":false};
+var seeking = {"eventInterface":"Event","bubbles":false,"cancelable":false};
+var select = {"eventInterface":"UIEvent","bubbles":true,"cancelable":false};
+var selectstart = {"eventInterface":"Event","bubbles":true,"cancelable":true};
+var selectionchange = {"eventInterface":"Event","bubbles":false,"cancelable":false};
+var show = {"eventInterface":"MouseEvent","bubbles":false,"cancelable":false};
+var slotchange = {"eventInterface":"Event","bubbles":true,"cancelable":false};
+var soundend = {"eventInterface":"Event","bubbles":false,"cancelable":false};
+var soundstart = {"eventInterface":"Event","bubbles":false,"cancelable":false};
+var speechend = {"eventInterface":"Event","bubbles":false,"cancelable":false};
+var speechstart = {"eventInterface":"Event","bubbles":false,"cancelable":false};
+var stalled = {"eventInterface":"Event","bubbles":false,"cancelable":false};
+var start = {"eventInterface":"SpeechSynthesisEvent","bubbles":false,"cancelable":false};
+var storage = {"eventInterface":"StorageEvent","bubbles":false,"cancelable":false};
+var submit = {"eventInterface":"Event","bubbles":true,"cancelable":true};
+var success = {"eventInterface":"Event","bubbles":false,"cancelable":false};
+var suspend = {"eventInterface":"Event","bubbles":false,"cancelable":false};
+var SVGAbort = {"eventInterface":"SVGEvent","bubbles":true,"cancelable":false};
+var SVGError = {"eventInterface":"SVGEvent","bubbles":true,"cancelable":false};
+var SVGLoad = {"eventInterface":"SVGEvent","bubbles":false,"cancelable":false};
+var SVGResize = {"eventInterface":"SVGEvent","bubbles":true,"cancelable":false};
+var SVGScroll = {"eventInterface":"SVGEvent","bubbles":true,"cancelable":false};
+var SVGUnload = {"eventInterface":"SVGEvent","bubbles":false,"cancelable":false};
+var SVGZoom = {"eventInterface":"SVGZoomEvent","bubbles":true,"cancelable":false};
+var timeout = {"eventInterface":"ProgressEvent","bubbles":false,"cancelable":false};
+var timeupdate = {"eventInterface":"Event","bubbles":false,"cancelable":false};
+var touchcancel = {"eventInterface":"TouchEvent","bubbles":true,"cancelable":false};
+var touchend = {"eventInterface":"TouchEvent","bubbles":true,"cancelable":true};
+var touchmove = {"eventInterface":"TouchEvent","bubbles":true,"cancelable":true};
+var touchstart = {"eventInterface":"TouchEvent","bubbles":true,"cancelable":true};
+var transitionend = {"eventInterface":"TransitionEvent","bubbles":true,"cancelable":true};
+var unload = {"eventInterface":"UIEvent","bubbles":false};
+var updateready = {"eventInterface":"Event","bubbles":false,"cancelable":false};
+var userproximity = {"eventInterface":"UserProximityEvent","bubbles":false,"cancelable":false};
+var voiceschanged = {"eventInterface":"Event","bubbles":false,"cancelable":false};
+var visibilitychange = {"eventInterface":"Event","bubbles":true,"cancelable":false};
+var volumechange = {"eventInterface":"Event","bubbles":false,"cancelable":false};
+var waiting = {"eventInterface":"Event","bubbles":false,"cancelable":false};
+var wheel = {"eventInterface":"WheelEvent","bubbles":true,"cancelable":true};
+var domEventTypes = {
+	abort: abort,
+	afterprint: afterprint,
+	animationend: animationend,
+	animationiteration: animationiteration,
+	animationstart: animationstart,
+	appinstalled: appinstalled,
+	audioprocess: audioprocess,
+	audioend: audioend,
+	audiostart: audiostart,
+	beforeprint: beforeprint,
+	beforeunload: beforeunload,
+	beginEvent: beginEvent,
+	blur: blur,
+	boundary: boundary,
+	cached: cached,
+	canplay: canplay,
+	canplaythrough: canplaythrough,
+	change: change,
+	chargingchange: chargingchange,
+	chargingtimechange: chargingtimechange,
+	checking: checking,
+	click: click,
+	close: close,
+	complete: complete,
+	compositionend: compositionend,
+	compositionstart: compositionstart,
+	compositionupdate: compositionupdate,
+	contextmenu: contextmenu,
+	copy: copy,
+	cut: cut,
+	dblclick: dblclick,
+	devicechange: devicechange,
+	devicelight: devicelight,
+	devicemotion: devicemotion,
+	deviceorientation: deviceorientation,
+	deviceproximity: deviceproximity,
+	dischargingtimechange: dischargingtimechange,
+	DOMActivate: DOMActivate,
+	DOMAttributeNameChanged: DOMAttributeNameChanged,
+	DOMAttrModified: DOMAttrModified,
+	DOMCharacterDataModified: DOMCharacterDataModified,
+	DOMContentLoaded: DOMContentLoaded,
+	DOMElementNameChanged: DOMElementNameChanged,
+	DOMFocusIn: DOMFocusIn,
+	DOMFocusOut: DOMFocusOut,
+	DOMNodeInserted: DOMNodeInserted,
+	DOMNodeInsertedIntoDocument: DOMNodeInsertedIntoDocument,
+	DOMNodeRemoved: DOMNodeRemoved,
+	DOMNodeRemovedFromDocument: DOMNodeRemovedFromDocument,
+	DOMSubtreeModified: DOMSubtreeModified,
+	downloading: downloading,
+	drag: drag,
+	dragend: dragend,
+	dragenter: dragenter,
+	dragleave: dragleave,
+	dragover: dragover,
+	dragstart: dragstart,
+	drop: drop,
+	durationchange: durationchange,
+	emptied: emptied,
+	end: end,
+	ended: ended,
+	endEvent: endEvent,
+	error: error,
+	focus: focus,
+	focusin: focusin,
+	focusout: focusout,
+	fullscreenchange: fullscreenchange,
+	fullscreenerror: fullscreenerror,
+	gamepadconnected: gamepadconnected,
+	gamepaddisconnected: gamepaddisconnected,
+	gotpointercapture: gotpointercapture,
+	hashchange: hashchange,
+	lostpointercapture: lostpointercapture,
+	input: input,
+	invalid: invalid,
+	keydown: keydown,
+	keypress: keypress,
+	keyup: keyup,
+	languagechange: languagechange,
+	levelchange: levelchange,
+	load: load,
+	loadeddata: loadeddata,
+	loadedmetadata: loadedmetadata,
+	loadend: loadend,
+	loadstart: loadstart,
+	mark: mark,
+	message: message,
+	messageerror: messageerror,
+	mousedown: mousedown,
+	mouseenter: mouseenter,
+	mouseleave: mouseleave,
+	mousemove: mousemove,
+	mouseout: mouseout,
+	mouseover: mouseover,
+	mouseup: mouseup,
+	nomatch: nomatch,
+	notificationclick: notificationclick,
+	noupdate: noupdate,
+	obsolete: obsolete,
+	offline: offline,
+	online: online,
+	open: open,
+	orientationchange: orientationchange,
+	pagehide: pagehide,
+	pageshow: pageshow,
+	paste: paste,
+	pause: pause,
+	pointercancel: pointercancel,
+	pointerdown: pointerdown,
+	pointerenter: pointerenter,
+	pointerleave: pointerleave,
+	pointerlockchange: pointerlockchange,
+	pointerlockerror: pointerlockerror,
+	pointermove: pointermove,
+	pointerout: pointerout,
+	pointerover: pointerover,
+	pointerup: pointerup,
+	play: play,
+	playing: playing,
+	popstate: popstate,
+	progress: progress,
+	push: push,
+	pushsubscriptionchange: pushsubscriptionchange,
+	ratechange: ratechange,
+	readystatechange: readystatechange,
+	repeatEvent: repeatEvent,
+	reset: reset,
+	resize: resize,
+	resourcetimingbufferfull: resourcetimingbufferfull,
+	result: result,
+	resume: resume,
+	scroll: scroll,
+	seeked: seeked,
+	seeking: seeking,
+	select: select,
+	selectstart: selectstart,
+	selectionchange: selectionchange,
+	show: show,
+	slotchange: slotchange,
+	soundend: soundend,
+	soundstart: soundstart,
+	speechend: speechend,
+	speechstart: speechstart,
+	stalled: stalled,
+	start: start,
+	storage: storage,
+	submit: submit,
+	success: success,
+	suspend: suspend,
+	SVGAbort: SVGAbort,
+	SVGError: SVGError,
+	SVGLoad: SVGLoad,
+	SVGResize: SVGResize,
+	SVGScroll: SVGScroll,
+	SVGUnload: SVGUnload,
+	SVGZoom: SVGZoom,
+	timeout: timeout,
+	timeupdate: timeupdate,
+	touchcancel: touchcancel,
+	touchend: touchend,
+	touchmove: touchmove,
+	touchstart: touchstart,
+	transitionend: transitionend,
+	unload: unload,
+	updateready: updateready,
+	userproximity: userproximity,
+	voiceschanged: voiceschanged,
+	visibilitychange: visibilitychange,
+	volumechange: volumechange,
+	waiting: waiting,
+	wheel: wheel
+};
+
+var domEventTypes$1 = Object.freeze({
+	abort: abort,
+	afterprint: afterprint,
+	animationend: animationend,
+	animationiteration: animationiteration,
+	animationstart: animationstart,
+	appinstalled: appinstalled,
+	audioprocess: audioprocess,
+	audioend: audioend,
+	audiostart: audiostart,
+	beforeprint: beforeprint,
+	beforeunload: beforeunload,
+	beginEvent: beginEvent,
+	blur: blur,
+	boundary: boundary,
+	cached: cached,
+	canplay: canplay,
+	canplaythrough: canplaythrough,
+	change: change,
+	chargingchange: chargingchange,
+	chargingtimechange: chargingtimechange,
+	checking: checking,
+	click: click,
+	close: close,
+	complete: complete,
+	compositionend: compositionend,
+	compositionstart: compositionstart,
+	compositionupdate: compositionupdate,
+	contextmenu: contextmenu,
+	copy: copy,
+	cut: cut,
+	dblclick: dblclick,
+	devicechange: devicechange,
+	devicelight: devicelight,
+	devicemotion: devicemotion,
+	deviceorientation: deviceorientation,
+	deviceproximity: deviceproximity,
+	dischargingtimechange: dischargingtimechange,
+	DOMActivate: DOMActivate,
+	DOMAttributeNameChanged: DOMAttributeNameChanged,
+	DOMAttrModified: DOMAttrModified,
+	DOMCharacterDataModified: DOMCharacterDataModified,
+	DOMContentLoaded: DOMContentLoaded,
+	DOMElementNameChanged: DOMElementNameChanged,
+	DOMFocusIn: DOMFocusIn,
+	DOMFocusOut: DOMFocusOut,
+	DOMNodeInserted: DOMNodeInserted,
+	DOMNodeInsertedIntoDocument: DOMNodeInsertedIntoDocument,
+	DOMNodeRemoved: DOMNodeRemoved,
+	DOMNodeRemovedFromDocument: DOMNodeRemovedFromDocument,
+	DOMSubtreeModified: DOMSubtreeModified,
+	downloading: downloading,
+	drag: drag,
+	dragend: dragend,
+	dragenter: dragenter,
+	dragleave: dragleave,
+	dragover: dragover,
+	dragstart: dragstart,
+	drop: drop,
+	durationchange: durationchange,
+	emptied: emptied,
+	end: end,
+	ended: ended,
+	endEvent: endEvent,
+	error: error,
+	focus: focus,
+	focusin: focusin,
+	focusout: focusout,
+	fullscreenchange: fullscreenchange,
+	fullscreenerror: fullscreenerror,
+	gamepadconnected: gamepadconnected,
+	gamepaddisconnected: gamepaddisconnected,
+	gotpointercapture: gotpointercapture,
+	hashchange: hashchange,
+	lostpointercapture: lostpointercapture,
+	input: input,
+	invalid: invalid,
+	keydown: keydown,
+	keypress: keypress,
+	keyup: keyup,
+	languagechange: languagechange,
+	levelchange: levelchange,
+	load: load,
+	loadeddata: loadeddata,
+	loadedmetadata: loadedmetadata,
+	loadend: loadend,
+	loadstart: loadstart,
+	mark: mark,
+	message: message,
+	messageerror: messageerror,
+	mousedown: mousedown,
+	mouseenter: mouseenter,
+	mouseleave: mouseleave,
+	mousemove: mousemove,
+	mouseout: mouseout,
+	mouseover: mouseover,
+	mouseup: mouseup,
+	nomatch: nomatch,
+	notificationclick: notificationclick,
+	noupdate: noupdate,
+	obsolete: obsolete,
+	offline: offline,
+	online: online,
+	open: open,
+	orientationchange: orientationchange,
+	pagehide: pagehide,
+	pageshow: pageshow,
+	paste: paste,
+	pause: pause,
+	pointercancel: pointercancel,
+	pointerdown: pointerdown,
+	pointerenter: pointerenter,
+	pointerleave: pointerleave,
+	pointerlockchange: pointerlockchange,
+	pointerlockerror: pointerlockerror,
+	pointermove: pointermove,
+	pointerout: pointerout,
+	pointerover: pointerover,
+	pointerup: pointerup,
+	play: play,
+	playing: playing,
+	popstate: popstate,
+	progress: progress,
+	push: push,
+	pushsubscriptionchange: pushsubscriptionchange,
+	ratechange: ratechange,
+	readystatechange: readystatechange,
+	repeatEvent: repeatEvent,
+	reset: reset,
+	resize: resize,
+	resourcetimingbufferfull: resourcetimingbufferfull,
+	result: result,
+	resume: resume,
+	scroll: scroll,
+	seeked: seeked,
+	seeking: seeking,
+	select: select,
+	selectstart: selectstart,
+	selectionchange: selectionchange,
+	show: show,
+	slotchange: slotchange,
+	soundend: soundend,
+	soundstart: soundstart,
+	speechend: speechend,
+	speechstart: speechstart,
+	stalled: stalled,
+	start: start,
+	storage: storage,
+	submit: submit,
+	success: success,
+	suspend: suspend,
+	SVGAbort: SVGAbort,
+	SVGError: SVGError,
+	SVGLoad: SVGLoad,
+	SVGResize: SVGResize,
+	SVGScroll: SVGScroll,
+	SVGUnload: SVGUnload,
+	SVGZoom: SVGZoom,
+	timeout: timeout,
+	timeupdate: timeupdate,
+	touchcancel: touchcancel,
+	touchend: touchend,
+	touchmove: touchmove,
+	touchstart: touchstart,
+	transitionend: transitionend,
+	unload: unload,
+	updateready: updateready,
+	userproximity: userproximity,
+	voiceschanged: voiceschanged,
+	visibilitychange: visibilitychange,
+	volumechange: volumechange,
+	waiting: waiting,
+	wheel: wheel,
+	default: domEventTypes
+});
+
+var require$$0 = ( domEventTypes$1 && domEventTypes ) || domEventTypes$1;
+
+var domEventTypes$2 = require$$0;
+
+var defaultEventType = {
+  eventInterface: 'Event',
+  cancelable: true,
+  bubbles: true
+};
+
+var modifiers = {
+  enter: 13,
+  tab: 9,
+  delete: 46,
+  esc: 27,
+  space: 32,
+  up: 38,
+  down: 40,
+  left: 37,
+  right: 39,
+  end: 35,
+  home: 36,
+  backspace: 8,
+  insert: 45,
+  pageup: 33,
+  pagedown: 34
+};
+
+function createDOMEvent (type, options) {
+  var ref = type.split('.');
+  var eventType = ref[0];
+  var modifier = ref[1];
+  var ref$1 = domEventTypes$2[eventType] || defaultEventType;
+  var eventInterface = ref$1.eventInterface;
+  var bubbles = ref$1.bubbles;
+  var cancelable = ref$1.cancelable;
+
+  if (typeof window.Event === 'function') {
+    var SupportedEventInterface =
+     typeof window[eventInterface] === 'function'
+       ? window[eventInterface]
+       : window.Event;
+
+    return new SupportedEventInterface(eventType, Object.assign({}, {bubbles: bubbles,
+      cancelable: cancelable},
+      options,
+      {keyCode: modifiers[modifier]}))
+  }
+
+  // Fallback for IE10,11 - https://stackoverflow.com/questions/26596123
+  var eventObject = document.createEvent('Event');
+
+  eventObject.initEvent(eventType, bubbles, cancelable);
+  Object.keys(options || {}).forEach(function (key) {
+    eventObject[key] = options[key];
+  });
+  eventObject.keyCode = modifiers[modifier];
+
+  return eventObject
+}
+
 // 
 
 var Wrapper = function Wrapper (
@@ -1809,16 +2449,6 @@ Wrapper.prototype.setProps = function setProps (data) {
 
   Object.keys(data).forEach(function (key) {
     if (
-      !this$1.vm ||
-      !this$1.vm.$options._propKeys ||
-      !this$1.vm.$options._propKeys.some(function (prop) { return prop === key; })
-    ) {
-      throwError(
-        "wrapper.setProps() called with " + key + " property which " +
-        "is not defined on the component"
-      );
-    }
-    if (
       typeof data[key] === 'object' &&
       data[key] !== null &&
       // $FlowIgnore : Problem with possibly null this.vm
@@ -1829,6 +2459,21 @@ Wrapper.prototype.setProps = function setProps (data) {
         "of the existing " + key + " property. " +
         "You must call wrapper.setProps() with a new object " +
         "to trigger reactivity"
+      );
+    }
+    if (
+      !this$1.vm ||
+      !this$1.vm.$options._propKeys ||
+      !this$1.vm.$options._propKeys.some(function (prop) { return prop === key; })
+    ) {
+      if (vueVersion > 2.3) {
+        // $FlowIgnore : Problem with possibly null this.vm
+        this$1.vm.$attrs[key] = data[key];
+        return
+      }
+      throwError(
+        "wrapper.setProps() called with " + key + " property which " +
+        "is not defined on the component"
       );
     }
 
@@ -1921,52 +2566,9 @@ Wrapper.prototype.trigger = function trigger (type, options) {
     return
   }
 
-  var modifiers = {
-    enter: 13,
-    tab: 9,
-    delete: 46,
-    esc: 27,
-    space: 32,
-    up: 38,
-    down: 40,
-    left: 37,
-    right: 39,
-    end: 35,
-    home: 36,
-    backspace: 8,
-    insert: 45,
-    pageup: 33,
-    pagedown: 34
-  };
+  var event = createDOMEvent(type, options);
+  this.element.dispatchEvent(event);
 
-  var event = type.split('.');
-
-  var eventObject;
-
-  // Fallback for IE10,11 - https://stackoverflow.com/questions/26596123
-  if (typeof window.Event === 'function') {
-    eventObject = new window.Event(event[0], {
-      bubbles: true,
-      cancelable: true
-    });
-  } else {
-    eventObject = document.createEvent('Event');
-    eventObject.initEvent(event[0], true, true);
-  }
-
-  if (options) {
-    Object.keys(options).forEach(function (key) {
-      // $FlowIgnore
-      eventObject[key] = options[key];
-    });
-  }
-
-  if (event.length === 2) {
-    // $FlowIgnore
-    eventObject.keyCode = modifiers[event[1]];
-  }
-
-  this.element.dispatchEvent(eventObject);
   if (this.vnode) {
     orderWatchers(this.vm || this.vnode.context.$root);
   }
@@ -2094,9 +2696,12 @@ var VueWrapper = (function (Wrapper$$1) {
 
 function createVNodes (
   vm,
-  slotValue
+  slotValue,
+  name
 ) {
-  var el = vueTemplateCompiler.compileToFunctions(("<div>" + slotValue + "</div>"));
+  var el = vueTemplateCompiler.compileToFunctions(
+    ("<div><template slot=" + name + ">" + slotValue + "</template></div>")
+  );
   var _staticRenderFns = vm._renderProxy.$options.staticRenderFns;
   var _staticTrees = vm._renderProxy._staticTrees;
   vm._renderProxy._staticTrees = [];
@@ -2104,7 +2709,7 @@ function createVNodes (
   var vnode = el.render.call(vm._renderProxy, vm.$createElement);
   vm._renderProxy.$options.staticRenderFns = _staticRenderFns;
   vm._renderProxy._staticTrees = _staticTrees;
-  return vnode.children
+  return vnode.children[0]
 }
 
 function createVNodesForSlot (
@@ -2112,21 +2717,11 @@ function createVNodesForSlot (
   slotValue,
   name
 ) {
-  var vnode;
   if (typeof slotValue === 'string') {
-    var vnodes = createVNodes(vm, slotValue);
-    if (vnodes.length > 1) {
-      return vnodes
-    }
-    vnode = vnodes[0];
-  } else {
-    vnode = vm.$createElement(slotValue);
+    return createVNodes(vm, slotValue, name)
   }
-  if (vnode.data) {
-    vnode.data.slot = name;
-  } else {
-    vnode.data = { slot: name };
-  }
+  var vnode = vm.$createElement(slotValue)
+  ;(vnode.data || (vnode.data = {})).slot = name;
   return vnode
 }
 
@@ -2150,8 +2745,8 @@ function createSlotVNodes (
 // 
 
 function addMocks (
-  mockedProperties,
-  Vue$$1
+  _Vue,
+  mockedProperties
 ) {
   if ( mockedProperties === void 0 ) mockedProperties = {};
 
@@ -2161,7 +2756,7 @@ function addMocks (
   Object.keys(mockedProperties).forEach(function (key) {
     try {
       // $FlowIgnore
-      Vue$$1.prototype[key] = mockedProperties[key];
+      _Vue.prototype[key] = mockedProperties[key];
     } catch (e) {
       warn(
         "could not overwrite property " + key + ", this is " +
@@ -2170,7 +2765,7 @@ function addMocks (
       );
     }
     // $FlowIgnore
-    Vue.util.defineReactive(Vue$$1, key, mockedProperties[key]);
+    Vue.util.defineReactive(_Vue, key, mockedProperties[key]);
   });
 }
 
@@ -2210,6 +2805,17 @@ function addEventLogger (_Vue) {
     logEvents(this, this.__emitted, this.__emittedByOrder);
   }
   );
+}
+
+function addStubs (_Vue, stubComponents) {
+  function addStubComponentsMixin () {
+    Object.assign(this.$options.components, stubComponents);
+  }
+
+  addHook(_Vue.options, 'beforeMount', addStubComponentsMixin);
+  // beforeCreate is for components created in node, which
+  // never mount
+  addHook(_Vue.options, 'beforeCreate', addStubComponentsMixin);
 }
 
 // 
@@ -2261,241 +2867,6 @@ function compileTemplateForSlots (slots) {
 
 // 
 
-function isVueComponentStub (comp) {
-  return comp && comp.template || isVueComponent(comp)
-}
-
-function isValidStub (stub) {
-  return (
-    typeof stub === 'boolean' ||
-    (!!stub && typeof stub === 'string') ||
-    isVueComponentStub(stub)
-  )
-}
-
-function resolveComponent (obj, component) {
-  return obj[component] ||
-    obj[hyphenate(component)] ||
-    obj[camelize(component)] ||
-    obj[capitalize(camelize(component))] ||
-    obj[capitalize(component)] ||
-    {}
-}
-
-function getCoreProperties (componentOptions) {
-  return {
-    attrs: componentOptions.attrs,
-    name: componentOptions.name,
-    on: componentOptions.on,
-    key: componentOptions.key,
-    ref: componentOptions.ref,
-    props: componentOptions.props,
-    domProps: componentOptions.domProps,
-    class: componentOptions.class,
-    staticClass: componentOptions.staticClass,
-    staticStyle: componentOptions.staticStyle,
-    style: componentOptions.style,
-    normalizedStyle: componentOptions.normalizedStyle,
-    nativeOn: componentOptions.nativeOn,
-    functional: componentOptions.functional
-  }
-}
-
-function createClassString (staticClass, dynamicClass) {
-  if (staticClass && dynamicClass) {
-    return staticClass + ' ' + dynamicClass
-  }
-  return staticClass || dynamicClass
-}
-
-function createStubFromComponent (
-  originalComponent,
-  name
-) {
-  var componentOptions = typeof originalComponent === 'function'
-    ? originalComponent.extendOptions
-    : originalComponent;
-  var tagName = name + "-stub";
-
-  // ignoreElements does not exist in Vue 2.0.x
-  if (Vue.config.ignoredElements) {
-    Vue.config.ignoredElements.push(tagName);
-  }
-
-  return Object.assign({}, getCoreProperties(componentOptions),
-    {$_vueTestUtils_original: originalComponent,
-    render: function render (h, context) {
-      return h(
-        tagName,
-        {
-          attrs: componentOptions.functional ? Object.assign({}, context.props,
-            context.data.attrs,
-            {class: createClassString(
-              context.data.staticClass,
-              context.data.class
-            )}) : Object.assign({}, this.$props)
-        },
-        context ? context.children : this.$options._renderChildren
-      )
-    }})
-}
-
-function createStubFromString (
-  templateString,
-  originalComponent,
-  name
-) {
-  if ( originalComponent === void 0 ) originalComponent = {};
-
-  if (templateContainsComponent(templateString, name)) {
-    throwError('options.stub cannot contain a circular reference');
-  }
-
-  var componentOptions = typeof originalComponent === 'function'
-    ? originalComponent.extendOptions
-    : originalComponent;
-
-  return Object.assign({}, getCoreProperties(componentOptions),
-    compileFromString(templateString))
-}
-
-function validateStub (stub) {
-  if (!isValidStub(stub)) {
-    throwError(
-      "options.stub values must be passed a string or " +
-      "component"
-    );
-  }
-}
-
-function createStubsFromStubsObject (
-  originalComponents,
-  stubs
-) {
-  if ( originalComponents === void 0 ) originalComponents = {};
-
-  return Object.keys(stubs || {}).reduce(function (acc, stubName) {
-    var stub = stubs[stubName];
-
-    validateStub(stub);
-
-    if (stub === false) {
-      return acc
-    }
-
-    if (stub === true) {
-      var component = resolveComponent(originalComponents, stubName);
-      acc[stubName] = createStubFromComponent(component, stubName);
-      return acc
-    }
-
-    if (originalComponents[stubName]) {
-      // Remove cached constructor
-      delete originalComponents[stubName]._Ctor;
-    }
-
-    if (typeof stub === 'string') {
-      acc[stubName] = createStubFromString(
-        stub,
-        originalComponents[stubName],
-        stubName
-      );
-      return acc
-    }
-
-    if (componentNeedsCompiling(stub)) {
-      compileTemplate(stub);
-    }
-    var name = originalComponents[stubName] &&
-    originalComponents[stubName].name;
-
-    acc[stubName] = Object.assign({}, {name: name},
-      stub);
-
-    return acc
-  }, {})
-}
-
-function stubComponents (
-  components,
-  stubbedComponents
-) {
-  for (var component in components) {
-    var cmp = components[component];
-    var componentOptions = typeof cmp === 'function'
-      ? cmp.extendOptions
-      : cmp;
-
-    if (!componentOptions) {
-      stubbedComponents[component] = createStubFromComponent(
-        {},
-        component
-      );
-      return
-    }
-    // Remove cached constructor
-    delete componentOptions._Ctor;
-
-    stubbedComponents[component] = createStubFromComponent(
-      cmp,
-      component
-    );
-  }
-}
-
-function createStubsForComponent (
-  component
-) {
-  var stubbedComponents = {};
-
-  if (component.options) {
-    stubComponents(component.options.components, stubbedComponents);
-  }
-
-  if (component.components) {
-    stubComponents(component.components, stubbedComponents);
-  }
-
-  var extended = component.extends;
-  while (extended) {
-    if (extended.components) {
-      stubComponents(extended.components, stubbedComponents);
-    }
-    extended = extended.extends;
-  }
-
-  var extendOptions = component.extendOptions;
-  while (extendOptions) {
-    if (extendOptions && extendOptions.components) {
-      stubComponents(extendOptions.components, stubbedComponents);
-    }
-    extendOptions = extendOptions.extendOptions;
-  }
-
-  return stubbedComponents
-}
-
-function addStubs (component, stubs, _Vue) {
-  var stubComponents = createStubsFromStubsObject(
-    component.components,
-    stubs
-  );
-
-  function addStubComponentsMixin () {
-    Object.assign(
-      this.$options.components,
-      stubComponents
-    );
-  }
-
-  addHook(_Vue.options, 'beforeMount', addStubComponentsMixin);
-  // beforeCreate is for components created in node, which
-  // never mount
-  addHook(_Vue.options, 'beforeCreate', addStubComponentsMixin);
-}
-
-// 
-
 var MOUNTING_OPTIONS = [
   'attachToDocument',
   'mocks',
@@ -2508,7 +2879,8 @@ var MOUNTING_OPTIONS = [
   'listeners',
   'propsData',
   'logModifiedComponents',
-  'sync'
+  'sync',
+  'shouldProxy'
 ];
 
 function extractInstanceOptions (
@@ -2659,15 +3031,26 @@ function createFunctionalComponent (
     validateSlots(mountingOptions.slots);
   }
 
-  var data = mountingOptions.context ||
-    component.FunctionalRenderContext || {};
-  data.scopedSlots = createScopedSlots(mountingOptions.scopedSlots);
+  var context =
+    mountingOptions.context ||
+    component.FunctionalRenderContext ||
+    {};
+
+  var listeners = mountingOptions.listeners;
+
+  if (listeners) {
+    Object.keys(listeners).forEach(function (key) {
+      context.on[key] = listeners[key];
+    });
+  }
+
+  context.scopedSlots = createScopedSlots(mountingOptions.scopedSlots);
 
   return {
     render: function render (h) {
       return h(
         component,
-        data,
+        context,
         (mountingOptions.context &&
           mountingOptions.context.children &&
           mountingOptions.context.children.map(
@@ -2681,113 +3064,280 @@ function createFunctionalComponent (
   }
 }
 
-function createdFrom (extendOptions, componentOptions) {
-  while (extendOptions) {
-    if (extendOptions === componentOptions) {
-      return true
-    }
-    if (extendOptions._vueTestUtilsRoot === componentOptions) {
-      return true
-    }
-    extendOptions = extendOptions.extendOptions;
+// 
+
+function isVueComponentStub (comp) {
+  return comp && comp.template || isVueComponent(comp)
+}
+
+function isValidStub (stub) {
+  return (
+    typeof stub === 'boolean' ||
+    (!!stub && typeof stub === 'string') ||
+    isVueComponentStub(stub)
+  )
+}
+
+function resolveComponent$1 (obj, component) {
+  return obj[component] ||
+    obj[hyphenate(component)] ||
+    obj[camelize(component)] ||
+    obj[capitalize(camelize(component))] ||
+    obj[capitalize(component)] ||
+    {}
+}
+
+function getCoreProperties (componentOptions) {
+  return {
+    attrs: componentOptions.attrs,
+    name: componentOptions.name,
+    on: componentOptions.on,
+    key: componentOptions.key,
+    ref: componentOptions.ref,
+    props: componentOptions.props,
+    domProps: componentOptions.domProps,
+    class: componentOptions.class,
+    staticClass: componentOptions.staticClass,
+    staticStyle: componentOptions.staticStyle,
+    style: componentOptions.style,
+    normalizedStyle: componentOptions.normalizedStyle,
+    nativeOn: componentOptions.nativeOn,
+    functional: componentOptions.functional
   }
 }
 
-function resolveComponents (options, components) {
-  if ( options === void 0 ) options = {};
-  if ( components === void 0 ) components = {};
-
-  var extendOptions = options.extendOptions;
-  while (extendOptions) {
-    resolveComponents(extendOptions, components);
-    extendOptions = extendOptions.extendOptions;
+function createClassString (staticClass, dynamicClass) {
+  if (staticClass && dynamicClass) {
+    return staticClass + ' ' + dynamicClass
   }
-  var extendsFrom = options.extends;
-  while (extendsFrom) {
-    resolveComponents(extendsFrom, components);
-    extendsFrom = extendsFrom.extends;
-  }
-  Object.keys(options.components || {}).forEach(function (c) {
-    components[c] = options.components[c];
-  });
-  return components
+  return staticClass || dynamicClass
 }
 
-function shouldExtend (component) {
-  while (component) {
-    if (component.extendOptions) {
-      return true
-    }
-    component = component.extends;
-  }
-}
-
-// Components created with Vue.extend are not created internally in Vue
-// by extending a localVue constructor. To make sure they inherit
-// properties add to a localVue constructor, we must create new components by
-// extending the original extended components from the localVue constructor.
-// We apply a global mixin that overwrites the components original
-// components with the extended components when they are created.
-function extendExtendedComponents (
-  component,
-  _Vue,
-  logModifiedComponents,
-  excludedComponents,
-  stubAllComponents
+function createStubFromComponent (
+  originalComponent,
+  name
 ) {
-  if ( excludedComponents === void 0 ) excludedComponents = { };
-  if ( stubAllComponents === void 0 ) stubAllComponents = false;
+  var componentOptions =
+    typeof originalComponent === 'function' && originalComponent.cid
+      ? originalComponent.extendOptions
+      : originalComponent;
 
-  var extendedComponents = Object.create(null);
-  var components = resolveComponents(component);
+  var tagName = (name || 'anonymous') + "-stub";
 
-  Object.keys(components).forEach(function (c) {
-    var comp = components[c];
-    var shouldExtendComponent =
-      (shouldExtend(comp) &&
-      !excludedComponents[c]) ||
-      stubAllComponents;
-    if (shouldExtendComponent) {
-      if (logModifiedComponents) {
-        warn(
-          "The child component <" + c + "> has been modified to ensure " +
-          "it is created with properties injected by Vue Test Utils. \n" +
-          "This is because the component was created with Vue.extend, " +
-          "or uses the Vue Class Component decorator. \n" +
-          "Because the component has been modified, it is not possible " +
-          "to find it with a component selector. To find the " +
-          "component, you must stub it manually using the stubs mounting " +
-          "option, or use a name or ref selector. \n" +
-          "You can hide this warning by setting the Vue Test Utils " +
-          "config.logModifiedComponents option to false."
-        );
-      }
-
-      var extendedComp = _Vue.extend(comp);
-      // Used to identify component in a render tree
-      extendedComp.options.$_vueTestUtils_original = comp;
-      extendedComponents[c] = extendedComp;
-    }
-    // If a component has been replaced with an extended component
-    // all its child components must also be replaced.
-    extendExtendedComponents(
-      comp,
-      _Vue,
-      logModifiedComponents,
-      {},
-      shouldExtendComponent
-    );
-  });
-  if (Object.keys(extendedComponents).length > 0) {
-    addHook(_Vue.options, 'beforeCreate', function addExtendedOverwrites () {
-      if (createdFrom(this.constructor, component)) {
-        Object.assign(
-          this.$options.components,
-          extendedComponents
-        );
-      }
-    });
+  // ignoreElements does not exist in Vue 2.0.x
+  if (Vue.config.ignoredElements) {
+    Vue.config.ignoredElements.push(tagName);
   }
+
+  return Object.assign({}, getCoreProperties(componentOptions),
+    {$_vueTestUtils_original: originalComponent,
+    $_doNotStubChildren: true,
+    render: function render (h, context) {
+      return h(
+        tagName,
+        {
+          attrs: componentOptions.functional ? Object.assign({}, context.props,
+            context.data.attrs,
+            {class: createClassString(
+              context.data.staticClass,
+              context.data.class
+            )}) : Object.assign({}, this.$props)
+        },
+        context ? context.children : this.$options._renderChildren
+      )
+    }})
+}
+
+function createStubFromString (
+  templateString,
+  originalComponent,
+  name
+) {
+  if ( originalComponent === void 0 ) originalComponent = {};
+
+  if (templateContainsComponent(templateString, name)) {
+    throwError('options.stub cannot contain a circular reference');
+  }
+
+  var componentOptions =
+    typeof originalComponent === 'function' && originalComponent.cid
+      ? originalComponent.extendOptions
+      : originalComponent;
+
+  return Object.assign({}, getCoreProperties(componentOptions),
+    {$_doNotStubChildren: true},
+    compileFromString(templateString))
+}
+
+function validateStub (stub) {
+  if (!isValidStub(stub)) {
+    throwError(
+      "options.stub values must be passed a string or " +
+      "component"
+    );
+  }
+}
+
+function createStubsFromStubsObject (
+  originalComponents,
+  stubs
+) {
+  if ( originalComponents === void 0 ) originalComponents = {};
+
+  return Object.keys(stubs || {}).reduce(function (acc, stubName) {
+    var stub = stubs[stubName];
+
+    validateStub(stub);
+
+    if (stub === false) {
+      return acc
+    }
+
+    if (stub === true) {
+      var component = resolveComponent$1(originalComponents, stubName);
+      acc[stubName] = createStubFromComponent(component, stubName);
+      return acc
+    }
+
+    if (typeof stub === 'string') {
+      var component$1 = resolveComponent$1(originalComponents, stubName);
+      acc[stubName] = createStubFromString(
+        stub,
+        component$1,
+        stubName
+      );
+      return acc
+    }
+
+    if (componentNeedsCompiling(stub)) {
+      compileTemplate(stub);
+    }
+    var name = originalComponents[stubName] &&
+    originalComponents[stubName].name;
+
+    acc[stubName] = Object.assign({}, {name: name},
+      stub);
+
+    return acc
+  }, {})
+}
+
+var isWhitelisted = function (el, whitelist) { return resolveComponent(el, whitelist); };
+var isAlreadyStubbed = function (el, stubs) { return stubs.has(el); };
+var isDynamicComponent = function (cmp) { return typeof cmp === 'function' && !cmp.cid; };
+
+var CREATE_ELEMENT_ALIAS = semVerGreaterThan(Vue.version, '2.1.5')
+  ? '_c'
+  : '_h';
+var LIFECYCLE_HOOK = semVerGreaterThan(Vue.version, '2.1.8')
+  ? 'beforeCreate'
+  : 'beforeMount';
+
+function shouldExtend (component, _Vue) {
+  return (
+    (typeof component === 'function' && !isDynamicComponent(component)) ||
+    (component && component.extends)
+  )
+}
+
+function extend (component, _Vue) {
+  var stub = _Vue.extend(component.options);
+  stub.options.$_vueTestUtils_original = component;
+  return stub
+}
+
+function createStubIfNeeded (shouldStub, component, _Vue, el) {
+  if (shouldStub) {
+    return createStubFromComponent(component || {}, el)
+  }
+
+  if (shouldExtend(component, _Vue)) {
+    return extend(component, _Vue)
+  }
+}
+
+function shouldNotBeStubbed (el, whitelist, modifiedComponents) {
+  return (
+    (typeof el === 'string' && isReservedTag(el)) ||
+    isWhitelisted(el, whitelist) ||
+    isAlreadyStubbed(el, modifiedComponents)
+  )
+}
+
+function isConstructor (el) {
+  return typeof el === 'function'
+}
+
+function patchRender (_Vue, stubs, stubAllComponents) {
+  // This mixin patches vm.$createElement so that we can stub all components
+  // before they are rendered in shallow mode. We also need to ensure that
+  // component constructors were created from the _Vue constructor. If not,
+  // we must replace them with components created from the _Vue constructor
+  // before calling the original $createElement. This ensures that components
+  // have the correct instance properties and stubs when they are rendered.
+  function patchRenderMixin () {
+    var vm = this;
+
+    if (vm.$options.$_doNotStubChildren || vm._isFunctionalContainer) {
+      return
+    }
+
+    var modifiedComponents = new Set();
+    var originalCreateElement = vm.$createElement;
+    var originalComponents = vm.$options.components;
+
+    var createElement = function (el) {
+      var obj;
+
+      var args = [], len = arguments.length - 1;
+      while ( len-- > 0 ) args[ len ] = arguments[ len + 1 ];
+      if (shouldNotBeStubbed(el, stubs, modifiedComponents)) {
+        return originalCreateElement.apply(void 0, [ el ].concat( args ))
+      }
+
+      if (isConstructor(el)) {
+        if (stubAllComponents) {
+          var stub = createStubFromComponent(el, el.name || 'anonymous');
+          return originalCreateElement.apply(void 0, [ stub ].concat( args ))
+        }
+
+        var Constructor = shouldExtend(el, _Vue) ? extend(el, _Vue) : el;
+
+        return originalCreateElement.apply(void 0, [ Constructor ].concat( args ))
+      }
+
+      if (typeof el === 'string') {
+        var original = resolveComponent(el, originalComponents);
+
+        if (
+          original &&
+          original.options &&
+          original.options.$_vueTestUtils_original
+        ) {
+          original = original.options.$_vueTestUtils_original;
+        }
+
+        if (isDynamicComponent(original)) {
+          return originalCreateElement.apply(void 0, [ el ].concat( args ))
+        }
+
+        var stub$1 = createStubIfNeeded(stubAllComponents, original, _Vue, el);
+
+        if (stub$1) {
+          vm.$options.components = Object.assign({}, vm.$options.components,
+            ( obj = {}, obj[el] = stub$1, obj));
+          modifiedComponents.add(el);
+        }
+      }
+
+      return originalCreateElement.apply(void 0, [ el ].concat( args ))
+    };
+
+    vm[CREATE_ELEMENT_ALIAS] = createElement;
+    vm.$createElement = createElement;
+  }
+
+  addHook(_Vue.options, LIFECYCLE_HOOK, patchRenderMixin);
 }
 
 // 
@@ -2813,9 +3363,6 @@ function createInstance (
   options,
   _Vue
 ) {
-  // Remove cached constructor
-  delete component._Ctor;
-
   // make sure all extends are based on this instance
   _Vue.options._base = _Vue;
 
@@ -2834,10 +3381,16 @@ function createInstance (
   // instance options are options that are passed to the
   // root instance when it's instantiated
   var instanceOptions = extractInstanceOptions(options);
+  var stubComponentsObject = createStubsFromStubsObject(
+    component.components,
+    // $FlowIgnore
+    options.stubs
+  );
 
   addEventLogger(_Vue);
-  addMocks(options.mocks, _Vue);
-  addStubs(component, options.stubs, _Vue);
+  addMocks(_Vue, options.mocks);
+  addStubs(_Vue, stubComponentsObject);
+  patchRender(_Vue, stubComponentsObject, options.shouldProxy);
 
   if (
     (component.options && component.options.functional) ||
@@ -2855,43 +3408,19 @@ function createInstance (
     compileTemplate(component);
   }
 
-  // Replace globally registered components with components extended
-  // from localVue.
-  // Vue version must be 2.3 or greater, because of a bug resolving
-  // extended constructor options (https://github.com/vuejs/vue/issues/4976)
-  if (vueVersion > 2.2) {
-    for (var c in _Vue.options.components) {
-      if (!isRequiredComponent(c)) {
-        var extendedComponent = _Vue.extend(_Vue.options.components[c]);
-        extendedComponent.options.$_vueTestUtils_original =
-          _Vue.options.components[c];
-        _Vue.component(c, _Vue.extend(_Vue.options.components[c]));
-      }
-    }
-  }
-
-  extendExtendedComponents(
-    component,
-    _Vue,
-    options.logModifiedComponents,
-    instanceOptions.components
-  );
-
   if (component.options) {
     component.options._base = _Vue;
   }
 
   // extend component from _Vue to add properties and mixins
   // extend does not work correctly for sub class components in Vue < 2.2
-  var Constructor = typeof component === 'function' && vueVersion < 2.3
-    ? component.extend(instanceOptions)
+  var Constructor = typeof component === 'function'
+    ? _Vue.extend(component.options).extend(instanceOptions)
     : _Vue.extend(component).extend(instanceOptions);
-
-  // Keep reference to component mount was called with
-  Constructor._vueTestUtilsRoot = component;
 
   // used to identify extended component using constructor
   Constructor.options.$_vueTestUtils_original = component;
+
   if (options.slots) {
     compileTemplateForSlots(options.slots);
     // validate slots outside of the createSlots function so
@@ -2923,6 +3452,8 @@ function createInstance (
 
   var parentComponentOptions = options.parentComponent || {};
   parentComponentOptions.provide = options.provide;
+  parentComponentOptions.$_doNotStubChildren = true;
+
   parentComponentOptions.render = function (h) {
     var slots = options.slots
       ? createSlotVNodes(this, options.slots)
@@ -3026,6 +3557,20 @@ function mergeOptions (options, config) {
     methods: methods,
     provide: provide,
     sync: !!(options.sync || options.sync === undefined)})
+}
+
+// 
+
+function warnIfNoWindow () {
+  if (typeof window === 'undefined') {
+    throwError(
+      "window is undefined, vue-test-utils needs to be " +
+      "run in a browser environment. \n" +
+      "You can run the tests in node using jsdom \n" +
+      "See https://vue-test-utils.vuejs.org/guides/#browser-environment " +
+      "for more details."
+    );
+  }
 }
 
 /**
@@ -3312,7 +3857,7 @@ var _Symbol = Symbol;
 var objectProto = Object.prototype;
 
 /** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
+var hasOwnProperty$1 = objectProto.hasOwnProperty;
 
 /**
  * Used to resolve the
@@ -3332,7 +3877,7 @@ var symToStringTag = _Symbol ? _Symbol.toStringTag : undefined;
  * @returns {string} Returns the raw `toStringTag`.
  */
 function getRawTag(value) {
-  var isOwn = hasOwnProperty.call(value, symToStringTag),
+  var isOwn = hasOwnProperty$1.call(value, symToStringTag),
       tag = value[symToStringTag];
 
   try {
@@ -3536,11 +4081,11 @@ var funcProto$1 = Function.prototype,
 var funcToString$1 = funcProto$1.toString;
 
 /** Used to check objects for own properties. */
-var hasOwnProperty$1 = objectProto$2.hasOwnProperty;
+var hasOwnProperty$2 = objectProto$2.hasOwnProperty;
 
 /** Used to detect if a method is native. */
 var reIsNative = RegExp('^' +
-  funcToString$1.call(hasOwnProperty$1).replace(reRegExpChar, '\\$&')
+  funcToString$1.call(hasOwnProperty$2).replace(reRegExpChar, '\\$&')
   .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
 );
 
@@ -3640,7 +4185,7 @@ var HASH_UNDEFINED = '__lodash_hash_undefined__';
 var objectProto$3 = Object.prototype;
 
 /** Used to check objects for own properties. */
-var hasOwnProperty$2 = objectProto$3.hasOwnProperty;
+var hasOwnProperty$3 = objectProto$3.hasOwnProperty;
 
 /**
  * Gets the hash value for `key`.
@@ -3657,7 +4202,7 @@ function hashGet(key) {
     var result = data[key];
     return result === HASH_UNDEFINED ? undefined : result;
   }
-  return hasOwnProperty$2.call(data, key) ? data[key] : undefined;
+  return hasOwnProperty$3.call(data, key) ? data[key] : undefined;
 }
 
 var _hashGet = hashGet;
@@ -3666,7 +4211,7 @@ var _hashGet = hashGet;
 var objectProto$4 = Object.prototype;
 
 /** Used to check objects for own properties. */
-var hasOwnProperty$3 = objectProto$4.hasOwnProperty;
+var hasOwnProperty$4 = objectProto$4.hasOwnProperty;
 
 /**
  * Checks if a hash value for `key` exists.
@@ -3679,7 +4224,7 @@ var hasOwnProperty$3 = objectProto$4.hasOwnProperty;
  */
 function hashHas(key) {
   var data = this.__data__;
-  return _nativeCreate ? (data[key] !== undefined) : hasOwnProperty$3.call(data, key);
+  return _nativeCreate ? (data[key] !== undefined) : hasOwnProperty$4.call(data, key);
 }
 
 var _hashHas = hashHas;
@@ -3996,7 +4541,7 @@ var _baseAssignValue = baseAssignValue;
 var objectProto$5 = Object.prototype;
 
 /** Used to check objects for own properties. */
-var hasOwnProperty$4 = objectProto$5.hasOwnProperty;
+var hasOwnProperty$5 = objectProto$5.hasOwnProperty;
 
 /**
  * Assigns `value` to `key` of `object` if the existing value is not equivalent
@@ -4010,7 +4555,7 @@ var hasOwnProperty$4 = objectProto$5.hasOwnProperty;
  */
 function assignValue(object, key, value) {
   var objValue = object[key];
-  if (!(hasOwnProperty$4.call(object, key) && eq_1(objValue, value)) ||
+  if (!(hasOwnProperty$5.call(object, key) && eq_1(objValue, value)) ||
       (value === undefined && !(key in object))) {
     _baseAssignValue(object, key, value);
   }
@@ -4127,7 +4672,7 @@ var _baseIsArguments = baseIsArguments;
 var objectProto$6 = Object.prototype;
 
 /** Used to check objects for own properties. */
-var hasOwnProperty$5 = objectProto$6.hasOwnProperty;
+var hasOwnProperty$6 = objectProto$6.hasOwnProperty;
 
 /** Built-in value references. */
 var propertyIsEnumerable = objectProto$6.propertyIsEnumerable;
@@ -4151,7 +4696,7 @@ var propertyIsEnumerable = objectProto$6.propertyIsEnumerable;
  * // => false
  */
 var isArguments = _baseIsArguments(function() { return arguments; }()) ? _baseIsArguments : function(value) {
-  return isObjectLike_1(value) && hasOwnProperty$5.call(value, 'callee') &&
+  return isObjectLike_1(value) && hasOwnProperty$6.call(value, 'callee') &&
     !propertyIsEnumerable.call(value, 'callee');
 };
 
@@ -4423,7 +4968,7 @@ var isTypedArray_1 = isTypedArray;
 var objectProto$7 = Object.prototype;
 
 /** Used to check objects for own properties. */
-var hasOwnProperty$6 = objectProto$7.hasOwnProperty;
+var hasOwnProperty$7 = objectProto$7.hasOwnProperty;
 
 /**
  * Creates an array of the enumerable property names of the array-like `value`.
@@ -4443,7 +4988,7 @@ function arrayLikeKeys(value, inherited) {
       length = result.length;
 
   for (var key in value) {
-    if ((inherited || hasOwnProperty$6.call(value, key)) &&
+    if ((inherited || hasOwnProperty$7.call(value, key)) &&
         !(skipIndexes && (
            // Safari 9 has enumerable `arguments.length` in strict mode.
            key == 'length' ||
@@ -4506,7 +5051,7 @@ var _nativeKeys = nativeKeys;
 var objectProto$9 = Object.prototype;
 
 /** Used to check objects for own properties. */
-var hasOwnProperty$7 = objectProto$9.hasOwnProperty;
+var hasOwnProperty$8 = objectProto$9.hasOwnProperty;
 
 /**
  * The base implementation of `_.keys` which doesn't treat sparse arrays as dense.
@@ -4521,7 +5066,7 @@ function baseKeys(object) {
   }
   var result = [];
   for (var key in Object(object)) {
-    if (hasOwnProperty$7.call(object, key) && key != 'constructor') {
+    if (hasOwnProperty$8.call(object, key) && key != 'constructor') {
       result.push(key);
     }
   }
@@ -4635,7 +5180,7 @@ var _nativeKeysIn = nativeKeysIn;
 var objectProto$10 = Object.prototype;
 
 /** Used to check objects for own properties. */
-var hasOwnProperty$8 = objectProto$10.hasOwnProperty;
+var hasOwnProperty$9 = objectProto$10.hasOwnProperty;
 
 /**
  * The base implementation of `_.keysIn` which doesn't treat sparse arrays as dense.
@@ -4652,7 +5197,7 @@ function baseKeysIn(object) {
       result = [];
 
   for (var key in object) {
-    if (!(key == 'constructor' && (isProto || !hasOwnProperty$8.call(object, key)))) {
+    if (!(key == 'constructor' && (isProto || !hasOwnProperty$9.call(object, key)))) {
       result.push(key);
     }
   }
@@ -4971,9 +5516,9 @@ var Promise = _getNative(_root, 'Promise');
 var _Promise = Promise;
 
 /* Built-in method references that are verified to be native. */
-var Set = _getNative(_root, 'Set');
+var Set$1 = _getNative(_root, 'Set');
 
-var _Set = Set;
+var _Set = Set$1;
 
 /* Built-in method references that are verified to be native. */
 var WeakMap = _getNative(_root, 'WeakMap');
@@ -5035,7 +5580,7 @@ var _getTag = getTag;
 var objectProto$12 = Object.prototype;
 
 /** Used to check objects for own properties. */
-var hasOwnProperty$9 = objectProto$12.hasOwnProperty;
+var hasOwnProperty$10 = objectProto$12.hasOwnProperty;
 
 /**
  * Initializes an array clone.
@@ -5049,7 +5594,7 @@ function initCloneArray(array) {
       result = array.constructor(length);
 
   // Add properties assigned by `RegExp#exec`.
-  if (length && typeof array[0] == 'string' && hasOwnProperty$9.call(array, 'index')) {
+  if (length && typeof array[0] == 'string' && hasOwnProperty$10.call(array, 'index')) {
     result.index = array.index;
     result.input = array.input;
   }
@@ -5630,9 +6175,6 @@ function mount (
 
   warnIfNoWindow();
 
-  // Remove cached constructor
-  delete component._Ctor;
-
   var elm = options.attachToDocument ? createElement() : undefined;
 
   var mergedOptions = mergeOptions(options, config);
@@ -5667,30 +6209,15 @@ function mount (
 
 // 
 
+
 function shallowMount (
   component,
   options
 ) {
   if ( options === void 0 ) options = {};
 
-  var _Vue = options.localVue || Vue;
-
-  options.stubs = normalizeStubs(options.stubs);
-
-  // Vue registers a recursive component on the original options
-  // This stub will override the component added by Vue
-  // $FlowIgnore
-  if (options.stubs && !options.stubs[component.name]) {
-    // $FlowIgnore
-    options.stubs[component.name] = createStubFromComponent(
-      component,
-      component.name
-    );
-  }
-
   return mount(component, Object.assign({}, options,
-    {components: Object.assign({}, createStubsForComponent(_Vue),
-      createStubsForComponent(component))}))
+    {shouldProxy: true}))
 }
 
 // 
