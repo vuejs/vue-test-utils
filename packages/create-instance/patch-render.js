@@ -87,8 +87,11 @@ export function patchRender (_Vue, stubs, stubAllComponents) {
       if (typeof el === 'string') {
         let original = resolveComponent(el, originalComponents)
 
+        if (!original) {
+          return originalCreateElement(el, ...args)
+        }
+
         if (
-          original &&
           original.options &&
           original.options.$_vueTestUtils_original
         ) {
