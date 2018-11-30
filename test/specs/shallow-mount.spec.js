@@ -472,6 +472,13 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
       }
     }
     const wrapper = shallowMount(TestComponent)
-    expect(wrapper.html()).to.equal('<div><childcomponent-stub></childcomponent-stub> <anonymous-stub></anonymous-stub> <anonymous-stub></anonymous-stub> <anonymous-stub></anonymous-stub></div>')
+    expect(wrapper.html()).to.equal(
+      '<div>' +
+        '<childcomponent-stub></childcomponent-stub> ' +
+        '<anonymous-stub></anonymous-stub> ' +
+        '<anonymous-stub></anonymous-stub> ' +
+        '<anonymous-stub></anonymous-stub>' +
+        '</div>'
+    )
   })
 })
