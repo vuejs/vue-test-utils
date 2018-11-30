@@ -50,6 +50,10 @@ function isConstructor (el) {
   return typeof el === 'function'
 }
 
+function isComponentOptions (el) {
+  return typeof el === 'object' && (el.template || el.render)
+}
+
 export function patchRender (_Vue, stubs, stubAllComponents) {
   // This mixin patches vm.$createElement so that we can stub all components
   // before they are rendered in shallow mode. We also need to ensure that
@@ -60,7 +64,10 @@ export function patchRender (_Vue, stubs, stubAllComponents) {
   function patchRenderMixin () {
     const vm = this
 
-    if (vm.$options.$_doNotStubChildren || vm._isFunctionalContainer) {
+    if (
+      vm.$options.$_doNotStubChildren ||
+      vm.$options._isFunctionalContainer
+    ) {
       return
     }
 
@@ -82,6 +89,16 @@ export function patchRender (_Vue, stubs, stubAllComponents) {
         const Constructor = shouldExtend(el, _Vue) ? extend(el, _Vue) : el
 
         return originalCreateElement(Constructor, ...args)
+      }
+
+      if (isComponentOptions(el)) {
+        console.log(el)
+        if (stubAllComponents) {
+          const stub = createStubFromComponent(el, el.name || 'anonymous')
+          return originalCreateElement(stub, ...args)
+        }
+
+        return originalCreateElement(el, ...args)
       }
 
       if (typeof el === 'string') {

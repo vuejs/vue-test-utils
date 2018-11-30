@@ -445,10 +445,10 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
     const TestComponent = {
       template: `
       <div>
-        <ChildComponent text="normal" />
-        <component :is="dataComponent" text="data" />
-        <component :is="computedComponent" text="computed" />
-        <component :is="methodComponent()" text="method" />
+        <ChildComponent />
+        <component :is="dataComponent" />
+        <component :is="computedComponent" />
+        <component :is="methodComponent()" />
       </div>
       `,
       components: { ChildComponent },
@@ -472,7 +472,6 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
       }
     }
     const wrapper = shallowMount(TestComponent)
-    expect(wrapper.text()).to.equal('')
-    expect(wrapper.findAll(ChildComponent).length).to.equal(4)
+    expect(wrapper.html()).to.equal('<div><childcomponent-stub></childcomponent-stub> <anonymous-stub></anonymous-stub> <anonymous-stub></anonymous-stub> <anonymous-stub></anonymous-stub></div>')
   })
 })

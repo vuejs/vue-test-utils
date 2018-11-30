@@ -56,7 +56,7 @@ describeWithMountingMethods('options.slots', mountingMethod => {
     }
   })
 
-  it('mounts component with default slot if passed object with template prop in slot object', () => {
+  it('mounts component with default slot if passed compiled options in slot object', () => {
     const compiled = compileToFunctions('<div id="div" />')
     const wrapper = mountingMethod(ComponentWithSlots, {
       slots: { default: [compiled] }
