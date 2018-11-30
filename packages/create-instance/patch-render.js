@@ -80,25 +80,14 @@ export function patchRender (_Vue, stubs, stubAllComponents) {
         return originalCreateElement(el, ...args)
       }
 
-      if (isConstructor(el)) {
+      if (isConstructor(el) || isComponentOptions(el)) {
         if (stubAllComponents) {
           const stub = createStubFromComponent(el, el.name || 'anonymous')
           return originalCreateElement(stub, ...args)
         }
-
         const Constructor = shouldExtend(el, _Vue) ? extend(el, _Vue) : el
 
         return originalCreateElement(Constructor, ...args)
-      }
-
-      if (isComponentOptions(el)) {
-        console.log(el)
-        if (stubAllComponents) {
-          const stub = createStubFromComponent(el, el.name || 'anonymous')
-          return originalCreateElement(stub, ...args)
-        }
-
-        return originalCreateElement(el, ...args)
       }
 
       if (typeof el === 'string') {
