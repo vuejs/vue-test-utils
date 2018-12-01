@@ -9,7 +9,7 @@ import ComponentWithoutName from '~resources/components/component-without-name.v
 import ComponentAsAClassWithChild from '~resources/components/component-as-a-class-with-child.vue'
 import RecursiveComponent from '~resources/components/recursive-component.vue'
 import { vueVersion } from '~resources/utils'
-import { describeRunIf, itDoNotRunIf, itSkipIf } from 'conditional-specs'
+import { describeRunIf, itDoNotRunIf } from 'conditional-specs'
 
 describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
   beforeEach(() => {
@@ -379,8 +379,17 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
       .to.equal('hey')
   })
 
-  itSkipIf(
-    typeof Proxy === 'undefined',
+  it('does not stub unregistered components', () => {
+    const TestComponent = {
+      template: '<custom-element />'
+    }
+    const wrapper = shallowMount(TestComponent)
+
+    expect(wrapper.html())
+      .to.equal('<custom-element></custom-element>')
+  })
+
+  it(
     'stubs lazily registered components', () => {
       const Child = {
         render: h => h('p')
