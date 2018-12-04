@@ -57,6 +57,17 @@ export function componentNeedsCompiling (component: Component): boolean {
   )
 }
 
+export function componentHasProperty (
+  component: Component,
+  property: string
+): boolean {
+  while (component) {
+    if (component.hasOwnProperty(property)) return true
+    component = component.extends
+  }
+  return false
+}
+
 export function isRefSelector (refOptionsObject: any): boolean {
   if (
     typeof refOptionsObject !== 'object' ||

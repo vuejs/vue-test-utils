@@ -11,7 +11,11 @@ import {
 } from 'shared/compile-template'
 import extractInstanceOptions from './extract-instance-options'
 import createFunctionalComponent from './create-functional-component'
-import { componentNeedsCompiling, isPlainObject } from 'shared/validators'
+import {
+  componentNeedsCompiling,
+  componentHasProperty,
+  isPlainObject
+} from 'shared/validators'
 import { validateSlots } from './validate-slots'
 import createScopedSlots from './create-scoped-slots'
 import { createStubsFromStubsObject } from './create-component-stubs'
@@ -69,7 +73,7 @@ export default function createInstance (
 
   if (
     (component.options && component.options.functional) ||
-    component.functional
+    componentHasProperty(component, 'functional')
   ) {
     component = createFunctionalComponent(component, options)
   } else if (options.context) {
