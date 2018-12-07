@@ -5,7 +5,7 @@ import {
   DOM_SELECTOR,
   REF_SELECTOR,
   COMPONENT_SELECTOR
-} from './consts'
+} from 'shared/consts'
 import { throwError, vueVersion } from 'shared/util'
 import { matches } from './matches'
 

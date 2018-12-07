@@ -1,8 +1,8 @@
 import { createStubFromComponent } from './create-component-stubs'
 import { resolveComponent, semVerGreaterThan } from 'shared/util'
 import { isReservedTag } from 'shared/validators'
-import { addHook } from './add-hook'
 import Vue from 'vue'
+import { BEFORE_RENDER_LIFECYCLE_HOOK } from 'shared/consts'
 
 const isWhitelisted = (el, whitelist) => resolveComponent(el, whitelist)
 const isAlreadyStubbed = (el, stubs) => stubs.has(el)
@@ -11,9 +11,6 @@ const isDynamicComponent = cmp => typeof cmp === 'function' && !cmp.cid
 const CREATE_ELEMENT_ALIAS = semVerGreaterThan(Vue.version, '2.1.5')
   ? '_c'
   : '_h'
-const LIFECYCLE_HOOK = semVerGreaterThan(Vue.version, '2.1.8')
-  ? 'beforeCreate'
-  : 'beforeMount'
 
 function shouldExtend (component, _Vue) {
   return (
@@ -126,5 +123,7 @@ export function patchRender (_Vue, stubs, stubAllComponents) {
     vm.$createElement = createElement
   }
 
-  addHook(_Vue.options, LIFECYCLE_HOOK, patchRenderMixin)
+  _Vue.mixin({
+    [BEFORE_RENDER_LIFECYCLE_HOOK]: patchRenderMixin
+  })
 }

@@ -5,7 +5,7 @@ import getSelector from './get-selector'
 import {
   REF_SELECTOR,
   FUNCTIONAL_OPTIONS
-} from './consts'
+} from 'shared/consts'
 import config from './config'
 import WrapperArray from './wrapper-array'
 import ErrorWrapper from './error-wrapper'

@@ -4,7 +4,7 @@ import {
   isRunningPhantomJS,
   vueVersion
 } from '~resources/utils'
-import { createLocalVue } from '~vue/test-utils'
+import { createLocalVue, shallowMount, mount } from '~vue/test-utils'
 import { itSkipIf, itRunIf, itDoNotRunIf } from 'conditional-specs'
 import Vuex from 'vuex'
 
@@ -195,5 +195,23 @@ describeWithMountingMethods('options.localVue', mountingMethod => {
         return
       }
       expect(wrapper.findAll(ChildComponent).length).to.equal(1)
+    })
+
+  itRunIf(
+    mountingMethod.name === 'mount',
+    'does not affect future tests', () => {
+      const ChildComponent = {
+        template: '<div></div>'
+      }
+      const TestComponent = {
+        template: '<child-component />',
+        components: { ChildComponent }
+      }
+      const localVue = createLocalVue()
+      localVue.use(Vuex)
+      shallowMount(TestComponent, { localVue })
+      const wrapper = mount(TestComponent, { localVue })
+      console.log(wrapper.html())
+      expect(wrapper.contains('div')).to.equal(true)
     })
 })
