@@ -13,7 +13,7 @@ import {
   NAME_SELECTOR,
   DOM_SELECTOR,
   INVALID_SELECTOR
-} from './consts'
+} from 'shared/consts'
 
 function getSelectorType (
   selector: Selector

@@ -2,7 +2,7 @@ import {
   DOM_SELECTOR,
   COMPONENT_SELECTOR,
   FUNCTIONAL_OPTIONS
-} from './consts'
+} from 'shared/consts'
 
 export function vmMatchesName (vm, name) {
   return !!name && (

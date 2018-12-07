@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import { semVerGreaterThan } from './util'
 
 export const NAME_SELECTOR = 'NAME_SELECTOR'
 export const COMPONENT_SELECTOR = 'COMPONENT_SELECTOR'
@@ -10,3 +11,8 @@ export const VUE_VERSION = Number(
 )
 export const FUNCTIONAL_OPTIONS =
   VUE_VERSION >= 2.5 ? 'fnOptions' : 'functionalOptions'
+
+export const BEFORE_RENDER_LIFECYCLE_HOOK =
+  semVerGreaterThan(Vue.version, '2.1.8')
+    ? 'beforeCreate'
+    : 'beforeMount'

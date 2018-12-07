@@ -1,6 +1,6 @@
 // @flow
 
-import { VUE_VERSION } from './consts'
+import { VUE_VERSION } from 'shared/consts'
 
 function setDepsSync (dep): void {
   dep.subs.forEach(setWatcherSync)
