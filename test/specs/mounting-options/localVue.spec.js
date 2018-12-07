@@ -201,7 +201,7 @@ describeWithMountingMethods('options.localVue', mountingMethod => {
     mountingMethod.name === 'mount',
     'does not affect future tests', () => {
       const ChildComponent = {
-        template: '<div></div>'
+        template: '<span></span>'
       }
       const TestComponent = {
         template: '<child-component />',
@@ -211,7 +211,6 @@ describeWithMountingMethods('options.localVue', mountingMethod => {
       localVue.use(Vuex)
       shallowMount(TestComponent, { localVue })
       const wrapper = mount(TestComponent, { localVue })
-      console.log(wrapper.html())
-      expect(wrapper.contains('div')).to.equal(true)
+      expect(wrapper.html()).to.contain('span')
     })
 })
