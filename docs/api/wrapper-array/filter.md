@@ -19,5 +19,5 @@ import Foo from './Foo.vue'
 
 const wrapper = shallowMount(Foo)
 const filteredDivArray = wrapper.findAll('div')
-  .filter(w => !w.hasClass('filtered'))
+  .filter(w => !w.classes('filtered'))
 ```
