@@ -58,6 +58,56 @@ expect(wrapper.emitted().foo[1]).toEqual([123])
 
 你也可以调用 [`wrapper.emittedByOrder()`](../api/wrapper/emittedByOrder.md) 获取一个按触发先后排序的事件数组。
 
+### 从子组件触发事件
+
+你可以通过访问子组件实例来触发一个自定义事件
+
+**待测试的组件**
+
+```html
+<template>
+  <div>
+    <child-component @custom="onCustom"/>
+    <p v-if="emitted">触发！</p>
+  </div>
+</template>
+
+<script>
+import ChildComponent from './ChildComponent'
+
+export default {
+  name: 'ParentComponent',
+  components: { ChildComponent },
+  data() {
+    return {
+      emitted: false
+    }
+  },
+  methods: {
+    onCustom () {
+      this.emitted = true
+    }
+  }
+}
+</script>
+```
+
+**测试代码**
+
+```js
+import { shallowMount } from '@vue/test-utils'
+import ParentComponent from '@/components/ParentComponent'
+import ChildComponent from '@/components/ChildComponent'
+
+describe('ParentComponent', () => {
+  it("displays 'Emitted!' when custom event is emitted", () => {
+    const wrapper = shallowMount(ParentComponent)
+    wrapper.find(ChildComponent).vm.$emit('custom')
+    expect(wrapper.html()).toContain('Emitted!')
+  })
+})
+```
+
 ### 操作组件状态
 
 你可以在包裹器上用 `setData` 或 `setProps` 方法直接操作组件状态：

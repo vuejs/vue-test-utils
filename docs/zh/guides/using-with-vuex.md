@@ -95,7 +95,7 @@ describe('Actions.vue', () => {
 
 这里发生了什么？首先我们用 `localVue.use` 方法告诉 Vue 使用 Vuex。这只是 `Vue.use` 的一个包裹器。
 
-然后我们用 `new Vuex.store` 伪造了一个 store 并填入假数据。我们只把它传递给 action，因为我们只关心这个。
+然后我们用 `new Vuex.Store` 伪造了一个 store 并填入假数据。我们只把它传递给 action，因为我们只关心这个。
 
 该 action 是 [Jest 伪造函数](https://facebook.github.io/jest/docs/en/mock-functions.html)。这些伪造函数让我们去断言该 action 是否被调用。
 
