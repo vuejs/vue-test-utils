@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.0.0-beta.27"></a>
+# [1.0.0-beta.27](https://github.com/vuejs/vue-test-utils/compare/v1.0.0-beta.26...v1.0.0-beta.27) (2018-12-09)
+
+
+### Bug Fixes
+
+* fix references to documents in warnings ([#1052](https://github.com/vuejs/vue-test-utils/issues/1052)) ([45e2fe4](https://github.com/vuejs/vue-test-utils/commit/45e2fe4))
+* remove cached constructors ([#1059](https://github.com/vuejs/vue-test-utils/issues/1059)) ([aea1c94](https://github.com/vuejs/vue-test-utils/commit/aea1c94))
+* stop stubs leaking with localVue ([#1056](https://github.com/vuejs/vue-test-utils/issues/1056)) ([5500553](https://github.com/vuejs/vue-test-utils/commit/5500553))
+* stub dynamic components ([#1051](https://github.com/vuejs/vue-test-utils/issues/1051)) ([4338403](https://github.com/vuejs/vue-test-utils/commit/4338403))
+
+
+### Features
+
+* do not stub unregistered components ([#1048](https://github.com/vuejs/vue-test-utils/issues/1048)) ([fb7a66c](https://github.com/vuejs/vue-test-utils/commit/fb7a66c))
+
+
+
+
 <a name="1.0.0-beta.26"></a>
 # [1.0.0-beta.26](https://github.com/vuejs/vue-test-utils/compare/v1.0.0-beta.25...v1.0.0-beta.26) (2018-11-26)
 
