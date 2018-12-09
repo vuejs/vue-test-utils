@@ -178,7 +178,7 @@ describeWithShallowAndMount('find', mountingMethod => {
       wrappers.forEach((w, i) => expect(w.classes()).to.contain(expectedClasses[i]))
     })
 
-  it('returns Wrapper of Vue Component matching functional component', () => {
+  it('returns functional component', () => {
     if (!functionalSFCsSupported) {
       return
     }
@@ -199,12 +199,36 @@ describeWithShallowAndMount('find', mountingMethod => {
     expect(wrapper.find(FunctionalComponent).vm).to.equal(undefined)
   })
 
-  it('returns Wrapper of Vue Component matching functional component with name', () => {
+  it('returns functional component with name', () => {
     const TestFunctionalComponent = {
       render: h => h('div'),
       functional: true,
       name: 'test-functional-component'
     }
+    const TestComponent = {
+      template: '<div><test-functional-component /></div>',
+      components: {
+        TestFunctionalComponent
+      }
+    }
+    const wrapper = mountingMethod(TestComponent)
+    if (vueVersion < 2.3) {
+      const message =
+        '[vue-test-utils]: find for functional components is not supported in Vue < 2.3'
+      const fn = () => wrapper.find(TestFunctionalComponent)
+      expect(fn)
+        .to.throw()
+        .with.property('message', message)
+    } else {
+      expect(wrapper.find(TestFunctionalComponent).exists()).to.equal(true)
+    }
+  })
+
+  it('returns extended functional component', () => {
+    const TestFunctionalComponent = Vue.extend({
+      render: h => h('div'),
+      functional: true
+    })
     const TestComponent = {
       template: '<div><test-functional-component /></div>',
       components: {

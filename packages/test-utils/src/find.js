@@ -69,7 +69,11 @@ export default function find (
 
   if (
     selector.type === COMPONENT_SELECTOR &&
-    selector.value.functional &&
+    (
+      selector.value.functional ||
+      (selector.value.options &&
+      selector.value.options.functional)
+    ) &&
     vueVersion < 2.3
   ) {
     throwError(

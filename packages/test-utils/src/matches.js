@@ -12,10 +12,6 @@ export function vmMatchesName (vm, name) {
 }
 
 function vmCtorMatches (vm, component) {
-  const Ctor = typeof component === 'function'
-    ? component.options._Ctor
-    : component._Ctor
-
   if (
     vm.$options && vm.$options.$_vueTestUtils_original === component ||
     vm.$_vueTestUtils_original === component
@@ -23,16 +19,23 @@ function vmCtorMatches (vm, component) {
     return true
   }
 
+  const Ctor = typeof component === 'function'
+    ? component.options._Ctor
+    : component._Ctor
+
   if (!Ctor) {
     return false
   }
 
-  const constructor = vm.constructor
-  return Object.keys(Ctor).some(c => {
-    return component.functional
-      ? Ctor[c] === vm._Ctor[c]
-      : Ctor[c] === constructor
-  })
+  if (vm.constructor.extendOptions === component) {
+    return true
+  }
+
+  if (component.functional) {
+    return Object.keys(vm._Ctor || {}).some(c => {
+      return component === vm._Ctor[c].extendOptions
+    })
+  }
 }
 
 export function matches (node, selector) {

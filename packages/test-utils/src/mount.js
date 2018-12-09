@@ -54,5 +54,8 @@ export default function mount (
   const root = vm.$options._isFunctionalContainer
     ? vm._vnode
     : vm
+
+  component._Ctor = []
+
   return createWrapper(root, wrapperOptions)
 }
