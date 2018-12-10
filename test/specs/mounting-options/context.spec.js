@@ -49,6 +49,30 @@ describeWithMountingMethods('options.context', mountingMethod => {
     expect(fn).not.to.throw()
   })
 
+  it('does not throw error on context if component is extended by a functional component', () => {
+    const Component = {
+      extends: {
+        functional: true
+      },
+      render: h => h('div')
+    }
+    const context = {}
+    const fn = () => mountingMethod(Component, { context, stubs: false, mocks: false })
+    expect(fn).not.to.throw()
+  })
+
+  it('does not throw error on context if component has a functional component mixin', () => {
+    const Component = {
+      mixins: [{
+        functional: true
+      }],
+      render: h => h('div')
+    }
+    const context = {}
+    const fn = () => mountingMethod(Component, { context, stubs: false, mocks: false })
+    expect(fn).not.to.throw()
+  })
+
   it('throws error if context option is not an object', () => {
     const Component = {
       functional: true,
