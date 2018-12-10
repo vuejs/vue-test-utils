@@ -4,7 +4,8 @@ import Vue from 'vue'
 import getSelector from './get-selector'
 import {
   REF_SELECTOR,
-  FUNCTIONAL_OPTIONS
+  FUNCTIONAL_OPTIONS,
+  COMPAT_SYNC_MODE
 } from 'shared/consts'
 import config from './config'
 import WrapperArray from './wrapper-array'
@@ -758,8 +759,10 @@ export default class Wrapper implements BaseWrapper {
     })
     // $FlowIgnore : Problem with possibly null this.vm
     this.vm.$forceUpdate()
-    // $FlowIgnore : Problem with possibly null this.vm
-    orderWatchers(this.vm || this.vnode.context.$root)
+    if (this.options.sync === COMPAT_SYNC_MODE) {
+      // $FlowIgnore : Problem with possibly null this.vm
+      orderWatchers(this.vm || this.vnode.context.$root)
+    }
     Vue.config.silent = originalConfig
   }
 
@@ -832,7 +835,7 @@ export default class Wrapper implements BaseWrapper {
     const event = createDOMEvent(type, options)
     this.element.dispatchEvent(event)
 
-    if (this.vnode) {
+    if (this.vnode && this.options.sync === COMPAT_SYNC_MODE) {
       orderWatchers(this.vm || this.vnode.context.$root)
     }
   }

@@ -11,7 +11,6 @@ const MOUNTING_OPTIONS = [
   'attrs',
   'listeners',
   'propsData',
-  'logModifiedComponents',
   'sync',
   'shouldProxy'
 ]

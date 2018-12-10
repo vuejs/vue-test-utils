@@ -26,7 +26,6 @@ export function mergeOptions (options: Options, config: Config): Options {
   const provide = ((getOption(options.provide, config.provide)): Object)
   return {
     ...options,
-    logModifiedComponents: config.logModifiedComponents,
     stubs: getOption(normalizeStubs(options.stubs), config.stubs),
     mocks,
     methods,

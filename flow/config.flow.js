@@ -3,6 +3,5 @@ declare type Config = {
   mocks?: Object,
   methods?: { [name: string]: Function },
   provide?: Object,
-  logModifiedComponents?: boolean,
   silent?: boolean
 };
