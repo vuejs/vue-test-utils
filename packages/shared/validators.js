@@ -63,6 +63,11 @@ export function componentHasProperty (
 ): boolean {
   while (component) {
     if (component.hasOwnProperty(property)) return true
+    if (component.mixins && component.mixins.length) {
+      for (let i = 0; i < component.mixins.length; i++) {
+        if (componentHasProperty(component.mixins[i], property)) return true
+      }
+    }
     component = component.extends
   }
   return false
