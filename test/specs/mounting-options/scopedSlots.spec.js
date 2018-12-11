@@ -234,4 +234,27 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
         .with.property('message', message)
     }
   )
+
+  it('renders scoped slots in sync mode by default', () => {
+    const TestComponent = {
+      data () {
+        return {
+          val: null
+        }
+      },
+      mounted () {
+        this.val = 123
+      },
+      render () {
+        return this.$scopedSlots.default(this.val)
+      }
+    }
+    const stub = sinon.stub()
+    mountingMethod(TestComponent, {
+      scopedSlots: {
+        default: stub
+      }
+    })
+    expect(stub).calledWith(123)
+  })
 })

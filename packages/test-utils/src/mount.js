@@ -50,14 +50,15 @@ export default function mount (
   component: Component,
   options: Options = {}
 ): VueWrapper | Wrapper {
+  const mergedOptions = mergeOptions(options, config)
+  const sync = getSyncOption(mergedOptions.sync)
   const existingErrorHandler = Vue.config.errorHandler
+
   Vue.config.errorHandler = errorHandler
 
   warnIfNoWindow()
 
   const elm = options.attachToDocument ? createElement() : undefined
-
-  const mergedOptions = mergeOptions(options, config)
 
   const parentVm = createInstance(
     component,
@@ -79,7 +80,7 @@ export default function mount (
 
   const wrapperOptions = {
     attachedToDocument: !!mergedOptions.attachToDocument,
-    sync: getSyncOption(mergedOptions.sync)
+    sync
   }
   const root = vm.$options._isFunctionalContainer
     ? vm._vnode
