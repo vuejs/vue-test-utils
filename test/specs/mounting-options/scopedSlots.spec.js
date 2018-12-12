@@ -2,6 +2,7 @@ import {
   describeWithShallowAndMount,
   vueVersion
 } from '~resources/utils'
+import { createLocalVue } from '~vue/test-utils'
 import ComponentWithScopedSlots from '~resources/components/component-with-scoped-slots.vue'
 import { itDoNotRunIf } from 'conditional-specs'
 
@@ -234,4 +235,28 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
         .with.property('message', message)
     }
   )
+
+  itDoNotRunIf(
+    vueVersion < 2.5 || mountingMethod.name !== 'mount',
+    'renders using localVue constructor',
+    () => {
+      const RegisteredComponent = {
+        render: h => h('span')
+      }
+      const TestComponent = {
+        template: '<div><slot name="single" /></div>'
+      }
+
+      const localVue = createLocalVue()
+      localVue.component('registered-component', RegisteredComponent)
+
+      const wrapper = mountingMethod(TestComponent, {
+        scopedSlots: {
+          single: '<template><registered-component /></template>'
+        },
+        localVue
+      })
+
+      expect(wrapper.html()).to.contain('span')
+    })
 })

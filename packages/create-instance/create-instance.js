@@ -71,7 +71,7 @@ export default function createInstance (
     (component.options && component.options.functional) ||
     component.functional
   ) {
-    component = createFunctionalComponent(component, options)
+    component = createFunctionalComponent(component, options, _Vue)
   } else if (options.context) {
     throwError(
       `mount.context can only be used when mounting a ` +
@@ -116,7 +116,7 @@ export default function createInstance (
     options.provide = () => obj
   }
 
-  const scopedSlots = createScopedSlots(options.scopedSlots)
+  const scopedSlots = createScopedSlots(options.scopedSlots, _Vue)
 
   if (options.parentComponent && !isPlainObject(options.parentComponent)) {
     throwError(

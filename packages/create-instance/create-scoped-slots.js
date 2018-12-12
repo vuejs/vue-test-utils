@@ -1,6 +1,5 @@
 // @flow
 
-import Vue from 'vue'
 import { compileToFunctions } from 'vue-template-compiler'
 import { throwError, vueVersion } from 'shared/util'
 
@@ -8,8 +7,11 @@ function isDestructuringSlotScope (slotScope: string): boolean {
   return slotScope[0] === '{' && slotScope[slotScope.length - 1] === '}'
 }
 
-function getVueTemplateCompilerHelpers (): { [name: string]: Function } {
-  const vue = new Vue()
+function getVueTemplateCompilerHelpers (
+  _Vue: Component
+): { [name: string]: Function } {
+  // $FlowIgnore
+  const vue = new _Vue()
   const helpers = {}
   const names = [
     '_c',
@@ -52,7 +54,8 @@ function customWarn (msg) {
 }
 
 export default function createScopedSlots (
-  scopedSlotsOption: ?{ [slotName: string]: string | Function }
+  scopedSlotsOption: ?{ [slotName: string]: string | Function },
+  _Vue: Component
 ): {
   [slotName: string]: (props: Object) => VNode | Array<VNode>
 } {
@@ -61,7 +64,7 @@ export default function createScopedSlots (
     return scopedSlots
   }
   validateEnvironment()
-  const helpers = getVueTemplateCompilerHelpers()
+  const helpers = getVueTemplateCompilerHelpers(_Vue)
   for (const scopedSlotName in scopedSlotsOption) {
     const slot = scopedSlotsOption[scopedSlotName]
     const isFn = typeof slot === 'function'
