@@ -238,7 +238,7 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
 
   itDoNotRunIf(
     vueVersion < 2.5 || mountingMethod.name !== 'mount',
-    'handles slots registered on localVue',
+    'renders using localVue constructor',
     () => {
       const RegisteredComponent = {
         render: h => h('span')
