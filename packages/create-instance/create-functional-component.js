@@ -7,7 +7,8 @@ import createScopedSlots from './create-scoped-slots'
 
 export default function createFunctionalComponent (
   component: Component,
-  mountingOptions: Options
+  mountingOptions: Options,
+  _Vue: Component
 ): Component {
   if (mountingOptions.context && typeof mountingOptions.context !== 'object') {
     throwError('mount.context must be an object')
@@ -29,7 +30,7 @@ export default function createFunctionalComponent (
     })
   }
 
-  context.scopedSlots = createScopedSlots(mountingOptions.scopedSlots)
+  context.scopedSlots = createScopedSlots(mountingOptions.scopedSlots, _Vue)
 
   return {
     render (h: Function) {
