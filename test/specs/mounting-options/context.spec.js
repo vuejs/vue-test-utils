@@ -73,6 +73,30 @@ describeWithMountingMethods('options.context', mountingMethod => {
     expect(fn).not.to.throw()
   })
 
+  it('correctly applies context when a functional component is extended', () => {
+    const Component = {
+      extends: {
+        functional: true,
+        render: (h, context) => h('div', [context.props.fruit])
+      }
+    }
+    const context = { props: { fruit: 'starfruit' }}
+    const wrapper = mountingMethod(Component, { context, stubs: false, mocks: false })
+    expect(wrapper.text()).to.include('starfruit')
+  })
+
+  it('correctly applies context when a component has a functional component mixin', () => {
+    const Component = {
+      mixins: [{
+        functional: true,
+        render: (h, context) => h('div', [context.props.fruit])
+      }]
+    }
+    const context = { props: { fruit: 'starfruit' }}
+    const wrapper = mountingMethod(Component, { context, stubs: false, mocks: false })
+    expect(wrapper.text()).to.include('starfruit')
+  })
+
   it('throws error if context option is not an object', () => {
     const Component = {
       functional: true,
