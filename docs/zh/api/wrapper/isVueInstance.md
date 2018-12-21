@@ -1,6 +1,6 @@
 ## isVueInstance()
 
-断言 `Wrapper` 是 Vue 示例。
+断言 `Wrapper` 是 Vue 实例。
 
 - **返回值：**`{boolean}`
 
