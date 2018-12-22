@@ -67,14 +67,14 @@ export default function createDOMEvent (type, options) {
     ? createEvent(eventType, modifier, meta, options)
     : createOldEvent(eventType, modifier, meta)
 
-  const eventProperties = Object.getOwnPropertyDescriptors(
-    Object.getPrototypeOf(event)
-  )
-
+  const eventPrototype = Object.getPrototypeOf(event)
   Object.keys(options || {}).forEach(key => {
+    const propertyDescriptor =
+      Object.getOwnPropertyDescriptor(eventPrototype, key)
+
     const canSetProperty = !(
-      eventProperties[key] &&
-      eventProperties[key].setter === undefined
+      propertyDescriptor &&
+      propertyDescriptor.setter === undefined
     )
     if (canSetProperty) {
       event[key] = options[key]
