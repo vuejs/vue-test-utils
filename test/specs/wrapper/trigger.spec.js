@@ -102,6 +102,26 @@ describeWithShallowAndMount('trigger', mountingMethod => {
     expect(clickHandler.calledOnce).to.equal(true)
   })
 
+  it('adds custom data to events', () => {
+    const stub = sinon.stub()
+    const TestComponent = {
+      template: '<div @update="callStub" />',
+      methods: {
+        callStub (event) {
+          stub(event.customData)
+        }
+      }
+    }
+
+    const wrapper = mountingMethod(TestComponent)
+
+    wrapper.trigger('update', {
+      customData: 123
+    })
+
+    expect(stub).calledWith(123)
+  })
+
   it('does not fire on disabled elements', () => {
     const clickHandler = sinon.stub()
     const TestComponent = {
