@@ -491,24 +491,29 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
     )
   })
 
-  it('does not error when rendering a previously stubbed component', () => {
-    const ChildComponent = {
-      render: h => h('div')
-    }
-    const TestComponent = {
-      template: `
+  itDoNotRunIf(
+    vueVersion < 2.1,
+    'does not error when rendering a previously stubbed component', () => {
+      const ChildComponent = {
+        render: h => h('div')
+      }
+      const TestComponent = {
+        template: `
         <div>
           <extended-component />
-          <child-component />
+          <keep-alive>
+            <child-component />
+          </keep-alive>
         </div>
       `,
-      components: {
-        ExtendedComponent: Vue.extend({ render: h => h('div') }),
-        ChildComponent
+        components: {
+          ExtendedComponent: Vue.extend({ render: h => h('div') }),
+          ChildComponent
+        }
       }
-    }
-    shallowMount(TestComponent)
-    mount(TestComponent)
-    expect(console.error).not.called
-  })
+      shallowMount(TestComponent)
+      mount(TestComponent)
+      expect(console.error)
+        .not.calledWith(sinon.match('Unknown custom element'))
+    })
 })
