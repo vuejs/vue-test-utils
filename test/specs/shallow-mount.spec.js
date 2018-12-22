@@ -13,8 +13,8 @@ import { describeRunIf, itDoNotRunIf } from 'conditional-specs'
 
 describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
   beforeEach(() => {
-    sinon.stub(console, 'info')
-    sinon.stub(console, 'error')
+    sinon.stub(console, 'info').callThrough()
+    sinon.stub(console, 'error').callThrough()
   })
 
   afterEach(() => {
@@ -490,4 +490,30 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
         '</div>'
     )
   })
+
+  itDoNotRunIf(
+    vueVersion < 2.1,
+    'does not error when rendering a previously stubbed component', () => {
+      const ChildComponent = {
+        render: h => h('div')
+      }
+      const TestComponent = {
+        template: `
+        <div>
+          <extended-component />
+          <keep-alive>
+            <child-component />
+          </keep-alive>
+        </div>
+      `,
+        components: {
+          ExtendedComponent: Vue.extend({ render: h => h('div') }),
+          ChildComponent
+        }
+      }
+      shallowMount(TestComponent)
+      mount(TestComponent)
+      expect(console.error)
+        .not.calledWith(sinon.match('Unknown custom element'))
+    })
 })

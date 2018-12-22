@@ -108,10 +108,9 @@ export function patchRender (_Vue, stubs, stubAllComponents) {
         const stub = createStubIfNeeded(stubAllComponents, original, _Vue, el)
 
         if (stub) {
-          vm.$options.components = {
-            ...vm.$options.components,
+          Object.assign(vm.$options.components, {
             [el]: stub
-          }
+          })
           modifiedComponents.add(el)
         }
       }
