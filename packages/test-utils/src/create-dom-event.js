@@ -36,8 +36,8 @@ function createEvent (
       : window.Event
 
   const event = new SupportedEventInterface(type, {
-    // event options can only be added when the event is
-    // custom options must be added after the event has been created
+    // event properties can only be added when the event is instantiated
+    // custom properties must be added after the event has been instantiated
     ...options,
     bubbles,
     cancelable,
