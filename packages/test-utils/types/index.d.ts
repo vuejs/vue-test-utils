@@ -113,11 +113,17 @@ export interface Wrapper<V extends Vue | null> extends BaseWrapper {
 }
 
 export interface WrapperArray<V extends Vue> extends BaseWrapper {
-  readonly length: number
-  readonly wrappers: Array<Wrapper<V>>
+  readonly length: number;
+  readonly wrappers: Array<Wrapper<V>>;
 
-  at (index: number): Wrapper<V>
-  filter (predicate: Function): WrapperArray<Vue>
+  at(index: number): Wrapper<V>;
+  filter(
+    predicate: (
+      value: Wrapper<V>,
+      index: number,
+      array: Wrapper<V>[]
+    ) => any
+  ): WrapperArray<Vue>;
 }
 
 interface WrapperOptions {
