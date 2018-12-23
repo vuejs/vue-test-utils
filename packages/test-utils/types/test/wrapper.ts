@@ -79,11 +79,7 @@ wrapper.attributes('foo')
  */
 let num: number = array.length
 found = array.at(1)
-array = array.filter((w, i, arr) => {
-  i + 2
-  arr.length
-  return w.is('div')
-})
+array = array.filter((a: any) => a === true)
 
 let createdWrapper = createWrapper(new Vue().$mount())
 createdWrapper.text()
