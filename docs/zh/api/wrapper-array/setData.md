@@ -2,7 +2,7 @@
 
 为 `WrapperArray` 的每个 `Wrapper` `vm` 都设置数据。
 
-**注意：该包裹器必须包含一个 Vue 示例。**
+**注意：该包裹器必须包含一个 Vue 实例。**
 
 - **参数：**
   - `{Object} data`
