@@ -1,7 +1,7 @@
 import ComponentWithInput from '~resources/components/component-with-input.vue'
 import { describeWithShallowAndMount } from '~resources/utils'
 
-describeWithShallowAndMount.only('setSelected', mountingMethod => {
+describeWithShallowAndMount('setSelected', mountingMethod => {
   it('sets element selected true', () => {
     const wrapper = mountingMethod(ComponentWithInput)
     const options = wrapper.find('select').findAll('option')

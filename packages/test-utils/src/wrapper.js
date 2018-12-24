@@ -744,11 +744,7 @@ export default class Wrapper implements BaseWrapper {
     // $FlowIgnore
     const type = this.attributes().type
 
-    if (tagName === 'SELECT') {
-      // $FlowIgnore
-      this.element.value = value
-      this.trigger('change')
-    } else if (tagName === 'OPTION') {
+    if (tagName === 'OPTION') {
       throwError(
         `wrapper.setValue() cannot be called on an <option> ` +
           `element. Use wrapper.setSelected() instead`
@@ -765,10 +761,16 @@ export default class Wrapper implements BaseWrapper {
           `type="radio" /> element. Use wrapper.setChecked() ` +
           `instead`
       )
-    } else if (tagName === 'INPUT' || tagName === 'TEXTAREA') {
+    } else if (
+      tagName === 'INPUT' ||
+      tagName === 'TEXTAREA' ||
+      tagName === 'SELECT'
+    ) {
+      // $FlowIgnore
+      const event = tagName === 'SELECT' ? 'change' : 'input'
       // $FlowIgnore
       this.element.value = value
-      this.trigger('input')
+      this.trigger(event)
     } else {
       throwError(`wrapper.setValue() cannot be called on this element`)
     }
