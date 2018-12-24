@@ -40,7 +40,7 @@ export default class Wrapper implements BaseWrapper {
       // $FlowIgnore : issue with defineProperty
       Object.defineProperty(this, 'rootNode', {
         get: () => vnode || element,
-        set: () => throwError('wrapper.vnode is read-only')
+        set: () => throwError('wrapper.rootNode is read-only')
       })
       // $FlowIgnore
       Object.defineProperty(this, 'vnode', {
@@ -488,23 +488,14 @@ export default class Wrapper implements BaseWrapper {
     // $FlowIgnore
     const type = this.attributes().type
 
-    if (tagName === 'SELECT') {
-      throwError(
-        `wrapper.setChecked() cannot be called on a ` +
-          `<select> element. Use wrapper.setSelected() ` +
-          `instead`
-      )
-    } else if (tagName === 'INPUT' && type === 'checkbox') {
+    if (tagName === 'INPUT' && type === 'checkbox') {
       // $FlowIgnore
-      if (this.element.checked !== checked) {
-        if (!navigator.userAgent.includes('jsdom')) {
-          // $FlowIgnore
-          this.element.checked = checked
-        }
-        this.trigger('click')
-        this.trigger('change')
-      }
-    } else if (tagName === 'INPUT' && type === 'radio') {
+      this.element.checked = checked
+      this.trigger('change')
+      return
+    }
+
+    if (tagName === 'INPUT' && type === 'radio') {
       if (!checked) {
         throwError(
           `wrapper.setChecked() cannot be called with ` +
@@ -514,18 +505,15 @@ export default class Wrapper implements BaseWrapper {
       } else {
         // $FlowIgnore
         if (!this.element.checked) {
-          this.trigger('click')
+          // $FlowIgnore
+          this.element.checked = true
           this.trigger('change')
         }
       }
-    } else if (tagName === 'INPUT' || tagName === 'TEXTAREA') {
-      throwError(
-        `wrapper.setChecked() cannot be called on "text" ` +
-          `inputs. Use wrapper.setValue() instead`
-      )
-    } else {
-      throwError(`wrapper.setChecked() cannot be called on this element`)
+      return
     }
+
+    throwError(`wrapper.setChecked() cannot be called on this element`)
   }
 
   /**
