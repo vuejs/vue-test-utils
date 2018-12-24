@@ -521,47 +521,32 @@ export default class Wrapper implements BaseWrapper {
    */
   setSelected (): void {
     const tagName = this.element.tagName
-    // $FlowIgnore
-    const type = this.attributes().type
+
+    if (tagName === 'SELECT') {
+      throwError(
+        `wrapper.setSelected() cannot be called on select. ` +
+        `Call it on one of its options`
+      )
+    }
 
     if (tagName === 'OPTION') {
       // $FlowIgnore
       this.element.selected = true
       // $FlowIgnore
-      if (this.element.parentElement.tagName === 'OPTGROUP') {
+      let parentElement = this.element.parentElement
+
+      // $FlowIgnore
+      if (parentElement.tagName === 'OPTGROUP') {
         // $FlowIgnore
-        createWrapper(this.element.parentElement.parentElement, this.options)
-          .trigger('change')
-      } else {
-        // $FlowIgnore
-        createWrapper(this.element.parentElement, this.options)
-          .trigger('change')
+        parentElement = parentElement.parentElement
       }
-    } else if (tagName === 'SELECT') {
-      throwError(
-        `wrapper.setSelected() cannot be called on select. ` +
-          `Call it on one of its options`
-      )
-    } else if (tagName === 'INPUT' && type === 'checkbox') {
-      throwError(
-        `wrapper.setSelected() cannot be called on a <input ` +
-          `type="checkbox" /> element. Use ` +
-          `wrapper.setChecked() instead`
-      )
-    } else if (tagName === 'INPUT' && type === 'radio') {
-      throwError(
-        `wrapper.setSelected() cannot be called on a <input ` +
-          `type="radio" /> element. Use wrapper.setChecked() ` +
-          `instead`
-      )
-    } else if (tagName === 'INPUT' || tagName === 'TEXTAREA') {
-      throwError(
-        `wrapper.setSelected() cannot be called on "text" ` +
-          `inputs. Use wrapper.setValue() instead`
-      )
-    } else {
-      throwError(`wrapper.setSelected() cannot be called on this element`)
+
+      // $FlowIgnore
+      createWrapper(parentElement, this.options).trigger('change')
+      return
     }
+
+    throwError(`wrapper.setSelected() cannot be called on this element`)
   }
 
   /**

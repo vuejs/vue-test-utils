@@ -1,7 +1,7 @@
 import ComponentWithInput from '~resources/components/component-with-input.vue'
 import { describeWithShallowAndMount } from '~resources/utils'
 
-describeWithShallowAndMount('setSelected', mountingMethod => {
+describeWithShallowAndMount.only('setSelected', mountingMethod => {
   it('sets element selected true', () => {
     const wrapper = mountingMethod(ComponentWithInput)
     const options = wrapper.find('select').findAll('option')
@@ -33,37 +33,15 @@ describeWithShallowAndMount('setSelected', mountingMethod => {
     expect(wrapper.text()).to.contain('selectA')
   })
 
-  it('throws error if element is radio', () => {
-    const message =
-      'wrapper.setSelected() cannot be called on a <input type="radio" /> element. Use wrapper.setChecked() instead'
-    shouldThrowErrorOnElement('input[type="radio"]', message)
-  })
-
-  it('throws error if element is radio', () => {
-    const message =
-      'wrapper.setSelected() cannot be called on a <input type="checkbox" /> element. Use wrapper.setChecked() instead'
-    shouldThrowErrorOnElement('input[type="checkbox"]', message)
-  })
-
-  it('throws error if element is text like', () => {
-    const message =
-      'wrapper.setSelected() cannot be called on "text" inputs. Use wrapper.setValue() instead'
-    shouldThrowErrorOnElement('input[type="text"]', message)
-    shouldThrowErrorOnElement('textarea', message)
-  })
-
   it('throws error if element is not valid', () => {
     const message = 'wrapper.setSelected() cannot be called on this element'
-    shouldThrowErrorOnElement('#label-el', message)
-  })
 
-  function shouldThrowErrorOnElement (selector, message, value) {
     const wrapper = mountingMethod(ComponentWithInput)
-    const input = wrapper.find(selector)
+    const input = wrapper.find('#label-el')
 
-    const fn = () => input.setSelected(value)
+    const fn = () => input.setSelected('value')
     expect(fn)
       .to.throw()
       .with.property('message', '[vue-test-utils]: ' + message)
-  }
+  })
 })
