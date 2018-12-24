@@ -1,4 +1,4 @@
-import { createLocalVue } from '~vue/test-utils'
+import { createLocalVue, createWrapper } from '~vue/test-utils'
 import { describeWithShallowAndMount, vueVersion } from '~resources/utils'
 import { itDoNotRunIf } from 'conditional-specs'
 import Vue from 'vue'
@@ -158,4 +158,14 @@ describeWithShallowAndMount('emitted', mountingMethod => {
 
       expect(wrapper.find({ name: 'bar' }).emitted('foo')).to.exist
     })
+
+  it('captures emitted events on $root instance', () => {
+    const wrapper = mountingMethod({
+      render: h => h('div')
+    })
+
+    wrapper.vm.$root.$emit('foo')
+    const rootWrapper = createWrapper(wrapper.vm.$root)
+    expect(rootWrapper.emitted('foo')).to.exist
+  })
 })
