@@ -102,7 +102,7 @@ export default {
 </script>
 ```
 
-然后添加一个名为 `test/Coutner.spec.js` 的测试文件，并写入如下代码：
+然后添加一个名为 `test/Counter.spec.js` 的测试文件，并写入如下代码：
 
 ```js
 import { expect } from 'chai'
