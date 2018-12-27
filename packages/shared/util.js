@@ -66,12 +66,9 @@ export const isPhantomJS = UA && UA.includes &&
 export const isEdge = UA && UA.indexOf('edge/') > 0
 export const isChrome = UA && /chrome\/\d+/.test(UA) && !isEdge
 
+// get the event used to trigger v-model handler that updates bound data
 export function getCheckedEvent () {
   const version = Vue.version
-
-  if (semver.satisfies(version, '2.0 - 2.1.8')) {
-    return 'change'
-  }
 
   if (semver.satisfies(version, '2.1.9 - 2.1.10')) {
     return 'click'
@@ -81,5 +78,6 @@ export function getCheckedEvent () {
     return isChrome ? 'click' : 'change'
   }
 
+  // change is handler for version 2.0 - 2.1.8, and 2.5+
   return 'change'
 }
