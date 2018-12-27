@@ -4,9 +4,10 @@ import findDOMNodes from './find-dom-nodes'
 import {
   DOM_SELECTOR,
   REF_SELECTOR,
-  COMPONENT_SELECTOR
+  COMPONENT_SELECTOR,
+  VUE_VERSION
 } from 'shared/consts'
-import { throwError, vueVersion } from 'shared/util'
+import { throwError } from 'shared/util'
 import { matches } from './matches'
 
 export function findAllInstances (rootVm: any) {
@@ -74,7 +75,7 @@ export default function find (
       (selector.value.options &&
       selector.value.options.functional)
     ) &&
-    vueVersion < 2.3
+    VUE_VERSION < 2.3
   ) {
     throwError(
       `find for functional components is not supported ` +

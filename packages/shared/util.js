@@ -1,5 +1,6 @@
 // @flow
 import Vue from 'vue'
+import semver from 'semver'
 
 export function throwError (msg: string): void {
   throw new Error(`[vue-test-utils]: ${msg}`)
@@ -31,10 +32,6 @@ const hyphenateRE = /\B([A-Z])/g
 export const hyphenate = (str: string): string =>
   str.replace(hyphenateRE, '-$1').toLowerCase()
 
-export const vueVersion = Number(
-  `${Vue.version.split('.')[0]}.${Vue.version.split('.')[1]}`
-)
-
 function hasOwnProperty (obj, prop) {
   return Object.prototype.hasOwnProperty.call(obj, prop)
 }
@@ -59,16 +56,30 @@ export function resolveComponent (id: string, components: Object) {
   return components[id] || components[camelizedId] || components[PascalCaseId]
 }
 
-export function semVerGreaterThan (a: string, b: string) {
-  const pa = a.split('.')
-  const pb = b.split('.')
-  for (let i = 0; i < 3; i++) {
-    var na = Number(pa[i])
-    var nb = Number(pb[i])
-    if (na > nb) return true
-    if (nb > na) return false
-    if (!isNaN(na) && isNaN(nb)) return true
-    if (isNaN(na) && !isNaN(nb)) return false
+const UA = typeof window !== 'undefined' &&
+  'navigator' in window &&
+  navigator.userAgent.toLowerCase()
+
+export const isPhantomJS = UA && UA.includes &&
+  UA.match(/phantomjs/i)
+
+export const isEdge = UA && UA.indexOf('edge/') > 0
+export const isChrome = UA && /chrome\/\d+/.test(UA) && !isEdge
+
+export function getCheckedEvent () {
+  const version = Vue.version
+
+  if (semver.satisfies(version, '2.0 - 2.1.8')) {
+    return 'change'
   }
-  return false
+
+  if (semver.satisfies(version, '2.1.9 - 2.1.10')) {
+    return 'click'
+  }
+
+  if (semver.satisfies(version, '2.2 - 2.4')) {
+    return isChrome ? 'click' : 'change'
+  }
+
+  return 'change'
 }

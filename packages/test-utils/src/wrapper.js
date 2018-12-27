@@ -4,12 +4,18 @@ import Vue from 'vue'
 import getSelector from './get-selector'
 import {
   REF_SELECTOR,
-  FUNCTIONAL_OPTIONS
+  FUNCTIONAL_OPTIONS,
+  VUE_VERSION
 } from 'shared/consts'
 import config from './config'
 import WrapperArray from './wrapper-array'
 import ErrorWrapper from './error-wrapper'
-import { throwError, warn, vueVersion } from 'shared/util'
+import {
+  throwError,
+  warn,
+  getCheckedEvent,
+  isPhantomJS
+} from 'shared/util'
 import find from './find'
 import createWrapper from './create-wrapper'
 import { orderWatchers } from './order-watchers'
@@ -487,11 +493,17 @@ export default class Wrapper implements BaseWrapper {
     const tagName = this.element.tagName
     // $FlowIgnore
     const type = this.attributes().type
+    const event = getCheckedEvent()
 
     if (tagName === 'INPUT' && type === 'checkbox') {
-      // $FlowIgnore
-      this.element.checked = checked
-      this.trigger('change')
+      if (this.element.checked === checked) {
+        return
+      }
+      if (event !== 'click' || isPhantomJS) {
+        // $FlowIgnore
+        this.element.checked = checked
+      }
+      this.trigger(event)
       return
     }
 
@@ -499,17 +511,16 @@ export default class Wrapper implements BaseWrapper {
       if (!checked) {
         throwError(
           `wrapper.setChecked() cannot be called with ` +
-            `parameter false on a <input type="radio" /> ` +
-            `element.`
+          `parameter false on a <input type="radio" /> ` +
+          `element.`
         )
-      } else {
-        // $FlowIgnore
-        if (!this.element.checked) {
-          // $FlowIgnore
-          this.element.checked = true
-          this.trigger('change')
-        }
       }
+
+      if (event !== 'click' || isPhantomJS) {
+        // $FlowIgnore
+        this.element.selected = true
+      }
+      this.trigger(event)
       return
     }
 
@@ -568,7 +579,7 @@ export default class Wrapper implements BaseWrapper {
     )
 
     Object.keys(computed).forEach(key => {
-      if (vueVersion > 2.1) {
+      if (VUE_VERSION > 2.1) {
         // $FlowIgnore : Problem with possibly null this.vm
         if (!this.vm._computedWatchers[key]) {
           throwError(
@@ -704,7 +715,7 @@ export default class Wrapper implements BaseWrapper {
         !this.vm.$options._propKeys ||
         !this.vm.$options._propKeys.some(prop => prop === key)
       ) {
-        if (vueVersion > 2.3) {
+        if (VUE_VERSION > 2.3) {
           // $FlowIgnore : Problem with possibly null this.vm
           this.vm.$attrs[key] = data[key]
           return
@@ -766,7 +777,6 @@ export default class Wrapper implements BaseWrapper {
       tagName === 'TEXTAREA' ||
       tagName === 'SELECT'
     ) {
-      // $FlowIgnore
       const event = tagName === 'SELECT' ? 'change' : 'input'
       // $FlowIgnore
       this.element.value = value

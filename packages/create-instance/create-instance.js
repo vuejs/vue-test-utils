@@ -4,7 +4,8 @@ import { createSlotVNodes } from './create-slot-vnodes'
 import addMocks from './add-mocks'
 import { addEventLogger } from './log-events'
 import { addStubs } from './add-stubs'
-import { throwError, vueVersion } from 'shared/util'
+import { throwError } from 'shared/util'
+import { VUE_VERSION } from 'shared/consts'
 import {
   compileTemplate,
   compileTemplateForSlots
@@ -42,7 +43,7 @@ export default function createInstance (
   _Vue.options._base = _Vue
 
   if (
-    vueVersion < 2.3 &&
+    VUE_VERSION < 2.3 &&
     typeof component === 'function' &&
     component.options
   ) {
@@ -110,7 +111,7 @@ export default function createInstance (
   if (
     options.provide &&
     typeof options.provide === 'object' &&
-    vueVersion < 2.5
+    VUE_VERSION < 2.5
   ) {
     const obj = { ...options.provide }
     options.provide = () => obj
