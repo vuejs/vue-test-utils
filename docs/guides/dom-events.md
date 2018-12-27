@@ -2,7 +2,7 @@
 
 ### Trigger events
 
-The `Wrapper` expose a `trigger` method. It can be used to trigger DOM events.
+The `Wrapper` exposes a `trigger` method. It can be used to trigger DOM events.
 
 ```js
 const wrapper = mount(MyButton)
@@ -158,13 +158,13 @@ describe('Key event tests', () => {
     expect(wrapper.vm.quantity).toBe(0)
   })
 
-  it('Cursor up sets quantity to 1', () => {
+  it('Up arrow key increments quantity by 1', () => {
     const wrapper = mount(QuantityComponent)
     wrapper.trigger('keydown.up')
     expect(wrapper.vm.quantity).toBe(1)
   })
 
-  it('Cursor down reduce quantity by 1', () => {
+  it('Down arrow key decrements quantity by 1', () => {
     const wrapper = mount(QuantityComponent)
     wrapper.vm.quantity = 5
     wrapper.trigger('keydown.down')
