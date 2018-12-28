@@ -23,3 +23,7 @@ declare module 'vue-server-renderer' {
 declare module 'cheerio' {
   declare module.exports: any;
 }
+
+declare module 'semver' {
+  declare module.exports: any;
+}

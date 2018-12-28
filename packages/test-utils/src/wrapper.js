@@ -4,12 +4,18 @@ import Vue from 'vue'
 import getSelector from './get-selector'
 import {
   REF_SELECTOR,
-  FUNCTIONAL_OPTIONS
+  FUNCTIONAL_OPTIONS,
+  VUE_VERSION
 } from 'shared/consts'
 import config from './config'
 import WrapperArray from './wrapper-array'
 import ErrorWrapper from './error-wrapper'
-import { throwError, warn, vueVersion } from 'shared/util'
+import {
+  throwError,
+  warn,
+  getCheckedEvent,
+  isPhantomJS
+} from 'shared/util'
 import find from './find'
 import createWrapper from './create-wrapper'
 import { orderWatchers } from './order-watchers'
@@ -40,7 +46,7 @@ export default class Wrapper implements BaseWrapper {
       // $FlowIgnore : issue with defineProperty
       Object.defineProperty(this, 'rootNode', {
         get: () => vnode || element,
-        set: () => throwError('wrapper.vnode is read-only')
+        set: () => throwError('wrapper.rootNode is read-only')
       })
       // $FlowIgnore
       Object.defineProperty(this, 'vnode', {
@@ -487,45 +493,38 @@ export default class Wrapper implements BaseWrapper {
     const tagName = this.element.tagName
     // $FlowIgnore
     const type = this.attributes().type
+    const event = getCheckedEvent()
 
-    if (tagName === 'SELECT') {
-      throwError(
-        `wrapper.setChecked() cannot be called on a ` +
-          `<select> element. Use wrapper.setSelected() ` +
-          `instead`
-      )
-    } else if (tagName === 'INPUT' && type === 'checkbox') {
-      // $FlowIgnore
-      if (this.element.checked !== checked) {
-        if (!navigator.userAgent.includes('jsdom')) {
-          // $FlowIgnore
-          this.element.checked = checked
-        }
-        this.trigger('click')
-        this.trigger('change')
+    if (tagName === 'INPUT' && type === 'checkbox') {
+      if (this.element.checked === checked) {
+        return
       }
-    } else if (tagName === 'INPUT' && type === 'radio') {
+      if (event !== 'click' || isPhantomJS) {
+        // $FlowIgnore
+        this.element.checked = checked
+      }
+      this.trigger(event)
+      return
+    }
+
+    if (tagName === 'INPUT' && type === 'radio') {
       if (!checked) {
         throwError(
           `wrapper.setChecked() cannot be called with ` +
-            `parameter false on a <input type="radio" /> ` +
-            `element.`
+          `parameter false on a <input type="radio" /> ` +
+          `element.`
         )
-      } else {
-        // $FlowIgnore
-        if (!this.element.checked) {
-          this.trigger('click')
-          this.trigger('change')
-        }
       }
-    } else if (tagName === 'INPUT' || tagName === 'TEXTAREA') {
-      throwError(
-        `wrapper.setChecked() cannot be called on "text" ` +
-          `inputs. Use wrapper.setValue() instead`
-      )
-    } else {
-      throwError(`wrapper.setChecked() cannot be called on this element`)
+
+      if (event !== 'click' || isPhantomJS) {
+        // $FlowIgnore
+        this.element.selected = true
+      }
+      this.trigger(event)
+      return
     }
+
+    throwError(`wrapper.setChecked() cannot be called on this element`)
   }
 
   /**
@@ -533,47 +532,32 @@ export default class Wrapper implements BaseWrapper {
    */
   setSelected (): void {
     const tagName = this.element.tagName
-    // $FlowIgnore
-    const type = this.attributes().type
+
+    if (tagName === 'SELECT') {
+      throwError(
+        `wrapper.setSelected() cannot be called on select. ` +
+        `Call it on one of its options`
+      )
+    }
 
     if (tagName === 'OPTION') {
       // $FlowIgnore
       this.element.selected = true
       // $FlowIgnore
-      if (this.element.parentElement.tagName === 'OPTGROUP') {
+      let parentElement = this.element.parentElement
+
+      // $FlowIgnore
+      if (parentElement.tagName === 'OPTGROUP') {
         // $FlowIgnore
-        createWrapper(this.element.parentElement.parentElement, this.options)
-          .trigger('change')
-      } else {
-        // $FlowIgnore
-        createWrapper(this.element.parentElement, this.options)
-          .trigger('change')
+        parentElement = parentElement.parentElement
       }
-    } else if (tagName === 'SELECT') {
-      throwError(
-        `wrapper.setSelected() cannot be called on select. ` +
-          `Call it on one of its options`
-      )
-    } else if (tagName === 'INPUT' && type === 'checkbox') {
-      throwError(
-        `wrapper.setSelected() cannot be called on a <input ` +
-          `type="checkbox" /> element. Use ` +
-          `wrapper.setChecked() instead`
-      )
-    } else if (tagName === 'INPUT' && type === 'radio') {
-      throwError(
-        `wrapper.setSelected() cannot be called on a <input ` +
-          `type="radio" /> element. Use wrapper.setChecked() ` +
-          `instead`
-      )
-    } else if (tagName === 'INPUT' || tagName === 'TEXTAREA') {
-      throwError(
-        `wrapper.setSelected() cannot be called on "text" ` +
-          `inputs. Use wrapper.setValue() instead`
-      )
-    } else {
-      throwError(`wrapper.setSelected() cannot be called on this element`)
+
+      // $FlowIgnore
+      createWrapper(parentElement, this.options).trigger('change')
+      return
     }
+
+    throwError(`wrapper.setSelected() cannot be called on this element`)
   }
 
   /**
@@ -595,7 +579,7 @@ export default class Wrapper implements BaseWrapper {
     )
 
     Object.keys(computed).forEach(key => {
-      if (vueVersion > 2.1) {
+      if (VUE_VERSION > 2.1) {
         // $FlowIgnore : Problem with possibly null this.vm
         if (!this.vm._computedWatchers[key]) {
           throwError(
@@ -731,7 +715,7 @@ export default class Wrapper implements BaseWrapper {
         !this.vm.$options._propKeys ||
         !this.vm.$options._propKeys.some(prop => prop === key)
       ) {
-        if (vueVersion > 2.3) {
+        if (VUE_VERSION > 2.3) {
           // $FlowIgnore : Problem with possibly null this.vm
           this.vm.$attrs[key] = data[key]
           return
@@ -771,11 +755,7 @@ export default class Wrapper implements BaseWrapper {
     // $FlowIgnore
     const type = this.attributes().type
 
-    if (tagName === 'SELECT') {
-      // $FlowIgnore
-      this.element.value = value
-      this.trigger('change')
-    } else if (tagName === 'OPTION') {
+    if (tagName === 'OPTION') {
       throwError(
         `wrapper.setValue() cannot be called on an <option> ` +
           `element. Use wrapper.setSelected() instead`
@@ -792,10 +772,15 @@ export default class Wrapper implements BaseWrapper {
           `type="radio" /> element. Use wrapper.setChecked() ` +
           `instead`
       )
-    } else if (tagName === 'INPUT' || tagName === 'TEXTAREA') {
+    } else if (
+      tagName === 'INPUT' ||
+      tagName === 'TEXTAREA' ||
+      tagName === 'SELECT'
+    ) {
+      const event = tagName === 'SELECT' ? 'change' : 'input'
       // $FlowIgnore
       this.element.value = value
-      this.trigger('input')
+      this.trigger(event)
     } else {
       throwError(`wrapper.setValue() cannot be called on this element`)
     }

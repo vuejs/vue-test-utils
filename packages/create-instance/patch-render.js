@@ -1,16 +1,14 @@
 import { createStubFromComponent } from './create-component-stubs'
-import { resolveComponent, semVerGreaterThan } from 'shared/util'
+import { resolveComponent } from 'shared/util'
 import { isReservedTag } from 'shared/validators'
-import Vue from 'vue'
-import { BEFORE_RENDER_LIFECYCLE_HOOK } from 'shared/consts'
+import {
+  BEFORE_RENDER_LIFECYCLE_HOOK,
+  CREATE_ELEMENT_ALIAS
+} from 'shared/consts'
 
 const isWhitelisted = (el, whitelist) => resolveComponent(el, whitelist)
 const isAlreadyStubbed = (el, stubs) => stubs.has(el)
 const isDynamicComponent = cmp => typeof cmp === 'function' && !cmp.cid
-
-const CREATE_ELEMENT_ALIAS = semVerGreaterThan(Vue.version, '2.1.5')
-  ? '_c'
-  : '_h'
 
 function shouldExtend (component, _Vue) {
   return (

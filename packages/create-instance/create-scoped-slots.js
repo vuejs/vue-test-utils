@@ -1,7 +1,8 @@
 // @flow
 
 import { compileToFunctions } from 'vue-template-compiler'
-import { throwError, vueVersion } from 'shared/util'
+import { throwError } from 'shared/util'
+import { VUE_VERSION } from 'shared/consts'
 
 function isDestructuringSlotScope (slotScope: string): boolean {
   return slotScope[0] === '{' && slotScope[slotScope.length - 1] === '}'
@@ -39,7 +40,7 @@ function getVueTemplateCompilerHelpers (
 }
 
 function validateEnvironment (): void {
-  if (vueVersion < 2.1) {
+  if (VUE_VERSION < 2.1) {
     throwError(`the scopedSlots option is only supported in vue@2.1+.`)
   }
 }
