@@ -292,29 +292,21 @@ When `sync` is `false`, the Vue component is rendered asynchronously.
 
 ## Other options
 
-When the options for `mount` and `shallowMount` contain the options other than the mounting options, the component options are overwritten with those using [extends](https://vuejs.org/v2/api/#extends).
+When the options for `mount` and `shallowMount` contain the options other than the mounting options, the options are added used when the Vue instance is initialized.
 
 ```js
 const Component = {
-  template: '<div>{{ foo() }}{{ bar() }}{{ baz() }}</div>',
-  methods: {
-    foo () {
-      return 'a'
-    },
-    bar () {
-      return 'b'
-    }
-  }
+  template: `
+    <div>
+      id: {$route.params.id}
+      username: {$store.state.username}
+    </div>
+  `
 }
+
 const options = {
-  methods: {
-    bar () {
-      return 'B'
-    },
-    baz () {
-      return 'C'
-    }
-  }
+  store,
+  route
 }
 const wrapper = mount(Component, options)
 expect(wrapper.text()).toBe('aBC')
