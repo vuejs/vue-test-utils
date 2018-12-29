@@ -64,18 +64,18 @@ describeWithMountingMethods('options.stub', mountingMethod => {
     mountingMethod.name === 'renderToString',
     'replaces component with a component',
     () => {
+      const mounted = sinon.stub()
+      const Stub = {
+        template: '<div />',
+        mounted
+      }
       const wrapper = mountingMethod(ComponentWithChild, {
         stubs: {
-          ChildComponent: {
-            render: h => h('time'),
-            mounted () {
-              console.info('stubbed')
-            }
-          }
+          ChildComponent: Stub
         }
       })
-      expect(wrapper.findAll(Component).length).to.equal(1)
-      expect(info.calledWith('stubbed')).to.equal(true)
+      expect(wrapper.findAll(Stub).length).to.equal(1)
+      expect(mounted).calledOnce
     }
   )
 
@@ -567,4 +567,28 @@ describeWithMountingMethods('options.stub', mountingMethod => {
     )
     expect(HTML).to.contain('h1')
   })
+
+  itDoNotRunIf(
+    mountingMethod.name === 'renderToString',
+    'uses original component stub', () => {
+      const Stub = {
+        template: '<div />'
+      }
+      const ToStub = {
+        template: '<div />'
+      }
+      const TestComponent = {
+        template: '<div><to-stub /></div>',
+        components: {
+          ToStub
+        }
+      }
+      const wrapper = mountingMethod(TestComponent, {
+        stubs: {
+          ToStub: Stub
+        }
+      })
+      expect(wrapper.find(ToStub).exists()).to.be.false
+      expect(wrapper.find(Stub).exists()).to.be.true
+    })
 })
