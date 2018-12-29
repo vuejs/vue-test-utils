@@ -167,13 +167,8 @@ export function createStubsFromStubsObject (
     if (componentNeedsCompiling(stub)) {
       compileTemplate(stub)
     }
-    const name = originalComponents[stubName] &&
-    originalComponents[stubName].name
 
-    acc[stubName] = {
-      name,
-      ...stub
-    }
+    acc[stubName] = stub
 
     return acc
   }, {})

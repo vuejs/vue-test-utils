@@ -64,17 +64,18 @@ describeWithMountingMethods('options.stub', mountingMethod => {
     mountingMethod.name === 'renderToString',
     'replaces component with a component',
     () => {
+      const Stub = {
+        render: h => h('time'),
+        mounted () {
+          console.info('stubbed')
+        }
+      }
       const wrapper = mountingMethod(ComponentWithChild, {
         stubs: {
-          ChildComponent: {
-            render: h => h('time'),
-            mounted () {
-              console.info('stubbed')
-            }
-          }
+          ChildComponent: Stub
         }
       })
-      expect(wrapper.findAll(Component).length).to.equal(1)
+      expect(wrapper.findAll(Stub).length).to.equal(1)
       expect(info.calledWith('stubbed')).to.equal(true)
     }
   )
@@ -566,5 +567,27 @@ describeWithMountingMethods('options.stub', mountingMethod => {
         : 'dynamichello2-stub'
     )
     expect(HTML).to.contain('h1')
+  })
+
+  it('uses original component stub', () => {
+    const Stub = {
+      template: '<div />'
+    }
+    const ToStub = {
+      template: '<div />'
+    }
+    const TestComponent = {
+      template: '<div><to-stub /></div>',
+      components: {
+        ToStub
+      }
+    }
+    const w = mountingMethod(TestComponent, {
+      stubs: {
+        ToStub: Stub
+      }
+    })
+    expect(w.find(ToStub).exists()).to.be.false
+    expect(w.find(Stub).exists()).to.be.true
   })
 })
