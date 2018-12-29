@@ -58,7 +58,7 @@ describeWithShallowAndMount('setComputed', mountingMethod => {
     expect(wrapper.vm.b).to.equal(3)
   })
 
-  it('works correctly with mapGetters', () => {
+  it.skip('works correctly with mapGetters', () => {
     const localVue = createLocalVue()
     localVue.use(Vuex)
     const store = new Vuex.Store({

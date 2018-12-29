@@ -680,6 +680,8 @@ export default class Wrapper implements BaseWrapper {
     // the methods object is a reference to the original component methods
     // object. So before making any changes we need to replace vm.methods with
     // an object that we can change safely.
+
+    // $FlowIgnore
     this.vm.$options.methods = Object.create(this.vm.$options.methods)
 
     Object.keys(methods).forEach(key => {
