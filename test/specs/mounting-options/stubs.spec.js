@@ -64,11 +64,10 @@ describeWithMountingMethods('options.stub', mountingMethod => {
     mountingMethod.name === 'renderToString',
     'replaces component with a component',
     () => {
+      const mounted = sinon.stub()
       const Stub = {
-        render: h => h('time'),
-        mounted () {
-          console.info('stubbed')
-        }
+        template: '<div />',
+        mounted
       }
       const wrapper = mountingMethod(ComponentWithChild, {
         stubs: {
@@ -76,7 +75,7 @@ describeWithMountingMethods('options.stub', mountingMethod => {
         }
       })
       expect(wrapper.findAll(Stub).length).to.equal(1)
-      expect(info.calledWith('stubbed')).to.equal(true)
+      expect(mounted).calledOnce
     }
   )
 
