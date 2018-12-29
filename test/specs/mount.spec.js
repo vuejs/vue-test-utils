@@ -5,7 +5,7 @@ import Component from '~resources/components/component.vue'
 import ComponentWithProps from '~resources/components/component-with-props.vue'
 import ComponentWithMixin from '~resources/components/component-with-mixin.vue'
 import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
-import { injectSupported, vueVersion } from '~resources/utils'
+import { vueVersion } from '~resources/utils'
 import { describeRunIf, itDoNotRunIf, itSkipIf } from 'conditional-specs'
 import Vuex from 'vuex'
 
@@ -161,27 +161,6 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     expect(wrapper.html()).to.equal(`<div>foo</div>`)
   })
 
-  itDoNotRunIf(
-    vueVersion < 2.3,
-    'overrides methods', () => {
-      const stub = sinon.stub()
-      const TestComponent = Vue.extend({
-        template: '<div />',
-        methods: {
-          callStub () {
-            stub()
-          }
-        }
-      })
-      mount(TestComponent, {
-        methods: {
-          callStub () {}
-        }
-      }).vm.callStub()
-
-      expect(stub).not.called
-    })
-
   it.skip('overrides component prototype', () => {
     const mountSpy = sinon.spy()
     const destroySpy = sinon.spy()
@@ -235,9 +214,6 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
         render: h => h('div')
       },
       {
-        provide: {
-          prop: 'val'
-        },
         attachToDocument: 'attachToDocument',
         mocks: {
           prop: 'val'
@@ -257,9 +233,6 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
         }
       }
     )
-    if (injectSupported) {
-      expect(typeof wrapper.vm.$options.provide).to.equal('object')
-    }
 
     expect(wrapper.vm.$options.attachToDocument).to.equal(undefined)
     expect(wrapper.vm.$options.mocks).to.equal(undefined)
@@ -373,32 +346,6 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     expect(wrapper.html()).to.equal(`<div height="50px" extra="attr"><p class="prop-1">prop1</p> <p class="prop-2"></p></div>`)
   })
 
-  it('overwrites the component options with the instance options', () => {
-    const Component = {
-      template: '<div>{{ foo() }}{{ bar() }}{{ baz() }}</div>',
-      methods: {
-        foo () {
-          return 'a'
-        },
-        bar () {
-          return 'b'
-        }
-      }
-    }
-    const options = {
-      methods: {
-        bar () {
-          return 'B'
-        },
-        baz () {
-          return 'C'
-        }
-      }
-    }
-    const wrapper = mount(Component, options)
-    expect(wrapper.text()).to.equal('aBC')
-  })
-
   it('handles inline components', () => {
     const ChildComponent = {
       render (h) {
@@ -414,5 +361,19 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
       localVue
     })
     expect(wrapper.findAll(ChildComponent).length).to.equal(1)
+  })
+
+  it('has correct own properties in options.components', () => {
+    const ChildComponent = {
+      template: '<div />'
+    }
+    const TestComponent = {
+      template: '<div />',
+      components: {
+        ChildComponent
+      }
+    }
+    const { vm } = mount(TestComponent)
+    expect(Object.keys(vm.$options.components)).to.contain('ChildComponent')
   })
 })

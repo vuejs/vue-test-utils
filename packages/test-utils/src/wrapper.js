@@ -675,11 +675,13 @@ export default class Wrapper implements BaseWrapper {
    */
   setMethods (methods: Object): void {
     if (!this.isVueInstance()) {
-      throwError(
-        `wrapper.setMethods() can only be called on a Vue ` +
-        `instance`
-      )
+      throwError(`wrapper.setMethods() can only be called on a Vue instance`)
     }
+    // the methods object is a reference to the original component methods
+    // object. So before making any changes we need to replace vm.methods with
+    // an object that we can change safely.
+    this.vm.$options.methods = Object.create(this.vm.$options.methods)
+
     Object.keys(methods).forEach(key => {
       // $FlowIgnore : Problem with possibly null this.vm
       this.vm[key] = methods[key]

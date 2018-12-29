@@ -90,8 +90,8 @@ export default function createInstance (
   // extend component from _Vue to add properties and mixins
   // extend does not work correctly for sub class components in Vue < 2.2
   const Constructor = typeof component === 'function'
-    ? _Vue.extend(component.options).extend(instanceOptions)
-    : _Vue.extend(component).extend(instanceOptions)
+    ? _Vue.extend(component.options)
+    : _Vue.extend(component)
 
   // used to identify extended component using constructor
   Constructor.options.$_vueTestUtils_original = component
@@ -151,5 +151,5 @@ export default function createInstance (
   }
   const Parent = _Vue.extend(parentComponentOptions)
 
-  return new Parent()
+  return new Parent(instanceOptions)
 }
