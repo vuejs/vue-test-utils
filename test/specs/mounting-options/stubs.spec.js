@@ -572,24 +572,24 @@ describeWithMountingMethods('options.stub', mountingMethod => {
   itDoNotRunIf(
     mountingMethod.name === 'renderToString',
     'uses original component stub', () => {
-    const Stub = {
-      template: '<div />'
-    }
-    const ToStub = {
-      template: '<div />'
-    }
-    const TestComponent = {
-      template: '<div><to-stub /></div>',
-      components: {
-        ToStub
+      const Stub = {
+        template: '<div />'
       }
-    }
-    const wrapper = mountingMethod(TestComponent, {
-      stubs: {
-        ToStub: Stub
+      const ToStub = {
+        template: '<div />'
       }
+      const TestComponent = {
+        template: '<div><to-stub /></div>',
+        components: {
+          ToStub
+        }
+      }
+      const wrapper = mountingMethod(TestComponent, {
+        stubs: {
+          ToStub: Stub
+        }
+      })
+      expect(wrapper.find(ToStub).exists()).to.be.false
+      expect(wrapper.find(Stub).exists()).to.be.true
     })
-    expect(wrapper.find(ToStub).exists()).to.be.false
-    expect(wrapper.find(Stub).exists()).to.be.true
-  })
 })
