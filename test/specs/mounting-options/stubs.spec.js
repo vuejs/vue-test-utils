@@ -569,7 +569,9 @@ describeWithMountingMethods('options.stub', mountingMethod => {
     expect(HTML).to.contain('h1')
   })
 
-  it('uses original component stub', () => {
+  itDoNotRunIf(
+    mountingMethod.name === 'renderToString',
+    'uses original component stub', () => {
     const Stub = {
       template: '<div />'
     }
@@ -582,12 +584,12 @@ describeWithMountingMethods('options.stub', mountingMethod => {
         ToStub
       }
     }
-    const w = mountingMethod(TestComponent, {
+    const wrapper = mountingMethod(TestComponent, {
       stubs: {
         ToStub: Stub
       }
     })
-    expect(w.find(ToStub).exists()).to.be.false
-    expect(w.find(Stub).exists()).to.be.true
+    expect(wrapper.find(ToStub).exists()).to.be.false
+    expect(wrapper.find(Stub).exists()).to.be.true
   })
 })
