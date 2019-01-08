@@ -343,7 +343,7 @@ The downside is that when a test breaks, it can be difficult to find where the p
 Let's write a test. When we create a store, we'll use `localVue` to avoid polluting the Vue base constructor. The test creates a store using the `store-config.js` export:
 
 ```js
-// store-config.spec.js
+// store-config.js
 
 import mutations from './mutations'
 import getters from './getters'
@@ -358,6 +358,8 @@ export default {
 ```
 
 ```js
+// store-config.spec.js
+
 import { createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import storeConfig from './store-config'
