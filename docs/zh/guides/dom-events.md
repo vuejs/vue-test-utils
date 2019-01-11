@@ -158,7 +158,7 @@ describe('键盘事件测试', () => {
     expect(wrapper.vm.quantity).toBe(0)
   })
 
-  it('上按键将数量设置为 1', () => {
+  it('上按键将数量加 1', () => {
     const wrapper = mount(QuantityComponent)
     wrapper.trigger('keydown.up')
     expect(wrapper.vm.quantity).toBe(1)

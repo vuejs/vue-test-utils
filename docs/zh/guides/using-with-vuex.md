@@ -276,7 +276,6 @@ export default {
     state.count++
   }
 }
-
 ```
 
 ```js
@@ -344,7 +343,8 @@ test('evenOrOdd returns odd if state.count is odd', () => {
 我们来写一个测试吧。当我们创建一个 store 时，我们会使用 `localVue` 来避免污染 Vue 的基础构造函数。该测试会使用 `store-config.js` 导出的配置创建一个 store：
 
 ```js
-// store-config.spec.js
+// store-config.js
+
 import mutations from './mutations'
 import getters from './getters'
 
@@ -358,6 +358,8 @@ export default {
 ```
 
 ```js
+// store-config.spec.js
+
 import { createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import storeConfig from './store-config'
