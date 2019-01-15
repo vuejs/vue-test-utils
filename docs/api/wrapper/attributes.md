@@ -1,4 +1,4 @@
-## attributes([key])
+## attributes
 
 Returns `Wrapper` DOM node attribute object. If `key` is provided, the value for the `key` will be returned.
 

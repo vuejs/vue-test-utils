@@ -1,4 +1,4 @@
-## findAll(selector)
+## findAll
 
 Returns a [`WrapperArray`](../wrapper-array/).
 

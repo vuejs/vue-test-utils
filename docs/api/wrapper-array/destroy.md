@@ -1,4 +1,4 @@
-## destroy()
+## destroy
 
 Destroys each Vue `Wrapper` in `WrapperArray`.
 

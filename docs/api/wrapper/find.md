@@ -1,4 +1,4 @@
-## find(selector)
+## find
 
 Returns `Wrapper` of first DOM node or Vue component matching selector.
 

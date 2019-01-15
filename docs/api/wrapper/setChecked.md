@@ -1,4 +1,4 @@
-## setChecked(checked)
+## setChecked
 
 Sets checked value for input element of type checkbox or radio and updates `v-model` bound data.
 

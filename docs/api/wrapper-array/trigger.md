@@ -1,4 +1,4 @@
-## trigger(eventType [, options ])
+## trigger
 
 Triggers an event on every `Wrapper` in the `WrapperArray` DOM node.
 

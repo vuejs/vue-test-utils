@@ -1,4 +1,4 @@
-## is(selector)
+## is
 
 Assert `Wrapper` DOM node or `vm` matches [selector](../selectors.md).
 
