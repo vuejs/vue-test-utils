@@ -1,4 +1,4 @@
-## trigger(eventType [, options ])
+## trigger
 
 Triggers an event on the `Wrapper` DOM node.
 

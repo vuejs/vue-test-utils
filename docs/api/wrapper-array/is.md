@@ -1,4 +1,4 @@
-## is(selector)
+## is
 
 Assert every `Wrapper` in `WrapperArray` DOM node or `vm` matches [selector](../selectors.md).
 

@@ -1,4 +1,4 @@
-## classes([className])
+## classes
 
 Return `Wrapper` DOM node classes.
 

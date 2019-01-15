@@ -1,4 +1,4 @@
-## setValue(value)
+## setValue
 
 This method is an alias of the following code.
 

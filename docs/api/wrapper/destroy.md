@@ -1,4 +1,4 @@
-## destroy()
+## destroy
 
 Destroys a Vue component instance.
 

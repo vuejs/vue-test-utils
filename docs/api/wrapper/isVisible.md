@@ -1,4 +1,4 @@
-## isVisible()
+## isVisible
 
 Assert `Wrapper` is visible.
 

@@ -1,4 +1,4 @@
-## setProps(props)
+## setProps
 
 - **Arguments:**
   - `{Object} props`

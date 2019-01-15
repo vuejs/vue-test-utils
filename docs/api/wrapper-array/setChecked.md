@@ -1,4 +1,4 @@
-## setChecked(checked)
+## setChecked
 
 This method is an alias of the following code.
 
