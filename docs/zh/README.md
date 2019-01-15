@@ -13,7 +13,7 @@ Vue Test Utils 是 Vue.js 官方的单元测试实用工具库。
   * [测试异步行为](guides/testing-async-components.md)
   * [配合 TypeScript 使用](guides/using-with-typescript.md)
   * [配合 Vue Router 使用](guides/using-with-vue-router.md)
-  * [配合 Vuex 实用](guides/using-with-vuex.md)
+  * [配合 Vuex 使用](guides/using-with-vuex.md)
 * [API](api/)
   * [mount](api/mount.md)
   * [shallowMount](api/shallowMount.md)
