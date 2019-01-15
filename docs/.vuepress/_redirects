@@ -5,29 +5,44 @@
 /api/createLocalVue /api/#createlocalvue
 /api/config /api/#config
 
-/api/wrapper/*  /api/wrapper.html/#:splat
-/api/wrapper-array/*  /api/wrapper-array.html/#:splat
+/api/wrapper/isvisible  /api/wrapper/#isvisible
+/api/wrapper/emitted  /api/wrapper/#emitted
+/api/wrapper/html  /api/wrapper/#html
+/api/wrapper/name  /api/wrapper/#name
+/api/wrapper/setProps  /api/wrapper/#setprops
+/api/wrapper/attributes  /api/wrapper/#attributes
+/api/wrapper/emittedByOrder  /api/wrapper/#emittedbyorder
+/api/wrapper/is  /api/wrapper/#is
+/api/wrapper/props  /api/wrapper/#props
+/api/wrapper/setSelected  /api/wrapper/#setselected
+/api/wrapper/classes  /api/wrapper/#classes
+/api/wrapper/exists  /api/wrapper/#exists
+/api/wrapper/isEmpty  /api/wrapper/#isempty
+/api/wrapper/setChecked  /api/wrapper/#setchecked
+/api/wrapper/setValue  /api/wrapper/#setvalue
+/api/wrapper/contains  /api/wrapper/#contains
+/api/wrapper/find  /api/wrapper/#find
+/api/wrapper/isVisible  /api/wrapper/#isvisible
+/api/wrapper/setData  /api/wrapper/#setdata
+/api/wrapper/text  /api/wrapper/#text
+/api/wrapper/destroy  /api/wrapper/#destroy
+/api/wrapper/findAll  /api/wrapper/#findall
+/api/wrapper/isVueInstance  /api/wrapper/#isvueinstance
+/api/wrapper/setMethods  /api/wrapper/#setmethods
+/api/wrapper/trigger  /api/wrapper/#trigger
 
-/ja/api/mount /ja/api/#mount
-/ja/api/shallowMount /ja/api/#shallowmount
-/ja/api/createLocalVue /ja/api/#createlocalvue
-/ja/api/config /ja/api/#config
+/api/wrapper-array/destroy  /api/wrapper-array/#destroy
+/api/wrapper-array/isEmpty  /api/wrapper-array/#isempty
+/api/wrapper-array/setChecked  /api/wrapper-array/#setchecked
+/api/wrapper-array/setProps  /api/wrapper-array/#setprops
+/api/wrapper-array/at  /api/wrapper-array/#at
+/api/wrapper-array/filter  /api/wrapper-array/#filter
+/api/wrapper-array/isVisible  /api/wrapper-array/#isvisible
+/api/wrapper-array/setData  /api/wrapper-array/#setdata
+/api/wrapper-array/setValue  /api/wrapper-array/#setvalue
+/api/wrapper-array/contains  /api/wrapper-array/#contains
+/api/wrapper-array/is  /api/wrapper-array/#is
+/api/wrapper-array/isVueInstance  /api/wrapper-array/#isvueinstance
+/api/wrapper-array/setMethods  /api/wrapper-array/#setmethods
+/api/wrapper-array/trigger  /api/wrapper-array/#trigger
 
-/ja/api/wrapper/* /ja/api/wrapper.html/#:splat
-/ja/api/wrapper-array/*  /ja/api/wrapper-array.html/#:splat
-
-/zh/api/mount /zh/api/#mount
-/zh/api/shallowMount /zh/api/#shallowmount
-/zh/api/createLocalVue /zh/api/#createlocalvue
-/zh/api/config /zh/api/#config
-
-/zh/api/wrapper/* /zh/api/wrapper.html/#:splat
-/zh/api/wrapper-array/*  /zh/api/wrapper-array.html/#:splat
-
-/ru/api/mount /ru/api/#mount
-/ru/api/shallowMount /ru/api/#shallowmount
-/ru/api/createLocalVue /ru/api/#createlocalvue
-/ru/api/config /ru/api/#config
-
-/ru/api/wrapper/* /ru/api/wrapper.html/#:splat
-/ru/api/wrapper-array/* /ru/api/wrapper-array.html/#:splat
