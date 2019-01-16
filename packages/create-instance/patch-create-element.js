@@ -25,7 +25,7 @@ function extend (component, _Vue) {
 
 function createStubIfNeeded (shouldStub, component, _Vue, el) {
   if (shouldStub) {
-    return createStubFromComponent(component || {}, el)
+    return createStubFromComponent(component || {}, el, _Vue)
   }
 
   if (shouldExtend(component, _Vue)) {
@@ -49,14 +49,14 @@ function isComponentOptions (el) {
   return typeof el === 'object' && (el.template || el.render)
 }
 
-export function patchRender (_Vue, stubs, stubAllComponents) {
+export function patchCreateElement (_Vue, stubs, stubAllComponents) {
   // This mixin patches vm.$createElement so that we can stub all components
   // before they are rendered in shallow mode. We also need to ensure that
   // component constructors were created from the _Vue constructor. If not,
   // we must replace them with components created from the _Vue constructor
   // before calling the original $createElement. This ensures that components
   // have the correct instance properties and stubs when they are rendered.
-  function patchRenderMixin () {
+  function patchCreateElementMixin () {
     const vm = this
 
     if (
@@ -77,7 +77,7 @@ export function patchRender (_Vue, stubs, stubAllComponents) {
 
       if (isConstructor(el) || isComponentOptions(el)) {
         if (stubAllComponents) {
-          const stub = createStubFromComponent(el, el.name || 'anonymous')
+          const stub = createStubFromComponent(el, el.name || 'anonymous', _Vue)
           return originalCreateElement(stub, ...args)
         }
         const Constructor = shouldExtend(el, _Vue) ? extend(el, _Vue) : el
@@ -121,6 +121,6 @@ export function patchRender (_Vue, stubs, stubAllComponents) {
   }
 
   _Vue.mixin({
-    [BEFORE_RENDER_LIFECYCLE_HOOK]: patchRenderMixin
+    [BEFORE_RENDER_LIFECYCLE_HOOK]: patchCreateElementMixin
   })
 }

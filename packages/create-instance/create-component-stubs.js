@@ -45,7 +45,6 @@ function getCoreProperties (componentOptions: Component): Object {
     on: componentOptions.on,
     key: componentOptions.key,
     ref: componentOptions.ref,
-    props: componentOptions.props,
     domProps: componentOptions.domProps,
     class: componentOptions.class,
     staticClass: componentOptions.staticClass,
@@ -64,9 +63,20 @@ function createClassString (staticClass, dynamicClass) {
   return staticClass || dynamicClass
 }
 
+function getProps (component, _Vue) {
+  if (typeof component === 'function' && !component.cid) {
+    return {}
+  }
+
+  return typeof component === 'function'
+    ? component.options.props
+    : _Vue.extend(component).options.props
+}
+
 export function createStubFromComponent (
   originalComponent: Component,
-  name: string
+  name: string,
+  _Vue: Component
 ): Component {
   const componentOptions =
     typeof originalComponent === 'function' && originalComponent.cid
@@ -82,6 +92,7 @@ export function createStubFromComponent (
 
   return {
     ...getCoreProperties(componentOptions),
+    props: getProps(originalComponent, _Vue),
     $_vueTestUtils_original: originalComponent,
     $_doNotStubChildren: true,
     render (h, context) {
@@ -137,7 +148,8 @@ function validateStub (stub) {
 
 export function createStubsFromStubsObject (
   originalComponents: Object = {},
-  stubs: Object
+  stubs: Object,
+  _Vue: Component
 ): Components {
   return Object.keys(stubs || {}).reduce((acc, stubName) => {
     const stub = stubs[stubName]
@@ -150,7 +162,7 @@ export function createStubsFromStubsObject (
 
     if (stub === true) {
       const component = resolveComponent(originalComponents, stubName)
-      acc[stubName] = createStubFromComponent(component, stubName)
+      acc[stubName] = createStubFromComponent(component, stubName, _Vue)
       return acc
     }
 

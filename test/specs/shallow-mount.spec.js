@@ -308,6 +308,38 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
     expect(wrapper.find('p').exists()).to.equal(false)
   })
 
+  it('stubs components that receive props through mixin', () => {
+    const addProps = {
+      props: ['a']
+    }
+
+    const ChildComponent = {
+      template: '<div />',
+      mixins: [addProps]
+    }
+
+    const ChildComponentExtended = Vue.extend({
+      template: '<div />',
+      mixins: [addProps]
+    })
+
+    const TestComponent = {
+      template: `
+        <div>
+          <child-component a="val" />
+          <child-component-extended a="val" />
+        </div>
+      `,
+      components: {
+        ChildComponent,
+        ChildComponentExtended
+      }
+    }
+    const wrapper = shallowMount(TestComponent)
+    expect(wrapper.find(ChildComponent).props('a')).to.equal('val')
+    expect(wrapper.find(ChildComponentExtended).props('a')).to.equal('val')
+  })
+
   itDoNotRunIf(
     vueVersion < 2.3,
     'stubs Vue class component children', () => {
