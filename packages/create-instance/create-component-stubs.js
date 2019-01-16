@@ -42,6 +42,7 @@ function getCoreProperties (componentOptions: Component): Object {
   return {
     attrs: componentOptions.attrs,
     name: componentOptions.name,
+    props: componentOptions.props,
     on: componentOptions.on,
     key: componentOptions.key,
     ref: componentOptions.ref,
@@ -63,14 +64,14 @@ function createClassString (staticClass, dynamicClass) {
   return staticClass || dynamicClass
 }
 
-function getProps (component, _Vue) {
+function resolveOptions (component, _Vue) {
   if (typeof component === 'function' && !component.cid) {
     return {}
   }
 
   return typeof component === 'function'
-    ? component.options.props
-    : _Vue.extend(component).options.props
+    ? component.options
+    : _Vue.extend(component).options
 }
 
 export function createStubFromComponent (
@@ -78,11 +79,7 @@ export function createStubFromComponent (
   name: string,
   _Vue: Component
 ): Component {
-  const componentOptions =
-    typeof originalComponent === 'function' && originalComponent.cid
-      ? originalComponent.extendOptions
-      : originalComponent
-
+  const componentOptions = resolveOptions(originalComponent, _Vue)
   const tagName = `${name || 'anonymous'}-stub`
 
   // ignoreElements does not exist in Vue 2.0.x
@@ -92,7 +89,6 @@ export function createStubFromComponent (
 
   return {
     ...getCoreProperties(componentOptions),
-    props: getProps(originalComponent, _Vue),
     $_vueTestUtils_original: originalComponent,
     $_doNotStubChildren: true,
     render (h, context) {
