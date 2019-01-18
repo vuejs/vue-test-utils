@@ -16,7 +16,7 @@ import { componentNeedsCompiling, isPlainObject } from 'shared/validators'
 import { validateSlots } from './validate-slots'
 import createScopedSlots from './create-scoped-slots'
 import { createStubsFromStubsObject } from './create-component-stubs'
-import { patchRender } from './patch-render'
+import { patchCreateElement } from './patch-create-element'
 
 function vueExtendUnsupportedOption (option: string) {
   return `options.${option} is not supported for ` +
@@ -60,13 +60,14 @@ export default function createInstance (
   const stubComponentsObject = createStubsFromStubsObject(
     component.components,
     // $FlowIgnore
-    options.stubs
+    options.stubs,
+    _Vue
   )
 
   addEventLogger(_Vue)
   addMocks(_Vue, options.mocks)
   addStubs(_Vue, stubComponentsObject)
-  patchRender(_Vue, stubComponentsObject, options.shouldProxy)
+  patchCreateElement(_Vue, stubComponentsObject, options.shouldProxy)
 
   if (
     (component.options && component.options.functional) ||
