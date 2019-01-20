@@ -28,24 +28,24 @@ export function isDomSelector (selector: any): boolean {
   }
 }
 
-export function isVueComponent (component: any): boolean {
-  if (typeof component === 'function' && component.options) {
+export function isVueComponent (c: any): boolean {
+  if (isConstructor(c)) {
     return true
   }
 
-  if (component === null || typeof component !== 'object') {
+  if (c === null || typeof c !== 'object') {
     return false
   }
 
-  if (component.extends || component._Ctor) {
+  if (c.extends || c._Ctor) {
     return true
   }
 
-  if (typeof component.template === 'string') {
+  if (typeof c.template === 'string') {
     return true
   }
 
-  return typeof component.render === 'function'
+  return typeof c.render === 'function'
 }
 
 export function componentNeedsCompiling (component: Component): boolean {
@@ -76,6 +76,18 @@ export function isNameSelector (nameOptionsObject: any): boolean {
   return !!nameOptionsObject.name
 }
 
+export function isConstructor (c: any) {
+  return typeof c === 'function' && c.cid
+}
+
+export function isDynamicComponent (c: any) {
+  return typeof c === 'function' && !c.cid
+}
+
+export function isComponentOptions (c: any) {
+  return typeof c === 'object' && (c.template || c.render)
+}
+
 export function templateContainsComponent (
   template: string,
   name: string
@@ -86,8 +98,8 @@ export function templateContainsComponent (
   })
 }
 
-export function isPlainObject (obj: any): boolean {
-  return Object.prototype.toString.call(obj) === '[object Object]'
+export function isPlainObject (c: any): boolean {
+  return Object.prototype.toString.call(c) === '[object Object]'
 }
 
 export function isRequiredComponent (name: string): boolean {

@@ -384,6 +384,32 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     expect(wrapper.findAll(ChildComponent).length).to.equal(1)
   })
 
+  it('handles nested components with extends', () => {
+    const GrandChildComponent = {
+      template: '<div />',
+      created () {
+        this.$route.params
+      }
+    }
+    const ChildComponent = Vue.extend({
+      template: '<grand-child-component />',
+      components: {
+        GrandChildComponent
+      }
+    })
+    const TestComponent = {
+      template: '<child-component />',
+      components: {
+        ChildComponent
+      }
+    }
+    const localVue = createLocalVue()
+    localVue.prototype.$route = {}
+    mount(TestComponent, {
+      localVue
+    })
+  })
+
   it('throws if component throws during update', () => {
     const TestComponent = {
       template: '<div :p="a" />',

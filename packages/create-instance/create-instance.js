@@ -17,6 +17,7 @@ import { validateSlots } from './validate-slots'
 import createScopedSlots from './create-scoped-slots'
 import { createStubsFromStubsObject } from './create-component-stubs'
 import { patchCreateElement } from './patch-create-element'
+import { isConstructor } from 'shared/validators'
 
 function vueExtendUnsupportedOption (option: string) {
   return `options.${option} is not supported for ` +
@@ -39,13 +40,8 @@ export default function createInstance (
   options: Options,
   _Vue: Component
 ): Component {
-  // make sure all extends are based on this instance
-  _Vue.options._base = _Vue
-
   if (
-    VUE_VERSION < 2.3 &&
-    typeof component === 'function' &&
-    component.options
+    VUE_VERSION < 2.3 && isConstructor(component)
   ) {
     UNSUPPORTED_VERSION_OPTIONS.forEach((option) => {
       if (options[option]) {
@@ -54,11 +50,15 @@ export default function createInstance (
     })
   }
 
+  let componentOptions = isConstructor(component)
+    ? component.options
+    : component
+
   // instance options are options that are passed to the
   // root instance when it's instantiated
   const instanceOptions = extractInstanceOptions(options)
   const stubComponentsObject = createStubsFromStubsObject(
-    component.components,
+    componentOptions.components,
     // $FlowIgnore
     options.stubs,
     _Vue
@@ -69,11 +69,12 @@ export default function createInstance (
   addStubs(_Vue, stubComponentsObject)
   patchCreateElement(_Vue, stubComponentsObject, options.shouldProxy)
 
-  if (
-    (component.options && component.options.functional) ||
-    component.functional
-  ) {
-    component = createFunctionalComponent(component, options, _Vue)
+  if (componentOptions.functional) {
+    componentOptions = createFunctionalComponent(
+      componentOptions,
+      options,
+      _Vue
+    )
   } else if (options.context) {
     throwError(
       `mount.context can only be used when mounting a ` +
@@ -81,19 +82,14 @@ export default function createInstance (
     )
   }
 
-  if (componentNeedsCompiling(component)) {
-    compileTemplate(component)
+  if (componentNeedsCompiling(componentOptions)) {
+    compileTemplate(componentOptions)
   }
 
-  if (component.options) {
-    component.options._base = _Vue
-  }
+  // make sure all extends are based on this instance
+  componentOptions._base = _Vue
 
-  // extend component from _Vue to add properties and mixins
-  // extend does not work correctly for sub class components in Vue < 2.2
-  const Constructor = typeof component === 'function'
-    ? _Vue.extend(component.options).extend(instanceOptions)
-    : _Vue.extend(component).extend(instanceOptions)
+  const Constructor = _Vue.extend(componentOptions).extend(instanceOptions)
 
   // used to identify extended component using constructor
   Constructor.options.$_vueTestUtils_original = component
@@ -122,8 +118,7 @@ export default function createInstance (
 
   if (options.parentComponent && !isPlainObject(options.parentComponent)) {
     throwError(
-      `options.parentComponent should be a valid Vue component ` +
-      `options object`
+      `options.parentComponent should be a valid Vue component options object`
     )
   }
 
