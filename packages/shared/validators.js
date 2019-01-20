@@ -76,6 +76,18 @@ export function isNameSelector (nameOptionsObject: any): boolean {
   return !!nameOptionsObject.name
 }
 
+export function isConstructor (el) {
+  return typeof el === 'function'
+}
+
+export function isDynamicComponent (cmp) {
+  return typeof cmp === 'function' && !cmp.cid
+}
+
+export function isComponentOptions (el) {
+  return typeof el === 'object' && (el.template || el.render)
+}
+
 export function templateContainsComponent (
   template: string,
   name: string

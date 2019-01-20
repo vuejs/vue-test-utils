@@ -3,6 +3,7 @@ import {
   COMPONENT_SELECTOR,
   FUNCTIONAL_OPTIONS
 } from 'shared/consts'
+import { isConstructor } from 'shared/validators';
 
 export function vmMatchesName (vm, name) {
   return !!name && (
@@ -19,7 +20,7 @@ function vmCtorMatches (vm, component) {
     return true
   }
 
-  const Ctor = typeof component === 'function'
+  const Ctor = isConstructor(component)
     ? component.options._Ctor
     : component._Ctor
 
@@ -46,7 +47,7 @@ export function matches (node, selector) {
     return element && element.matches && element.matches(selector.value)
   }
 
-  const isFunctionalSelector = typeof selector.value === 'function'
+  const isFunctionalSelector = isConstructor(selector.value)
     ? selector.value.options.functional
     : selector.value.functional
 
@@ -66,7 +67,7 @@ export function matches (node, selector) {
 
   // Fallback to name selector for COMPONENT_SELECTOR for Vue < 2.1
   const nameSelector =
-  typeof selector.value === 'function'
+  isConstructor(selector.value)
     ? selector.value.extendOptions.name
     : selector.value.name
   return vmMatchesName(componentInstance, nameSelector)

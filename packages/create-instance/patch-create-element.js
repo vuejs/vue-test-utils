@@ -1,6 +1,11 @@
 import { createStubFromComponent } from './create-component-stubs'
 import { resolveComponent } from 'shared/util'
-import { isReservedTag } from 'shared/validators'
+import {
+  isReservedTag,
+  isConstructor,
+  isDynamicComponent,
+  isComponentOptions
+} from 'shared/validators'
 import {
   BEFORE_RENDER_LIFECYCLE_HOOK,
   CREATE_ELEMENT_ALIAS
@@ -8,11 +13,10 @@ import {
 
 const isWhitelisted = (el, whitelist) => resolveComponent(el, whitelist)
 const isAlreadyStubbed = (el, stubs) => stubs.has(el)
-const isDynamicComponent = cmp => typeof cmp === 'function' && !cmp.cid
 
 function shouldExtend (component, _Vue) {
   return (
-    (typeof component === 'function' && !isDynamicComponent(component)) ||
+    isConstructor(component) ||
     (component && component.extends)
   )
 }
@@ -20,6 +24,7 @@ function shouldExtend (component, _Vue) {
 function extend (component, _Vue) {
   const stub = _Vue.extend(component.options)
   stub.options.$_vueTestUtils_original = component
+  stub.options._base = _Vue
   return stub
 }
 
@@ -39,14 +44,6 @@ function shouldNotBeStubbed (el, whitelist, modifiedComponents) {
     isWhitelisted(el, whitelist) ||
     isAlreadyStubbed(el, modifiedComponents)
   )
-}
-
-function isConstructor (el) {
-  return typeof el === 'function'
-}
-
-function isComponentOptions (el) {
-  return typeof el === 'object' && (el.template || el.render)
 }
 
 export function patchCreateElement (_Vue, stubs, stubAllComponents) {

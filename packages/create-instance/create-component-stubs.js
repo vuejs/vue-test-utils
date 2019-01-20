@@ -10,7 +10,9 @@ import {
 import {
   componentNeedsCompiling,
   templateContainsComponent,
-  isVueComponent
+  isVueComponent,
+  isDynamicComponent,
+  isConstructor
 } from '../shared/validators'
 import {
   compileTemplate,
@@ -65,11 +67,11 @@ function createClassString (staticClass, dynamicClass) {
 }
 
 function resolveOptions (component, _Vue) {
-  if (typeof component === 'function' && !component.cid) {
+  if (isDynamicComponent(component)) {
     return {}
   }
 
-  return typeof component === 'function'
+  return isConstructor(component)
     ? component.options
     : _Vue.extend(component).options
 }
@@ -112,19 +114,16 @@ export function createStubFromComponent (
   }
 }
 
-export function createStubFromString (
+function createStubFromString (
   templateString: string,
   originalComponent: Component = {},
-  name: string
+  name: string,
+  _Vue
 ): Component {
   if (templateContainsComponent(templateString, name)) {
     throwError('options.stub cannot contain a circular reference')
   }
-
-  const componentOptions =
-    typeof originalComponent === 'function' && originalComponent.cid
-      ? originalComponent.extendOptions
-      : originalComponent
+  const componentOptions = resolveOptions(originalComponent, _Vue)
 
   return {
     ...getCoreProperties(componentOptions),
@@ -167,7 +166,8 @@ export function createStubsFromStubsObject (
       acc[stubName] = createStubFromString(
         stub,
         component,
-        stubName
+        stubName,
+        _Vue
       )
       return acc
     }

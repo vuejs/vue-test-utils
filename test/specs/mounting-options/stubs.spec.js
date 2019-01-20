@@ -216,7 +216,7 @@ describeWithMountingMethods('options.stub', mountingMethod => {
         components: { GrandChildComponent }
       }
       const TestComponent = {
-        template: '<div><child-component /></div>',
+        template: '<child-component />',
         components: { ChildComponent }
       }
       const wrapper = mountingMethod(Vue.extend(TestComponent), {
