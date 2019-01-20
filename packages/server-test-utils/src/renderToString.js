@@ -37,7 +37,7 @@ export default function renderToString (
   // $FlowIgnore
   renderer.renderToString(vm, (err, res) => {
     if (err) {
-      console.log(err)
+      throw err
     }
     renderedString = res
   })
