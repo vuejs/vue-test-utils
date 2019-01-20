@@ -42,19 +42,6 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     expect(wrapper.findAll('p').length).to.equal(2)
   })
 
-  it.skip('handles root functional component with render array', () => {
-    const TestComponent = {
-      functional: true,
-      render (h) {
-        return [h('p'), h('p')]
-      }
-    }
-
-    const wrapper = mount(TestComponent)
-    console.log(wrapper.html())
-    expect(wrapper.findAll('p').length).to.equal(2)
-  })
-
   it('returns new VueWrapper with correct props data', () => {
     const prop1 = { test: 'TEST' }
     const wrapper = mount(ComponentWithProps, { propsData: { prop1 }})
