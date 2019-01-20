@@ -88,6 +88,16 @@ export function isComponentOptions (c: any) {
   return typeof c === 'object' && (c.template || c.render)
 }
 
+export function isFunctionalComponent (c: any) {
+  if (!isVueComponent(c)) {
+    return false
+  }
+  if (isConstructor(c)) {
+    return c.options.functional
+  }
+  return c.functional
+}
+
 export function templateContainsComponent (
   template: string,
   name: string
