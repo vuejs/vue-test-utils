@@ -1,5 +1,5 @@
 // @flow
-import { normalizeStubs } from './normalize'
+import { normalizeStubs, normalizeProvide } from './normalize'
 
 function getOption (option, config?: Object): any {
   if (option === false) {
@@ -26,11 +26,11 @@ export function mergeOptions (options: Options, config: Config): Options {
   const provide = ((getOption(options.provide, config.provide)): Object)
   return {
     ...options,
+    provide: normalizeProvide(provide),
     logModifiedComponents: config.logModifiedComponents,
     stubs: getOption(normalizeStubs(options.stubs), config.stubs),
     mocks,
     methods,
-    provide,
     sync: !!(options.sync || options.sync === undefined)
   }
 }

@@ -15,6 +15,7 @@ import config from './config'
 import warnIfNoWindow from './warn-if-no-window'
 import createWrapper from './create-wrapper'
 import createLocalVue from './create-local-vue'
+import { validateOptions } from 'shared/validate-options'
 
 Vue.config.productionTip = false
 Vue.config.devtools = false
@@ -31,6 +32,8 @@ export default function mount (
 
   const mergedOptions = mergeOptions(options, config)
 
+  validateOptions(mergedOptions, component)
+
   const parentVm = createInstance(
     component,
     mergedOptions,
@@ -38,7 +41,7 @@ export default function mount (
   )
 
   const el = options.attachToDocument ? createElement() : undefined
-  const vm = parentVm.$mount(el).$refs.vm
+  const vm = parentVm.$mount(el)
 
   component._Ctor = {}
 
@@ -49,9 +52,9 @@ export default function mount (
     sync: mergedOptions.sync
   }
 
-  const root = vm.$options._isFunctionalContainer
+  const root = parentVm.$options._isFunctionalContainer
     ? vm._vnode
-    : vm
+    : vm.$children[0]
 
   return createWrapper(root, wrapperOptions)
 }

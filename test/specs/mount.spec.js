@@ -27,23 +27,31 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     expect(wrapper.vm).to.be.an('object')
   })
 
-  it('returns new VueWrapper when root is functional component', () => {
-    const FunctionalComponent = {
+  it('handles root functional component', () => {
+    const TestComponent = {
       functional: true,
       render (h) {
-        return h('div', {}, [
-          h('p', {
-            class: {
-              foo: true
-            }
-          }),
+        return h('div', [
+          h('p'),
           h('p')
         ])
-      },
-      name: 'common'
+      }
     }
 
-    const wrapper = mount(FunctionalComponent)
+    const wrapper = mount(TestComponent)
+    expect(wrapper.findAll('p').length).to.equal(2)
+  })
+
+  it.skip('handles root functional component with render array', () => {
+    const TestComponent = {
+      functional: true,
+      render (h) {
+        return [h('p'), h('p')]
+      }
+    }
+
+    const wrapper = mount(TestComponent)
+    console.log(wrapper.html())
     expect(wrapper.findAll('p').length).to.equal(2)
   })
 
@@ -258,7 +266,9 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
       }
     )
     if (injectSupported) {
-      expect(typeof wrapper.vm.$options.provide).to.equal('object')
+      expect(typeof wrapper.vm.$options.provide).to.equal(
+        vueVersion < 2.5 ? 'function' : 'object'
+      )
     }
 
     expect(wrapper.vm.$options.attachToDocument).to.equal(undefined)

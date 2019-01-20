@@ -2,7 +2,7 @@
 
 import { throwError } from 'shared/util'
 import { compileToFunctions } from 'vue-template-compiler'
-import { isVueComponent } from '../shared/validators'
+import { isVueComponent } from './validators'
 
 function isValidSlot (slot: any): boolean {
   return (
