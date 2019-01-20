@@ -17,12 +17,7 @@ import { validateSlots } from './validate-slots'
 import createScopedSlots from './create-scoped-slots'
 import { createStubsFromStubsObject } from './create-component-stubs'
 import { patchCreateElement } from './patch-create-element'
-import {
-  isReservedTag,
-  isConstructor,
-  isDynamicComponent,
-  isComponentOptions
-} from 'shared/validators'
+import { isConstructor } from 'shared/validators'
 
 function vueExtendUnsupportedOption (option: string) {
   return `options.${option} is not supported for ` +
@@ -45,9 +40,6 @@ export default function createInstance (
   options: Options,
   _Vue: Component
 ): Component {
-  // make sure all extends are based on this instance
-  _Vue.options._base = _Vue
-
   if (
     VUE_VERSION < 2.3 && isConstructor(component)
   ) {
@@ -78,7 +70,11 @@ export default function createInstance (
   patchCreateElement(_Vue, stubComponentsObject, options.shouldProxy)
 
   if (componentOptions.functional) {
-    componentOptions = createFunctionalComponent(componentOptions, options, _Vue)
+    componentOptions = createFunctionalComponent(
+      componentOptions,
+      options,
+      _Vue
+    )
   } else if (options.context) {
     throwError(
       `mount.context can only be used when mounting a ` +
@@ -90,6 +86,7 @@ export default function createInstance (
     compileTemplate(componentOptions)
   }
 
+  // make sure all extends are based on this instance
   componentOptions._base = _Vue
 
   const Constructor = _Vue.extend(componentOptions).extend(instanceOptions)

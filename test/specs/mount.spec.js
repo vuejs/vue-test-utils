@@ -408,6 +408,8 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     mount(TestComponent, {
       localVue
     })
+  })
+
   it('throws if component throws during update', () => {
     const TestComponent = {
       template: '<div :p="a" />',

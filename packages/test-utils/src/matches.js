@@ -3,7 +3,7 @@ import {
   COMPONENT_SELECTOR,
   FUNCTIONAL_OPTIONS
 } from 'shared/consts'
-import { isConstructor } from 'shared/validators';
+import { isConstructor } from 'shared/validators'
 
 export function vmMatchesName (vm, name) {
   return !!name && (

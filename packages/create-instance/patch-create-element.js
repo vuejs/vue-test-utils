@@ -84,7 +84,7 @@ export function patchCreateElement (_Vue, stubs, stubAllComponents) {
       }
 
       if (typeof el === 'string') {
-        let original = resolveComponent(el, originalComponents)
+        const original = resolveComponent(el, originalComponents)
 
         if (!original) {
           return originalCreateElement(el, ...args)
