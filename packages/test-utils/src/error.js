@@ -23,7 +23,7 @@ export function throwIfInstancesThrew (vm) {
 
 let hasWarned = false
 
-// Vue swallows errors thrown during render, even if the global error handler
+// Vue swallows errors thrown by instances, even if the global error handler
 // throws. In order to throw in the test, we add an _error property to an
 // instance when it throws. Then we loop through the instances with
 // throwIfInstancesThrew and throw an error in the test context if any
@@ -39,7 +39,7 @@ export function addGlobalErrorHandler (_Vue) {
     warn(
       `Global error handler detected (Vue.config.errorHandler). \n` +
       `Vue Test Utils sets a custom error handler to throw errors ` +
-      `thrown by the instance during render. If you want this behavior in ` +
+      `thrown by instances. If you want this behavior in ` +
       `your tests, you must remove the global error handler.`
     )
     hasWarned = true

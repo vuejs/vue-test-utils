@@ -384,7 +384,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     expect(wrapper.findAll(ChildComponent).length).to.equal(1)
   })
 
-  it('throws if component throws during a render', () => {
+  it('throws if component throws during update', () => {
     const TestComponent = {
       template: '<div :p="a" />',
       updated () {
