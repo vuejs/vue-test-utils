@@ -30,4 +30,18 @@ describeWithShallowAndMount('destroy', mountingMethod => {
     wrapper.destroy()
     expect(wrapper.vm.$el.parentNode).to.be.null
   })
+
+  it('throws if component throws during destroy', () => {
+    const TestComponent = {
+      template: '<div :p="a" />',
+      beforeDestroy () {
+        throw new Error('error')
+      },
+      data: () => ({
+        a: 1
+      })
+    }
+    const wrapper = mountingMethod(TestComponent)
+    expect(() => wrapper.destroy()).to.throw()
+  })
 })

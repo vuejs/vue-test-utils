@@ -131,10 +131,4 @@ describeWithShallowAndMount('createLocalVue', mountingMethod => {
     }
     expect(installCount).to.equal(2)
   })
-
-  it('has an errorHandler', () => {
-    const localVue = createLocalVue()
-
-    expect(localVue.config.errorHandler).to.be.an('function')
-  })
 })

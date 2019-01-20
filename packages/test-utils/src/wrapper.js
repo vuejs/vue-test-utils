@@ -22,6 +22,7 @@ import { orderWatchers } from './order-watchers'
 import { recursivelySetData } from './recursively-set-data'
 import { matches } from './matches'
 import createDOMEvent from './create-dom-event'
+import { throwIfInstancesThrew } from './error'
 
 export default class Wrapper implements BaseWrapper {
   +vnode: VNode | null;
@@ -152,6 +153,7 @@ export default class Wrapper implements BaseWrapper {
     }
     // $FlowIgnore
     this.vm.$destroy()
+    throwIfInstancesThrew(this.vm)
   }
 
   /**

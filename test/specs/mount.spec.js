@@ -13,7 +13,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
   const windowSave = window
 
   beforeEach(() => {
-    sinon.stub(console, 'error')
+    sinon.stub(console, 'error').callThrough()
   })
 
   afterEach(() => {
@@ -322,38 +322,6 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     expect(fn).to.throw('Error in mounted')
   })
 
-  itDoNotRunIf(vueVersion < 2.2, 'logs errors once after mount', done => {
-    Vue.config.errorHandler = null
-    const TestComponent = {
-      template: '<div/>',
-      updated: function () {
-        throw new Error('Error in updated')
-      }
-    }
-
-    const wrapper = mount(TestComponent, {
-      sync: false
-    })
-    wrapper.vm.$forceUpdate()
-    setTimeout(() => {
-      vueVersion > 2.1
-        ? expect(console.error).calledTwice
-        : expect(console.error).calledOnce
-      done()
-    })
-  })
-
-  it('restores user error handler after mount', () => {
-    const existingErrorHandler = () => {}
-    Vue.config.errorHandler = existingErrorHandler
-    const TestComponent = {
-      template: '<div/>'
-    }
-    mount(TestComponent)
-    expect(Vue.config.errorHandler).to.equal(existingErrorHandler)
-    Vue.config.errorHandler = null
-  })
-
   it('adds unused propsData as attributes', () => {
     const wrapper = mount(
       ComponentWithProps, {
@@ -414,5 +382,23 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
       localVue
     })
     expect(wrapper.findAll(ChildComponent).length).to.equal(1)
+  })
+
+  it('throws if component throws during a render', () => {
+    const TestComponent = {
+      template: '<div :p="a" />',
+      updated () {
+        throw new Error('err')
+      },
+      data: () => ({
+        a: 1
+      })
+    }
+    const wrapper = mount(TestComponent)
+    const fn = () => {
+      wrapper.vm.a = 2
+    }
+    expect(fn).to.throw()
+    wrapper.destroy()
   })
 })
