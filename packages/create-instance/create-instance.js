@@ -116,10 +116,7 @@ export default function createInstance (
 
   const scopedSlots = createScopedSlots(options.scopedSlots, _Vue)
 
-  if (
-    options.parentComponent &&
-    !isPlainObject(options.parentComponent)
-  ) {
+  if (options.parentComponent && !isPlainObject(options.parentComponent)) {
     throwError(
       `options.parentComponent should be a valid Vue component options object`
     )

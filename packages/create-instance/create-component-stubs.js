@@ -118,7 +118,7 @@ function createStubFromString (
   templateString: string,
   originalComponent: Component = {},
   name: string,
-  _Vue
+  _Vue: Component
 ): Component {
   if (templateContainsComponent(templateString, name)) {
     throwError('options.stub cannot contain a circular reference')
