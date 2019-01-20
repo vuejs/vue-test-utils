@@ -79,14 +79,6 @@ export default class WrapperArray implements BaseWrapper {
     )
   }
 
-  hasAttribute (attribute: string, value: string): boolean {
-    this.throwErrorIfWrappersIsEmpty('hasAttribute')
-
-    return this.wrappers.every(wrapper =>
-      wrapper.hasAttribute(attribute, value)
-    )
-  }
-
   findAll (): void {
     this.throwErrorIfWrappersIsEmpty('findAll')
 
