@@ -18,7 +18,8 @@ function shouldExtend (component, _Vue) {
 }
 
 function extend (component, _Vue) {
-  const stub = _Vue.extend(component.options)
+  const componentOptions = component.options ? component.options : component
+  const stub = _Vue.extend(componentOptions)
   stub.options.$_vueTestUtils_original = component
   return stub
 }
@@ -92,17 +93,16 @@ export function patchCreateElement (_Vue, stubs, stubAllComponents) {
           return originalCreateElement(el, ...args)
         }
 
+        if (isDynamicComponent(original)) {
+          return originalCreateElement(el, ...args)
+        }
+
         if (
           original.options &&
           original.options.$_vueTestUtils_original
         ) {
           original = original.options.$_vueTestUtils_original
         }
-
-        if (isDynamicComponent(original)) {
-          return originalCreateElement(el, ...args)
-        }
-
         const stub = createStubIfNeeded(stubAllComponents, original, _Vue, el)
 
         if (stub) {

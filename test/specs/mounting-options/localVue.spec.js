@@ -92,6 +92,7 @@ describeWithMountingMethods('options.localVue', mountingMethod => {
     localVue.prototype.$route = {}
 
     const Extends = {
+      template: '<div />',
       created () {
         console.log(this.$route.params)
       }

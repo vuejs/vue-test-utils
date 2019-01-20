@@ -6,13 +6,16 @@ import Vue from 'vue'
 import VueWrapper from './vue-wrapper'
 import createInstance from 'create-instance'
 import createElement from './create-element'
-import errorHandler from './error-handler'
-import { findAllInstances } from './find'
+import {
+  throwIfInstancesThrew,
+  addGlobalErrorHandler
+} from './error'
 import { mergeOptions } from 'shared/merge-options'
 import config from './config'
 import warnIfNoWindow from './warn-if-no-window'
 import createWrapper from './create-wrapper'
 import createLocalVue from './create-local-vue'
+
 Vue.config.productionTip = false
 Vue.config.devtools = false
 
@@ -20,42 +23,35 @@ export default function mount (
   component: Component,
   options: Options = {}
 ): VueWrapper | Wrapper {
-  const existingErrorHandler = Vue.config.errorHandler
-  Vue.config.errorHandler = errorHandler
-
   warnIfNoWindow()
 
-  const elm = options.attachToDocument ? createElement() : undefined
+  addGlobalErrorHandler(Vue)
+
+  const _Vue = createLocalVue(options.localVue)
 
   const mergedOptions = mergeOptions(options, config)
 
   const parentVm = createInstance(
     component,
     mergedOptions,
-    createLocalVue(options.localVue)
+    _Vue
   )
 
-  const vm = parentVm.$mount(elm).$refs.vm
+  const el = options.attachToDocument ? createElement() : undefined
+  const vm = parentVm.$mount(el).$refs.vm
 
-  const componentsWithError = findAllInstances(vm).filter(
-    c => c._error
-  )
+  component._Ctor = {}
 
-  if (componentsWithError.length > 0) {
-    throw componentsWithError[0]._error
-  }
-
-  Vue.config.errorHandler = existingErrorHandler
+  throwIfInstancesThrew(vm)
 
   const wrapperOptions = {
     attachedToDocument: !!mergedOptions.attachToDocument,
     sync: mergedOptions.sync
   }
+
   const root = vm.$options._isFunctionalContainer
     ? vm._vnode
     : vm
-
-  component._Ctor = []
 
   return createWrapper(root, wrapperOptions)
 }
