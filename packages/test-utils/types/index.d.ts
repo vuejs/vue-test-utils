@@ -53,7 +53,6 @@ interface BaseWrapper {
   contains (selector: Selector): boolean
   exists (): boolean
   isVisible (): boolean
-  visible (): boolean
 
   attributes(): { [name: string]: string }
   attributes(key: string): string | void
@@ -62,16 +61,10 @@ interface BaseWrapper {
   props(): { [name: string]: any }
   props(key: string): any | void
 
-  hasAttribute (attribute: string, value: string): boolean
-  hasClass (className: string): boolean
-  hasProp (prop: string, value: any): boolean
-  hasStyle (style: string, value: string): boolean
-
   is (selector: Selector): boolean
   isEmpty (): boolean
   isVueInstance (): boolean
 
-  setComputed (computed: object): void
   setData (data: object): void
   setMethods (data: object): void
   setProps (props: object): void

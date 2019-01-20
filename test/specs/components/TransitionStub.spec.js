@@ -43,11 +43,11 @@ describeWithShallowAndMount('TransitionStub', mountingMethod => {
         transition: TransitionStub
       }
     })
-    expect(wrapper.find('nav').visible()).to.equal(false)
+    expect(wrapper.find('nav').isVisible()).to.equal(false)
     wrapper.find('button').trigger('click')
-    expect(wrapper.find('nav').visible()).to.equal(true)
+    expect(wrapper.find('nav').isVisible()).to.equal(true)
     wrapper.find('button').trigger('click')
-    expect(wrapper.find('nav').visible()).to.equal(false)
+    expect(wrapper.find('nav').isVisible()).to.equal(false)
   })
 
   it('logs error when has multiple children', () => {

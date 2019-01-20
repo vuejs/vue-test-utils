@@ -13,12 +13,8 @@ bool = wrapper.contains(ClassComponent)
 
 bool = wrapper.exists()
 
-bool = wrapper.hasAttribute('foo', 'bar')
 bool = wrapper.attributes().foo === 'bar'
-bool = wrapper.hasClass('foo-class')
-bool = wrapper.hasProp('checked', true)
 bool = wrapper.props().checked
-bool = wrapper.hasStyle('color', 'red')
 bool = wrapper.classes('foo')
 
 bool = wrapper.is(normalOptions)
@@ -33,7 +29,6 @@ let o: string = wrapper.emitted('hello')[0]
 const emittedByOrder = wrapper.emittedByOrder()
 const name: string = emittedByOrder[0].name
 
-wrapper.setComputed({computedProp: true})
 wrapper.setData({ foo: 'bar' })
 wrapper.setMethods({checked: true})
 wrapper.setProps({ checked: true })
