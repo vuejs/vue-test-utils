@@ -35,16 +35,14 @@ export function addGlobalErrorHandler (_Vue) {
     return
   }
 
-  if (_Vue.config.errorHandler) {
-    if (!hasWarned) {
-      warn(
-        `Global error handler detected (Vue.config.errorHandler). \n` +
-        `Vue Test Utils sets a custom error handler to throw errors ` +
-        `thrown by the instance during render. If you want this behavior in ` +
-        `your tests, you must remove the global error handler.`
-      )
-      hasWarned = true
-    }
+  if (_Vue.config.errorHandler && !hasWarned) {
+    warn(
+      `Global error handler detected (Vue.config.errorHandler). \n` +
+      `Vue Test Utils sets a custom error handler to throw errors ` +
+      `thrown by the instance during render. If you want this behavior in ` +
+      `your tests, you must remove the global error handler.`
+    )
+    hasWarned = true
   } else {
     _Vue.config.errorHandler = errorHandler
   }

@@ -31,7 +31,6 @@ export default function mount (
 
   const mergedOptions = mergeOptions(options, config)
 
-  // delete component._Ctor = {}
   const parentVm = createInstance(
     component,
     mergedOptions,
