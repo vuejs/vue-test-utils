@@ -8,6 +8,7 @@
     - `{Boolean} attachedToDocument`
 
 - **戻り値:**
+
   - `{Wrapper}`
 
 - **使い方:**

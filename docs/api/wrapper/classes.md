@@ -5,7 +5,8 @@ Return `Wrapper` DOM node classes.
 Returns Array of class names. Or a boolean if a class name is provided.
 
 - **Arguments:**
-  - `{string} className`  **optional**
+
+  - `{string} className` **optional**
 
 - **Returns:** `Array<{string}> | boolean`
 

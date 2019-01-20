@@ -7,6 +7,7 @@ setData works by recursively calling Vue.set.
 **Note the Wrapper must contain a Vue instance.**
 
 - **Arguments:**
+
   - `{Object} data`
 
 - **Example:**

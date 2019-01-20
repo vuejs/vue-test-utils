@@ -2,11 +2,7 @@
 
 import { compileToFunctions } from 'vue-template-compiler'
 
-function createVNodes (
-  vm: Component,
-  slotValue: string,
-  name
-): Array<VNode> {
+function createVNodes(vm: Component, slotValue: string, name): Array<VNode> {
   const el = compileToFunctions(
     `<div><template slot=${name}>${slotValue}</template></div>`
   )
@@ -20,10 +16,10 @@ function createVNodes (
   return vnode.children[0]
 }
 
-function createVNodesForSlot (
+function createVNodesForSlot(
   vm: Component,
   slotValue: SlotValue,
-  name: string,
+  name: string
 ): VNode | Array<VNode> {
   if (typeof slotValue === 'string') {
     return createVNodes(vm, slotValue, name)
@@ -33,15 +29,15 @@ function createVNodesForSlot (
   return vnode
 }
 
-export function createSlotVNodes (
+export function createSlotVNodes(
   vm: Component,
   slots: SlotsObject
 ): Array<VNode | Array<VNode>> {
   return Object.keys(slots).reduce((acc, key) => {
     const content = slots[key]
     if (Array.isArray(content)) {
-      const nodes = content.map(
-        slotDef => createVNodesForSlot(vm, slotDef, key)
+      const nodes = content.map(slotDef =>
+        createVNodesForSlot(vm, slotDef, key)
       )
       return acc.concat(nodes)
     }

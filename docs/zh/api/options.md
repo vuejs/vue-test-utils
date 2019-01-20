@@ -99,7 +99,7 @@ shallowMount(Component, {
 ```js
 shallowMount(Component, {
   scopedSlots: {
-    foo: function (props) {
+    foo: function(props) {
       return this.$createElement('div', props.index)
     }
   }
@@ -111,8 +111,8 @@ shallowMount(Component, {
 ```js
 shallowMount(Component, {
   scopedSlots: {
-    foo (props) {
-      return <div>{ props.text }</div>
+    foo(props) {
+      return <div>{props.text}</div>
     }
   }
 })
@@ -179,9 +179,7 @@ import Foo from './Foo.vue'
 const localVue = createLocalVue()
 localVue.use(VueRouter)
 
-const routes = [
-  { path: '/foo', component: Foo }
-]
+const routes = [{ path: '/foo', component: Foo }]
 
 const router = new VueRouter({
   routes
@@ -228,9 +226,9 @@ const wrapper = mount(Component, {
 expect(wrapper.text()).toBe('aBC')
 ```
 
-::: tip 提示 
+::: tip 提示
 值得注意的是 `propsData` 实际上是一个 [Vue API](https://cn.vuejs.org/v2/api/#propsData)，不是 Vue Test Utils 的挂载选项。它会被 [`extends`](https://cn.vuejs.org/v2/api/#extends) 处理。请查阅[其它选项](#其它选项)。
-::: 
+:::
 
 ## listeners
 
@@ -271,7 +269,7 @@ const Component = {
 
 const wrapper = shallowMount(Component, {
   provide: {
-    foo () {
+    foo() {
       return 'fooValue'
     }
   }
@@ -296,20 +294,20 @@ expect(wrapper.text()).toBe('fooValue')
 const Component = {
   template: '<div>{{ foo() }}{{ bar() }}{{ baz() }}</div>',
   methods: {
-    foo () {
+    foo() {
       return 'a'
     },
-    bar () {
+    bar() {
       return 'b'
     }
   }
 }
 const options = {
   methods: {
-    bar () {
+    bar() {
       return 'B'
     },
-    baz () {
+    baz() {
       return 'C'
     }
   }

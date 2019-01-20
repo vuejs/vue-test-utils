@@ -12,7 +12,7 @@ We will assume you are starting with a setup that already has webpack, vue-loade
 
 The first thing to do is installing test dependencies:
 
-``` bash
+```bash
 npm install --save-dev @vue/test-utils mocha mocha-webpack
 ```
 
@@ -55,7 +55,7 @@ module.exports = {
 
 Source maps need to be inlined to be picked up by `mocha-webpack`. The recommended config is:
 
-``` js
+```js
 module.exports = {
   // ...
   devtool: 'inline-cheap-module-source-map'
@@ -64,7 +64,7 @@ module.exports = {
 
 If debugging via IDE, it's also recommended to add the following:
 
-``` js
+```js
 module.exports = {
   // ...
   output: {
@@ -86,7 +86,7 @@ npm install --save-dev jsdom jsdom-global
 
 Then in `test/setup.js`:
 
-``` js
+```js
 require('jsdom-global')()
 ```
 
@@ -100,13 +100,13 @@ Alternatively you can use `expect` which is now part of Jest, and exposes [the e
 
 We will be using `expect` here and make it globally available so that we don't have to import it in every test:
 
-``` bash
+```bash
 npm install --save-dev expect
 ```
 
 Then in `test/setup.js`:
 
-``` js
+```js
 require('jsdom-global')()
 
 global.expect = require('expect')
@@ -122,7 +122,7 @@ One thing to note is that if you are using Node 6+, which already supports the m
 
 Create a file in `src` named `Counter.vue`:
 
-``` html
+```html
 <template>
   <div>
     {{ count }}
@@ -131,19 +131,19 @@ Create a file in `src` named `Counter.vue`:
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      count: 0
-    }
-  },
+  export default {
+    data() {
+      return {
+        count: 0
+      }
+    },
 
-  methods: {
-    increment () {
-      this.count++
+    methods: {
+      increment() {
+        this.count++
+      }
     }
   }
-}
 </script>
 ```
 

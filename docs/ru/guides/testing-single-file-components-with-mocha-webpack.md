@@ -12,7 +12,7 @@
 
 Первое, что нужно сделать, это установить тестовые зависимости:
 
-``` bash
+```bash
 npm install --save-dev @vue/test-utils mocha mocha-webpack
 ```
 
@@ -55,7 +55,7 @@ module.exports = {
 
 Source maps должны быть встроены для использования в `mocha-webpack`. Рекомендуемая конфигурация:
 
-``` js
+```js
 module.exports = {
   // ...
   devtool: 'inline-cheap-module-source-map'
@@ -64,7 +64,7 @@ module.exports = {
 
 При отладке через IDE рекомендуется также добавить следующее:
 
-``` js
+```js
 module.exports = {
   // ...
   output: {
@@ -86,7 +86,7 @@ npm install --save-dev jsdom jsdom-global
 
 Затем в `test/setup.js`:
 
-``` js
+```js
 require('jsdom-global')()
 ```
 
@@ -100,13 +100,13 @@ require('jsdom-global')()
 
 Мы будем использовать `expect` здесь и сделаем его глобально доступным, чтобы нам не приходилось импортировать его в каждом тесте:
 
-``` bash
+```bash
 npm install --save-dev expect
 ```
 
 Затем в `test/setup.js`:
 
-``` js
+```js
 require('jsdom-global')()
 
 global.expect = require('expect')
@@ -122,28 +122,28 @@ global.expect = require('expect')
 
 Создайте файл в `src` названный `Counter.vue`:
 
-``` html
+```html
 <template>
-	<div>
-	  {{ count }}
-	  <button @click="increment">Увеличить</button>
-	</div>
+  <div>
+    {{ count }}
+    <button @click="increment">Увеличить</button>
+  </div>
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      count: 0
-    }
-  },
+  export default {
+    data() {
+      return {
+        count: 0
+      }
+    },
 
-  methods: {
-    increment () {
-      this.count++
+    methods: {
+      increment() {
+        this.count++
+      }
     }
   }
-}
 </script>
 ```
 

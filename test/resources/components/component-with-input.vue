@@ -1,9 +1,19 @@
 <template>
   <div>
-    <input type="checkbox" v-model="checkboxVal">
-    <input type="radio" v-model="radioVal" id="radioFoo" value="radioFooResult">
-    <input type="radio" v-model="radioVal" id="radioBar" value="radioBarResult">
-    <input type="text" v-model="textVal">
+    <input type="checkbox" v-model="checkboxVal" />
+    <input
+      type="radio"
+      v-model="radioVal"
+      id="radioFoo"
+      value="radioFooResult"
+    />
+    <input
+      type="radio"
+      v-model="radioVal"
+      id="radioBar"
+      value="radioBarResult"
+    />
+    <input type="text" v-model="textVal" />
     <textarea v-model="textareaVal"></textarea>
     <select v-model="selectVal">
       <option value="selectA"></option>
@@ -30,26 +40,26 @@
 </template>
 
 <script>
-  export default {
-    name: 'component-with-input',
-    data () {
-      return {
-        checkboxVal: undefined,
-        textVal: undefined,
-        textareaVal: undefined,
-        radioVal: undefined,
-        selectVal: undefined,
-        counter: 0
-      }
-    },
+export default {
+  name: 'component-with-input',
+  data() {
+    return {
+      checkboxVal: undefined,
+      textVal: undefined,
+      textareaVal: undefined,
+      radioVal: undefined,
+      selectVal: undefined,
+      counter: 0
+    }
+  },
 
-    watch: {
-      checkboxVal () {
-        this.counter++
-      },
-      radioVal () {
-        this.counter++
-      }
+  watch: {
+    checkboxVal() {
+      this.counter++
+    },
+    radioVal() {
+      this.counter++
     }
   }
+}
 </script>

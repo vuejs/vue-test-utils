@@ -1,6 +1,7 @@
 ## createLocalVue()
 
 - **Returns:**
+
   - `{Component}`
 
 - **Usage:**

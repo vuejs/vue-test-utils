@@ -65,7 +65,7 @@ describeWithShallowAndMount('setValue', mountingMethod => {
     shouldThrowErrorOnElement('#label-el', message)
   })
 
-  function shouldThrowErrorOnElement (selector, message) {
+  function shouldThrowErrorOnElement(selector, message) {
     const wrapper = mountingMethod(ComponentWithInput)
     const input = wrapper.find(selector)
 

@@ -7,8 +7,8 @@
     - `{Object} context`
       - `{Array<Component|Object>|Component} children`
     - `{Object} slots`
-        - `{Array<Componet|Object>|Component|String} default`
-        - `{Array<Componet|Object>|Component|String} named`
+      - `{Array<Componet|Object>|Component|String} default`
+      - `{Array<Componet|Object>|Component|String} named`
     - `{Object} mocks`
     - `{Object|Array<string>} stubs`
     - `{Vue} localVue`
@@ -24,9 +24,9 @@
 オブジェクトを文字列にレンダリングして [cheerio wrapper](https://github.com/cheeriojs/cheerio) を返します。
 
 Cheerio は Node.js で jQuery のように DOM をスキャンするためのライブラリです。  
-これは Vue Test Utils の [`Wrapper`](wrapper/) に似ているAPIを持っています。
+これは Vue Test Utils の [`Wrapper`](wrapper/) に似ている API を持っています。
 
-コンポーネントを静的なHTMLにレンダリングするために、`render` は内部で [`vue-server-renderer`](https://ssr.vuejs.org/en/basic.html) を使用します。
+コンポーネントを静的な HTML にレンダリングするために、`render` は内部で [`vue-server-renderer`](https://ssr.vuejs.org/en/basic.html) を使用します。
 
 `render` は `@vue/server-test-utils` パッケージに含まれています。
 
@@ -44,7 +44,7 @@ describe('Foo', () => {
 })
 ```
 
-**Vueオプションを使用:**
+**Vue オプションを使用:**
 
 ```js
 import { render } from '@vue/server-test-utils'

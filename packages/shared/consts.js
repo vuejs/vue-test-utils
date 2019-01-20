@@ -14,10 +14,9 @@ export const VUE_VERSION = Number(
 export const FUNCTIONAL_OPTIONS =
   VUE_VERSION >= 2.5 ? 'fnOptions' : 'functionalOptions'
 
-export const BEFORE_RENDER_LIFECYCLE_HOOK =
-  semver.gt(Vue.version, '2.1.8')
-    ? 'beforeCreate'
-    : 'beforeMount'
+export const BEFORE_RENDER_LIFECYCLE_HOOK = semver.gt(Vue.version, '2.1.8')
+  ? 'beforeCreate'
+  : 'beforeMount'
 
 export const CREATE_ELEMENT_ALIAS = semver.gt(Vue.version, '2.1.5')
   ? '_c'

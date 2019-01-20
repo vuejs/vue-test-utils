@@ -4,7 +4,7 @@ import { compileToFunctions } from 'vue-template-compiler'
 import { componentNeedsCompiling } from './validators'
 import { throwError } from './util'
 
-export function compileFromString (str: string) {
+export function compileFromString(str: string) {
   if (!compileToFunctions) {
     throwError(
       `vueTemplateCompiler is undefined, you must pass ` +
@@ -15,7 +15,7 @@ export function compileFromString (str: string) {
   return compileToFunctions(str)
 }
 
-export function compileTemplate (component: Component): void {
+export function compileTemplate(component: Component): void {
   if (component.template) {
     Object.assign(component, compileToFunctions(component.template))
   }
@@ -38,7 +38,7 @@ export function compileTemplate (component: Component): void {
   }
 }
 
-export function compileTemplateForSlots (slots: Object): void {
+export function compileTemplateForSlots(slots: Object): void {
   Object.keys(slots).forEach(key => {
     const slot = Array.isArray(slots[key]) ? slots[key] : [slots[key]]
     slot.forEach(slotValue => {

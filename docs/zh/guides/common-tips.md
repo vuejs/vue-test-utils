@@ -31,7 +31,7 @@ wrapper.vm // 挂载的 Vue 实例
 
 每个挂载的包裹器都会通过其背后的 Vue 实例自动记录所有被触发的事件。你可以用 `wrapper.emitted()` 方法取回这些事件记录。
 
-``` js
+```js
 wrapper.vm.$emit('foo')
 wrapper.vm.$emit('foo', 123)
 
@@ -45,7 +45,7 @@ wrapper.vm.$emit('foo', 123)
 
 然后你可以基于这些数据来设置断言：
 
-``` js
+```js
 // 断言事件已经被触发
 expect(wrapper.emitted().foo).toBeTruthy()
 
@@ -67,28 +67,28 @@ expect(wrapper.emitted().foo[1]).toEqual([123])
 ```html
 <template>
   <div>
-    <child-component @custom="onCustom"/>
+    <child-component @custom="onCustom" />
     <p v-if="emitted">触发！</p>
   </div>
 </template>
 
 <script>
-import ChildComponent from './ChildComponent'
+  import ChildComponent from './ChildComponent'
 
-export default {
-  name: 'ParentComponent',
-  components: { ChildComponent },
-  data() {
-    return {
-      emitted: false
-    }
-  },
-  methods: {
-    onCustom () {
-      this.emitted = true
+  export default {
+    name: 'ParentComponent',
+    components: { ChildComponent },
+    data() {
+      return {
+        emitted: false
+      }
+    },
+    methods: {
+      onCustom() {
+        this.emitted = true
+      }
     }
   }
-}
 </script>
 ```
 
@@ -134,7 +134,7 @@ mount(Component, {
 
 你也可以用 `wrapper.setProps({})` 方法更新这些已经挂载的组件的 prop：
 
-*想查阅所有选项的完整列表，请移步该文档的[挂载选项](../api/options.md)章节。*
+_想查阅所有选项的完整列表，请移步该文档的[挂载选项](../api/options.md)章节。_
 
 ### 应用全局的插件和混入
 
@@ -142,7 +142,7 @@ mount(Component, {
 
 如果你在为一个特定的应用撰写组件，你可以在你的测试入口处一次性设置相同的全局插件和混入。但是有些情况下，比如测试一个可能会跨越不同应用共享的普通的组件套件的时候，最好还是在一个更加隔离的设置中测试你的组件，不对全局的 `Vue` 构造函数注入任何东西。我们可以使用 [`createLocalVue`](../api/createLocalVue.md) 方法来存档它们：
 
-``` js
+```js
 import { createLocalVue } from '@vue/test-utils'
 
 // 创建一个扩展的 `Vue` 构造函数

@@ -5,6 +5,7 @@ Assert every wrapper in `WrapperArray` contains selector.
 Use any valid [selector](../selectors.md).
 
 - **Arguments:**
+
   - `{string|Component} selector`
 
 - **Returns:** `{boolean}`

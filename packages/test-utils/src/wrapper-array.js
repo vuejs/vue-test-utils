@@ -5,10 +5,10 @@ import type VueWrapper from './vue-wrapper'
 import { throwError, warn } from 'shared/util'
 
 export default class WrapperArray implements BaseWrapper {
-  +wrappers: Array<Wrapper | VueWrapper>;
-  +length: number;
+  +wrappers: Array<Wrapper | VueWrapper>
+  +length: number
 
-  constructor (wrappers: Array<Wrapper | VueWrapper>) {
+  constructor(wrappers: Array<Wrapper | VueWrapper>) {
     const length = wrappers.length
     // $FlowIgnore
     Object.defineProperty(this, 'wrappers', {
@@ -22,14 +22,14 @@ export default class WrapperArray implements BaseWrapper {
     })
   }
 
-  at (index: number): Wrapper | VueWrapper {
+  at(index: number): Wrapper | VueWrapper {
     if (index > this.length - 1) {
       throwError(`no item exists at ${index}`)
     }
     return this.wrappers[index]
   }
 
-  attributes (): void {
+  attributes(): void {
     this.throwErrorIfWrappersIsEmpty('attributes')
 
     throwError(
@@ -38,7 +38,7 @@ export default class WrapperArray implements BaseWrapper {
     )
   }
 
-  classes (): void {
+  classes(): void {
     this.throwErrorIfWrappersIsEmpty('classes')
 
     throwError(
@@ -47,21 +47,21 @@ export default class WrapperArray implements BaseWrapper {
     )
   }
 
-  contains (selector: Selector): boolean {
+  contains(selector: Selector): boolean {
     this.throwErrorIfWrappersIsEmpty('contains')
 
     return this.wrappers.every(wrapper => wrapper.contains(selector))
   }
 
-  exists (): boolean {
+  exists(): boolean {
     return this.length > 0 && this.wrappers.every(wrapper => wrapper.exists())
   }
 
-  filter (predicate: Function): WrapperArray {
+  filter(predicate: Function): WrapperArray {
     return new WrapperArray(this.wrappers.filter(predicate))
   }
 
-  emitted (): void {
+  emitted(): void {
     this.throwErrorIfWrappersIsEmpty('emitted')
 
     throwError(
@@ -70,7 +70,7 @@ export default class WrapperArray implements BaseWrapper {
     )
   }
 
-  emittedByOrder (): void {
+  emittedByOrder(): void {
     this.throwErrorIfWrappersIsEmpty('emittedByOrder')
 
     throwError(
@@ -79,7 +79,7 @@ export default class WrapperArray implements BaseWrapper {
     )
   }
 
-  findAll (): void {
+  findAll(): void {
     this.throwErrorIfWrappersIsEmpty('findAll')
 
     throwError(
@@ -88,7 +88,7 @@ export default class WrapperArray implements BaseWrapper {
     )
   }
 
-  find (): void {
+  find(): void {
     this.throwErrorIfWrappersIsEmpty('find')
 
     throwError(
@@ -97,7 +97,7 @@ export default class WrapperArray implements BaseWrapper {
     )
   }
 
-  html (): void {
+  html(): void {
     this.throwErrorIfWrappersIsEmpty('html')
 
     throwError(
@@ -106,31 +106,31 @@ export default class WrapperArray implements BaseWrapper {
     )
   }
 
-  is (selector: Selector): boolean {
+  is(selector: Selector): boolean {
     this.throwErrorIfWrappersIsEmpty('is')
 
     return this.wrappers.every(wrapper => wrapper.is(selector))
   }
 
-  isEmpty (): boolean {
+  isEmpty(): boolean {
     this.throwErrorIfWrappersIsEmpty('isEmpty')
 
     return this.wrappers.every(wrapper => wrapper.isEmpty())
   }
 
-  isVisible (): boolean {
+  isVisible(): boolean {
     this.throwErrorIfWrappersIsEmpty('isVisible')
 
     return this.wrappers.every(wrapper => wrapper.isVisible())
   }
 
-  isVueInstance (): boolean {
+  isVueInstance(): boolean {
     this.throwErrorIfWrappersIsEmpty('isVueInstance')
 
     return this.wrappers.every(wrapper => wrapper.isVueInstance())
   }
 
-  name (): void {
+  name(): void {
     this.throwErrorIfWrappersIsEmpty('name')
 
     throwError(
@@ -139,7 +139,7 @@ export default class WrapperArray implements BaseWrapper {
     )
   }
 
-  props (): void {
+  props(): void {
     this.throwErrorIfWrappersIsEmpty('props')
 
     throwError(
@@ -148,7 +148,7 @@ export default class WrapperArray implements BaseWrapper {
     )
   }
 
-  text (): void {
+  text(): void {
     this.throwErrorIfWrappersIsEmpty('text')
 
     throwError(
@@ -157,43 +157,43 @@ export default class WrapperArray implements BaseWrapper {
     )
   }
 
-  throwErrorIfWrappersIsEmpty (method: string): void {
+  throwErrorIfWrappersIsEmpty(method: string): void {
     if (this.wrappers.length === 0) {
       throwError(`${method} cannot be called on 0 items`)
     }
   }
 
-  setData (data: Object): void {
+  setData(data: Object): void {
     this.throwErrorIfWrappersIsEmpty('setData')
 
     this.wrappers.forEach(wrapper => wrapper.setData(data))
   }
 
-  setMethods (props: Object): void {
+  setMethods(props: Object): void {
     this.throwErrorIfWrappersIsEmpty('setMethods')
 
     this.wrappers.forEach(wrapper => wrapper.setMethods(props))
   }
 
-  setProps (props: Object): void {
+  setProps(props: Object): void {
     this.throwErrorIfWrappersIsEmpty('setProps')
 
     this.wrappers.forEach(wrapper => wrapper.setProps(props))
   }
 
-  setValue (value: any): void {
+  setValue(value: any): void {
     this.throwErrorIfWrappersIsEmpty('setValue')
 
     this.wrappers.forEach(wrapper => wrapper.setValue(value))
   }
 
-  setChecked (checked: boolean = true): void {
+  setChecked(checked: boolean = true): void {
     this.throwErrorIfWrappersIsEmpty('setChecked')
 
     this.wrappers.forEach(wrapper => wrapper.setChecked(checked))
   }
 
-  setSelected (): void {
+  setSelected(): void {
     this.throwErrorIfWrappersIsEmpty('setSelected')
 
     throwError(
@@ -202,13 +202,13 @@ export default class WrapperArray implements BaseWrapper {
     )
   }
 
-  trigger (event: string, options: Object): void {
+  trigger(event: string, options: Object): void {
     this.throwErrorIfWrappersIsEmpty('trigger')
 
     this.wrappers.forEach(wrapper => wrapper.trigger(event, options))
   }
 
-  update (): void {
+  update(): void {
     this.throwErrorIfWrappersIsEmpty('update')
     warn(
       `update has been removed. All changes are now ` +
@@ -216,7 +216,7 @@ export default class WrapperArray implements BaseWrapper {
     )
   }
 
-  destroy (): void {
+  destroy(): void {
     this.throwErrorIfWrappersIsEmpty('destroy')
 
     this.wrappers.forEach(wrapper => wrapper.destroy())

@@ -9,25 +9,25 @@
 </template>
 
 <style>
-  .color-red {
-    color: red;
-  }
+.color-red {
+  color: red;
+}
 
-  .color-red > p {
-    color: red;
-  }
+.color-red > p {
+  color: red;
+}
 
-  p span {
-    color: red;
-  }
+p span {
+  color: red;
+}
 
-  div > span {
-    color: orange
-  }
+div > span {
+  color: orange;
+}
 </style>
 
 <script>
-  export default{
-    name: 'component-with-style'
-  }
+export default {
+  name: 'component-with-style'
+}
 </script>

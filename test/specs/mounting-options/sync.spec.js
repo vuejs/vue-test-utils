@@ -49,7 +49,7 @@ describeWithShallowAndMount('options.sync', mountingMethod => {
         </div>
       </div>
       `,
-      data () {
+      data() {
         return {
           open: false,
           text: '',
@@ -57,23 +57,23 @@ describeWithShallowAndMount('options.sync', mountingMethod => {
         }
       },
       computed: {
-        computedText () {
+        computedText() {
           return this.text
         }
       },
-      created () {
+      created() {
         window.addEventListener('click', this.clickHandler)
       },
-      destroyed () {
+      destroyed() {
         window.removeEventListener('click', this.clickHandler)
       },
       watch: {
-        text () {
+        text() {
           this.basket.push(this.computedText)
         }
       },
       methods: {
-        clickHandler () {
+        clickHandler() {
           this.open = !this.open
         }
       }
@@ -117,19 +117,19 @@ describeWithShallowAndMount('options.sync', mountingMethod => {
     const ChildComponent = {
       template: '<div>{{ foo }}</div>',
       props: ['foo'],
-      updated () {
+      updated() {
         childComponentSpy()
       }
     }
     const spy = sinon.stub()
     const TestComponent = {
       template: '<div>{{ foo }}<child-component :foo="foo" /></div>',
-      data () {
+      data() {
         return {
           foo: 'foo'
         }
       },
-      updated () {
+      updated() {
         spy()
       }
     }

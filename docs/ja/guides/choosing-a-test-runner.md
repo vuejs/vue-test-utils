@@ -4,7 +4,7 @@
 
 多くの一般的な JavaScript テストランナがあり、`vue-test-utils` はそれらすべてで動作します。テストランナにとらわれません。
 
-ですが、テストランナを選択する際には、機能セット、パフォーマンス、および単一ファイルコンポーネント (SFC) の事前コンパイルのサポートなどを考慮すべきです。既存のライブラリを慎重に比較した上で、以下の2つのテストランナをお勧めします:
+ですが、テストランナを選択する際には、機能セット、パフォーマンス、および単一ファイルコンポーネント (SFC) の事前コンパイルのサポートなどを考慮すべきです。既存のライブラリを慎重に比較した上で、以下の 2 つのテストランナをお勧めします:
 
 - [Jest](https://facebook.github.io/jest/docs/en/getting-started.html#content) は最も充実したテストランナです。最小の設定が必要で、デフォルトで JSDOM を設定し、組み込みの検証を提供し、コマンドラインのユーザーエクスペリエンスが優れています。ただし、テストで SFC コンポーネントをインポートできるようにするには、プリプロセッサが必要です。最も一般的な SFC 機能を処理できる `vue-jest` プリプロセッサを作成しましたが、現在 `vue-loader` と 100% 同じ機能を持っていません。
 
@@ -16,11 +16,13 @@
 
 Jest テストランナーは JSDOM を自動的に設定します。他のテストランナーの場合は、[jsdom-global](https://github.com/rstacruz/jsdom-global) を使用してテスト用の JSDOM を手動で設定できます:
 
-``` bash
+```bash
 npm install --save-dev jsdom jsdom-global
 ```
+
 ---
-``` js
+
+```js
 // テストのセットアップと登録
 require('jsdom-global')()
 ```
@@ -32,6 +34,7 @@ require('jsdom-global')()
 `vue-jest` プリプロセッサは基本的な SFC 機能をサポートしていますが、現在 `vue-loader` でのみサポートされているスタイルブロックやカスタムブロックは扱いません。これらの機能やその他の Webpack 固有の設定に依存する場合は、webpack + `vue-loader` ベースの設定を使用する必要があります。
 
 さまざまな設定については、次のガイドをお読みください:
+
 - [Jest による単一ファイルコンポーネントのテスト](./testing-single-file-components-with-jest.md)
 - [Mocha + webpack による単一ファイルコンポーネントのテスト](./testing-single-file-components-with-mocha-webpack.md)
 

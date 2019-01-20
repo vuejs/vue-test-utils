@@ -10,10 +10,10 @@ import WrapperArray from './wrapper-array'
 import config from './config'
 import { warn } from 'shared/util'
 
-function shallow (component, options) {
+function shallow(component, options) {
   warn(
     `shallow has been renamed to shallowMount. shallow ` +
-    `will be removed in 1.0.0, use shallowMount instead`
+      `will be removed in 1.0.0, use shallowMount instead`
   )
   return shallowMount(component, options)
 }

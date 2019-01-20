@@ -99,7 +99,7 @@ shallowMount(Component, {
 ```js
 shallowMount(Component, {
   scopedSlots: {
-    foo: function (props) {
+    foo: function(props) {
       return this.$createElement('div', props.index)
     }
   }
@@ -170,9 +170,7 @@ import Foo from './Foo.vue'
 const localVue = createLocalVue()
 localVue.use(VueRouter)
 
-const routes = [
-  { path: '/foo', component: Foo }
-]
+const routes = [{ path: '/foo', component: Foo }]
 
 const router = new VueRouter({
   routes
@@ -201,9 +199,9 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 ## propsData
 
 - Тип: `Object`
- 
+
 Устанавливает входные параметры экземпляра компонента, когда он примонтирован.
- 
+
 Пример:
 
 ```js
@@ -219,11 +217,11 @@ const wrapper = mount(Component, {
 expect(wrapper.text()).toBe('aBC')
 ```
 
-::: tip 
+::: tip
 Стоит отметить, что `propsData` относятся на самом деле к [API Vue](https://ru.vuejs.org/v2/api/#propsData),
 а не к опции монтирования Vue Test Utils. Эта опция обрабатывается через [`extends`](https://ru.vuejs.org/v2/api/#extends).
 Смотрите также [другие опции](#другие-опции).
-::: 
+:::
 
 ## listeners
 
@@ -264,7 +262,7 @@ const Component = {
 
 const wrapper = shallowMount(Component, {
   provide: {
-    foo () {
+    foo() {
       return 'fooValue'
     }
   }
@@ -289,20 +287,20 @@ expect(wrapper.text()).toBe('fooValue')
 const Component = {
   template: '<div>{{ foo() }}{{ bar() }}{{ baz() }}</div>',
   methods: {
-    foo () {
+    foo() {
       return 'a'
     },
-    bar () {
+    bar() {
       return 'b'
     }
   }
 }
 const options = {
   methods: {
-    bar () {
+    bar() {
       return 'B'
     },
-    baz () {
+    baz() {
       return 'C'
     }
   }

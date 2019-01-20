@@ -1,7 +1,7 @@
 ## isVueInstance()
 
 `Wrapper` が Vue インスタンスか検証します。
- 
+
 - **戻り値:** `{boolean}`
 
 - **例:**

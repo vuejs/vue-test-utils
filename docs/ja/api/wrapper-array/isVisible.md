@@ -2,7 +2,7 @@
 
 `WrapperArray` 内のすべての `Wrapper` が表示されているかアサートします。
 
-style が `display: none` か `visibility: hidden` の親要素を持つ `Wrapper` が少なくとも1つある場合、 false を返します。
+style が `display: none` か `visibility: hidden` の親要素を持つ `Wrapper` が少なくとも 1 つある場合、 false を返します。
 
 コンポーネントが `v-show` によって非表示になっているかアサートすることに使用することができます。
 

@@ -56,13 +56,13 @@ $ npm install --save-dev jest @vue/test-utils
 
 为了讲解 Jest 如何处理 `*.vue` 文件，我们需要安装并配置 `vue-jest` 预处理器：
 
-``` bash
+```bash
 npm install --save-dev vue-jest
 ```
 
 然后在 `package.json` 里创建一个 `jest` 块：
 
-``` json
+```json
 {
   // ...
   "jest": {
@@ -75,7 +75,7 @@ npm install --save-dev vue-jest
     ],
     "transform": {
       // 用 `vue-jest` 处理 `*.vue` 文件
-      ".*\\.(vue)$": "vue-jest",
+      ".*\\.(vue)$": "vue-jest"
     },
     "testURL": "http://localhost/"
   }
@@ -86,13 +86,13 @@ npm install --save-dev vue-jest
 
 为了在测试中使用 TypeScript 文件，我们需要在 Jest 中设置编译 TypeScript。为此我们需要安装 `ts-jest`：
 
-``` bash
+```bash
 $ npm install --save-dev ts-jest
 ```
 
 接下来，我们需要在 `package.json` 中的 `jest.transform` 中加入一个入口告诉 Jest 使用 `ts-jest` 处理 TypeScript 测试文件：
 
-``` json
+```json
 {
   // ...
   "jest": {
@@ -101,7 +101,7 @@ $ npm install --save-dev ts-jest
       // ...
       // 用 `ts-jest` 处理 `*.ts` 文件
       "^.+\\.tsx?$": "ts-jest"
-    },
+    }
     // ...
   }
 }
@@ -115,7 +115,7 @@ $ npm install --save-dev ts-jest
 
 在 `package.json` 中添加以下 `jest` 字段：
 
-``` json
+```json
 {
   // ...
   "jest": {

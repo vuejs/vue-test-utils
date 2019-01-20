@@ -6,15 +6,12 @@ import { addEventLogger } from './log-events'
 import { addStubs } from './add-stubs'
 import { compileTemplate } from 'shared/compile-template'
 import extractInstanceOptions from './extract-instance-options'
-import {
-  componentNeedsCompiling,
-  isConstructor
-} from 'shared/validators'
+import { componentNeedsCompiling, isConstructor } from 'shared/validators'
 import createScopedSlots from './create-scoped-slots'
 import { createStubsFromStubsObject } from './create-component-stubs'
 import { patchCreateElement } from './patch-create-element'
 
-function createContext (options, scopedSlots) {
+function createContext(options, scopedSlots) {
   const on = {
     ...(options.context && options.context.on),
     ...options.listeners
@@ -32,18 +29,17 @@ function createContext (options, scopedSlots) {
   }
 }
 
-function createChildren (vm, h, { slots, context }) {
-  const slotVNodes = slots
-    ? createSlotVNodes(vm, slots)
-    : undefined
+function createChildren(vm, h, { slots, context }) {
+  const slotVNodes = slots ? createSlotVNodes(vm, slots) : undefined
   return (
-    context &&
-    context.children &&
-    context.children.map(x => (typeof x === 'function' ? x(h) : x))
-  ) || slotVNodes
+    (context &&
+      context.children &&
+      context.children.map(x => (typeof x === 'function' ? x(h) : x))) ||
+    slotVNodes
+  )
 }
 
-export default function createInstance (
+export default function createInstance(
   component: Component,
   options: Options,
   _Vue: Component
@@ -87,7 +83,7 @@ export default function createInstance (
   parentComponentOptions.provide = options.provide
   parentComponentOptions.$_doNotStubChildren = true
   parentComponentOptions._isFunctionalContainer = componentOptions.functional
-  parentComponentOptions.render = function (h) {
+  parentComponentOptions.render = function(h) {
     return h(
       Constructor,
       createContext(options, scopedSlots),

@@ -10,7 +10,7 @@
 
 これはテストしたいコンポーネントです。これは Vuex のアクションを呼び出します。
 
-``` html
+```html
 <template>
   <div class="text-align-center">
     <input type="text" @input="actionInputIfTrue" />
@@ -19,21 +19,19 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+  import { mapActions } from 'vuex'
 
-export default{
-  methods: {
-    ...mapActions([
-      'actionClick'
-    ]),
-    actionInputIfTrue: function actionInputIfTrue (event) {
-      const inputValue = event.target.value
-      if (inputValue === 'input') {
-        this.$store.dispatch('actionInput', { inputValue })
+  export default {
+    methods: {
+      ...mapActions(['actionClick']),
+      actionInputIfTrue: function actionInputIfTrue(event) {
+        const inputValue = event.target.value
+        if (inputValue === 'input') {
+          this.$store.dispatch('actionInput', { inputValue })
+        }
       }
     }
   }
-}
 </script>
 ```
 
@@ -45,7 +43,7 @@ export default{
 
 これがどのように見えるか見ていきましょう:
 
-``` js
+```js
 import { shallowMount, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import Actions from '../../../src/components/Actions'
@@ -111,8 +109,7 @@ describe('Actions.vue', () => {
 
 ### ゲッタのモック
 
-
-``` html
+```html
 <template>
   <div>
     <p v-if="inputValue">{{inputValue}}</p>
@@ -121,14 +118,11 @@ describe('Actions.vue', () => {
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+  import { mapGetters } from 'vuex'
 
-export default{
-  computed: mapGetters([
-    'clicks',
-    'inputValue'
-  ])
-}
+  export default {
+    computed: mapGetters(['clicks', 'inputValue'])
+  }
 </script>
 ```
 
@@ -136,7 +130,7 @@ export default{
 
 テストを見てみましょう:
 
-``` js
+```js
 import { shallowMount, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import Getters from '../../../src/components/Getters'
@@ -184,7 +178,7 @@ describe('Getters.vue', () => {
 
 コンポーネントを見てみましょう:
 
-``` html
+```html
 <template>
   <div>
     <button @click="moduleActionClick()">Click</button>
@@ -193,19 +187,15 @@ describe('Getters.vue', () => {
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+  import { mapActions, mapGetters } from 'vuex'
 
-export default{
-  methods: {
-    ...mapActions([
-      'moduleActionClick'
-    ])
-  },
+  export default {
+    methods: {
+      ...mapActions(['moduleActionClick'])
+    },
 
-  computed: mapGetters([
-    'moduleClicks'
-  ])
-}
+    computed: mapGetters(['moduleClicks'])
+  }
 </script>
 ```
 
@@ -213,7 +203,7 @@ export default{
 
 そしてテストは以下のようになります:
 
-``` js
+```js
 import { shallowMount, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import MyComponent from '../../../src/components/MyComponent'
@@ -263,17 +253,16 @@ describe('MyComponent.vue', () => {
 })
 ```
 
-
 ### Vuex ストアのテスト
 
-Vuex ストアをテストする方法が2つあります。1つ目はゲッタとミューテーションとアクションを別々に単体テストする方法です。2つ目はストアを生成してそれをテストする方法です。
+Vuex ストアをテストする方法が 2 つあります。1 つ目はゲッタとミューテーションとアクションを別々に単体テストする方法です。2 つ目はストアを生成してそれをテストする方法です。
 
 Vuex ストアをテストする方法を説明するためにシンプルなカウンターストアを用意します。このストアには `increment` ミューテーションと `evenOrOdd` ゲッタがあります。
 
 ```js
 // mutations.js
 export default {
-  increment (state) {
+  increment(state) {
     state.count++
   }
 }
@@ -282,7 +271,7 @@ export default {
 ```js
 // getters.js
 export default {
-  evenOrOdd: state => state.count % 2 === 0 ? 'even' : 'odd'
+  evenOrOdd: state => (state.count % 2 === 0 ? 'even' : 'odd')
 }
 ```
 
@@ -290,9 +279,9 @@ export default {
 
 ゲッタとミューテーションとアクションはすべて JavaScript の関数です。それらは `vue-test-utils` と Vuex を使用しなくてもテストすることができます。
 
-ゲッタとミューテーションとアクションを別々にテストする利点は単体テストを詳細に記述することができることです。テストが失敗すると、コードの何が原因か正確に知ることができます。欠点は `commit` や `dispatch` のような Vuex の関数のモックが必要なことです。これは不正なモックが原因で単体テストはパスしてプロダクションは失敗する状況を作り出す可能性があります。
+ゲッタとミューテーションとアクションを別々にテストする利点は単体テストを詳細に記述することができることです。テストが失敗すると、コードの何が原因か正確に知ることができます。欠点は `commit` や  `dispatch` のような Vuex の関数のモックが必要なことです。これは不正なモックが原因で単体テストはパスしてプロダクションは失敗する状況を作り出す可能性があります。
 
-mutations.spec.js と getters.spec.js という名前のテストファイルを2つ作成します。
+mutations.spec.js と getters.spec.js という名前のテストファイルを 2 つ作成します。
 
 最初に increment ミューテーションをテストします。
 
@@ -330,12 +319,11 @@ test('evenOrOdd returns odd if state.count is odd', () => {
   }
   expect(getters.evenOrOdd(state)).toBe('odd')
 })
-
 ```
 
 ### 実行可能なストアのテスト
 
-Vuexストアをテストするもう1つの方法はストアの設定を使って実行可能なストアを生成することです。
+Vuex ストアをテストするもう 1 つの方法はストアの設定を使って実行可能なストアを生成することです。
 
 実行可能なストアを生成してテストすることの利点は Vuex の関数をモックする必要がない事です。
 

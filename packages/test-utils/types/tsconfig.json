@@ -1,13 +1,11 @@
 {
   "compilerOptions": {
-    "lib": ["es2015",  "es2017", "dom"],
+    "lib": ["es2015", "es2017", "dom"],
     "module": "es2015",
     "moduleResolution": "node",
     "strict": true,
     "noEmit": true,
     "allowSyntheticDefaultImports": true
   },
-  "include": [
-    "**/*.ts"
-  ]
+  "include": ["**/*.ts"]
 }

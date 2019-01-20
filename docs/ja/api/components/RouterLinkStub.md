@@ -1,6 +1,6 @@
 ## RouterLinkStub
 
-Vue Router の `router-link` コンポーネントをスタブするためのコンポーネントです。
+Vue Router の  `router-link` コンポーネントをスタブするためのコンポーネントです。
 
 レンダリングツリーにある router-link コンポーネントを見つけるためにこのコンポーネントを使用することができます。
 

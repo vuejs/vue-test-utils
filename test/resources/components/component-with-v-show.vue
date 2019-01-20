@@ -9,11 +9,11 @@
 </template>
 
 <script>
-  export default {
-    name: 'component-with-show',
-    data: () => ({
-      ready: false,
-      rootReady: true
-    })
-  }
+export default {
+  name: 'component-with-show',
+  data: () => ({
+    ready: false,
+    rootReady: true
+  })
+}
 </script>

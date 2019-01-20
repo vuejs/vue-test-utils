@@ -17,7 +17,7 @@ describeWithShallowAndMount('createLocalVue', mountingMethod => {
         test: 0
       },
       mutations: {
-        increment () {}
+        increment() {}
       }
     })
     const wrapper = mountingMethod(Component, { localVue, store })
@@ -34,7 +34,7 @@ describeWithShallowAndMount('createLocalVue', mountingMethod => {
         count: 0
       },
       mutations: {
-        increment (state) {
+        increment(state) {
           state.count++
         }
       },
@@ -104,7 +104,7 @@ describeWithShallowAndMount('createLocalVue', mountingMethod => {
     const localVue = createLocalVue()
     const pluginOptions = { foo: 'bar' }
     const plugin = {
-      install: function (_Vue, options) {
+      install: function(_Vue, options) {
         expect(options).to.equal(pluginOptions)
       }
     }
@@ -115,7 +115,7 @@ describeWithShallowAndMount('createLocalVue', mountingMethod => {
     let installCount = 0
 
     class Plugin {}
-    Plugin.install = function (_Vue) {
+    Plugin.install = function(_Vue) {
       if (_Vue._installedPlugins) {
         expect(_Vue._installedPlugins.indexOf(Plugin)).to.equal(-1)
       }

@@ -3,6 +3,7 @@
 Проверка, что каждый `Wrapper` в `WrapperArray` DOM-узле или `vm` соответствует [селектору](../selectors.md).
 
 - **Принимает:**
+
   - `{string|Component} selector`
 
 - **Возвращает:** `{boolean}`

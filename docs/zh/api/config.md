@@ -7,10 +7,7 @@ Vue Test Utils 包含了一个定义其选项的配置对象。
 ### `stubs`
 
 - 类型：`{ [name: string]: Component | boolean | string }`
-- 默认值：`{
-  transition: TransitionStub,
-  'transition-group': TransitionGroupStub
-}`
+- 默认值：`{ transition: TransitionStub, 'transition-group': TransitionGroupStub }`
 
 存储在 `config.stubs` 中的存根会被默认使用。  
 用到的组件存根。它们会被传入挂载选项的 `stubs` 覆写。

@@ -4,7 +4,6 @@
 
 它在 Vue Test Utils 默认配置中用来存根所有的 `transition` 组件。将 `config.stubs.transition` 设为 `false` 可以使用内建的 `transition` 组件：
 
-
 ```js
 import { config } from '@vue/test-utils'
 

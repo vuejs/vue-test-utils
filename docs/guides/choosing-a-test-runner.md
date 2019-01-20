@@ -16,11 +16,13 @@ Vue Test Utils relies on a browser environment. Technically you can run it in a 
 
 The Jest test runner sets up JSDOM automatically. For other test runners, you can manually set up JSDOM for the tests using [jsdom-global](https://github.com/rstacruz/jsdom-global) in the entry for your tests:
 
-``` bash
+```bash
 npm install --save-dev jsdom jsdom-global
 ```
+
 ---
-``` js
+
+```js
 // in test setup / entry
 require('jsdom-global')()
 ```

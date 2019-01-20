@@ -30,7 +30,6 @@ const wrapper = mount(MyButton)
 wrapper.trigger('click', { button: 0 })
 ```
 
-
 ### 鼠标点击示例
 
 **待测试的组件**
@@ -44,24 +43,24 @@ wrapper.trigger('click', { button: 0 })
 </template>
 
 <script>
-export default {
-  name: 'YesNoComponent',
+  export default {
+    name: 'YesNoComponent',
 
-  props: {
-    callMe: {
-      type: Function
-    }
-  },
-
-  methods: {
-    callYes() {
-      this.callMe('yes')
+    props: {
+      callMe: {
+        type: Function
+      }
     },
-    callNo() {
-      this.callMe('no')
+
+    methods: {
+      callYes() {
+        this.callMe('yes')
+      },
+      callNo() {
+        this.callMe('no')
+      }
     }
   }
-}
 </script>
 ```
 
@@ -99,50 +98,50 @@ describe('点击事件', () => {
 </template>
 
 <script>
-const KEY_DOWN = 40
-const KEY_UP = 38
-const ESCAPE = 27
-const CHAR_A = 65
+  const KEY_DOWN = 40
+  const KEY_UP = 38
+  const ESCAPE = 27
+  const CHAR_A = 65
 
-export default {
-  data() {
-    return {
-      quantity: 0
-    }
-  },
+  export default {
+    data() {
+      return {
+        quantity: 0
+      }
+    },
 
-  methods: {
-    increment() {
-      this.quantity += 1
+    methods: {
+      increment() {
+        this.quantity += 1
+      },
+      decrement() {
+        this.quantity -= 1
+      },
+      clear() {
+        this.quantity = 0
+      },
+      onKeydown(e) {
+        if (e.keyCode === ESCAPE) {
+          this.clear()
+        }
+        if (e.keyCode === KEY_DOWN) {
+          this.decrement()
+        }
+        if (e.keyCode === KEY_UP) {
+          this.increment()
+        }
+        if (e.which === CHAR_A) {
+          this.quantity = 13
+        }
+      }
     },
-    decrement() {
-      this.quantity -= 1
-    },
-    clear() {
-      this.quantity = 0
-    },
-    onKeydown(e) {
-      if (e.keyCode === ESCAPE) {
-        this.clear()
-      }
-      if (e.keyCode === KEY_DOWN) {
-        this.decrement()
-      }
-      if (e.keyCode === KEY_UP) {
-        this.increment()
-      }
-      if (e.which === CHAR_A) {
-        this.quantity = 13
-      }
-    }
-  },
 
-  watch: {
-    quantity: function (newValue) {
-      this.$emit('input', newValue)
+    watch: {
+      quantity: function(newValue) {
+        this.$emit('input', newValue)
+      }
     }
   }
-}
 </script>
 ```
 
@@ -192,23 +191,23 @@ describe('键盘事件测试', () => {
 
 点后面的按键名 `keydown.up` 会被翻译成一个 `keyCode`。这些被支持的按键名有：
 
-| key name | key code |
-| --- | --- |
-| enter | 13 |
-| esc | 27 |
-| tab | 9 |
-| space | 32 |
-| delete | 46 |
-| backspace | 8 |
-| insert | 45 |
-| up | 38 |
-| down | 40 |
-| left | 37 |
-| right | 39 |
-| end | 35 |
-| home | 36 |
-| pageup | 33 |
-| pagedown | 34 |
+| key name  | key code |
+| --------- | -------- |
+| enter     | 13       |
+| esc       | 27       |
+| tab       | 9        |
+| space     | 32       |
+| delete    | 46       |
+| backspace | 8        |
+| insert    | 45       |
+| up        | 38       |
+| down      | 40       |
+| left      | 37       |
+| right     | 39       |
+| end       | 35       |
+| home      | 36       |
+| pageup    | 33       |
+| pagedown  | 34       |
 
 ### 重要事项
 

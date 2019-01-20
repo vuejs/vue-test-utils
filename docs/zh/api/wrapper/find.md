@@ -5,6 +5,7 @@
 可以使用任何有效的[选择器](../selectors.md)。
 
 - **参数：**
+
   - `{string|Component} selector`
 
 - **返回值：**`{Wrapper}`

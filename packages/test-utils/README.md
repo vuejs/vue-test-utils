@@ -1,7 +1,9 @@
 # Vue Test Utils [![Build Status](https://circleci.com/gh/vuejs/vue-test-utils/tree/dev.png?style=shield)](https://circleci.com/gh/vuejs/vue-test-utils)
 
 ## Currently in beta
+
 To use Vue Test Utils beta:
+
 ```
 // npm
 npm install --save-dev @vue/test-utils

@@ -16,12 +16,14 @@ declare type Options = {
   logModifiedComponents?: boolean,
   sync?: boolean,
   shouldProxy?: boolean
-};
+}
 
-declare type SlotValue = Component | string | Array<Component | string>;
+declare type SlotValue = Component | string | Array<Component | string>
 
-declare type SlotsObject = { [name: string]: SlotValue };
+declare type SlotsObject = { [name: string]: SlotValue }
 
-declare type Stubs = {
-  [name: string]: Component | true | string
-} | Array<string>
+declare type Stubs =
+  | {
+      [name: string]: Component | true | string
+    }
+  | Array<string>

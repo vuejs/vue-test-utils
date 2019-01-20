@@ -12,7 +12,7 @@ import { validateOptions } from 'shared/validate-options'
 Vue.config.productionTip = false
 Vue.config.devtools = false
 
-export default function renderToString (
+export default function renderToString(
   component: Component,
   options: Options = {}
 ): string {

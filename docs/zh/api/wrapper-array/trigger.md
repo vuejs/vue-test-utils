@@ -5,6 +5,7 @@
 **注意：该包裹器必须包含一个 Vue 实例。**
 
 - **参数：**
+
   - `{string} eventType` **必填**
   - `{Object} options` **可选**
 

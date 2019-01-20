@@ -107,7 +107,7 @@ describeWithShallowAndMount('trigger', mountingMethod => {
     const TestComponent = {
       template: '<div @update="callStub" />',
       methods: {
-        callStub (event) {
+        callStub(event) {
           stub(event.customData)
         }
       }
@@ -152,7 +152,7 @@ describeWithShallowAndMount('trigger', mountingMethod => {
       const vm = new Vue()
       const item = () => vm.$createElement('button')
       const TestComponent = {
-        render (h) {
+        render(h) {
           return h(ComponentWithScopedSlots, {
             scopedSlots: {
               noProps: item
@@ -205,14 +205,15 @@ describeWithShallowAndMount('trigger', mountingMethod => {
 
   itDoNotRunIf(
     isRunningPhantomJS,
-    'trigger should create events with correct interface', () => {
+    'trigger should create events with correct interface',
+    () => {
       let lastEvent
       const TestComponent = {
         template: `
         <div @click="updateLastEvent" />
       `,
         methods: {
-          updateLastEvent (event) {
+          updateLastEvent(event) {
             lastEvent = event
           }
         }
@@ -222,7 +223,8 @@ describeWithShallowAndMount('trigger', mountingMethod => {
 
       wrapper.trigger('click')
       expect(lastEvent).to.be.an.instanceof(window.MouseEvent)
-    })
+    }
+  )
 
   it('falls back to supported event if not supported by browser', () => {
     const TestComponent = {

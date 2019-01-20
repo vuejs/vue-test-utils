@@ -95,7 +95,7 @@ props を引数に取る関数を渡すことができます。
 ```js
 shallowMount(Component, {
   scopedSlots: {
-    foo: function (props) {
+    foo: function(props) {
       return this.$createElement('div', props.index)
     }
   }
@@ -107,8 +107,8 @@ shallowMount(Component, {
 ```js
 shallowMount(Component, {
   scopedSlots: {
-    foo (props) {
-      return <div>{ props.text }</div>
+    foo(props) {
+      return <div>{props.text}</div>
     }
   }
 })
@@ -175,9 +175,7 @@ import Foo from './Foo.vue'
 const localVue = createLocalVue()
 localVue.use(VueRouter)
 
-const routes = [
-  { path: '/foo', component: Foo }
-]
+const routes = [{ path: '/foo', component: Foo }]
 
 const router = new VueRouter({
   routes
@@ -228,7 +226,7 @@ expect(wrapper.text()).toBe('aBC')
 `propsData` は Vue Test Utils のマウンティングオプションではなく [Vue API](https://vuejs.org/v2/api/#propsData) です。
 この `propsData` は [`extends`](https://vuejs.org/v2/api/#extends) を内部で利用しています。
 詳しくは[その他のオプション](#その他のオプション)を参照してください。
-::: 
+:::
 
 ## listeners
 
@@ -269,7 +267,7 @@ const Component = {
 
 const wrapper = shallowMount(Component, {
   provide: {
-    foo () {
+    foo() {
       return 'fooValue'
     }
   }
@@ -284,30 +282,30 @@ expect(wrapper.text()).toBe('fooValue')
 - デフォルト: `true`
 
 `sync` を `true` にすると、Vue コンポーネントは同期的に描画されます。  
-`sync` を `false` にすると、Vue コンポーネントは非同期的に描画されます。  
+`sync` を `false` にすると、Vue コンポーネントは非同期的に描画されます。
 
 ## その他のオプション
 
-`mount` と `shallowMount` にマウンティングオプション以外のオプションが渡されると、コンポーネントのオプションは [extends](https://vuejs.org/v2/api/#extends) を使ってマウンティングオプション以外のオプションに上書きされます。
+`mount` と  `shallowMount` にマウンティングオプション以外のオプションが渡されると、コンポーネントのオプションは [extends](https://vuejs.org/v2/api/#extends) を使ってマウンティングオプション以外のオプションに上書きされます。
 
 ```js
 const Component = {
   template: '<div>{{ foo() }}{{ bar() }}{{ baz() }}</div>',
   methods: {
-    foo () {
+    foo() {
       return 'a'
     },
-    bar () {
+    bar() {
       return 'b'
     }
   }
 }
 const options = {
   methods: {
-    bar () {
+    bar() {
       return 'B'
     },
-    baz () {
+    baz() {
       return 'C'
     }
   }

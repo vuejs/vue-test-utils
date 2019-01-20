@@ -1,6 +1,7 @@
 ## setProps(props)
 
 - **参数：**
+
   - `{Object} props`
 
 - **用法：**
@@ -20,7 +21,7 @@ expect(wrapper.vm.foo).toBe('bar')
 
 你也可以传递一个 `propsData` 对象，这会用该对象来初始化 Vue 示例。
 
-``` js
+```js
 // Foo.vue
 export default {
   props: {
@@ -32,7 +33,7 @@ export default {
 }
 ```
 
-``` js
+```js
 import { mount } from '@vue/test-utils'
 import Foo from './Foo.vue'
 

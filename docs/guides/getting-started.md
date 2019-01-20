@@ -4,7 +4,7 @@
 
 To get a quick taste of using Vue Test Utils, clone our demo repository with basic setup and install the dependencies:
 
-``` bash
+```bash
 git clone https://github.com/vuejs/vue-test-utils-getting-started
 cd vue-test-utils-getting-started
 npm install
@@ -23,14 +23,14 @@ export default {
     </div>
   `,
 
-  data () {
+  data() {
     return {
       count: 0
     }
   },
 
   methods: {
-    increment () {
+    increment() {
       this.count++
     }
   }
@@ -108,13 +108,13 @@ Vue batches pending DOM updates and applies them asynchronously to prevent unnec
 
 To simplify usage, Vue Test Utils applies all updates synchronously so you don't need to use `Vue.nextTick` to wait for DOM updates in your tests.
 
-*Note: `nextTick` is still necessary when you need to explictly advance the event loop, for operations such as asynchronous callbacks or promise resolution.*
+_Note: `nextTick` is still necessary when you need to explictly advance the event loop, for operations such as asynchronous callbacks or promise resolution._
 
 If you do still need to use `nextTick` in your test files, be aware that any errors thrown inside it may not be caught by your test runner as it uses promises internally. There are two approaches to fixing this: either you can set the `done` callback as Vue's global error handler at the start of the test, or you can call `nextTick` without an argument and return it as a promise:
 
 ```js
 // this will not be caught
-it('will time out', (done) => {
+it('will time out', done => {
   Vue.nextTick(() => {
     expect(true).toBe(false)
     done()
@@ -122,7 +122,7 @@ it('will time out', (done) => {
 })
 
 // the two following tests will work as expected
-it('will catch the error using done', (done) => {
+it('will catch the error using done', done => {
   Vue.config.errorHandler = done
   Vue.nextTick(() => {
     expect(true).toBe(false)
@@ -131,10 +131,9 @@ it('will catch the error using done', (done) => {
 })
 
 it('will catch the error using a promise', () => {
-  return Vue.nextTick()
-    .then(function () {
-      expect(true).toBe(false)
-    })
+  return Vue.nextTick().then(function() {
+    expect(true).toBe(false)
+  })
 })
 ```
 

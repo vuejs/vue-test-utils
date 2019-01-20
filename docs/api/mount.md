@@ -62,6 +62,7 @@ describe('Foo', () => {
   })
 })
 ```
+
 **Default and named slots:**
 
 ```js

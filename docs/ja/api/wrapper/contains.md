@@ -3,6 +3,7 @@
 `Wrapper` に要素、もしくは[セレクタ](../selectors.md)で指定したコンポーネントを含んでいるか検証します。
 
 - **引数:**
+
   - `{string|Component} selector`
 
 - **戻り値:** `{boolean}`

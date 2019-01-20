@@ -1,6 +1,7 @@
 ## createLocalVue()
 
 - **返回值：**
+
   - `{Component}`
 
 - **用法：**

@@ -6,7 +6,7 @@ describeWithShallowAndMount('destroy', mountingMethod => {
     const spy = sinon.stub()
     mountingMethod({
       render: () => {},
-      beforeDestroy () {
+      beforeDestroy() {
         spy()
       }
     }).destroy()
@@ -17,7 +17,7 @@ describeWithShallowAndMount('destroy', mountingMethod => {
     const spy = sinon.stub()
     mountingMethod({
       render: () => {},
-      destroyed () {
+      destroyed() {
         spy()
       }
     }).destroy()
@@ -25,7 +25,10 @@ describeWithShallowAndMount('destroy', mountingMethod => {
   })
 
   it('removes element from document.body', () => {
-    const wrapper = mountingMethod({ template: '<div />' }, { attachToDocument: true })
+    const wrapper = mountingMethod(
+      { template: '<div />' },
+      { attachToDocument: true }
+    )
     expect(wrapper.vm.$el.parentNode).to.equal(document.body)
     wrapper.destroy()
     expect(wrapper.vm.$el.parentNode).to.be.null
@@ -34,7 +37,7 @@ describeWithShallowAndMount('destroy', mountingMethod => {
   it('throws if component throws during destroy', () => {
     const TestComponent = {
       template: '<div :p="a" />',
-      beforeDestroy () {
+      beforeDestroy() {
         throw new Error('error')
       },
       data: () => ({

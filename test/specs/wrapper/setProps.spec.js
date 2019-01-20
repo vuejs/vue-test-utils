@@ -39,27 +39,36 @@ describeWithShallowAndMount('setProps', mountingMethod => {
     expect(wrapper.is('div')).to.equal(true)
   })
 
-  itDoNotRunIf(vueVersion > 2.3, 'throws error if component does not include props key', () => {
-    const TestComponent = {
-      template: '<div></div>'
+  itDoNotRunIf(
+    vueVersion > 2.3,
+    'throws error if component does not include props key',
+    () => {
+      const TestComponent = {
+        template: '<div></div>'
+      }
+      const message =
+        `[vue-test-utils]: wrapper.setProps() called ` +
+        `with prop1 property which is not defined on the component`
+      const fn = () => mountingMethod(TestComponent).setProps({ prop1: 'prop' })
+      expect(fn)
+        .to.throw()
+        .with.property('message', message)
     }
-    const message = `[vue-test-utils]: wrapper.setProps() called ` +
-      `with prop1 property which is not defined on the component`
-    const fn = () => mountingMethod(TestComponent).setProps({ prop1: 'prop' })
-    expect(fn)
-      .to.throw()
-      .with.property('message', message)
-  })
+  )
 
-  itDoNotRunIf(vueVersion < 2.4, 'attributes not recognized as props are available via the $attrs instance property', () => {
-    const TestComponent = {
-      template: '<div></div>'
+  itDoNotRunIf(
+    vueVersion < 2.4,
+    'attributes not recognized as props are available via the $attrs instance property',
+    () => {
+      const TestComponent = {
+        template: '<div></div>'
+      }
+      const prop1 = 'prop1'
+      const wrapper = mountingMethod(TestComponent)
+      wrapper.setProps({ prop1 })
+      expect(wrapper.vm.$attrs.prop1).to.equal(prop1)
     }
-    const prop1 = 'prop1'
-    const wrapper = mountingMethod(TestComponent)
-    wrapper.setProps({ prop1 })
-    expect(wrapper.vm.$attrs.prop1).to.equal(prop1)
-  })
+  )
 
   it('throws error when called on functional vnode', () => {
     const AFunctionalComponent = {
@@ -124,7 +133,7 @@ describeWithShallowAndMount('setProps', mountingMethod => {
       </div>
       `,
       computed: {
-        reversedMessage: function () {
+        reversedMessage: function() {
           return this.message
             .split('')
             .reverse()
@@ -152,7 +161,7 @@ describeWithShallowAndMount('setProps', mountingMethod => {
         data: ''
       }),
       computed: {
-        stringified () {
+        stringified() {
           return this.collection.join(',')
         }
       },
@@ -160,7 +169,7 @@ describeWithShallowAndMount('setProps', mountingMethod => {
         collection: 'execute'
       },
       methods: {
-        execute () {
+        execute() {
           this.data = this.stringified
         }
       }
@@ -203,7 +212,8 @@ describeWithShallowAndMount('setProps', mountingMethod => {
       }
     })
 
-    const message = '[vue-test-utils]: wrapper.setProps() called with the same object of the existing obj property. You must call wrapper.setProps() with a new object to trigger reactivity'
+    const message =
+      '[vue-test-utils]: wrapper.setProps() called with the same object of the existing obj property. You must call wrapper.setProps() with a new object to trigger reactivity'
     const fn = () => wrapper.setProps({ obj })
     expect(fn)
       .to.throw()
@@ -214,14 +224,19 @@ describeWithShallowAndMount('setProps', mountingMethod => {
     const TestComponent = {
       template: '<div />',
       props: ['propA'],
-      mounted () {
-        this.$watch('propA', function () {
-          this.propA
-        }, { immediate: true }
+      mounted() {
+        this.$watch(
+          'propA',
+          function() {
+            this.propA
+          },
+          { immediate: true }
         )
       }
     }
-    const wrapper = mountingMethod(TestComponent, { propsData: { propA: 'none' }})
+    const wrapper = mountingMethod(TestComponent, {
+      propsData: { propA: 'none' }
+    })
 
     wrapper.setProps({ propA: 'value' })
     expect(wrapper.props().propA).to.equal('value')

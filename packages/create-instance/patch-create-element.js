@@ -14,14 +14,11 @@ import {
 const isWhitelisted = (el, whitelist) => resolveComponent(el, whitelist)
 const isAlreadyStubbed = (el, stubs) => stubs.has(el)
 
-function shouldExtend (component, _Vue) {
-  return (
-    isConstructor(component) ||
-    (component && component.extends)
-  )
+function shouldExtend(component, _Vue) {
+  return isConstructor(component) || (component && component.extends)
 }
 
-function extend (component, _Vue) {
+function extend(component, _Vue) {
   const componentOptions = component.options ? component.options : component
   const stub = _Vue.extend(componentOptions)
   stub.options.$_vueTestUtils_original = component
@@ -29,7 +26,7 @@ function extend (component, _Vue) {
   return stub
 }
 
-function createStubIfNeeded (shouldStub, component, _Vue, el) {
+function createStubIfNeeded(shouldStub, component, _Vue, el) {
   if (shouldStub) {
     return createStubFromComponent(component || {}, el, _Vue)
   }
@@ -39,7 +36,7 @@ function createStubIfNeeded (shouldStub, component, _Vue, el) {
   }
 }
 
-function shouldNotBeStubbed (el, whitelist, modifiedComponents) {
+function shouldNotBeStubbed(el, whitelist, modifiedComponents) {
   return (
     (typeof el === 'string' && isReservedTag(el)) ||
     isWhitelisted(el, whitelist) ||
@@ -47,20 +44,17 @@ function shouldNotBeStubbed (el, whitelist, modifiedComponents) {
   )
 }
 
-export function patchCreateElement (_Vue, stubs, stubAllComponents) {
+export function patchCreateElement(_Vue, stubs, stubAllComponents) {
   // This mixin patches vm.$createElement so that we can stub all components
   // before they are rendered in shallow mode. We also need to ensure that
   // component constructors were created from the _Vue constructor. If not,
   // we must replace them with components created from the _Vue constructor
   // before calling the original $createElement. This ensures that components
   // have the correct instance properties and stubs when they are rendered.
-  function patchCreateElementMixin () {
+  function patchCreateElementMixin() {
     const vm = this
 
-    if (
-      vm.$options.$_doNotStubChildren ||
-      vm.$options._isFunctionalContainer
-    ) {
+    if (vm.$options.$_doNotStubChildren || vm.$options._isFunctionalContainer) {
       return
     }
 

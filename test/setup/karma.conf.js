@@ -1,6 +1,6 @@
 const webpackConfig = require('./webpack.test.config.js')
 
-module.exports = function (config) {
+module.exports = function(config) {
   config.set({
     browsers: ['PhantomJS'],
     frameworks: ['mocha', 'sinon-chai'],
@@ -12,7 +12,7 @@ module.exports = function (config) {
     preprocessors: {
       'load-tests.js': ['webpack', 'sourcemap']
     },
-    client: { mocha: { timeout: 20000 }},
+    client: { mocha: { timeout: 20000 } },
     webpack: webpackConfig,
     webpackMiddleware: {
       noInfo: true

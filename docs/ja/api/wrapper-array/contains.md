@@ -5,6 +5,7 @@
 有効な[セレクタ](../selectors.md)を使用してください。
 
 - **引数:**
+
   - `{string|Component} selector`
 
 - **戻り値:** `{boolean}`

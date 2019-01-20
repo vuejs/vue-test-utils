@@ -12,7 +12,7 @@
 
 最初に行うことは、テストの依存関係をインストールすることです:
 
-``` bash
+```bash
 npm install --save-dev @vue/test-utils mocha mocha-webpack
 ```
 
@@ -55,7 +55,7 @@ module.exports = {
 
 ソースマップは、`mocha-webpack` によってピックアップされるようにインライン化する必要があります。推奨設定は次のとおりです:
 
-``` js
+```js
 module.exports = {
   // ...
   devtool: 'inline-cheap-module-source-map'
@@ -64,7 +64,7 @@ module.exports = {
 
 IDE 経由でデバッグする場合は、以下を追加することをお勧めします:
 
-``` js
+```js
 module.exports = {
   // ...
   output: {
@@ -86,7 +86,7 @@ npm install --save-dev jsdom jsdom-global
 
 次に、`test/setup.js` の中で:
 
-``` js
+```js
 require('jsdom-global')()
 ```
 
@@ -94,19 +94,19 @@ require('jsdom-global')()
 
 ### 検証ライブラリのピッキング
 
-[Chai](http://chaijs.com/) は Mocha と並んで一般的に使用される一般的な検証ライブラリです。また、スパイとスタブを作成するための [Sinon](http://sinonjs.org/)  をチェックしてみてください。
+[Chai](http://chaijs.com/) は Mocha と並んで一般的に使用される一般的な検証ライブラリです。また、スパイとスタブを作成するための [Sinon](http://sinonjs.org/) をチェックしてみてください。
 
-あるいは、Jest の一部である `expect` を使うことができ、Jest のドキュメントにある[まったく同じAPI](http://facebook.github.io/jest/docs/en/expect.html#content)を公開しています。
+あるいは、Jest の一部である `expect` を使うことができ、Jest のドキュメントにある[まったく同じ API](http://facebook.github.io/jest/docs/en/expect.html#content)を公開しています。
 
 ここで `expect` を使用してグローバルに利用できるようにして、すべてのテストでインポートする必要はありません。
 
-``` bash
+```bash
 npm install --save-dev expect
 ```
 
 次に、`test/setup.js` の中で:
 
-``` js
+```js
 require('jsdom-global')()
 
 global.expect = require('expect')
@@ -122,28 +122,28 @@ JavaScript を処理するには `babel-loader` を使用しています。`.bab
 
 `Counter.vue` という名前の `src` ファイルを作成します。
 
-``` html
+```html
 <template>
-	<div>
-	  {{ count }}
-	  <button @click="increment">Increment</button>
-	</div>
+  <div>
+    {{ count }}
+    <button @click="increment">Increment</button>
+  </div>
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      count: 0
-    }
-  },
+  export default {
+    data() {
+      return {
+        count: 0
+      }
+    },
 
-  methods: {
-    increment () {
-      this.count++
+    methods: {
+      increment() {
+        this.count++
+      }
     }
   }
-}
 </script>
 ```
 

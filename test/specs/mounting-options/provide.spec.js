@@ -36,7 +36,7 @@ describeWithMountingMethods('options.provide', mountingMethod => {
     'provides function which is injected by mounted component',
     () => {
       const wrapper = mountingMethod(ComponentWithInject, {
-        provide () {
+        provide() {
           return {
             fromMount: 'functionValue'
           }

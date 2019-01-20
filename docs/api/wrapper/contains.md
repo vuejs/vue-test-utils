@@ -3,6 +3,7 @@
 Assert `Wrapper` contains an element or component matching [selector](../selectors.md).
 
 - **Arguments:**
+
   - `{string|Component} selector`
 
 - **Returns:** `{boolean}`

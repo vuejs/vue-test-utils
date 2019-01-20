@@ -11,6 +11,7 @@ config.stubs.transition = false
 ```
 
 Чтобы переустановить обратно на заглушки компонентов `transition`:
+
 ```js
 import { config, TransitionStub } from '@vue/test-utils'
 

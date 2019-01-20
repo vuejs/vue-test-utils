@@ -5,4 +5,4 @@ declare type Config = {
   provide?: Object,
   logModifiedComponents?: boolean,
   silent?: boolean
-};
+}

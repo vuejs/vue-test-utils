@@ -2,7 +2,7 @@
 
 > この記事のサンプルプロジェクトは、 [GitHub](https://github.com/vuejs/vue-test-utils-typescript-example) にあります。
 
-TypeScript は JavaScript に型とクラスを加えた人気のある JavaScript のスーパーセットです。 Vue Test Utils の型定義は、配布されているVue Test Utils のパッケージに含まれています。だから、Vue Test Utils と TypeScript はうまく動作します。
+TypeScript は JavaScript に型とクラスを加えた人気のある JavaScript のスーパーセットです。 Vue Test Utils の型定義は、配布されている Vue Test Utils のパッケージに含まれています。だから、Vue Test Utils と TypeScript はうまく動作します。
 
 ここでは、基本的な Vue CLI を使った TypeScript のセットアップから Jest と Vue Test Utils を使用した TypeScript のテストの作成までを解説します。
 
@@ -56,13 +56,13 @@ $ npm install --save-dev jest @vue/test-utils
 
 Jest が `*.vue` ファイルを処理するために `vue-jest` プリプロセッサをインストールして設定します。
 
-``` bash
+```bash
 npm install --save-dev vue-jest
 ```
 
 次に `jest` ブロックを `package.json` に追加します。
 
-``` json
+```json
 {
   // ...
   "jest": {
@@ -75,7 +75,7 @@ npm install --save-dev vue-jest
     ],
     "transform": {
       // `vue-jest` で　`*.vue` ファイルを処理します。
-      ".*\\.(vue)$": "vue-jest",
+      ".*\\.(vue)$": "vue-jest"
     },
     "testURL": "http://localhost/"
   }
@@ -86,13 +86,13 @@ npm install --save-dev vue-jest
 
 テストで TypeScript ファイルを使うために Jest が TypeScript をコンパイルするようにセットアップする必要があります。そのために `ts-jest` をインストールします。
 
-``` bash
+```bash
 $ npm install --save-dev ts-jest
 ```
 
 次に Jest が TypeScript のテストファイルを `ts-jest` で処理するために `package.json` の `jest.transform` に設定を追加します。
 
-``` json
+```json
 {
   // ...
   "jest": {
@@ -101,7 +101,7 @@ $ npm install --save-dev ts-jest
       // ...
       // `ts-jest` で `*.ts` ファイルを処理します。
       "^.+\\.tsx?$": "ts-jest"
-    },
+    }
     // ...
   }
 }
@@ -115,7 +115,7 @@ $ npm install --save-dev ts-jest
 
 以下を `package.json` の `jest` フィールドに追加します。
 
-``` json
+```json
 {
   // ...
   "jest": {

@@ -1,12 +1,7 @@
 // @flow
 
 import Vue from 'vue'
-import {
-  throwError,
-  camelize,
-  capitalize,
-  hyphenate
-} from '../shared/util'
+import { throwError, camelize, capitalize, hyphenate } from '../shared/util'
 import {
   componentNeedsCompiling,
   templateContainsComponent,
@@ -14,16 +9,13 @@ import {
   isDynamicComponent,
   isConstructor
 } from '../shared/validators'
-import {
-  compileTemplate,
-  compileFromString
-} from '../shared/compile-template'
+import { compileTemplate, compileFromString } from '../shared/compile-template'
 
-function isVueComponentStub (comp): boolean {
-  return comp && comp.template || isVueComponent(comp)
+function isVueComponentStub(comp): boolean {
+  return (comp && comp.template) || isVueComponent(comp)
 }
 
-function isValidStub (stub: any): boolean {
+function isValidStub(stub: any): boolean {
   return (
     typeof stub === 'boolean' ||
     (!!stub && typeof stub === 'string') ||
@@ -31,16 +23,18 @@ function isValidStub (stub: any): boolean {
   )
 }
 
-function resolveComponent (obj: Object, component: string): Object {
-  return obj[component] ||
+function resolveComponent(obj: Object, component: string): Object {
+  return (
+    obj[component] ||
     obj[hyphenate(component)] ||
     obj[camelize(component)] ||
     obj[capitalize(camelize(component))] ||
     obj[capitalize(component)] ||
     {}
+  )
 }
 
-function getCoreProperties (componentOptions: Component): Object {
+function getCoreProperties(componentOptions: Component): Object {
   return {
     attrs: componentOptions.attrs,
     name: componentOptions.name,
@@ -59,14 +53,14 @@ function getCoreProperties (componentOptions: Component): Object {
   }
 }
 
-function createClassString (staticClass, dynamicClass) {
+function createClassString(staticClass, dynamicClass) {
   if (staticClass && dynamicClass) {
     return staticClass + ' ' + dynamicClass
   }
   return staticClass || dynamicClass
 }
 
-function resolveOptions (component, _Vue) {
+function resolveOptions(component, _Vue) {
   if (isDynamicComponent(component)) {
     return {}
   }
@@ -76,7 +70,7 @@ function resolveOptions (component, _Vue) {
     : _Vue.extend(component).options
 }
 
-export function createStubFromComponent (
+export function createStubFromComponent(
   originalComponent: Component,
   name: string,
   _Vue: Component
@@ -93,20 +87,22 @@ export function createStubFromComponent (
     ...getCoreProperties(componentOptions),
     $_vueTestUtils_original: originalComponent,
     $_doNotStubChildren: true,
-    render (h, context) {
+    render(h, context) {
       return h(
         tagName,
         {
-          attrs: componentOptions.functional ? {
-            ...context.props,
-            ...context.data.attrs,
-            class: createClassString(
-              context.data.staticClass,
-              context.data.class
-            )
-          } : {
-            ...this.$props
-          }
+          attrs: componentOptions.functional
+            ? {
+                ...context.props,
+                ...context.data.attrs,
+                class: createClassString(
+                  context.data.staticClass,
+                  context.data.class
+                )
+              }
+            : {
+                ...this.$props
+              }
         },
         context ? context.children : this.$options._renderChildren
       )
@@ -114,7 +110,7 @@ export function createStubFromComponent (
   }
 }
 
-function createStubFromString (
+function createStubFromString(
   templateString: string,
   originalComponent: Component = {},
   name: string,
@@ -132,16 +128,13 @@ function createStubFromString (
   }
 }
 
-function validateStub (stub) {
+function validateStub(stub) {
   if (!isValidStub(stub)) {
-    throwError(
-      `options.stub values must be passed a string or ` +
-      `component`
-    )
+    throwError(`options.stub values must be passed a string or ` + `component`)
   }
 }
 
-export function createStubsFromStubsObject (
+export function createStubsFromStubsObject(
   originalComponents: Object = {},
   stubs: Object,
   _Vue: Component
@@ -163,12 +156,7 @@ export function createStubsFromStubsObject (
 
     if (typeof stub === 'string') {
       const component = resolveComponent(originalComponents, stubName)
-      acc[stubName] = createStubFromString(
-        stub,
-        component,
-        stubName,
-        _Vue
-      )
+      acc[stubName] = createStubFromString(stub, component, stubName, _Vue)
       return acc
     }
 

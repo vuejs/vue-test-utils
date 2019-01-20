@@ -24,7 +24,7 @@ describeWithShallowAndMount('setData', mountingMethod => {
   it('keeps element in sync with vnode', () => {
     const Component = {
       template: '<div class="some-class" v-if="show">A custom component!</div>',
-      data () {
+      data() {
         return {
           show: false
         }
@@ -94,19 +94,19 @@ describeWithShallowAndMount('setData', mountingMethod => {
       template: `
         <em>{{ computedText }}</em>
         `,
-      data () {
+      data() {
         return {
           text: '',
           basket: []
         }
       },
       computed: {
-        computedText () {
+        computedText() {
           return this.text
         }
       },
       watch: {
-        text () {
+        text() {
           this.basket.push(this.computedText)
         }
       }
@@ -129,7 +129,7 @@ describeWithShallowAndMount('setData', mountingMethod => {
         message: 'egassem'
       }),
       computed: {
-        reversedMessage: function () {
+        reversedMessage: function() {
           return this.message
             .split('')
             .reverse()
@@ -274,7 +274,7 @@ describeWithShallowAndMount('setData', mountingMethod => {
         }
       }),
       computed: {
-        anObjectKeys () {
+        anObjectKeys() {
           return Object.keys(this.anObject).join(',')
         }
       },
