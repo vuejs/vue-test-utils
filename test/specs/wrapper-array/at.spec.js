@@ -9,7 +9,7 @@ describeWithShallowAndMount('at', mountingMethod => {
       .findAll('p')
       .at(1)
     expect(p.vnode).to.be.an('object')
-    expect(p.hasClass('index-1')).to.equal(true)
+    expect(p.classes()).to.contain('index-1')
   })
 
   it('throws error if no item exists at index', () => {

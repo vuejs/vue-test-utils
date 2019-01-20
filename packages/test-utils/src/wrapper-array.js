@@ -61,12 +61,6 @@ export default class WrapperArray implements BaseWrapper {
     return new WrapperArray(this.wrappers.filter(predicate))
   }
 
-  visible (): boolean {
-    this.throwErrorIfWrappersIsEmpty('visible')
-
-    return this.length > 0 && this.wrappers.every(wrapper => wrapper.visible())
-  }
-
   emitted (): void {
     this.throwErrorIfWrappersIsEmpty('emitted')
 
@@ -91,24 +85,6 @@ export default class WrapperArray implements BaseWrapper {
     return this.wrappers.every(wrapper =>
       wrapper.hasAttribute(attribute, value)
     )
-  }
-
-  hasClass (className: string): boolean {
-    this.throwErrorIfWrappersIsEmpty('hasClass')
-
-    return this.wrappers.every(wrapper => wrapper.hasClass(className))
-  }
-
-  hasProp (prop: string, value: string): boolean {
-    this.throwErrorIfWrappersIsEmpty('hasProp')
-
-    return this.wrappers.every(wrapper => wrapper.hasProp(prop, value))
-  }
-
-  hasStyle (style: string, value: string): boolean {
-    this.throwErrorIfWrappersIsEmpty('hasStyle')
-
-    return this.wrappers.every(wrapper => wrapper.hasStyle(style, value))
   }
 
   findAll (): void {
@@ -193,12 +169,6 @@ export default class WrapperArray implements BaseWrapper {
     if (this.wrappers.length === 0) {
       throwError(`${method} cannot be called on 0 items`)
     }
-  }
-
-  setComputed (computed: Object): void {
-    this.throwErrorIfWrappersIsEmpty('setComputed')
-
-    this.wrappers.forEach(wrapper => wrapper.setComputed(computed))
   }
 
   setData (data: Object): void {
