@@ -89,13 +89,6 @@ export function patchCreateElement (_Vue, stubs, stubAllComponents) {
           return originalCreateElement(el, ...args)
         }
 
-        if (
-          original.options &&
-          original.options.$_vueTestUtils_original
-        ) {
-          original = original.options.$_vueTestUtils_original
-        }
-
         if (isDynamicComponent(original)) {
           return originalCreateElement(el, ...args)
         }
