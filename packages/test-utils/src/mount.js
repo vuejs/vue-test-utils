@@ -1,7 +1,5 @@
 // @flow
 
-import './matches-polyfill'
-import './object-assign-polyfill'
 import Vue from 'vue'
 import VueWrapper from './vue-wrapper'
 import createInstance from 'create-instance'
