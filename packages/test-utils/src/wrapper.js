@@ -84,10 +84,8 @@ export default class Wrapper implements BaseWrapper {
       const att = attributes.item(i)
       attributeMap[att.localName] = att.value
     }
-    if (key) {
-      return attributeMap[key]
-    }
-    return attributeMap
+
+    return key ? attributeMap[key] : attributeMap
   }
 
   /**
@@ -112,14 +110,7 @@ export default class Wrapper implements BaseWrapper {
       classes = classes.map(name => cssModuleIdentifiers[name] || name)
     }
 
-    if (className) {
-      if (classes.indexOf(className) > -1) {
-        return true
-      } else {
-        return false
-      }
-    }
-    return classes
+    return className ? !!(classes.indexOf(className) > -1) : classes
   }
 
   /**
