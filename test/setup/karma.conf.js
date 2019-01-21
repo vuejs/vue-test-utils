@@ -7,6 +7,7 @@ module.exports = function(config) {
     reporters: ['spec'],
     files: [
       '../../node_modules/babel-polyfill/dist/polyfill.js',
+      './polyfills.js',
       'load-tests.js'
     ],
     preprocessors: {
