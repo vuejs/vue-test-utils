@@ -3,7 +3,7 @@
 import Vue from 'vue'
 import cloneDeep from 'lodash/cloneDeep'
 
-function createLocalVue (_Vue: Component = Vue): Component {
+function createLocalVue(_Vue: Component = Vue): Component {
   const instance = _Vue.extend()
 
   // clone global APIs
@@ -14,9 +14,8 @@ function createLocalVue (_Vue: Component = Vue): Component {
       // cloneDeep checks that the instance has a Symbol
       // which errors in Vue < 2.17 (https://github.com/vuejs/vue/pull/7878)
       try {
-        instance[key] = typeof original === 'object'
-          ? cloneDeep(original)
-          : original
+        instance[key] =
+          typeof original === 'object' ? cloneDeep(original) : original
       } catch (e) {
         instance[key] = original
       }

@@ -13,7 +13,7 @@ describeWithMountingMethods('options.methods', mountingMethod => {
 
     const wrapper = mountingMethod(TestComponent, {
       methods: {
-        val () {
+        val() {
           return 'methodFromOptions'
         }
       }

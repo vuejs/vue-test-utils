@@ -10,7 +10,7 @@ We will assume you are starting with a setup that already has webpack, vue-loade
 
 The first thing to do is install the test dependencies:
 
-``` bash
+```bash
 npm install --save-dev @vue/test-utils karma karma-chrome-launcher karma-mocha karma-sourcemap-loader karma-spec-reporter karma-webpack mocha
 ```
 
@@ -36,13 +36,11 @@ Create a `karma.conf.js` file in the index of the project:
 
 var webpackConfig = require('./webpack.config.js')
 
-module.exports = function (config) {
+module.exports = function(config) {
   config.set({
     frameworks: ['mocha'],
 
-    files: [
-      'test/**/*.spec.js'
-    ],
+    files: ['test/**/*.spec.js'],
 
     preprocessors: {
       '**/*.spec.js': ['webpack', 'sourcemap']
@@ -69,7 +67,7 @@ In our configuration, we run the tests in Chrome. To add extra browsers, see [th
 
 We can install the `karma-chai` plugin to use `chai` in our tests.
 
-``` bash
+```bash
 npm install --save-dev karma-chai
 ```
 
@@ -77,7 +75,7 @@ npm install --save-dev karma-chai
 
 Create a file in `src` named `Counter.vue`:
 
-``` html
+```html
 <template>
   <div>
     {{ count }}
@@ -86,19 +84,19 @@ Create a file in `src` named `Counter.vue`:
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      count: 0
-    }
-  },
+  export default {
+    data() {
+      return {
+        count: 0
+      }
+    },
 
-  methods: {
-    increment () {
-      this.count++
+    methods: {
+      increment() {
+        this.count++
+      }
     }
   }
-}
 </script>
 ```
 
@@ -148,10 +146,7 @@ Update your `.babelrc` file to use `babel-plugin-istanbul` when `BABEL_ENV` is s
 
 ```json
 {
-  "presets": [
-    ["env", { "modules": false }],
-    "stage-3"
-  ],
+  "presets": [["env", { "modules": false }], "stage-3"],
   "env": {
     "test": {
       "plugins": ["istanbul"]
@@ -165,18 +160,15 @@ Now update the `karma.conf.js` file to use coverage. Add `coverage` to the `repo
 ```js
 // karma.conf.js
 
-module.exports = function (config) {
+module.exports = function(config) {
   config.set({
-  // ...
+    // ...
 
     reporters: ['spec', 'coverage'],
 
     coverageReporter: {
       dir: './coverage',
-      reporters: [
-        { type: 'lcov', subdir: '.' },
-        { type: 'text-summary' }
-      ]
+      reporters: [{ type: 'lcov', subdir: '.' }, { type: 'text-summary' }]
     }
   })
 }

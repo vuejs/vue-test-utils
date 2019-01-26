@@ -76,7 +76,7 @@ describeWithShallowAndMount('TransitionStub', mountingMethod => {
         </transition>
       </div>
       `,
-      data () {
+      data() {
         return {
           bool: true
         }

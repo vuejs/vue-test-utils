@@ -12,7 +12,7 @@
 
 首先要做的是安装测试依赖：
 
-``` bash
+```bash
 npm install --save-dev @vue/test-utils mocha mocha-webpack
 ```
 
@@ -55,7 +55,7 @@ module.exports = {
 
 源码表在 `mocha-webpack` 中需要通过内联的方式获取。推荐配置为：
 
-``` js
+```js
 module.exports = {
   // ...
   devtool: 'inline-cheap-module-source-map'
@@ -64,7 +64,7 @@ module.exports = {
 
 如果是在 IDE 中调试，我们推荐添加以下配置：
 
-``` js
+```js
 module.exports = {
   // ...
   output: {
@@ -86,7 +86,7 @@ npm install --save-dev jsdom jsdom-global
 
 然后在 `test/setup.js` 中写入：
 
-``` js
+```js
 require('jsdom-global')()
 ```
 
@@ -100,13 +100,13 @@ require('jsdom-global')()
 
 这里我们将使用 `expect` 且令其全局可用，这样我们就不需要在每个测试文件里导入它了：
 
-``` bash
+```bash
 npm install --save-dev expect
 ```
 
 然后在 `test/setup.js` 中编写：
 
-``` js
+```js
 require('jsdom-global')()
 
 global.expect = require('expect')
@@ -122,7 +122,7 @@ global.expect = require('expect')
 
 在 `src` 目录中创建一个名为 `Counter.vue` 的文件：
 
-``` html
+```html
 <template>
   <div>
     {{ count }}
@@ -131,19 +131,19 @@ global.expect = require('expect')
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      count: 0
-    }
-  },
+  export default {
+    data() {
+      return {
+        count: 0
+      }
+    },
 
-  methods: {
-    increment () {
-      this.count++
+    methods: {
+      increment() {
+        this.count++
+      }
     }
   }
-}
 </script>
 ```
 

@@ -7,8 +7,8 @@
     - `{Object} context`
       - `{Array<Component|Object>|Component} children`
     - `{Object} slots`
-        - `{Array<Component|Object>|Component|String} default`
-        - `{Array<Component|Object>|Component|String} named`
+      - `{Array<Component|Object>|Component|String} default`
+      - `{Array<Component|Object>|Component|String} named`
     - `{Object} mocks`
     - `{Object|Array<string>} stubs`
     - `{Vue} localVue`

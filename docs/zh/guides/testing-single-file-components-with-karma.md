@@ -10,7 +10,7 @@ Karma 是一个启动浏览器运行测试并生成报告的测试运行器。�
 
 第一件要做的事是安装测试依赖：
 
-``` bash
+```bash
 npm install --save-dev @vue/test-utils karma karma-chrome-launcher karma-mocha karma-sourcemap-loader karma-spec-reporter karma-webpack mocha
 ```
 
@@ -36,13 +36,11 @@ npm install --save-dev @vue/test-utils karma karma-chrome-launcher karma-mocha k
 
 var webpackConfig = require('./webpack.config.js')
 
-module.exports = function (config) {
+module.exports = function(config) {
   config.set({
     frameworks: ['mocha'],
 
-    files: [
-      'test/**/*.spec.js'
-    ],
+    files: ['test/**/*.spec.js'],
 
     preprocessors: {
       '**/*.spec.js': ['webpack', 'sourcemap']
@@ -69,7 +67,7 @@ module.exports = function (config) {
 
 我们可以安装 `karma-chai` 插件以在我们的测试中使用 `chai`。
 
-``` bash
+```bash
 npm install --save-dev karma-chai
 ```
 
@@ -77,7 +75,7 @@ npm install --save-dev karma-chai
 
 在 `src` 中创建一个名为 `Counter.vue` 的文件：
 
-``` html
+```html
 <template>
   <div>
     {{ count }}
@@ -86,19 +84,19 @@ npm install --save-dev karma-chai
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      count: 0
-    }
-  },
+  export default {
+    data() {
+      return {
+        count: 0
+      }
+    },
 
-  methods: {
-    increment () {
-      this.count++
+    methods: {
+      increment() {
+        this.count++
+      }
     }
   }
-}
 </script>
 ```
 
@@ -148,10 +146,7 @@ npm install --save-dev babel-plugin-istanbul
 
 ```json
 {
-  "presets": [
-    ["env", { "modules": false }],
-    "stage-3"
-  ],
+  "presets": [["env", { "modules": false }], "stage-3"],
   "env": {
     "test": {
       "plugins": ["istanbul"]
@@ -165,18 +160,15 @@ npm install --save-dev babel-plugin-istanbul
 ```js
 // karma.conf.js
 
-module.exports = function (config) {
+module.exports = function(config) {
   config.set({
-  // ...
+    // ...
 
     reporters: ['spec', 'coverage'],
 
     coverageReporter: {
       dir: './coverage',
-      reporters: [
-        { type: 'lcov', subdir: '.' },
-        { type: 'text-summary' }
-      ]
+      reporters: [{ type: 'lcov', subdir: '.' }, { type: 'text-summary' }]
     }
   })
 }

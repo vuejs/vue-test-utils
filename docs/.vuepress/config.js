@@ -128,7 +128,7 @@ module.exports = {
           '/ru/api/options',
           '/ru/api/components/'
         ]
-      },
+      }
     }
   },
   markdown: {

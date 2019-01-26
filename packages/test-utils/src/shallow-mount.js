@@ -3,7 +3,7 @@
 import mount from './mount'
 import type VueWrapper from './vue-wrapper'
 
-export default function shallowMount (
+export default function shallowMount(
   component: Component,
   options: Options = {}
 ): VueWrapper {

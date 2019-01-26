@@ -3,7 +3,7 @@ import { describeWithShallowAndMount } from '~resources/utils'
 describeWithShallowAndMount('setChecked', mountingMethod => {
   it('sets value to the input elements of type checkbox or radio', () => {
     const wrapper = mountingMethod({
-      data () {
+      data() {
         return {
           t1: false,
           t2: ''

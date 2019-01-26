@@ -5,6 +5,7 @@ Returns a [`WrapperArray`](../wrapper-array/).
 Use any valid [selector](../selectors.md).
 
 - **Arguments:**
+
   - `{string|Component} selector`
 
 - **Returns:** `{WrapperArray}`

@@ -13,17 +13,17 @@
 </template>
 
 <script>
-  export default {
-    name: 'component-with-slots',
-    data () {
-      return {
-        'foo': 'bar'
-      }
-    },
-    methods: {
-      change () {
-        this.foo = 'BAR'
-      }
+export default {
+  name: 'component-with-slots',
+  data() {
+    return {
+      foo: 'bar'
+    }
+  },
+  methods: {
+    change() {
+      this.foo = 'BAR'
     }
   }
+}
 </script>

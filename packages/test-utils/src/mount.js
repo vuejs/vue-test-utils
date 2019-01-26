@@ -4,10 +4,7 @@ import Vue from 'vue'
 import VueWrapper from './vue-wrapper'
 import createInstance from 'create-instance'
 import createElement from './create-element'
-import {
-  throwIfInstancesThrew,
-  addGlobalErrorHandler
-} from './error'
+import { throwIfInstancesThrew, addGlobalErrorHandler } from './error'
 import { mergeOptions } from 'shared/merge-options'
 import config from './config'
 import warnIfNoWindow from './warn-if-no-window'
@@ -18,7 +15,7 @@ import { validateOptions } from 'shared/validate-options'
 Vue.config.productionTip = false
 Vue.config.devtools = false
 
-export default function mount (
+export default function mount(
   component: Component,
   options: Options = {}
 ): VueWrapper | Wrapper {
@@ -32,11 +29,7 @@ export default function mount (
 
   validateOptions(mergedOptions, component)
 
-  const parentVm = createInstance(
-    component,
-    mergedOptions,
-    _Vue
-  )
+  const parentVm = createInstance(component, mergedOptions, _Vue)
 
   const el = options.attachToDocument ? createElement() : undefined
   const vm = parentVm.$mount(el)

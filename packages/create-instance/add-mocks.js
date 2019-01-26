@@ -2,7 +2,7 @@
 import $$Vue from 'vue'
 import { warn } from 'shared/util'
 
-export default function addMocks (
+export default function addMocks(
   _Vue: Component,
   mockedProperties: Object | false = {}
 ): void {
@@ -16,8 +16,8 @@ export default function addMocks (
     } catch (e) {
       warn(
         `could not overwrite property ${key}, this is ` +
-        `usually caused by a plugin that has added ` +
-        `the property as a read-only value`
+          `usually caused by a plugin that has added ` +
+          `the property as a read-only value`
       )
     }
     // $FlowIgnore

@@ -10,7 +10,8 @@ import { itDoNotRunIf } from 'conditional-specs'
 describeWithShallowAndMount('options.listeners', mountingMethod => {
   itDoNotRunIf(
     isRunningPhantomJS || !listenersSupported,
-    'handles inherit listeners', () => {
+    'handles inherit listeners',
+    () => {
       const aListener = () => {}
       const wrapper = mountingMethod(
         compileToFunctions('<p :id="aListener" />'),
@@ -22,13 +23,15 @@ describeWithShallowAndMount('options.listeners', mountingMethod => {
       )
 
       expect(wrapper.vm.$listeners.aListener.fns).to.equal(aListener)
-    })
+    }
+  )
 
   itDoNotRunIf(
     isRunningPhantomJS || !listenersSupported,
-    'passes listeners to functional components', () => {
+    'passes listeners to functional components',
+    () => {
       const TestComponent = {
-        render (h, ctx) {
+        render(h, ctx) {
           ctx.listeners.aListener()
           ctx.listeners.bListener()
           return h('div')
@@ -36,20 +39,18 @@ describeWithShallowAndMount('options.listeners', mountingMethod => {
         functional: true
       }
 
-      mountingMethod(
-        TestComponent,
-        {
-          context: {
-            on: {
-              bListener () {}
-            }
-          },
-          listeners: {
-            aListener () {}
+      mountingMethod(TestComponent, {
+        context: {
+          on: {
+            bListener() {}
           }
+        },
+        listeners: {
+          aListener() {}
         }
-      )
-    })
+      })
+    }
+  )
 
   itDoNotRunIf(
     vueVersion < 2.5,

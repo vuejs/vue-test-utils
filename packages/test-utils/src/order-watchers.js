@@ -2,7 +2,7 @@
 
 let i = 0
 
-function orderDeps (watcher): void {
+function orderDeps(watcher): void {
   watcher.deps.forEach(dep => {
     if (dep._sortedId === i) {
       return
@@ -13,7 +13,7 @@ function orderDeps (watcher): void {
   })
 }
 
-function orderVmWatchers (vm: Component): void {
+function orderVmWatchers(vm: Component): void {
   if (vm._watchers) {
     vm._watchers.forEach(orderDeps)
   }
@@ -29,7 +29,7 @@ function orderVmWatchers (vm: Component): void {
   vm.$children.forEach(orderVmWatchers)
 }
 
-export function orderWatchers (vm: Component): void {
+export function orderWatchers(vm: Component): void {
   orderVmWatchers(vm)
   i++
 }

@@ -13,9 +13,8 @@ describeWithMountingMethods('options.parentComponent', mountingMethod => {
     const wrapper = mountingMethod(TestComponent, {
       parentComponent: Parent
     })
-    const HTML = mountingMethod.name === 'renderToString'
-      ? wrapper
-      : wrapper.html()
+    const HTML =
+      mountingMethod.name === 'renderToString' ? wrapper : wrapper.html()
     expect(HTML).to.contain('Parent Name')
   })
 
@@ -24,11 +23,14 @@ describeWithMountingMethods('options.parentComponent', mountingMethod => {
       const TestComponent = {
         template: '<div>{{$parent.customName}}</div>'
       }
-      const fn = () => mountingMethod(TestComponent, {
-        parentComponent: invalidParent
-      })
-      const message = '[vue-test-utils]: options.parentComponent should be a valid Vue component options object'
-      expect(fn).to.throw()
+      const fn = () =>
+        mountingMethod(TestComponent, {
+          parentComponent: invalidParent
+        })
+      const message =
+        '[vue-test-utils]: options.parentComponent should be a valid Vue component options object'
+      expect(fn)
+        .to.throw()
         .with.property('message', message)
     })
   })

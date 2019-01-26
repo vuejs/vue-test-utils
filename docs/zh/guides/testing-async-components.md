@@ -1,12 +1,12 @@
 ## 测试异步行为
 
-为了让测试变得简单，`@vue/test-utils` _同步_应用 DOM 更新。不过当测试一个带有回调或 Promise 等异步行为的组件时，你需要留意一些技巧。
+为了让测试变得简单，`@vue/test-utils` *同步*应用 DOM 更新。不过当测试一个带有回调或 Promise 等异步行为的组件时，你需要留意一些技巧。
 
 API 调用和 Vuex action 都是最常见的异步行为之一。下列例子展示了如何测试一个会调用到 API 的方法。这个例子使用 Jest 运行测试用例同时模拟了 HTTP 库 `axios`。更多关于 Jest 的手动模拟的介绍可移步[这里](https://facebook.github.io/jest/docs/en/manual-mocks.html#content)。
 
 `axios` 的模拟实现大概是这个样子的：
 
-``` js
+```js
 export default {
   get: () => Promise.resolve({ data: 'value' })
 }
@@ -14,34 +14,34 @@ export default {
 
 下面的组件在按钮被点击的时候会调用一个 API，然后将响应的值赋给 `value`。
 
-``` html
+```html
 <template>
   <button @click="fetchResults" />
 </template>
 
 <script>
-import axios from 'axios'
+  import axios from 'axios'
 
-export default {
-  data () {
-    return {
-      value: null
-    }
-  },
+  export default {
+    data() {
+      return {
+        value: null
+      }
+    },
 
-  methods: {
-    async fetchResults () {
-      const response = await axios.get('mock/service')
-      this.value = response.data
+    methods: {
+      async fetchResults() {
+        const response = await axios.get('mock/service')
+        this.value = response.data
+      }
     }
   }
-}
 </script>
 ```
 
 测试用例可以写成像这样：
 
-``` js
+```js
 import { shallowMount } from '@vue/test-utils'
 import Foo from './Foo'
 jest.mock('axios')
@@ -55,8 +55,8 @@ it('fetches async when a button is clicked', () => {
 
 现在这则测试用例会失败，因为断言在 `fetchResults` 中的 Promise 完成之前就被调用了。大多数单元测试库都提供一个回调来使得运行期知道测试用例的完成时机。Jest 和 Mocha 都是用了 `done`。我们可以和 `$nextTick` 或 `setTimeout` 结合使用 `done` 来确保任何 Promise 都会在断言之前完成。
 
-``` js
-it('fetches async when a button is clicked', (done) => {
+```js
+it('fetches async when a button is clicked', done => {
   const wrapper = shallowMount(Foo)
   wrapper.find('button').trigger('click')
   wrapper.vm.$nextTick(() => {
@@ -72,7 +72,7 @@ it('fetches async when a button is clicked', (done) => {
 
 The updated test looks like this:
 
-``` js
+```js
 import { shallowMount } from '@vue/test-utils'
 import flushPromises from 'flush-promises'
 import Foo from './Foo'

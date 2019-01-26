@@ -1,20 +1,16 @@
 import { warn } from 'shared/util'
 import { findAllInstances } from './find'
 
-function errorHandler (errorOrString, vm) {
+function errorHandler(errorOrString, vm) {
   const error =
-    typeof errorOrString === 'object'
-      ? errorOrString
-      : new Error(errorOrString)
+    typeof errorOrString === 'object' ? errorOrString : new Error(errorOrString)
 
   vm._error = error
   throw error
 }
 
-export function throwIfInstancesThrew (vm) {
-  const instancesWithError = findAllInstances(vm).filter(
-    _vm => _vm._error
-  )
+export function throwIfInstancesThrew(vm) {
+  const instancesWithError = findAllInstances(vm).filter(_vm => _vm._error)
 
   if (instancesWithError.length > 0) {
     throw instancesWithError[0]._error
@@ -28,7 +24,7 @@ let hasWarned = false
 // instance when it throws. Then we loop through the instances with
 // throwIfInstancesThrew and throw an error in the test context if any
 // instances threw.
-export function addGlobalErrorHandler (_Vue) {
+export function addGlobalErrorHandler(_Vue) {
   const existingErrorHandler = _Vue.config.errorHandler
 
   if (existingErrorHandler === errorHandler) {
@@ -38,9 +34,9 @@ export function addGlobalErrorHandler (_Vue) {
   if (_Vue.config.errorHandler && !hasWarned) {
     warn(
       `Global error handler detected (Vue.config.errorHandler). \n` +
-      `Vue Test Utils sets a custom error handler to throw errors ` +
-      `thrown by instances. If you want this behavior in ` +
-      `your tests, you must remove the global error handler.`
+        `Vue Test Utils sets a custom error handler to throw errors ` +
+        `thrown by instances. If you want this behavior in ` +
+        `your tests, you must remove the global error handler.`
     )
     hasWarned = true
   } else {

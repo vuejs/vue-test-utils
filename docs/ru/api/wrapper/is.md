@@ -3,6 +3,7 @@
 Проверяет, что DOM-элемент `Wrapper` или `vm` соответствуют [селектору](../selectors.md).
 
 - **Принимает:**
+
   - `{string|Component} selector`
 
 - **Возвращает:** `{boolean}`

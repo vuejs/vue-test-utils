@@ -8,8 +8,8 @@
     - `{Object} context`
       - `{Array<Component|Object>|Component} children`
     - `{Object} slots`
-        - `{Array<Component|Object>|Component|String} default`
-        - `{Array<Component|Object>|Component|String} named`
+      - `{Array<Component|Object>|Component|String} default`
+      - `{Array<Component|Object>|Component|String} named`
     - `{Object} mocks`
     - `{Object|Array<string>} stubs`
     - `{Vue} localVue`
@@ -39,7 +39,7 @@ describe('Foo', () => {
 })
 ```
 
-**Vueオプションを使用:**
+**Vue オプションを使用:**
 
 ```js
 import { shallowMount } from '@vue/test-utils'
@@ -57,7 +57,7 @@ describe('Foo', () => {
 })
 ```
 
-**DOMへのアタッチ:**
+**DOM へのアタッチ:**
 
 ```js
 import { shallowMount } from '@vue/test-utils'

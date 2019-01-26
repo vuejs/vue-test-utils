@@ -1,6 +1,6 @@
 // @flow
 
-export default function findDOMNodes (
+export default function findDOMNodes(
   element: Element | null,
   selector: string
 ): Array<VNode> {

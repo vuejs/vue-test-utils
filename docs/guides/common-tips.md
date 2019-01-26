@@ -31,7 +31,7 @@ wrapper.vm // the mounted Vue instance
 
 Each mounted wrapper automatically records all events emitted by the underlying Vue instance. You can retrieve the recorded events using the `wrapper.emitted()` method:
 
-``` js
+```js
 wrapper.vm.$emit('foo')
 wrapper.vm.$emit('foo', 123)
 
@@ -45,7 +45,7 @@ wrapper.vm.$emit('foo', 123)
 
 You can then make assertions based on these data:
 
-``` js
+```js
 // assert event has been emitted
 expect(wrapper.emitted().foo).toBeTruthy()
 
@@ -63,35 +63,37 @@ You can also get an Array of the events in their emit order by calling [`wrapper
 You can emit a custom event from a child component by accessing the instance.
 
 **Component under test**
+
 ```html
 <template>
   <div>
-    <child-component @custom="onCustom"/>
+    <child-component @custom="onCustom" />
     <p v-if="emitted">Emitted!</p>
   </div>
 </template>
 
 <script>
-import ChildComponent from './ChildComponent'
+  import ChildComponent from './ChildComponent'
 
-export default {
-  name: 'ParentComponent',
-  components: { ChildComponent },
-  data() {
-    return {
-      emitted: false
-    }
-  },
-  methods: {
-    onCustom () {
-      this.emitted = true
+  export default {
+    name: 'ParentComponent',
+    components: { ChildComponent },
+    data() {
+      return {
+        emitted: false
+      }
+    },
+    methods: {
+      onCustom() {
+        this.emitted = true
+      }
     }
   }
-}
 </script>
 ```
 
 **Test**
+
 ```js
 import { shallowMount } from '@vue/test-utils'
 import ParentComponent from '@/components/ParentComponent'
@@ -132,7 +134,7 @@ mount(Component, {
 
 You can also update the props of an already-mounted component with the `wrapper.setProps({})` method.
 
-*For a full list of options, please see the [mount options section](../api/options.md) of the docs.*
+_For a full list of options, please see the [mount options section](../api/options.md) of the docs._
 
 ### Applying Global Plugins and Mixins
 
@@ -140,7 +142,7 @@ Some of the components may rely on features injected by a global plugin or mixin
 
 If you are writing tests for components in a specific app, you can setup the same global plugins and mixins once in the entry of your tests. But in some cases, for example testing a generic component suite that may get shared across different apps, it's better to test your components in a more isolated setup, without polluting the global `Vue` constructor. We can use the [`createLocalVue`](../api/createLocalVue.md) method to achieve that:
 
-``` js
+```js
 import { createLocalVue } from '@vue/test-utils'
 
 // create an extended `Vue` constructor

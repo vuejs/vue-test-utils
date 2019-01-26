@@ -5,6 +5,7 @@ Sets `Wrapper` `vm` methods and forces update.
 **Note the Wrapper must contain a Vue instance.**
 
 - **Arguments:**
+
   - `{Object} methods`
 
 - **Example:**

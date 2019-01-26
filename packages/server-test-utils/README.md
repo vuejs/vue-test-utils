@@ -1,7 +1,9 @@
 # Vue Server Test Utils [![Build Status](https://circleci.com/gh/vuejs/vue-test-utils/tree/dev.png?style=shield)](https://circleci.com/gh/vuejs/vue-test-utils)
 
 ## Currently in beta
+
 To use Vue Server Test Utils beta:
+
 ```
 // npm
 npm install --save-dev @vue/server-test-utils

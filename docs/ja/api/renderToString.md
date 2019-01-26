@@ -7,8 +7,8 @@
     - `{Object} context`
       - `{Array<Component|Object>|Component} children`
     - `{Object} slots`
-        - `{Array<Componet|Object>|Component|String} default`
-        - `{Array<Componet|Object>|Component|String} named`
+      - `{Array<Componet|Object>|Component|String} default`
+      - `{Array<Componet|Object>|Component|String} named`
     - `{Object} mocks`
     - `{Object|Array<string>} stubs`
     - `{Vue} localVue`
@@ -21,9 +21,9 @@
 
 - **使い方:**
 
-コンポーネントをHTMLにレンダリングします。
+コンポーネントを HTML にレンダリングします。
 
-コンポーネントをHTMLにレンダリングするために、`renderToString` は内部で [`vue-server-renderer`](https://ssr.vuejs.org/en/basic.html) を使用します。
+コンポーネントを HTML にレンダリングするために、`renderToString` は内部で [`vue-server-renderer`](https://ssr.vuejs.org/en/basic.html) を使用します。
 
 `renderToString` は `@vue/server-test-utils` パッケージに含まれています。
 
@@ -41,7 +41,7 @@ describe('Foo', () => {
 })
 ```
 
-**Vueオプションを使用:**
+**Vue オプションを使用:**
 
 ```js
 import { renderToString } from '@vue/server-test-utils'

@@ -21,7 +21,7 @@ describeWithShallowAndMount('TransitionGroupStub', mountingMethod => {
         someData: null
       }),
       watch: {
-        someWatchedData (newData) {
+        someWatchedData(newData) {
           this.someData = newData
         }
       },

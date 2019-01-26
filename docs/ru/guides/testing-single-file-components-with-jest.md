@@ -29,13 +29,13 @@ $ npm install --save-dev jest @vue/test-utils
 
 Чтобы научить Jest как обрабатывать `*.vue` файлы, нам необходимо установить и настроить пре-процессор `vue-jest`:
 
-``` bash
+```bash
 npm install --save-dev vue-jest
 ```
 
 Теперь, создадим секцию `jest` в файле `package.json`:
 
-``` json
+```json
 {
   // ...
   "jest": {
@@ -59,7 +59,7 @@ npm install --save-dev vue-jest
 
 Если вы используете псевдонимы в конфигурации webpack, например когда `@` ссылается на путь `/src`, вам также нужно добавить соответствующую конфигурацию для Jest, используя опцию `moduleNameMapper`:
 
-``` json
+```json
 {
   // ...
   "jest": {
@@ -75,15 +75,16 @@ npm install --save-dev vue-jest
 ### Конфигурация Babel для Jest
 
 <!-- todo ES modules has been supported in latest versions of Node -->
+
 Хотя последние версии Node уже поддерживают большинство функций ES2015, вы всё равно можете использовать синтаксис ES-модулей и stage-x функции в ваших тестах. Для этого нужно установить `babel-jest`:
 
-``` bash
+```bash
 npm install --save-dev babel-jest
 ```
 
 Затем мы должны сообщить Jest обрабатывать файлы тестов с JavaScript с помощью `babel-jest`, добавив запись `jest.transform` в `package.json`:
 
-``` json
+```json
 {
   // ...
   "jest": {
@@ -92,7 +93,7 @@ npm install --save-dev babel-jest
       // ...
       // обрабатывать js с помощью `babel-jest`
       "^.+\\.js$": "<rootDir>/node_modules/babel-jest"
-    },
+    }
     // ...
   }
 }
@@ -108,16 +109,12 @@ npm install --save-dev babel-jest
 
 Пример `.babelrc`:
 
-``` json
+```json
 {
-  "presets": [
-    ["env", { "modules": false }]
-  ],
+  "presets": [["env", { "modules": false }]],
   "env": {
     "test": {
-      "presets": [
-        ["env", { "targets": { "node": "current" }}]
-      ]
+      "presets": [["env", { "targets": { "node": "current" } }]]
     }
   }
 }
@@ -140,10 +137,7 @@ Jest может быть использован для генерации отч
   "jest": {
     // ...
     "collectCoverage": true,
-    "collectCoverageFrom": [
-      "**/*.{js,vue}",
-      "!**/node_modules/**"
-    ]
+    "collectCoverageFrom": ["**/*.{js,vue}", "!**/node_modules/**"]
   }
 }
 ```
@@ -188,21 +182,19 @@ test('renders correctly', () => {
 })
 ```
 
-``` bash
+```bash
 npm install --save-dev jest-serializer-vue
 ```
 
 Затем добавьте конфигурацию в `package.json`:
 
-``` json
+```json
 {
   // ...
   "jest": {
     // ...
     // serializer for snapshots
-    "snapshotSerializers": [
-      "jest-serializer-vue"
-    ]
+    "snapshotSerializers": ["jest-serializer-vue"]
   }
 }
 ```

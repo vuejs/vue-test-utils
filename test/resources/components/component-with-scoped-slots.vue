@@ -1,17 +1,21 @@
 <template>
   <div>
     <div id="destructuring">
-      <slot name="destructuring"
-            v-for="(item, index) in items"
-            :item="item"
-            :index="index">
+      <slot
+        name="destructuring"
+        v-for="(item, index) in items"
+        :item="item"
+        :index="index"
+      >
       </slot>
     </div>
     <div id="list">
-      <slot name="list"
-            v-for="(item, index) in foo"
-            :text="item.text"
-            :index="index">
+      <slot
+        name="list"
+        v-for="(item, index) in foo"
+        :text="item.text"
+        :index="index"
+      >
       </slot>
     </div>
     <div id="single">
@@ -27,14 +31,14 @@
 </template>
 
 <script>
-  export default {
-    name: 'component-with-scoped-slots',
-    data () {
-      return {
-        items: ['1', '2', '3'],
-        foo: [{ text: 'a1' }, { text: 'a2' }, { text: 'a3' }],
-        bar: 'abc'
-      }
+export default {
+  name: 'component-with-scoped-slots',
+  data() {
+    return {
+      items: ['1', '2', '3'],
+      foo: [{ text: 'a1' }, { text: 'a2' }, { text: 'a3' }],
+      bar: 'abc'
     }
   }
+}
 </script>

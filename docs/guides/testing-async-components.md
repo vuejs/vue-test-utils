@@ -6,7 +6,7 @@ One of the most common asynchronous behaviors is API calls and Vuex actions. The
 
 The implementation of the `axios` mock looks like this:
 
-``` js
+```js
 export default {
   get: () => Promise.resolve({ data: 'value' })
 }
@@ -14,34 +14,34 @@ export default {
 
 The below component makes an API call when a button is clicked, then assigns the response to `value`.
 
-``` html
+```html
 <template>
   <button @click="fetchResults" />
 </template>
 
 <script>
-import axios from 'axios'
+  import axios from 'axios'
 
-export default {
-  data () {
-    return {
-      value: null
-    }
-  },
+  export default {
+    data() {
+      return {
+        value: null
+      }
+    },
 
-  methods: {
-    async fetchResults () {
-      const response = await axios.get('mock/service')
-      this.value = response.data
+    methods: {
+      async fetchResults() {
+        const response = await axios.get('mock/service')
+        this.value = response.data
+      }
     }
   }
-}
 </script>
 ```
 
 A test can be written like this:
 
-``` js
+```js
 import { shallowMount } from '@vue/test-utils'
 import Foo from './Foo'
 jest.mock('axios')
@@ -53,10 +53,10 @@ it('fetches async when a button is clicked', () => {
 })
 ```
 
-This test currently fails because the assertion is called before the promise in `fetchResults` resolves. Most unit test libraries provide a callback to let the runner know when the test is complete. Jest and Mocha both use `done`. We can use `done` in combination with `$nextTick` or `setTimeout` to ensure any promises resolve before the assertion is made. 
+This test currently fails because the assertion is called before the promise in `fetchResults` resolves. Most unit test libraries provide a callback to let the runner know when the test is complete. Jest and Mocha both use `done`. We can use `done` in combination with `$nextTick` or `setTimeout` to ensure any promises resolve before the assertion is made.
 
-``` js
-it('fetches async when a button is clicked', (done) => {
+```js
+it('fetches async when a button is clicked', done => {
   const wrapper = shallowMount(Foo)
   wrapper.find('button').trigger('click')
   wrapper.vm.$nextTick(() => {
@@ -72,7 +72,7 @@ Another solution is to use an `async` function and the npm package `flush-promis
 
 The updated test looks like this:
 
-``` js
+```js
 import { shallowMount } from '@vue/test-utils'
 import flushPromises from 'flush-promises'
 import Foo from './Foo'

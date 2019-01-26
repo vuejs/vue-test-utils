@@ -2,9 +2,9 @@ import { Wrapper, WrapperArray } from '~vue/test-utils'
 import { describeWithShallowAndMount } from '~resources/utils'
 
 describeWithShallowAndMount('WrapperArray', mountingMethod => {
-  function getWrapperArray (wrappers) {
+  function getWrapperArray(wrappers) {
     if (!wrappers) {
-      wrappers = [1, 2, 3].map((v) => {
+      wrappers = [1, 2, 3].map(v => {
         const p = document.createElement('p')
         p.textContent = v
         return new Wrapper(p)
@@ -13,11 +13,13 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
     return new WrapperArray(wrappers)
   }
 
-  ['wrappers', 'length'].forEach(property => {
+  ;['wrappers', 'length'].forEach(property => {
     it(`has the ${property} property which is read-only`, () => {
       const wrapperArray = getWrapperArray()
       const message = `[vue-test-utils]: wrapperArray.${property} is read-only`
-      expect(() => { wrapperArray[property] = 'foo' })
+      expect(() => {
+        wrapperArray[property] = 'foo'
+      })
         .to.throw()
         .with.property('message', message)
     })
@@ -125,12 +127,12 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
 
   it('exists returns false if it has not existing wrappers', () => {
     const wrapper1 = {
-      exists () {
+      exists() {
         return true
       }
     }
     const wrapper2 = {
-      exists () {
+      exists() {
         return false
       }
     }

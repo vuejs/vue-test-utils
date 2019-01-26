@@ -12,4 +12,4 @@ import Foo from './Foo.vue'
 
 const wrapper = mount(Foo)
 expect(wrapper.isVueInstance()).toBe(true)
- ```
+```

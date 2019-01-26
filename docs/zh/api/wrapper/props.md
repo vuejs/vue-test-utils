@@ -5,7 +5,8 @@
 **注意：该包裹器必须包含一个 Vue 实例。**
 
 - **参数：**
-  - `{string} key`  **可选的**
+
+  - `{string} key` **可选的**
 
 - **返回值：**`{[prop: string]: any} | any`
 

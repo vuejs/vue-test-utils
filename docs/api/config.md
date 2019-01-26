@@ -7,10 +7,7 @@ Vue Test Utils includes a config object to defined options used by Vue Test Util
 ### `stubs`
 
 - type: `{ [name: string]: Component | boolean | string }`
-- default: `{
-  transition: TransitionStub,
-  'transition-group': TransitionGroupStub
-}`
+- default: `{ transition: TransitionStub, 'transition-group': TransitionGroupStub }`
 
 The stub stored in `config.stubs` is used by default.  
 Stubs to use in components. These are overwritten by `stubs` passed in the mounting options.

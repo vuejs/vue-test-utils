@@ -20,7 +20,6 @@ radioInput.setChecked()
 
 `v-model` を経由して `radioInput.element.checked = true; radioInput.trigger('input')` で state に値をセットしようとすると、 `v-model` はトリガされません。 `v-model` は `change` イベントでトリガされます。
 
-
 `checkboxInput.setChecked(checked)` は以下のコードのエイリアスです。
 
 ```js

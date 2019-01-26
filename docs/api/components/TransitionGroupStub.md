@@ -2,7 +2,7 @@
 
 A component to stub the `transition-group` component. Instead of performing transitions asynchronously, it returns the child components synchronously.
 
-This is set to stub all `transition-group` components by default in the Vue Test Utils config. To use the built-in `transition-group`  component set `config.stubs['transition-group']` to false:
+This is set to stub all `transition-group` components by default in the Vue Test Utils config. To use the built-in `transition-group` component set `config.stubs['transition-group']` to false:
 
 ```js
 import { config } from '@vue/test-utils'

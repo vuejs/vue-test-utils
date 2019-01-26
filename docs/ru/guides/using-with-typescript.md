@@ -23,7 +23,7 @@ $ vue create hello-world
 В командной строке выберите `Manually select features`, выберите `TypeScript` и нажмите клавишу ввода. Это создаст проект с уже настроенным для работы TypeScript.
 
 ::: tip ПРИМЕЧАНИЕ
-Если вы хотите получить более подробное руководство по настройке Vue с помощью TypeScript, ознакомьтесь с [руководством для начинающих по TypeScript во Vue] (https://github.com/Microsoft/TypeScript-Vue-Starter).
+Если вы хотите получить более подробное руководство по настройке Vue с помощью TypeScript, ознакомьтесь с [руководством для начинающих по TypeScript во Vue](https://github.com/Microsoft/TypeScript-Vue-Starter).
 :::
 
 Следующий шаг — добавить Jest к проекту.
@@ -56,13 +56,13 @@ $ npm install --save-dev jest @vue/test-utils
 
 Чтобы научить Jest обрабатывать файлы с расширением `.vue`, нам нужно установить и настроить препроцессор `vue-jest`:
 
-``` bash
+```bash
 npm install --save-dev vue-jest
 ```
 
 Затем создайте блок `jest` в `package.json`:
 
-``` json
+```json
 {
   // ...
   "jest": {
@@ -75,7 +75,7 @@ npm install --save-dev vue-jest
     ],
     "transform": {
       // обработка файлов с расширением `*.vue` с помощью `vue-jest`
-      ".*\\.(vue)$": "vue-jest",
+      ".*\\.(vue)$": "vue-jest"
     },
     "testURL": "http://localhost/"
   }
@@ -86,13 +86,13 @@ npm install --save-dev vue-jest
 
 Чтобы использовать файлы TypeScript в тестах, нам нужно настроить Jest для компиляции TypeScript. Для этого нам нужно установить `ts-jest`:
 
-``` bash
+```bash
 $ npm install --save-dev ts-jest
 ```
 
 Затем нам нужно указать Jest обработать тестовые файлы TypeScript с помощью `ts-jest`, добавив запись в `jest.transform` в `package.json`:
 
-``` json
+```json
 {
   // ...
   "jest": {
@@ -101,7 +101,7 @@ $ npm install --save-dev ts-jest
       // ...
       // обработка файлов с расширением `*.ts` с помощью `ts-jest`
       "^.+\\.tsx?$": "ts-jest"
-    },
+    }
     // ...
   }
 }
@@ -115,7 +115,7 @@ $ npm install --save-dev ts-jest
 
 Добавьте следующее в поле `jest` в `package.json`:
 
-``` json
+```json
 {
   // ...
   "jest": {

@@ -7,6 +7,7 @@ wrapperArray.wrappers.forEach(wrapper => wrapper.setValue(value))
 ```
 
 - **引数:**
+
   - `{any} value`
 
 - **例:**
@@ -15,7 +16,7 @@ wrapperArray.wrappers.forEach(wrapper => wrapper.setValue(value))
 import { mount } from '@vue/test-utils'
 
 const wrapper = mount({
-  data () {
+  data() {
     return {
       t1: '',
       t2: ''

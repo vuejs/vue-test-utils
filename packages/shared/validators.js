@@ -1,7 +1,7 @@
 // @flow
 import { throwError, capitalize, camelize, hyphenate } from './util'
 
-export function isDomSelector (selector: any): boolean {
+export function isDomSelector(selector: any): boolean {
   if (typeof selector !== 'string') {
     return false
   }
@@ -28,7 +28,7 @@ export function isDomSelector (selector: any): boolean {
   }
 }
 
-export function isVueComponent (c: any): boolean {
+export function isVueComponent(c: any): boolean {
   if (isConstructor(c)) {
     return true
   }
@@ -48,7 +48,7 @@ export function isVueComponent (c: any): boolean {
   return typeof c.render === 'function'
 }
 
-export function componentNeedsCompiling (component: Component): boolean {
+export function componentNeedsCompiling(component: Component): boolean {
   return (
     component &&
     !component.render &&
@@ -57,7 +57,7 @@ export function componentNeedsCompiling (component: Component): boolean {
   )
 }
 
-export function isRefSelector (refOptionsObject: any): boolean {
+export function isRefSelector(refOptionsObject: any): boolean {
   if (
     typeof refOptionsObject !== 'object' ||
     Object.keys(refOptionsObject || {}).length !== 1
@@ -68,7 +68,7 @@ export function isRefSelector (refOptionsObject: any): boolean {
   return typeof refOptionsObject.ref === 'string'
 }
 
-export function isNameSelector (nameOptionsObject: any): boolean {
+export function isNameSelector(nameOptionsObject: any): boolean {
   if (typeof nameOptionsObject !== 'object' || nameOptionsObject === null) {
     return false
   }
@@ -76,19 +76,19 @@ export function isNameSelector (nameOptionsObject: any): boolean {
   return !!nameOptionsObject.name
 }
 
-export function isConstructor (c: any) {
+export function isConstructor(c: any) {
   return typeof c === 'function' && c.cid
 }
 
-export function isDynamicComponent (c: any) {
+export function isDynamicComponent(c: any) {
   return typeof c === 'function' && !c.cid
 }
 
-export function isComponentOptions (c: any) {
+export function isComponentOptions(c: any) {
   return typeof c === 'object' && (c.template || c.render)
 }
 
-export function isFunctionalComponent (c: any) {
+export function isFunctionalComponent(c: any) {
   if (!isVueComponent(c)) {
     return false
   }
@@ -98,7 +98,7 @@ export function isFunctionalComponent (c: any) {
   return c.functional
 }
 
-export function templateContainsComponent (
+export function templateContainsComponent(
   template: string,
   name: string
 ): boolean {
@@ -108,50 +108,51 @@ export function templateContainsComponent (
   })
 }
 
-export function isPlainObject (c: any): boolean {
+export function isPlainObject(c: any): boolean {
   return Object.prototype.toString.call(c) === '[object Object]'
 }
 
-export function isRequiredComponent (name: string): boolean {
+export function isRequiredComponent(name: string): boolean {
   return (
     name === 'KeepAlive' || name === 'Transition' || name === 'TransitionGroup'
   )
 }
 
-function makeMap (
-  str: string,
-  expectsLowerCase?: boolean
-) {
+function makeMap(str: string, expectsLowerCase?: boolean) {
   var map = Object.create(null)
   var list = str.split(',')
   for (var i = 0; i < list.length; i++) {
     map[list[i]] = true
   }
   return expectsLowerCase
-    ? function (val: string) { return map[val.toLowerCase()] }
-    : function (val: string) { return map[val] }
+    ? function(val: string) {
+        return map[val.toLowerCase()]
+      }
+    : function(val: string) {
+        return map[val]
+      }
 }
 
 export const isHTMLTag = makeMap(
   'html,body,base,head,link,meta,style,title,' +
-  'address,article,aside,footer,header,h1,h2,h3,h4,h5,h6,hgroup,nav,section,' +
-  'div,dd,dl,dt,figcaption,figure,picture,hr,img,li,main,ol,p,pre,ul,' +
-  'a,b,abbr,bdi,bdo,br,cite,code,data,dfn,em,i,kbd,mark,q,rp,rt,rtc,ruby,' +
-  's,samp,small,span,strong,sub,sup,time,u,var,wbr,area,audio,map,track,' +
-  'embed,object,param,source,canvas,script,noscript,del,ins,' +
-  'caption,col,colgroup,table,thead,tbody,td,th,tr,video,' +
-  'button,datalist,fieldset,form,input,label,legend,meter,optgroup,option,' +
-  'output,progress,select,textarea,' +
-  'details,dialog,menu,menuitem,summary,' +
-  'content,element,shadow,template,blockquote,iframe,tfoot'
+    'address,article,aside,footer,header,h1,h2,h3,h4,h5,h6,hgroup,nav,section,' +
+    'div,dd,dl,dt,figcaption,figure,picture,hr,img,li,main,ol,p,pre,ul,' +
+    'a,b,abbr,bdi,bdo,br,cite,code,data,dfn,em,i,kbd,mark,q,rp,rt,rtc,ruby,' +
+    's,samp,small,span,strong,sub,sup,time,u,var,wbr,area,audio,map,track,' +
+    'embed,object,param,source,canvas,script,noscript,del,ins,' +
+    'caption,col,colgroup,table,thead,tbody,td,th,tr,video,' +
+    'button,datalist,fieldset,form,input,label,legend,meter,optgroup,option,' +
+    'output,progress,select,textarea,' +
+    'details,dialog,menu,menuitem,summary,' +
+    'content,element,shadow,template,blockquote,iframe,tfoot'
 )
 
 // this map is intentionally selective, only covering SVG elements that may
 // contain child elements.
 export const isSVG = makeMap(
   'svg,animate,circle,clippath,cursor,defs,desc,ellipse,filter,font-face,' +
-  'foreignObject,g,glyph,image,line,marker,mask,missing-glyph,path,pattern,' +
-  'polygon,polyline,rect,switch,symbol,text,textpath,tspan,use,view',
+    'foreignObject,g,glyph,image,line,marker,mask,missing-glyph,path,pattern,' +
+    'polygon,polyline,rect,switch,symbol,text,textpath,tspan,use,view',
   true
 )
 

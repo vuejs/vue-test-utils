@@ -45,7 +45,6 @@ expect(wrapper.is(Foo)).toBe(true)
 
 Vue Test Utils 允许通过一个查找选项对象在组件包裹器上根据一个组件的 `name` 选择元素。
 
-
 ```js
 const buttonWrapper = wrapper.find({ name: 'my-button' })
 buttonWrapper.trigger('click')

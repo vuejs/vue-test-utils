@@ -3,6 +3,7 @@
 设置 checkbox 或 radio 类 `<input>` 元素的 checked 值并更新 `v-model` 绑定的数据。
 
 - **参数：**
+
   - `{Boolean} checked (默认值：true)`
 
 - **示例：**
