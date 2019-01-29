@@ -1,4 +1,4 @@
-## destroy()
+## destroy
 
 销毁一个 Vue 组件实例。
 

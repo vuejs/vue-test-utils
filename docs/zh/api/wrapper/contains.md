@@ -1,4 +1,4 @@
-## contains(selector)
+## contains
 
 判断 `Wrapper` 是否包含了一个匹配[选择器](../selectors.md)的元素或组件。
 
