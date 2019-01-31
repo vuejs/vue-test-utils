@@ -14,7 +14,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vuejs/vue-test-utils.git"
+    "url": "git+https://github.com/vuejs/vue-test-utils.git",
+    "directory": "packages/test-utils"
   },
   "author": "vuejs",
   "license": "MIT",
