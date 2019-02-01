@@ -174,7 +174,7 @@ This is great, but what if we want to check our getters are returning the correc
 
 ### Mocking with Modules
 
-[Modules](https://vuex.vuejs.org/en/modules.html) are useful for separating out our store into manageable chunks. They also export getters. We can use these in our tests.
+[Modules](https://vuex.vuejs.org/guide/modules.html) are useful for separating out our store into manageable chunks. They also export getters. We can use these in our tests.
 
 Let’s look at our component:
 
