@@ -62,7 +62,6 @@ describe('Actions.vue', () => {
       actionInput: jest.fn()
     }
     store = new Vuex.Store({
-      state: {},
       actions
     })
   })
@@ -126,7 +125,7 @@ Great, so now we can mock actions, let’s look at mocking getters.
 </script>
 ```
 
-This is a fairly simple component. It renders the result of the getters `clicks` and `inputValue`. Again, we don’t really care about what those getters returns – just that the result of them is being rendered correctly.
+This is a fairly simple component. It renders the result of the getters `clicks` and `inputValue`. Again, we don’t really care about what those getters return – just that their result is being rendered correctly.
 
 Let’s see the test:
 
@@ -154,13 +153,13 @@ describe('Getters.vue', () => {
     })
   })
 
-  it('Renders "state.inputValue" in first p tag', () => {
+  it('Renders "store.getters.inputValue" in first p tag', () => {
     const wrapper = shallowMount(Getters, { store, localVue })
     const p = wrapper.find('p')
     expect(p.text()).toBe(getters.inputValue())
   })
 
-  it('Renders "state.clicks" in second p tag', () => {
+  it('Renders "store.getters.clicks" in second p tag', () => {
     const wrapper = shallowMount(Getters, { store, localVue })
     const p = wrapper.findAll('p').at(1)
     expect(p.text()).toBe(getters.clicks().toString())
@@ -245,7 +244,7 @@ describe('MyComponent.vue', () => {
     expect(actions.moduleActionClick).toHaveBeenCalled()
   })
 
-  it('renders "state.inputValue" in first p tag', () => {
+  it('renders "state.clicks" in first p tag', () => {
     const wrapper = shallowMount(MyComponent, { store, localVue })
     const p = wrapper.find('p')
     expect(p.text()).toBe(state.clicks.toString())
@@ -290,7 +289,7 @@ First, let's test the `increment` mutations:
 
 import mutations from './mutations'
 
-test('increment increments state.count by 1', () => {
+test('"increment" increments "state.count" by 1', () => {
   const state = {
     count: 0
   }
@@ -306,14 +305,14 @@ Now let's test the `evenOrOdd` getter. We can test it by creating a mock `state`
 
 import getters from './getters'
 
-test('evenOrOdd returns even if state.count is even', () => {
+test('"evenOrOdd" returns even if "state.count" is even', () => {
   const state = {
     count: 2
   }
   expect(getters.evenOrOdd(state)).toBe('even')
 })
 
-test('evenOrOdd returns odd if state.count is odd', () => {
+test('"evenOrOdd" returns odd if "state.count" is odd', () => {
   const state = {
     count: 1
   }
@@ -325,7 +324,7 @@ test('evenOrOdd returns odd if state.count is odd', () => {
 
 Another approach to testing a Vuex store is to create a running store using the store config.
 
-The benefit of testing creating a running store instance is we don't have to mock any Vuex functions.
+The benefit of creating a running store instance is we don't have to mock any Vuex functions.
 
 The downside is that when a test breaks, it can be difficult to find where the problem is.
 
@@ -354,7 +353,7 @@ import Vuex from 'vuex'
 import storeConfig from './store-config'
 import { cloneDeep } from 'lodash'
 
-test('increments count value when increment is commited', () => {
+test('increments "count" value when "increment" is commited', () => {
   const localVue = createLocalVue()
   localVue.use(Vuex)
   const store = new Vuex.Store(cloneDeep(storeConfig))
@@ -363,7 +362,7 @@ test('increments count value when increment is commited', () => {
   expect(store.state.count).toBe(1)
 })
 
-test('updates evenOrOdd getter when increment is commited', () => {
+test('updates "evenOrOdd" getter when "increment" is commited', () => {
   const localVue = createLocalVue()
   localVue.use(Vuex)
   const store = new Vuex.Store(cloneDeep(storeConfig))
