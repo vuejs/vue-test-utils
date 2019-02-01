@@ -174,7 +174,7 @@ describe('Getters.vue', () => {
 
 ### 伪造 Module
 
-[Module](https://vuex.vuejs.org/zh-cn/modules.html) 对于将我们的 store 分隔成多个可管理的块来说非常有用。它们也暴露 getter。我们可以在测试中使用它们。
+[Module](https://vuex.vuejs.org/zh/guide/modules.html) 对于将我们的 store 分隔成多个可管理的块来说非常有用。它们也暴露 getter。我们可以在测试中使用它们。
 
 看看这个组件：
 
