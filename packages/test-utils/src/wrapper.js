@@ -2,7 +2,12 @@
 
 import Vue from 'vue'
 import getSelector from './get-selector'
-import { REF_SELECTOR, FUNCTIONAL_OPTIONS, VUE_VERSION, COMPAT_SYNC_MODE } from 'shared/consts'
+import {
+  REF_SELECTOR,
+  FUNCTIONAL_OPTIONS,
+  VUE_VERSION,
+  COMPAT_SYNC_MODE
+} from 'shared/consts'
 import config from './config'
 import WrapperArray from './wrapper-array'
 import ErrorWrapper from './error-wrapper'
