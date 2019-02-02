@@ -23,11 +23,11 @@ function getSyncOption(syncOption) {
     Vue.config.async = true
     return false
   }
-  if (!semver.gt(Vue.version, '2.5.17')) {
+  if (semver.lt(Vue.version, '2.5.18')) {
     warn(
       `Vue Test Utils runs in sync mode by default. Due to bugs, sync mode ` +
         `requires Vue > 2.5.18. In Vue Test Utils 1.0 sync mode will only be ` +
-        `supported with Vue 2.5.18 running in development mode. If you are ` +
+        `supported with Vue 2.5.18+ running in development mode. If you are ` +
         `unable to upgrade, you should rewrite your tests to run asynchronously` +
         `you can do this by setting the sync mounting option to false.`
     )
