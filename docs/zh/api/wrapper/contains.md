@@ -3,6 +3,7 @@
 判断 `Wrapper` 是否包含了一个匹配[选择器](../selectors.md)的元素或组件。
 
 - **参数：**
+
   - `{string|Component} selector`
 
 - **返回值：** `{boolean}`

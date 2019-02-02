@@ -11,6 +11,7 @@ config.stubs.transition = false
 ```
 
 To reset it to stub `transition` components:
+
 ```js
 import { config, TransitionStub } from '@vue/test-utils'
 

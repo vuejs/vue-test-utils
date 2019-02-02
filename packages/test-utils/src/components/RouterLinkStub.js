@@ -23,7 +23,7 @@ export default {
       default: 'click'
     }
   },
-  render (h: Function) {
+  render(h: Function) {
     return h(this.tag, undefined, this.$slots.default)
   }
 }

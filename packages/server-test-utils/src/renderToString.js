@@ -7,11 +7,12 @@ import { createRenderer } from 'vue-server-renderer'
 import { mergeOptions } from 'shared/merge-options'
 import config from './config'
 import testUtils from '@vue/test-utils'
+import { validateOptions } from 'shared/validate-options'
 
 Vue.config.productionTip = false
 Vue.config.devtools = false
 
-export default function renderToString (
+export default function renderToString(
   component: Component,
   options: Options = {}
 ): string {
@@ -27,9 +28,12 @@ export default function renderToString (
     throwError(`you cannot use attachToDocument with ` + `renderToString`)
   }
 
+  const mergedOptions = mergeOptions(options, config)
+  validateOptions(mergedOptions, component)
+
   const vm = createInstance(
     component,
-    mergeOptions(options, config),
+    mergedOptions,
     testUtils.createLocalVue(options.localVue)
   )
   let renderedString = ''
@@ -37,7 +41,7 @@ export default function renderToString (
   // $FlowIgnore
   renderer.renderToString(vm, (err, res) => {
     if (err) {
-      console.log(err)
+      throw err
     }
     renderedString = res
   })

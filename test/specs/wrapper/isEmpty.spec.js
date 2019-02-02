@@ -21,9 +21,10 @@ describeWithShallowAndMount('isEmpty', mountingMethod => {
 
   itDoNotRunIf(
     mountingMethod.name === 'shallowMount',
-    'returns true if node contains empty components', () => {
+    'returns true if node contains empty components',
+    () => {
       const GrandChildComponent = {
-        render () {}
+        render() {}
       }
       const ChildComponent = {
         template: '<grand-child-component />',
@@ -39,11 +40,13 @@ describeWithShallowAndMount('isEmpty', mountingMethod => {
       }
       const wrapper = mountingMethod(TestComponent)
       expect(wrapper.isEmpty()).to.equal(true)
-    })
+    }
+  )
 
   itDoNotRunIf(
     mountingMethod.name === 'shallowMount',
-    'returns false if nested child component renders element', () => {
+    'returns false if nested child component renders element',
+    () => {
       const GrandChildComponent = {
         template: '<div />'
       }
@@ -61,11 +64,12 @@ describeWithShallowAndMount('isEmpty', mountingMethod => {
       }
       const wrapper = mountingMethod(TestComponent)
       expect(wrapper.isEmpty()).to.equal(false)
-    })
+    }
+  )
 
   itSkipIf(isRunningPhantomJS, 'returns true if innerHTML is empty', () => {
     const TestComponent = {
-      render (createElement) {
+      render(createElement) {
         return createElement('div', {
           domProps: {
             innerHTML: '<svg />'
@@ -79,7 +83,7 @@ describeWithShallowAndMount('isEmpty', mountingMethod => {
 
   it('returns false if innerHTML is not empty', () => {
     const TestComponent = {
-      render (createElement) {
+      render(createElement) {
         return createElement('div', {
           domProps: {
             innerHTML: '<svg><p>not empty</p></svg>'

@@ -1,10 +1,11 @@
-## find(selector)
+## find
 
 Returns `Wrapper` of first DOM node or Vue component matching selector.
 
 Use any valid [selector](../selectors.md).
 
 - **Arguments:**
+
   - `{string|Component} selector`
 
 - **Returns:** `{Wrapper}`

@@ -1,6 +1,6 @@
 // @flow
 
-export default function createElement (): HTMLElement | void {
+export default function createElement(): HTMLElement | void {
   if (document) {
     const elem = document.createElement('div')
 

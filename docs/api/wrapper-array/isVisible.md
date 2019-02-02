@@ -1,4 +1,4 @@
-## isVisible()
+## isVisible
 
 Assert every `Wrapper` in `WrapperArray` is visible.
 

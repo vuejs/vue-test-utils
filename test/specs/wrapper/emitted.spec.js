@@ -1,4 +1,4 @@
-import { createLocalVue } from '~vue/test-utils'
+import { createLocalVue, createWrapper } from '~vue/test-utils'
 import { describeWithShallowAndMount, vueVersion } from '~resources/utils'
 import { itDoNotRunIf } from 'conditional-specs'
 import Vue from 'vue'
@@ -63,10 +63,10 @@ describeWithShallowAndMount('emitted', mountingMethod => {
 
   it('captures all events thrown after beforeCreate lifecycle hook', () => {
     const wrapper = mountingMethod({
-      beforeCreate () {
+      beforeCreate() {
         this.$emit('foo')
       },
-      mounted () {
+      mounted() {
         this.$emit('bar', 1, 2)
       },
       render: () => {}
@@ -82,7 +82,7 @@ describeWithShallowAndMount('emitted', mountingMethod => {
     const wrapper1 = mountingMethod(
       {
         render: () => {},
-        beforeCreate () {
+        beforeCreate() {
           this.$emit('foo')
         }
       },
@@ -92,7 +92,7 @@ describeWithShallowAndMount('emitted', mountingMethod => {
     const wrapper2 = mountingMethod(
       {
         render: () => {},
-        mounted () {
+        mounted() {
           this.$emit('bar')
         }
       },
@@ -107,11 +107,12 @@ describeWithShallowAndMount('emitted', mountingMethod => {
 
   itDoNotRunIf(
     mountingMethod.name === 'shallowMount' || vueVersion < 2.3,
-    'works correctly on nested extended components', () => {
+    'works correctly on nested extended components',
+    () => {
       const GrandChildComponent = Vue.extend({
         template: '<div />',
         name: 'bar',
-        beforeCreate () {
+        beforeCreate() {
           this.$emit('foo')
         }
       })
@@ -129,15 +130,17 @@ describeWithShallowAndMount('emitted', mountingMethod => {
       })
 
       expect(wrapper.find({ name: 'bar' }).emitted('foo')).to.exist
-    })
+    }
+  )
 
   itDoNotRunIf(
     mountingMethod.name === 'shallowMount' || vueVersion < 2.3,
-    'works correctly on nested extended components inside extended component', () => {
+    'works correctly on nested extended components inside extended component',
+    () => {
       const GrandChildComponent = Vue.extend({
         template: '<div />',
         name: 'bar',
-        beforeCreate () {
+        beforeCreate() {
           this.$emit('foo')
         }
       })
@@ -157,5 +160,16 @@ describeWithShallowAndMount('emitted', mountingMethod => {
       })
 
       expect(wrapper.find({ name: 'bar' }).emitted('foo')).to.exist
+    }
+  )
+
+  it('captures emitted events on $root instance', () => {
+    const wrapper = mountingMethod({
+      render: h => h('div')
     })
+
+    wrapper.vm.$root.$emit('foo')
+    const rootWrapper = createWrapper(wrapper.vm.$root)
+    expect(rootWrapper.emitted('foo')).to.exist
+  })
 })

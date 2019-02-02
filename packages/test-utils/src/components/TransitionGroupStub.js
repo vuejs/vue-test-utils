@@ -1,7 +1,7 @@
 // @flow
 
 export default {
-  render (h: Function) {
+  render(h: Function) {
     const tag: string = this.tag || this.$vnode.data.tag || 'span'
     const children: Array<VNode> = this.$slots.default || []
 

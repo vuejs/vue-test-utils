@@ -1,6 +1,6 @@
 ## isVueInstance()
 
-断言 `Wrapper` 是 Vue 示例。
+断言 `Wrapper` 是 Vue 实例。
 
 - **返回值：**`{boolean}`
 
@@ -12,4 +12,4 @@ import Foo from './Foo.vue'
 
 const wrapper = mount(Foo)
 expect(wrapper.isVueInstance()).toBe(true)
- ```
+```

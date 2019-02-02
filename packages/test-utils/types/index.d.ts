@@ -53,7 +53,6 @@ interface BaseWrapper {
   contains (selector: Selector): boolean
   exists (): boolean
   isVisible (): boolean
-  visible (): boolean
 
   attributes(): { [name: string]: string }
   attributes(key: string): string | void
@@ -62,16 +61,10 @@ interface BaseWrapper {
   props(): { [name: string]: any }
   props(key: string): any | void
 
-  hasAttribute (attribute: string, value: string): boolean
-  hasClass (className: string): boolean
-  hasProp (prop: string, value: any): boolean
-  hasStyle (style: string, value: string): boolean
-
   is (selector: Selector): boolean
   isEmpty (): boolean
   isVueInstance (): boolean
 
-  setComputed (computed: object): void
   setData (data: object): void
   setMethods (data: object): void
   setProps (props: object): void
@@ -113,11 +106,17 @@ export interface Wrapper<V extends Vue | null> extends BaseWrapper {
 }
 
 export interface WrapperArray<V extends Vue> extends BaseWrapper {
-  readonly length: number
-  readonly wrappers: Array<Wrapper<V>>
+  readonly length: number;
+  readonly wrappers: Array<Wrapper<V>>;
 
-  at (index: number): Wrapper<V>
-  filter (predicate: Function): WrapperArray<Vue>
+  at(index: number): Wrapper<V>;
+  filter(
+    predicate: (
+      value: Wrapper<V>,
+      index: number,
+      array: Wrapper<V>[]
+    ) => any
+  ): WrapperArray<Vue>;
 }
 
 interface WrapperOptions {

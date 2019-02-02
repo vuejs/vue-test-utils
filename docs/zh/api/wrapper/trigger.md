@@ -5,8 +5,9 @@
 `trigger` 带有一个可选的 `options` 对象。`options` 对象内的属性会被添加到事件上。
 
 - **参数：**
+
   - `{string} eventType` **必填**
-  - `{Object} options`  **可选**
+  - `{Object} options` **可选**
 
 - **示例：**
 
@@ -31,7 +32,7 @@ expect(clickHandler.called).toBe(true)
 
 - **设置事件目标：**
 
-在这背后，`trigger` 创建了一个 `Event` 对象并分发到其包裹器的元素上。 
+在这背后，`trigger` 创建了一个 `Event` 对象并分发到其包裹器的元素上。
 
 我们没有机会编辑 `Event` 对象的 `target` 值，所以你无法在选项对象中设置 `target`。
 

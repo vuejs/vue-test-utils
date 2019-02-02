@@ -52,7 +52,7 @@ describeWithShallowAndMount('findAll', mountingMethod => {
   it('returns nodes matching selector in a functional component', () => {
     const TestComponent = {
       functional: true,
-      render (h) {
+      render(h) {
         return h('p', {}, [
           h('p', {
             class: {
@@ -71,7 +71,7 @@ describeWithShallowAndMount('findAll', mountingMethod => {
 
   it('works correctly with innerHTML', () => {
     const TestComponent = {
-      render (createElement) {
+      render(createElement) {
         return createElement('div', {
           domProps: {
             innerHTML: '<svg></svg>'
@@ -147,7 +147,7 @@ describeWithShallowAndMount('findAll', mountingMethod => {
 
   it('returns correct number of Vue Wrapper when component has a v-for', () => {
     const items = [{ id: 1 }, { id: 2 }, { id: 3 }]
-    const wrapper = mountingMethod(ComponentWithVFor, { propsData: { items }})
+    const wrapper = mountingMethod(ComponentWithVFor, { propsData: { items } })
     const componentArray = wrapper.findAll(Component)
     expect(componentArray.length).to.equal(items.length)
   })
@@ -286,7 +286,7 @@ describeWithShallowAndMount('findAll', mountingMethod => {
 
   it('returns correct number of Vue Wrapper when component has a v-for and matches the ref in options object', () => {
     const items = [{ id: 1 }, { id: 2 }, { id: 3 }]
-    const wrapper = mountingMethod(ComponentWithVFor, { propsData: { items }})
+    const wrapper = mountingMethod(ComponentWithVFor, { propsData: { items } })
     const componentArray = wrapper.findAll({ ref: 'item' })
     expect(componentArray.length).to.equal(items.length)
   })
@@ -326,7 +326,8 @@ describeWithShallowAndMount('findAll', mountingMethod => {
 
   itDoNotRunIf(
     mountingMethod.name === 'shallowMount',
-    'returns a WrapperArray which includes VueWrapper if the elements binds a Vue instance', () => {
+    'returns a WrapperArray which includes VueWrapper if the elements binds a Vue instance',
+    () => {
       const childComponent = {
         name: 'bar',
         template: '<p class="foo" />'
@@ -340,5 +341,6 @@ describeWithShallowAndMount('findAll', mountingMethod => {
       expect(wrappers.at(0).vm.$options.name).to.equal('foo')
       expect(wrappers.at(1).vm).to.equal(undefined)
       expect(wrappers.at(2).vm.$options.name).to.equal('bar')
-    })
+    }
+  )
 })

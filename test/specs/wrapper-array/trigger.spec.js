@@ -34,14 +34,6 @@ describeWithShallowAndMount('trigger', mountingMethod => {
     expect(keydownHandler.calledOnce).to.equal(true)
   })
 
-  it('causes DOM to update after clickHandler method that changes components data is called', () => {
-    const wrapper = mountingMethod(ComponentWithEvents)
-    const toggleArr = wrapper.findAll('.toggle')
-    expect(toggleArr.hasClass('active')).to.equal(false)
-    toggleArr.trigger('click')
-    expect(toggleArr.hasClass('active')).to.equal(true)
-  })
-
   it('throws an error if type is not a string', () => {
     const wrapper = mountingMethod(ComponentWithEvents)
     const invalidSelectors = [

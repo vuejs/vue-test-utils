@@ -13,8 +13,8 @@ import { describeRunIf, itDoNotRunIf } from 'conditional-specs'
 
 describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
   beforeEach(() => {
-    sinon.stub(console, 'info')
-    sinon.stub(console, 'error')
+    sinon.stub(console, 'info').callThrough()
+    sinon.stub(console, 'error').callThrough()
   })
 
   afterEach(() => {
@@ -87,13 +87,15 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
     const wrapper = shallowMount(TestComponent, {
       localVue
     })
-    expect(wrapper.html()).to.equal('<child-stub><p>Hello</p> <p>World</p></child-stub>')
+    expect(wrapper.html()).to.equal(
+      '<child-stub><p>Hello</p> <p>World</p></child-stub>'
+    )
   })
 
   it('renders no children if none supplied', () => {
     const TestComponent = {
       template: '<child />',
-      components: { Child: { }}
+      components: { Child: {} }
     }
     const wrapper = shallowMount(TestComponent)
     expect(wrapper.html()).to.equal('<child-stub></child-stub>')
@@ -153,11 +155,12 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
 
   itDoNotRunIf(
     vueVersion < 2.2, // $props does not exist in Vue < 2.2
-    'renders stubs props', () => {
+    'renders stubs props',
+    () => {
       const TestComponent = {
         template: `<child :prop="propA" attr="hello" />`,
         data: () => ({
-          'propA': 'a'
+          propA: 'a'
         }),
         components: {
           child: {
@@ -167,15 +170,17 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
       }
       const wrapper = shallowMount(TestComponent)
       expect(wrapper.html()).to.contain('<child-stub prop="a" attr="hello"')
-    })
+    }
+  )
 
   itDoNotRunIf(
     vueVersion < 2.2, // $props does not exist in Vue < 2.2
-    'renders stubs classes', () => {
+    'renders stubs classes',
+    () => {
       const TestComponent = {
         template: `<child :class="classA" class="b" />`,
         data: () => ({
-          'classA': 'a'
+          classA: 'a'
         }),
         components: {
           child: { template: '<div />' }
@@ -183,13 +188,14 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
       }
       const wrapper = shallowMount(TestComponent)
       expect(wrapper.html()).to.contain('<child-stub class="b a"')
-    })
+    }
+  )
 
   it('renders stubs props for functional components', () => {
     const TestComponent = {
       template: `<child :prop="propA" attr="hello" />`,
       data: () => ({
-        'propA': 'a'
+        propA: 'a'
       }),
       components: {
         Child: {
@@ -211,7 +217,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
     const TestComponent = {
       template: `<child :class="classA" class="b" />`,
       data: () => ({
-        'classA': 'a'
+        classA: 'a'
       }),
       components
     }
@@ -220,7 +226,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
     const TestComponent2 = {
       template: `<child :class="classA"/>`,
       data: () => ({
-        'classA': 'a'
+        classA: 'a'
       }),
       components
     }
@@ -229,7 +235,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
     const TestComponent3 = {
       template: `<child class="b" />`,
       data: () => ({
-        'classA': 'a'
+        classA: 'a'
       }),
       components
     }
@@ -308,13 +314,43 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
     expect(wrapper.find('p').exists()).to.equal(false)
   })
 
-  itDoNotRunIf(
-    vueVersion < 2.3,
-    'stubs Vue class component children', () => {
-      const wrapper = shallowMount(ComponentAsAClassWithChild)
-      expect(wrapper.find(Component).exists()).to.equal(true)
-      expect(wrapper.findAll('div').length).to.equal(1)
+  it('stubs components that receive props through mixin', () => {
+    const addProps = {
+      props: ['a']
+    }
+
+    const ChildComponent = {
+      template: '<div />',
+      mixins: [addProps]
+    }
+
+    const ChildComponentExtended = Vue.extend({
+      template: '<div />',
+      mixins: [addProps]
     })
+
+    const TestComponent = {
+      template: `
+        <div>
+          <child-component a="val" />
+          <child-component-extended a="val" />
+        </div>
+      `,
+      components: {
+        ChildComponent,
+        ChildComponentExtended
+      }
+    }
+    const wrapper = shallowMount(TestComponent)
+    expect(wrapper.find(ChildComponent).props('a')).to.equal('val')
+    expect(wrapper.find(ChildComponentExtended).props('a')).to.equal('val')
+  })
+
+  itDoNotRunIf(vueVersion < 2.3, 'stubs Vue class component children', () => {
+    const wrapper = shallowMount(ComponentAsAClassWithChild)
+    expect(wrapper.find(Component).exists()).to.equal(true)
+    expect(wrapper.findAll('div').length).to.equal(1)
+  })
 
   it('works correctly with find, contains, findAll, and is on unnamed components', () => {
     const TestComponent = {
@@ -375,8 +411,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
       stubs: ['child-component']
     })
 
-    expect(wrapper.find(ChildComponent).vm.propA)
-      .to.equal('hey')
+    expect(wrapper.find(ChildComponent).vm.propA).to.equal('hey')
   })
 
   it('does not stub unregistered components', () => {
@@ -385,31 +420,29 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
     }
     const wrapper = shallowMount(TestComponent)
 
-    expect(wrapper.html())
-      .to.equal('<custom-element></custom-element>')
+    expect(wrapper.html()).to.equal('<custom-element></custom-element>')
   })
 
-  it(
-    'stubs lazily registered components', () => {
-      const Child = {
-        render: h => h('p')
+  it('stubs lazily registered components', () => {
+    const Child = {
+      render: h => h('p')
+    }
+    const TestComponent = {
+      template: '<div><child /></div>',
+      beforeCreate() {
+        this.$options.components.Child = Child
       }
-      const TestComponent = {
-        template: '<div><child /></div>',
-        beforeCreate () {
-          this.$options.components.Child = Child
-        }
-      }
-      const wrapper = shallowMount(TestComponent)
+    }
+    const wrapper = shallowMount(TestComponent)
 
-      expect(wrapper.findAll('p').length)
-        .to.equal(0)
-      expect(wrapper.findAll(Child).length).to.equal(1)
-    })
+    expect(wrapper.findAll('p').length).to.equal(0)
+    expect(wrapper.findAll(Child).length).to.equal(1)
+  })
 
   itDoNotRunIf(
     vueVersion < 2.4, // auto resolve of default export added in 2.4
-    'handles component as dynamic import', () => {
+    'handles component as dynamic import',
+    () => {
       const TestComponent = {
         template: '<div><async-component /></div>',
         components: {
@@ -417,11 +450,12 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
         }
       }
       shallowMount(TestComponent)
-    })
+    }
+  )
 
   it('stubs components registered on localVue after multiple installs', () => {
-    const myPlugin = function (_Vue, opts) {
-      _Vue.mixin({ })
+    const myPlugin = function(_Vue, opts) {
+      _Vue.mixin({})
     }
     const localVue = createLocalVue()
     localVue.component('registered-component', {
@@ -440,7 +474,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
     expect(() =>
       shallowMount({
         template: '<div></div>',
-        mounted: function () {
+        mounted: function() {
           throw new Error('Error')
         }
       })
@@ -462,20 +496,20 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
       `,
       components: { ChildComponent },
 
-      data () {
+      data() {
         return {
           dataComponent: ChildComponent
         }
       },
 
       computed: {
-        computedComponent () {
+        computedComponent() {
           return ChildComponent
         }
       },
 
       methods: {
-        methodComponent () {
+        methodComponent() {
           return ChildComponent
         }
       }
@@ -490,4 +524,33 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
         '</div>'
     )
   })
+
+  itDoNotRunIf(
+    vueVersion < 2.1,
+    'does not error when rendering a previously stubbed component',
+    () => {
+      const ChildComponent = {
+        render: h => h('div')
+      }
+      const TestComponent = {
+        template: `
+        <div>
+          <extended-component />
+          <keep-alive>
+            <child-component />
+          </keep-alive>
+        </div>
+      `,
+        components: {
+          ExtendedComponent: Vue.extend({ render: h => h('div') }),
+          ChildComponent
+        }
+      }
+      shallowMount(TestComponent)
+      mount(TestComponent)
+      expect(console.error).not.calledWith(
+        sinon.match('Unknown custom element')
+      )
+    }
+  )
 })

@@ -13,12 +13,8 @@ bool = wrapper.contains(ClassComponent)
 
 bool = wrapper.exists()
 
-bool = wrapper.hasAttribute('foo', 'bar')
 bool = wrapper.attributes().foo === 'bar'
-bool = wrapper.hasClass('foo-class')
-bool = wrapper.hasProp('checked', true)
 bool = wrapper.props().checked
-bool = wrapper.hasStyle('color', 'red')
 bool = wrapper.classes('foo')
 
 bool = wrapper.is(normalOptions)
@@ -33,7 +29,6 @@ let o: string = wrapper.emitted('hello')[0]
 const emittedByOrder = wrapper.emittedByOrder()
 const name: string = emittedByOrder[0].name
 
-wrapper.setComputed({computedProp: true})
 wrapper.setData({ foo: 'bar' })
 wrapper.setMethods({checked: true})
 wrapper.setProps({ checked: true })
@@ -79,7 +74,11 @@ wrapper.attributes('foo')
  */
 let num: number = array.length
 found = array.at(1)
-array = array.filter((a: any) => a === true)
+array = array.filter((w, i, arr) => {
+  i + 2
+  arr.length
+  return w.is('div')
+})
 
 let createdWrapper = createWrapper(new Vue().$mount())
 createdWrapper.text()

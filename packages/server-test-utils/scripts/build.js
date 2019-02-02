@@ -7,11 +7,11 @@ const commonjs = require('rollup-plugin-commonjs')
 const chalk = require('chalk')
 const json = require('rollup-plugin-json')
 
-function success (text) {
+function success(text) {
   console.log(chalk.green(`${text} ✔`))
 }
 
-function error (text) {
+function error(text) {
   console.log(chalk.red(`${text} ✘`))
 }
 
@@ -30,9 +30,8 @@ const rollupOptionsTest = [
   }
 ]
 
-const rollupOptions = process.env.NODE_ENV === 'test'
-  ? rollupOptionsTest
-  : rollupOptionsBuild
+const rollupOptions =
+  process.env.NODE_ENV === 'test' ? rollupOptionsTest : rollupOptionsBuild
 
 rollupOptions.forEach(options => {
   rollup({
@@ -53,11 +52,12 @@ rollupOptions.forEach(options => {
       nodeResolve(),
       commonjs()
     ]
-  }).then(bundle => {
-    bundle.write(options)
   })
+    .then(bundle => {
+      bundle.write(options)
+    })
     .then(() => success(`${options.format} build successful`))
-    .catch((err) => {
+    .catch(err => {
       error(err)
       process.exit(1)
     })

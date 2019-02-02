@@ -5,8 +5,8 @@
 This repository provides the following two packages.  
 They are currently in beta.
 
-* [Vue Test Utils](./packages/test-utils)
-* [Vue Server Test Utils](./packages/server-test-utils)
+- [Vue Test Utils](./packages/test-utils)
+- [Vue Server Test Utils](./packages/server-test-utils)
 
 You can install these packages by the following command.
 
@@ -16,6 +16,7 @@ npm install --save-dev @vue/server-test-utils
 ```
 
 ## Peer Dependencies
+
 You need to install `vue-template-compiler` which is used to compile components. It should be the same version as the version of Vue you are using.
 
 ```

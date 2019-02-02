@@ -33,7 +33,7 @@ const shallowAndMount =
 const shallowMountAndRender =
   process.env.TEST_ENV === 'node' ? [renderToString] : [mount, shallowMount]
 
-export function describeWithShallowAndMount (spec, cb) {
+export function describeWithShallowAndMount(spec, cb) {
   if (shallowAndMount.length > 0) {
     shallowAndMount.forEach(method => {
       describe(`${spec} with ${method.name}`, () => cb(method))
@@ -41,31 +41,31 @@ export function describeWithShallowAndMount (spec, cb) {
   }
 }
 
-describeWithShallowAndMount.skip = function (spec, cb) {
+describeWithShallowAndMount.skip = function(spec, cb) {
   shallowAndMount.forEach(method => {
     describe.skip(`${spec} with ${method.name}`, () => cb(method))
   })
 }
 
-describeWithShallowAndMount.only = function (spec, cb) {
+describeWithShallowAndMount.only = function(spec, cb) {
   shallowAndMount.forEach(method => {
     describe.only(`${spec} with ${method.name}`, () => cb(method))
   })
 }
 
-export function describeWithMountingMethods (spec, cb) {
+export function describeWithMountingMethods(spec, cb) {
   shallowMountAndRender.forEach(method => {
     describe(`${spec} with ${method.name}`, () => cb(method))
   })
 }
 
-describeWithMountingMethods.skip = function (spec, cb) {
+describeWithMountingMethods.skip = function(spec, cb) {
   shallowMountAndRender.forEach(method => {
     describe.skip(`${spec} with ${method.name}`, () => cb(method))
   })
 }
 
-describeWithMountingMethods.only = function (spec, cb) {
+describeWithMountingMethods.only = function(spec, cb) {
   shallowMountAndRender.forEach(method => {
     describe.only(`${spec} with ${method.name}`, () => cb(method))
   })

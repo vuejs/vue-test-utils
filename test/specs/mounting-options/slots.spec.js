@@ -104,7 +104,7 @@ describeWithMountingMethods('options.slots', mountingMethod => {
     'works if the UserAgent is PhantomJS when passed Component is in slot object',
     () => {
       const windowSave = window
-      global.window = { navigator: { userAgent: 'PhantomJS' }} // eslint-disable-line no-native-reassign
+      global.window = { navigator: { userAgent: 'PhantomJS' } } // eslint-disable-line no-native-reassign
       const wrapper = mountingMethod(ComponentWithSlots, {
         slots: { default: [Component] }
       })
@@ -227,9 +227,8 @@ describeWithMountingMethods('options.slots', mountingMethod => {
         footer: '<p>world</p>'
       }
     })
-    const HTML = mountingMethod.name === 'renderToString'
-      ? wrapper
-      : wrapper.html()
+    const HTML =
+      mountingMethod.name === 'renderToString' ? wrapper : wrapper.html()
     expect(HTML).to.contain('<span>hello</span>')
     expect(HTML).to.contain('<p>world</p>')
   })
@@ -252,7 +251,8 @@ describeWithMountingMethods('options.slots', mountingMethod => {
     const TestComponent = {
       name: 'component-with-slots',
       functional: true,
-      render: (h, ctx) => h('div', ctx.data, [ctx.slots().default, ctx.slots().header])
+      render: (h, ctx) =>
+        h('div', ctx.data, [ctx.slots().default, ctx.slots().header])
     }
     const wrapper = mountingMethod(TestComponent, {
       slots: {
@@ -454,7 +454,7 @@ describeWithMountingMethods('options.slots', mountingMethod => {
       render: (h, ctx) => h('div', ctx.data, ctx.slots().default)
     }
     const fn = () =>
-      mountingMethod(TestComponent, { slots: { named: [false] }})
+      mountingMethod(TestComponent, { slots: { named: [false] } })
     const message =
       '[vue-test-utils]: slots[key] must be a Component, string or an array of Components'
     expect(fn)
@@ -468,7 +468,7 @@ describeWithMountingMethods('options.slots', mountingMethod => {
       functional: true,
       render: (h, ctx) => h('div', ctx.data, ctx.slots().default)
     }
-    const fn = () => mountingMethod(TestComponent, { slots: { named: [1] }})
+    const fn = () => mountingMethod(TestComponent, { slots: { named: [1] } })
     const message =
       '[vue-test-utils]: slots[key] must be a Component, string or an array of Components'
     expect(fn)
@@ -482,7 +482,7 @@ describeWithMountingMethods('options.slots', mountingMethod => {
       functional: true,
       render: (h, ctx) => h('div', ctx.data, ctx.slots().default)
     }
-    const fn = () => mountingMethod(TestComponent, { slots: { named: false }})
+    const fn = () => mountingMethod(TestComponent, { slots: { named: false } })
     const message =
       '[vue-test-utils]: slots[key] must be a Component, string or an array of Components'
     expect(fn)
@@ -496,7 +496,7 @@ describeWithMountingMethods('options.slots', mountingMethod => {
       functional: true,
       render: (h, ctx) => h('div', ctx.data, ctx.slots().default)
     }
-    const fn = () => mountingMethod(TestComponent, { slots: { named: 1 }})
+    const fn = () => mountingMethod(TestComponent, { slots: { named: 1 } })
     const message =
       '[vue-test-utils]: slots[key] must be a Component, string or an array of Components'
     expect(fn)
@@ -606,7 +606,7 @@ describeWithMountingMethods('options.slots', mountingMethod => {
         {
           name: 'parentComponent',
           template: '<div><slot /></div>',
-          data () {
+          data() {
             return {
               childComponentName: ''
             }
@@ -627,14 +627,20 @@ describeWithMountingMethods('options.slots', mountingMethod => {
       )
       expect(ParentComponent.vm.childComponentName).to.equal(childComponentName)
       expect(ParentComponent.vm.$children.length).to.equal(2)
-      expect(ParentComponent.vm.$children.every(c => c.$options.name === childComponentName)).to.equal(true)
-      expect(ParentComponent.html()).to.equal('<div><div><span baz="qux">FOO,quux</span></div><div><span baz="qux">FOO,quux</span></div></div>')
+      expect(
+        ParentComponent.vm.$children.every(
+          c => c.$options.name === childComponentName
+        )
+      ).to.equal(true)
+      expect(ParentComponent.html()).to.equal(
+        '<div><div><span baz="qux">FOO,quux</span></div><div><span baz="qux">FOO,quux</span></div></div>'
+      )
 
       ParentComponent = mount(
         {
           name: 'parentComponent',
           template: '<div><slot /></div>',
-          data () {
+          data() {
             return {
               childComponentName: ''
             }
@@ -645,7 +651,7 @@ describeWithMountingMethods('options.slots', mountingMethod => {
             default: {
               name: childComponentName,
               template: '<p>1234</p>',
-              mounted () {
+              mounted() {
                 this.$parent.childComponentName = this.$options.name
               }
             }
@@ -654,7 +660,11 @@ describeWithMountingMethods('options.slots', mountingMethod => {
       )
       expect(ParentComponent.vm.childComponentName).to.equal(childComponentName)
       expect(ParentComponent.vm.$children.length).to.equal(1)
-      expect(ParentComponent.vm.$children.every(c => c.$options.name === childComponentName)).to.equal(true)
+      expect(
+        ParentComponent.vm.$children.every(
+          c => c.$options.name === childComponentName
+        )
+      ).to.equal(true)
       expect(ParentComponent.html()).to.equal('<div><p>1234</p></div>')
     }
   )

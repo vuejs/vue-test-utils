@@ -1,7 +1,7 @@
 // @flow
-import { normalizeStubs } from './normalize'
+import { normalizeStubs, normalizeProvide } from './normalize'
 
-function getOption (option, config?: Object): any {
+function getOption(option, config?: Object): any {
   if (option === false) {
     return false
   }
@@ -19,17 +19,19 @@ function getOption (option, config?: Object): any {
   }
 }
 
-export function mergeOptions (options: Options, config: Config): Options {
+export function mergeOptions(options: Options, config: Config): Options {
   const mocks = (getOption(options.mocks, config.mocks): Object)
-  const methods = (
-    (getOption(options.methods, config.methods)): { [key: string]: Function })
-  const provide = ((getOption(options.provide, config.provide)): Object)
+  const methods = (getOption(options.methods, config.methods): {
+    [key: string]: Function
+  })
+  const provide = (getOption(options.provide, config.provide): Object)
   return {
     ...options,
+    provide: normalizeProvide(provide),
+    logModifiedComponents: config.logModifiedComponents,
     stubs: getOption(normalizeStubs(options.stubs), config.stubs),
     mocks,
     methods,
-    provide,
     sync: !!(options.sync || options.sync === undefined)
   }
 }

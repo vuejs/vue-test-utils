@@ -8,6 +8,7 @@
     - `{Boolean} attachedToDocument`
 
 - **Returns:**
+
   - `{Wrapper}`
 
 - **Usage:**
@@ -23,4 +24,3 @@ const vm = new Constructor().$mount()
 const wrapper = createWrapper(vm)
 expect(wrapper.vm.foo).toBe(true)
 ```
-

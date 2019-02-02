@@ -1,10 +1,11 @@
-## setProps(props)
+## setProps
 
 Sets `Wrapper` `vm` props and forces update on each `Wrapper` in `WrapperArray`.
 
 **Note every `Wrapper` must contain a Vue instance.**
 
 - **Arguments:**
+
   - `{Object} props`
 
 - **Example:**

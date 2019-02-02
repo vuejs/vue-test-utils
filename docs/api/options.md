@@ -99,7 +99,7 @@ You can also pass a function that takes the props as an argument:
 ```js
 shallowMount(Component, {
   scopedSlots: {
-    foo: function (props) {
+    foo: function(props) {
       return this.$createElement('div', props.index)
     }
   }
@@ -111,8 +111,8 @@ Or you can use JSX. If you write JSX in a method, `this.$createElement` is auto-
 ```js
 shallowMount(Component, {
   scopedSlots: {
-    foo (props) {
-      return <div>{ props.text }</div>
+    foo(props) {
+      return <div>{props.text}</div>
     }
   }
 })
@@ -179,9 +179,7 @@ import Foo from './Foo.vue'
 const localVue = createLocalVue()
 localVue.use(VueRouter)
 
-const routes = [
-  { path: '/foo', component: Foo }
-]
+const routes = [{ path: '/foo', component: Foo }]
 
 const router = new VueRouter({
   routes
@@ -228,11 +226,11 @@ const wrapper = mount(Component, {
 expect(wrapper.text()).toBe('aBC')
 ```
 
-::: tip 
-It's worth noting that `propsData` is actually a [Vue API](https://vuejs.org/v2/api/#propsData), not a 
+::: tip
+It's worth noting that `propsData` is actually a [Vue API](https://vuejs.org/v2/api/#propsData), not a
 Vue Test Utils mounting option. It is processed through [`extends`](https://vuejs.org/v2/api/#extends).
 Please see [Other options](#other-options).
-::: 
+:::
 
 ## listeners
 
@@ -273,7 +271,7 @@ const Component = {
 
 const wrapper = shallowMount(Component, {
   provide: {
-    foo () {
+    foo() {
       return 'fooValue'
     }
   }
@@ -298,20 +296,20 @@ When the options for `mount` and `shallowMount` contain the options other than t
 const Component = {
   template: '<div>{{ foo() }}{{ bar() }}{{ baz() }}</div>',
   methods: {
-    foo () {
+    foo() {
       return 'a'
     },
-    bar () {
+    bar() {
       return 'b'
     }
   }
 }
 const options = {
   methods: {
-    bar () {
+    bar() {
       return 'B'
     },
-    baz () {
+    baz() {
       return 'C'
     }
   }

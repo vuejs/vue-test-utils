@@ -46,7 +46,7 @@ describeWithShallowAndMount('is', mountingMethod => {
 
   it('works correctly with innerHTML', () => {
     const TestComponent = {
-      render (createElement) {
+      render(createElement) {
         return createElement('div', {
           domProps: {
             innerHTML: '<svg></svg>'

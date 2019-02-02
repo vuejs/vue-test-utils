@@ -24,36 +24,64 @@ const modifiers = {
   pagedown: 34
 }
 
-export default function createDOMEvent (type, options) {
-  const [eventType, modifier] = type.split('.')
-  const {
-    eventInterface,
+function createEvent(
+  type,
+  modifier,
+  { eventInterface, bubbles, cancelable },
+  options
+) {
+  const SupportedEventInterface =
+    typeof window[eventInterface] === 'function'
+      ? window[eventInterface]
+      : window.Event
+
+  const event = new SupportedEventInterface(type, {
+    // event properties can only be added when the event is instantiated
+    // custom properties must be added after the event has been instantiated
+    ...options,
     bubbles,
-    cancelable
-  } = eventTypes[eventType] || defaultEventType
+    cancelable,
+    keyCode: modifiers[modifier]
+  })
 
-  if (typeof window.Event === 'function') {
-    const SupportedEventInterface =
-     typeof window[eventInterface] === 'function'
-       ? window[eventInterface]
-       : window.Event
+  return event
+}
 
-    return new SupportedEventInterface(eventType, {
-      bubbles,
-      cancelable,
-      ...options,
-      keyCode: modifiers[modifier]
-    })
-  }
+function createOldEvent(
+  type,
+  modifier,
+  { eventInterface, bubbles, cancelable }
+) {
+  const event = document.createEvent('Event')
+  event.initEvent(type, bubbles, cancelable)
+  event.keyCode = modifiers[modifier]
+  return event
+}
+
+export default function createDOMEvent(type, options) {
+  const [eventType, modifier] = type.split('.')
+  const meta = eventTypes[eventType] || defaultEventType
 
   // Fallback for IE10,11 - https://stackoverflow.com/questions/26596123
-  const eventObject = document.createEvent('Event')
+  const event =
+    typeof window.Event === 'function'
+      ? createEvent(eventType, modifier, meta, options)
+      : createOldEvent(eventType, modifier, meta)
 
-  eventObject.initEvent(eventType, bubbles, cancelable)
+  const eventPrototype = Object.getPrototypeOf(event)
   Object.keys(options || {}).forEach(key => {
-    eventObject[key] = options[key]
-  })
-  eventObject.keyCode = modifiers[modifier]
+    const propertyDescriptor = Object.getOwnPropertyDescriptor(
+      eventPrototype,
+      key
+    )
 
-  return eventObject
+    const canSetProperty = !(
+      propertyDescriptor && propertyDescriptor.setter === undefined
+    )
+    if (canSetProperty) {
+      event[key] = options[key]
+    }
+  })
+
+  return event
 }

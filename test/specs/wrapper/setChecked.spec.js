@@ -74,40 +74,22 @@ describeWithShallowAndMount('setChecked', mountingMethod => {
 
   it('throws error if checked param is not boolean', () => {
     const message = 'wrapper.setChecked() must be passed a boolean'
-    shouldThrowErrorOnElement('input[type="checkbox"]', message, 'asd')
+    const wrapper = mountingMethod(ComponentWithInput)
+    const input = wrapper.find('input[type="checkbox"]')
+    const fn = () => input.setChecked('asd')
+    expect(fn)
+      .to.throw()
+      .with.property('message', '[vue-test-utils]: ' + message)
   })
 
   it('throws error if checked param is false on radio element', () => {
     const message =
       'wrapper.setChecked() cannot be called with parameter false on a <input type="radio" /> element.'
-    shouldThrowErrorOnElement('#radioFoo', message, false)
-  })
-
-  it('throws error if element is select', () => {
-    const message =
-      'wrapper.setChecked() cannot be called on a <select> element. Use wrapper.setSelected() instead'
-    shouldThrowErrorOnElement('select', message)
-  })
-
-  it('throws error if element is text like', () => {
-    const message =
-      'wrapper.setChecked() cannot be called on "text" inputs. Use wrapper.setValue() instead'
-    shouldThrowErrorOnElement('input[type="text"]', message)
-    shouldThrowErrorOnElement('textarea', message)
-  })
-
-  it('throws error if element is not valid', () => {
-    const message = 'wrapper.setChecked() cannot be called on this element'
-    shouldThrowErrorOnElement('#label-el', message)
-  })
-
-  function shouldThrowErrorOnElement (selector, message, value) {
     const wrapper = mountingMethod(ComponentWithInput)
-    const input = wrapper.find(selector)
-
-    const fn = () => input.setChecked(value)
+    const input = wrapper.find('#radioFoo')
+    const fn = () => input.setChecked(false)
     expect(fn)
       .to.throw()
       .with.property('message', '[vue-test-utils]: ' + message)
-  }
+  })
 })

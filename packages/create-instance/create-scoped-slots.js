@@ -1,15 +1,18 @@
 // @flow
 
-import Vue from 'vue'
 import { compileToFunctions } from 'vue-template-compiler'
-import { throwError, vueVersion } from 'shared/util'
+import { throwError } from 'shared/util'
+import { VUE_VERSION } from 'shared/consts'
 
-function isDestructuringSlotScope (slotScope: string): boolean {
+function isDestructuringSlotScope(slotScope: string): boolean {
   return slotScope[0] === '{' && slotScope[slotScope.length - 1] === '}'
 }
 
-function getVueTemplateCompilerHelpers (): { [name: string]: Function } {
-  const vue = new Vue()
+function getVueTemplateCompilerHelpers(
+  _Vue: Component
+): { [name: string]: Function } {
+  // $FlowIgnore
+  const vue = new _Vue()
   const helpers = {}
   const names = [
     '_c',
@@ -36,8 +39,8 @@ function getVueTemplateCompilerHelpers (): { [name: string]: Function } {
   return helpers
 }
 
-function validateEnvironment (): void {
-  if (vueVersion < 2.1) {
+function validateEnvironment(): void {
+  if (VUE_VERSION < 2.1) {
     throwError(`the scopedSlots option is only supported in vue@2.1+.`)
   }
 }
@@ -45,14 +48,15 @@ function validateEnvironment (): void {
 const slotScopeRe = /<[^>]+ slot-scope=\"(.+)\"/
 
 // Hide warning about <template> disallowed as root element
-function customWarn (msg) {
+function customWarn(msg) {
   if (msg.indexOf('Cannot use <template> as component root element') === -1) {
     console.error(msg)
   }
 }
 
-export default function createScopedSlots (
-  scopedSlotsOption: ?{ [slotName: string]: string | Function }
+export default function createScopedSlots(
+  scopedSlotsOption: ?{ [slotName: string]: string | Function },
+  _Vue: Component
 ): {
   [slotName: string]: (props: Object) => VNode | Array<VNode>
 } {
@@ -61,18 +65,19 @@ export default function createScopedSlots (
     return scopedSlots
   }
   validateEnvironment()
-  const helpers = getVueTemplateCompilerHelpers()
+  const helpers = getVueTemplateCompilerHelpers(_Vue)
   for (const scopedSlotName in scopedSlotsOption) {
     const slot = scopedSlotsOption[scopedSlotName]
     const isFn = typeof slot === 'function'
     // Type check to silence flow (can't use isFn)
-    const renderFn = typeof slot === 'function'
-      ? slot
-      : compileToFunctions(slot, { warn: customWarn }).render
+    const renderFn =
+      typeof slot === 'function'
+        ? slot
+        : compileToFunctions(slot, { warn: customWarn }).render
 
     const hasSlotScopeAttr = !isFn && slot.match(slotScopeRe)
     const slotScope = hasSlotScopeAttr && hasSlotScopeAttr[1]
-    scopedSlots[scopedSlotName] = function (props) {
+    scopedSlots[scopedSlotName] = function(props) {
       let res
       if (isFn) {
         res = renderFn.call({ ...helpers }, props)

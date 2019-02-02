@@ -4,4 +4,4 @@ declare type Config = {
   methods?: { [name: string]: Function },
   provide?: Object,
   silent?: boolean
-};
+}

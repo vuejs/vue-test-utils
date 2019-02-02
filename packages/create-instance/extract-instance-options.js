@@ -15,9 +15,7 @@ const MOUNTING_OPTIONS = [
   'shouldProxy'
 ]
 
-export default function extractInstanceOptions (
-  options: Object
-): Object {
+export default function extractInstanceOptions(options: Object): Object {
   const instanceOptions = {
     ...options
   }

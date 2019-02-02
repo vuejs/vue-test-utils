@@ -10,7 +10,7 @@
 
 这是我们想要测试的组件。它会调用 Vuex action。
 
-``` html
+```html
 <template>
   <div class="text-align-center">
     <input type="text" @input="actionInputIfTrue" />
@@ -19,21 +19,19 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+  import { mapActions } from 'vuex'
 
-export default{
-  methods: {
-    ...mapActions([
-      'actionClick'
-    ]),
-    actionInputIfTrue: function actionInputIfTrue (event) {
-      const inputValue = event.target.value
-      if (inputValue === 'input') {
-        this.$store.dispatch('actionInput', { inputValue })
+  export default {
+    methods: {
+      ...mapActions(['actionClick']),
+      actionInputIfTrue: function actionInputIfTrue(event) {
+        const inputValue = event.target.value
+        if (inputValue === 'input') {
+          this.$store.dispatch('actionInput', { inputValue })
+        }
       }
     }
   }
-}
 </script>
 ```
 
@@ -45,7 +43,7 @@ export default{
 
 我们来看看它的样子：
 
-``` js
+```js
 import { shallowMount, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import Actions from '../../../src/components/Actions'
@@ -111,8 +109,7 @@ describe('Actions.vue', () => {
 
 ### 伪造 Getter
 
-
-``` html
+```html
 <template>
   <div>
     <p v-if="inputValue">{{inputValue}}</p>
@@ -121,14 +118,11 @@ describe('Actions.vue', () => {
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+  import { mapGetters } from 'vuex'
 
-export default{
-  computed: mapGetters([
-    'clicks',
-    'inputValue'
-  ])
-}
+  export default {
+    computed: mapGetters(['clicks', 'inputValue'])
+  }
 </script>
 ```
 
@@ -136,7 +130,7 @@ export default{
 
 让我们看看这个测试：
 
-``` js
+```js
 import { shallowMount, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import Getters from '../../../src/components/Getters'
@@ -180,11 +174,11 @@ describe('Getters.vue', () => {
 
 ### 伪造 Module
 
-[Module](https://vuex.vuejs.org/zh-cn/modules.html) 对于将我们的 store 分隔成多个可管理的块来说非常有用。它们也暴露 getter。我们可以在测试中使用它们。
+[Module](https://vuex.vuejs.org/zh/guide/modules.html) 对于将我们的 store 分隔成多个可管理的块来说非常有用。它们也暴露 getter。我们可以在测试中使用它们。
 
 看看这个组件：
 
-``` html
+```html
 <template>
   <div>
     <button @click="moduleActionClick()">Click</button>
@@ -193,19 +187,15 @@ describe('Getters.vue', () => {
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+  import { mapActions, mapGetters } from 'vuex'
 
-export default{
-  methods: {
-    ...mapActions([
-      'moduleActionClick'
-    ])
-  },
+  export default {
+    methods: {
+      ...mapActions(['moduleActionClick'])
+    },
 
-  computed: mapGetters([
-    'moduleClicks'
-  ])
-}
+    computed: mapGetters(['moduleClicks'])
+  }
 </script>
 ```
 
@@ -213,7 +203,7 @@ export default{
 
 其测试：
 
-``` js
+```js
 import { shallowMount, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import MyComponent from '../../../src/components/MyComponent'
@@ -272,17 +262,16 @@ describe('MyComponent.vue', () => {
 ```js
 // mutations.js
 export default {
-  increment (state) {
+  increment(state) {
     state.count++
   }
 }
-
 ```
 
 ```js
 // getters.js
 export default {
-  evenOrOdd: state => state.count % 2 === 0 ? 'even' : 'odd'
+  evenOrOdd: state => (state.count % 2 === 0 ? 'even' : 'odd')
 }
 ```
 
@@ -330,7 +319,6 @@ test('evenOrOdd returns odd if state.count is odd', () => {
   }
   expect(getters.evenOrOdd(state)).toBe('odd')
 })
-
 ```
 
 ### 测试一个运行中的 store
@@ -344,7 +332,8 @@ test('evenOrOdd returns odd if state.count is odd', () => {
 我们来写一个测试吧。当我们创建一个 store 时，我们会使用 `localVue` 来避免污染 Vue 的基础构造函数。该测试会使用 `store-config.js` 导出的配置创建一个 store：
 
 ```js
-// store-config.spec.js
+// store-config.js
+
 import mutations from './mutations'
 import getters from './getters'
 
@@ -358,6 +347,8 @@ export default {
 ```
 
 ```js
+// store-config.spec.js
+
 import { createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import storeConfig from './store-config'

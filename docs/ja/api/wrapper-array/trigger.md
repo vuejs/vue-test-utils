@@ -5,8 +5,8 @@
 **すべての `Wrapper` は Vue インスタンスを含んでいなければならないことに注意してください。**
 
 - **引数:**
-  - `{string} eventName` **必須**
-  - `{Object} options` **オプション**
+   - `{string} eventName` **必須**
+   - `{Object} options` **オプション**
 
 - **例:**
 

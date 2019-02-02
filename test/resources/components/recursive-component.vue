@@ -1,10 +1,11 @@
 <template>
   <div>
     <recursive-component
-    v-for="item in items"
-    :key="item"
-    :items="items ? items[0] : []"
-    >{{something}}</recursive-component>
+      v-for="item in items"
+      :key="item"
+      :items="items ? items[0] : []"
+      >{{ something }}</recursive-component
+    >
   </div>
 </template>
 
@@ -13,7 +14,7 @@ export default {
   name: 'recursive-component',
   props: ['items'],
   computed: {
-    something () {
+    something() {
       return 'value'
     }
   }

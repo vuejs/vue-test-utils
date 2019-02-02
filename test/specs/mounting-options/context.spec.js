@@ -13,7 +13,7 @@ describeWithMountingMethods('options.context', mountingMethod => {
 
     const Component = {
       functional: true,
-      render (h, { props }) {
+      render(h, { props }) {
         return h('div')
       },
       name: 'common'
@@ -45,7 +45,8 @@ describeWithMountingMethods('options.context', mountingMethod => {
       render: h => h('div')
     })
     const context = {}
-    const fn = () => mountingMethod(Component, { context, stubs: false, mocks: false })
+    const fn = () =>
+      mountingMethod(Component, { context, stubs: false, mocks: false })
     expect(fn).not.to.throw()
   })
 

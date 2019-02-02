@@ -1,8 +1,9 @@
 ## is(selector)
 
-`WrapperArray` の全ての `Wrapper` のDOMノード、もしくは[セレクタ](../selectors.md)が `vm` とマッチするか検証します。
+`WrapperArray` の全ての `Wrapper` の DOM ノード、もしくは[セレクタ](../selectors.md)が `vm` とマッチするか検証します。
 
 - **引数:**
+
   - `{string|Component} selector`
 
 - **戻り値:** `{boolean}`

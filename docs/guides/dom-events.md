@@ -2,7 +2,7 @@
 
 ### Trigger events
 
-The `Wrapper` expose a `trigger` method. It can be used to trigger DOM events.
+The `Wrapper` exposes a `trigger` method. It can be used to trigger DOM events.
 
 ```js
 const wrapper = mount(MyButton)
@@ -30,7 +30,6 @@ const wrapper = mount(MyButton)
 wrapper.trigger('click', { button: 0 })
 ```
 
-
 ### Mouse Click Example
 
 **Component under test**
@@ -44,24 +43,24 @@ wrapper.trigger('click', { button: 0 })
 </template>
 
 <script>
-export default {
-  name: 'YesNoComponent',
+  export default {
+    name: 'YesNoComponent',
 
-  props: {
-    callMe: {
-      type: Function
-    }
-  },
-
-  methods: {
-    callYes() {
-      this.callMe('yes')
+    props: {
+      callMe: {
+        type: Function
+      }
     },
-    callNo() {
-      this.callMe('no')
+
+    methods: {
+      callYes() {
+        this.callMe('yes')
+      },
+      callNo() {
+        this.callMe('no')
+      }
     }
   }
-}
 </script>
 ```
 
@@ -99,50 +98,50 @@ This component allows to increment/decrement the quantity using various keys.
 </template>
 
 <script>
-const KEY_DOWN = 40
-const KEY_UP = 38
-const ESCAPE = 27
-const CHAR_A = 65
+  const KEY_DOWN = 40
+  const KEY_UP = 38
+  const ESCAPE = 27
+  const CHAR_A = 65
 
-export default {
-  data() {
-    return {
-      quantity: 0
-    }
-  },
+  export default {
+    data() {
+      return {
+        quantity: 0
+      }
+    },
 
-  methods: {
-    increment() {
-      this.quantity += 1
+    methods: {
+      increment() {
+        this.quantity += 1
+      },
+      decrement() {
+        this.quantity -= 1
+      },
+      clear() {
+        this.quantity = 0
+      },
+      onKeydown(e) {
+        if (e.keyCode === ESCAPE) {
+          this.clear()
+        }
+        if (e.keyCode === KEY_DOWN) {
+          this.decrement()
+        }
+        if (e.keyCode === KEY_UP) {
+          this.increment()
+        }
+        if (e.which === CHAR_A) {
+          this.quantity = 13
+        }
+      }
     },
-    decrement() {
-      this.quantity -= 1
-    },
-    clear() {
-      this.quantity = 0
-    },
-    onKeydown(e) {
-      if (e.keyCode === ESCAPE) {
-        this.clear()
-      }
-      if (e.keyCode === KEY_DOWN) {
-        this.decrement()
-      }
-      if (e.keyCode === KEY_UP) {
-        this.increment()
-      }
-      if (e.which === CHAR_A) {
-        this.quantity = 13
-      }
-    }
-  },
 
-  watch: {
-    quantity: function (newValue) {
-      this.$emit('input', newValue)
+    watch: {
+      quantity: function(newValue) {
+        this.$emit('input', newValue)
+      }
     }
   }
-}
 </script>
 ```
 
@@ -158,13 +157,13 @@ describe('Key event tests', () => {
     expect(wrapper.vm.quantity).toBe(0)
   })
 
-  it('Cursor up sets quantity to 1', () => {
+  it('Up arrow key increments quantity by 1', () => {
     const wrapper = mount(QuantityComponent)
     wrapper.trigger('keydown.up')
     expect(wrapper.vm.quantity).toBe(1)
   })
 
-  it('Cursor down reduce quantity by 1', () => {
+  it('Down arrow key decrements quantity by 1', () => {
     const wrapper = mount(QuantityComponent)
     wrapper.vm.quantity = 5
     wrapper.trigger('keydown.down')
@@ -192,23 +191,23 @@ describe('Key event tests', () => {
 
 A key name after the dot `keydown.up` is translated to a `keyCode`. This is supported for the following names:
 
-| key name | key code |
-| --- | --- |
-| enter | 13 |
-| esc | 27 |
-| tab | 9 |
-| space | 32 |
-| delete | 46 |
-| backspace | 8 |
-| insert | 45 |
-| up | 38 |
-| down | 40 |
-| left | 37 |
-| right | 39 |
-| end | 35 |
-| home | 36 |
-| pageup | 33 |
-| pagedown | 34 |
+| key name  | key code |
+| --------- | -------- |
+| enter     | 13       |
+| esc       | 27       |
+| tab       | 9        |
+| space     | 32       |
+| delete    | 46       |
+| backspace | 8        |
+| insert    | 45       |
+| up        | 38       |
+| down      | 40       |
+| left      | 37       |
+| right     | 39       |
+| end       | 35       |
+| home      | 36       |
+| pageup    | 33       |
+| pagedown  | 34       |
 
 ### Important
 

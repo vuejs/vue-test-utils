@@ -29,13 +29,13 @@ $ npm install --save-dev jest @vue/test-utils
 
 为了告诉 Jest 如何处理 `*.vue` 文件，我们需要安装和配置 `vue-jest` 预处理器：
 
-``` bash
+```bash
 npm install --save-dev vue-jest
 ```
 
 接下来在 `package.json` 中创建一个 `jest` 块：
 
-``` json
+```json
 {
   // ...
   "jest": {
@@ -59,7 +59,7 @@ npm install --save-dev vue-jest
 
 如果你在 webpack 中配置了别名解析，比如把 `@` 设置为 `/src` 的别名，那么你也需要用 `moduleNameMapper` 选项为 Jest 增加一个匹配配置：
 
-``` json
+```json
 {
   // ...
   "jest": {
@@ -76,13 +76,13 @@ npm install --save-dev vue-jest
 
 尽管最新版本的 Node 已经支持绝大多数的 ES2015 特性，你可能仍然想要在你的测试中使用 ES modules 语法和 stage-x 的特性。为此我们需要安装 `babel-jest`：
 
-``` bash
+```bash
 npm install --save-dev babel-jest
 ```
 
 接下来，我们需要在 `package.json` 的 `jest.transform` 里添加一个入口，来告诉 Jest 用 `babel-jest` 处理 JavaScript 测试文件：
 
-``` json
+```json
 {
   // ...
   "jest": {
@@ -91,7 +91,7 @@ npm install --save-dev babel-jest
       // ...
       // 用 `babel-jest` 处理 js
       "^.+\\.js$": "<rootDir>/node_modules/babel-jest"
-    },
+    }
     // ...
   }
 }
@@ -107,16 +107,12 @@ npm install --save-dev babel-jest
 
 `.babelrc` 文件示例：
 
-``` json
+```json
 {
-  "presets": [
-    ["env", { "modules": false }]
-  ],
+  "presets": [["env", { "modules": false }]],
   "env": {
     "test": {
-      "presets": [
-        ["env", { "targets": { "node": "current" }}]
-      ]
+      "presets": [["env", { "targets": { "node": "current" } }]]
     }
   }
 }
@@ -139,10 +135,7 @@ Jest 可以被用来生成多种格式的测试覆盖率报告。以下是一个
   "jest": {
     // ...
     "collectCoverage": true,
-    "collectCoverageFrom": [
-      "**/*.{js,vue}",
-      "!**/node_modules/**"
-    ]
+    "collectCoverageFrom": ["**/*.{js,vue}", "!**/node_modules/**"]
   }
 }
 ```
@@ -189,21 +182,19 @@ test('renders correctly', () => {
 
 我们可以通过一个自定义的序列化工具改进被保存的快照：
 
-``` bash
+```bash
 npm install --save-dev jest-serializer-vue
 ```
 
 然后在 `package.json` 中配置它：
 
-``` json
+```json
 {
   // ...
   "jest": {
     // ...
     // 快照的序列化工具
-    "snapshotSerializers": [
-      "jest-serializer-vue"
-    ]
+    "snapshotSerializers": ["jest-serializer-vue"]
   }
 }
 ```

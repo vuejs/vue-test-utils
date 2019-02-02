@@ -29,13 +29,13 @@ Next we need to define a test script in our `package.json`.
 
 To teach Jest how to process `*.vue` files, we will need to install and configure the `vue-jest` preprocessor:
 
-``` bash
+```bash
 npm install --save-dev vue-jest
 ```
 
 Next, create a `jest` block in `package.json`:
 
-``` json
+```json
 {
   // ...
   "jest": {
@@ -53,13 +53,13 @@ Next, create a `jest` block in `package.json`:
 }
 ```
 
-> **Note:** `vue-jest` currently does not support all the features of `vue-loader`, for example custom block support and style loading. In addition, some webpack-specific features such as code-splitting are not supported either. To use these unsupported features, you need to use Mocha instead of Jest to run your tests, and webpack to compile your components. To get started,  read the guide on [testing SFCs with Mocha + webpack](./testing-single-file-components-with-mocha-webpack.md).
+> **Note:** `vue-jest` currently does not support all the features of `vue-loader`, for example custom block support and style loading. In addition, some webpack-specific features such as code-splitting are not supported either. To use these unsupported features, you need to use Mocha instead of Jest to run your tests, and webpack to compile your components. To get started, read the guide on [testing SFCs with Mocha + webpack](./testing-single-file-components-with-mocha-webpack.md).
 
 ### Handling webpack Aliases
 
 If you use a resolve alias in the webpack config, e.g. aliasing `@` to `/src`, you need to add a matching config for Jest as well, using the `moduleNameMapper` option:
 
-``` json
+```json
 {
   // ...
   "jest": {
@@ -75,15 +75,16 @@ If you use a resolve alias in the webpack config, e.g. aliasing `@` to `/src`, y
 ### Configuring Babel for Jest
 
 <!-- todo ES modules has been supported in latest versions of Node -->
+
 Although latest versions of Node already supports most ES2015 features, you may still want to use ES modules syntax and stage-x features in your tests. For that we need to install `babel-jest`:
 
-``` bash
+```bash
 npm install --save-dev babel-jest
 ```
 
 Next, we need to tell Jest to process JavaScript test files with `babel-jest` by adding an entry under `jest.transform` in `package.json`:
 
-``` json
+```json
 {
   // ...
   "jest": {
@@ -92,7 +93,7 @@ Next, we need to tell Jest to process JavaScript test files with `babel-jest` by
       // ...
       // process js with `babel-jest`
       "^.+\\.js$": "<rootDir>/node_modules/babel-jest"
-    },
+    }
     // ...
   }
 }
@@ -108,16 +109,12 @@ To apply these options only for tests, put them in a separate config under `env.
 
 Example `.babelrc`:
 
-``` json
+```json
 {
-  "presets": [
-    ["env", { "modules": false }]
-  ],
+  "presets": [["env", { "modules": false }]],
   "env": {
     "test": {
-      "presets": [
-        ["env", { "targets": { "node": "current" }}]
-      ]
+      "presets": [["env", { "targets": { "node": "current" } }]]
     }
   }
 }
@@ -140,10 +137,7 @@ Extend your `jest` config (usually in `package.json` or `jest.config.js`) with t
   "jest": {
     // ...
     "collectCoverage": true,
-    "collectCoverageFrom": [
-      "**/*.{js,vue}",
-      "!**/node_modules/**"
-    ]
+    "collectCoverageFrom": ["**/*.{js,vue}", "!**/node_modules/**"]
   }
 }
 ```
@@ -190,21 +184,19 @@ test('renders correctly', () => {
 
 We can improve the saved snapshot with a custom serializer:
 
-``` bash
+```bash
 npm install --save-dev jest-serializer-vue
 ```
 
 Then configure it in `package.json`:
 
-``` json
+```json
 {
   // ...
   "jest": {
     // ...
     // serializer for snapshots
-    "snapshotSerializers": [
-      "jest-serializer-vue"
-    ]
+    "snapshotSerializers": ["jest-serializer-vue"]
   }
 }
 ```

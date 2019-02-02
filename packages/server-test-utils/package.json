@@ -1,6 +1,6 @@
 {
   "name": "@vue/server-test-utils",
-  "version": "1.0.0-beta.27",
+  "version": "1.0.0-beta.28",
   "description": "Utilities for testing Vue components.",
   "main": "dist/vue-server-test-utils.js",
   "types": "types/index.d.ts",
@@ -14,7 +14,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vuejs/vue-test-utils.git"
+    "url": "git+https://github.com/vuejs/vue-test-utils.git",
+    "directory": "packages/server-test-utils"
   },
   "author": "vuejs",
   "license": "MIT",

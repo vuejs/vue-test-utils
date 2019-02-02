@@ -1,4 +1,4 @@
-## destroy()
+## destroy
 
 Destroys a Vue component instance.
 
@@ -11,7 +11,7 @@ import sinon from 'sinon'
 const spy = sinon.stub()
 mount({
   render: null,
-  destroyed () {
+  destroyed() {
     spy()
   }
 }).destroy()

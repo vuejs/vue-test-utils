@@ -9,7 +9,7 @@
 - タグセレクタ (div, foo, bar)
 - クラスセレクタ (.foo, .bar)
 - 属性セレクタ ([foo], [foo="bar"])
-- idセレクタ (#foo, #bar)
+- id セレクタ (#foo, #bar)
 - 疑似セレクタ (div:first-of-type)
 
 これらを組み合わせることも可能です:
@@ -26,7 +26,7 @@ Vue コンポーネントもセレクタとして有効です。
 ```js
 // Foo.vue
 
-export default{
+export default {
   name: 'FooComponent'
 }
 ```

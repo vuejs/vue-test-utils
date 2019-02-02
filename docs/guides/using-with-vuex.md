@@ -10,7 +10,7 @@ Let’s look at some code.
 
 This is the component we want to test. It calls Vuex actions.
 
-``` html
+```html
 <template>
   <div class="text-align-center">
     <input type="text" @input="actionInputIfTrue" />
@@ -19,21 +19,19 @@ This is the component we want to test. It calls Vuex actions.
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+  import { mapActions } from 'vuex'
 
-export default{
-  methods: {
-    ...mapActions([
-      'actionClick'
-    ]),
-    actionInputIfTrue: function actionInputIfTrue (event) {
-      const inputValue = event.target.value
-      if (inputValue === 'input') {
-        this.$store.dispatch('actionInput', { inputValue })
+  export default {
+    methods: {
+      ...mapActions(['actionClick']),
+      actionInputIfTrue: function actionInputIfTrue(event) {
+        const inputValue = event.target.value
+        if (inputValue === 'input') {
+          this.$store.dispatch('actionInput', { inputValue })
+        }
       }
     }
   }
-}
 </script>
 ```
 
@@ -45,7 +43,7 @@ Instead of passing the store to the base Vue constructor, we can pass it to a - 
 
 Let’s see what this looks like:
 
-``` js
+```js
 import { shallowMount, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import Actions from '../../../src/components/Actions'
@@ -64,7 +62,6 @@ describe('Actions.vue', () => {
       actionInput: jest.fn()
     }
     store = new Vuex.Store({
-      state: {},
       actions
     })
   })
@@ -111,8 +108,7 @@ Great, so now we can mock actions, let’s look at mocking getters.
 
 ### Mocking Getters
 
-
-``` html
+```html
 <template>
   <div>
     <p v-if="inputValue">{{inputValue}}</p>
@@ -121,22 +117,19 @@ Great, so now we can mock actions, let’s look at mocking getters.
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+  import { mapGetters } from 'vuex'
 
-export default{
-  computed: mapGetters([
-    'clicks',
-    'inputValue'
-  ])
-}
+  export default {
+    computed: mapGetters(['clicks', 'inputValue'])
+  }
 </script>
 ```
 
-This is a fairly simple component. It renders the result of the getters `clicks` and `inputValue`. Again, we don’t really care about what those getters returns – just that the result of them is being rendered correctly.
+This is a fairly simple component. It renders the result of the getters `clicks` and `inputValue`. Again, we don’t really care about what those getters return – just that their result is being rendered correctly.
 
 Let’s see the test:
 
-``` js
+```js
 import { shallowMount, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import Getters from '../../../src/components/Getters'
@@ -160,13 +153,13 @@ describe('Getters.vue', () => {
     })
   })
 
-  it('Renders "state.inputValue" in first p tag', () => {
+  it('Renders "store.getters.inputValue" in first p tag', () => {
     const wrapper = shallowMount(Getters, { store, localVue })
     const p = wrapper.find('p')
     expect(p.text()).toBe(getters.inputValue())
   })
 
-  it('Renders "state.clicks" in second p tag', () => {
+  it('Renders "store.getters.clicks" in second p tag', () => {
     const wrapper = shallowMount(Getters, { store, localVue })
     const p = wrapper.findAll('p').at(1)
     expect(p.text()).toBe(getters.clicks().toString())
@@ -180,11 +173,11 @@ This is great, but what if we want to check our getters are returning the correc
 
 ### Mocking with Modules
 
-[Modules](https://vuex.vuejs.org/en/modules.html) are useful for separating out our store into manageable chunks. They also export getters. We can use these in our tests.
+[Modules](https://vuex.vuejs.org/guide/modules.html) are useful for separating out our store into manageable chunks. They also export getters. We can use these in our tests.
 
 Let’s look at our component:
 
-``` html
+```html
 <template>
   <div>
     <button @click="moduleActionClick()">Click</button>
@@ -193,19 +186,15 @@ Let’s look at our component:
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+  import { mapActions, mapGetters } from 'vuex'
 
-export default{
-  methods: {
-    ...mapActions([
-      'moduleActionClick'
-    ])
-  },
+  export default {
+    methods: {
+      ...mapActions(['moduleActionClick'])
+    },
 
-  computed: mapGetters([
-    'moduleClicks'
-  ])
-}
+    computed: mapGetters(['moduleClicks'])
+  }
 </script>
 ```
 
@@ -213,7 +202,7 @@ Simple component that includes one action and one getter.
 
 And the test:
 
-``` js
+```js
 import { shallowMount, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import MyComponent from '../../../src/components/MyComponent'
@@ -255,7 +244,7 @@ describe('MyComponent.vue', () => {
     expect(actions.moduleActionClick).toHaveBeenCalled()
   })
 
-  it('renders "state.inputValue" in first p tag', () => {
+  it('renders "state.clicks" in first p tag', () => {
     const wrapper = shallowMount(MyComponent, { store, localVue })
     const p = wrapper.find('p')
     expect(p.text()).toBe(state.clicks.toString())
@@ -272,7 +261,7 @@ To see how to test a Vuex store, we're going to create a simple counter store. T
 ```js
 // mutations.js
 export default {
-  increment (state) {
+  increment(state) {
     state.count++
   }
 }
@@ -281,7 +270,7 @@ export default {
 ```js
 // getters.js
 export default {
-  evenOrOdd: state => state.count % 2 === 0 ? 'even' : 'odd'
+  evenOrOdd: state => (state.count % 2 === 0 ? 'even' : 'odd')
 }
 ```
 
@@ -300,7 +289,7 @@ First, let's test the `increment` mutations:
 
 import mutations from './mutations'
 
-test('increment increments state.count by 1', () => {
+test('"increment" increments "state.count" by 1', () => {
   const state = {
     count: 0
   }
@@ -316,34 +305,33 @@ Now let's test the `evenOrOdd` getter. We can test it by creating a mock `state`
 
 import getters from './getters'
 
-test('evenOrOdd returns even if state.count is even', () => {
+test('"evenOrOdd" returns even if "state.count" is even', () => {
   const state = {
     count: 2
   }
   expect(getters.evenOrOdd(state)).toBe('even')
 })
 
-test('evenOrOdd returns odd if state.count is odd', () => {
+test('"evenOrOdd" returns odd if "state.count" is odd', () => {
   const state = {
     count: 1
   }
   expect(getters.evenOrOdd(state)).toBe('odd')
 })
-
 ```
 
 ### Testing a running store
 
 Another approach to testing a Vuex store is to create a running store using the store config.
 
-The benefit of testing creating a running store instance is we don't have to mock any Vuex functions.
+The benefit of creating a running store instance is we don't have to mock any Vuex functions.
 
 The downside is that when a test breaks, it can be difficult to find where the problem is.
 
 Let's write a test. When we create a store, we'll use `localVue` to avoid polluting the Vue base constructor. The test creates a store using the `store-config.js` export:
 
 ```js
-// store-config.spec.js
+// store-config.js
 
 import mutations from './mutations'
 import getters from './getters'
@@ -358,12 +346,14 @@ export default {
 ```
 
 ```js
+// store-config.spec.js
+
 import { createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import storeConfig from './store-config'
 import { cloneDeep } from 'lodash'
 
-test('increments count value when increment is commited', () => {
+test('increments "count" value when "increment" is commited', () => {
   const localVue = createLocalVue()
   localVue.use(Vuex)
   const store = new Vuex.Store(cloneDeep(storeConfig))
@@ -372,7 +362,7 @@ test('increments count value when increment is commited', () => {
   expect(store.state.count).toBe(1)
 })
 
-test('updates evenOrOdd getter when increment is commited', () => {
+test('updates "evenOrOdd" getter when "increment" is commited', () => {
   const localVue = createLocalVue()
   localVue.use(Vuex)
   const store = new Vuex.Store(cloneDeep(storeConfig))

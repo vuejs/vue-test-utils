@@ -1,33 +1,34 @@
 import { createStubFromComponent } from './create-component-stubs'
-import { resolveComponent, semVerGreaterThan } from 'shared/util'
-import { isReservedTag } from 'shared/validators'
-import Vue from 'vue'
-import { BEFORE_RENDER_LIFECYCLE_HOOK } from 'shared/consts'
+import { resolveComponent } from 'shared/util'
+import {
+  isReservedTag,
+  isConstructor,
+  isDynamicComponent,
+  isComponentOptions
+} from 'shared/validators'
+import {
+  BEFORE_RENDER_LIFECYCLE_HOOK,
+  CREATE_ELEMENT_ALIAS
+} from 'shared/consts'
 
 const isWhitelisted = (el, whitelist) => resolveComponent(el, whitelist)
 const isAlreadyStubbed = (el, stubs) => stubs.has(el)
-const isDynamicComponent = cmp => typeof cmp === 'function' && !cmp.cid
 
-const CREATE_ELEMENT_ALIAS = semVerGreaterThan(Vue.version, '2.1.5')
-  ? '_c'
-  : '_h'
-
-function shouldExtend (component, _Vue) {
-  return (
-    (typeof component === 'function' && !isDynamicComponent(component)) ||
-    (component && component.extends)
-  )
+function shouldExtend(component, _Vue) {
+  return isConstructor(component) || (component && component.extends)
 }
 
-function extend (component, _Vue) {
-  const stub = _Vue.extend(component.options)
+function extend(component, _Vue) {
+  const componentOptions = component.options ? component.options : component
+  const stub = _Vue.extend(componentOptions)
   stub.options.$_vueTestUtils_original = component
+  stub.options._base = _Vue
   return stub
 }
 
-function createStubIfNeeded (shouldStub, component, _Vue, el) {
+function createStubIfNeeded(shouldStub, component, _Vue, el) {
   if (shouldStub) {
-    return createStubFromComponent(component || {}, el)
+    return createStubFromComponent(component || {}, el, _Vue)
   }
 
   if (shouldExtend(component, _Vue)) {
@@ -35,7 +36,7 @@ function createStubIfNeeded (shouldStub, component, _Vue, el) {
   }
 }
 
-function shouldNotBeStubbed (el, whitelist, modifiedComponents) {
+function shouldNotBeStubbed(el, whitelist, modifiedComponents) {
   return (
     (typeof el === 'string' && isReservedTag(el)) ||
     isWhitelisted(el, whitelist) ||
@@ -43,28 +44,17 @@ function shouldNotBeStubbed (el, whitelist, modifiedComponents) {
   )
 }
 
-function isConstructor (el) {
-  return typeof el === 'function'
-}
-
-function isComponentOptions (el) {
-  return typeof el === 'object' && (el.template || el.render)
-}
-
-export function patchRender (_Vue, stubs, stubAllComponents) {
+export function patchCreateElement(_Vue, stubs, stubAllComponents) {
   // This mixin patches vm.$createElement so that we can stub all components
   // before they are rendered in shallow mode. We also need to ensure that
   // component constructors were created from the _Vue constructor. If not,
   // we must replace them with components created from the _Vue constructor
   // before calling the original $createElement. This ensures that components
   // have the correct instance properties and stubs when they are rendered.
-  function patchRenderMixin () {
+  function patchCreateElementMixin() {
     const vm = this
 
-    if (
-      vm.$options.$_doNotStubChildren ||
-      vm.$options._isFunctionalContainer
-    ) {
+    if (vm.$options.$_doNotStubChildren || vm.$options._isFunctionalContainer) {
       return
     }
 
@@ -79,7 +69,7 @@ export function patchRender (_Vue, stubs, stubAllComponents) {
 
       if (isConstructor(el) || isComponentOptions(el)) {
         if (stubAllComponents) {
-          const stub = createStubFromComponent(el, el.name || 'anonymous')
+          const stub = createStubFromComponent(el, el.name || 'anonymous', _Vue)
           return originalCreateElement(stub, ...args)
         }
         const Constructor = shouldExtend(el, _Vue) ? extend(el, _Vue) : el
@@ -88,17 +78,10 @@ export function patchRender (_Vue, stubs, stubAllComponents) {
       }
 
       if (typeof el === 'string') {
-        let original = resolveComponent(el, originalComponents)
+        const original = resolveComponent(el, originalComponents)
 
         if (!original) {
           return originalCreateElement(el, ...args)
-        }
-
-        if (
-          original.options &&
-          original.options.$_vueTestUtils_original
-        ) {
-          original = original.options.$_vueTestUtils_original
         }
 
         if (isDynamicComponent(original)) {
@@ -108,10 +91,9 @@ export function patchRender (_Vue, stubs, stubAllComponents) {
         const stub = createStubIfNeeded(stubAllComponents, original, _Vue, el)
 
         if (stub) {
-          vm.$options.components = {
-            ...vm.$options.components,
+          Object.assign(vm.$options.components, {
             [el]: stub
-          }
+          })
           modifiedComponents.add(el)
         }
       }
@@ -124,6 +106,6 @@ export function patchRender (_Vue, stubs, stubAllComponents) {
   }
 
   _Vue.mixin({
-    [BEFORE_RENDER_LIFECYCLE_HOOK]: patchRenderMixin
+    [BEFORE_RENDER_LIFECYCLE_HOOK]: patchCreateElementMixin
   })
 }

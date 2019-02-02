@@ -1,11 +1,12 @@
-## props([key])
+## props
 
 Return `Wrapper` `vm` props object. If `key` is provided, the value for the `key` will be returned.
 
 **Note the Wrapper must contain a Vue instance.**
 
 - **Arguments:**
-  - `{string} key`  **optional**
+
+  - `{string} key` **optional**
 
 - **Returns:** `{[prop: string]: any} | any`
 

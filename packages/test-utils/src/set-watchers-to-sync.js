@@ -2,11 +2,11 @@
 
 import { VUE_VERSION } from 'shared/consts'
 
-function setDepsSync (dep): void {
+function setDepsSync(dep): void {
   dep.subs.forEach(setWatcherSync)
 }
 
-function setWatcherSync (watcher): void {
+function setWatcherSync(watcher): void {
   if (watcher.sync === true) {
     return
   }
@@ -14,7 +14,7 @@ function setWatcherSync (watcher): void {
   watcher.deps.forEach(setDepsSync)
 }
 
-export function setWatchersToSync (vm: Component): void {
+export function setWatchersToSync(vm: Component): void {
   if (vm._watchers) {
     vm._watchers.forEach(setWatcherSync)
   }
@@ -31,7 +31,7 @@ export function setWatchersToSync (vm: Component): void {
   // preventing double registration
   if (!vm.$_vueTestUtils_updateInSetWatcherSync) {
     vm.$_vueTestUtils_updateInSetWatcherSync = vm._update
-    vm._update = function (vnode, hydrating) {
+    vm._update = function(vnode, hydrating) {
       this.$_vueTestUtils_updateInSetWatcherSync(vnode, hydrating)
       if (VUE_VERSION >= 2.1 && this._isMounted && this.$options.updated) {
         this.$options.updated.forEach(handler => {

@@ -3,8 +3,8 @@
 import type Wrapper from '~src/Wrapper'
 import type WrapperArray from '~src/WrapperArray'
 
-declare type Selector = any;
-declare type Components = { [name: string]: Component };
+declare type Selector = any
+declare type Components = { [name: string]: Component }
 
 declare interface BaseWrapper {
   // eslint-disable-line no-undef
@@ -18,11 +18,6 @@ declare interface BaseWrapper {
   emittedByOrder(): Array<{ name: string, args: Array<any> }> | void;
   exists(): boolean;
   filter(predicate: Function): WrapperArray | void;
-  visible(): boolean | void;
-  hasAttribute(attribute: string, value: string): boolean | void;
-  hasClass(className: string): boolean | void;
-  hasProp(prop: string, value: string): boolean | void;
-  hasStyle(style: string, value: string): boolean | void;
   find(selector: Selector): Wrapper | void;
   findAll(selector: Selector): WrapperArray | void;
   html(): string | void;
@@ -34,7 +29,6 @@ declare interface BaseWrapper {
   props(key?: string): { [name: string]: any } | any | void;
   text(): string | void;
   setData(data: Object): void;
-  setComputed(computed: Object): void;
   setMethods(methods: Object): void;
   setValue(value: any): void;
   setChecked(checked?: boolean): void;
@@ -48,4 +42,4 @@ declare type WrapperOptions = {
   // eslint-disable-line no-undef
   attachedToDocument?: boolean,
   sync?: boolean
-};
+}

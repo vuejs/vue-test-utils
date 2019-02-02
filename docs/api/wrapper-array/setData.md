@@ -1,10 +1,11 @@
-## setData(data)
+## setData
 
 Sets `Wrapper` `vm` data on each `Wrapper` in `WrapperArray`.
 
 **Note every `Wrapper` must contain a Vue instance.**
 
 - **Arguments:**
+
   - `{Object} data`
 
 - **Example:**
