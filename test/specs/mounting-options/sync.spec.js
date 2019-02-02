@@ -1,7 +1,16 @@
 import sinon from 'sinon'
-import { describeWithShallowAndMount } from '~resources/utils'
+import { describeWithShallowAndMount, vueVersion } from '~resources/utils'
+import { itDoNotRunIf } from 'conditional-specs'
 
 describeWithShallowAndMount('options.sync', mountingMethod => {
+  beforeEach(() => {
+    sinon.stub(console, 'error').callThrough()
+  })
+
+  afterEach(() => {
+    console.error.restore()
+  })
+
   it('sets watchers to sync if set to true', () => {
     const TestComponent = {
       template: '<div>{{someData}}</div>',
@@ -12,11 +21,12 @@ describeWithShallowAndMount('options.sync', mountingMethod => {
     const wrapper = mountingMethod(TestComponent, {
       sync: true
     })
+    const syncValue = vueVersion < 2.5 ? 'COMPAT_SYNC_MODE' : true
 
     expect(wrapper.text()).to.equal('hello')
     wrapper.vm.someData = 'world'
     expect(wrapper.text()).to.equal('world')
-    expect(wrapper.options.sync).to.equal(true)
+    expect(wrapper.options.sync).to.equal(syncValue)
   })
 
   it('sets watchers to sync if undefined', () => {
@@ -27,11 +37,12 @@ describeWithShallowAndMount('options.sync', mountingMethod => {
       })
     }
     const wrapper = mountingMethod(TestComponent)
+    const syncValue = vueVersion < 2.5 ? 'COMPAT_SYNC_MODE' : true
 
     expect(wrapper.text()).to.equal('hello')
     wrapper.vm.someData = 'world'
     expect(wrapper.text()).to.equal('world')
-    expect(wrapper.options.sync).to.equal(true)
+    expect(wrapper.options.sync).to.equal(syncValue)
   })
 
   it('handles methods that update watchers', () => {
@@ -145,4 +156,18 @@ describeWithShallowAndMount('options.sync', mountingMethod => {
     expect(childComponentSpy.calledOnce).to.equal(true)
     expect(wrapper.html()).to.equal('<div>bar<div>bar</div></div>')
   })
+
+  itDoNotRunIf(
+    vueVersion > 2.4,
+    'warns if Vue version is less than 2.5.18',
+    () => {
+      const TestComponent = {
+        template: '<div />'
+      }
+      mountingMethod(TestComponent)
+      expect(console.error).calledWith(
+        sinon.match('Vue Test Utils runs in sync mode by default')
+      )
+    }
+  )
 })

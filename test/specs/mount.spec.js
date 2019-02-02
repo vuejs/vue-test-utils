@@ -412,21 +412,25 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     })
   })
 
-  it('throws if component throws during update', () => {
-    const TestComponent = {
-      template: '<div :p="a" />',
-      updated() {
-        throw new Error('err')
-      },
-      data: () => ({
-        a: 1
-      })
+  itDoNotRunIf(
+    vueVersion >= 2.5,
+    'throws if component throws during update',
+    () => {
+      const TestComponent = {
+        template: '<div :p="a" />',
+        updated() {
+          throw new Error('err')
+        },
+        data: () => ({
+          a: 1
+        })
+      }
+      const wrapper = mount(TestComponent)
+      const fn = () => {
+        wrapper.vm.a = 2
+      }
+      expect(fn).to.throw()
+      wrapper.destroy()
     }
-    const wrapper = mount(TestComponent)
-    const fn = () => {
-      wrapper.vm.a = 2
-    }
-    expect(fn).to.throw()
-    wrapper.destroy()
-  })
+  )
 })

@@ -62,5 +62,4 @@ config.methods = {
 config.provide = {
   foo: {}
 }
-config.logModifiedComponents = true
 config.silent = true

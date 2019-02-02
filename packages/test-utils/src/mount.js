@@ -10,10 +10,40 @@ import config from './config'
 import warnIfNoWindow from './warn-if-no-window'
 import createWrapper from './create-wrapper'
 import createLocalVue from './create-local-vue'
+import { warn } from 'shared/util'
+import semver from 'semver'
+import { COMPAT_SYNC_MODE } from 'shared/consts'
 import { validateOptions } from 'shared/validate-options'
 
 Vue.config.productionTip = false
 Vue.config.devtools = false
+
+function getSyncOption(syncOption) {
+  if (syncOption === false) {
+    Vue.config.async = true
+    return false
+  }
+  if (semver.lt(Vue.version, '2.5.18')) {
+    warn(
+      `Vue Test Utils runs in sync mode by default. Due to bugs, sync mode ` +
+        `requires Vue > 2.5.18. In Vue Test Utils 1.0 sync mode will only be ` +
+        `supported with Vue 2.5.18+ running in development mode. If you are ` +
+        `unable to upgrade, you should rewrite your tests to run asynchronously` +
+        `you can do this by setting the sync mounting option to false.`
+    )
+    return COMPAT_SYNC_MODE
+  }
+
+  if (typeof Vue.config.async === 'undefined') {
+    warn(
+      `Sync mode only works when Vue runs in dev mode. ` +
+        `Please set Vue to run in dev mode, or set sync to false`
+    )
+  }
+
+  Vue.config.async = false
+  return true
+}
 
 export default function mount(
   component: Component,
@@ -37,10 +67,11 @@ export default function mount(
   component._Ctor = {}
 
   throwIfInstancesThrew(vm)
+  const sync = getSyncOption(mergedOptions.sync)
 
   const wrapperOptions = {
     attachedToDocument: !!mergedOptions.attachToDocument,
-    sync: mergedOptions.sync
+    sync
   }
 
   const root = parentVm.$options._isFunctionalContainer

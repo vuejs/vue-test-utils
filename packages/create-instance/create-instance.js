@@ -72,9 +72,10 @@ export default function createInstance(
   componentOptions.$_vueTestUtils_original = component
 
   // make sure all extends are based on this instance
-  componentOptions._base = _Vue
 
   const Constructor = _Vue.extend(componentOptions).extend(instanceOptions)
+
+  Constructor.options._base = _Vue
 
   const scopedSlots = createScopedSlots(options.scopedSlots, _Vue)
 

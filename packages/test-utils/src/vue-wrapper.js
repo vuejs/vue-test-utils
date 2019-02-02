@@ -4,6 +4,7 @@ import Wrapper from './wrapper'
 import { throwError } from 'shared/util'
 import { setWatchersToSync } from './set-watchers-to-sync'
 import { orderWatchers } from './order-watchers'
+import { COMPAT_SYNC_MODE } from 'shared/consts'
 
 export default class VueWrapper extends Wrapper implements BaseWrapper {
   constructor(vm: Component, options: WrapperOptions) {
@@ -28,7 +29,7 @@ export default class VueWrapper extends Wrapper implements BaseWrapper {
       get: () => vm,
       set: () => throwError('wrapper.vm is read-only')
     })
-    if (options.sync) {
+    if (options.sync === COMPAT_SYNC_MODE) {
       setWatchersToSync(vm)
       orderWatchers(vm)
     }

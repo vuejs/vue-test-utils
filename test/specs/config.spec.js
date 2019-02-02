@@ -1,29 +1,28 @@
-import { describeWithShallowAndMount, vueVersion } from '~resources/utils'
+import { describeWithShallowAndMount } from '~resources/utils'
 import ComponentWithProps from '~resources/components/component-with-props.vue'
-import { itDoNotRunIf, itSkipIf } from 'conditional-specs'
+import { itDoNotRunIf } from 'conditional-specs'
 import {
   config,
   TransitionStub,
   TransitionGroupStub,
   createLocalVue
 } from '~vue/test-utils'
-import Vue from 'vue'
 
 describeWithShallowAndMount('config', mountingMethod => {
-  let configStubsSave, consoleError, configLogSave, configSilentSave
+  let configStubsSave, configLogSave, configSilentSave
 
   beforeEach(() => {
     configStubsSave = config.stubs
     configLogSave = config.logModifiedComponents
     configSilentSave = config.silent
-    consoleError = sinon.stub(console, 'error')
+    sinon.stub(console, 'error').callThrough()
   })
 
   afterEach(() => {
     config.stubs = configStubsSave
     config.logModifiedComponents = configLogSave
     config.silent = configSilentSave
-    consoleError.restore()
+    console.error.restore()
   })
 
   itDoNotRunIf(
@@ -150,7 +149,7 @@ describeWithShallowAndMount('config', mountingMethod => {
     wrapper.setProps({
       prop1: 'new value'
     })
-    expect(consoleError.called).to.equal(false)
+    expect(console.error).not.calledWith(sinon.match('[Vue warn]'))
   })
 
   it('does throw Vue warning when silent is set to false', () => {
@@ -166,25 +165,6 @@ describeWithShallowAndMount('config', mountingMethod => {
     wrapper.setProps({
       prop1: 'new value'
     })
-    expect(consoleError.called).to.equal(true)
+    expect(console.error).calledWith(sinon.match('[Vue warn]'))
   })
-
-  itSkipIf(
-    vueVersion < 2.3,
-    'does not log when component is extended if logModifiedComponents is false',
-    () => {
-      const ChildComponent = Vue.extend({
-        template: '<span />'
-      })
-      const TestComponent = {
-        template: '<child-component />',
-        components: {
-          ChildComponent
-        }
-      }
-      config.logModifiedComponents = false
-      mountingMethod(TestComponent)
-      expect(consoleError.called).to.equal(false)
-    }
-  )
 })

@@ -50,7 +50,6 @@ interface VueTestUtilsConfigOptions {
   mocks?: object
   methods?: Record<string, Function>
   provide?: object,
-  logModifiedComponents?: Boolean
   silent?: Boolean
 }
 

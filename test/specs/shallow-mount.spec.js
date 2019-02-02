@@ -149,7 +149,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
         }
       }
       shallowMount(TestComponent)
-      expect(console.error).not.called
+      expect(console.error).not.calledWith(sinon.match('[Vue warn]'))
     }
   )
 
@@ -254,7 +254,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
     }
     const wrapper = shallowMount(TestComponent)
     expect(wrapper.html()).to.contain('<test-component-stub>')
-    expect(console.error).not.called
+    expect(console.error).not.calledWith('[Vue warn]')
   })
 
   it('does not call stubbed children lifecycle hooks', () => {
