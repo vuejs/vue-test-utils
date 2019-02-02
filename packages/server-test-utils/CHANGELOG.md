@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.0.0-beta.29"></a>
+# [1.0.0-beta.29](https://github.com/vuejs/vue-test-utils/compare/v1.0.0-beta.28...v1.0.0-beta.29) (2019-02-02)
+
+
+### Bug Fixes
+
+* handle errors in destroy ([#1106](https://github.com/vuejs/vue-test-utils/issues/1106)) ([efab983](https://github.com/vuejs/vue-test-utils/commit/efab983))
+* use Vue async option for sync mode ([#1062](https://github.com/vuejs/vue-test-utils/issues/1062)) ([4c65dbd](https://github.com/vuejs/vue-test-utils/commit/4c65dbd))
+
+
+
+
 <a name="1.0.0-beta.28"></a>
 
 # [1.0.0-beta.28](https://github.com/vuejs/vue-test-utils/compare/v1.0.0-beta.27...v1.0.0-beta.28) (2018-12-29)
