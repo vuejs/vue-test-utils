@@ -28,7 +28,6 @@ export function mergeOptions(options: Options, config: Config): Options {
   return {
     ...options,
     provide: normalizeProvide(provide),
-    logModifiedComponents: config.logModifiedComponents,
     stubs: getOption(normalizeStubs(options.stubs), config.stubs),
     mocks,
     methods,
