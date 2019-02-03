@@ -1,31 +1,28 @@
 import { describeWithShallowAndMount } from '~resources/utils'
-import { compileToFunctions } from 'vue-template-compiler'
 import '~vue/test-utils'
 
 describeWithShallowAndMount('contains', mountingMethod => {
   it('returns true if every Wrapper contains element', () => {
-    const compiled = compileToFunctions(
-      '<span><div><p /></div><div><p /></div></span>'
-    )
-    const wrapper = mountingMethod(compiled)
+    const TestComponent = {
+      template: '<span><div><p /></div><div><p /></div></span>'
+    }
+    const wrapper = mountingMethod(TestComponent)
     const divArr = wrapper.findAll('div')
     expect(divArr.contains('p')).to.equal(true)
   })
 
   it('returns false if any Wrapper does not contain element', () => {
-    const compiled = compileToFunctions(
-      '<div><div></div><div><p /></div></div>'
-    )
-    const wrapper = mountingMethod(compiled)
+    const TestComponent = { template: '<div><div></div><div><p /></div></div>' }
+    const wrapper = mountingMethod(TestComponent)
     const divArr = wrapper.findAll('div')
     expect(divArr.contains('p')).to.equal(false)
   })
 
   it('throws error if wrapper array contains no items', () => {
-    const compiled = compileToFunctions('<div />')
+    const TestComponent = { template: '<div />' }
     const message = '[vue-test-utils]: contains cannot be called on 0 items'
     expect(() =>
-      mountingMethod(compiled)
+      mountingMethod(TestComponent)
         .findAll('p')
         .contains('p')
     )
@@ -34,8 +31,8 @@ describeWithShallowAndMount('contains', mountingMethod => {
   })
 
   it('throws error if selector is not a valid selector', () => {
-    const compiled = compileToFunctions('<div><p></p></div>')
-    const wrapper = mountingMethod(compiled)
+    const TestComponent = { template: '<div><p></p></div>' }
+    const wrapper = mountingMethod(TestComponent)
     const pArr = wrapper.findAll('p')
     const invalidSelectors = [
       undefined,

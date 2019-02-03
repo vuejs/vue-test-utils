@@ -21,6 +21,7 @@ function shouldExtend(component, _Vue) {
 function extend(component, _Vue) {
   const componentOptions = component.options ? component.options : component
   const stub = _Vue.extend(componentOptions)
+  componentOptions._Ctor = {}
   stub.options.$_vueTestUtils_original = component
   stub.options._base = _Vue
   return stub
