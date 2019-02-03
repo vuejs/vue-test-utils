@@ -149,7 +149,6 @@ interface VueTestUtilsConfigOptions {
   mocks?: Record<string, any>
   methods?: Record<string, Function>
   provide?: Record<string, any>,
-  logModifiedComponents?: Boolean
   silent?: Boolean
 }
 

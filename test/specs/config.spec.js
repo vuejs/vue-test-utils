@@ -11,19 +11,16 @@ import {
 describeWithShallowAndMount('config', mountingMethod => {
   const sandbox = sinon.createSandbox()
   let configStubsSave
-  let configLogSave
   let configSilentSave
 
   beforeEach(() => {
     configStubsSave = config.stubs
-    configLogSave = config.logModifiedComponents
     configSilentSave = config.silent
     sandbox.stub(console, 'error').callThrough()
   })
 
   afterEach(() => {
     config.stubs = configStubsSave
-    config.logModifiedComponents = configLogSave
     config.silent = configSilentSave
     sandbox.reset()
     sandbox.restore()

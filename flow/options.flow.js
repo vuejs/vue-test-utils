@@ -13,7 +13,6 @@ declare type Options = {
   attrs?: { [key: string]: string },
   listeners?: { [key: string]: Function | Array<Function> },
   parentComponent?: Object,
-  logModifiedComponents?: boolean,
   sync?: boolean,
   shouldProxy?: boolean
 }
@@ -32,7 +31,6 @@ declare type NormalizedOptions = {
   attrs?: { [key: string]: string },
   listeners?: { [key: string]: Function | Array<Function> },
   parentComponent?: Object,
-  logModifiedComponents?: boolean,
   sync: boolean,
   shouldProxy?: boolean
 }

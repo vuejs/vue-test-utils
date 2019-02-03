@@ -3,6 +3,5 @@ export default {
   mocks: {},
   methods: {},
   provide: {},
-  logModifiedComponents: true,
   silent: true
 }
