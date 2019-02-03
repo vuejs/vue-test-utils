@@ -26,7 +26,7 @@
     "test:unit:debug": "npm run build:test && node --inspect-brk node_modules/.bin/mocha-webpack --webpack-config test/setup/webpack.test.config.js test/specs --recursive --require test/setup/mocha.setup.js",
     "test:unit:karma": "npm run build:test && TARGET=browser karma start test/setup/karma.conf.js --single-run",
     "test:unit:node": "npm run build:test && npm run test:unit:node:only",
-    "test:unit:node:only": "TEST_ENV=node mocha-webpack --webpack-config test/setup/webpack.test.config.js test/specs --recursive --require test/setup/mocha.setup.js",
+    "test:unit:node:only": "cross-env TEST_ENV=node mocha-webpack --webpack-config test/setup/webpack.test.config.js test/specs --recursive --require test/setup/mocha.setup.js",
     "test:types": "tsc -p packages/test-utils/types && tsc -p packages/server-test-utils/types"
   },
   "devDependencies": {
@@ -60,7 +60,7 @@
     "karma-webpack": "^2.0.3",
     "lerna": "2",
     "markdown-it-include": "^1.0.0",
-    "mocha": "^3.5.0",
+    "mocha": "^5.2.0",
     "mocha-webpack": "^1.0.1",
     "prettier": "^1.16.0",
     "rollup": "^0.58.2",
