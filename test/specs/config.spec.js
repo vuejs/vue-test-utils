@@ -126,20 +126,6 @@ describeWithShallowAndMount('config', mountingMethod => {
     expect(wrapper.contains(TransitionStub)).to.equal(false)
   })
 
-  it("doesn't stub transition when config.stubs is set to a string", () => {
-    config.stubs = 'a string'
-    const testComponent = {
-      template: `
-        <div>
-          <transition-group><p key="1" /><p key="2" /></transition-group>
-        </div>
-      `
-    }
-    const wrapper = mountingMethod(testComponent)
-    expect(wrapper.contains(TransitionGroupStub)).to.equal(false)
-    expect(wrapper.contains(TransitionStub)).to.equal(false)
-  })
-
   it("doesn't throw Vue warning when silent is set to true", () => {
     config.silent = true
     const localVue = createLocalVue()

@@ -19,16 +19,27 @@ function getOption(option, config?: Object): any {
   }
 }
 
-export function mergeOptions(options: Options, config: Config): Options {
+function getStubs(stubs, configStubs): Object {
+  const normalizedStubs = normalizeStubs(stubs)
+  const normalizedConfigStubs = normalizeStubs(configStubs)
+  return getOption(normalizedStubs, normalizedConfigStubs)
+}
+
+export function mergeOptions(
+  options: Options,
+  config: Config
+): NormalizedOptions {
   const mocks = (getOption(options.mocks, config.mocks): Object)
   const methods = (getOption(options.methods, config.methods): {
     [key: string]: Function
   })
   const provide = (getOption(options.provide, config.provide): Object)
+  const stubs = (getStubs(options.stubs, config.stubs): Object)
+  // $FlowIgnore
   return {
     ...options,
     provide: normalizeProvide(provide),
-    stubs: getOption(normalizeStubs(options.stubs), config.stubs),
+    stubs,
     mocks,
     methods,
     sync: !!(options.sync || options.sync === undefined)

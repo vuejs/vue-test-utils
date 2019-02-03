@@ -41,7 +41,7 @@ function createChildren(vm, h, { slots, context }) {
 
 export default function createInstance(
   component: Component,
-  options: Options,
+  options: NormalizedOptions,
   _Vue: Component
 ): Component {
   const componentOptions = isConstructor(component)
