@@ -22,8 +22,8 @@ function getOption(option, config?: Object): any {
 
 function getStubs(stubs, configStubs): Object {
   const normalizedStubs = normalizeStubs(stubs)
-  const mergedStubs = getOption(normalizedStubs, configStubs)
-  return mergedStubs
+  const normalizedConfigStubs = normalizeStubs(configStubs)
+  return getOption(normalizedStubs, normalizedConfigStubs)
 }
 
 export function mergeOptions(

@@ -47,6 +47,26 @@ function getSyncOption(syncOption) {
   return true
 }
 
+function addTransitionStubs(options) {
+  if(config.stubs === false) {
+    return
+  }
+  if (
+    options.stubs &&
+    options.stubs.transition !== false &&
+    !options.stubs.transition
+  ) {
+    options.stubs.transition = TransitionStub
+  }
+  if (
+    options.stubs &&
+    options.stubs['transition-group'] !== false &&
+    !options.stubs['transition-group']
+  ) {
+    options.stubs['transition-group'] = TransitionGroupStub
+  }
+}
+
 export default function mount(
   component: Component,
   options: Options = {}
@@ -66,20 +86,7 @@ export default function mount(
   // behavior
   // TODO: Remove when compat sync mode is removed
   if (sync === COMPAT_SYNC_MODE) {
-    if (
-      mergeOptions.stubs &&
-      mergedOptions.stubs.transition !== false &&
-      !mergedOptions.stubs.transition
-    ) {
-      mergedOptions.stubs.transition = TransitionStub
-    }
-    if (
-      mergeOptions.stubs &&
-      mergedOptions.stubs['transition-group'] !== false &&
-      !mergedOptions.stubs['transition-group']
-    ) {
-      mergedOptions.stubs['transition-group'] = TransitionGroupStub
-    }
+    addTransitionStubs(mergedOptions)
   }
 
   const parentVm = createInstance(component, mergedOptions, _Vue)
