@@ -75,21 +75,6 @@ config.provide['$logger'] = {
 }
 ```
 
-### `logModifiedComponents`
-
-- 类型：`Boolean`
-- 默认值：`true`
-
-当被展开的子元素被自动化存根的时候记录下告警日志。设置为 `false` 时则会隐藏告警日志。和其它配置选项不同的是，它不能设置在挂载选项上。
-
-示例：
-
-```js
-import { config } from '@vue/test-utils'
-
-config.logModifiedComponents = false
-```
-
 ### `silent`
 
 - 类型：`Boolean`

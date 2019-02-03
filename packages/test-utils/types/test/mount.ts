@@ -100,7 +100,6 @@ config.provide = {
 config.provide['foo'] = {
   bar: {}
 }
-config.logModifiedComponents = true
 config.silent = true
 
 // Check we can use default export

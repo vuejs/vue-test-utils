@@ -74,21 +74,6 @@ config.provide['$logger'] = {
 }
 ```
 
-#### `logModifiedComponents`
-
-- 型: `Boolean`
-- デフォルト: `true`
-
-`Vue.extend() で拡張された子コンポーネントは自動的にスタブされます。その時、そのことを警告するログが表示されます。`false` をセットすると警告は表示されません。他の config のオプションと違って、マウティングオプションでセットすることはできません。
-
-例:
-
-```js
-import { config } from '@vue/test-utils'
-
-config.logModifiedComponents = false
-```
-
 ### `silent`
 
 - 型: `Boolean`
