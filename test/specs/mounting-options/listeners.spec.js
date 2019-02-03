@@ -14,7 +14,7 @@ describeWithShallowAndMount('options.listeners', mountingMethod => {
       const aListener = () => {}
       const wrapper = mountingMethod(
         {
-          template: '<p :id="aListener" />'
+          template: '<p :id="$listeners.aListener" />'
         },
         {
           listeners: {

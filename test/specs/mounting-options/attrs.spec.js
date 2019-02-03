@@ -15,7 +15,7 @@ describeWithMountingMethods('options.attrs', mountingMethod => {
     () => {
       if (!attrsSupported) return
       const TestComponent = {
-        template: '<p :id="anAttr" />'
+        template: '<p :id="$attrs.anAttr" />'
       }
       const wrapper = mountingMethod(TestComponent, {
         attrs: {

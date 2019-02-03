@@ -100,12 +100,12 @@ describeWithMountingMethods('options.stub', mountingMethod => {
       })
       const wrapper = mountingMethod(TestComponent, {
         stubs: {
-          ToStubComponent: { template: '<date />' }
+          ToStubComponent: { template: '<time />' }
         }
       })
       const HTML =
         mountingMethod.name === 'renderToString' ? wrapper : wrapper.html()
-      expect(HTML).contains('<date')
+      expect(HTML).contains('<time')
     }
   )
 

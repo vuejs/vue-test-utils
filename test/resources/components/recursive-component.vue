@@ -1,8 +1,8 @@
 <template>
   <div>
     <recursive-component
-      v-for="item in items"
-      :key="item"
+      v-for="(item, i) in items"
+      :key="i"
       :items="items ? items[0] : []"
       >{{ something }}</recursive-component
     >

@@ -238,6 +238,7 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
     'renders scoped slots in sync mode by default',
     () => {
       const TestComponent = {
+        template: '<div />',
         data() {
           return {
             val: null

@@ -102,7 +102,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     'handles extended components added to Vue constructor',
     () => {
       const ChildComponent = Vue.extend({
-        template: '<div />',
+        render: h => h('div'),
         mounted() {
           this.$route.params
         }
@@ -140,7 +140,6 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     if (
       !(navigator.userAgent.includes && navigator.userAgent.includes('node.js'))
     ) {
-      console.log('window read only. skipping test ...')
       return
     }
 
@@ -235,7 +234,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
   it('deletes mounting options before passing options to component', () => {
     const wrapper = mount(
       {
-        render: h => h('div')
+        template: '<div />'
       },
       {
         provide: {
@@ -250,7 +249,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
         },
         localVue: createLocalVue(),
         stubs: {
-          prop: 'val'
+          prop: { template: '<div />' }
         },
         attrs: {
           prop: 'val'

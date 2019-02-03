@@ -42,7 +42,6 @@ export default {
     mousedownHandler(event) {
       if (event.button === 0) {
         this.clickHandler()
-        console.info(event.defaultPrevented)
       }
     },
     toggleActive() {

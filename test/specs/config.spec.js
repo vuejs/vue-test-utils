@@ -116,7 +116,7 @@ describeWithShallowAndMount('config', mountingMethod => {
     const testComponent = {
       template: `
         <div>
-          <transition-group><p /><p /></transition-group>
+          <transition-group><p key="1"/><p key="2" /></transition-group>
         </div>
       `
     }
@@ -130,7 +130,7 @@ describeWithShallowAndMount('config', mountingMethod => {
     const testComponent = {
       template: `
         <div>
-          <transition-group><p /><p /></transition-group>
+          <transition-group><p key="1" /><p key="2" /></transition-group>
         </div>
       `
     }
