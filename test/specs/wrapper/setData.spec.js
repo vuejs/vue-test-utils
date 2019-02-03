@@ -4,14 +4,15 @@ import ComponentWithWatch from '~resources/components/component-with-watch.vue'
 import { describeWithShallowAndMount, vueVersion } from '~resources/utils'
 
 describeWithShallowAndMount('setData', mountingMethod => {
-  let info
+  const sandbox = sinon.createSandbox()
 
   beforeEach(() => {
-    info = sinon.stub(console, 'info')
+    sandbox.stub(console, 'info').callThrough()
   })
 
   afterEach(() => {
-    info.restore()
+    sandbox.reset()
+    sandbox.restore()
   })
 
   it('sets component data and updates nested vm nodes when called on Vue instance', () => {
@@ -47,7 +48,7 @@ describeWithShallowAndMount('setData', mountingMethod => {
     const wrapper = mountingMethod(ComponentWithWatch)
     const data1 = 'testest'
     wrapper.setData({ data2: 'newProp', data1 })
-    expect(info.args[1][0]).to.equal(data1)
+    expect(console.info.args[1][0]).to.equal(data1)
   })
 
   it('throws error if node is not a Vue instance', () => {

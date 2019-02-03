@@ -1,4 +1,3 @@
-import { compileToFunctions } from 'vue-template-compiler'
 import { listenersSupported } from '~resources/utils'
 import {
   describeWithShallowAndMount,
@@ -14,7 +13,9 @@ describeWithShallowAndMount('options.listeners', mountingMethod => {
     () => {
       const aListener = () => {}
       const wrapper = mountingMethod(
-        compileToFunctions('<p :id="aListener" />'),
+        {
+          template: '<p :id="$listeners.aListener" />'
+        },
         {
           listeners: {
             aListener
@@ -56,7 +57,7 @@ describeWithShallowAndMount('options.listeners', mountingMethod => {
     vueVersion < 2.5,
     'defines listeners as empty object even when not passed',
     () => {
-      const wrapper = mountingMethod(compileToFunctions('<p />'))
+      const wrapper = mountingMethod({ template: '<p />' })
       expect(wrapper.vm.$listeners).to.deep.equal({})
     }
   )

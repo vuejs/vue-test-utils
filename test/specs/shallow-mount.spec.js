@@ -12,14 +12,15 @@ import { vueVersion } from '~resources/utils'
 import { describeRunIf, itDoNotRunIf } from 'conditional-specs'
 
 describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
+  const sandbox = sinon.createSandbox()
   beforeEach(() => {
-    sinon.stub(console, 'info').callThrough()
-    sinon.stub(console, 'error').callThrough()
+    sandbox.stub(console, 'info').callThrough()
+    sandbox.stub(console, 'error').callThrough()
   })
 
   afterEach(() => {
-    console.info.restore()
-    console.error.restore()
+    sandbox.reset()
+    sandbox.restore()
   })
 
   it('returns new VueWrapper of Vue localVue if no options are passed', () => {
@@ -149,7 +150,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
         }
       }
       shallowMount(TestComponent)
-      expect(console.error).not.calledWith(sinon.match('[Vue warn]'))
+      expect(console.error).not.calledWith(sandbox.match('[Vue warn]'))
     }
   )
 
@@ -549,7 +550,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
       shallowMount(TestComponent)
       mount(TestComponent)
       expect(console.error).not.calledWith(
-        sinon.match('Unknown custom element')
+        sandbox.match('Unknown custom element')
       )
     }
   )

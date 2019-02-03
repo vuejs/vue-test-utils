@@ -89,7 +89,7 @@ describeWithMountingMethods('options.localVue', mountingMethod => {
     const Extends = {
       template: '<div />',
       created() {
-        console.log(this.$route.params)
+        this.$route.params
       }
     }
     const TestComponent = {

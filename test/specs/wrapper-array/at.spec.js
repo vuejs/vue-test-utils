@@ -1,11 +1,12 @@
 import { describeWithShallowAndMount } from '~resources/utils'
-import { compileToFunctions } from 'vue-template-compiler'
 import '~vue/test-utils'
 
 describeWithShallowAndMount('at', mountingMethod => {
   it('returns Wrapper at index', () => {
-    const compiled = compileToFunctions('<div><p /><p class="index-1"/></div>')
-    const p = mountingMethod(compiled)
+    const TestComponent = {
+      template: '<div><p /><p class="index-1"/></div>'
+    }
+    const p = mountingMethod(TestComponent)
       .findAll('p')
       .at(1)
     expect(p.vnode).to.be.an('object')
@@ -14,10 +15,12 @@ describeWithShallowAndMount('at', mountingMethod => {
 
   it('throws error if no item exists at index', () => {
     const index = 2
-    const compiled = compileToFunctions('<div><p /><p class="index-1"/></div>')
+    const TestComponent = {
+      template: '<div><p /><p class="index-1"/></div>'
+    }
     const message = `[vue-test-utils]: no item exists at ${index}`
     expect(() =>
-      mountingMethod(compiled)
+      mountingMethod(TestComponent)
         .findAll('p')
         .at(index)
     )

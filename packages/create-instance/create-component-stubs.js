@@ -65,9 +65,13 @@ function resolveOptions(component, _Vue) {
     return {}
   }
 
-  return isConstructor(component)
-    ? component.options
-    : _Vue.extend(component).options
+  if (isConstructor(component)) {
+    return component.options
+  }
+  const options = _Vue.extend(component).options
+  component._Ctor = {}
+
+  return options
 }
 
 export function createStubFromComponent(
@@ -165,6 +169,7 @@ export function createStubsFromStubsObject(
     }
 
     acc[stubName] = stub
+    stub._Ctor = {}
 
     return acc
   }, {})

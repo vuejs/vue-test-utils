@@ -4,14 +4,15 @@ import { TransitionStub } from '~vue/test-utils'
 import { itDoNotRunIf } from 'conditional-specs'
 
 describeWithShallowAndMount('TransitionStub', mountingMethod => {
-  let consoleError
+  const sandbox = sinon.createSandbox()
 
   beforeEach(() => {
-    consoleError = sinon.stub(console, 'error')
+    sandbox.stub(console, 'error').callThrough()
   })
 
   afterEach(() => {
-    consoleError.restore()
+    sandbox.reset()
+    sandbox.restore()
   })
 
   it('update synchronously when used as stubs for Transition', () => {
@@ -76,7 +77,7 @@ describeWithShallowAndMount('TransitionStub', mountingMethod => {
         transition: TransitionStub
       }
     })
-    expect(consoleError).calledWith(msg)
+    expect(console.error).calledWith(msg)
   })
 
   it('handles keyed transitions', () => {

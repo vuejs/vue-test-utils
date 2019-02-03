@@ -3,8 +3,15 @@ import ComponentWithEvents from '~resources/components/component-with-events.vue
 import { describeWithShallowAndMount } from '~resources/utils'
 
 describeWithShallowAndMount('trigger', mountingMethod => {
+  const sandbox = sinon.createSandbox()
+
+  afterEach(() => {
+    sandbox.reset()
+    sandbox.restore()
+  })
+
   it('causes click handler to fire when wrapper.trigger("click") is called on a Component', () => {
-    const clickHandler = sinon.stub()
+    const clickHandler = sandbox.stub()
     const wrapper = mountingMethod(ComponentWithEvents, {
       propsData: { clickHandler }
     })
@@ -15,7 +22,7 @@ describeWithShallowAndMount('trigger', mountingMethod => {
   })
 
   it('causes keydown handler to fire when wrapper.trigger("keydown") is fired on a Component', () => {
-    const keydownHandler = sinon.stub()
+    const keydownHandler = sandbox.stub()
     const wrapper = mountingMethod(ComponentWithEvents, {
       propsData: { keydownHandler }
     })
@@ -25,7 +32,7 @@ describeWithShallowAndMount('trigger', mountingMethod => {
   })
 
   it('causes keydown handler to fire when wrapper.trigger("keydown.enter") is fired on a Component', () => {
-    const keydownHandler = sinon.stub()
+    const keydownHandler = sandbox.stub()
     const wrapper = mountingMethod(ComponentWithEvents, {
       propsData: { keydownHandler }
     })

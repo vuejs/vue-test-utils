@@ -1,4 +1,3 @@
-import { compileToFunctions } from 'vue-template-compiler'
 import { attrsSupported } from '~resources/utils'
 import {
   describeWithMountingMethods,
@@ -15,7 +14,10 @@ describeWithMountingMethods('options.attrs', mountingMethod => {
     'handles inherit attrs',
     () => {
       if (!attrsSupported) return
-      const wrapper = mountingMethod(compileToFunctions('<p :id="anAttr" />'), {
+      const TestComponent = {
+        template: '<p :id="$attrs.anAttr" />'
+      }
+      const wrapper = mountingMethod(TestComponent, {
         attrs: {
           anAttr: 'an attribute'
         }
@@ -29,7 +31,7 @@ describeWithMountingMethods('options.attrs', mountingMethod => {
     mountingMethod.name === 'renderToString' || vueVersion < 2.5,
     'defines attrs as empty object even when not passed',
     () => {
-      const wrapper = mountingMethod(compileToFunctions('<p />'))
+      const wrapper = mountingMethod({ template: '<p />' })
       expect(wrapper.vm.$attrs).to.deep.equal({})
     }
   )
