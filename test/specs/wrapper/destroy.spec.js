@@ -1,27 +1,30 @@
 import { describeWithShallowAndMount } from '~resources/utils'
-import sinon from 'sinon'
 
 describeWithShallowAndMount('destroy', mountingMethod => {
+  const sandbox = sinon.createSandbox()
+
+  afterEach(sandbox.restore)
+
   it('triggers beforeDestroy ', () => {
-    const spy = sinon.stub()
+    const stub = sandbox.stub()
     mountingMethod({
       render: () => {},
       beforeDestroy() {
-        spy()
+        stub()
       }
     }).destroy()
-    expect(spy.calledOnce).to.equal(true)
+    expect(stub.calledOnce).to.equal(true)
   })
 
   it('triggers destroy ', () => {
-    const spy = sinon.stub()
+    const stub = sandbox.stub()
     mountingMethod({
       render: () => {},
       destroyed() {
-        spy()
+        stub()
       }
     }).destroy()
-    expect(spy.calledOnce).to.equal(true)
+    expect(stub.calledOnce).to.equal(true)
   })
 
   it('removes element from document.body', () => {

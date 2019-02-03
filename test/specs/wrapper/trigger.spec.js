@@ -9,18 +9,14 @@ import Vue from 'vue'
 import { itDoNotRunIf } from 'conditional-specs'
 
 describeWithShallowAndMount('trigger', mountingMethod => {
-  let info
-
-  beforeEach(() => {
-    info = sinon.stub(console, 'info')
-  })
+  const sandbox = sinon.createSandbox()
 
   afterEach(() => {
-    info.restore()
+    sandbox.restore()
   })
 
   it('causes click handler to fire when wrapper.trigger("click") is called on a Component', () => {
-    const clickHandler = sinon.stub()
+    const clickHandler = sandbox.stub()
     const wrapper = mountingMethod(ComponentWithEvents, {
       propsData: { clickHandler }
     })
@@ -31,7 +27,7 @@ describeWithShallowAndMount('trigger', mountingMethod => {
   })
 
   it('causes keydown handler to fire when wrapper.trigger("keydown") is fired on a Component', () => {
-    const keydownHandler = sinon.stub()
+    const keydownHandler = sandbox.stub()
     const wrapper = mountingMethod(ComponentWithEvents, {
       propsData: { keydownHandler }
     })
@@ -41,7 +37,7 @@ describeWithShallowAndMount('trigger', mountingMethod => {
   })
 
   it('causes keydown handler to fire when wrapper.trigger("keydown.enter") is fired on a Component', () => {
-    const keydownHandler = sinon.stub()
+    const keydownHandler = sandbox.stub()
     const wrapper = mountingMethod(ComponentWithEvents, {
       propsData: { keydownHandler }
     })
@@ -68,7 +64,7 @@ describeWithShallowAndMount('trigger', mountingMethod => {
       pageup: 33,
       pagedown: 34
     }
-    const keyupHandler = sinon.stub()
+    const keyupHandler = sandbox.stub()
     const wrapper = mountingMethod(ComponentWithEvents, {
       propsData: { keyupHandler }
     })
@@ -88,7 +84,7 @@ describeWithShallowAndMount('trigger', mountingMethod => {
   })
 
   it('adds options to event', () => {
-    const clickHandler = sinon.stub()
+    const clickHandler = sandbox.stub()
     const wrapper = mountingMethod(ComponentWithEvents, {
       propsData: { clickHandler }
     })
@@ -103,7 +99,7 @@ describeWithShallowAndMount('trigger', mountingMethod => {
   })
 
   it('adds custom data to events', () => {
-    const stub = sinon.stub()
+    const stub = sandbox.stub()
     const TestComponent = {
       template: '<div @update="callStub" />',
       methods: {
@@ -123,7 +119,7 @@ describeWithShallowAndMount('trigger', mountingMethod => {
   })
 
   it('does not fire on disabled elements', () => {
-    const clickHandler = sinon.stub()
+    const clickHandler = sandbox.stub()
     const TestComponent = {
       template: '<button disabled @click="clickHandler"/>',
       props: ['clickHandler']

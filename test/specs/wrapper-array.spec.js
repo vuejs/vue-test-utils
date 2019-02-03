@@ -2,6 +2,10 @@ import { Wrapper, WrapperArray } from '~vue/test-utils'
 import { describeWithShallowAndMount } from '~resources/utils'
 
 describeWithShallowAndMount('WrapperArray', mountingMethod => {
+  const sandbox = sinon.createSandbox()
+
+  afterEach(sandbox.restore)
+
   function getWrapperArray(wrappers) {
     if (!wrappers) {
       wrappers = [1, 2, 3].map(v => {
@@ -142,7 +146,7 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
 
   it('contains returns true if every wrapper.contains() returns true', () => {
     const selector = 'selector'
-    const contains = sinon.stub()
+    const contains = sandbox.stub()
     contains.withArgs(selector).returns(true)
     const wrapperArray = getWrapperArray([{ contains }, { contains }])
     expect(wrapperArray.contains(selector)).to.equal(true)
@@ -158,7 +162,7 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
 
   it('is returns true if every wrapper.is() returns true', () => {
     const selector = 'selector'
-    const is = sinon.stub()
+    const is = sandbox.stub()
     is.withArgs(selector).returns(true)
     const wrapperArray = getWrapperArray([{ is }, { is }])
     expect(wrapperArray.is(selector)).to.equal(true)
@@ -221,7 +225,7 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
   })
 
   it('setMethods calls setMethods on each wrapper', () => {
-    const setMethods = sinon.stub()
+    const setMethods = sandbox.stub()
     const methods = {}
     const wrapperArray = getWrapperArray([{ setMethods }, { setMethods }])
     wrapperArray.setMethods(methods)
@@ -230,7 +234,7 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
   })
 
   it('setData calls setData on each wrapper', () => {
-    const setData = sinon.stub()
+    const setData = sandbox.stub()
     const data = {}
     const wrapperArray = getWrapperArray([{ setData }, { setData }])
     wrapperArray.setData(data)
@@ -239,7 +243,7 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
   })
 
   it('setProps calls setProps on each wrapper', () => {
-    const setProps = sinon.stub()
+    const setProps = sandbox.stub()
     const props = {}
     const wrapperArray = getWrapperArray([{ setProps }, { setProps }])
     wrapperArray.setProps(props)
@@ -248,7 +252,7 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
   })
 
   it('trigger calls trigger on each wrapper', () => {
-    const trigger = sinon.stub()
+    const trigger = sandbox.stub()
     const event = 'click'
     const options = {}
     const wrapperArray = getWrapperArray([{ trigger }, { trigger }])
@@ -258,7 +262,7 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
   })
 
   it('destroy calls destroy on each wrapper', () => {
-    const destroy = sinon.stub()
+    const destroy = sandbox.stub()
     const wrapperArray = getWrapperArray([{ destroy }, { destroy }])
     wrapperArray.destroy()
     expect(destroy.calledTwice).to.equal(true)

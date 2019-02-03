@@ -4,10 +4,12 @@ import ComponentWithScopedSlots from '~resources/components/component-with-scope
 import { itDoNotRunIf } from 'conditional-specs'
 
 describeWithShallowAndMount('scopedSlots', mountingMethod => {
+  const sandbox = sinon.createSandbox()
   const windowSave = window
 
   afterEach(() => {
     window = windowSave // eslint-disable-line no-native-reassign
+    sandbox.restore()
   })
 
   itDoNotRunIf(vueVersion < 2.1, 'handles templates as the root node', () => {
@@ -248,7 +250,7 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
           return this.$scopedSlots.default(this.val)
         }
       }
-      const stub = sinon.stub()
+      const stub = sandbox.stub()
       mountingMethod(TestComponent, {
         scopedSlots: {
           default: stub

@@ -9,20 +9,23 @@ import {
 } from '~vue/test-utils'
 
 describeWithShallowAndMount('config', mountingMethod => {
-  let configStubsSave, configLogSave, configSilentSave
+  const sandbox = sinon.createSandbox()
+  let configStubsSave
+  let configLogSave
+  let configSilentSave
 
   beforeEach(() => {
     configStubsSave = config.stubs
     configLogSave = config.logModifiedComponents
     configSilentSave = config.silent
-    sinon.stub(console, 'error').callThrough()
+    sandbox.stub(console, 'error').callThrough()
   })
 
   afterEach(() => {
     config.stubs = configStubsSave
     config.logModifiedComponents = configLogSave
     config.silent = configSilentSave
-    console.error.restore()
+    sandbox.restore()
   })
 
   itDoNotRunIf(
@@ -149,7 +152,7 @@ describeWithShallowAndMount('config', mountingMethod => {
     wrapper.setProps({
       prop1: 'new value'
     })
-    expect(console.error).not.calledWith(sinon.match('[Vue warn]'))
+    expect(console.error).not.calledWith(sandbox.match('[Vue warn]'))
   })
 
   it('does throw Vue warning when silent is set to false', () => {
@@ -165,6 +168,6 @@ describeWithShallowAndMount('config', mountingMethod => {
     wrapper.setProps({
       prop1: 'new value'
     })
-    expect(console.error).calledWith(sinon.match('[Vue warn]'))
+    expect(console.error).calledWith(sandbox.match('[Vue warn]'))
   })
 })

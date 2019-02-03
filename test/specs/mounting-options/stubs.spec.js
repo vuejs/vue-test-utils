@@ -9,14 +9,11 @@ import { describeWithMountingMethods, vueVersion } from '~resources/utils'
 import { itDoNotRunIf, itSkipIf, itRunIf } from 'conditional-specs'
 
 describeWithMountingMethods('options.stub', mountingMethod => {
-  let info
-  let warn
+  const sandbox = sinon.createSandbox()
   let configStubsSave
   let serverConfigSave
 
   beforeEach(() => {
-    info = sinon.stub(console, 'info')
-    warn = sinon.stub(console, 'error')
     configStubsSave = config.stubs
     serverConfigSave = serverConfig.stubs
     config.stubs = {}
@@ -24,8 +21,7 @@ describeWithMountingMethods('options.stub', mountingMethod => {
   })
 
   afterEach(() => {
-    info.restore()
-    warn.restore()
+    sandbox.restore()
     config.stubs = configStubsSave
     serverConfig.stubs = serverConfigSave
   })
@@ -64,7 +60,7 @@ describeWithMountingMethods('options.stub', mountingMethod => {
     mountingMethod.name === 'renderToString',
     'replaces component with a component',
     () => {
-      const mounted = sinon.stub()
+      const mounted = sandbox.stub()
       const Stub = {
         template: '<div />',
         mounted

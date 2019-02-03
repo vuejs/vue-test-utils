@@ -1,14 +1,15 @@
-import sinon from 'sinon'
 import { describeWithShallowAndMount, vueVersion } from '~resources/utils'
 import { itDoNotRunIf } from 'conditional-specs'
 
 describeWithShallowAndMount('options.sync', mountingMethod => {
+  const sandbox = sinon.createSandbox()
+
   beforeEach(() => {
-    sinon.stub(console, 'error').callThrough()
+    sandbox.stub(console, 'error').callThrough()
   })
 
   afterEach(() => {
-    console.error.restore()
+    sandbox.restore()
   })
 
   it('sets watchers to sync if set to true', () => {
@@ -124,7 +125,7 @@ describeWithShallowAndMount('options.sync', mountingMethod => {
   })
 
   it('call updated when sync is not false', () => {
-    const childComponentSpy = sinon.stub()
+    const childComponentSpy = sandbox.stub()
     const ChildComponent = {
       template: '<div>{{ foo }}</div>',
       props: ['foo'],
@@ -132,7 +133,7 @@ describeWithShallowAndMount('options.sync', mountingMethod => {
         childComponentSpy()
       }
     }
-    const spy = sinon.stub()
+    const spy = sandbox.stub()
     const TestComponent = {
       template: '<div>{{ foo }}<child-component :foo="foo" /></div>',
       data() {

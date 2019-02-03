@@ -6,17 +6,18 @@ import { describeWithMountingMethods, vueVersion } from '~resources/utils'
 import { itDoNotRunIf, itSkipIf, itRunIf } from 'conditional-specs'
 
 describeWithMountingMethods('options.mocks', mountingMethod => {
+  const sandbox = sinon.createSandbox()
   let configMocksSave
 
   beforeEach(() => {
     configMocksSave = config.mocks
     config.mocks = {}
-    sinon.stub(console, 'error')
+    sandbox.stub(console, 'error').callThrough()
   })
 
   afterEach(() => {
     config.mocks = configMocksSave
-    console.error.restore()
+    sandbox.restore()
   })
 
   it('adds variables to vm when passed', () => {
@@ -69,7 +70,7 @@ describeWithMountingMethods('options.mocks', mountingMethod => {
     mountingMethod.name === 'renderToString',
     'adds variables as reactive properties to vm when passed',
     () => {
-      const stub = sinon.stub()
+      const stub = sandbox.stub()
       const $reactiveMock = { value: 'value' }
       const wrapper = mountingMethod(
         {

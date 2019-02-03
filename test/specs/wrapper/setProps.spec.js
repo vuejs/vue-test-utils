@@ -5,14 +5,13 @@ import { describeWithShallowAndMount, vueVersion } from '~resources/utils'
 import { itDoNotRunIf } from 'conditional-specs'
 
 describeWithShallowAndMount('setProps', mountingMethod => {
-  let info
-
+  const sandbox = sinon.createSandbox()
   beforeEach(() => {
-    info = sinon.stub(console, 'info')
+    sandbox.stub(console, 'info').callThrough()
   })
 
   afterEach(() => {
-    info.restore()
+    sandbox.restore()
   })
 
   it('sets component props and updates DOM when called on Vue instance', () => {
@@ -121,7 +120,7 @@ describeWithShallowAndMount('setProps', mountingMethod => {
     const wrapper = mountingMethod(ComponentWithWatch)
     const prop1 = 'testest'
     wrapper.setProps({ prop2: 'newProp', prop1 })
-    expect(info.args[1][0]).to.equal(prop1)
+    expect(console.info.args[1][0]).to.equal(prop1)
   })
 
   it('should not run watchers if prop updated is null', () => {
