@@ -27,7 +27,7 @@ declare type NormalizedOptions = {
   scopedSlots?: { [key: string]: string | Function },
   localVue?: Component,
   provide?: Object | Function,
-  stubs: { [name: string]: Component | true | string },
+  stubs: { [name: string]: Component | true | string } | boolean,
   context?: Object,
   attrs?: { [key: string]: string },
   listeners?: { [key: string]: Function | Array<Function> },

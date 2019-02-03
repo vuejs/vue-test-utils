@@ -67,12 +67,14 @@ export default function mount(
   // TODO: Remove when compat sync mode is removed
   if (sync === COMPAT_SYNC_MODE) {
     if (
+      mergeOptions.stubs &&
       mergedOptions.stubs.transition !== false &&
       !mergedOptions.stubs.transition
     ) {
       mergedOptions.stubs.transition = TransitionStub
     }
     if (
+      mergeOptions.stubs &&
       mergedOptions.stubs['transition-group'] !== false &&
       !mergedOptions.stubs['transition-group']
     ) {

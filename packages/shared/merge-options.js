@@ -23,7 +23,7 @@ function getOption(option, config?: Object): any {
 function getStubs(stubs, configStubs): Object {
   const normalizedStubs = normalizeStubs(stubs)
   const mergedStubs = getOption(normalizedStubs, configStubs)
-  return isPlainObject(mergedStubs) ? mergedStubs : {}
+  return mergedStubs
 }
 
 export function mergeOptions(
@@ -36,7 +36,6 @@ export function mergeOptions(
   })
   const provide = (getOption(options.provide, config.provide): Object)
   const stubs = (getStubs(options.stubs, config.stubs): Object)
-  // $FlowIgnore We know that stubs will be an object
   return {
     ...options,
     provide: normalizeProvide(provide),
