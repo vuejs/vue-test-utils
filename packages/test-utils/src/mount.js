@@ -14,6 +14,8 @@ import { warn } from 'shared/util'
 import semver from 'semver'
 import { COMPAT_SYNC_MODE } from 'shared/consts'
 import { validateOptions } from 'shared/validate-options'
+import TransitionGroupStub from './components/TransitionGroupStub'
+import TransitionStub from './components/TransitionStub'
 
 Vue.config.productionTip = false
 Vue.config.devtools = false
@@ -56,8 +58,27 @@ export default function mount(
   const _Vue = createLocalVue(options.localVue)
 
   const mergedOptions = mergeOptions(options, config)
+  const sync = getSyncOption(mergedOptions.sync)
 
   validateOptions(mergedOptions, component)
+
+  // Stub transition and transition-group if in compat sync mode to keep old
+  // behavior
+  // TODO: Remove when compat sync mode is removed
+  if (sync === COMPAT_SYNC_MODE) {
+    if (
+      mergedOptions.stubs.transition !== false &&
+      !mergedOptions.stubs.transition
+    ) {
+      mergedOptions.stubs.transition = TransitionStub
+    }
+    if (
+      mergedOptions.stubs['transition-group'] !== false &&
+      !mergedOptions.stubs['transition-group']
+    ) {
+      mergedOptions.stubs['transition-group'] = TransitionGroupStub
+    }
+  }
 
   const parentVm = createInstance(component, mergedOptions, _Vue)
 
@@ -67,7 +88,6 @@ export default function mount(
   component._Ctor = {}
 
   throwIfInstancesThrew(vm)
-  const sync = getSyncOption(mergedOptions.sync)
 
   const wrapperOptions = {
     attachedToDocument: !!mergedOptions.attachToDocument,
