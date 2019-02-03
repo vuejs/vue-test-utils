@@ -5,7 +5,10 @@ import { describeWithShallowAndMount } from '~resources/utils'
 describeWithShallowAndMount('trigger', mountingMethod => {
   const sandbox = sinon.createSandbox()
 
-  afterEach(sandbox.restore)
+  afterEach(() => {
+    sandbox.reset()
+    sandbox.restore()
+  })
 
   it('causes click handler to fire when wrapper.trigger("click") is called on a Component', () => {
     const clickHandler = sandbox.stub()

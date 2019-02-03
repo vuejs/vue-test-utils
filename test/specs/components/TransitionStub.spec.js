@@ -10,6 +10,7 @@ describeWithShallowAndMount('TransitionStub', mountingMethod => {
   })
 
   afterEach(() => {
+    sandbox.reset()
     sandbox.restore()
   })
 

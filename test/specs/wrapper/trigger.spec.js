@@ -12,6 +12,7 @@ describeWithShallowAndMount('trigger', mountingMethod => {
   const sandbox = sinon.createSandbox()
 
   afterEach(() => {
+    sandbox.reset()
     sandbox.restore()
   })
 

@@ -19,8 +19,8 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
   })
 
   afterEach(() => {
-    console.info.restore()
-    console.error.restore()
+    sandbox.reset()
+    sandbox.restore()
   })
 
   it('returns new VueWrapper of Vue localVue if no options are passed', () => {

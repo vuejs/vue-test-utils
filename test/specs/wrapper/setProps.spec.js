@@ -11,6 +11,7 @@ describeWithShallowAndMount('setProps', mountingMethod => {
   })
 
   afterEach(() => {
+    sandbox.reset()
     sandbox.restore()
   })
 

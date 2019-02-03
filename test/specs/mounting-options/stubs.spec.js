@@ -21,6 +21,7 @@ describeWithMountingMethods('options.stub', mountingMethod => {
   })
 
   afterEach(() => {
+    sandbox.reset()
     sandbox.restore()
     config.stubs = configStubsSave
     serverConfig.stubs = serverConfigSave

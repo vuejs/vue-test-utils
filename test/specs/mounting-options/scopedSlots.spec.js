@@ -9,6 +9,7 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
 
   afterEach(() => {
     window = windowSave // eslint-disable-line no-native-reassign
+    sandbox.reset()
     sandbox.restore()
   })
 

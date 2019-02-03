@@ -25,6 +25,7 @@ describeWithShallowAndMount('config', mountingMethod => {
     config.stubs = configStubsSave
     config.logModifiedComponents = configLogSave
     config.silent = configSilentSave
+    sandbox.reset()
     sandbox.restore()
   })
 

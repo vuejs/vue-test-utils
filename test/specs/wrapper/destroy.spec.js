@@ -3,7 +3,10 @@ import { describeWithShallowAndMount } from '~resources/utils'
 describeWithShallowAndMount('destroy', mountingMethod => {
   const sandbox = sinon.createSandbox()
 
-  afterEach(sandbox.restore)
+  afterEach(() => {
+    sandbox.reset()
+    sandbox.restore()
+  })
 
   it('triggers beforeDestroy ', () => {
     const stub = sandbox.stub()

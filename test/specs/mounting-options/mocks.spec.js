@@ -17,6 +17,7 @@ describeWithMountingMethods('options.mocks', mountingMethod => {
 
   afterEach(() => {
     config.mocks = configMocksSave
+    sandbox.reset()
     sandbox.restore()
   })
 

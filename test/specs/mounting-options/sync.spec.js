@@ -9,6 +9,7 @@ describeWithShallowAndMount('options.sync', mountingMethod => {
   })
 
   afterEach(() => {
+    sandbox.reset()
     sandbox.restore()
   })
 

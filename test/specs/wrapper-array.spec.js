@@ -4,7 +4,10 @@ import { describeWithShallowAndMount } from '~resources/utils'
 describeWithShallowAndMount('WrapperArray', mountingMethod => {
   const sandbox = sinon.createSandbox()
 
-  afterEach(sandbox.restore)
+  afterEach(() => {
+    sandbox.reset()
+    sandbox.restore()
+  })
 
   function getWrapperArray(wrappers) {
     if (!wrappers) {
