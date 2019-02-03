@@ -1,7 +1,7 @@
 <template>
   <transition-group>
-    <div>{{ a }}</div>
-    <div></div>
+    <div key="123">{{ a }}</div>
+    <div key="124"></div>
   </transition-group>
 </template>
 

@@ -1,6 +1,7 @@
 import ComponentWithTransition from '~resources/components/component-with-transition.vue'
-import { describeWithShallowAndMount } from '~resources/utils'
+import { describeWithShallowAndMount, vueVersion } from '~resources/utils'
 import { TransitionStub } from '~vue/test-utils'
+import { itDoNotRunIf } from 'conditional-specs'
 
 describeWithShallowAndMount('TransitionStub', mountingMethod => {
   let consoleError
@@ -23,6 +24,18 @@ describeWithShallowAndMount('TransitionStub', mountingMethod => {
     wrapper.setData({ a: 'b' })
     expect(wrapper.text()).contains('b')
   })
+
+  itDoNotRunIf(
+    vueVersion < 2.5,
+    'does not stub Transition, but applies synchronously in Vue > 2.5.18',
+    () => {
+      const wrapper = mountingMethod(ComponentWithTransition)
+      expect(wrapper.find(TransitionStub).exists()).to.equal(false)
+      expect(wrapper.text()).contains('a')
+      wrapper.setData({ a: 'b' })
+      expect(wrapper.text()).contains('b')
+    }
+  )
 
   it('does not add v-leave class to children', () => {
     const TestComponent = {

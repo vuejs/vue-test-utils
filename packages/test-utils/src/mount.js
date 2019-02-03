@@ -1,7 +1,4 @@
-// @flow
-
 import Vue from 'vue'
-import VueWrapper from './vue-wrapper'
 import createInstance from 'create-instance'
 import createElement from './create-element'
 import { throwIfInstancesThrew, addGlobalErrorHandler } from './error'
@@ -14,6 +11,8 @@ import { warn } from 'shared/util'
 import semver from 'semver'
 import { COMPAT_SYNC_MODE } from 'shared/consts'
 import { validateOptions } from 'shared/validate-options'
+import TransitionGroupStub from './components/TransitionGroupStub'
+import TransitionStub from './components/TransitionStub'
 
 Vue.config.productionTip = false
 Vue.config.devtools = false
@@ -45,10 +44,27 @@ function getSyncOption(syncOption) {
   return true
 }
 
-export default function mount(
-  component: Component,
-  options: Options = {}
-): VueWrapper | Wrapper {
+function addTransitionStubs(options) {
+  if (config.stubs === false) {
+    return
+  }
+  if (
+    options.stubs &&
+    options.stubs.transition !== false &&
+    !options.stubs.transition
+  ) {
+    options.stubs.transition = TransitionStub
+  }
+  if (
+    options.stubs &&
+    options.stubs['transition-group'] !== false &&
+    !options.stubs['transition-group']
+  ) {
+    options.stubs['transition-group'] = TransitionGroupStub
+  }
+}
+
+export default function mount(component, options = {}) {
   warnIfNoWindow()
 
   addGlobalErrorHandler(Vue)
@@ -56,8 +72,16 @@ export default function mount(
   const _Vue = createLocalVue(options.localVue)
 
   const mergedOptions = mergeOptions(options, config)
+  const sync = getSyncOption(mergedOptions.sync)
 
   validateOptions(mergedOptions, component)
+
+  // Stub transition and transition-group if in compat sync mode to keep old
+  // behavior
+  // TODO: Remove when compat sync mode is removed
+  if (sync === COMPAT_SYNC_MODE) {
+    addTransitionStubs(mergedOptions)
+  }
 
   const parentVm = createInstance(component, mergedOptions, _Vue)
 
@@ -67,7 +91,6 @@ export default function mount(
   component._Ctor = {}
 
   throwIfInstancesThrew(vm)
-  const sync = getSyncOption(mergedOptions.sync)
 
   const wrapperOptions = {
     attachedToDocument: !!mergedOptions.attachToDocument,
