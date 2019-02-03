@@ -1,6 +1,5 @@
 // @flow
 import { normalizeStubs, normalizeProvide } from './normalize'
-import { isPlainObject } from './validators'
 
 function getOption(option, config?: Object): any {
   if (option === false) {
@@ -36,6 +35,7 @@ export function mergeOptions(
   })
   const provide = (getOption(options.provide, config.provide): Object)
   const stubs = (getStubs(options.stubs, config.stubs): Object)
+  // $FlowIgnore
   return {
     ...options,
     provide: normalizeProvide(provide),

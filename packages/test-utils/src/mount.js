@@ -1,7 +1,4 @@
-// @flow
-
 import Vue from 'vue'
-import VueWrapper from './vue-wrapper'
 import createInstance from 'create-instance'
 import createElement from './create-element'
 import { throwIfInstancesThrew, addGlobalErrorHandler } from './error'
@@ -48,7 +45,7 @@ function getSyncOption(syncOption) {
 }
 
 function addTransitionStubs(options) {
-  if(config.stubs === false) {
+  if (config.stubs === false) {
     return
   }
   if (
@@ -67,10 +64,7 @@ function addTransitionStubs(options) {
   }
 }
 
-export default function mount(
-  component: Component,
-  options: Options = {}
-): VueWrapper | Wrapper {
+export default function mount(component, options = {}) {
   warnIfNoWindow()
 
   addGlobalErrorHandler(Vue)
