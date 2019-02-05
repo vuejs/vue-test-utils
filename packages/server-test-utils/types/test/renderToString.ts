@@ -4,7 +4,7 @@ import { normalOptions, functionalOptions, Normal, ClassComponent } from './reso
 
 const store = new Vuex.Store({})
 
-render(
+const renderResult: Cheerio = render(
   {
     template: '<p>foo</p>'
   },
