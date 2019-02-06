@@ -30,7 +30,7 @@ $ vue create hello-world
 
 ### 设置 Jest
 
-Jest 是一个由 Facebook 研发的测试运行器，它致力于提供一个低能耗的测试解决方案。你可以在其[官方文档](https://facebook.github.io/jest/)中了解更多 Jest 的情况。
+Jest 是一个由 Facebook 研发的测试运行器，它致力于提供一个低能耗的测试解决方案。你可以在其[官方文档](https://jestjs.io/)中了解更多 Jest 的情况。
 
 安装 Jest 和 Vue Test Utils：
 
@@ -154,4 +154,4 @@ describe('HelloWorld.vue', () => {
 ### 相关资料
 
 - [该设置的示例工程](https://github.com/vuejs/vue-test-utils-typescript-example)
-- [Jest](https://facebook.github.io/jest/)
+- [Jest](https://jestjs.io/)

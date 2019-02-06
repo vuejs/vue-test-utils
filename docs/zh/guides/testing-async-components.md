@@ -2,7 +2,7 @@
 
 为了让测试变得简单，`@vue/test-utils` *同步*应用 DOM 更新。不过当测试一个带有回调或 Promise 等异步行为的组件时，你需要留意一些技巧。
 
-API 调用和 Vuex action 都是最常见的异步行为之一。下列例子展示了如何测试一个会调用到 API 的方法。这个例子使用 Jest 运行测试用例同时模拟了 HTTP 库 `axios`。更多关于 Jest 的手动模拟的介绍可移步[这里](https://facebook.github.io/jest/docs/en/manual-mocks.html#content)。
+API 调用和 Vuex action 都是最常见的异步行为之一。下列例子展示了如何测试一个会调用到 API 的方法。这个例子使用 Jest 运行测试用例同时模拟了 HTTP 库 `axios`。更多关于 Jest 的手动模拟的介绍可移步[这里](https://jestjs.io/docs/en/manual-mocks.html#content)。
 
 `axios` 的模拟实现大概是这个样子的：
 

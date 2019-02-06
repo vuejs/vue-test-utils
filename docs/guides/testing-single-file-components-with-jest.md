@@ -2,7 +2,7 @@
 
 > An example project for this setup is available on [GitHub](https://github.com/vuejs/vue-test-utils-jest-example).
 
-Jest is a test runner developed by Facebook, aiming to deliver a battery-included unit testing solution. You can learn more about Jest on its [official documentation](https://facebook.github.io/jest/).
+Jest is a test runner developed by Facebook, aiming to deliver a battery-included unit testing solution. You can learn more about Jest on its [official documentation](https://jestjs.io/).
 
 #### Setting up Jest
 
@@ -122,7 +122,7 @@ Example `.babelrc`:
 
 ### Placing Test Files
 
-By default, Jest will recursively pick up all files that have a `.spec.js` or `.test.js` extension in the entire project. If this does not fit your needs, it's possible [to change the `testRegex`](https://facebook.github.io/jest/docs/en/configuration.html#testregex-string) in the config section in the `package.json` file.
+By default, Jest will recursively pick up all files that have a `.spec.js` or `.test.js` extension in the entire project. If this does not fit your needs, it's possible [to change the `testRegex`](https://jestjs.io/docs/en/configuration.html#testregex-string) in the config section in the `package.json` file.
 
 Jest recommends creating a `__tests__` directory right next to the code being tested, but feel free to structure your tests as you see fit. Just beware that Jest would create a `__snapshots__` directory next to test files that performs snapshot testing.
 
@@ -130,7 +130,7 @@ Jest recommends creating a `__tests__` directory right next to the code being te
 
 Jest can be used to generate coverage reports in multiple formats. The following is a simple example to get started with:
 
-Extend your `jest` config (usually in `package.json` or `jest.config.js`) with the [`collectCoverage`](https://facebook.github.io/jest/docs/en/configuration.html#collectcoverage-boolean) option, and then add the [`collectCoverageFrom`](https://facebook.github.io/jest/docs/en/configuration.html#collectcoveragefrom-array) array to define the files for which coverage information should be collected.
+Extend your `jest` config (usually in `package.json` or `jest.config.js`) with the [`collectCoverage`](https://jestjs.io/docs/en/configuration.html#collectcoverage-boolean) option, and then add the [`collectCoverageFrom`](https://jestjs.io/docs/en/configuration.html#collectcoveragefrom-array) array to define the files for which coverage information should be collected.
 
 ```json
 {
@@ -142,7 +142,7 @@ Extend your `jest` config (usually in `package.json` or `jest.config.js`) with t
 }
 ```
 
-This will enable coverage reports with the [default coverage reporters](https://facebook.github.io/jest/docs/en/configuration.html#coveragereporters-array-string). You can customise these with the `coverageReporters` option:
+This will enable coverage reports with the [default coverage reporters](https://jestjs.io/docs/en/configuration.html#coveragereporters-array-string). You can customise these with the `coverageReporters` option:
 
 ```json
 {
@@ -153,11 +153,11 @@ This will enable coverage reports with the [default coverage reporters](https://
 }
 ```
 
-Further documentation can be found in the [Jest configuration documentation](https://facebook.github.io/jest/docs/en/configuration.html#collectcoverage-boolean), where you can find options for coverage thresholds, target output directories, etc.
+Further documentation can be found in the [Jest configuration documentation](https://jestjs.io/docs/en/configuration.html#collectcoverage-boolean), where you can find options for coverage thresholds, target output directories, etc.
 
 ### Example Spec
 
-If you are familiar with Jasmine, you should feel right at home with Jest's [assertion API](https://facebook.github.io/jest/docs/en/expect.html#content):
+If you are familiar with Jasmine, you should feel right at home with Jest's [assertion API](https://jestjs.io/docs/en/expect.html#content):
 
 ```js
 import { mount } from '@vue/test-utils'
@@ -173,7 +173,7 @@ describe('Component', () => {
 
 ### Snapshot Testing
 
-When you mount a component with Vue Test Utils, you get access to the root HTML element. This can be saved as a snapshot for [Jest snapshot testing](https://facebook.github.io/jest/docs/en/snapshot-testing.html):
+When you mount a component with Vue Test Utils, you get access to the root HTML element. This can be saved as a snapshot for [Jest snapshot testing](https://jestjs.io/docs/en/snapshot-testing.html):
 
 ```js
 test('renders correctly', () => {
@@ -205,5 +205,5 @@ Then configure it in `package.json`:
 
 - [Example project for this setup](https://github.com/vuejs/vue-test-utils-jest-example)
 - [Examples and slides from Vue Conf 2017](https://github.com/codebryo/vue-testing-with-jest-conf17)
-- [Jest](https://facebook.github.io/jest/)
+- [Jest](https://jestjs.io/)
 - [Babel preset env](https://github.com/babel/babel-preset-env)

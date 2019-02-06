@@ -2,7 +2,7 @@
 
 > 我们在 [GitHub](https://github.com/vuejs/vue-test-utils-jest-example) 上放有一个关于这些设置的示例工程。
 
-Jest 是一个由 Facebook 开发的测试运行器，致力于提供一个“bettery-included”单元测试解决方案。你可以在其[官方文档](https://facebook.github.io/jest/)学习到更多 Jest 的知识。
+Jest 是一个由 Facebook 开发的测试运行器，致力于提供一个“bettery-included”单元测试解决方案。你可以在其[官方文档](https://jestjs.io/)学习到更多 Jest 的知识。
 
 ### 安装 Jest
 
@@ -120,7 +120,7 @@ npm install --save-dev babel-jest
 
 ### 放置测试文件
 
-默认情况下，Jest 将会递归的找到整个工程里所有 `.spec.js` 或 `.test.js` 扩展名的文件。如果这不符合你的需求，你也可以在 `package.json` 里的配置段落中[改变它的 `testRegex`](https://facebook.github.io/jest/docs/en/configuration.html#testregex-string)。
+默认情况下，Jest 将会递归的找到整个工程里所有 `.spec.js` 或 `.test.js` 扩展名的文件。如果这不符合你的需求，你也可以在 `package.json` 里的配置段落中[改变它的 `testRegex`](https://jestjs.io/docs/en/configuration.html#testregex-string)。
 
 Jest 推荐你在被测试代码的所在目录下创建一个 `__tests__` 目录，但你也可以为你的测试文件随意设计自己习惯的文件结构。不过要当心 Jest 会为快照测试在临近测试文件的地方创建一个 `__snapshots__` 目录。
 
@@ -128,7 +128,7 @@ Jest 推荐你在被测试代码的所在目录下创建一个 `__tests__` 目�
 
 Jest 可以被用来生成多种格式的测试覆盖率报告。以下是一个简单的起步的例子：
 
-扩展你的 `jest` 配置 (通常在 `package.json` 或 `jest.config.js` 中) 的 [`collectCoverage`](https://facebook.github.io/jest/docs/en/configuration.html#collectcoverage-boolean) 选项，然后添加 [`collectCoverageFrom`](https://facebook.github.io/jest/docs/en/configuration.html#collectcoveragefrom-array) 数组来定义需要收集测试覆盖率信息的文件。
+扩展你的 `jest` 配置 (通常在 `package.json` 或 `jest.config.js` 中) 的 [`collectCoverage`](https://jestjs.io/docs/en/configuration.html#collectcoverage-boolean) 选项，然后添加 [`collectCoverageFrom`](https://jestjs.io/docs/en/configuration.html#collectcoveragefrom-array) 数组来定义需要收集测试覆盖率信息的文件。
 
 ```json
 {
@@ -140,7 +140,7 @@ Jest 可以被用来生成多种格式的测试覆盖率报告。以下是一个
 }
 ```
 
-这样就会开启[默认格式的测试覆盖率报告](https://facebook.github.io/jest/docs/en/configuration.html#coveragereporters-array-string)。你可以通过 `coverageReporters` 选项来定制它们。
+这样就会开启[默认格式的测试覆盖率报告](https://jestjs.io/docs/en/configuration.html#coveragereporters-array-string)。你可以通过 `coverageReporters` 选项来定制它们。
 
 ```json
 {
@@ -151,11 +151,11 @@ Jest 可以被用来生成多种格式的测试覆盖率报告。以下是一个
 }
 ```
 
-更多文档内容请移步至 [Jest 配置文档](https://facebook.github.io/jest/docs/en/configuration.html#collectcoverage-boolean)，在那里你可以找到覆盖率阀值、目标输出目录等选项。
+更多文档内容请移步至 [Jest 配置文档](https://jestjs.io/docs/en/configuration.html#collectcoverage-boolean)，在那里你可以找到覆盖率阀值、目标输出目录等选项。
 
 ### 测试规范示例
 
-如果你已经熟悉了 Jasmine，你应该很适应 Jest 的[断言 API](https://facebook.github.io/jest/docs/en/expect.html#content)：
+如果你已经熟悉了 Jasmine，你应该很适应 Jest 的[断言 API](https://jestjs.io/docs/en/expect.html#content)：
 
 ```js
 import { mount } from '@vue/test-utils'
@@ -171,7 +171,7 @@ describe('Component', () => {
 
 ### 快照测试
 
-当你用 Vue Test Utils 挂载一个组件时，你可以访问到 HTML 根元素。这可以保存为一个快照为 [Jest 快照测试](https://facebook.github.io/jest/docs/en/snapshot-testing.html)所用。
+当你用 Vue Test Utils 挂载一个组件时，你可以访问到 HTML 根元素。这可以保存为一个快照为 [Jest 快照测试](https://jestjs.io/docs/en/snapshot-testing.html)所用。
 
 ```js
 test('renders correctly', () => {
@@ -203,5 +203,5 @@ npm install --save-dev jest-serializer-vue
 
 - [该设置的示例工程](https://github.com/vuejs/vue-test-utils-jest-example)
 - [Vue Conf 2017 中的示例和幻灯片](https://github.com/codebryo/vue-testing-with-jest-conf17)
-- [Jest](https://facebook.github.io/jest/)
+- [Jest](https://jestjs.io/)
 - [Babel preset env](https://github.com/babel/babel-preset-env)

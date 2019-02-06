@@ -94,7 +94,7 @@ What’s happening here? First we tell Vue to use Vuex with the `localVue.use` m
 
 We then make a mock store by calling `new Vuex.Store` with our mock values. We only pass it the actions, since that’s all we care about.
 
-The actions are [jest mock functions](https://facebook.github.io/jest/docs/en/mock-functions.html). These mock functions give us methods to assert whether the actions were called or not.
+The actions are [jest mock functions](https://jestjs.io/docs/en/mock-functions.html). These mock functions give us methods to assert whether the actions were called or not.
 
 We can then assert in our tests that the action stub was called when expected.
 

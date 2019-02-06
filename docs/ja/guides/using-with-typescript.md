@@ -30,7 +30,7 @@ Vue と TypeScript を一緒に使うためのセットアップの詳細は、 
 
 ### Jest のセットアップ
 
-Jest はバッテリー付属のユニットテストソリューションを提供するために Facebook が開発したテストランナです。 Jest の詳細については[公式ドキュメント](https://facebook.github.io/jest/) を参照してください。
+Jest はバッテリー付属のユニットテストソリューションを提供するために Facebook が開発したテストランナです。 Jest の詳細については[公式ドキュメント](https://jestjs.io/) を参照してください。
 
 Jest と Vue Test Utils をインストールします。
 
@@ -154,4 +154,4 @@ describe('HelloWorld.vue', () => {
 ### リソース
 
 - [この記事のサンプルプロジェクト](https://github.com/vuejs/vue-test-utils-typescript-example)
-- [Jest](https://facebook.github.io/jest/)
+- [Jest](https://jestjs.io/)

@@ -30,7 +30,7 @@ $ vue create hello-world
 
 ### Настройка Jest
 
-Jest — это программа для запуска тестов, разработанный Facebook и направленный на предоставление многофункционального решения для модульного тестирования. Вы можете узнать больше о Jest на его [официальной документации](https://facebook.github.io/jest/).
+Jest — это программа для запуска тестов, разработанный Facebook и направленный на предоставление многофункционального решения для модульного тестирования. Вы можете узнать больше о Jest на его [официальной документации](https://jestjs.io/).
 
 Установить Jest и Vue Test Utils:
 
@@ -154,4 +154,4 @@ describe('HelloWorld.vue', () => {
 ### Ресурсы
 
 - [Пример проекта для этой конфигурации](https://github.com/vuejs/vue-test-utils-typescript-example)
-- [Jest](https://facebook.github.io/jest/)
+- [Jest](https://jestjs.io/)
