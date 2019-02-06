@@ -53,7 +53,7 @@ it('fetches async when a button is clicked', () => {
 })
 ```
 
-This test currently fails because the assertion is called before the promise in `fetchResults` resolves. Most unit test libraries provide a callback to let the runner know when the test is complete. Jest and Mocha both use `done`. We can use `done` in combination with `$nextTick` or `setTimeout` to ensure any promises resolve before the assertion is made.
+This test currently fails because the assertion is called before the promise in `fetchResults` resolves. Most unit test libraries provide a callback to let the runner know when the test is complete. Jest and Mocha both use `done`. We can use `done` in combination with `$nextTick` or `setTimeout` to ensure any promises are settled before the assertion is made.
 
 ```js
 it('fetches async when a button is clicked', done => {
@@ -66,7 +66,7 @@ it('fetches async when a button is clicked', done => {
 })
 ```
 
-The reason `$nextTick` or `setTimeout` allow the test to pass is because the microtask queue where promise callbacks are processed run before the task queue, where `$nextTick` and `setTimeout` are processed. This means by the time the `$nextTick` and `setTimeout` run, any promise callbacks on the microtask queue will have been executed. See [here](https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/) for a more detailed explanation.
+The reason `setTimeout` allows the test to pass is because the microtask queue where promise callbacks are processed runs before the task queue, where `setTimeout` callbacks are processed. This means by the time the `setTimeout` callback runs, any promise callbacks on the microtask queue will have been executed. `$nextTick` on the other hand schedules a microtask, but since the microtask queue is processed first-in-first-out that also guarantees the promise callback has been executed by the time the assertion is made. See [here](https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/) for a more detailed explanation.
 
 Another solution is to use an `async` function and the npm package `flush-promises`. `flush-promises` flushes all pending resolved promise handlers. You can `await` the call of `flushPromises` to flush pending promises and improve the readability of your test.
 
