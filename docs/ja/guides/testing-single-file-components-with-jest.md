@@ -120,7 +120,7 @@ webpack で `babel-preset-env` を使用するとした場合、webpack は ES M
 
 ### テストファイルの配置
 
-デフォルトでは、Jest はプロジェクト全体で `.spec.js` または `.test.js` 拡張子を持つすべてのファイルを再帰的に取得します。これがあなたのニーズに合わない場合は、`package.json` ファイルの config セクションで[testRegex を変更する](https://jestjs.io/docs/en/configuration.html#testregex-string)ことが可能です。
+デフォルトでは、Jest はプロジェクト全体で `.spec.js` または `.test.js` 拡張子を持つすべてのファイルを再帰的に取得します。これがあなたのニーズに合わない場合は、`package.json` ファイルの config セクションで[testRegex を変更する](https://jestjs.io/docs/en/configuration.html#testregex-string-array-string)ことが可能です。
 
 Jest は、テスト対象のコードのすぐ隣に`__tests__`ディレクトリを作成することを推奨していますが、適切にテストを構造化することは自由です。 Jest がスナップショットテストを実行するテストファイルの隣に`__snapshots__`ディレクトリを作成することに注意してください。
 
