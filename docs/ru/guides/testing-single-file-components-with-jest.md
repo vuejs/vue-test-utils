@@ -2,7 +2,7 @@
 
 > Пример проекта для этой конфигурации доступен на [GitHub](https://github.com/vuejs/vue-test-utils-jest-example).
 
-Jest — это программа для запуска тестов, разработанная Facebook, направленная на предоставление функционального решения для модульного тестирования. Вы можете узнать больше о Jest в [официальной документации](https://facebook.github.io/jest/).
+Jest — это программа для запуска тестов, разработанная Facebook, направленная на предоставление функционального решения для модульного тестирования. Вы можете узнать больше о Jest в [официальной документации](https://jestjs.io/).
 
 ### Установка Jest
 
@@ -122,7 +122,7 @@ npm install --save-dev babel-jest
 
 ### Расположение файлов тестов
 
-По умолчанию Jest будет рекурсивно выбирать все файлы с расширением `.spec.js` или `.test.js` во всём проекте. Если это поведение не соответствует вашим потребностям, то возможно [изменить `testRegex`](https://facebook.github.io/jest/docs/en/configuration.html#testregex-string) в секции конфигурации в файле `package.json`.
+По умолчанию Jest будет рекурсивно выбирать все файлы с расширением `.spec.js` или `.test.js` во всём проекте. Если это поведение не соответствует вашим потребностям, то возможно [изменить `testRegex`](https://jestjs.io/docs/en/configuration.html#testregex-string-array-string) в секции конфигурации в файле `package.json`.
 
 Jest рекомендует создать каталог `__tests__` рядом с тестируемым кодом, но не стесняйтесь структурировать ваши тесты по своему усмотрению. Просто остерегайтесь того, что Jest создаст каталог `__snapshots__` рядом с тестовыми файлами, который необходим для тестирования с помощью моментальных снимков.
 
@@ -130,7 +130,7 @@ Jest рекомендует создать каталог `__tests__` рядом
 
 Jest может быть использован для генерации отчётов о покрытии кода в нескольких форматах. Ниже приведён простой пример для начала:
 
-Расширьте вашу конфигурацию `jest` (обычно расположенную в `package.json` или `jest.config.js`) с помощью опции [collectCoverage](https://facebook.github.io/jest/docs/en/configuration.html#collectcoverage-boolean), и затем добавьте массив [collectCoverageFrom](https://facebook.github.io/jest/docs/en/configuration.html#collectcoveragefrom-array) для определения файлов, для которых требуется собирать информацию о покрытии.
+Расширьте вашу конфигурацию `jest` (обычно расположенную в `package.json` или `jest.config.js`) с помощью опции [collectCoverage](https://jestjs.io/docs/en/configuration.html#collectcoverage-boolean), и затем добавьте массив [collectCoverageFrom](https://jestjs.io/docs/en/configuration.html#collectcoveragefrom-array) для определения файлов, для которых требуется собирать информацию о покрытии.
 
 ```json
 {
@@ -142,7 +142,7 @@ Jest может быть использован для генерации отч
 }
 ```
 
-Это включит отчёты о покрытии с использованием [стандартных отчётов о покрытии](https://facebook.github.io/jest/docs/en/configuration.html#coveragereporters-array-string). Вы можете настроить их с помощью опции `coverageReporters`:
+Это включит отчёты о покрытии с использованием [стандартных отчётов о покрытии](https://jestjs.io/docs/en/configuration.html#coveragereporters-array-string). Вы можете настроить их с помощью опции `coverageReporters`:
 
 ```json
 {
@@ -153,11 +153,11 @@ Jest может быть использован для генерации отч
 }
 ```
 
-Дополнительную информацию можно найти в [документации по конфигурации Jest](https://facebook.github.io/jest/docs/en/configuration.html#collectcoverage-boolean), где вы можете найти параметры для пороговых значений покрытия, каталоги вывода данных и т.д.
+Дополнительную информацию можно найти в [документации по конфигурации Jest](https://jestjs.io/docs/en/configuration.html#collectcoverage-boolean), где вы можете найти параметры для пороговых значений покрытия, каталоги вывода данных и т.д.
 
 ### Пример спецификации
 
-Если вы знакомы с Jasmine, то вы должны чувствовать себя как дома с [проверочным API](https://facebook.github.io/jest/docs/en/expect.html#content) Jest:
+Если вы знакомы с Jasmine, то вы должны чувствовать себя как дома с [проверочным API](https://jestjs.io/docs/en/expect.html#content) Jest:
 
 ```js
 import { mount } from '@vue/test-utils'
@@ -173,7 +173,7 @@ describe('Component', () => {
 
 ### Тестирование моментальными снимками
 
-Когда вы монтируете компонент с помощью Vue Test Utils, вы получаете доступ к корневому элементу HTML. Это можно сохранить в виде моментального снимка для [тестирования моментальными снимками в Jest](https://facebook.github.io/jest/docs/en/snapshot-testing.html):
+Когда вы монтируете компонент с помощью Vue Test Utils, вы получаете доступ к корневому элементу HTML. Это можно сохранить в виде моментального снимка для [тестирования моментальными снимками в Jest](https://jestjs.io/docs/en/snapshot-testing.html):
 
 ```js
 test('renders correctly', () => {
@@ -203,5 +203,5 @@ npm install --save-dev jest-serializer-vue
 
 - [Пример проекта для этой конфигурации](https://github.com/vuejs/vue-test-utils-jest-example)
 - [Примеры и слайды с Vue Conf 2017](https://github.com/codebryo/vue-testing-with-jest-conf17)
-- [Jest](https://facebook.github.io/jest/)
+- [Jest](https://jestjs.io/)
 - [Babel preset env](https://github.com/babel/babel-preset-env)

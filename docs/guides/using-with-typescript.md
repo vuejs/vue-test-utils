@@ -30,7 +30,7 @@ The next step is to add Jest to the project.
 
 ### Setting up Jest
 
-Jest is a test runner developed by Facebook, aiming to deliver a battery-included unit testing solution. You can learn more about Jest on its [official documentation](https://facebook.github.io/jest/).
+Jest is a test runner developed by Facebook, aiming to deliver a battery-included unit testing solution. You can learn more about Jest on its [official documentation](https://jestjs.io/).
 
 Install Jest and Vue Test Utils:
 
@@ -154,4 +154,4 @@ That's all we need to do to get TypeScript and Vue Test Utils working together!
 ### Resources
 
 - [Example project for this setup](https://github.com/vuejs/vue-test-utils-typescript-example)
-- [Jest](https://facebook.github.io/jest/)
+- [Jest](https://jestjs.io/)

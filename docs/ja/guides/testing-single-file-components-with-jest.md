@@ -2,7 +2,7 @@
 
 > このセットアップのサンプルプロジェクトは、 [GitHub](https://github.com/vuejs/vue-test-utils-jest-example) にあります。
 
-Jest は Facebook が開発したテストランナであり、ユニットテストソリューションの提供を目指しています。 Jest の詳細については、[公式ドキュメント](https://facebook.github.io/jest/)を参照してください。
+Jest は Facebook が開発したテストランナであり、ユニットテストソリューションの提供を目指しています。 Jest の詳細については、[公式ドキュメント](https://jestjs.io/)を参照してください。
 
 ### Jest のセットアップ
 
@@ -120,7 +120,7 @@ webpack で `babel-preset-env` を使用するとした場合、webpack は ES M
 
 ### テストファイルの配置
 
-デフォルトでは、Jest はプロジェクト全体で `.spec.js` または `.test.js` 拡張子を持つすべてのファイルを再帰的に取得します。これがあなたのニーズに合わない場合は、`package.json` ファイルの config セクションで[testRegex を変更する](https://facebook.github.io/jest/docs/en/configuration.html#testregex-string)ことが可能です。
+デフォルトでは、Jest はプロジェクト全体で `.spec.js` または `.test.js` 拡張子を持つすべてのファイルを再帰的に取得します。これがあなたのニーズに合わない場合は、`package.json` ファイルの config セクションで[testRegex を変更する](https://jestjs.io/docs/en/configuration.html#testregex-string-array-string)ことが可能です。
 
 Jest は、テスト対象のコードのすぐ隣に`__tests__`ディレクトリを作成することを推奨していますが、適切にテストを構造化することは自由です。 Jest がスナップショットテストを実行するテストファイルの隣に`__snapshots__`ディレクトリを作成することに注意してください。
 
@@ -128,7 +128,7 @@ Jest は、テスト対象のコードのすぐ隣に`__tests__`ディレクト�
 
 Jest は複数のフォーマットでカバレッジを取ることができます。 以下はそれをするための簡単な例です。
 
-`jest` の設定 (普通は `package.json` か  `jest.config.js`) に  [collectCoverage](https://facebook.github.io/jest/docs/en/configuration.html#collectcoverage-boolean) オプションを加えます。それから、カバレッジを収集する対象のファイルを [collectCoverageFrom](https://facebook.github.io/jest/docs/en/configuration.html#collectcoveragefrom-array) に配列で定義します。
+`jest` の設定 (普通は `package.json` か  `jest.config.js`) に  [collectCoverage](https://jestjs.io/docs/en/configuration.html#collectcoverage-boolean) オプションを加えます。それから、カバレッジを収集する対象のファイルを [collectCoverageFrom](https://jestjs.io/docs/en/configuration.html#collectcoveragefrom-array) に配列で定義します。
 
 ```json
 {
@@ -140,7 +140,7 @@ Jest は複数のフォーマットでカバレッジを取ることができま
 }
 ```
 
-[デフォルトのカバレッジレポーター](https://facebook.github.io/jest/docs/en/configuration.html#coveragereporters-array-string)のカバレッジレポートは有効になります。 `coverageReporters` オプションでそれらをカスタマイズすることができます。
+[デフォルトのカバレッジレポーター](https://jestjs.io/docs/en/configuration.html#coveragereporters-array-string)のカバレッジレポートは有効になります。 `coverageReporters` オプションでそれらをカスタマイズすることができます。
 
 ```json
 {
@@ -151,11 +151,11 @@ Jest は複数のフォーマットでカバレッジを取ることができま
 }
 ```
 
-より詳しい情報は [Jest configuration documentation](https://facebook.github.io/jest/docs/en/configuration.html#collectcoverage-boolean) にあります。 カバレッジの閾値やターゲットを出力するディレクトリなどのオプションが記載されています。
+より詳しい情報は [Jest configuration documentation](https://jestjs.io/docs/en/configuration.html#collectcoverage-boolean) にあります。 カバレッジの閾値やターゲットを出力するディレクトリなどのオプションが記載されています。
 
 ### Spec の例
 
-あなたが Jasmine をよく知っているなら、Jest の [assertion API](https://facebook.github.io/jest/docs/en/expect.html#content)は自宅のように感じるはずです。
+あなたが Jasmine をよく知っているなら、Jest の [assertion API](https://jestjs.io/docs/en/expect.html#content)は自宅のように感じるはずです。
 
 ```js
 import { mount } from '@vue/test-utils'
@@ -171,7 +171,7 @@ describe('Component', () => {
 
 ### スナップショットテスト
 
-Vue Test Utils でコンポーネントをマウントすると、コンポーネントのルート HTML 要素にアクセスすることができます。 [Jest のスナップショットテスト](https://facebook.github.io/jest/docs/en/snapshot-testing.html)で使用するためにこれを保存することができます。
+Vue Test Utils でコンポーネントをマウントすると、コンポーネントのルート HTML 要素にアクセスすることができます。 [Jest のスナップショットテスト](https://jestjs.io/docs/en/snapshot-testing.html)で使用するためにこれを保存することができます。
 
 ```js
 test('renders correctly', () => {
@@ -203,5 +203,5 @@ npm install --save-dev jest-serializer-vue
 
 - [このセットアップのプロジェクト例](https://github.com/vuejs/vue-test-utils-jest-example)
 - [Vue Conf 2017 のスライド](https://github.com/codebryo/vue-testing-with-jest-conf17)
-- [Jest](https://facebook.github.io/jest/)
+- [Jest](https://jestjs.io/)
 - [Babel preset env](https://github.com/babel/babel-preset-env)
