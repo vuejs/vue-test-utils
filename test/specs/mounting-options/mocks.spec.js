@@ -70,7 +70,7 @@ describeWithMountingMethods('options.mocks', mountingMethod => {
   itDoNotRunIf(
     mountingMethod.name === 'renderToString',
     'adds variables as reactive properties to vm when passed',
-    () => {
+    async () => {
       const stub = sandbox.stub()
       const $reactiveMock = { value: 'value' }
       const wrapper = mountingMethod(
@@ -97,6 +97,7 @@ describeWithMountingMethods('options.mocks', mountingMethod => {
       )
       expect(wrapper.text()).to.contain('value')
       $reactiveMock.value = 'changed value'
+      await Vue.nextTick()
       expect(wrapper.text()).to.contain('changed value')
     }
   )

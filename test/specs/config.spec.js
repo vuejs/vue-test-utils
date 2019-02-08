@@ -1,12 +1,7 @@
 import { describeWithShallowAndMount } from '~resources/utils'
 import ComponentWithProps from '~resources/components/component-with-props.vue'
 import { itDoNotRunIf } from 'conditional-specs'
-import {
-  config,
-  TransitionStub,
-  TransitionGroupStub,
-  createLocalVue
-} from '~vue/test-utils'
+import { config, createLocalVue } from '~vue/test-utils'
 
 describeWithShallowAndMount('config', mountingMethod => {
   const sandbox = sinon.createSandbox()
@@ -81,46 +76,6 @@ describeWithShallowAndMount('config', mountingMethod => {
 
     expect(wrapper.vm.val()).to.equal('method')
     expect(wrapper.text()).to.equal('method')
-  })
-
-  it("doesn't stub transition when config.stubs.transition is set to false", () => {
-    const testComponent = {
-      template: `
-        <div>
-          <transition><p /></transition>
-        </div>
-      `
-    }
-    config.stubs.transition = false
-    const wrapper = mountingMethod(testComponent)
-    expect(wrapper.contains(TransitionStub)).to.equal(false)
-  })
-
-  it("doesn't stub transition when config.stubs.transition is set to false", () => {
-    const testComponent = {
-      template: `
-        <div>
-          <transition-group><p /><p /></transition-group>
-        </div>
-      `
-    }
-    config.stubs['transition-group'] = false
-    const wrapper = mountingMethod(testComponent)
-    expect(wrapper.contains(TransitionGroupStub)).to.equal(false)
-  })
-
-  it("doesn't stub transition when config.stubs is set to false", () => {
-    config.stubs = false
-    const testComponent = {
-      template: `
-        <div>
-          <transition-group><p key="1"/><p key="2" /></transition-group>
-        </div>
-      `
-    }
-    const wrapper = mountingMethod(testComponent)
-    expect(wrapper.contains(TransitionGroupStub)).to.equal(false)
-    expect(wrapper.contains(TransitionStub)).to.equal(false)
   })
 
   it("doesn't throw Vue warning when silent is set to true", () => {

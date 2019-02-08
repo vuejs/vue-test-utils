@@ -2,6 +2,7 @@ import { describeWithShallowAndMount, vueVersion } from '~resources/utils'
 import { createLocalVue } from '~vue/test-utils'
 import ComponentWithScopedSlots from '~resources/components/component-with-scoped-slots.vue'
 import { itDoNotRunIf } from 'conditional-specs'
+import Vue from 'vue'
 
 describeWithShallowAndMount('scopedSlots', mountingMethod => {
   const sandbox = sinon.createSandbox()
@@ -133,7 +134,7 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
     }
   )
 
-  itDoNotRunIf(vueVersion < 2.5, 'mounts component scoped slots', () => {
+  itDoNotRunIf(vueVersion < 2.5, 'mounts component scoped slots', async () => {
     const wrapper = mountingMethod(ComponentWithScopedSlots, {
       slots: { default: '<span>123</span>' },
       scopedSlots: {
@@ -162,6 +163,7 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
     wrapper.vm.items = [4, 5, 6]
     wrapper.vm.foo = [{ text: 'b1' }, { text: 'b2' }, { text: 'b3' }]
     wrapper.vm.bar = 'ABC'
+    await Vue.nextTick()
     expect(wrapper.find('#destructuring').html()).to.equal(
       '<div id="destructuring"><p>0,4</p><p>1,5</p><p>2,6</p></div>'
     )
@@ -237,7 +239,7 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
   itDoNotRunIf(
     vueVersion < 2.5,
     'renders scoped slots in sync mode by default',
-    () => {
+    async () => {
       const TestComponent = {
         template: '<div />',
         data() {
@@ -258,6 +260,7 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
           default: stub
         }
       })
+      await Vue.nextTick()
       expect(stub).calledWith(123)
     }
   )

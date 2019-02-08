@@ -2,6 +2,7 @@ import { compileToFunctions } from 'vue-template-compiler'
 import ComponentWithVIf from '~resources/components/component-with-v-if.vue'
 import ComponentWithWatch from '~resources/components/component-with-watch.vue'
 import { describeWithShallowAndMount, vueVersion } from '~resources/utils'
+import Vue from 'vue'
 
 describeWithShallowAndMount('setData', mountingMethod => {
   const sandbox = sinon.createSandbox()
@@ -15,14 +16,15 @@ describeWithShallowAndMount('setData', mountingMethod => {
     sandbox.restore()
   })
 
-  it('sets component data and updates nested vm nodes when called on Vue instance', () => {
+  it('sets component data and updates nested vm nodes when called on Vue instance', async () => {
     const wrapper = mountingMethod(ComponentWithVIf)
     expect(wrapper.findAll('.child.ready').length).to.equal(0)
     wrapper.setData({ ready: true })
+    await Vue.nextTick()
     expect(wrapper.findAll('.child.ready').length).to.equal(1)
   })
 
-  it('keeps element in sync with vnode', () => {
+  it('keeps element in sync with vnode', async () => {
     const Component = {
       template: '<div class="some-class" v-if="show">A custom component!</div>',
       data() {
@@ -33,22 +35,25 @@ describeWithShallowAndMount('setData', mountingMethod => {
     }
     const wrapper = mountingMethod(Component)
     wrapper.setData({ show: true })
+    await Vue.nextTick()
     expect(wrapper.element).to.equal(wrapper.vm.$el)
     expect(wrapper.classes()).to.contain('some-class')
   })
 
-  it('runs watch function when data is updated', () => {
+  it('runs watch function when data is updated', async () => {
     const wrapper = mountingMethod(ComponentWithWatch)
     const data1 = 'testest'
     wrapper.setData({ data1 })
+    await Vue.nextTick()
     expect(wrapper.vm.data2).to.equal(data1)
   })
 
-  it('runs watch function after all props are updated', () => {
+  it('runs watch function after all props are updated', async () => {
     const wrapper = mountingMethod(ComponentWithWatch)
     const data1 = 'testest'
     wrapper.setData({ data2: 'newProp', data1 })
-    expect(console.info.args[1][0]).to.equal(data1)
+    await Vue.nextTick()
+    expect(console.info.args[0][0]).to.equal(data1)
   })
 
   it('throws error if node is not a Vue instance', () => {
@@ -90,7 +95,7 @@ describeWithShallowAndMount('setData', mountingMethod => {
       .with.property('message', message)
   })
 
-  it('updates watchers if computed is updated', () => {
+  it('updates watchers if computed is updated', async () => {
     const TestComponent = {
       template: `
         <em>{{ computedText }}</em>
@@ -115,10 +120,11 @@ describeWithShallowAndMount('setData', mountingMethod => {
     const wrapper = mountingMethod(TestComponent)
 
     wrapper.setData({ text: 'hello' })
+    await Vue.nextTick()
     expect(wrapper.vm.basket[0]).to.equal('hello')
   })
 
-  it('should not run watcher if data is null', () => {
+  it('should not run watcher if data is null', async () => {
     const TestComponent = {
       template: `
       <div>
@@ -140,6 +146,7 @@ describeWithShallowAndMount('setData', mountingMethod => {
     }
     const wrapper = mountingMethod(TestComponent)
     wrapper.setData({ message: null })
+    await Vue.nextTick()
     expect(wrapper.text()).to.equal('There is no message yet')
   })
 
@@ -191,7 +198,7 @@ describeWithShallowAndMount('setData', mountingMethod => {
     expect(wrapper.vm.anObject.propA.prop2).to.equal('b')
   })
 
-  it('handles undefined values', () => {
+  it('handles undefined values', async () => {
     const TestComponent = {
       template: `
       <div>
@@ -208,10 +215,11 @@ describeWithShallowAndMount('setData', mountingMethod => {
         foo: 'baz'
       }
     })
+    await Vue.nextTick()
     expect(wrapper.text()).to.contain('baz')
   })
 
-  it('handles null values', () => {
+  it('handles null values', async () => {
     const TestComponent = {
       template: `
       <div>{{nullProperty && nullProperty.foo}}</div>
@@ -227,6 +235,7 @@ describeWithShallowAndMount('setData', mountingMethod => {
         another: null
       }
     })
+    await Vue.nextTick()
     expect(wrapper.text()).to.contain('bar')
     wrapper.setData({
       nullProperty: {
@@ -238,7 +247,7 @@ describeWithShallowAndMount('setData', mountingMethod => {
     expect(wrapper.vm.nullProperty.another.obj).to.equal(true)
   })
 
-  it('does not merge arrays', () => {
+  it('does not merge arrays', async () => {
     const TestComponent = {
       template: '<div>{{nested.nested.nestedArray[0]}}</div>',
       data: () => ({
@@ -262,11 +271,12 @@ describeWithShallowAndMount('setData', mountingMethod => {
         }
       }
     })
+    await Vue.nextTick()
     expect(wrapper.text()).to.equal('10')
     expect(wrapper.vm.nested.nested.nestedArray).to.deep.equal([10])
   })
 
-  it('should append a new property to an object when the new property is referenced by a template', () => {
+  it('should set property in existing data object', async () => {
     const TestComponent = {
       data: () => ({
         anObject: {
@@ -287,7 +297,7 @@ describeWithShallowAndMount('setData', mountingMethod => {
         propC: 'c'
       }
     })
-
+    await Vue.nextTick()
     expect(wrapper.vm.anObject.propA).to.equal('a')
     expect(wrapper.vm.anObject.propB).to.equal('b')
     expect(wrapper.vm.anObject.propC).to.equal('c')

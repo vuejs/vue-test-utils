@@ -75,7 +75,6 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
     'setSelected',
     'setValue',
     'trigger',
-    'update',
     'destroy'
   ]
   methods.forEach(method => {
@@ -105,7 +104,6 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
           'setProps',
           'setValue',
           'trigger',
-          'update',
           'destroy'
         ].includes(method)
       ) {

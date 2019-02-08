@@ -504,7 +504,7 @@ describeWithShallowAndMount('find', mountingMethod => {
     })
   })
 
-  it('handles unnamed components', () => {
+  it('handles unnamed components', async () => {
     const ChildComponent = {
       template: '<div />'
     }
@@ -521,6 +521,7 @@ describeWithShallowAndMount('find', mountingMethod => {
 
     expect(wrapper.find(ChildComponent).vnode).to.be.undefined
     wrapper.vm.renderChild = true
+    await Vue.nextTick()
     expect(wrapper.find(ChildComponent).vnode).to.be.an('object')
   })
 

@@ -1,5 +1,6 @@
 import ComponentWithInput from '~resources/components/component-with-input.vue'
 import { describeWithShallowAndMount } from '~resources/utils'
+import Vue from 'vue'
 
 describeWithShallowAndMount('setValue', mountingMethod => {
   it('sets element of input value', () => {
@@ -18,10 +19,11 @@ describeWithShallowAndMount('setValue', mountingMethod => {
     expect(textarea.element.value).to.equal('foo')
   })
 
-  it('updates dom with input v-model', () => {
+  it('updates dom with input v-model', async () => {
     const wrapper = mountingMethod(ComponentWithInput)
     const input = wrapper.find('input[type="text"]')
     input.setValue('input text awesome binding')
+    await Vue.nextTick()
 
     expect(wrapper.text()).to.contain('input text awesome binding')
   })
@@ -34,10 +36,11 @@ describeWithShallowAndMount('setValue', mountingMethod => {
     expect(select.element.value).to.equal('selectB')
   })
 
-  it('updates dom with select v-model', () => {
+  it('updates dom with select v-model', async () => {
     const wrapper = mountingMethod(ComponentWithInput)
     const select = wrapper.find('select')
     select.setValue('selectB')
+    await Vue.nextTick()
 
     expect(wrapper.text()).to.contain('selectB')
   })

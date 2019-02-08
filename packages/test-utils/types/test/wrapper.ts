@@ -84,7 +84,6 @@ let createdWrapper = createWrapper(new Vue().$mount())
 createdWrapper.text()
 createWrapper(document.createElement('div'))
 createWrapper(document.createElement('div'), {
-  sync: false,
   attachedToDocument: true
 })
 createWrapper(document.createElement('div'), {

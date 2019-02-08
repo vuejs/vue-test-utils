@@ -2,19 +2,13 @@
 
 import Vue from 'vue'
 import getSelector from './get-selector'
-import {
-  REF_SELECTOR,
-  FUNCTIONAL_OPTIONS,
-  VUE_VERSION,
-  COMPAT_SYNC_MODE
-} from 'shared/consts'
+import { REF_SELECTOR, FUNCTIONAL_OPTIONS, VUE_VERSION } from 'shared/consts'
 import config from './config'
 import WrapperArray from './wrapper-array'
 import ErrorWrapper from './error-wrapper'
-import { throwError, warn, getCheckedEvent, isPhantomJS } from 'shared/util'
+import { throwError, getCheckedEvent, isPhantomJS } from 'shared/util'
 import find from './find'
 import createWrapper from './create-wrapper'
-import { orderWatchers } from './order-watchers'
 import { recursivelySetData } from './recursively-set-data'
 import { matches } from './matches'
 import createDOMEvent from './create-dom-event'
@@ -26,7 +20,6 @@ export default class Wrapper implements BaseWrapper {
   _emitted: { [name: string]: Array<Array<any>> }
   _emittedByOrder: Array<{ name: string, args: Array<any> }>
   +element: Element
-  update: Function
   +options: WrapperOptions
   isFunctionalComponent: boolean
   rootNode: VNode | Element
@@ -510,10 +503,6 @@ export default class Wrapper implements BaseWrapper {
     })
     // $FlowIgnore : Problem with possibly null this.vm
     this.vm.$forceUpdate()
-    if (this.options.sync === COMPAT_SYNC_MODE) {
-      // $FlowIgnore : Problem with possibly null this.vm
-      orderWatchers(this.vm || this.vnode.context.$root)
-    }
     Vue.config.silent = originalConfig
   }
 
@@ -584,16 +573,5 @@ export default class Wrapper implements BaseWrapper {
 
     const event = createDOMEvent(type, options)
     this.element.dispatchEvent(event)
-
-    if (this.vnode && this.options.sync === COMPAT_SYNC_MODE) {
-      orderWatchers(this.vm || this.vnode.context.$root)
-    }
-  }
-
-  update(): void {
-    warn(
-      `update has been removed from vue-test-utils. All updates are now ` +
-        `synchronous by default`
-    )
   }
 }
