@@ -41,7 +41,6 @@ export function mergeOptions(
     provide: normalizeProvide(provide),
     stubs,
     mocks,
-    methods,
-    sync: !!(options.sync || options.sync === undefined)
+    methods
   }
 }

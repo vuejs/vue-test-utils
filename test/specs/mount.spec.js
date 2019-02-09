@@ -414,7 +414,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     })
   })
 
-  itDoNotRunIf(
+  itDoNotRunIf.skip(
     vueVersion >= 2.5,
     'throws if component throws during update',
     () => {

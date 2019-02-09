@@ -36,7 +36,6 @@ interface MountOptions<V extends Vue> extends ComponentOptions<V> {
   stubs?: Stubs,
   attrs?: Record<string, string>
   listeners?: Record<string, Function | Function[]>
-  sync?: boolean
 }
 
 type ThisTypedMountOptions<V extends Vue> = MountOptions<V> & ThisType<V>

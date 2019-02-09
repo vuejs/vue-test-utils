@@ -50,8 +50,7 @@ mount(ClassComponent, {
   listeners: {
     listener: () => {},
     listeners: [() => {}, () => {}]
-  },
-  sync: true
+  }
 })
 
 mount(functionalOptions, {

@@ -249,13 +249,6 @@ export default class ErrorWrapper implements BaseWrapper {
     )
   }
 
-  update(): void {
-    throwError(
-      `update has been removed from vue-test-utils.` +
-        `All updates are now synchronous by default`
-    )
-  }
-
   destroy(): void {
     throwError(
       `find did not return ${

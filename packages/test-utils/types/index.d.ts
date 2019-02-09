@@ -121,7 +121,6 @@ export interface WrapperArray<V extends Vue> extends BaseWrapper {
 
 interface WrapperOptions {
   attachedToDocument?: boolean
-  sync?: boolean
 }
 
 interface MountOptions<V extends Vue> extends ComponentOptions<V> {
@@ -135,7 +134,6 @@ interface MountOptions<V extends Vue> extends ComponentOptions<V> {
   stubs?: Stubs | false,
   attrs?: Record<string, string>
   listeners?: Record<string, Function | Function[]>
-  sync?: boolean
 }
 
 type ThisTypedMountOptions<V extends Vue> = MountOptions<V> & ThisType<V>

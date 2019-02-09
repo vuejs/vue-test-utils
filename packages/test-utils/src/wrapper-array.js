@@ -2,7 +2,7 @@
 
 import type Wrapper from './wrapper'
 import type VueWrapper from './vue-wrapper'
-import { throwError, warn } from 'shared/util'
+import { throwError } from 'shared/util'
 
 export default class WrapperArray implements BaseWrapper {
   +wrappers: Array<Wrapper | VueWrapper>
@@ -206,14 +206,6 @@ export default class WrapperArray implements BaseWrapper {
     this.throwErrorIfWrappersIsEmpty('trigger')
 
     this.wrappers.forEach(wrapper => wrapper.trigger(event, options))
-  }
-
-  update(): void {
-    this.throwErrorIfWrappersIsEmpty('update')
-    warn(
-      `update has been removed. All changes are now ` +
-        `synchrnous without calling update`
-    )
   }
 
   destroy(): void {

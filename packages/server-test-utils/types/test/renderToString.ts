@@ -12,8 +12,7 @@ render(
     attachToDocument: true,
     scopedSlots: {
       foo: `<div>Foo</div>`
-    },
-    sync: false
+    }
   }
 )
 

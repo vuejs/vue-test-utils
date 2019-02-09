@@ -1,3 +1,5 @@
+require('babel-polyfill')
+
 if (process.env.TEST_ENV !== 'node') {
   require('jsdom-global')()
 }

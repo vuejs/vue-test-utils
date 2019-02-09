@@ -76,11 +76,12 @@ describeWithShallowAndMount('trigger', mountingMethod => {
     }
   })
 
-  it('causes DOM to update after clickHandler method that changes components data is called', () => {
+  it('causes DOM to update after clickHandler method that changes components data is called', async () => {
     const wrapper = mountingMethod(ComponentWithEvents)
     const toggle = wrapper.find('.toggle')
     expect(toggle.classes()).not.to.contain('active')
     toggle.trigger('click')
+    await Vue.nextTick()
     expect(toggle.classes()).to.contain('active')
   })
 

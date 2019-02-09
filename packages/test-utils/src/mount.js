@@ -7,62 +7,10 @@ import config from './config'
 import warnIfNoWindow from './warn-if-no-window'
 import createWrapper from './create-wrapper'
 import createLocalVue from './create-local-vue'
-import { warn } from 'shared/util'
-import semver from 'semver'
-import { COMPAT_SYNC_MODE } from 'shared/consts'
 import { validateOptions } from 'shared/validate-options'
-import TransitionGroupStub from './components/TransitionGroupStub'
-import TransitionStub from './components/TransitionStub'
 
 Vue.config.productionTip = false
 Vue.config.devtools = false
-
-function getSyncOption(syncOption) {
-  if (syncOption === false) {
-    Vue.config.async = true
-    return false
-  }
-  if (semver.lt(Vue.version, '2.5.18')) {
-    warn(
-      `Vue Test Utils runs in sync mode by default. Due to bugs, sync mode ` +
-        `requires Vue > 2.5.18. In Vue Test Utils 1.0 sync mode will only be ` +
-        `supported with Vue 2.5.18+ running in development mode. If you are ` +
-        `unable to upgrade, you should rewrite your tests to run asynchronously` +
-        `you can do this by setting the sync mounting option to false.`
-    )
-    return COMPAT_SYNC_MODE
-  }
-
-  if (typeof Vue.config.async === 'undefined') {
-    warn(
-      `Sync mode only works when Vue runs in dev mode. ` +
-        `Please set Vue to run in dev mode, or set sync to false`
-    )
-  }
-
-  Vue.config.async = false
-  return true
-}
-
-function addTransitionStubs(options) {
-  if (config.stubs === false) {
-    return
-  }
-  if (
-    options.stubs &&
-    options.stubs.transition !== false &&
-    !options.stubs.transition
-  ) {
-    options.stubs.transition = TransitionStub
-  }
-  if (
-    options.stubs &&
-    options.stubs['transition-group'] !== false &&
-    !options.stubs['transition-group']
-  ) {
-    options.stubs['transition-group'] = TransitionGroupStub
-  }
-}
 
 export default function mount(component, options = {}) {
   warnIfNoWindow()
@@ -72,16 +20,8 @@ export default function mount(component, options = {}) {
   const _Vue = createLocalVue(options.localVue)
 
   const mergedOptions = mergeOptions(options, config)
-  const sync = getSyncOption(mergedOptions.sync)
 
   validateOptions(mergedOptions, component)
-
-  // Stub transition and transition-group if in compat sync mode to keep old
-  // behavior
-  // TODO: Remove when compat sync mode is removed
-  if (sync === COMPAT_SYNC_MODE) {
-    addTransitionStubs(mergedOptions)
-  }
 
   const parentVm = createInstance(component, mergedOptions, _Vue)
 
@@ -93,8 +33,7 @@ export default function mount(component, options = {}) {
   throwIfInstancesThrew(vm)
 
   const wrapperOptions = {
-    attachedToDocument: !!mergedOptions.attachToDocument,
-    sync
+    attachedToDocument: !!mergedOptions.attachToDocument
   }
 
   const root = parentVm.$options._isFunctionalContainer

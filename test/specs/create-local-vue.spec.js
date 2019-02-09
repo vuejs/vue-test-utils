@@ -26,7 +26,7 @@ describeWithShallowAndMount('createLocalVue', mountingMethod => {
     expect(typeof freshWrapper.vm.$store).to.equal('undefined')
   })
 
-  it('Vuex should work properly with local Vue', () => {
+  it('Vuex should work properly with local Vue', async () => {
     const localVue = createLocalVue()
     localVue.use(Vuex)
     const store = new Vuex.Store({
@@ -48,6 +48,7 @@ describeWithShallowAndMount('createLocalVue', mountingMethod => {
     expect(wrapper.vm.$store).to.be.an('object')
     expect(wrapper.text()).to.equal('0 1')
     wrapper.trigger('click')
+    await Vue.nextTick()
     expect(wrapper.text()).to.equal('1 1')
   })
 
