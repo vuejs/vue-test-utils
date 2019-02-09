@@ -32,7 +32,6 @@ Vue Test Utils 是 Vue.js 官方的单元测试实用工具库。
     - [listeners](api/options.md#listeners)
     - [parentComponent](api/options.md#parentComponent)
     - [provide](api/options.md#provide)
-    - [sync](api/options.md#sync)
     - [其它选项](api/options.md#other-options)
   - [Wrapper](api/wrapper/)
     - [attributes](api/wrapper/attributes.md)

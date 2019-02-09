@@ -20,10 +20,6 @@ vue-test-utils はラッパベースの API です。
 
 `Boolean` (読み込み専用): マウンティングオプションで `attachedToDocument` が `true` だった場合は True です。
 
-#### `options.sync`
-
-`Boolean` (読み込み専用): マウンティングオプションで `sync` が `false` ではなかった場合は True です。
-
 ## メソッド
 
 !!!include(docs/ja/api/wrapper/attributes.md)!!!

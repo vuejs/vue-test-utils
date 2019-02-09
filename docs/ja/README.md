@@ -32,7 +32,6 @@
     - [listeners](api/options.md#listeners)
     - [parentComponent](api/options.md#parentcomponent)
     - [provide](api/options.md#provide)
-    - [sync](api/options.md#sync)
     - [その他のオプション](api/options.md#その他のオプション)
   - [Wrapper](api/wrapper/)
     - [attributes](api/wrapper/attributes.md)

@@ -20,10 +20,6 @@ Vue Test Utils 是一个基于包裹器的 API。
 
 `Boolean` (只读)：如果 `attachToDom` 传递给了 `mount` 或 `shallowMount` 则为真
 
-#### `options.sync`
-
-`Boolean` (只读)：如果挂载选项里的 `sync` 不是 `false` 则为真
-
 ## 方法
 
 !!!include(docs/zh/api/wrapper/attributes.md)!!!

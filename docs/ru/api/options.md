@@ -14,7 +14,6 @@
 - [`listeners`](#listeners)
 - [`parentComponent`](#parentcomponent)
 - [`provide`](#provide)
-- [`sync`](#sync)
 
 ## context
 
@@ -270,14 +269,6 @@ const wrapper = shallowMount(Component, {
 
 expect(wrapper.text()).toBe('fooValue')
 ```
-
-## sync
-
-- Тип: `boolean`
-- По умолчанию: `true`
-
-Когда `sync` равняется `true`, Vue-компонент рендериться синхронно.  
-Когда `sync` равняется `false`, Vue-компонент рендериться асинхронно.
 
 ## Другие опции
 

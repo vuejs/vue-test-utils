@@ -14,7 +14,6 @@
 - [`listeners`](#listeners)
 - [`parentComponent`](#parentcomponent)
 - [`provide`](#provide)
-- [`sync`](#sync)
 
 ## context
 
@@ -275,14 +274,6 @@ const wrapper = shallowMount(Component, {
 
 expect(wrapper.text()).toBe('fooValue')
 ```
-
-## sync
-
-- 型: `boolean`
-- デフォルト: `true`
-
-`sync` を `true` にすると、Vue コンポーネントは同期的に描画されます。  
-`sync` を `false` にすると、Vue コンポーネントは非同期的に描画されます。
 
 ## その他のオプション
 
