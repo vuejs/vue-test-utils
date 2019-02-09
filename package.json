@@ -63,7 +63,6 @@
     "mocha": "^5.2.0",
     "mocha-webpack": "^1.0.1",
     "prettier": "^1.16.0",
-    "regenerator-runtime": "^0.13.1",
     "rollup": "^0.58.2",
     "sinon": "^7.2.3",
     "sinon-chai": "^3.3.0",
