@@ -75,8 +75,6 @@ Vue Test Utils — официальная библиотека модульно�
     - [trigger](api/wrapper-array/trigger.md)
     - [isVisible](api/wrapper-array/isVisible.md)
   - [Компоненты](api/components/)
-    - [TransitionStub](api/components/TransitionStub.md)
-    - [TransitionGroupStub](api/components/TransitionGroupStub.md)
     - [RouterLinkStub](api/components/RouterLinkStub.md)
   - [Селекторы](api/selectors.md)
   - [createLocalVue](api/createLocalVue.md)

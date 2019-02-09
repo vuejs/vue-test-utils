@@ -75,8 +75,6 @@
     - [trigger](api/wrapper-array/trigger.md)
     - [isVisible](api/wrapper-array/isVisible.md)
   - [コンポーネント](api/components/)
-    - [TransitionStub](api/components/TransitionStub.md)
-    - [TransitionGroupStub](api/components/TransitionGroupStub.md)
     - [RouterLinkStub](api/components/RouterLinkStub.md)
   - [セレクタ](api/selectors.md)
   - [createWrapper](api/createWrapper.md)

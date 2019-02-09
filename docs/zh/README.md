@@ -75,8 +75,6 @@ Vue Test Utils 是 Vue.js 官方的单元测试实用工具库。
     - [trigger](api/wrapper-array/trigger.md)
     - [isVisible](api/wrapper-array/isVisible.md)
   - [组件](api/components/)
-    - [TransitionStub](api/components/TransitionStub.md)
-    - [TransitionGroupStub](api/components/TransitionGroupStub.md)
     - [RouterLinkStub](api/components/RouterLinkStub.md)
   - [选择器](api/selectors.md)
   - [createWrapper](api/createWrapper.md)

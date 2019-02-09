@@ -75,8 +75,6 @@ Vue Test Utils is the official unit testing utility library for Vue.js.
     - [trigger](api/wrapper-array/trigger.md)
     - [isVisible](api/wrapper-array/isVisible.md)
   - [components](api/components/)
-    - [TransitionStub](api/components/TransitionStub.md)
-    - [TransitionGroupStub](api/components/TransitionGroupStub.md)
     - [RouterLinkStub](api/components/RouterLinkStub.md)
   - [Selectors](api/selectors.md)
   - [createWrapper](api/createWrapper.md)

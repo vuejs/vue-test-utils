@@ -1,6 +1,5 @@
 import { describeWithShallowAndMount } from '~resources/utils'
 import ComponentWithProps from '~resources/components/component-with-props.vue'
-import { itDoNotRunIf } from 'conditional-specs'
 import { config, createLocalVue } from '~vue/test-utils'
 
 describeWithShallowAndMount('config', mountingMethod => {
@@ -20,24 +19,6 @@ describeWithShallowAndMount('config', mountingMethod => {
     sandbox.reset()
     sandbox.restore()
   })
-
-  itDoNotRunIf(
-    mountingMethod.name === 'shallowMount',
-    'stubs transition and transition-group by default',
-    () => {
-      const testComponent = {
-        template: `
-        <div>
-          <transition><p /></transition>
-          <transition-group><span /><p /></transition-group>
-        </div>
-      `
-      }
-      const wrapper = mountingMethod(testComponent)
-      expect(wrapper.contains('p')).to.equal(true)
-      expect(wrapper.contains('span')).to.equal(true)
-    }
-  )
 
   it('mocks a global variable', () => {
     const localVue = createLocalVue()

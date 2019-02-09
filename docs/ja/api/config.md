@@ -7,7 +7,7 @@ vue-test-utils にはオプションを定義するための `config` オプシ�
 #### `stubs`
 
 - 型: `{ [name: string]: Component | boolean | string }`
-- デフォルト: `{ transition: TransitionStub, 'transition-group': TransitionGroupStub }`
+- デフォルト: `{}`
 
 コンポーネントで使用するスタブはマウンティングオプションの `stubs` で設定します。
 
