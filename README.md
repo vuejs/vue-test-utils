@@ -27,13 +27,6 @@ npm install --save-dev vue-template-compiler
 
 Refer to the [documentation](https://vue-test-utils.vuejs.org/)
 
-## Examples
-
-- [example with Jest](https://github.com/vuejs/vue-test-utils-jest-example)
-- [example with Mocha](https://github.com/vuejs/vue-test-utils-mocha-webpack-example)
-- [example with tape](https://github.com/eddyerburgh/vue-test-utils-tape-example)
-- [example with AVA](https://github.com/eddyerburgh/vue-test-utils-ava-example)
-
 ## Questions
 
 For questions and support please use the [Discord chat room](https://vue-land.js.org/) or [the official forum](http://forum.vuejs.org). The issue list of this repo is **exclusively** for bug reports and feature requests.
