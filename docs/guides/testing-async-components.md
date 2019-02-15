@@ -1,8 +1,33 @@
 ## Testing Asynchronous Behavior
 
-To simplify testing, Vue Test Utils applies DOM updates _synchronously_. However, there are some techniques you need to be aware of when testing a component with asynchronous behavior such as callbacks or promises.
+There are two types of asynchoronous behavior:
 
-One of the most common asynchronous behaviors is API calls and Vuex actions. The following examples shows how to test a method that makes an API call. This example uses Jest to run the test and to mock the HTTP library `axios`. More about Jest manual mocks can be found [here](https://jestjs.io/docs/en/manual-mocks.html#content).
+1. Updates applied by Vue
+2. Updates outside of Vue
+
+## Updates applied by Vue
+
+Vue batches pending DOM updates and applies them asynchronously to prevent unnecessary re-renders caused by multiple data mutations.
+
+_Read more about asynchronous updates in the [Vue docs](https://vuejs.org/v2/guide/reactivity.html#Async-Update-Queue)_
+
+We have to use `Vue.nextTick()` to wait until Vue has performed the actual DOM update after we trigger some state change.
+
+The easiest way to use `Vue.nextTick` is to use `async/await`:
+
+```js
+it('button click should increment the count text', async () => {
+  expect(wrapper.vm.count).toBe(0)
+  const button = wrapper.find('button')
+  button.trigger('click')
+  await Vue.nextTick()
+  expect(wrapper.vm.count).toBe(1)
+})
+```
+
+## Updates outside of Vue
+
+One of the most common asynchronous behaviors outside of Vue is API calls in Vuex actions. The following examples shows how to test a method that makes an API call. This example uses Jest to run the test and to mock the HTTP library `axios`. More about Jest manual mocks can be found [here](https://jestjs.io/docs/en/manual-mocks.html#content).
 
 The implementation of the `axios` mock looks like this:
 
