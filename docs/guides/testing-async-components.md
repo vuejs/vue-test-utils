@@ -17,11 +17,11 @@ The easiest way to use `Vue.nextTick()` is to write your tests in an async funct
 
 ```js
 it('button click should increment the count text', async () => {
-  expect(wrapper.vm.count).toBe(0)
+  expect(wrapper.text()).toContain('0')
   const button = wrapper.find('button')
   button.trigger('click')
   await Vue.nextTick()
-  expect(wrapper.vm.count).toBe(1)
+  expect(wrapper.text()).toContain('1')
 })
 ```
 
