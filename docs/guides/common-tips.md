@@ -42,7 +42,7 @@ it('updates text', async () => {
 })
 ```
 
-The following methods will probably require you to wait for the next tick:
+The following methods often cause watcher updates that require you to wait for the next tick:
 
 - `setChecked`
 - `setData`
