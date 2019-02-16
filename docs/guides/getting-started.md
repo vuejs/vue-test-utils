@@ -108,9 +108,9 @@ In order to test that the counter text has updated, we need to learn about `next
 
 Vue batches pending DOM updates and applies them asynchronously to prevent unnecessary re-renders caused by multiple data mutations.
 
-_Read more about asynchronous updates in the [Vue docs](https://vuejs.org/v2/guide/reactivity.html#Async-Update-Queue)_
+_You can read more about asynchronous updates in the [Vue docs](https://vuejs.org/v2/guide/reactivity.html#Async-Update-Queue)_
 
-We need to use `Vue.nextTick()` to wait until Vue has performed the actual DOM update after we trigger some state change.
+We need to use `Vue.nextTick()` to wait until Vue has performed the DOM update after we set a reactive property. In the counter example, setting the `count` property schedules a DOM update to run on the next tick.
 
 The easiest way to use `Vue.nextTick` is to write your tests in an async function:
 

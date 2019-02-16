@@ -44,12 +44,12 @@ it('updates text', async () => {
 
 The following methods will probably require you to wait for the next tick:
 
-* `setChecked`
-* `setData`
-* `setSelected`
-* `setProps`
-* `setValue`
-* `trigger`
+- `setChecked`
+- `setData`
+- `setSelected`
+- `setProps`
+- `setValue`
+- `trigger`
 
 ### Asserting Emitted Events
 

@@ -9,7 +9,7 @@ There are two types of asynchronous behavior you will encounter in your tests:
 
 Vue batches pending DOM updates and applies them asynchronously to prevent unnecessary re-renders caused by multiple data mutations.
 
-_Read more about asynchronous updates in the [Vue docs](https://vuejs.org/v2/guide/reactivity.html#Async-Update-Queue)_
+_You can read more about asynchronous updates in the [Vue docs](https://vuejs.org/v2/guide/reactivity.html#Async-Update-Queue)_
 
 In practice, that means you have to use `Vue.nextTick()` to wait until Vue has performed updates after you set a reactive property.
 
