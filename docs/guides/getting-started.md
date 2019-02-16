@@ -112,7 +112,7 @@ _You can read more about asynchronous updates in the [Vue docs](https://vuejs.or
 
 We need to use `Vue.nextTick()` to wait until Vue has performed the DOM update after we set a reactive property. In the counter example, setting the `count` property schedules a DOM update to run on the next tick.
 
-The easiest way to use `Vue.nextTick` is to write your tests in an async function:
+We can `await` `Vue.nextTick()` by writing the tests in an async function:
 
 ```js
 it('button click should increment the count text', async () => {
