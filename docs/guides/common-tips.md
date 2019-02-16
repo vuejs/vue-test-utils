@@ -29,11 +29,9 @@ wrapper.vm // the mounted Vue instance
 
 ### Using `nextTick`
 
-Vue batches updates and runs them on the "next tick".
+Vue batches watcher updates and runs them asynchronously on the "next tick".
 
-In practice, this means that if your testing that the DOM updates correctly, you will need to wait until updates run before you can make an assertion.
-
-You can wait for updates with `Vue.nextTick`:
+In practice, this means you must wait for updates to run after you set a reactive property. You can wait for updates with `Vue.nextTick()`:
 
 ```js
 it('updates text', async () => {
@@ -44,23 +42,14 @@ it('updates text', async () => {
 })
 ```
 
-You need to wait for the next tick after any interaction that causes a watched property to update. For example, the following methods will probably require you to run `nextTick`:
+The following methods will probably require you to wait for the next tick:
 
-* `trigger`
+* `setChecked`
 * `setData`
+* `setSelected`
 * `setProps`
-*
-
-You will also need to wait for the next tick when you update an instance value:
-
-```js
-it('updates text', async () => {
-  const wrapper = mount(Component)
-  wrapper.vm.text = 'updated'
-  await Vue.nextTick()
-  expect(wrapper.text()).toContain('updated')
-})
-```
+* `setValue`
+* `trigger`
 
 ### Asserting Emitted Events
 
