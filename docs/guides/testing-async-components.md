@@ -1,6 +1,6 @@
 ## Testing Asynchronous Behavior
 
-There are two types of asynchoronous behavior:
+There are two types of asynchronous behavior you will encounter in your tests:
 
 1. Updates applied by Vue
 2. Updates outside of Vue
@@ -11,9 +11,9 @@ Vue batches pending DOM updates and applies them asynchronously to prevent unnec
 
 _Read more about asynchronous updates in the [Vue docs](https://vuejs.org/v2/guide/reactivity.html#Async-Update-Queue)_
 
-We have to use `Vue.nextTick()` to wait until Vue has performed the actual DOM update after we trigger some state change.
+In practice, that means you have to use `Vue.nextTick()` to wait until Vue has performed updates after you set a reactive property.
 
-The easiest way to use `Vue.nextTick` is to use `async/await`:
+The easiest way to use `Vue.nextTick()` is to write your tests in an async function:
 
 ```js
 it('button click should increment the count text', async () => {
