@@ -110,9 +110,9 @@ Vue batches pending DOM updates and applies them asynchronously to prevent unnec
 
 _Read more about asynchronous updates in the [Vue docs](https://vuejs.org/v2/guide/reactivity.html#Async-Update-Queue)_
 
-We have to use `Vue.nextTick()` to wait until Vue has performed the actual DOM update after we trigger some state change.
+We need to use `Vue.nextTick()` to wait until Vue has performed the actual DOM update after we trigger some state change.
 
-The easiest way to use `Vue.nextTick` is to use `async/await`:
+The easiest way to use `Vue.nextTick` is to write your tests in an async function:
 
 ```js
 it('button click should increment the count text', async () => {
