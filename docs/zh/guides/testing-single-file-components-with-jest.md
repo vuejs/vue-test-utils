@@ -90,7 +90,7 @@ npm install --save-dev babel-jest
     "transform": {
       // ...
       // 用 `babel-jest` 处理 js
-      "^.+\\.js$": "<rootDir>/node_modules/babel-jest"
+      "^.+\.js$": "<rootDir>/node_modules/babel-jest"
     }
     // ...
   }
