@@ -120,7 +120,7 @@ npm install --save-dev babel-jest
 
 ### 放置测试文件
 
-默认情况下，Jest 将会递归的找到整个工程里所有 `.spec.js` 或 `.test.js` 扩展名的文件。如果这不符合你的需求，你也可以在 `package.json` 里的配置段落中[改变它的 `testRegex`](https://jestjs.io/docs/en/configuration.html#testregex-string-array-string)。
+默认情况下，Jest 将会递归的找到整个工程里所有 `.spec.js` 或 `.test.js` 扩展名的文件。如果这不符合你的需求，你也可以在 `package.json` 里的配置段落中[改变它的 `testRegex`](https://jestjs.io/docs/zh-Hans/configuration#testregex-string-array-string)。
 
 Jest 推荐你在被测试代码的所在目录下创建一个 `__tests__` 目录，但你也可以为你的测试文件随意设计自己习惯的文件结构。不过要当心 Jest 会为快照测试在临近测试文件的地方创建一个 `__snapshots__` 目录。
 
@@ -128,7 +128,7 @@ Jest 推荐你在被测试代码的所在目录下创建一个 `__tests__` 目�
 
 Jest 可以被用来生成多种格式的测试覆盖率报告。以下是一个简单的起步的例子：
 
-扩展你的 `jest` 配置 (通常在 `package.json` 或 `jest.config.js` 中) 的 [`collectCoverage`](https://jestjs.io/docs/en/configuration.html#collectcoverage-boolean) 选项，然后添加 [`collectCoverageFrom`](https://jestjs.io/docs/en/configuration.html#collectcoveragefrom-array) 数组来定义需要收集测试覆盖率信息的文件。
+扩展你的 `jest` 配置 (通常在 `package.json` 或 `jest.config.js` 中) 的 [`collectCoverage`](https://jestjs.io/docs/zh-Hans/configuration#collectcoverage-boolean) 选项，然后添加 [`collectCoverageFrom`](https://jestjs.io/docs/zh-Hans/configuration#collectcoveragefrom-array) 数组来定义需要收集测试覆盖率信息的文件。
 
 ```json
 {
@@ -140,7 +140,7 @@ Jest 可以被用来生成多种格式的测试覆盖率报告。以下是一个
 }
 ```
 
-这样就会开启[默认格式的测试覆盖率报告](https://jestjs.io/docs/en/configuration.html#coveragereporters-array-string)。你可以通过 `coverageReporters` 选项来定制它们。
+这样就会开启[默认格式的测试覆盖率报告](https://jestjs.io/docs/zh-Hans/configuration#coveragereporters-array-string)。你可以通过 `coverageReporters` 选项来定制它们。
 
 ```json
 {
@@ -151,11 +151,11 @@ Jest 可以被用来生成多种格式的测试覆盖率报告。以下是一个
 }
 ```
 
-更多文档内容请移步至 [Jest 配置文档](https://jestjs.io/docs/en/configuration.html#collectcoverage-boolean)，在那里你可以找到覆盖率阀值、目标输出目录等选项。
+更多文档内容请移步至 [Jest 配置文档](https://jestjs.io/docs/zh-Hans/configuration#collectcoverage-boolean)，在那里你可以找到覆盖率阀值、目标输出目录等选项。
 
 ### 测试规范示例
 
-如果你已经熟悉了 Jasmine，你应该很适应 Jest 的[断言 API](https://jestjs.io/docs/en/expect.html#content)：
+如果你已经熟悉了 Jasmine，你应该很适应 Jest 的[断言 API](https://jestjs.io/docs/zh-Hans/expect.htm)：
 
 ```js
 import { mount } from '@vue/test-utils'
@@ -171,7 +171,7 @@ describe('Component', () => {
 
 ### 快照测试
 
-当你用 Vue Test Utils 挂载一个组件时，你可以访问到 HTML 根元素。这可以保存为一个快照为 [Jest 快照测试](https://jestjs.io/docs/en/snapshot-testing.html)所用。
+当你用 Vue Test Utils 挂载一个组件时，你可以访问到 HTML 根元素。这可以保存为一个快照为 [Jest 快照测试](https://jestjs.io/docs/zh-Hans/snapshot-testing)所用。
 
 ```js
 test('renders correctly', () => {
