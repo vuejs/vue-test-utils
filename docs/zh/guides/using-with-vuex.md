@@ -95,7 +95,7 @@ describe('Actions.vue', () => {
 
 然后我们用 `new Vuex.Store` 伪造了一个 store 并填入假数据。我们只把它传递给 action，因为我们只关心这个。
 
-该 action 是 [Jest 伪造函数](https://jestjs.io/docs/en/mock-functions.html)。这些伪造函数让我们去断言该 action 是否被调用。
+该 action 是 [Jest 伪造函数](https://jestjs.io/docs/zh-Hans/mock-functions)。这些伪造函数让我们去断言该 action 是否被调用。
 
 然后我们可以在我们的测试中断言 action 存根是否如预期般被调用。
 
@@ -154,13 +154,13 @@ describe('Getters.vue', () => {
     })
   })
 
-  it('在第一个 p 标签中渲染“state.inputValue”', () => {
+  it('在第一个 p 标签中渲染“store.state.inputValue”', () => {
     const wrapper = shallowMount(Getters, { store, localVue })
     const p = wrapper.find('p')
     expect(p.text()).toBe(getters.inputValue())
   })
 
-  it('在第二个 p 标签中渲染“state.clicks”', () => {
+  it('在第二个 p 标签中渲染“store.state.clicks”', () => {
     const wrapper = shallowMount(Getters, { store, localVue })
     const p = wrapper.findAll('p').at(1)
     expect(p.text()).toBe(getters.clicks().toString())
@@ -245,7 +245,7 @@ describe('MyComponent.vue', () => {
     expect(actions.moduleActionClick).toHaveBeenCalled()
   })
 
-  it('在第一个 p 标签内渲染“state.inputValue”', () => {
+  it('在第一个 p 标签内渲染“state.clicks', () => {
     const wrapper = shallowMount(MyComponent, { store, localVue })
     const p = wrapper.find('p')
     expect(p.text()).toBe(state.clicks.toString())
@@ -290,7 +290,7 @@ Getter、mutation 和 action 全部是 JavaScript 函数，所以我们可以不
 
 import mutations from './mutations'
 
-test('increment increments state.count by 1', () => {
+test('"increment" increments "state.count" by 1', () => {
   const state = {
     count: 0
   }
@@ -306,14 +306,14 @@ test('increment increments state.count by 1', () => {
 
 import getters from './getters'
 
-test('evenOrOdd returns even if state.count is even', () => {
+test('"evenOrOdd" returns even if "state.count" is even', () => {
   const state = {
     count: 2
   }
   expect(getters.evenOrOdd(state)).toBe('even')
 })
 
-test('evenOrOdd returns odd if state.count is odd', () => {
+test('"evenOrOdd" returns odd if "state.count" is odd', () => {
   const state = {
     count: 1
   }
@@ -354,7 +354,7 @@ import Vuex from 'vuex'
 import storeConfig from './store-config'
 import { cloneDeep } from 'lodash'
 
-test('increments count value when increment is commited', () => {
+test('increments "count" value when "increment" is commited', () => {
   const localVue = createLocalVue()
   localVue.use(Vuex)
   const store = new Vuex.Store(cloneDeep(storeConfig))
@@ -363,7 +363,7 @@ test('increments count value when increment is commited', () => {
   expect(store.state.count).toBe(1)
 })
 
-test('updates evenOrOdd getter when increment is commited', () => {
+test('updates "evenOrOdd" getter when "increment" is commited', () => {
   const localVue = createLocalVue()
   localVue.use(Vuex)
   const store = new Vuex.Store(cloneDeep(storeConfig))
