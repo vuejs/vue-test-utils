@@ -96,7 +96,7 @@ This adds a browser environment to Node, so that Vue Test Utils can run correctl
 
 [Chai](http://chaijs.com/) is a popular assertion library that is commonly used alongside Mocha. You may also want to check out [Sinon](http://sinonjs.org/) for creating spies and stubs.
 
-Alternatively you can use `expect` which is now part of Jest, and exposes [the exact same API](http://facebook.github.io/jest/docs/en/expect.html#content) in Jest docs.
+Alternatively you can use `expect` which is now part of Jest, and exposes [the exact same API](https://jestjs.io/docs/en/expect#content) in Jest docs.
 
 We will be using `expect` here and make it globally available so that we don't have to import it in every test:
 
@@ -181,4 +181,4 @@ To setup code coverage to `mocha-webpack`, follow [the `mocha-webpack` code cove
 - [mocha-webpack](http://zinserjan.github.io/mocha-webpack/)
 - [Chai](http://chaijs.com/)
 - [Sinon](http://sinonjs.org/)
-- [jest/expect](http://facebook.github.io/jest/docs/en/expect.html#content)
+- [jest/expect](https://jestjs.io/docs/en/expect#content)
