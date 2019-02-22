@@ -3,7 +3,7 @@ version: 2
 defaults: &defaults
   working_directory: ~/repo/vue-test-utils
   docker:
-    - image: circleci/node:6.13.0-stretch-browsers
+    - image: vuejs/ci
 restore_node_modules: &restore_node_modules
   restore_cache:
     name: Restore node_modules cache
