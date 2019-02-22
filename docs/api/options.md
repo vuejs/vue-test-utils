@@ -1,6 +1,11 @@
 # Mounting Options
 
-Options for `mount` and `shallowMount`. The options object can contain both Vue Test Utils mounting options and other options.
+Options for `mount` and `shallowMount`.
+
+:::tip
+Aside form the options documented below, the `options` object can contain any option that would be valid in a call to `new Vue ({ /*options here*/ })`.
+These options will be merged with the component's existing options when mounted with `mount` / `shallowMount`
+:::
 
 - [`context`](#context)
 - [`slots`](#slots)
