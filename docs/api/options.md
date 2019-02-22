@@ -5,6 +5,8 @@ Options for `mount` and `shallowMount`.
 :::tip
 Aside form the options documented below, the `options` object can contain any option that would be valid in a call to `new Vue ({ /*options here*/ })`.
 These options will be merged with the component's existing options when mounted with `mount` / `shallowMount`
+
+[See other options for examples](#other-options)
 :::
 
 - [`context`](#context)
