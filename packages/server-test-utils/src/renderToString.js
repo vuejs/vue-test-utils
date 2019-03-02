@@ -20,12 +20,12 @@ export default function renderToString(
 
   if (!renderer) {
     throwError(
-      `renderToString must be run in node. It cannot be ` + `run in a browser`
+      `renderToString must be run in node. It cannot be run in a browser`
     )
   }
 
   if (options.attachToDocument) {
-    throwError(`you cannot use attachToDocument with ` + `renderToString`)
+    throwError(`you cannot use attachToDocument with renderToString`)
   }
 
   const mergedOptions = mergeOptions(options, config)
@@ -36,14 +36,6 @@ export default function renderToString(
     mergedOptions,
     testUtils.createLocalVue(options.localVue)
   )
-  let renderedString = ''
 
-  // $FlowIgnore
-  renderer.renderToString(vm, (err, res) => {
-    if (err) {
-      throw err
-    }
-    renderedString = res
-  })
-  return renderedString
+  return renderer.renderToString(vm)
 }

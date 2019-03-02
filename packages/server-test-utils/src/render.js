@@ -3,10 +3,10 @@
 import renderToString from './renderToString'
 import cheerio from 'cheerio'
 
-export default function render(
+export default async function render(
   component: Component,
   options: Options = {}
-): string {
-  const renderedString = renderToString(component, options)
+): Promise<string> {
+  const renderedString = await renderToString(component, options)
   return cheerio.load('')(renderedString)
 }
