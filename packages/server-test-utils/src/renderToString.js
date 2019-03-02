@@ -15,7 +15,7 @@ Vue.config.devtools = false
 export default function renderToString(
   component: Component,
   options: Options = {}
-): string {
+): Promise<string> {
   const renderer = createRenderer()
 
   if (!renderer) {
