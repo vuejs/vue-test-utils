@@ -4,17 +4,22 @@ import { normalOptions, functionalOptions, Normal, ClassComponent } from './reso
 
 const store = new Vuex.Store({})
 
-const renderResult: Cheerio = render(
-  {
-    template: '<p>foo</p>'
-  },
-  {
-    attachToDocument: true,
-    scopedSlots: {
-      foo: `<div>Foo</div>`
+async function test () {
+  const renderResult: Cheerio = await render(
+    {
+      template: '<p>foo</p>'
+    },
+    {
+      attachToDocument: true,
+      scopedSlots: {
+        foo: `<div>Foo</div>`
+      }
     }
-  }
-)
+  )
+  const str: string = await renderToString(ClassComponent)
+}
+
+test()
 
 renderToString(ClassComponent, {
   mocks: {
