@@ -1,4 +1,4 @@
-## setChecked(checked)
+## setChecked
 
 该方法是接下来这段代码的别名：
 

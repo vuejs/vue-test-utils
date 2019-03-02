@@ -1,4 +1,4 @@
-## filter(predicate)
+## filter
 
 用一个针对 `Wrapper` 的断言函数过滤 `WrapperArray`。
 

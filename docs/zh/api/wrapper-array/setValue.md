@@ -1,4 +1,4 @@
-## setValue(value)
+## setValue
 
 该方法是接下来这段代码的别名：
 

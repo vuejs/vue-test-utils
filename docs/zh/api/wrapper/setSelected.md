@@ -1,4 +1,4 @@
-## setSelected()
+## setSelected
 
 选择一个 option 元素并更新 `v-model` 绑定的数据。
 

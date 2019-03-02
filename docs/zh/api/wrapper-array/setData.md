@@ -1,4 +1,4 @@
-## setData(data)
+## setData
 
 为 `WrapperArray` 的每个 `Wrapper` `vm` 都设置数据。
 

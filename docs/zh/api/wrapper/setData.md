@@ -1,4 +1,4 @@
-## setData(data)
+## setData
 
 设置 `Wrapper` `vm` 的属性。
 

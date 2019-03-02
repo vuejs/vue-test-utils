@@ -1,4 +1,4 @@
-## trigger(eventType [, options ])
+## trigger
 
 在该 `Wrapper` DOM 节点上触发一个事件。
 
