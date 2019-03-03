@@ -554,4 +554,26 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
       )
     }
   )
+
+  itDoNotRunIf(vueVersion < 2.2, 'stubs model', () => {
+    const ChildComponent = {
+      template: '<div />',
+      model: {
+        prop: 'a',
+        event: 'change'
+      },
+      props: ['a']
+    }
+    const TestComponent = {
+      template: '<child-component v-model="val" />',
+      data() {
+        return {
+          val: '123'
+        }
+      },
+      components: { ChildComponent }
+    }
+    const wrapper = shallowMount(TestComponent)
+    expect(wrapper.find(ChildComponent).vm.a).to.equal('123')
+  })
 })
