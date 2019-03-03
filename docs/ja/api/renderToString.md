@@ -72,7 +72,7 @@ describe('Foo', () => {
     const str = await renderToString(Foo, {
       slots: {
         default: [Bar, FooBar],
-        fooBar: FooBar, // Will match <slot name="FooBar" />,
+        fooBar: FooBar, // <slot name="FooBar" /> にマッチします。
         foo: '<div />'
       }
     })

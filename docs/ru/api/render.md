@@ -74,7 +74,7 @@ describe('Foo', () => {
     const wrapper = await render(Foo, {
       slots: {
         default: [Bar, FooBar],
-        fooBar: FooBar, // Will match <slot name="FooBar" />,
+        fooBar: FooBar, // Будет соответствовать <slot name="FooBar" />,
         foo: '<div />'
       }
     })
