@@ -1,16 +1,14 @@
 import { attrsSupported } from '~resources/utils'
 import {
-  describeWithMountingMethods,
+  describeWithShallowAndMount,
   isRunningPhantomJS,
   vueVersion
 } from '~resources/utils'
 import { itSkipIf, itDoNotRunIf } from 'conditional-specs'
 
-describeWithMountingMethods('options.attrs', mountingMethod => {
+describeWithShallowAndMount('options.attrs', mountingMethod => {
   itDoNotRunIf(
-    vueVersion < 2.4 ||
-      mountingMethod.name === 'renderToString' ||
-      isRunningPhantomJS,
+    vueVersion < 2.4 || isRunningPhantomJS,
     'handles inherit attrs',
     () => {
       if (!attrsSupported) return
@@ -28,7 +26,7 @@ describeWithMountingMethods('options.attrs', mountingMethod => {
   )
 
   itSkipIf(
-    mountingMethod.name === 'renderToString' || vueVersion < 2.5,
+    vueVersion < 2.5,
     'defines attrs as empty object even when not passed',
     () => {
       const wrapper = mountingMethod({ template: '<p />' })

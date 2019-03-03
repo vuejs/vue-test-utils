@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import {
-  describeWithMountingMethods,
+  describeWithShallowAndMount,
   isRunningPhantomJS,
   vueVersion
 } from '~resources/utils'
@@ -8,7 +8,7 @@ import { createLocalVue, shallowMount, mount } from '~vue/test-utils'
 import { itSkipIf, itRunIf, itDoNotRunIf } from 'conditional-specs'
 import Vuex from 'vuex'
 
-describeWithMountingMethods('options.localVue', mountingMethod => {
+describeWithShallowAndMount('options.localVue', mountingMethod => {
   itSkipIf(
     isRunningPhantomJS,
     'mounts component using passed localVue as base Vue',
@@ -21,9 +21,7 @@ describeWithMountingMethods('options.localVue', mountingMethod => {
       const wrapper = mountingMethod(TestComponent, {
         localVue: localVue
       })
-      const HTML =
-        mountingMethod.name === 'renderToString' ? wrapper : wrapper.html()
-      expect(HTML).to.contain('some value')
+      expect(wrapper.html()).to.contain('some value')
     }
   )
 
