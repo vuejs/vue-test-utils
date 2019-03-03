@@ -555,7 +555,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
     }
   )
 
-  it('stubs model', () => {
+  itDoNotRunIf(vueVersion < 2.2, 'stubs model', () => {
     const ChildComponent = {
       template: '<div />',
       model: {
