@@ -97,7 +97,6 @@ describe('Click event', () => {
   const KEY_DOWN = 40
   const KEY_UP = 38
   const ESCAPE = 27
-  const CHAR_A = 65
 
   export default {
     data() {
@@ -125,7 +124,7 @@ describe('Click event', () => {
         if (e.keyCode === KEY_UP) {
           this.increment()
         }
-        if (e.which === CHAR_A) {
+        if (e.key === 'a') {
           this.quantity = 13
         }
       }
@@ -174,7 +173,7 @@ describe('Key event tests', () => {
   it('Magic character "a" sets quantity to 13', () => {
     const wrapper = mount(QuantityComponent)
     wrapper.trigger('keydown', {
-      which: 65
+      key: 'a'
     })
     expect(wrapper.vm.quantity).toBe(13)
   })

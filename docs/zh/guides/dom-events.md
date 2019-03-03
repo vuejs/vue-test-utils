@@ -101,7 +101,6 @@ describe('点击事件', () => {
   const KEY_DOWN = 40
   const KEY_UP = 38
   const ESCAPE = 27
-  const CHAR_A = 65
 
   export default {
     data() {
@@ -130,7 +129,7 @@ describe('点击事件', () => {
         if (e.keyCode === KEY_UP) {
           this.increment()
         }
-        if (e.which === CHAR_A) {
+        if (e.key === 'a') {
           this.quantity = 13
         }
       }
@@ -180,7 +179,7 @@ describe('键盘事件测试', () => {
   it('魔术字符 "a" 键将数量设置为 13', () => {
     const wrapper = mount(QuantityComponent)
     wrapper.trigger('keydown', {
-      which: 65
+      key: 'a'
     })
     expect(wrapper.vm.quantity).toBe(13)
   })
