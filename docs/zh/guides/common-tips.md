@@ -103,7 +103,7 @@ describe('ParentComponent', () => {
   it("displays 'Emitted!' when custom event is emitted", () => {
     const wrapper = shallowMount(ParentComponent)
     wrapper.find(ChildComponent).vm.$emit('custom')
-    expect(wrapper.html()).toContain('Emitted!')
+    expect(wrapper.html()).toContain('触发！')
   })
 })
 ```
