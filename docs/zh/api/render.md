@@ -36,7 +36,7 @@ import { render } from '@vue/server-test-utils'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {
-  it('renders a div', async () => {
+  it('创建一个块级元素', async () => {
     const wrapper = await render(Foo)
     expect(wrapper.text()).toContain('<div></div>')
   })
@@ -50,7 +50,7 @@ import { render } from '@vue/server-test-utils'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {
-  it('renders a div', async () => {
+  it('创建一个块级元素', async () => {
     const wrapper = await render(Foo, {
       propsData: {
         color: 'red'
@@ -70,7 +70,7 @@ import Bar from './Bar.vue'
 import FooBar from './FooBar.vue'
 
 describe('Foo', () => {
-  it('renders a div', async () => {
+  it('创建一个块级元素', async () => {
     const wrapper = await render(Foo, {
       slots: {
         default: [Bar, FooBar],
@@ -90,7 +90,7 @@ import { render } from '@vue/server-test-utils'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {
-  it('renders a div', async () => {
+  it('创建一个块级元素', async () => {
     const $route = { path: 'http://www.example-path.com' }
     const wrapper = await render(Foo, {
       mocks: {

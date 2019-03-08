@@ -22,7 +22,7 @@ import { mount } from '@vue/test-utils'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {
-  it('renders a div', () => {
+  it('创建一个块级元素', () => {
     const wrapper = mount(Foo)
     expect(wrapper.contains('div')).toBe(true)
   })
@@ -36,7 +36,7 @@ import { mount } from '@vue/test-utils'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {
-  it('renders a div', () => {
+  it('创建一个块级元素', () => {
     const wrapper = mount(Foo, {
       propsData: {
         color: 'red'
@@ -54,7 +54,7 @@ import { mount } from '@vue/test-utils'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {
-  it('renders a div', () => {
+  it('创建一个块级元素', () => {
     const wrapper = mount(Foo, {
       attachToDocument: true
     })
@@ -72,7 +72,7 @@ import Bar from './Bar.vue'
 import FooBar from './FooBar.vue'
 
 describe('Foo', () => {
-  it('renders a div', () => {
+  it('创建一个块级元素', () => {
     const wrapper = mount(Foo, {
       slots: {
         default: [Bar, FooBar],
@@ -92,7 +92,7 @@ import { mount } from '@vue/test-utils'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {
-  it('renders a div', () => {
+  it('创建一个块级元素', () => {
     const $route = { path: 'http://www.example-path.com' }
     const wrapper = mount(Foo, {
       mocks: {
@@ -113,7 +113,7 @@ import Bar from './Bar.vue'
 import Faz from './Faz.vue'
 
 describe('Foo', () => {
-  it('renders a div', () => {
+  it('创建一个块级元素', () => {
     const wrapper = mount(Foo, {
       stubs: {
         Bar: '<div class="stubbed" />',

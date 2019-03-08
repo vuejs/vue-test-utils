@@ -114,7 +114,7 @@ _注意：当你需要为诸如异步回调或 Promise 解析等操作显性改�
 
 ```js
 // 这不会被捕获
-it('will time out', done => {
+it('超时的操作', done => {
   Vue.nextTick(() => {
     expect(true).toBe(false)
     done()
@@ -122,7 +122,7 @@ it('will time out', done => {
 })
 
 // 接下来的两项测试都会如预期工作
-it('will catch the error using done', done => {
+it('将使用 done 捕获错误', done => {
   Vue.config.errorHandler = done
   Vue.nextTick(() => {
     expect(true).toBe(false)
@@ -130,7 +130,7 @@ it('will catch the error using done', done => {
   })
 })
 
-it('will catch the error using a promise', () => {
+it('将使用 promise 捕获错误', () => {
   return Vue.nextTick().then(function() {
     expect(true).toBe(false)
   })

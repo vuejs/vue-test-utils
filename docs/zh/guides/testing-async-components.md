@@ -46,7 +46,7 @@ import { shallowMount } from '@vue/test-utils'
 import Foo from './Foo'
 jest.mock('axios')
 
-it('fetches async when a button is clicked', () => {
+it('单击按钮时获取异步', () => {
   const wrapper = shallowMount(Foo)
   wrapper.find('button').trigger('click')
   expect(wrapper.vm.value).toBe('value')
@@ -56,7 +56,7 @@ it('fetches async when a button is clicked', () => {
 现在这则测试用例会失败，因为断言在 `fetchResults` 中的 Promise 完成之前就被调用了。大多数单元测试库都提供一个回调来使得运行期知道测试用例的完成时机。Jest 和 Mocha 都是用了 `done`。我们可以和 `$nextTick` 或 `setTimeout` 结合使用 `done` 来确保任何 Promise 都会在断言之前完成。
 
 ```js
-it('fetches async when a button is clicked', done => {
+it('单击按钮时获取异步', done => {
   const wrapper = shallowMount(Foo)
   wrapper.find('button').trigger('click')
   wrapper.vm.$nextTick(() => {
@@ -78,7 +78,7 @@ import flushPromises from 'flush-promises'
 import Foo from './Foo'
 jest.mock('axios')
 
-it('fetches async when a button is clicked', async () => {
+it('单击按钮时获取异步', async () => {
   const wrapper = shallowMount(Foo)
   wrapper.find('button').trigger('click')
   await flushPromises()
