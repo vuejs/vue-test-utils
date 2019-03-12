@@ -31,7 +31,7 @@ import { shallowMount } from '@vue/test-utils'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {
-  it('返回一个 div', () => {
+  it('renders a div', () => {
     const wrapper = shallowMount(Foo)
     expect(wrapper.contains('div')).toBe(true)
   })
@@ -45,7 +45,7 @@ import { shallowMount } from '@vue/test-utils'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {
-  it('渲染一个 div', () => {
+  it('renders a div', () => {
     const wrapper = shallowMount(Foo, {
       propsData: {
         color: 'red'
@@ -63,7 +63,7 @@ import { shallowMount } from '@vue/test-utils'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {
-  it('渲染一个 div', () => {
+  it('renders a div', () => {
     const wrapper = shallowMount(Foo, {
       attachToDocument: true
     })
