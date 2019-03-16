@@ -125,7 +125,10 @@ export default class Wrapper implements BaseWrapper {
    */
   destroy(): void {
     if (!this.isVueInstance() && !this.isFunctionalComponent) {
-      throwError(`wrapper.destroy() can only be called on a Vue instance or functional component`)
+      throwError(
+        `wrapper.destroy() can only be called on a Vue instance or ` +
+          `functional component.`
+      )
     }
 
     if (this.element.parentNode) {
