@@ -40,6 +40,16 @@ describeWithShallowAndMount('destroy', mountingMethod => {
     expect(wrapper.vm.$el.parentNode).to.be.null
   })
 
+  it('removes functional component element from document.body', () => {
+    const wrapper = mountingMethod(
+      { template: '<div />', functional: true },
+      { attachToDocument: true }
+    )
+    expect(wrapper.element.parentNode).to.equal(document.body)
+    wrapper.destroy()
+    expect(wrapper.element.parentNode).to.be.null
+  })
+
   it('throws if component throws during destroy', () => {
     const TestComponent = {
       template: '<div :p="a" />',
