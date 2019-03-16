@@ -42,7 +42,12 @@ describeWithShallowAndMount('destroy', mountingMethod => {
 
   it('removes functional component element from document.body', () => {
     const wrapper = mountingMethod(
-      { template: '<div />', functional: true },
+      {
+        functional: true,
+        render: h => {
+          return h('div', {}, [])
+        }
+      },
       { attachToDocument: true }
     )
     expect(wrapper.element.parentNode).to.equal(document.body)
