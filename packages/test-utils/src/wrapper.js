@@ -132,7 +132,7 @@ export default class Wrapper implements BaseWrapper {
       this.element.parentNode.removeChild(this.element)
     }
 
-    if (!this.isFunctionalComponent) {
+    if (this.isVueInstance()) {
       // $FlowIgnore
       this.vm.$destroy()
       throwIfInstancesThrew(this.vm)
