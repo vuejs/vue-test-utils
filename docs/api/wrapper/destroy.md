@@ -17,3 +17,8 @@ mount({
 }).destroy()
 expect(spy.calledOnce).toBe(true)
 ```
+
+if `attachToDocument` was set to `true` when mounted, the component dom elements will
+also be removed from the document.
+
+For functional components, `destroy` only removes the rendered dom elements from the document.
