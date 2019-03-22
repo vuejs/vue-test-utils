@@ -206,6 +206,9 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 
 Component will be attached to DOM when rendered if set to `true`.
 
+When attaching to the DOM, you should call `wrapper.destroy()` at the end of your test to
+remove the rendered elements from the document and destroy the component instance.
+
 ## attrs
 
 - type: `Object`
