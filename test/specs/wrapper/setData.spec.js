@@ -340,18 +340,23 @@ describeWithShallowAndMount('setData', mountingMethod => {
     }
 
     const wrapper = mountingMethod(TestComponent)
+
+    // Make sure that the initial values are as intended
     expect(wrapper.vm.foo.bar.baz).to.equal('baq')
     expect(wrapper.vm.foo.bar.qux).to.equal('quz')
     expect(wrapper.vm.foo.bar2.baz2).to.equal('baq2')
 
+    // Using entirely dot strings should work
     wrapper.setData({ 'foo.bar.baz': 'puq', 'foo.bar.qux': 'qup' })
     expect(wrapper.vm.foo.bar.baz).to.equal('puq')
     expect(wrapper.vm.foo.bar.qux).to.equal('qup')
 
+    // Using a mix of dot strings and an object should work as well
     wrapper.setData({ 'foo.bar': { baz: 'pux' }, 'foo.bar2': { baz2: 'pux2' } })
     expect(wrapper.vm.foo.bar.baz).to.equal('pux')
     expect(wrapper.vm.foo.bar2.baz2).to.equal('pux2')
 
+    // Invalid dot strings as path should throw an error
     expect(() => {
       wrapper.setData({ 'foo..bar.baz': 'pug' })
     }).throw(Error, '[vue-test-utils]: Data key cannot start with a period (evaluating \'.bar.baz\').')
