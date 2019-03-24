@@ -359,6 +359,9 @@ describeWithShallowAndMount('setData', mountingMethod => {
     // Invalid dot strings as path should throw an error
     expect(() => {
       wrapper.setData({ 'foo..bar.baz': 'pug' })
-    }).throw(Error, '[vue-test-utils]: Data key cannot start with a period (evaluating \'.bar.baz\').')
+    }).throw(
+      Error,
+      "[vue-test-utils]: Data key cannot start with a period (evaluating '.bar.baz')."
+    )
   })
 })
