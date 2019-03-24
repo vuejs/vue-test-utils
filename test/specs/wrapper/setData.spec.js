@@ -321,4 +321,39 @@ describeWithShallowAndMount('setData', mountingMethod => {
     wrapper.setData({ selectedDate: testDate })
     expect(wrapper.vm.selectedDate).to.equal(testDate)
   })
+
+  it('allows setting data with dot strings as nested path', () => {
+    const TestComponent = {
+      template: `<div/>`,
+      data: () => ({
+        foo: {
+          bar: {
+            baz: 'baq',
+            qux: 'quz'
+          },
+          bar2: {
+            baz2: 'baq2',
+            qux2: 'quz2'
+          }
+        }
+      })
+    }
+
+    const wrapper = mountingMethod(TestComponent)
+    expect(wrapper.vm.foo.bar.baz).to.equal('baq')
+    expect(wrapper.vm.foo.bar.qux).to.equal('quz')
+    expect(wrapper.vm.foo.bar2.baz2).to.equal('baq2')
+
+    wrapper.setData({ 'foo.bar.baz': 'puq', 'foo.bar.qux': 'qup' })
+    expect(wrapper.vm.foo.bar.baz).to.equal('puq')
+    expect(wrapper.vm.foo.bar.qux).to.equal('qup')
+
+    wrapper.setData({ 'foo.bar': { baz: 'pux' }, 'foo.bar2': { baz2: 'pux2' } })
+    expect(wrapper.vm.foo.bar.baz).to.equal('pux')
+    expect(wrapper.vm.foo.bar2.baz2).to.equal('pux2')
+
+    expect(() => {
+      wrapper.setData({ 'foo..bar.baz': 'pug' })
+    }).throw(Error, '[vue-test-utils]: Data key cannot start with a period (evaluating \'.bar.baz\').')
+  })
 })
