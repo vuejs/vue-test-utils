@@ -356,6 +356,11 @@ describeWithShallowAndMount('setData', mountingMethod => {
     expect(wrapper.vm.foo.bar.baz).to.equal('pux')
     expect(wrapper.vm.foo.bar2.baz2).to.equal('pux2')
 
+    // Updating multiple values with dot strings should work as well
+    wrapper.setData({ foo: { 'bar.baz': 'pup', 'bar2.baz2': 'pup2' } })
+    expect(wrapper.vm.foo.bar.baz).to.equal('pup')
+    expect(wrapper.vm.foo.bar2.baz2).to.equal('pup2')
+
     // Invalid dot strings as path should throw an error
     expect(() => {
       wrapper.setData({ 'foo..bar.baz': 'pug' })
