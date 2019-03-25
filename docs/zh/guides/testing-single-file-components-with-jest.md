@@ -155,7 +155,7 @@ Jest 可以被用来生成多种格式的测试覆盖率报告。以下是一个
 
 ### 测试规范示例
 
-如果你已经熟悉了 Jasmine，你应该很适应 Jest 的[断言 API](https://jestjs.io/docs/zh-Hans/expect.htm)：
+如果你已经熟悉了 Jasmine，你应该很适应 Jest 的[断言 API](https://jestjs.io/docs/zh-Hans/expect)：
 
 ```js
 import { mount } from '@vue/test-utils'
