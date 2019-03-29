@@ -72,16 +72,16 @@ console.log(wrapper)
 import { mount } from '@vue/test-utils'
 import Counter from './counter'
 
-describe('计数器', () => {
+describe('Counter', () => {
   // 现在挂载组件，你便得到了这个包裹器
   const wrapper = mount(Counter)
 
-  it('渲染正确的标记', () => {
+  it('renders the correct markup', () => {
     expect(wrapper.html()).toContain('<span class="count">0</span>')
   })
 
   // 也便于检查已存在的元素
-  it('是一个按钮', () => {
+  it('has a button', () => {
     expect(wrapper.contains('button')).toBe(true)
   })
 })
@@ -94,7 +94,7 @@ describe('计数器', () => {
 当用户点击按钮的时候，我们的计数器应该递增。为了模拟这一行为，我们首先需要通过 `wrapper.find()` 定位该按钮，此方法返回一个**该按钮元素的包裹器**。然后我们能够通过对该按钮包裹器调用 `.trigger()` 来模拟点击。
 
 ```js
-it('点击按钮应该使得计数递增', () => {
+it('button click should increment the count', () => {
   expect(wrapper.vm.count).toBe(0)
   const button = wrapper.find('button')
   button.trigger('click')

@@ -67,7 +67,7 @@ describe('Actions.vue', () => {
     })
   })
 
-  it('当事件的值是“input”时会 dispatch“actionInput”', () => {
+  it('dispatches "actionInput" when input event value is "input"', () => {
     const wrapper = shallowMount(Actions, { store, localVue })
     const input = wrapper.find('input')
     input.element.value = 'input'
@@ -75,7 +75,7 @@ describe('Actions.vue', () => {
     expect(actions.actionInput).toHaveBeenCalled()
   })
 
-  it('当事件的值不是“input”时不会 dispatch “actionInput”', () => {
+  it('does not dispatch "actionInput" when event value is not "input"', () => {
     const wrapper = shallowMount(Actions, { store, localVue })
     const input = wrapper.find('input')
     input.element.value = 'not input'
@@ -83,7 +83,7 @@ describe('Actions.vue', () => {
     expect(actions.actionInput).not.toHaveBeenCalled()
   })
 
-  it('当按钮被点击时候调用“actionClick”的 action', () => {
+  it('calls store action "actionClick" when button is clicked', () => {
     const wrapper = shallowMount(Actions, { store, localVue })
     wrapper.find('button').trigger('click')
     expect(actions.actionClick).toHaveBeenCalled()
@@ -154,13 +154,13 @@ describe('Getters.vue', () => {
     })
   })
 
-  it('在第一个 p 标签中渲染“store.state.inputValue”', () => {
+  it('Renders "store.getters.inputValue" in first p tag', () => {
     const wrapper = shallowMount(Getters, { store, localVue })
     const p = wrapper.find('p')
     expect(p.text()).toBe(getters.inputValue())
   })
 
-  it('在第二个 p 标签中渲染“store.state.clicks”', () => {
+  it('Renders "store.getters.clicks" in second p tag', () => {
     const wrapper = shallowMount(Getters, { store, localVue })
     const p = wrapper.findAll('p').at(1)
     expect(p.text()).toBe(getters.clicks().toString())
@@ -238,14 +238,14 @@ describe('MyComponent.vue', () => {
     })
   })
 
-  it('在点击按钮时调用 action“moduleActionClick”', () => {
+  it('calls store action "moduleActionClick" when button is clicked', () => {
     const wrapper = shallowMount(MyComponent, { store, localVue })
     const button = wrapper.find('button')
     button.trigger('click')
     expect(actions.moduleActionClick).toHaveBeenCalled()
   })
 
-  it('在第一个 p 标签内渲染“state.clicks', () => {
+  it('renders "state.clicks" in first p tag', () => {
     const wrapper = shallowMount(MyComponent, { store, localVue })
     const p = wrapper.find('p')
     expect(p.text()).toBe(state.clicks.toString())
