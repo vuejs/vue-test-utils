@@ -4,7 +4,7 @@
 
 :::tip
 除了下方列出的选项，`options` 对象还可以包含任何 `new Vue ({ /*options here*/ })` 调用时的有效选项。
-当通过 `mount` / `shallowMount` 挂载时，这些选项将会合并入组件现有的选项中
+当通过 `mount` / `shallowMount` 挂载时，这些选项将会合并入组件现有的选项中。
 
 [查阅其它选项的例子](#其它选项)
 :::
