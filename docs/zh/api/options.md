@@ -1,6 +1,13 @@
 # 挂载选项
 
-即 `mount` 和 `shallowMount` 的选项。该对象同时包含了 Vue Test Utils 挂载选项和其它选项。
+`mount` 和 `shallowMount` 的选项。
+
+:::tip
+除了下方列出的选项，`options` 对象还可以包含任何 `new Vue ({ /*options here*/ })` 调用时的有效选项。
+当通过 `mount` / `shallowMount` 挂载时，这些选项将会合并入组件现有的选项中。
+
+[查阅其它选项的例子](#其它选项)
+:::
 
 - [`context`](#context)
 - [`slots`](#slots)
@@ -198,6 +205,8 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 - 默认值：`false`
 
 当设为 `true` 时，组件在渲染时将会挂载到 DOM 上。
+
+如果添加到了 DOM 上，你应该在测试的最后调用 `wrapper.destroy()` 将元素从文档中移除并销毁组件实例。
 
 ## attrs
 
