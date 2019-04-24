@@ -124,11 +124,12 @@ shallowMount(Component, {
   }
 })
 ```
+
 ::: warning Root Element required
 Due to the internal implementation of this feature, the slot content has to return a root element, even though a scoped slot is allowed to return an array of elements.
 
 If you ever need this in a test, the recommended workaround is to wrap the component under test in another component and mount that one:
-::: 
+:::
 
 ```javascript
 const WrapperComp = {
