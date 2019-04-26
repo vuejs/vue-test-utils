@@ -62,7 +62,6 @@ describe('Actions.vue', () => {
       actionInput: jest.fn()
     }
     store = new Vuex.Store({
-      state: {},
       actions
     })
   })
@@ -290,7 +289,7 @@ export default {
 
 import mutations from './mutations'
 
-test('increment increments state.count by 1', () => {
+test('мутация "increment" увеличивает "state.count" на 1', () => {
   const state = {
     count: 0
   }
@@ -332,7 +331,7 @@ test('evenOrOdd возвращает odd, если в state.count находит
 Давайте напишем тест. Когда мы создаём, мы будем использовать `localVue`, чтобы избежать загрязнения базового конструктора Vue. Тест создаёт хранилище, используя экспорт `store-config.js`:
 
 ```js
-// store-config.spec.js
+// store-config.js
 
 import mutations from './mutations'
 import getters from './getters'
@@ -347,6 +346,8 @@ export default {
 ```
 
 ```js
+// store-config.spec.js
+
 import { createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import storeConfig from './store-config'

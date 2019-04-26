@@ -2,7 +2,7 @@
 
 Vue Test Utils включает объект конфигурации для определения опций, используемых Vue Test Utils.
 
-### Конфигурация настроек Vue Test Utils
+### Настройки Vue Test Utils
 
 ### `stubs`
 
