@@ -18,7 +18,7 @@ Vue Test Utils — это API основанное на использовани
 
 #### `options.attachedToDocument`
 
-`Boolean` (только для чтения): True, если `attachToDocument` в опциях монтирования было `true`
+`Boolean` (только для чтения): true, если компонент прикреплен к DOM при монтировании.
 
 #### `options.sync`
 
