@@ -39,4 +39,21 @@ describeWithShallowAndMount('html', mountingMethod => {
     const wrapper = mountingMethod(compiled)
     expect(wrapper.html()).to.equal(expectedHtml)
   })
+
+  it('returns a Wrappers HTML as a pretty printed string', () => {
+    const expectedHtml =
+      '<body>\n' +
+      '  <div>\n' +
+      '    <ul>\n' +
+      '      <li></li>\n' +
+      '      <li></li>\n' +
+      '    </ul>\n' +
+      '  </div>\n' +
+      '</body>'
+
+    const compiled = compileToFunctions(expectedHtml)
+    const wrapper = mountingMethod(compiled)
+    const options = { prettyPrint: true }
+    expect(wrapper.html(options)).to.equal(expectedHtml)
+  })
 })
