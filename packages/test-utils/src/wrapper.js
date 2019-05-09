@@ -1,6 +1,7 @@
 // @flow
 
 import Vue from 'vue'
+import pretty from 'pretty';
 import getSelector from './get-selector'
 import { REF_SELECTOR, FUNCTIONAL_OPTIONS, VUE_VERSION } from 'shared/consts'
 import config from './config'
@@ -221,7 +222,10 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Returns HTML of element as a string
    */
-  html(): string {
+  html(options?: HtmlOptions): string {
+    if (options && options.prettyPrint) {
+      return pretty(this.element.outerHTML);
+    }
     return this.element.outerHTML
   }
 
