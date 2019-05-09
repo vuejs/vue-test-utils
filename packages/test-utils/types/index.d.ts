@@ -40,13 +40,6 @@ type NameSelector = {
 }
 
 /**
- * Options when printing html components as strings
- */
-export class HtmlOptions {
-  prettyPrint: boolean
-}
-
-/**
  * Base class of Wrapper and WrapperArray
  * It has common methods on both Wrapper and WrapperArray
  */
