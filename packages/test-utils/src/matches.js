@@ -5,14 +5,6 @@ import {
 } from 'shared/consts'
 import { isConstructor } from 'shared/validators'
 
-// Polyfill `Element.matches()` for IE and older versions of Chrome:
-// https://developer.mozilla.org/en-US/docs/Web/API/Element/matches#Polyfill
-if (!Element.prototype.matches) {
-  Element.prototype.matches =
-    Element.prototype.msMatchesSelector ||
-    Element.prototype.webkitMatchesSelector
-}
-
 export function vmMatchesName(vm, name) {
   return (
     !!name && (vm.name === name || (vm.$options && vm.$options.name === name))
