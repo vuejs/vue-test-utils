@@ -10,7 +10,7 @@ type VueClass<V extends Vue> = (new (...args: any[]) => V) & typeof Vue
  * If it is an array of string, the specified children are replaced by blank components
  */
 type Stubs = {
-  [key: string]: Component | string | true
+  [key: string]: Component | string | boolean
 } | string[]
 
 /**
