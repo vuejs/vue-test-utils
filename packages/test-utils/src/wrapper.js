@@ -223,10 +223,10 @@ export default class Wrapper implements BaseWrapper {
    * Returns HTML of element as a string
    */
   html(options?: HtmlOptions): string {
-    if (options && options.prettyPrint) {
-      return pretty(this.element.outerHTML)
+    if (options && !options.prettyPrint) {
+      return this.element.outerHTML
     }
-    return this.element.outerHTML
+    return pretty(this.element.outerHTML)
   }
 
   /**

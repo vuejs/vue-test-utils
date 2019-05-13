@@ -8,6 +8,8 @@ import { itDoNotRunIf } from 'conditional-specs'
 import { mount, createLocalVue } from '~vue/test-utils'
 
 describeWithShallowAndMount('options.slots', mountingMethod => {
+  const htmlOptions = { prettyPrint: false }
+
   it('mounts component with default slot if passed component in slot object', () => {
     const wrapper = mountingMethod(ComponentWithSlots, {
       slots: { default: Component }
@@ -180,8 +182,8 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
         footer: '<p>world</p>'
       }
     })
-    expect(wrapper.html()).to.contain('<span>hello</span>')
-    expect(wrapper.html()).to.contain('<p>world</p>')
+    expect(wrapper.html(htmlOptions)).to.contain('<span>hello</span>')
+    expect(wrapper.html(htmlOptions)).to.contain('<p>world</p>')
   })
 
   it('mounts component with default and named text slot', () => {
@@ -496,7 +498,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
         c => c.$options.name === childComponentName
       )
     ).to.equal(true)
-    expect(ParentComponent.html()).to.equal(
+    expect(ParentComponent.html(htmlOptions)).to.equal(
       '<div><div><span baz="qux">FOO,quux</span></div><div><span baz="qux">FOO,quux</span></div></div>'
     )
 
@@ -529,6 +531,6 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
         c => c.$options.name === childComponentName
       )
     ).to.equal(true)
-    expect(ParentComponent.html()).to.equal('<div><p>1234</p></div>')
+    expect(ParentComponent.html(htmlOptions)).to.equal('<div><p>1234</p></div>')
   })
 })

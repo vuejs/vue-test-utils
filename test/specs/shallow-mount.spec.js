@@ -13,6 +13,8 @@ import { describeRunIf, itDoNotRunIf } from 'conditional-specs'
 
 describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
   const sandbox = sinon.createSandbox()
+  const htmlOptions = { prettyPrint: false }
+
   beforeEach(() => {
     sandbox.stub(console, 'info').callThrough()
     sandbox.stub(console, 'error').callThrough()
@@ -69,7 +71,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
     const wrapper = shallowMount(TestComponent, {
       localVue
     })
-    expect(wrapper.html()).to.equal('<child-stub>Hello</child-stub>')
+    expect(wrapper.html(htmlOptions)).to.equal('<child-stub>Hello</child-stub>')
   })
 
   it('renders named slots', () => {
@@ -88,7 +90,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
     const wrapper = shallowMount(TestComponent, {
       localVue
     })
-    expect(wrapper.html()).to.equal(
+    expect(wrapper.html(htmlOptions)).to.equal(
       '<child-stub><p>Hello</p> <p>World</p></child-stub>'
     )
   })
@@ -99,7 +101,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
       components: { Child: {} }
     }
     const wrapper = shallowMount(TestComponent)
-    expect(wrapper.html()).to.equal('<child-stub></child-stub>')
+    expect(wrapper.html(htmlOptions)).to.equal('<child-stub></child-stub>')
   })
 
   it('renders children for functional components', () => {
@@ -114,7 +116,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
     const wrapper = shallowMount(TestComponent, {
       localVue
     })
-    expect(wrapper.html()).to.equal('<child-stub>Hello</child-stub>')
+    expect(wrapper.html(htmlOptions)).to.equal('<child-stub>Hello</child-stub>')
   })
 
   it('stubs globally registered components', () => {
@@ -170,7 +172,9 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
         }
       }
       const wrapper = shallowMount(TestComponent)
-      expect(wrapper.html()).to.contain('<child-stub prop="a" attr="hello"')
+      expect(wrapper.html(htmlOptions)).to.contain(
+        '<child-stub prop="a" attr="hello"'
+      )
     }
   )
 
@@ -188,7 +192,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
         }
       }
       const wrapper = shallowMount(TestComponent)
-      expect(wrapper.html()).to.contain('<child-stub class="b a"')
+      expect(wrapper.html(htmlOptions)).to.contain('<child-stub class="b a"')
     }
   )
 
@@ -206,7 +210,9 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
       }
     }
     const wrapper = shallowMount(TestComponent)
-    expect(wrapper.html()).to.contain('<child-stub prop="a" attr="hello"')
+    expect(wrapper.html(htmlOptions)).to.contain(
+      '<child-stub prop="a" attr="hello"'
+    )
   })
 
   it('renders classes for functional components', () => {
@@ -223,7 +229,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
       components
     }
     const wrapper = shallowMount(TestComponent)
-    expect(wrapper.html()).to.contain('<child-stub class="b a"')
+    expect(wrapper.html(htmlOptions)).to.contain('<child-stub class="b a"')
     const TestComponent2 = {
       template: `<child :class="classA"/>`,
       data: () => ({
@@ -232,7 +238,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
       components
     }
     const wrapper2 = shallowMount(TestComponent2)
-    expect(wrapper2.html()).to.contain('<child-stub class="a"')
+    expect(wrapper2.html(htmlOptions)).to.contain('<child-stub class="a"')
     const TestComponent3 = {
       template: `<child class="b" />`,
       data: () => ({
@@ -241,7 +247,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
       components
     }
     const wrapper3 = shallowMount(TestComponent3)
-    expect(wrapper3.html()).to.contain('<child-stub class="b"')
+    expect(wrapper3.html(htmlOptions)).to.contain('<child-stub class="b"')
   })
 
   itDoNotRunIf(vueVersion < 2.1, 'handles recursive components', () => {
@@ -254,7 +260,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
       name: 'test-component'
     }
     const wrapper = shallowMount(TestComponent)
-    expect(wrapper.html()).to.contain('<test-component-stub>')
+    expect(wrapper.html(htmlOptions)).to.contain('<test-component-stub>')
     expect(console.error).not.calledWith('[Vue warn]')
   })
 
@@ -421,7 +427,9 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
     }
     const wrapper = shallowMount(TestComponent)
 
-    expect(wrapper.html()).to.equal('<custom-element></custom-element>')
+    expect(wrapper.html(htmlOptions)).to.equal(
+      '<custom-element></custom-element>'
+    )
   })
 
   it('stubs lazily registered components', () => {
@@ -468,7 +476,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
 
     localVue.use(myPlugin)
     const wrapper = shallowMount(TestComponent, { localVue })
-    expect(wrapper.html()).to.contain('registered-component-stub')
+    expect(wrapper.html(htmlOptions)).to.contain('registered-component-stub')
   })
 
   it('throws an error when the component fails to mount', () => {
@@ -516,7 +524,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
       }
     }
     const wrapper = shallowMount(TestComponent)
-    expect(wrapper.html()).to.equal(
+    expect(wrapper.html(htmlOptions)).to.equal(
       '<div>' +
         '<childcomponent-stub></childcomponent-stub> ' +
         '<anonymous-stub></anonymous-stub> ' +
