@@ -7,7 +7,6 @@ import Vue from 'vue'
 describeWithShallowAndMount('scopedSlots', mountingMethod => {
   const sandbox = sinon.createSandbox()
   const windowSave = window
-  const htmlOptions = { prettyPrint: false }
 
   afterEach(() => {
     window = windowSave // eslint-disable-line no-native-reassign
@@ -29,7 +28,7 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
         }
       }
     )
-    expect(wrapper.html(htmlOptions)).to.equal('<div><p>bar,123</p></div>')
+    expect(wrapper.html()).to.equal('<div>\n' + '  <p>bar,123</p>\n' + '</div>')
   })
 
   itDoNotRunIf(vueVersion < 2.1, 'handles render functions', () => {
@@ -48,7 +47,7 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
         }
       }
     )
-    expect(wrapper.html(htmlOptions)).to.equal('<div><p>bar</p></div>')
+    expect(wrapper.html()).to.equal('<div>\n' + '  <p>bar</p>\n' + '</div>')
   })
 
   itDoNotRunIf(
@@ -88,7 +87,7 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
           }
         }
       )
-      expect(notDestructuringWrapper.html(htmlOptions)).to.equal('<p>1,foo</p>')
+      expect(notDestructuringWrapper.html()).to.equal('<p>1,foo</p>')
     }
   )
 
@@ -113,7 +112,7 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
           }
         }
       )
-      expect(destructuringWrapper.html(htmlOptions)).to.equal('<p>1,foo</p>')
+      expect(destructuringWrapper.html()).to.equal('<p>1,foo</p>')
 
       const notDestructuringWrapper = mountingMethod(
         {
@@ -131,7 +130,7 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
           }
         }
       )
-      expect(notDestructuringWrapper.html(htmlOptions)).to.equal('<p>1,foo</p>')
+      expect(notDestructuringWrapper.html()).to.equal('<p>1,foo</p>')
     }
   )
 
@@ -146,39 +145,55 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
         noProps: '<p slot-scope="baz">baz</p>'
       }
     })
-    expect(wrapper.find('#destructuring').html(htmlOptions)).to.equal(
-      '<div id="destructuring"><p>0,1</p><p>1,2</p><p>2,3</p></div>'
+    expect(wrapper.find('#destructuring').html()).to.equal(
+      '<div id="destructuring">\n' +
+        '  <p>0,1</p>\n' +
+        '  <p>1,2</p>\n' +
+        '  <p>2,3</p>\n' +
+        '</div>'
     )
-    expect(wrapper.find('#slots').html(htmlOptions)).to.equal(
+    expect(wrapper.find('#slots').html()).to.equal(
       '<div id="slots"><span>123</span></div>'
     )
-    expect(wrapper.find('#list').html(htmlOptions)).to.equal(
-      '<div id="list"><p>0,a1</p><p>1,a2</p><p>2,a3</p></div>'
+    expect(wrapper.find('#list').html()).to.equal(
+      '<div id="list">\n' +
+        '  <p>0,a1</p>\n' +
+        '  <p>1,a2</p>\n' +
+        '  <p>2,a3</p>\n' +
+        '</div>'
     )
-    expect(wrapper.find('#single').html(htmlOptions)).to.equal(
-      '<div id="single"><p>abc</p></div>'
+    expect(wrapper.find('#single').html()).to.equal(
+      '<div id="single">\n' + '  <p>abc</p>\n' + '</div>'
     )
-    expect(wrapper.find('#noProps').html(htmlOptions)).to.equal(
-      '<div id="noProps"><p>baz</p></div>'
+    expect(wrapper.find('#noProps').html()).to.equal(
+      '<div id="noProps">\n' + '  <p>baz</p>\n' + '</div>'
     )
     wrapper.vm.items = [4, 5, 6]
     wrapper.vm.foo = [{ text: 'b1' }, { text: 'b2' }, { text: 'b3' }]
     wrapper.vm.bar = 'ABC'
     await Vue.nextTick()
-    expect(wrapper.find('#destructuring').html(htmlOptions)).to.equal(
-      '<div id="destructuring"><p>0,4</p><p>1,5</p><p>2,6</p></div>'
+    expect(wrapper.find('#destructuring').html()).to.equal(
+      '<div id="destructuring">\n' +
+        '  <p>0,4</p>\n' +
+        '  <p>1,5</p>\n' +
+        '  <p>2,6</p>\n' +
+        '</div>'
     )
-    expect(wrapper.find('#slots').html(htmlOptions)).to.equal(
+    expect(wrapper.find('#slots').html()).to.equal(
       '<div id="slots"><span>123</span></div>'
     )
-    expect(wrapper.find('#list').html(htmlOptions)).to.equal(
-      '<div id="list"><p>0,b1</p><p>1,b2</p><p>2,b3</p></div>'
+    expect(wrapper.find('#list').html()).to.equal(
+      '<div id="list">\n' +
+        '  <p>0,b1</p>\n' +
+        '  <p>1,b2</p>\n' +
+        '  <p>2,b3</p>\n' +
+        '</div>'
     )
-    expect(wrapper.find('#single').html(htmlOptions)).to.equal(
-      '<div id="single"><p>ABC</p></div>'
+    expect(wrapper.find('#single').html()).to.equal(
+      '<div id="single">\n' + '  <p>ABC</p>\n' + '</div>'
     )
-    expect(wrapper.find('#noProps').html(htmlOptions)).to.equal(
-      '<div id="noProps"><p>baz</p></div>'
+    expect(wrapper.find('#noProps').html()).to.equal(
+      '<div id="noProps">\n' + '  <p>baz</p>\n' + '</div>'
     )
   })
 
@@ -198,7 +213,7 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
         }
       }
     )
-    expect(wrapper.html(htmlOptions)).to.equal('<div><p>bar</p></div>')
+    expect(wrapper.html()).to.equal('<div>\n' + '  <p>bar</p>\n' + '</div>')
   })
 
   itDoNotRunIf(vueVersion < 2.5, 'handles no slot-scope', () => {
@@ -215,7 +230,7 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
         }
       }
     )
-    expect(wrapper.html(htmlOptions)).to.equal('<div><p>bar,123</p></div>')
+    expect(wrapper.html()).to.equal('<div>\n' + '  <p>bar,123</p>\n' + '</div>')
   })
 
   itDoNotRunIf(
@@ -287,7 +302,7 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
         localVue
       })
 
-      expect(wrapper.html(htmlOptions)).to.contain('span')
+      expect(wrapper.html()).to.contain('span')
     }
   )
 })

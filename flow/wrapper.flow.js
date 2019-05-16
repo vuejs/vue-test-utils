@@ -5,7 +5,6 @@ import type WrapperArray from '~src/WrapperArray'
 
 declare type Selector = any
 declare type Components = { [name: string]: Component }
-declare type HtmlOptions = { prettyPrint: boolean }
 
 declare interface BaseWrapper {
   // eslint-disable-line no-undef
