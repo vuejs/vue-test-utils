@@ -89,7 +89,10 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
       localVue
     })
     expect(wrapper.html()).to.equal(
-      '<child-stub><p>Hello</p> <p>World</p></child-stub>'
+      '<child-stub>\n' +
+        '  <p>Hello</p>\n' +
+        '  <p>World</p>\n' +
+        '</child-stub>'
     )
   })
 
@@ -517,11 +520,11 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
     }
     const wrapper = shallowMount(TestComponent)
     expect(wrapper.html()).to.equal(
-      '<div>' +
-        '<childcomponent-stub></childcomponent-stub> ' +
-        '<anonymous-stub></anonymous-stub> ' +
-        '<anonymous-stub></anonymous-stub> ' +
-        '<anonymous-stub></anonymous-stub>' +
+      '<div>\n' +
+        '  <childcomponent-stub></childcomponent-stub>\n' +
+        '  <anonymous-stub></anonymous-stub>\n' +
+        '  <anonymous-stub></anonymous-stub>\n' +
+        '  <anonymous-stub></anonymous-stub>\n' +
         '</div>'
     )
   })

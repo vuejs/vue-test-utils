@@ -497,7 +497,10 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
       )
     ).to.equal(true)
     expect(ParentComponent.html()).to.equal(
-      '<div><div><span baz="qux">FOO,quux</span></div><div><span baz="qux">FOO,quux</span></div></div>'
+      '<div>\n' +
+        '  <div><span baz="qux">FOO,quux</span></div>\n' +
+        '  <div><span baz="qux">FOO,quux</span></div>\n' +
+        '</div>'
     )
 
     ParentComponent = mount(
@@ -529,6 +532,8 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
         c => c.$options.name === childComponentName
       )
     ).to.equal(true)
-    expect(ParentComponent.html()).to.equal('<div><p>1234</p></div>')
+    expect(ParentComponent.html()).to.equal(
+      '<div>\n' + '  <p>1234</p>\n' + '</div>'
+    )
   })
 })

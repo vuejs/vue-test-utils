@@ -20,7 +20,7 @@ describeWithShallowAndMount('html', mountingMethod => {
         }
       }
     })
-    const expectedHtml = '<div>1<div class="tester">test</div></div>'
+    const expectedHtml = '<div>1<div class="tester">test</div>\n' + '</div>'
     expect(wrapper.html()).to.equal(expectedHtml)
   })
 
@@ -32,9 +32,17 @@ describeWithShallowAndMount('html', mountingMethod => {
     expect(wrapper.html()).to.equal('<div></div>')
   })
 
-  it('returns a Wrappers HTML as a string', () => {
+  it('returns a Wrappers HTML as a pretty printed string', () => {
     const expectedHtml =
-      '<input id="input-submit" type="submit" class="input-submit">'
+      '<body>\n' +
+      '  <div>\n' +
+      '    <ul>\n' +
+      '      <li></li>\n' +
+      '      <li></li>\n' +
+      '    </ul>\n' +
+      '  </div>\n' +
+      '</body>'
+
     const compiled = compileToFunctions(expectedHtml)
     const wrapper = mountingMethod(compiled)
     expect(wrapper.html()).to.equal(expectedHtml)
