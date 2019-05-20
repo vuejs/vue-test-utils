@@ -142,7 +142,7 @@ function validateStub(stub) {
 }
 
 function shapeStubProps(props) {
-  const shapedProps: Record<string, any> = {}
+  const shapedProps: Object = {}
   for (const propName in props) {
     if (!props.hasOwnProperty(propName)) {
       continue
