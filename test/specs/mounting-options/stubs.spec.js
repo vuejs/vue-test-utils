@@ -548,19 +548,19 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
   })
 
   it('should be able to stub with the component name', () => {
-    const StubComponent = {
-      name: 'stub',
+    const FooComponent = {
+      name: 'foo',
       template: '<div />'
     }
     const TestComponent = {
-      template: '<div><stub /></div>',
+      template: '<div><foo /></div>',
       components: {
-        StubComponent
+        FooComponent
       }
     }
     const wrapper = mountingMethod(TestComponent, {
-      stubs: ['stub']
+      stubs: ['foo']
     })
-    expect(wrapper.find(StubComponent).exists()).to.be.true
+    expect(wrapper.find(FooComponent).exists()).to.be.true
   })
 })
