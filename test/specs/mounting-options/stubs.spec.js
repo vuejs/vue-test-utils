@@ -591,7 +591,7 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
             :qux="qux" />
         </div>
       `,
-      data () {
+      data() {
         return {
           foo: () => 42,
           bar: [1, 'string', () => true],
@@ -606,9 +606,9 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
 
     expect(wrapper.html()).to.equal(
       `<div>\n` +
-      `  <child-component-stub foo="[Function]" bar="1,string,[Function]" qux="qux"></child-component-stub>\n` +
-      `  <functional-child-component-stub foo="[Function]" bar="1,string,[Function]" qux="qux"></functional-child-component-stub>\n` +
-      `</div>`
+        `  <child-component-stub foo="[Function]" bar="1,string,[Function]" qux="qux"></child-component-stub>\n` +
+        `  <functional-child-component-stub foo="[Function]" bar="1,string,[Function]" qux="qux"></functional-child-component-stub>\n` +
+        `</div>`
     )
   })
 })

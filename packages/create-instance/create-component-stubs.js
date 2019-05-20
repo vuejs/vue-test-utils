@@ -154,7 +154,7 @@ function shapeStubProps(props) {
     }
 
     if (Array.isArray(props[propName])) {
-      shapedProps[propName] = props[propName].map((value) => {
+      shapedProps[propName] = props[propName].map(value => {
         return typeof value === 'function' ? FUNCTION_PLACEHOLDER : value
       })
       continue
