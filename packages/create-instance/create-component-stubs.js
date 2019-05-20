@@ -144,10 +144,6 @@ function validateStub(stub) {
 function shapeStubProps(props) {
   const shapedProps: Object = {}
   for (const propName in props) {
-    if (!props.hasOwnProperty(propName)) {
-      continue
-    }
-
     if (typeof props[propName] === 'function') {
       shapedProps[propName] = FUNCTION_PLACEHOLDER
       continue
