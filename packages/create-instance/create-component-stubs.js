@@ -146,13 +146,9 @@ export function createStubsFromStubsObject(
 ): Components {
   const originalComponentsWithName = {}
   for (const childKey in originalComponents) {
-    if (!originalComponents.hasOwnProperty(childKey)) {
-      continue
-    }
-
     const component = originalComponents[childKey]
-    // Have the name as an alias so it can be both the name
-    // and the `components` key
+    // Have the name as an alias so it can be referred to
+    // by both the name and the `components` key
     if (component.name !== childKey) {
       originalComponentsWithName[component.name] = component
     } else {
