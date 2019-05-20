@@ -546,4 +546,69 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
     expect(wrapper.find(ToStub).exists()).to.be.false
     expect(wrapper.find(Stub).exists()).to.be.true
   })
+
+  it('should render functions in props as a deterministic string', () => {
+    const ChildComponent = {
+      name: 'child-component',
+      props: {
+        foo: {
+          type: Function,
+          required: true
+        },
+        bar: {
+          type: Array,
+          required: true
+        },
+        qux: {
+          type: String,
+          required: true
+        }
+      },
+      template: '<div />'
+    }
+
+    const FunctionalChildComponent = {
+      ...ChildComponent,
+      name: 'functional-child-component',
+      functional: true
+    }
+
+    const ParentComponent = {
+      components: {
+        ChildComponent,
+        FunctionalChildComponent
+      },
+      name: 'parent-component',
+      template: `
+        <div>
+          <child-component
+            :foo="foo"
+            :bar="bar"
+            :qux="qux" />
+          <functional-child-component
+            :foo="foo"
+            :bar="bar"
+            :qux="qux" />
+        </div>
+      `,
+      data () {
+        return {
+          foo: () => 42,
+          bar: [1, 'string', () => true],
+          qux: 'qux'
+        }
+      }
+    }
+
+    const wrapper = mountingMethod(ParentComponent, {
+      stubs: ['child-component', 'functional-child-component']
+    })
+
+    expect(wrapper.html()).to.equal(
+      `<div>\n` +
+      `  <child-component-stub foo="[Function]" bar="1,string,[Function]" qux="qux"></child-component-stub>\n` +
+      `  <functional-child-component-stub foo="[Function]" bar="1,string,[Function]" qux="qux"></functional-child-component-stub>\n` +
+      `</div>`
+    )
+  })
 })

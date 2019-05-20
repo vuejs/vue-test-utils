@@ -11,6 +11,8 @@ import {
 } from '../shared/validators'
 import { compileTemplate, compileFromString } from '../shared/compile-template'
 
+const FUNCTION_PLACEHOLDER = '[Function]'
+
 function isVueComponentStub(comp): boolean {
   return (comp && comp.template) || isVueComponent(comp)
 }
@@ -98,7 +100,7 @@ export function createStubFromComponent(
         {
           attrs: componentOptions.functional
             ? {
-                ...context.props,
+                ...shapeStubProps(context.props),
                 ...context.data.attrs,
                 class: createClassString(
                   context.data.staticClass,
@@ -106,7 +108,7 @@ export function createStubFromComponent(
                 )
               }
             : {
-                ...this.$props
+                ...shapeStubProps(this.$props)
               }
         },
         context ? context.children : this.$options._renderChildren
@@ -137,6 +139,31 @@ function validateStub(stub) {
   if (!isValidStub(stub)) {
     throwError(`options.stub values must be passed a string or ` + `component`)
   }
+}
+
+function shapeStubProps(props) {
+  const shapedProps: Record<string, any> = {}
+  for (const propName in props) {
+    if (!props.hasOwnProperty(propName)) {
+      continue
+    }
+
+    if (typeof props[propName] === 'function') {
+      shapedProps[propName] = FUNCTION_PLACEHOLDER
+      continue
+    }
+
+    if (Array.isArray(props[propName])) {
+      shapedProps[propName] = props[propName].map((value) => {
+        return typeof value === 'function' ? FUNCTION_PLACEHOLDER : value
+      })
+      continue
+    }
+
+    shapedProps[propName] = props[propName]
+  }
+
+  return shapedProps
 }
 
 export function createStubsFromStubsObject(
