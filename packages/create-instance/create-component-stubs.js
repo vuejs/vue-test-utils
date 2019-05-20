@@ -144,6 +144,22 @@ export function createStubsFromStubsObject(
   stubs: Object,
   _Vue: Component
 ): Components {
+  const originalComponentsWithName = {}
+  for (const childKey in originalComponents) {
+    if (!originalComponents.hasOwnProperty(childKey)) {
+      continue
+    }
+
+    const component = originalComponents[childKey]
+    // Have the name as an alias so it can be both the name
+    // and the `components` key
+    if (component.name !== childKey) {
+      originalComponentsWithName[component.name] = component
+    } else {
+      originalComponentsWithName[childKey] = component
+    }
+  }
+
   return Object.keys(stubs || {}).reduce((acc, stubName) => {
     const stub = stubs[stubName]
 
@@ -154,13 +170,13 @@ export function createStubsFromStubsObject(
     }
 
     if (stub === true) {
-      const component = resolveComponent(originalComponents, stubName)
+      const component = resolveComponent(originalComponentsWithName, stubName)
       acc[stubName] = createStubFromComponent(component, stubName, _Vue)
       return acc
     }
 
     if (typeof stub === 'string') {
-      const component = resolveComponent(originalComponents, stubName)
+      const component = resolveComponent(originalComponentsWithName, stubName)
       acc[stubName] = createStubFromString(stub, component, stubName, _Vue)
       return acc
     }
