@@ -1,4 +1,5 @@
 import { describeWithShallowAndMount } from '~resources/utils'
+import Component from '~resources/components/component.vue'
 import ComponentWithProps from '~resources/components/component-with-props.vue'
 import { itDoNotRunIf } from 'conditional-specs'
 import { config, createLocalVue } from '~vue/test-utils'
@@ -108,5 +109,45 @@ describeWithShallowAndMount('config', mountingMethod => {
       prop1: 'new value'
     })
     expect(console.error).calledWith(sandbox.match('[Vue warn]'))
+  })
+
+  describe('autoDestroy', () => {
+    it('does not destroy wrapper when autoDestroy is set to false', () => {
+      config.autoDestroy = false
+      const localVue = createLocalVue()
+      const wrapper = mountingMethod(Component, { localVue })
+      sandbox.spy(wrapper, 'destroy')
+
+      mountingMethod(Component, { localVue })
+
+      expect(wrapper.destroy).not.called
+    })
+
+    it('destroys wrapper when autoDestroy is set to true', () => {
+      config.autoDestroy = true
+      const localVue = createLocalVue()
+      const wrapper = mountingMethod(Component, { localVue })
+      sandbox.spy(wrapper, 'destroy')
+
+      mountingMethod(Component, { localVue })
+
+      expect(wrapper.destroy).called
+    })
+
+    it('destroys wrapper when autoDestroy hook is called', () => {
+      let destroyCallback
+      config.autoDestroy = callback => {
+        destroyCallback = callback
+      }
+      const localVue = createLocalVue()
+      const wrapper = mountingMethod(Component, { localVue })
+      sandbox.spy(wrapper, 'destroy')
+
+      mountingMethod(Component, { localVue })
+
+      expect(wrapper.destroy).not.called
+      destroyCallback()
+      expect(wrapper.destroy).called
+    })
   })
 })

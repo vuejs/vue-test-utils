@@ -15,6 +15,13 @@ import { matches } from './matches'
 import createDOMEvent from './create-dom-event'
 import { throwIfInstancesThrew } from './error'
 
+const wrapperInstances = []
+
+const destroyAllInstances = () => {
+  wrapperInstances.forEach(wrapper => wrapper.destroy())
+  wrapperInstances.length = 0
+}
+
 export default class Wrapper implements BaseWrapper {
   +vnode: VNode | null
   +vm: Component | void
@@ -66,6 +73,17 @@ export default class Wrapper implements BaseWrapper {
       (this.vnode[FUNCTIONAL_OPTIONS] || this.vnode.functionalContext)
     ) {
       this.isFunctionalComponent = true
+    }
+
+    const { autoDestroy } = config
+    if (autoDestroy) {
+      if (autoDestroy instanceof Function) {
+        autoDestroy(destroyAllInstances)
+      } else {
+        destroyAllInstances()
+      }
+
+      wrapperInstances.push(this)
     }
   }
 

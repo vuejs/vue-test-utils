@@ -89,3 +89,50 @@ import { config } from '@vue/test-utils'
 
 config.silent = false
 ```
+
+### `autoDestroy`
+
+- type: `boolean | Function`
+- default: `false`
+
+This allows you to call `wrapper.destroy()` automatically—either when creating a new wrapper or by passing a hook function.
+
+Please note that setting `autoDestroy: true` only destroys existing instances when a new instance is created which result in one wrapper instance remaining.
+Therefore passing a hook function is usually a better idea. 
+
+Examples:
+
+```js
+import { config, mount } from '@vue/test-utils'
+
+config.autoDestroy = true
+
+const Component = {
+  template: '<div>come ponente</div>'
+}
+
+const firstWrapper = mount(Component)
+expect(firstWrapper.text()).not.toBe('come levant')
+
+const secondWrapper = mount(Component) // this will call firstWrapper.destroy()
+expect(firstWrapper.text()).not.toBe('come sirocco')
+```
+
+```js
+import { config, mount } from '@vue/test-utils'
+
+config.autoDestroy = afterEach // will call wrapper.destroy() after each test case
+
+const Component = {
+  template: '<div>come ponente</div>'
+}
+
+describe('my component', () => {
+  it('is not East wind', () => {
+    const wrapper = mount(Component)
+    expect(wrapper.text()).not.toBe('levant')
+
+    // wrapper.destroy() is called after this
+  })
+})
+```

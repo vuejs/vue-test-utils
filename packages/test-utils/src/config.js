@@ -3,5 +3,6 @@ export default {
   mocks: {},
   methods: {},
   provide: {},
-  silent: true
+  silent: true,
+  autoDestroy: false
 }
