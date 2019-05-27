@@ -3,7 +3,7 @@ import mount from './mount'
 import createLocalVue from './create-local-vue'
 import RouterLinkStub from './components/RouterLinkStub'
 import createWrapper from './create-wrapper'
-import Wrapper from './wrapper'
+import Wrapper, { enableAutoDestroy } from './wrapper'
 import WrapperArray from './wrapper-array'
 import config from './config'
 import { warn } from 'shared/util'
@@ -20,6 +20,7 @@ export default {
   createLocalVue,
   createWrapper,
   config,
+  enableAutoDestroy,
   mount,
   shallow,
   shallowMount,
