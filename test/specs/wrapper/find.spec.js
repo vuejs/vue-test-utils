@@ -363,14 +363,14 @@ describeWithShallowAndMount('find', mountingMethod => {
     const selector = 'pre'
     const error = wrapper.find(selector)
     expect(error.exists()).to.equal(false)
-    expect(error.selector).to.equal(selector)
+    expect(error.selectorString).to.equal(selector)
   })
 
   it('returns empty Wrapper with error if no nodes are found when passed a component', () => {
     const wrapper = mountingMethod(Component)
     const error = wrapper.find(ComponentWithChild)
     expect(error.exists()).to.equal(false)
-    expect(error.selector).to.equal('Component')
+    expect(error.selectorString).to.equal('Component')
   })
 
   it('returns Wrapper of elements matching the ref in options object', () => {
@@ -460,7 +460,7 @@ describeWithShallowAndMount('find', mountingMethod => {
     const wrapper = mountingMethod(Component)
     const error = wrapper.find({ ref: 'foo' })
     expect(error.exists()).to.equal(false)
-    expect(error.selector).to.equal('ref="foo"')
+    expect(error.selectorString).to.equal('ref="foo"')
   })
 
   it('returns Wrapper matching component that has no name property', () => {
