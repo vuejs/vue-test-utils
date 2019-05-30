@@ -1,12 +1,26 @@
 // @flow
 
 import { throwError } from 'shared/util'
+import { REF_SELECTOR } from 'shared/consts'
+import { getSelectorType } from './get-selector'
+
+const buildSelectorString = (selector: Selector) => {
+  if (getSelectorType(selector) === REF_SELECTOR) {
+    return `ref="${selector.value.ref}"`
+  }
+
+  if (typeof selector === 'string') {
+    return selector
+  }
+
+  return 'Component'
+}
 
 export default class ErrorWrapper implements BaseWrapper {
   selectorString: string
 
-  constructor(selectorString: string) {
-    this.selectorString = selectorString
+  constructor(selector: Selector) {
+    this.selectorString = buildSelectorString(selector)
   }
 
   at(): void {

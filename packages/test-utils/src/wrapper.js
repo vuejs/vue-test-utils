@@ -193,12 +193,7 @@ export default class Wrapper implements BaseWrapper {
     const node = find(this.rootNode, this.vm, selector)[0]
 
     if (!node) {
-      if (selector.type === REF_SELECTOR) {
-        return new ErrorWrapper(`ref="${selector.value.ref}"`)
-      }
-      return new ErrorWrapper(
-        typeof selector.value === 'string' ? selector.value : 'Component'
-      )
+      return new ErrorWrapper(rawSelector)
     }
 
     return createWrapper(node, this.options)
