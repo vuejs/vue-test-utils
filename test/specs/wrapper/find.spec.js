@@ -542,4 +542,34 @@ describeWithShallowAndMount('find', mountingMethod => {
       expect(wrapper.find('p').vm.$options.name).to.equal('bar')
     }
   )
+
+  it('stores CSS selector', () => {
+    const compiled = compileToFunctions('<div><p></p><p></p></div>')
+    const wrapper = mountingMethod(compiled)
+    const selector = 'p'
+    const result = wrapper.find(selector)
+    expect(result.selector).to.equal(selector)
+  })
+
+  it('stores ref selector', () => {
+    const compiled = compileToFunctions('<div><p ref="foo"></p></div>')
+    const wrapper = mountingMethod(compiled)
+    const selector = { ref: 'foo' }
+    const result = wrapper.find(selector)
+    expect(result.selector).to.equal(selector)
+  })
+
+  it('stores component selector', () => {
+    const wrapper = mountingMethod(ComponentWithChild)
+    const selector = Component
+    const result = wrapper.find(selector)
+    expect(result.selector).to.equal(selector)
+  })
+
+  it('stores name selector', () => {
+    const wrapper = mountingMethod(ComponentWithChild)
+    const selector = { name: 'test-component' }
+    const result = wrapper.find(selector)
+    expect(result.selector).to.equal(selector)
+  })
 })

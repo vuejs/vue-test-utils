@@ -197,7 +197,9 @@ export default class Wrapper implements BaseWrapper {
       return new ErrorWrapper(rawSelector)
     }
 
-    return createWrapper(node, this.options)
+    const wrapper = createWrapper(node, this.options)
+    wrapper.selector = rawSelector
+    return wrapper
   }
 
   /**
@@ -210,9 +212,14 @@ export default class Wrapper implements BaseWrapper {
     const wrappers = nodes.map(node => {
       // Using CSS Selector, returns a VueWrapper instance if the root element
       // binds a Vue instance.
-      return createWrapper(node, this.options)
+      const wrapper = createWrapper(node, this.options)
+      wrapper.selector = rawSelector
+      return wrapper
     })
-    return new WrapperArray(wrappers)
+
+    const wrapperArray = new WrapperArray(wrappers)
+    wrapperArray.selector = rawSelector
+    return wrapperArray
   }
 
   /**
