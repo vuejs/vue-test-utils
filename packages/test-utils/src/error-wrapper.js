@@ -17,9 +17,11 @@ const buildSelectorString = (selector: Selector) => {
 }
 
 export default class ErrorWrapper implements BaseWrapper {
+  selector: Selector
   selectorString: string
 
   constructor(selector: Selector) {
+    this.selector = selector
     this.selectorString = buildSelectorString(selector)
   }
 

@@ -69,6 +69,7 @@ interface BaseWrapper {
 
   trigger (eventName: string, options?: object): void
   destroy (): void
+  selector: Selector | void
 }
 
 export interface Wrapper<V extends Vue | null> extends BaseWrapper {

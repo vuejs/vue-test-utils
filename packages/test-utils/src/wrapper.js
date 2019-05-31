@@ -24,6 +24,7 @@ export default class Wrapper implements BaseWrapper {
   +options: WrapperOptions
   isFunctionalComponent: boolean
   rootNode: VNode | Element
+  selector: Selector | void
 
   constructor(
     node: VNode | Element,
