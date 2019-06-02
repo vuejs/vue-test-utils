@@ -87,3 +87,45 @@ it('fetches async when a button is clicked', async () => {
 ```
 
 This same technique can be applied to Vuex actions, which return a promise by default.
+
+In some cases you want to test components, that actually need time for their promises to resolve. Take for example a transition component that uses `animejs` internally to animate its content.
+
+In order to test this kind of components, you can use the npm package `await-promises`. `await-promises` allows you to collect all promises and wait until they have finished.
+
+A test would look like this:
+
+```js
+import { mount } from '@vue/test-utils'
+import MyTransition from './my-transition.vue'
+import AwaitPromises from 'await-promises'
+
+it('cleans styles after enter transition', async () => {
+  // Initialize waiter
+  const waiter = new AwaitPromises
+  // Start collecting promises
+  waiter.collect()
+
+  const comp = {
+    template: `<my-transition><p v-show="show">foo</p></my-transition>`,
+    components: {
+      MyTransition
+    },
+    data() {
+      return {
+        show: false
+      }
+    }
+  }
+  const wrapper = mount(comp)
+
+  // This triggers asynchronous behaviour inside the comp
+  wrapper.vm.show = true
+  const foo = wrapper.find('p')
+
+  // Stop collecting promises
+  waiter.stop()
+  // Wait until all promises have finished
+  await waiter.wait()
+  expect(foo.element.style.cssText).toEqual('')
+})
+```
