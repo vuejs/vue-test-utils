@@ -101,12 +101,12 @@ import AwaitPromises from 'await-promises'
 
 it('cleans styles after enter transition', async () => {
   // Initialize waiter
-  const waiter = new AwaitPromises
+  const waiter = new AwaitPromises()
   // Start collecting promises
   waiter.collect()
 
   const comp = {
-    template: `<my-transition><p v-show="show">foo</p></my-transition>`,
+    template: '<my-transition><p v-show="show">foo</p></my-transition>',
     components: {
       MyTransition
     },
