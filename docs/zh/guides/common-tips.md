@@ -68,7 +68,7 @@ expect(wrapper.emitted().foo[1]).toEqual([123])
 <template>
   <div>
     <child-component @custom="onCustom" />
-    <p v-if="emitted">触发！</p>
+    <p v-if="emitted">Emitted!</p>
   </div>
 </template>
 
