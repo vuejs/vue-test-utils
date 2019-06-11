@@ -273,8 +273,7 @@ export default class Wrapper implements BaseWrapper {
         element.hidden ||
         (element.style &&
           (element.style.visibility === 'hidden' ||
-            element.style.display === 'none')
-        )
+            element.style.display === 'none'))
       ) {
         return false
       }
