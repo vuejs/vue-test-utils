@@ -32,6 +32,15 @@ describeWithShallowAndMount('isVisible', mountingMethod => {
     expect(element.isVisible()).to.equal(false)
   })
 
+  it('returns false if element has hidden attribute', () => {
+    const compiled = compileToFunctions(
+      '<div><div><span class="visible" hidden></span></div></div>'
+    )
+    const wrapper = mountingMethod(compiled)
+    const element = wrapper.find('.visible')
+    expect(element.isVisible()).to.equal(false)
+  })
+
   it('returns true if element has v-show true', async () => {
     const wrapper = mountingMethod(ComponentWithVShow)
     wrapper.vm.$set(wrapper.vm, 'ready', true)
