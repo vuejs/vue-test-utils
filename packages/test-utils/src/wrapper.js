@@ -270,9 +270,10 @@ export default class Wrapper implements BaseWrapper {
     let element = this.element
     while (element) {
       if (
-        element.style &&
-        (element.style.visibility === 'hidden' ||
-          element.style.display === 'none')
+        element.hidden ||
+        (element.style &&
+          (element.style.visibility === 'hidden' ||
+            element.style.display === 'none'))
       ) {
         return false
       }
