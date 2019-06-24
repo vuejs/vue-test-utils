@@ -27,6 +27,10 @@ wrapper.trigger('click', {
   button: 0
 })
 
+wrapper.trigger('click', {
+  ctrlKey: true // 用于测试 @click.ctrl 处理函数
+})
+
 expect(clickHandler.called).toBe(true)
 ```
 
