@@ -55,6 +55,8 @@ Next, create a `jest` block in `package.json`:
 
 > **Note:** `vue-jest` currently does not support all the features of `vue-loader`, for example custom block support and style loading. In addition, some webpack-specific features such as code-splitting are not supported either. To use these unsupported features, you need to use Mocha instead of Jest to run your tests, and webpack to compile your components. To get started, read the guide on [testing SFCs with Mocha + webpack](./testing-single-file-components-with-mocha-webpack.md).
 
+> **Note:** If you are using Babel 7 or higher, you will need to add [babel-bridge](https://github.com/babel/babel-bridge) to your devDependencies (`$ npm install --save-dev babel-core@^7.0.0-bridge.0`).
+
 ### Handling webpack Aliases
 
 If you use a resolve alias in the webpack config, e.g. aliasing `@` to `/src`, you need to add a matching config for Jest as well, using the `moduleNameMapper` option:
