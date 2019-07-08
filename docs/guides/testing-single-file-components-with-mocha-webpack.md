@@ -22,7 +22,7 @@ Next we need to define a test script in our `package.json`.
 // package.json
 {
   "scripts": {
-    "test": "mocha-webpack --webpack-config webpack.config.js --require test/setup.js test/**/*.spec.js"
+    "test": "mocha-webpack --webpack-config webpack.config.js --recursive --require test/setup.js test/"
   }
 }
 ```
