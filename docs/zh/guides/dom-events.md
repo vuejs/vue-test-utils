@@ -207,6 +207,8 @@ describe('Key event tests', () => {
 | home      | 36       |
 | pageup    | 33       |
 | pagedown  | 34       |
+| f         | 70       |
+| t         | 84       |
 
 ### 重要事项
 

@@ -21,7 +21,9 @@ const modifiers = {
   backspace: 8,
   insert: 45,
   pageup: 33,
-  pagedown: 34
+  pagedown: 34,
+  f: 70,
+  t: 84
 }
 
 function createEvent(

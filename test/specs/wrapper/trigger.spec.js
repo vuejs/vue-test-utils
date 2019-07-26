@@ -63,7 +63,9 @@ describeWithShallowAndMount('trigger', mountingMethod => {
       end: 35,
       home: 36,
       pageup: 33,
-      pagedown: 34
+      pagedown: 34,
+      f: 70,
+      t: 84
     }
     const keyupHandler = sandbox.stub()
     const wrapper = mountingMethod(ComponentWithEvents, {

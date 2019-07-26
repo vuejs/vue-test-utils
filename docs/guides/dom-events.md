@@ -207,6 +207,8 @@ A key name after the dot `keydown.up` is translated to a `keyCode`. This is supp
 | home      | 36       |
 | pageup    | 33       |
 | pagedown  | 34       |
+| f         | 70       |
+| t         | 84       |
 
 ### Important
 
