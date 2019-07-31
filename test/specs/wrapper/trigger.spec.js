@@ -11,6 +11,10 @@ import { itDoNotRunIf } from 'conditional-specs'
 describeWithShallowAndMount('trigger', mountingMethod => {
   const sandbox = sinon.createSandbox()
 
+  beforeEach(() => {
+    sandbox.stub(console, 'error').callThrough()
+  })
+
   afterEach(() => {
     sandbox.reset()
     sandbox.restore()
@@ -72,6 +76,20 @@ describeWithShallowAndMount('trigger', mountingMethod => {
     for (const keyName in modifiers) {
       const keyCode = modifiers[keyName]
       wrapper.find('.keydown').trigger(`keyup.${keyName}`)
+      expect(keyupHandler.lastCall.args[0].keyCode).to.equal(keyCode)
+    }
+  })
+
+  it('adds key code to event', () => {
+    const keyupHandler = sandbox.stub()
+    const wrapper = mountingMethod(ComponentWithEvents, {
+      propsData: { keyupHandler }
+    })
+    // All printable keys
+    for (let keyCode = 49; keyCode <= 90; keyCode++) {
+      wrapper.find('.keydown').trigger(`keyup`, {
+        keyCode: keyCode
+      })
       expect(keyupHandler.lastCall.args[0].keyCode).to.equal(keyCode)
     }
   })
@@ -162,6 +180,14 @@ describeWithShallowAndMount('trigger', mountingMethod => {
       wrapper.findAll('button').trigger('click')
     }
   )
+
+  it('throws Vue warning when both modifier and keyCode are specified in event', () => {
+    const wrapper = mountingMethod(ComponentWithEvents)
+    wrapper.find('.keydown').trigger(`keyup.enter`, {
+      keyCode: 49
+    })
+    expect(console.error).calledWith(sandbox.match('[vue-test-utils]'))
+  })
 
   it('throws error if options contains a target value', () => {
     const wrapper = mountingMethod({ render: h => h('div') })
