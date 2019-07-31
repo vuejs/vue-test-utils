@@ -1,4 +1,5 @@
 import eventTypes from 'dom-event-types'
+import { warn } from 'shared/util'
 
 const defaultEventType = {
   eventInterface: 'Event',
@@ -35,13 +36,20 @@ function createEvent(
       ? window[eventInterface]
       : window.Event
 
+  if (options && options.keyCode && modifier) {
+    warn(
+      `event modifier ".${modifier}" will be overridden ` +
+        `by specified key code "${options.keyCode}"`
+    )
+  }
+
   const event = new SupportedEventInterface(type, {
     // event properties can only be added when the event is instantiated
     // custom properties must be added after the event has been instantiated
+    keyCode: modifiers[modifier],
     ...options,
     bubbles,
-    cancelable,
-    keyCode: modifiers[modifier]
+    cancelable
   })
 
   return event
@@ -50,11 +58,13 @@ function createEvent(
 function createOldEvent(
   type,
   modifier,
-  { eventInterface, bubbles, cancelable }
+  { eventInterface, bubbles, cancelable },
+  options
 ) {
   const event = document.createEvent('Event')
   event.initEvent(type, bubbles, cancelable)
-  event.keyCode = modifiers[modifier]
+  event.keyCode =
+    options && options.keyCode ? options.keyCode : modifiers[modifier]
   return event
 }
 
@@ -66,7 +76,7 @@ export default function createDOMEvent(type, options) {
   const event =
     typeof window.Event === 'function'
       ? createEvent(eventType, modifier, meta, options)
-      : createOldEvent(eventType, modifier, meta)
+      : createOldEvent(eventType, modifier, meta, options)
 
   const eventPrototype = Object.getPrototypeOf(event)
   Object.keys(options || {}).forEach(key => {
