@@ -313,7 +313,9 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
       const wrapper = mountingMethod(
         {
           template: '<div><slot name="single" :text="text"></slot></div>',
-          data() { return { text: 'text' } }
+          data() {
+            return { text: 'text' }
+          }
         },
         {
           scopedSlots: {
