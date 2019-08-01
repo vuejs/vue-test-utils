@@ -305,4 +305,25 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
       expect(wrapper.html()).to.contain('span')
     }
   )
+
+  itDoNotRunIf(
+    vueVersion < 2.5 || mountingMethod.name !== 'mount',
+    'resolves v-model directive',
+    () => {
+      const wrapper = mountingMethod(
+        {
+          template: '<div><slot name="single" :text="text"></slot></div>',
+          data() { return { text: 'text' } }
+        },
+        {
+          scopedSlots: {
+            single: '<input v-model="props.text" type="text" />'
+          }
+        }
+      )
+
+      wrapper.find('input').setValue('abc')
+      expect(wrapper.find('input').element.value).to.equal('abc')
+    }
+  )
 })
