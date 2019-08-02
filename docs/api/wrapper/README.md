@@ -28,6 +28,7 @@ A `Wrapper` is an object that contains a mounted component or vnode and methods 
 
 !!!include(docs/api/wrapper/attributes.md)!!!
 !!!include(docs/api/wrapper/classes.md)!!!
+!!!include(docs/api/wrapper/clearEmitted.md)!!!
 !!!include(docs/api/wrapper/contains.md)!!!
 !!!include(docs/api/wrapper/destroy.md)!!!
 !!!include(docs/api/wrapper/emitted.md)!!!

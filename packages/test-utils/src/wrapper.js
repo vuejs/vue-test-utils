@@ -115,15 +115,15 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Clears emitted events from the Wrapper vm
    */
-  clearEmitted(
-    event?: string
-  ): void {
+  clearEmitted(event?: string): void {
     if (!this._emitted && !this.vm) {
       throwError(`wrapper.clearEmitted() can only be called on a Vue instance`)
     }
     if (event) {
       this._emitted[event] = []
-      this._emittedByOrder = this._emittedByOrder.filter(ev => ev.name !== event)
+      this._emittedByOrder = this._emittedByOrder.filter(
+        ev => ev.name !== event
+      )
       return
     }
     this._emitted = {}
