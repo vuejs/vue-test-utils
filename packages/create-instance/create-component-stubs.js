@@ -42,7 +42,6 @@ function getCoreProperties(componentOptions: Component): Object {
     props: componentOptions.props,
     on: componentOptions.on,
     key: componentOptions.key,
-    ref: componentOptions.ref,
     domProps: componentOptions.domProps,
     class: componentOptions.class,
     staticClass: componentOptions.staticClass,
@@ -96,6 +95,7 @@ export function createStubFromComponent(
       return h(
         tagName,
         {
+          ref: componentOptions.functional ? context.data.ref : undefined,
           attrs: componentOptions.functional
             ? {
                 ...context.props,

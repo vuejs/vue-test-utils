@@ -525,6 +525,30 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
     expect(wrapper.html()).to.contain('h1')
   })
 
+  it('maintains refs to components', () => {
+    const FunctionalComponentPassingRef = {
+      functional: true,
+      render: (h, context) => h('div', context.data)
+    }
+
+    const TestComponent = {
+      template: `
+        <div>
+          <test-component ref="normalChild" />
+          <test-functional-component ref="functionalChild" />
+        </div>
+      `,
+      components: {
+        testComponent: Component,
+        testFunctionalComponent: FunctionalComponentPassingRef
+      }
+    }
+
+    const wrapper = mountingMethod(TestComponent)
+    expect(wrapper.vm.$refs.normalChild).to.exist
+    expect(wrapper.vm.$refs.functionalChild).to.exist
+  })
+
   it('uses original component stub', () => {
     const Stub = {
       template: '<div />'
