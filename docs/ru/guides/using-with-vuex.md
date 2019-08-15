@@ -74,7 +74,7 @@ describe('Actions.vue', () => {
     expect(actions.actionInput).toHaveBeenCalled()
   })
 
-  it('не вызывает "actionInput", когда значение событие не "input"', () => {
+  it('не вызывает "actionInput", когда значение события не "input"', () => {
     const wrapper = shallowMount(Actions, { store, localVue })
     const input = wrapper.find('input')
     input.element.value = 'not input'
