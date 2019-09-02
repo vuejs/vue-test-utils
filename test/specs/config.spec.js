@@ -85,9 +85,7 @@ describeWithShallowAndMount('config', mountingMethod => {
       localVue
     })
     expect(wrapper.vm.prop1).to.equal('example')
-    wrapper.setProps({
-      prop1: 'new value'
-    })
+    wrapper.vm.prop1 = 'new value'
     expect(console.error).calledWith(sandbox.match('[Vue warn]'))
   })
 })
