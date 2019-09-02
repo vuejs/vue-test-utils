@@ -1,10 +1,7 @@
 // @flow
-
-import Vue from 'vue'
 import pretty from 'pretty'
 import getSelector from './get-selector'
 import { REF_SELECTOR, FUNCTIONAL_OPTIONS, VUE_VERSION } from 'shared/consts'
-import config from './config'
 import WrapperArray from './wrapper-array'
 import ErrorWrapper from './error-wrapper'
 import { throwError, getCheckedEvent, isPhantomJS } from 'shared/util'
@@ -478,8 +475,6 @@ export default class Wrapper implements BaseWrapper {
    * Sets vm props
    */
   setProps(data: Object): void {
-    const originalConfig = Vue.config.silent
-    Vue.config.silent = config.silent
     if (this.isFunctionalComponent) {
       throwError(
         `wrapper.setProps() cannot be called on a functional component`
@@ -503,38 +498,26 @@ export default class Wrapper implements BaseWrapper {
         )
       }
       if (
-        !this.vm ||
-        !this.vm.$options._propKeys ||
-        !this.vm.$options._propKeys.some(prop => prop === key)
+        VUE_VERSION <= 2.3 &&
+        // $FlowIgnore : Problem with possibly null this.vm
+        (!this.vm.$options._propKeys ||
+          !this.vm.$options._propKeys.some(prop => prop === key))
       ) {
-        if (VUE_VERSION > 2.3) {
-          // $FlowIgnore : Problem with possibly null this.vm
-          this.vm.$attrs[key] = data[key]
-          return
-        }
         throwError(
           `wrapper.setProps() called with ${key} property which ` +
             `is not defined on the component`
         )
       }
 
-      if (this.vm && this.vm._props) {
-        // Set actual props value
-        this.vm._props[key] = data[key]
-        // $FlowIgnore : Problem with possibly null this.vm
-        this.vm[key] = data[key]
-      } else {
-        // $FlowIgnore : Problem with possibly null this.vm.$options
-        this.vm.$options.propsData[key] = data[key]
-        // $FlowIgnore : Problem with possibly null this.vm
-        this.vm[key] = data[key]
-        // $FlowIgnore : Need to call this twice to fix watcher bug in 2.0.x
-        this.vm[key] = data[key]
+      if (this.vm && this.vm.$parent) {
+        this.vm.$parent.vueTestUtils_childProps[key] = data[key]
       }
     })
     // $FlowIgnore : Problem with possibly null this.vm
     this.vm.$forceUpdate()
-    Vue.config.silent = originalConfig
+    // We need to explicitly trigger parent watcher to support sync scenarios
+    // $FlowIgnore : Problem with possibly null this.vm
+    this.vm.$parent._watcher.run()
   }
 
   /**
