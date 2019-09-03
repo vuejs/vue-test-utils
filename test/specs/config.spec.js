@@ -64,6 +64,10 @@ describeWithShallowAndMount('config', mountingMethod => {
   })
 
   it('overrides a method', () => {
+    afterEach(() => {
+      delete config.methods['val']
+    })
+
     const testComponent = {
       template: `
         <div>{{ val() }}</div>

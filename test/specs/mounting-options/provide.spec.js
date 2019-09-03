@@ -31,6 +31,86 @@ describeWithShallowAndMount('options.provide', mountingMethod => {
 
   itDoNotRunIf(
     !injectSupported,
+    'respects provide values from parentComponent',
+    () => {
+      const parentComponent = {
+        provide: {
+          val: 'from parent'
+        }
+      }
+
+      const child = {
+        inject: ['val', 'val2'],
+        template: '<div></div>'
+      }
+
+      const wrapper = mountingMethod(child, {
+        parentComponent,
+        provide: {
+          val2: 'from config'
+        }
+      })
+
+      expect(wrapper.vm.val).to.equal('from parent')
+      expect(wrapper.vm.val2).to.equal('from config')
+    }
+  )
+
+  itDoNotRunIf(
+    !injectSupported,
+    'respects provide function from parentComponent',
+    () => {
+      const parentComponent = {
+        provide() {
+          return { val: 'from parent' }
+        }
+      }
+
+      const child = {
+        inject: ['val', 'val2'],
+        template: '<div></div>'
+      }
+
+      const wrapper = mountingMethod(child, {
+        parentComponent,
+        provide: {
+          val2: 'from config'
+        }
+      })
+
+      expect(wrapper.vm.val).to.equal('from parent')
+      expect(wrapper.vm.val2).to.equal('from config')
+    }
+  )
+
+  itDoNotRunIf(
+    !injectSupported,
+    'prioritize mounting options over parentComponent provide',
+    () => {
+      const parentComponent = {
+        provide() {
+          return { val: 'from parent' }
+        }
+      }
+
+      const child = {
+        inject: ['val'],
+        template: '<div></div>'
+      }
+
+      const wrapper = mountingMethod(child, {
+        parentComponent,
+        provide: {
+          val: 'from config'
+        }
+      })
+
+      expect(wrapper.vm.val).to.equal('from config')
+    }
+  )
+
+  itDoNotRunIf(
+    !injectSupported,
     'provides function which is injected by mounted component',
     () => {
       const wrapper = mountingMethod(ComponentWithInject, {
