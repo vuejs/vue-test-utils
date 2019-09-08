@@ -185,6 +185,18 @@ export default class Wrapper implements BaseWrapper {
   }
 
   /**
+   * Gets first node in tree of the current wrapper that
+   * matches the provided selector.
+   */
+  get(rawSelector: Selector): Wrapper {
+    const found = this.find(rawSelector)
+    if (found instanceof ErrorWrapper) {
+      throw new Error(`Unable to find ${rawSelector} within: ${this.html()}`)
+    }
+    return found
+  }
+
+  /**
    * Finds first node in tree of the current wrapper that
    * matches the provided selector.
    */
