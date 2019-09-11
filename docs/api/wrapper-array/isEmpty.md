@@ -1,4 +1,4 @@
-## isEmpty()
+## isEmpty
 
 Assert every `Wrapper` in `WrapperArray` does not contain child node.
 

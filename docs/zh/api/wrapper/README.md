@@ -16,9 +16,9 @@ Vue Test Utils 是一个基于包裹器的 API。
 
 ### `options`
 
-#### `options.attachedToDom`
+#### `options.attachedToDocument`
 
-`Boolean` (只读)：如果 `attachToDom` 传递给了 `mount` 或 `shallowMount` 则为真
+`Boolean` (只读)：如果组件在渲染之后被添加到了文档上则为真
 
 #### `options.sync`
 

@@ -2,9 +2,16 @@ import { Wrapper, WrapperArray } from '~vue/test-utils'
 import { describeWithShallowAndMount } from '~resources/utils'
 
 describeWithShallowAndMount('WrapperArray', mountingMethod => {
-  function getWrapperArray (wrappers) {
+  const sandbox = sinon.createSandbox()
+
+  afterEach(() => {
+    sandbox.reset()
+    sandbox.restore()
+  })
+
+  function getWrapperArray(wrappers) {
     if (!wrappers) {
-      wrappers = [1, 2, 3].map((v) => {
+      wrappers = [1, 2, 3].map(v => {
         const p = document.createElement('p')
         p.textContent = v
         return new Wrapper(p)
@@ -13,11 +20,13 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
     return new WrapperArray(wrappers)
   }
 
-  ['wrappers', 'length'].forEach(property => {
+  ;['wrappers', 'length'].forEach(property => {
     it(`has the ${property} property which is read-only`, () => {
       const wrapperArray = getWrapperArray()
       const message = `[vue-test-utils]: wrapperArray.${property} is read-only`
-      expect(() => { wrapperArray[property] = 'foo' })
+      expect(() => {
+        wrapperArray[property] = 'foo'
+      })
         .to.throw()
         .with.property('message', message)
     })
@@ -49,10 +58,6 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
     'contains',
     'emitted',
     'emittedByOrder',
-    'hasAttribute',
-    'hasClass',
-    'hasProp',
-    'hasStyle',
     'find',
     'findAll',
     'html',
@@ -64,14 +69,12 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
     'name',
     'props',
     'setChecked',
-    'setComputed',
     'setMethods',
     'setData',
     'setProps',
     'setSelected',
     'setValue',
     'trigger',
-    'update',
     'destroy'
   ]
   methods.forEach(method => {
@@ -91,22 +94,16 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
         [
           'at',
           'contains',
-          'hasAttribute',
-          'hasClass',
-          'hasProp',
-          'hasStyle',
           'is',
           'isEmpty',
           'isVisible',
           'isVueInstance',
           'setChecked',
-          'setComputed',
           'setMethods',
           'setData',
           'setProps',
           'setValue',
           'trigger',
-          'update',
           'destroy'
         ].includes(method)
       ) {
@@ -135,12 +132,12 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
 
   it('exists returns false if it has not existing wrappers', () => {
     const wrapper1 = {
-      exists () {
+      exists() {
         return true
       }
     }
     const wrapper2 = {
-      exists () {
+      exists() {
         return false
       }
     }
@@ -150,7 +147,7 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
 
   it('contains returns true if every wrapper.contains() returns true', () => {
     const selector = 'selector'
-    const contains = sinon.stub()
+    const contains = sandbox.stub()
     contains.withArgs(selector).returns(true)
     const wrapperArray = getWrapperArray([{ contains }, { contains }])
     expect(wrapperArray.contains(selector)).to.equal(true)
@@ -164,76 +161,9 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
     expect(wrapperArray.contains()).to.equal(false)
   })
 
-  it('hasAttribute returns true if every wrapper.hasAttribute() returns true', () => {
-    const attribute = 'attribute'
-    const value = 'value'
-    const hasAttribute = sinon.stub()
-    hasAttribute.withArgs(attribute, value).returns(true)
-    const wrapperArray = getWrapperArray([{ hasAttribute }, { hasAttribute }])
-    expect(wrapperArray.hasAttribute(attribute, value)).to.equal(true)
-  })
-
-  it('hasAttribute returns false if not every wrapper.hasAttribute() returns true', () => {
-    const wrapperArray = getWrapperArray([
-      { hasAttribute: () => true },
-      { hasAttribute: () => false }
-    ])
-    expect(wrapperArray.hasAttribute('attribute', 'value')).to.equal(false)
-  })
-
-  it('hasClass returns true if every wrapper.hasClass() returns true', () => {
-    const className = 'class'
-    const hasClass = sinon.stub()
-    hasClass.withArgs(className).returns(true)
-    const wrapperArray = getWrapperArray([{ hasClass }, { hasClass }])
-    expect(wrapperArray.hasClass(className)).to.equal(true)
-  })
-
-  it('hasClass returns false if not every wrapper.hasClass() returns true', () => {
-    const wrapperArray = getWrapperArray([
-      { hasClass: () => true },
-      { hasClass: () => false }
-    ])
-    expect(wrapperArray.hasClass('class')).to.equal(false)
-  })
-
-  it('hasProp returns true if every wrapper.hasProp() returns true', () => {
-    const prop = 'prop'
-    const value = 'value'
-    const hasProp = sinon.stub()
-    hasProp.withArgs(prop, value).returns(true)
-    const wrapperArray = getWrapperArray([{ hasProp }, { hasProp }])
-    expect(wrapperArray.hasProp(prop, value)).to.equal(true)
-  })
-
-  it('hasProp returns false if not every wrapper.hasProp() returns true', () => {
-    const wrapperArray = getWrapperArray([
-      { hasProp: () => true },
-      { hasProp: () => false }
-    ])
-    expect(wrapperArray.hasProp('prop', 'value')).to.equal(false)
-  })
-
-  it('hasStyle returns true if every wrapper.hasStyle() returns true', () => {
-    const style = 'style'
-    const value = 'value'
-    const hasStyle = sinon.stub()
-    hasStyle.withArgs(style, value).returns(true)
-    const wrapperArray = getWrapperArray([{ hasStyle }, { hasStyle }])
-    expect(wrapperArray.hasStyle(style, value)).to.equal(true)
-  })
-
-  it('hasStyle returns false if not every wrapper.hasStyle() returns true', () => {
-    const wrapperArray = getWrapperArray([
-      { hasStyle: () => true },
-      { hasStyle: () => false }
-    ])
-    expect(wrapperArray.hasStyle('style', 'value')).to.equal(false)
-  })
-
   it('is returns true if every wrapper.is() returns true', () => {
     const selector = 'selector'
-    const is = sinon.stub()
+    const is = sandbox.stub()
     is.withArgs(selector).returns(true)
     const wrapperArray = getWrapperArray([{ is }, { is }])
     expect(wrapperArray.is(selector)).to.equal(true)
@@ -295,17 +225,8 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
     expect(wrapperArray.isVueInstance()).to.equal(false)
   })
 
-  it('setComputed calls setMethods on each wrapper', () => {
-    const setComputed = sinon.stub()
-    const computed = {}
-    const wrapperArray = getWrapperArray([{ setComputed }, { setComputed }])
-    wrapperArray.setComputed(computed)
-    expect(setComputed.calledTwice).to.equal(true)
-    expect(setComputed.calledWith(computed)).to.equal(true)
-  })
-
   it('setMethods calls setMethods on each wrapper', () => {
-    const setMethods = sinon.stub()
+    const setMethods = sandbox.stub()
     const methods = {}
     const wrapperArray = getWrapperArray([{ setMethods }, { setMethods }])
     wrapperArray.setMethods(methods)
@@ -314,7 +235,7 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
   })
 
   it('setData calls setData on each wrapper', () => {
-    const setData = sinon.stub()
+    const setData = sandbox.stub()
     const data = {}
     const wrapperArray = getWrapperArray([{ setData }, { setData }])
     wrapperArray.setData(data)
@@ -323,7 +244,7 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
   })
 
   it('setProps calls setProps on each wrapper', () => {
-    const setProps = sinon.stub()
+    const setProps = sandbox.stub()
     const props = {}
     const wrapperArray = getWrapperArray([{ setProps }, { setProps }])
     wrapperArray.setProps(props)
@@ -332,7 +253,7 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
   })
 
   it('trigger calls trigger on each wrapper', () => {
-    const trigger = sinon.stub()
+    const trigger = sandbox.stub()
     const event = 'click'
     const options = {}
     const wrapperArray = getWrapperArray([{ trigger }, { trigger }])
@@ -342,7 +263,7 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
   })
 
   it('destroy calls destroy on each wrapper', () => {
-    const destroy = sinon.stub()
+    const destroy = sandbox.stub()
     const wrapperArray = getWrapperArray([{ destroy }, { destroy }])
     wrapperArray.destroy()
     expect(destroy.calledTwice).to.equal(true)

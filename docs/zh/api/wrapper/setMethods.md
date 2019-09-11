@@ -1,10 +1,11 @@
-## setMethods(methods)
+## setMethods
 
 设置 `Wrapper` `vm` 的方法并强制更新。
 
 **注意：该包裹器必须包含一个 Vue 示例。**
 
 - **参数：**
+
   - `{Object} methods`
 
 - **示例：**

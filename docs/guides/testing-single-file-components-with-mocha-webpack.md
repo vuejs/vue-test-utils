@@ -53,7 +53,7 @@ module.exports = {
 
 Source maps need to be inlined to be picked up by `mochapack`. The recommended config is:
 
-``` js
+```js
 module.exports = {
   // ...
   devtool: 'inline-cheap-module-source-map'
@@ -62,7 +62,7 @@ module.exports = {
 
 If debugging via IDE, it's also recommended to add the following:
 
-``` js
+```js
 module.exports = {
   // ...
   output: {
@@ -84,7 +84,7 @@ npm install --save-dev jsdom jsdom-global
 
 Then in `test/setup.js`:
 
-``` js
+```js
 require('jsdom-global')()
 ```
 
@@ -94,17 +94,17 @@ This adds a browser environment to Node, so that Vue Test Utils can run correctl
 
 [Chai](http://chaijs.com/) is a popular assertion library that is commonly used alongside Mocha. You may also want to check out [Sinon](http://sinonjs.org/) for creating spies and stubs.
 
-Alternatively you can use `expect` which is now part of Jest, and exposes [the exact same API](http://facebook.github.io/jest/docs/en/expect.html#content) in Jest docs.
+Alternatively you can use `expect` which is now part of Jest, and exposes [the exact same API](https://jestjs.io/docs/en/expect#content) in Jest docs.
 
 We will be using `expect` here and make it globally available so that we don't have to import it in every test:
 
-``` bash
+```bash
 npm install --save-dev expect
 ```
 
 Then in `test/setup.js`:
 
-``` js
+```js
 require('jsdom-global')()
 
 global.expect = require('expect')
@@ -120,7 +120,7 @@ One thing to note is that if you are using Node 6+, which already supports the m
 
 Create a file in `src` named `Counter.vue`:
 
-``` html
+```html
 <template>
   <div>
     {{ count }}
@@ -129,19 +129,19 @@ Create a file in `src` named `Counter.vue`:
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      count: 0
-    }
-  },
+  export default {
+    data() {
+      return {
+        count: 0
+      }
+    },
 
-  methods: {
-    increment () {
-      this.count++
+    methods: {
+      increment() {
+        this.count++
+      }
     }
   }
-}
 </script>
 ```
 
@@ -178,4 +178,4 @@ To setup code coverage to `mochapack`, follow [the `mochapack` code coverage gui
 - [mochapack](https://github.com/sysgears/mochapack/)
 - [Chai](http://chaijs.com/)
 - [Sinon](http://sinonjs.org/)
-- [jest/expect](http://facebook.github.io/jest/docs/en/expect.html#content)
+- [jest/expect](https://jestjs.io/docs/en/expect#content)

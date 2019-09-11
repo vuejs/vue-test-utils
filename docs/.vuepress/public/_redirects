@@ -1,0 +1,48 @@
+/en/*  /:splat
+
+/api/mount /api/#mount
+/api/shallowmount /api/#shallowmount
+/api/createlocalvue /api/#createlocalvue
+/api/config /api/#config
+
+/api/wrapper/isvisible  /api/wrapper/#isvisible
+/api/wrapper/emitted  /api/wrapper/#emitted
+/api/wrapper/html  /api/wrapper/#html
+/api/wrapper/name  /api/wrapper/#name
+/api/wrapper/setprops  /api/wrapper/#setprops
+/api/wrapper/attributes  /api/wrapper/#attributes
+/api/wrapper/emittedbyorder  /api/wrapper/#emittedbyorder
+/api/wrapper/is  /api/wrapper/#is
+/api/wrapper/props  /api/wrapper/#props
+/api/wrapper/setselected  /api/wrapper/#setselected
+/api/wrapper/classes  /api/wrapper/#classes
+/api/wrapper/exists  /api/wrapper/#exists
+/api/wrapper/isempty  /api/wrapper/#isempty
+/api/wrapper/setchecked  /api/wrapper/#setchecked
+/api/wrapper/setvalue  /api/wrapper/#setvalue
+/api/wrapper/contains  /api/wrapper/#contains
+/api/wrapper/find  /api/wrapper/#find
+/api/wrapper/isvisible  /api/wrapper/#isvisible
+/api/wrapper/setdata  /api/wrapper/#setdata
+/api/wrapper/text  /api/wrapper/#text
+/api/wrapper/destroy  /api/wrapper/#destroy
+/api/wrapper/findall  /api/wrapper/#findall
+/api/wrapper/isvueinstance  /api/wrapper/#isvueinstance
+/api/wrapper/setmethods  /api/wrapper/#setmethods
+/api/wrapper/trigger  /api/wrapper/#trigger
+
+/api/wrapper-array/destroy  /api/wrapper-array/#destroy
+/api/wrapper-array/isempty  /api/wrapper-array/#isempty
+/api/wrapper-array/setchecked  /api/wrapper-array/#setchecked
+/api/wrapper-array/setprops  /api/wrapper-array/#setprops
+/api/wrapper-array/at  /api/wrapper-array/#at
+/api/wrapper-array/filter  /api/wrapper-array/#filter
+/api/wrapper-array/isvisible  /api/wrapper-array/#isvisible
+/api/wrapper-array/setdata  /api/wrapper-array/#setdata
+/api/wrapper-array/setvalue  /api/wrapper-array/#setvalue
+/api/wrapper-array/contains  /api/wrapper-array/#contains
+/api/wrapper-array/is  /api/wrapper-array/#is
+/api/wrapper-array/isvueinstance  /api/wrapper-array/#isvueinstance
+/api/wrapper-array/setmethods  /api/wrapper-array/#setmethods
+/api/wrapper-array/trigger  /api/wrapper-array/#trigger
+

@@ -1,4 +1,4 @@
-## destroy()
+## destroy
 
 销毁 `WrapperArray` 中的每个 Vue `Wrapper`。
 

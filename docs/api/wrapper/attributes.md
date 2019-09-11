@@ -1,9 +1,10 @@
-## attributes([key])
+## attributes
 
 Returns `Wrapper` DOM node attribute object. If `key` is provided, the value for the `key` will be returned.
 
 - **Arguments:**
-  - `{string} key`  **optional**
+
+  - `{string} key` **optional**
 
 - **Returns:** `{[attribute: string]: any} | string`
 

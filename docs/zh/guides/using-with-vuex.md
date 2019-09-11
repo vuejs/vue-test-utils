@@ -10,7 +10,7 @@
 
 这是我们想要测试的组件。它会调用 Vuex action。
 
-``` html
+```html
 <template>
   <div class="text-align-center">
     <input type="text" @input="actionInputIfTrue" />
@@ -19,21 +19,19 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+  import { mapActions } from 'vuex'
 
-export default{
-  methods: {
-    ...mapActions([
-      'actionClick'
-    ]),
-    actionInputIfTrue: function actionInputIfTrue (event) {
-      const inputValue = event.target.value
-      if (inputValue === 'input') {
-        this.$store.dispatch('actionInput', { inputValue })
+  export default {
+    methods: {
+      ...mapActions(['actionClick']),
+      actionInputIfTrue: function actionInputIfTrue(event) {
+        const inputValue = event.target.value
+        if (inputValue === 'input') {
+          this.$store.dispatch('actionInput', { inputValue })
+        }
       }
     }
   }
-}
 </script>
 ```
 
@@ -45,7 +43,7 @@ export default{
 
 我们来看看它的样子：
 
-``` js
+```js
 import { shallowMount, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import Actions from '../../../src/components/Actions'
@@ -69,7 +67,7 @@ describe('Actions.vue', () => {
     })
   })
 
-  it('当事件的值是“input”时会 dispatch“actionInput”', () => {
+  it('dispatches "actionInput" when input event value is "input"', () => {
     const wrapper = shallowMount(Actions, { store, localVue })
     const input = wrapper.find('input')
     input.element.value = 'input'
@@ -77,7 +75,7 @@ describe('Actions.vue', () => {
     expect(actions.actionInput).toHaveBeenCalled()
   })
 
-  it('当事件的值不是“input”时不会 dispatch “actionInput”', () => {
+  it('does not dispatch "actionInput" when event value is not "input"', () => {
     const wrapper = shallowMount(Actions, { store, localVue })
     const input = wrapper.find('input')
     input.element.value = 'not input'
@@ -85,7 +83,7 @@ describe('Actions.vue', () => {
     expect(actions.actionInput).not.toHaveBeenCalled()
   })
 
-  it('当按钮被点击时候调用“actionClick”的 action', () => {
+  it('calls store action "actionClick" when button is clicked', () => {
     const wrapper = shallowMount(Actions, { store, localVue })
     wrapper.find('button').trigger('click')
     expect(actions.actionClick).toHaveBeenCalled()
@@ -97,7 +95,7 @@ describe('Actions.vue', () => {
 
 然后我们用 `new Vuex.Store` 伪造了一个 store 并填入假数据。我们只把它传递给 action，因为我们只关心这个。
 
-该 action 是 [Jest 伪造函数](https://facebook.github.io/jest/docs/en/mock-functions.html)。这些伪造函数让我们去断言该 action 是否被调用。
+该 action 是 [Jest 伪造函数](https://jestjs.io/docs/zh-Hans/mock-functions)。这些伪造函数让我们去断言该 action 是否被调用。
 
 然后我们可以在我们的测试中断言 action 存根是否如预期般被调用。
 
@@ -111,8 +109,7 @@ describe('Actions.vue', () => {
 
 ### 伪造 Getter
 
-
-``` html
+```html
 <template>
   <div>
     <p v-if="inputValue">{{inputValue}}</p>
@@ -121,14 +118,11 @@ describe('Actions.vue', () => {
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+  import { mapGetters } from 'vuex'
 
-export default{
-  computed: mapGetters([
-    'clicks',
-    'inputValue'
-  ])
-}
+  export default {
+    computed: mapGetters(['clicks', 'inputValue'])
+  }
 </script>
 ```
 
@@ -136,7 +130,7 @@ export default{
 
 让我们看看这个测试：
 
-``` js
+```js
 import { shallowMount, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import Getters from '../../../src/components/Getters'
@@ -160,13 +154,13 @@ describe('Getters.vue', () => {
     })
   })
 
-  it('在第一个 p 标签中渲染“state.inputValue”', () => {
+  it('Renders "store.getters.inputValue" in first p tag', () => {
     const wrapper = shallowMount(Getters, { store, localVue })
     const p = wrapper.find('p')
     expect(p.text()).toBe(getters.inputValue())
   })
 
-  it('在第二个 p 标签中渲染“state.clicks”', () => {
+  it('Renders "store.getters.clicks" in second p tag', () => {
     const wrapper = shallowMount(Getters, { store, localVue })
     const p = wrapper.findAll('p').at(1)
     expect(p.text()).toBe(getters.clicks().toString())
@@ -180,11 +174,11 @@ describe('Getters.vue', () => {
 
 ### 伪造 Module
 
-[Module](https://vuex.vuejs.org/zh-cn/modules.html) 对于将我们的 store 分隔成多个可管理的块来说非常有用。它们也暴露 getter。我们可以在测试中使用它们。
+[Module](https://vuex.vuejs.org/zh/guide/modules.html) 对于将我们的 store 分隔成多个可管理的块来说非常有用。它们也暴露 getter。我们可以在测试中使用它们。
 
 看看这个组件：
 
-``` html
+```html
 <template>
   <div>
     <button @click="moduleActionClick()">Click</button>
@@ -193,19 +187,15 @@ describe('Getters.vue', () => {
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+  import { mapActions, mapGetters } from 'vuex'
 
-export default{
-  methods: {
-    ...mapActions([
-      'moduleActionClick'
-    ])
-  },
+  export default {
+    methods: {
+      ...mapActions(['moduleActionClick'])
+    },
 
-  computed: mapGetters([
-    'moduleClicks'
-  ])
-}
+    computed: mapGetters(['moduleClicks'])
+  }
 </script>
 ```
 
@@ -213,7 +203,7 @@ export default{
 
 其测试：
 
-``` js
+```js
 import { shallowMount, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import MyComponent from '../../../src/components/MyComponent'
@@ -248,14 +238,14 @@ describe('MyComponent.vue', () => {
     })
   })
 
-  it('在点击按钮时调用 action“moduleActionClick”', () => {
+  it('calls store action "moduleActionClick" when button is clicked', () => {
     const wrapper = shallowMount(MyComponent, { store, localVue })
     const button = wrapper.find('button')
     button.trigger('click')
     expect(actions.moduleActionClick).toHaveBeenCalled()
   })
 
-  it('在第一个 p 标签内渲染“state.inputValue”', () => {
+  it('renders "state.clicks" in first p tag', () => {
     const wrapper = shallowMount(MyComponent, { store, localVue })
     const p = wrapper.find('p')
     expect(p.text()).toBe(state.clicks.toString())
@@ -272,7 +262,7 @@ describe('MyComponent.vue', () => {
 ```js
 // mutations.js
 export default {
-  increment (state) {
+  increment(state) {
     state.count++
   }
 }
@@ -281,7 +271,7 @@ export default {
 ```js
 // getters.js
 export default {
-  evenOrOdd: state => state.count % 2 === 0 ? 'even' : 'odd'
+  evenOrOdd: state => (state.count % 2 === 0 ? 'even' : 'odd')
 }
 ```
 
@@ -300,7 +290,7 @@ Getter、mutation 和 action 全部是 JavaScript 函数，所以我们可以不
 
 import mutations from './mutations'
 
-test('increment increments state.count by 1', () => {
+test('"increment" increments "state.count" by 1', () => {
   const state = {
     count: 0
   }
@@ -316,20 +306,19 @@ test('increment increments state.count by 1', () => {
 
 import getters from './getters'
 
-test('evenOrOdd returns even if state.count is even', () => {
+test('"evenOrOdd" returns even if "state.count" is even', () => {
   const state = {
     count: 2
   }
   expect(getters.evenOrOdd(state)).toBe('even')
 })
 
-test('evenOrOdd returns odd if state.count is odd', () => {
+test('"evenOrOdd" returns odd if "state.count" is odd', () => {
   const state = {
     count: 1
   }
   expect(getters.evenOrOdd(state)).toBe('odd')
 })
-
 ```
 
 ### 测试一个运行中的 store
@@ -365,7 +354,7 @@ import Vuex from 'vuex'
 import storeConfig from './store-config'
 import { cloneDeep } from 'lodash'
 
-test('increments count value when increment is commited', () => {
+test('increments "count" value when "increment" is commited', () => {
   const localVue = createLocalVue()
   localVue.use(Vuex)
   const store = new Vuex.Store(cloneDeep(storeConfig))
@@ -374,7 +363,7 @@ test('increments count value when increment is commited', () => {
   expect(store.state.count).toBe(1)
 })
 
-test('updates evenOrOdd getter when increment is commited', () => {
+test('updates "evenOrOdd" getter when "increment" is commited', () => {
   const localVue = createLocalVue()
   localVue.use(Vuex)
   const store = new Vuex.Store(cloneDeep(storeConfig))

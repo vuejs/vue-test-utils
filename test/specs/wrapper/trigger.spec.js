@@ -9,18 +9,15 @@ import Vue from 'vue'
 import { itDoNotRunIf } from 'conditional-specs'
 
 describeWithShallowAndMount('trigger', mountingMethod => {
-  let info
-
-  beforeEach(() => {
-    info = sinon.stub(console, 'info')
-  })
+  const sandbox = sinon.createSandbox()
 
   afterEach(() => {
-    info.restore()
+    sandbox.reset()
+    sandbox.restore()
   })
 
   it('causes click handler to fire when wrapper.trigger("click") is called on a Component', () => {
-    const clickHandler = sinon.stub()
+    const clickHandler = sandbox.stub()
     const wrapper = mountingMethod(ComponentWithEvents, {
       propsData: { clickHandler }
     })
@@ -31,7 +28,7 @@ describeWithShallowAndMount('trigger', mountingMethod => {
   })
 
   it('causes keydown handler to fire when wrapper.trigger("keydown") is fired on a Component', () => {
-    const keydownHandler = sinon.stub()
+    const keydownHandler = sandbox.stub()
     const wrapper = mountingMethod(ComponentWithEvents, {
       propsData: { keydownHandler }
     })
@@ -41,7 +38,7 @@ describeWithShallowAndMount('trigger', mountingMethod => {
   })
 
   it('causes keydown handler to fire when wrapper.trigger("keydown.enter") is fired on a Component', () => {
-    const keydownHandler = sinon.stub()
+    const keydownHandler = sandbox.stub()
     const wrapper = mountingMethod(ComponentWithEvents, {
       propsData: { keydownHandler }
     })
@@ -68,7 +65,7 @@ describeWithShallowAndMount('trigger', mountingMethod => {
       pageup: 33,
       pagedown: 34
     }
-    const keyupHandler = sinon.stub()
+    const keyupHandler = sandbox.stub()
     const wrapper = mountingMethod(ComponentWithEvents, {
       propsData: { keyupHandler }
     })
@@ -79,16 +76,17 @@ describeWithShallowAndMount('trigger', mountingMethod => {
     }
   })
 
-  it('causes DOM to update after clickHandler method that changes components data is called', () => {
+  it('causes DOM to update after clickHandler method that changes components data is called', async () => {
     const wrapper = mountingMethod(ComponentWithEvents)
     const toggle = wrapper.find('.toggle')
     expect(toggle.classes()).not.to.contain('active')
     toggle.trigger('click')
+    await Vue.nextTick()
     expect(toggle.classes()).to.contain('active')
   })
 
   it('adds options to event', () => {
-    const clickHandler = sinon.stub()
+    const clickHandler = sandbox.stub()
     const wrapper = mountingMethod(ComponentWithEvents, {
       propsData: { clickHandler }
     })
@@ -103,11 +101,11 @@ describeWithShallowAndMount('trigger', mountingMethod => {
   })
 
   it('adds custom data to events', () => {
-    const stub = sinon.stub()
+    const stub = sandbox.stub()
     const TestComponent = {
       template: '<div @update="callStub" />',
       methods: {
-        callStub (event) {
+        callStub(event) {
           stub(event.customData)
         }
       }
@@ -123,7 +121,7 @@ describeWithShallowAndMount('trigger', mountingMethod => {
   })
 
   it('does not fire on disabled elements', () => {
-    const clickHandler = sinon.stub()
+    const clickHandler = sandbox.stub()
     const TestComponent = {
       template: '<button disabled @click="clickHandler"/>',
       props: ['clickHandler']
@@ -152,7 +150,7 @@ describeWithShallowAndMount('trigger', mountingMethod => {
       const vm = new Vue()
       const item = () => vm.$createElement('button')
       const TestComponent = {
-        render (h) {
+        render(h) {
           return h(ComponentWithScopedSlots, {
             scopedSlots: {
               noProps: item
@@ -205,14 +203,15 @@ describeWithShallowAndMount('trigger', mountingMethod => {
 
   itDoNotRunIf(
     isRunningPhantomJS,
-    'trigger should create events with correct interface', () => {
+    'trigger should create events with correct interface',
+    () => {
       let lastEvent
       const TestComponent = {
         template: `
         <div @click="updateLastEvent" />
       `,
         methods: {
-          updateLastEvent (event) {
+          updateLastEvent(event) {
             lastEvent = event
           }
         }
@@ -222,7 +221,8 @@ describeWithShallowAndMount('trigger', mountingMethod => {
 
       wrapper.trigger('click')
       expect(lastEvent).to.be.an.instanceof(window.MouseEvent)
-    })
+    }
+  )
 
   it('falls back to supported event if not supported by browser', () => {
     const TestComponent = {

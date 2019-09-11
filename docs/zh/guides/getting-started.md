@@ -4,7 +4,7 @@
 
 快速尝鲜 Vue Test Utils 的办法就是克隆我们的 demo 仓库再加上基本的设置和依赖安装。
 
-``` bash
+```bash
 git clone https://github.com/vuejs/vue-test-utils-getting-started
 cd vue-test-utils-getting-started
 npm install
@@ -23,14 +23,14 @@ export default {
     </div>
   `,
 
-  data () {
+  data() {
     return {
       count: 0
     }
   },
 
   methods: {
-    increment () {
+    increment() {
       this.count++
     }
   }
@@ -72,16 +72,16 @@ console.log(wrapper)
 import { mount } from '@vue/test-utils'
 import Counter from './counter'
 
-describe('计数器', () => {
+describe('Counter', () => {
   // 现在挂载组件，你便得到了这个包裹器
   const wrapper = mount(Counter)
 
-  it('渲染正确的标记', () => {
+  it('renders the correct markup', () => {
     expect(wrapper.html()).toContain('<span class="count">0</span>')
   })
 
   // 也便于检查已存在的元素
-  it('是一个按钮', () => {
+  it('has a button', () => {
     expect(wrapper.contains('button')).toBe(true)
   })
 })
@@ -94,7 +94,7 @@ describe('计数器', () => {
 当用户点击按钮的时候，我们的计数器应该递增。为了模拟这一行为，我们首先需要通过 `wrapper.find()` 定位该按钮，此方法返回一个**该按钮元素的包裹器**。然后我们能够通过对该按钮包裹器调用 `.trigger()` 来模拟点击。
 
 ```js
-it('点击按钮应该使得计数递增', () => {
+it('button click should increment the count', () => {
   expect(wrapper.vm.count).toBe(0)
   const button = wrapper.find('button')
   button.trigger('click')
@@ -108,13 +108,13 @@ Vue 会异步的将未生效的 DOM 更新批量应用，以避免因数据反�
 
 为了简化用法，Vue Test Utils 同步应用了所有的更新，所以你不需要在测试中使用 `Vue.nextTick` 来等待 DOM 更新。
 
-*注意：当你需要为诸如异步回调或 Promise 解析等操作显性改进为事件循环的时候，`nextTick` 仍然是必要的。*
+_注意：当你需要为诸如异步回调或 Promise 解析等操作显性改进为事件循环的时候，`nextTick` 仍然是必要的。_
 
 如果你仍然需要在自己的测试文件中使用 `nextTick`，注意任何在其内部被抛出的错误可能都不会被测试运行器捕获，因为其内部使用了 Promise。关于这个问题有两个建议：要么你可以在测试的一开始将 Vue 的全局错误处理器设置为 `done` 回调，要么你可以在调用 `nextTick` 时不带参数让其作为一个 Promise 返回：
 
 ```js
 // 这不会被捕获
-it('will time out', (done) => {
+it('will time out', done => {
   Vue.nextTick(() => {
     expect(true).toBe(false)
     done()
@@ -122,7 +122,7 @@ it('will time out', (done) => {
 })
 
 // 接下来的两项测试都会如预期工作
-it('will catch the error using done', (done) => {
+it('will catch the error using done', done => {
   Vue.config.errorHandler = done
   Vue.nextTick(() => {
     expect(true).toBe(false)
@@ -131,10 +131,9 @@ it('will catch the error using done', (done) => {
 })
 
 it('will catch the error using a promise', () => {
-  return Vue.nextTick()
-    .then(function () {
-      expect(true).toBe(false)
-    })
+  return Vue.nextTick().then(function() {
+    expect(true).toBe(false)
+  })
 })
 ```
 

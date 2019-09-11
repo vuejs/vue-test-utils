@@ -1,29 +1,24 @@
-import { describeWithShallowAndMount, vueVersion } from '~resources/utils'
+import { describeWithShallowAndMount } from '~resources/utils'
 import ComponentWithProps from '~resources/components/component-with-props.vue'
-import { itDoNotRunIf, itSkipIf } from 'conditional-specs'
-import {
-  config,
-  TransitionStub,
-  TransitionGroupStub,
-  createLocalVue
-} from '~vue/test-utils'
-import Vue from 'vue'
+import { itDoNotRunIf } from 'conditional-specs'
+import { config, createLocalVue } from '~vue/test-utils'
 
 describeWithShallowAndMount('config', mountingMethod => {
-  let configStubsSave, consoleError, configLogSave, configSilentSave
+  const sandbox = sinon.createSandbox()
+  let configStubsSave
+  let configSilentSave
 
   beforeEach(() => {
     configStubsSave = config.stubs
-    configLogSave = config.logModifiedComponents
     configSilentSave = config.silent
-    consoleError = sinon.stub(console, 'error')
+    sandbox.stub(console, 'error').callThrough()
   })
 
   afterEach(() => {
     config.stubs = configStubsSave
-    config.logModifiedComponents = configLogSave
     config.silent = configSilentSave
-    consoleError.restore()
+    sandbox.reset()
+    sandbox.restore()
   })
 
   itDoNotRunIf(
@@ -83,60 +78,6 @@ describeWithShallowAndMount('config', mountingMethod => {
     expect(wrapper.text()).to.equal('method')
   })
 
-  it("doesn't stub transition when config.stubs.transition is set to false", () => {
-    const testComponent = {
-      template: `
-        <div>
-          <transition><p /></transition>
-        </div>
-      `
-    }
-    config.stubs.transition = false
-    const wrapper = mountingMethod(testComponent)
-    expect(wrapper.contains(TransitionStub)).to.equal(false)
-  })
-
-  it("doesn't stub transition when config.stubs.transition is set to false", () => {
-    const testComponent = {
-      template: `
-        <div>
-          <transition-group><p /><p /></transition-group>
-        </div>
-      `
-    }
-    config.stubs['transition-group'] = false
-    const wrapper = mountingMethod(testComponent)
-    expect(wrapper.contains(TransitionGroupStub)).to.equal(false)
-  })
-
-  it("doesn't stub transition when config.stubs is set to false", () => {
-    config.stubs = false
-    const testComponent = {
-      template: `
-        <div>
-          <transition-group><p /><p /></transition-group>
-        </div>
-      `
-    }
-    const wrapper = mountingMethod(testComponent)
-    expect(wrapper.contains(TransitionGroupStub)).to.equal(false)
-    expect(wrapper.contains(TransitionStub)).to.equal(false)
-  })
-
-  it("doesn't stub transition when config.stubs is set to a string", () => {
-    config.stubs = 'a string'
-    const testComponent = {
-      template: `
-        <div>
-          <transition-group><p /><p /></transition-group>
-        </div>
-      `
-    }
-    const wrapper = mountingMethod(testComponent)
-    expect(wrapper.contains(TransitionGroupStub)).to.equal(false)
-    expect(wrapper.contains(TransitionStub)).to.equal(false)
-  })
-
   it("doesn't throw Vue warning when silent is set to true", () => {
     config.silent = true
     const localVue = createLocalVue()
@@ -150,7 +91,7 @@ describeWithShallowAndMount('config', mountingMethod => {
     wrapper.setProps({
       prop1: 'new value'
     })
-    expect(consoleError.called).to.equal(false)
+    expect(console.error).not.calledWith(sandbox.match('[Vue warn]'))
   })
 
   it('does throw Vue warning when silent is set to false', () => {
@@ -166,25 +107,6 @@ describeWithShallowAndMount('config', mountingMethod => {
     wrapper.setProps({
       prop1: 'new value'
     })
-    expect(consoleError.called).to.equal(true)
+    expect(console.error).calledWith(sandbox.match('[Vue warn]'))
   })
-
-  itSkipIf(
-    vueVersion < 2.3,
-    'does not log when component is extended if logModifiedComponents is false',
-    () => {
-      const ChildComponent = Vue.extend({
-        template: '<span />'
-      })
-      const TestComponent = {
-        template: '<child-component />',
-        components: {
-          ChildComponent
-        }
-      }
-      config.logModifiedComponents = false
-      mountingMethod(TestComponent)
-      expect(consoleError.called).to.equal(false)
-    }
-  )
 })

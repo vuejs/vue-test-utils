@@ -3,19 +3,19 @@
 import { throwError } from 'shared/util'
 
 export default class ErrorWrapper implements BaseWrapper {
-  selector: string;
+  selector: string
 
-  constructor (selector: string) {
+  constructor(selector: string) {
     this.selector = selector
   }
 
-  at (): void {
+  at(): void {
     throwError(
       `find did not return ${this.selector}, cannot call at() on empty Wrapper`
     )
   }
 
-  attributes (): void {
+  attributes(): void {
     throwError(
       `find did not return ${
         this.selector
@@ -23,7 +23,7 @@ export default class ErrorWrapper implements BaseWrapper {
     )
   }
 
-  classes (): void {
+  classes(): void {
     throwError(
       `find did not return ${
         this.selector
@@ -31,7 +31,7 @@ export default class ErrorWrapper implements BaseWrapper {
     )
   }
 
-  contains (): void {
+  contains(): void {
     throwError(
       `find did not return ${
         this.selector
@@ -39,7 +39,7 @@ export default class ErrorWrapper implements BaseWrapper {
     )
   }
 
-  emitted (): void {
+  emitted(): void {
     throwError(
       `find did not return ${
         this.selector
@@ -47,7 +47,7 @@ export default class ErrorWrapper implements BaseWrapper {
     )
   }
 
-  emittedByOrder (): void {
+  emittedByOrder(): void {
     throwError(
       `find did not return ${
         this.selector
@@ -55,11 +55,11 @@ export default class ErrorWrapper implements BaseWrapper {
     )
   }
 
-  exists (): boolean {
+  exists(): boolean {
     return false
   }
 
-  filter (): void {
+  filter(): void {
     throwError(
       `find did not return ${
         this.selector
@@ -67,7 +67,7 @@ export default class ErrorWrapper implements BaseWrapper {
     )
   }
 
-  visible (): void {
+  visible(): void {
     throwError(
       `find did not return ${
         this.selector
@@ -75,7 +75,7 @@ export default class ErrorWrapper implements BaseWrapper {
     )
   }
 
-  hasAttribute (): void {
+  hasAttribute(): void {
     throwError(
       `find did not return ${
         this.selector
@@ -83,7 +83,7 @@ export default class ErrorWrapper implements BaseWrapper {
     )
   }
 
-  hasClass (): void {
+  hasClass(): void {
     throwError(
       `find did not return ${
         this.selector
@@ -91,7 +91,7 @@ export default class ErrorWrapper implements BaseWrapper {
     )
   }
 
-  hasProp (): void {
+  hasProp(): void {
     throwError(
       `find did not return ${
         this.selector
@@ -99,7 +99,7 @@ export default class ErrorWrapper implements BaseWrapper {
     )
   }
 
-  hasStyle (): void {
+  hasStyle(): void {
     throwError(
       `find did not return ${
         this.selector
@@ -107,7 +107,7 @@ export default class ErrorWrapper implements BaseWrapper {
     )
   }
 
-  findAll (): void {
+  findAll(): void {
     throwError(
       `find did not return ${
         this.selector
@@ -115,7 +115,7 @@ export default class ErrorWrapper implements BaseWrapper {
     )
   }
 
-  find (): void {
+  find(): void {
     throwError(
       `find did not return ${
         this.selector
@@ -123,7 +123,7 @@ export default class ErrorWrapper implements BaseWrapper {
     )
   }
 
-  html (): void {
+  html(): void {
     throwError(
       `find did not return ${
         this.selector
@@ -131,13 +131,13 @@ export default class ErrorWrapper implements BaseWrapper {
     )
   }
 
-  is (): void {
+  is(): void {
     throwError(
       `find did not return ${this.selector}, cannot call is() on empty Wrapper`
     )
   }
 
-  isEmpty (): void {
+  isEmpty(): void {
     throwError(
       `find did not return ${
         this.selector
@@ -145,7 +145,7 @@ export default class ErrorWrapper implements BaseWrapper {
     )
   }
 
-  isVisible (): void {
+  isVisible(): void {
     throwError(
       `find did not return ${
         this.selector
@@ -153,7 +153,7 @@ export default class ErrorWrapper implements BaseWrapper {
     )
   }
 
-  isVueInstance (): void {
+  isVueInstance(): void {
     throwError(
       `find did not return ${
         this.selector
@@ -161,7 +161,7 @@ export default class ErrorWrapper implements BaseWrapper {
     )
   }
 
-  name (): void {
+  name(): void {
     throwError(
       `find did not return ${
         this.selector
@@ -169,7 +169,7 @@ export default class ErrorWrapper implements BaseWrapper {
     )
   }
 
-  props (): void {
+  props(): void {
     throwError(
       `find did not return ${
         this.selector
@@ -177,7 +177,7 @@ export default class ErrorWrapper implements BaseWrapper {
     )
   }
 
-  text (): void {
+  text(): void {
     throwError(
       `find did not return ${
         this.selector
@@ -185,7 +185,7 @@ export default class ErrorWrapper implements BaseWrapper {
     )
   }
 
-  setComputed (): void {
+  setComputed(): void {
     throwError(
       `find did not return ${
         this.selector
@@ -193,7 +193,7 @@ export default class ErrorWrapper implements BaseWrapper {
     )
   }
 
-  setData (): void {
+  setData(): void {
     throwError(
       `find did not return ${
         this.selector
@@ -201,7 +201,7 @@ export default class ErrorWrapper implements BaseWrapper {
     )
   }
 
-  setMethods (): void {
+  setMethods(): void {
     throwError(
       `find did not return ${
         this.selector
@@ -209,7 +209,7 @@ export default class ErrorWrapper implements BaseWrapper {
     )
   }
 
-  setProps (): void {
+  setProps(): void {
     throwError(
       `find did not return ${
         this.selector
@@ -217,7 +217,7 @@ export default class ErrorWrapper implements BaseWrapper {
     )
   }
 
-  setValue (): void {
+  setValue(): void {
     throwError(
       `find did not return ${
         this.selector
@@ -225,7 +225,7 @@ export default class ErrorWrapper implements BaseWrapper {
     )
   }
 
-  setChecked (): void {
+  setChecked(): void {
     throwError(
       `find did not return ${
         this.selector
@@ -233,7 +233,7 @@ export default class ErrorWrapper implements BaseWrapper {
     )
   }
 
-  setSelected (): void {
+  setSelected(): void {
     throwError(
       `find did not return ${
         this.selector
@@ -241,7 +241,7 @@ export default class ErrorWrapper implements BaseWrapper {
     )
   }
 
-  trigger (): void {
+  trigger(): void {
     throwError(
       `find did not return ${
         this.selector
@@ -249,14 +249,7 @@ export default class ErrorWrapper implements BaseWrapper {
     )
   }
 
-  update (): void {
-    throwError(
-      `update has been removed from vue-test-utils.` +
-      `All updates are now synchronous by default`
-    )
-  }
-
-  destroy (): void {
+  destroy(): void {
     throwError(
       `find did not return ${
         this.selector

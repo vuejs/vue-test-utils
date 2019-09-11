@@ -53,7 +53,7 @@ describeWithShallowAndMount('find', mountingMethod => {
   it('returns Wrapper matching class selector passed if they are declared inside a functional component', () => {
     const TestComponent = {
       functional: true,
-      render (h, { props }) {
+      render(h, { props }) {
         return h('div', {}, [
           h('p', {
             class: {
@@ -155,7 +155,8 @@ describeWithShallowAndMount('find', mountingMethod => {
 
   itDoNotRunIf(
     mountingMethod.name === 'shallowMount',
-    'follows DOM tree order', () => {
+    'follows DOM tree order',
+    () => {
       const TestComponent = {
         template: `
       <main>
@@ -175,8 +176,11 @@ describeWithShallowAndMount('find', mountingMethod => {
       const wrapper = mountingMethod(TestComponent)
       const wrappers = wrapper.findAll('div').wrappers
       const expectedClasses = ['1', '1a', '1aa', '1b', '2', '3']
-      wrappers.forEach((w, i) => expect(w.classes()).to.contain(expectedClasses[i]))
-    })
+      wrappers.forEach((w, i) =>
+        expect(w.classes()).to.contain(expectedClasses[i])
+      )
+    }
+  )
 
   it('returns functional component', () => {
     if (!functionalSFCsSupported) {
@@ -250,7 +254,7 @@ describeWithShallowAndMount('find', mountingMethod => {
 
   it('works correctly with innerHTML', () => {
     const TestComponent = {
-      render (createElement) {
+      render(createElement) {
         return createElement('div', {
           domProps: {
             innerHTML: '<svg></svg>'
@@ -269,7 +273,7 @@ describeWithShallowAndMount('find', mountingMethod => {
 
   it('throws errror when searching for a component on an element Wrapper', () => {
     const TestComponent = {
-      render (createElement) {
+      render(createElement) {
         return createElement('div', {
           domProps: {
             innerHTML: '<svg></svg>'
@@ -290,7 +294,7 @@ describeWithShallowAndMount('find', mountingMethod => {
 
   it('throws errror when using ref selector on an element Wrapper', () => {
     const TestComponent = {
-      render (createElement) {
+      render(createElement) {
         return createElement('div', {
           domProps: {
             innerHTML: '<svg></svg>'
@@ -311,7 +315,7 @@ describeWithShallowAndMount('find', mountingMethod => {
 
   it('returns correct number of Vue Wrappers when component has a v-for', () => {
     const items = [{ id: 1 }, { id: 2 }, { id: 3 }]
-    const wrapper = mountingMethod(ComponentWithVFor, { propsData: { items }})
+    const wrapper = mountingMethod(ComponentWithVFor, { propsData: { items } })
     expect(wrapper.find(Component).vnode).to.be.an('object')
   })
 
@@ -375,21 +379,20 @@ describeWithShallowAndMount('find', mountingMethod => {
     expect(wrapper.find({ ref: 'foo' })).to.be.an('object')
   })
 
-  itSkipIf(vueVersion < 2.3,
-    'returns functional extended component', () => {
-      const FunctionalExtendedComponent = Vue.extend({
-        functional: true,
-        render: h => h('div')
-      })
-      const TestComponent = {
-        template: '<div><functional-extended-component /></div>',
-        components: {
-          FunctionalExtendedComponent
-        }
-      }
-      const wrapper = mountingMethod(TestComponent)
-      expect(wrapper.find(FunctionalExtendedComponent).exists()).to.equal(true)
+  itSkipIf(vueVersion < 2.3, 'returns functional extended component', () => {
+    const FunctionalExtendedComponent = Vue.extend({
+      functional: true,
+      render: h => h('div')
     })
+    const TestComponent = {
+      template: '<div><functional-extended-component /></div>',
+      components: {
+        FunctionalExtendedComponent
+      }
+    }
+    const wrapper = mountingMethod(TestComponent)
+    expect(wrapper.find(FunctionalExtendedComponent).exists()).to.equal(true)
+  })
 
   it('returns Wrapper of Vue Component matching the extended component', () => {
     const BaseComponent = {
@@ -501,14 +504,14 @@ describeWithShallowAndMount('find', mountingMethod => {
     })
   })
 
-  it('handles unnamed components', () => {
+  it('handles unnamed components', async () => {
     const ChildComponent = {
       template: '<div />'
     }
     const TestComponent = {
       template: '<child-component v-if="renderChild" />',
       components: { ChildComponent },
-      data: function () {
+      data: function() {
         return {
           renderChild: false
         }
@@ -518,12 +521,14 @@ describeWithShallowAndMount('find', mountingMethod => {
 
     expect(wrapper.find(ChildComponent).vnode).to.be.undefined
     wrapper.vm.renderChild = true
+    await Vue.nextTick()
     expect(wrapper.find(ChildComponent).vnode).to.be.an('object')
   })
 
   itDoNotRunIf(
     mountingMethod.name === 'shallowMount',
-    'returns a VueWrapper instance by CSS selector if the element binds a Vue instance', () => {
+    'returns a VueWrapper instance by CSS selector if the element binds a Vue instance',
+    () => {
       const childComponent = {
         name: 'bar',
         template: '<p/>'
@@ -535,5 +540,6 @@ describeWithShallowAndMount('find', mountingMethod => {
       })
       expect(wrapper.find('div').vm.$options.name).to.equal('foo')
       expect(wrapper.find('p').vm.$options.name).to.equal('bar')
-    })
+    }
+  )
 })

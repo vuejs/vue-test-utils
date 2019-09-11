@@ -10,7 +10,7 @@ Karma はブラウザを起動し、テストを実行しそれをレポート�
 
 最初にテストに必要なライブラリをインストールします。
 
-``` bash
+```bash
 npm install --save-dev @vue/test-utils karma karma-chrome-launcher karma-mocha karma-sourcemap-loader karma-spec-reporter karma-webpack mocha
 ```
 
@@ -25,7 +25,7 @@ npm install --save-dev @vue/test-utils karma karma-chrome-launcher karma-mocha k
 }
 ```
 
-- `--single-run` フラグは Karma にテストスウィートを1回実行するように指定します。
+- `--single-run` フラグは Karma にテストスウィートを 1 回実行するように指定します。
 
 ### Karma の設定
 
@@ -36,13 +36,11 @@ npm install --save-dev @vue/test-utils karma karma-chrome-launcher karma-mocha k
 
 var webpackConfig = require('./webpack.config.js')
 
-module.exports = function (config) {
+module.exports = function(config) {
   config.set({
     frameworks: ['mocha'],
 
-    files: [
-      'test/**/*.spec.js'
-    ],
+    files: ['test/**/*.spec.js'],
 
     preprocessors: {
       '**/*.spec.js': ['webpack', 'sourcemap']
@@ -61,7 +59,7 @@ module.exports = function (config) {
 
 ファイルを Webpack で前処理する必要があります。そのために、 Webpack をプリプロセッサとして加えます。そして、 Webpack の設定を含めます。プロジェクトに元々あった Webpack の設定ファイルを変更なしで使用することができます。
 
-この設定では、 Chrome でテストを実行します。他のブラウザを加える方法は [Karma のドキュメントにあるブラウザセクション](http://karma-runner.github.io/2.0/config/browsers.html) を見てください。
+この設定では、 Chrome でテストを実行します。他のブラウザを加える方法は [Karma のドキュメントにあるブラウザセクション](http://karma-runner.github.io/3.0/config/browsers.html) を見てください。
 
 ### アサーションライブラリを選ぶ
 
@@ -69,15 +67,15 @@ module.exports = function (config) {
 
 テストで `Chai` を使うために `karma-chai` プラグインをインストールします。
 
-``` bash
+```bash
 npm install --save-dev karma-chai
 ```
 
 ### テストを加える
 
-`Counter.vue` ファイルを `src` ディレクトリに作成します。
+`Counter.vue` ファイルを  `src` ディレクトリに作成します。
 
-``` html
+```html
 <template>
   <div>
     {{ count }}
@@ -86,19 +84,19 @@ npm install --save-dev karma-chai
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      count: 0
-    }
-  },
+  export default {
+    data() {
+      return {
+        count: 0
+      }
+    },
 
-  methods: {
-    increment () {
-      this.count++
+    methods: {
+      increment() {
+        this.count++
+      }
     }
   }
-}
 </script>
 ```
 
@@ -132,7 +130,7 @@ Karma にコードカバレッジをセットアップするために、 `karma-
 
 デフォルトでは、 `karma-coverage` はソースマップをカバレッジレポートをマップすることに使用しません。だから、確実に正しくカバレッジがマップされるために `babel-plugin-istanbul` を使用します。
 
-`karma-coverage` と `babel-plugin-istanbul` と `cross-env` をインストールします。
+`karma-coverage` と  `babel-plugin-istanbul` と  `cross-env` をインストールします。
 
 ```
 npm install --save-dev karma-coverage cross-env
@@ -148,10 +146,7 @@ npm install --save-dev babel-plugin-istanbul
 
 ```json
 {
-  "presets": [
-    ["env", { "modules": false }],
-    "stage-3"
-  ],
+  "presets": [["env", { "modules": false }], "stage-3"],
   "env": {
     "test": {
       "plugins": ["istanbul"]
@@ -165,18 +160,15 @@ npm install --save-dev babel-plugin-istanbul
 ```js
 // karma.conf.js
 
-module.exports = function (config) {
+module.exports = function(config) {
   config.set({
-  // ...
+    // ...
 
     reporters: ['spec', 'coverage'],
 
     coverageReporter: {
       dir: './coverage',
-      reporters: [
-        { type: 'lcov', subdir: '.' },
-        { type: 'text-summary' }
-      ]
+      reporters: [{ type: 'lcov', subdir: '.' }, { type: 'text-summary' }]
     }
   })
 }

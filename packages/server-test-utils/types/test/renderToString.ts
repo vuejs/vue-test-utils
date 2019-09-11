@@ -4,18 +4,22 @@ import { normalOptions, functionalOptions, Normal, ClassComponent } from './reso
 
 const store = new Vuex.Store({})
 
-render(
-  {
-    template: '<p>foo</p>'
-  },
-  {
-    attachToDocument: true,
-    scopedSlots: {
-      foo: `<div>Foo</div>`
+async function test () {
+  const renderResult: Cheerio = await render(
+    {
+      template: '<p>foo</p>'
     },
-    sync: false
-  }
-)
+    {
+      attachToDocument: true,
+      scopedSlots: {
+        foo: `<div>Foo</div>`
+      }
+    }
+  )
+  const str: string = await renderToString(ClassComponent)
+}
+
+test()
 
 renderToString(ClassComponent, {
   mocks: {
@@ -62,5 +66,4 @@ config.methods = {
 config.provide = {
   foo: {}
 }
-config.logModifiedComponents = true
 config.silent = true

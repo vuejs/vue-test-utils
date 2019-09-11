@@ -4,7 +4,7 @@ import Vue from 'vue'
 import Wrapper from './wrapper'
 import VueWrapper from './vue-wrapper'
 
-export default function createWrapper (
+export default function createWrapper(
   node: VNode | Component,
   options: WrapperOptions = {}
 ): VueWrapper | Wrapper {

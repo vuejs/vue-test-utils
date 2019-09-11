@@ -2,19 +2,28 @@
 
 Опции для `mount` и `shallowMount`. Объект опций может содержать как настройки монтирования Vue Test Utils, так и другие опции Vue.
 
-- [`context`](#context)
-- [`slots`](#slots)
-- [`scopedSlots`](#scopedslots)
-- [`stubs`](#stubs)
-- [`mocks`](#mocks)
-- [`localVue`](#localvue)
-- [`attachToDocument`](#attachtodocument)
-- [`propsData`](#propsdata)
-- [`attrs`](#attrs)
-- [`listeners`](#listeners)
-- [`parentComponent`](#parentcomponent)
-- [`provide`](#provide)
-- [`sync`](#sync)
+:::tip СОВЕТ
+Кроме опций, описанных ниже, объект `options` может содержать любую опцию, которую можно указать при вызове `new Vue ({ /* опции здесь */ })`.
+Эти опции будут объединены с существующими опциями компонента при монтировании с помощью `mount` / `shallowMount`
+
+[См. другие опции в примере](#other-options)
+:::
+
+- [Опции монтирования](#%D0%BE%D0%BF%D1%86%D0%B8%D0%B8-%D0%BC%D0%BE%D0%BD%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F)
+  - [context](#context)
+  - [slots](#slots)
+  - [scopedSlots](#scopedslots)
+  - [stubs](#stubs)
+  - [mocks](#mocks)
+  - [localVue](#localvue)
+  - [attachToDocument](#attachtodocument)
+  - [attrs](#attrs)
+  - [propsData](#propsdata)
+  - [listeners](#listeners)
+  - [parentComponent](#parentcomponent)
+  - [provide](#provide)
+  - [sync](#sync)
+  - [Другие опции](#%D0%B4%D1%80%D1%83%D0%B3%D0%B8%D0%B5-%D0%BE%D0%BF%D1%86%D0%B8%D0%B8)
 
 ## context
 
@@ -99,7 +108,7 @@ shallowMount(Component, {
 ```js
 shallowMount(Component, {
   scopedSlots: {
-    foo: function (props) {
+    foo: function(props) {
       return this.$createElement('div', props.index)
     }
   }
@@ -107,6 +116,16 @@ shallowMount(Component, {
 ```
 
 Или вы можете использовать JSX. Если вы пишете JSX в методе, `this.$createElement` автоматически внедряется babel-plugin-transform-vue-jsx:
+
+```js
+shallowMount(Component, {
+  scopedSlots: {
+    foo(props) {
+      return <div>{props.text}</div>
+    }
+  }
+})
+```
 
 ## stubs
 
@@ -170,9 +189,7 @@ import Foo from './Foo.vue'
 const localVue = createLocalVue()
 localVue.use(VueRouter)
 
-const routes = [
-  { path: '/foo', component: Foo }
-]
+const routes = [{ path: '/foo', component: Foo }]
 
 const router = new VueRouter({
   routes
@@ -192,6 +209,8 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 
 Компонент будет прикрепляться к DOM при рендеринге, если установлено в `true`.
 
+Если компонент прикреплен к DOM, вы должны вызвать `wrapper.destroy()` в конце вашего теста для того, чтобы удалить отрисованные элементы из документа и удалить экземпляр компонента.
+
 ## attrs
 
 - Тип: `Object`
@@ -201,9 +220,9 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 ## propsData
 
 - Тип: `Object`
- 
+
 Устанавливает входные параметры экземпляра компонента, когда он примонтирован.
- 
+
 Пример:
 
 ```js
@@ -219,11 +238,11 @@ const wrapper = mount(Component, {
 expect(wrapper.text()).toBe('aBC')
 ```
 
-::: tip 
+::: tip
 Стоит отметить, что `propsData` относятся на самом деле к [API Vue](https://ru.vuejs.org/v2/api/#propsData),
 а не к опции монтирования Vue Test Utils. Эта опция обрабатывается через [`extends`](https://ru.vuejs.org/v2/api/#extends).
 Смотрите также [другие опции](#другие-опции).
-::: 
+:::
 
 ## listeners
 
@@ -264,7 +283,7 @@ const Component = {
 
 const wrapper = shallowMount(Component, {
   provide: {
-    foo () {
+    foo() {
       return 'fooValue'
     }
   }
@@ -289,20 +308,20 @@ expect(wrapper.text()).toBe('fooValue')
 const Component = {
   template: '<div>{{ foo() }}{{ bar() }}{{ baz() }}</div>',
   methods: {
-    foo () {
+    foo() {
       return 'a'
     },
-    bar () {
+    bar() {
       return 'b'
     }
   }
 }
 const options = {
   methods: {
-    bar () {
+    bar() {
       return 'B'
     },
-    baz () {
+    baz() {
       return 'C'
     }
   }

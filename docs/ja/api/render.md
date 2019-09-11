@@ -7,13 +7,13 @@
     - `{Object} context`
       - `{Array<Component|Object>|Component} children`
     - `{Object} slots`
-        - `{Array<Componet|Object>|Component|String} default`
-        - `{Array<Componet|Object>|Component|String} named`
+      - `{Array<Componet|Object>|Component|String} default`
+      - `{Array<Componet|Object>|Component|String} named`
     - `{Object} mocks`
     - `{Object|Array<string>} stubs`
     - `{Vue} localVue`
 
-- **戻り値:** `{CheerioWrapper}`
+- **戻り値:** `{Promise<CheerioWrapper>}`
 
 - **オプション:**
 
@@ -24,9 +24,9 @@
 オブジェクトを文字列にレンダリングして [cheerio wrapper](https://github.com/cheeriojs/cheerio) を返します。
 
 Cheerio は Node.js で jQuery のように DOM をスキャンするためのライブラリです。  
-これは Vue Test Utils の [`Wrapper`](wrapper/) に似ているAPIを持っています。
+これは Vue Test Utils の [`Wrapper`](wrapper/) に似ている API を持っています。
 
-コンポーネントを静的なHTMLにレンダリングするために、`render` は内部で [`vue-server-renderer`](https://ssr.vuejs.org/en/basic.html) を使用します。
+コンポーネントを静的な HTML にレンダリングするために、`render` は内部で [`vue-server-renderer`](https://ssr.vuejs.org/en/basic.html) を使用します。
 
 `render` は `@vue/server-test-utils` パッケージに含まれています。
 
@@ -37,22 +37,22 @@ import { render } from '@vue/server-test-utils'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {
-  it('renders a div', () => {
-    const wrapper = render(Foo)
+  it('renders a div', async () => {
+    const wrapper = await render(Foo)
     expect(wrapper.text()).toContain('<div></div>')
   })
 })
 ```
 
-**Vueオプションを使用:**
+**Vue オプションを使用:**
 
 ```js
 import { render } from '@vue/server-test-utils'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {
-  it('renders a div', () => {
-    const wrapper = render(Foo, {
+  it('renders a div', async () => {
+    const wrapper = await render(Foo, {
       propsData: {
         color: 'red'
       }
@@ -71,8 +71,8 @@ import Bar from './Bar.vue'
 import FooBar from './FooBar.vue'
 
 describe('Foo', () => {
-  it('renders a div', () => {
-    const wrapper = render(Foo, {
+  it('renders a div', async () => {
+    const wrapper = await render(Foo, {
       slots: {
         default: [Bar, FooBar],
         fooBar: FooBar, // <slot name="FooBar" /> にマッチします。
@@ -91,9 +91,9 @@ import { render } from '@vue/server-test-utils'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {
-  it('renders a div', () => {
+  it('renders a div', async () => {
     const $route = { path: 'http://www.example-path.com' }
-    const wrapper = render(Foo, {
+    const wrapper = await render(Foo, {
       mocks: {
         $route
       }

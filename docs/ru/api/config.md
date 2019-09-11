@@ -2,15 +2,12 @@
 
 Vue Test Utils включает объект конфигурации для определения опций, используемых Vue Test Utils.
 
-### Конфигурация настроек Vue Test Utils
+### Настройки Vue Test Utils
 
 ### `stubs`
 
 - Тип: `{ [name: string]: Component | boolean | string }`
-- По умолчанию: `{
-  transition: TransitionStub,
-  'transition-group': TransitionGroupStub
-}`
+- По умолчанию: `{ transition: TransitionStub, 'transition-group': TransitionGroupStub }`
 
 Заглушки указанные в `config.stubs` используются по умолчанию.
 Заглушки, используемые в компонентах. Они перезаписываются значениями `stubs` переданными в настройках монтирования.
@@ -76,21 +73,6 @@ config.provide['$logger'] = {
     console.log(...args)
   }
 }
-```
-
-### `logModifiedComponents`
-
-- Тип: `Boolean`
-- По умолчанию: `true`
-
-Логирует о предупреждениях, когда для расширенных дочерних компонентов автоматически создаётся заглушка. Скрывает предупреждения, когда установлено значение `false`. В отличие от других опций конфигурации, это невозможно установить в настройках монтирования.
-
-Пример:
-
-```js
-import { config } from '@vue/test-utils'
-
-config.logModifiedComponents = false
 ```
 
 ### `silent`

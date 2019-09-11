@@ -1,4 +1,4 @@
-## setChecked(checked)
+## setChecked
 
 This method is an alias of the following code.
 
@@ -7,6 +7,7 @@ wrapperArray.wrappers.forEach(wrapper => wrapper.setChecked(checked))
 ```
 
 - **Arguments:**
+
   - `{Boolean} checked (default: true)`
 
 - **Example:**
@@ -15,7 +16,7 @@ wrapperArray.wrappers.forEach(wrapper => wrapper.setChecked(checked))
 import { mount } from '@vue/test-utils'
 
 const wrapper = mount({
-  data () {
+  data() {
     return {
       t1: false,
       t2: ''

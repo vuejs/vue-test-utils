@@ -1,4 +1,4 @@
-## setSelected()
+## setSelected
 
 Selects an option element and updates `v-model` bound data.
 

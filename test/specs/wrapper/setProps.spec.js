@@ -3,29 +3,31 @@ import ComponentWithProps from '~resources/components/component-with-props.vue'
 import ComponentWithWatch from '~resources/components/component-with-watch.vue'
 import { describeWithShallowAndMount, vueVersion } from '~resources/utils'
 import { itDoNotRunIf } from 'conditional-specs'
+import Vue from 'vue'
 
 describeWithShallowAndMount('setProps', mountingMethod => {
-  let info
-
+  const sandbox = sinon.createSandbox()
   beforeEach(() => {
-    info = sinon.stub(console, 'info')
+    sandbox.stub(console, 'info').callThrough()
   })
 
   afterEach(() => {
-    info.restore()
+    sandbox.reset()
+    sandbox.restore()
   })
 
-  it('sets component props and updates DOM when called on Vue instance', () => {
+  it('sets component props and updates DOM when called on Vue instance', async () => {
     const prop1 = 'prop 1'
     const prop2 = 'prop 2'
     const propsData = { prop1: 'a prop', prop2 }
     const wrapper = mountingMethod(ComponentWithProps, { propsData })
     wrapper.setProps({ prop1 })
+    await Vue.nextTick()
     expect(wrapper.find('.prop-1').element.textContent).to.equal(prop1)
     expect(wrapper.find('.prop-2').element.textContent).to.equal(prop2)
   })
 
-  it('sets props and updates when called with same object', () => {
+  it('sets props and updates when called with same object', async () => {
     const TestComponent = {
       template: '<div v-if="obj && obj.shouldRender()" />',
       props: ['obj']
@@ -36,30 +38,40 @@ describeWithShallowAndMount('setProps', mountingMethod => {
     const wrapper = mountingMethod(TestComponent)
     obj.shouldRender = () => true
     wrapper.setProps({ obj })
+    await Vue.nextTick()
     expect(wrapper.is('div')).to.equal(true)
   })
 
-  itDoNotRunIf(vueVersion > 2.3, 'throws error if component does not include props key', () => {
-    const TestComponent = {
-      template: '<div></div>'
+  itDoNotRunIf(
+    vueVersion > 2.3,
+    'throws error if component does not include props key',
+    () => {
+      const TestComponent = {
+        template: '<div></div>'
+      }
+      const message =
+        `[vue-test-utils]: wrapper.setProps() called ` +
+        `with prop1 property which is not defined on the component`
+      const fn = () => mountingMethod(TestComponent).setProps({ prop1: 'prop' })
+      expect(fn)
+        .to.throw()
+        .with.property('message', message)
     }
-    const message = `[vue-test-utils]: wrapper.setProps() called ` +
-      `with prop1 property which is not defined on the component`
-    const fn = () => mountingMethod(TestComponent).setProps({ prop1: 'prop' })
-    expect(fn)
-      .to.throw()
-      .with.property('message', message)
-  })
+  )
 
-  itDoNotRunIf(vueVersion < 2.4, 'attributes not recognized as props are available via the $attrs instance property', () => {
-    const TestComponent = {
-      template: '<div></div>'
+  itDoNotRunIf(
+    vueVersion < 2.4,
+    'attributes not recognized as props are available via the $attrs instance property',
+    () => {
+      const TestComponent = {
+        template: '<div></div>'
+      }
+      const prop1 = 'prop1'
+      const wrapper = mountingMethod(TestComponent)
+      wrapper.setProps({ prop1 })
+      expect(wrapper.vm.$attrs.prop1).to.equal(prop1)
     }
-    const prop1 = 'prop1'
-    const wrapper = mountingMethod(TestComponent)
-    wrapper.setProps({ prop1 })
-    expect(wrapper.vm.$attrs.prop1).to.equal(prop1)
-  })
+  )
 
   it('throws error when called on functional vnode', () => {
     const AFunctionalComponent = {
@@ -92,30 +104,25 @@ describeWithShallowAndMount('setProps', mountingMethod => {
       .with.property('message', message)
   })
 
-  it('sets component props, and updates DOM when propsData was not initially passed', () => {
+  it('sets component props, and updates DOM when propsData was not initially passed', async () => {
     const prop1 = 'prop 1'
     const prop2 = 'prop s'
     const wrapper = mountingMethod(ComponentWithProps)
     wrapper.setProps({ prop1, prop2 })
+    await Vue.nextTick()
     expect(wrapper.find('.prop-1').element.textContent).to.equal(prop1)
     expect(wrapper.find('.prop-2').element.textContent).to.equal(prop2)
   })
 
-  it('runs watch function when prop is updated', () => {
+  it('runs watch function when prop is updated', async () => {
     const wrapper = mountingMethod(ComponentWithWatch)
     const prop1 = 'testest'
     wrapper.setProps({ prop1 })
+    await Vue.nextTick()
     expect(wrapper.vm.prop2).to.equal(prop1)
   })
 
-  it('runs watch function after all props are updated', () => {
-    const wrapper = mountingMethod(ComponentWithWatch)
-    const prop1 = 'testest'
-    wrapper.setProps({ prop2: 'newProp', prop1 })
-    expect(info.args[1][0]).to.equal(prop1)
-  })
-
-  it('should not run watchers if prop updated is null', () => {
+  it('should not run watchers if prop updated is null', async () => {
     const TestComponent = {
       template: `
       <div>
@@ -124,7 +131,7 @@ describeWithShallowAndMount('setProps', mountingMethod => {
       </div>
       `,
       computed: {
-        reversedMessage: function () {
+        reversedMessage: function() {
           return this.message
             .split('')
             .reverse()
@@ -139,10 +146,11 @@ describeWithShallowAndMount('setProps', mountingMethod => {
       }
     })
     wrapper.setProps({ message: null })
+    await Vue.nextTick()
     expect(wrapper.text()).to.equal('There is no message yet')
   })
 
-  it('runs watchers correctly', () => {
+  it('runs watchers correctly', async () => {
     const TestComponent = {
       template: `<div id="app">
         {{ stringified }}
@@ -152,7 +160,7 @@ describeWithShallowAndMount('setProps', mountingMethod => {
         data: ''
       }),
       computed: {
-        stringified () {
+        stringified() {
           return this.collection.join(',')
         }
       },
@@ -160,7 +168,7 @@ describeWithShallowAndMount('setProps', mountingMethod => {
         collection: 'execute'
       },
       methods: {
-        execute () {
+        execute() {
           this.data = this.stringified
         }
       }
@@ -172,10 +180,12 @@ describeWithShallowAndMount('setProps', mountingMethod => {
     expect(wrapper.vm.data).to.equal('')
 
     wrapper.setProps({ collection: [1, 2, 3] })
+    await Vue.nextTick()
     expect(wrapper.vm.stringified).to.equal('1,2,3')
     expect(wrapper.vm.data).to.equal('1,2,3')
 
     wrapper.vm.collection.push(4, 5)
+    await Vue.nextTick()
     expect(wrapper.vm.stringified).to.equal('1,2,3,4,5')
     expect(wrapper.vm.data).to.equal('1,2,3,4,5')
   })
@@ -203,7 +213,8 @@ describeWithShallowAndMount('setProps', mountingMethod => {
       }
     })
 
-    const message = '[vue-test-utils]: wrapper.setProps() called with the same object of the existing obj property. You must call wrapper.setProps() with a new object to trigger reactivity'
+    const message =
+      '[vue-test-utils]: wrapper.setProps() called with the same object of the existing obj property. You must call wrapper.setProps() with a new object to trigger reactivity'
     const fn = () => wrapper.setProps({ obj })
     expect(fn)
       .to.throw()
@@ -214,14 +225,19 @@ describeWithShallowAndMount('setProps', mountingMethod => {
     const TestComponent = {
       template: '<div />',
       props: ['propA'],
-      mounted () {
-        this.$watch('propA', function () {
-          this.propA
-        }, { immediate: true }
+      mounted() {
+        this.$watch(
+          'propA',
+          function() {
+            this.propA
+          },
+          { immediate: true }
         )
       }
     }
-    const wrapper = mountingMethod(TestComponent, { propsData: { propA: 'none' }})
+    const wrapper = mountingMethod(TestComponent, {
+      propsData: { propA: 'none' }
+    })
 
     wrapper.setProps({ propA: 'value' })
     expect(wrapper.props().propA).to.equal('value')

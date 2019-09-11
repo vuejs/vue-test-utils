@@ -7,13 +7,13 @@
     - `{Object} context`
       - `{Array<Component|Object>|Component} children`
     - `{Object} slots`
-        - `{Array<Component|Object>|Component|String} default`
-        - `{Array<Component|Object>|Component|String} named`
+      - `{Array<Component|Object>|Component|String} default`
+      - `{Array<Component|Object>|Component|String} named`
     - `{Object} mocks`
     - `{Object|Array<string>} stubs`
     - `{Vue} localVue`
 
-- **Возвращает:** `{string}`
+- **Возвращает:** `{Promise<string>}`
 
 - **Опции:**
 
@@ -34,9 +34,9 @@ import { renderToString } from '@vue/server-test-utils'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {
-  it('renders a div', () => {
-    const renderedString = renderToString(Foo)
-    expect(renderedString).toContain('<div></div>')
+  it('renders a div', async () => {
+    const str = await renderToString(Foo)
+    expect(str).toContain('<div></div>')
   })
 })
 ```
@@ -48,13 +48,13 @@ import { renderToString } from '@vue/server-test-utils'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {
-  it('renders a div', () => {
-    const renderedString = renderToString(Foo, {
+  it('renders a div', async () => {
+    const str = await renderToString(Foo, {
       propsData: {
         color: 'red'
       }
     })
-    expect(renderedString).toContain('red')
+    expect(str).toContain('red')
   })
 })
 ```
@@ -68,15 +68,15 @@ import Bar from './Bar.vue'
 import FooBar from './FooBar.vue'
 
 describe('Foo', () => {
-  it('renders a div', () => {
-    const renderedString = renderToString(Foo, {
+  it('renders a div', async () => {
+    const str = await renderToString(Foo, {
       slots: {
         default: [Bar, FooBar],
         fooBar: FooBar, // Будет соответствовать <slot name="FooBar" />,
         foo: '<div />'
       }
     })
-    expect(renderedString).toContain('<div></div>')
+    expect(str).toContain('<div></div>')
   })
 })
 ```
@@ -88,14 +88,14 @@ import { renderToString } from '@vue/server-test-utils'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {
-  it('renders a div', () => {
+  it('renders a div', async () => {
     const $route = { path: 'http://www.example-path.com' }
-    const renderedString = renderToString(Foo, {
+    const str = await renderToString(Foo, {
       mocks: {
         $route
       }
     })
-    expect(renderedString).toContain($route.path)
+    expect(str).toContain($route.path)
   })
 })
 ```

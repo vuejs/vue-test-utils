@@ -10,15 +10,17 @@ import { describeRunIf, itDoNotRunIf, itSkipIf } from 'conditional-specs'
 import Vuex from 'vuex'
 
 describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
+  const sandbox = sinon.createSandbox()
   const windowSave = window
 
   beforeEach(() => {
-    sinon.stub(console, 'error')
+    sandbox.stub(console, 'error').callThrough()
   })
 
   afterEach(() => {
     window = windowSave // eslint-disable-line no-native-reassign
-    console.error.restore()
+    sandbox.reset()
+    sandbox.restore()
   })
 
   it('returns new VueWrapper with mounted Vue instance if no options are passed', () => {
@@ -27,29 +29,21 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     expect(wrapper.vm).to.be.an('object')
   })
 
-  it('returns new VueWrapper when root is functional component', () => {
-    const FunctionalComponent = {
+  it('handles root functional component', () => {
+    const TestComponent = {
       functional: true,
-      render (h) {
-        return h('div', {}, [
-          h('p', {
-            class: {
-              foo: true
-            }
-          }),
-          h('p')
-        ])
-      },
-      name: 'common'
+      render(h) {
+        return h('div', [h('p'), h('p')])
+      }
     }
 
-    const wrapper = mount(FunctionalComponent)
+    const wrapper = mount(TestComponent)
     expect(wrapper.findAll('p').length).to.equal(2)
   })
 
   it('returns new VueWrapper with correct props data', () => {
     const prop1 = { test: 'TEST' }
-    const wrapper = mount(ComponentWithProps, { propsData: { prop1 }})
+    const wrapper = mount(ComponentWithProps, { propsData: { prop1 } })
     expect(wrapper.vm).to.be.an('object')
     if (wrapper.vm.$props) {
       expect(wrapper.vm.$props.prop1).to.equal(prop1)
@@ -58,8 +52,10 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     }
   })
 
-  itDoNotRunIf(vueVersion < 2.3,
-    'handles propsData for extended components', () => {
+  itDoNotRunIf(
+    vueVersion < 2.3,
+    'handles propsData for extended components',
+    () => {
       const prop1 = 'test'
       const TestComponent = Vue.extend(ComponentWithProps)
       const wrapper = mount(TestComponent, {
@@ -68,7 +64,8 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
         }
       })
       expect(wrapper.text()).to.contain(prop1)
-    })
+    }
+  )
 
   it('handles uncompiled extended Vue component', () => {
     const BaseComponent = {
@@ -103,10 +100,11 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
 
   itSkipIf(
     vueVersion < 2.3,
-    'handles extended components added to Vue constructor', () => {
+    'handles extended components added to Vue constructor',
+    () => {
       const ChildComponent = Vue.extend({
-        template: '<div />',
-        mounted () {
+        render: h => h('div'),
+        mounted() {
           this.$route.params
         }
       })
@@ -121,17 +119,20 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
             $route: {}
           }
         })
-      } catch (err) {} finally {
+      } catch (err) {
+      } finally {
         delete Vue.options.components['child-component']
         expect(wrapper.find(ChildComponent).exists()).to.equal(true)
       }
-    })
+    }
+  )
 
   it('does not use cached component', () => {
-    ComponentWithMixin.methods.someMethod = sinon.stub()
+    sandbox.stub(ComponentWithMixin.methods, 'someMethod')
     mount(ComponentWithMixin)
     expect(ComponentWithMixin.methods.someMethod.callCount).to.equal(1)
-    ComponentWithMixin.methods.someMethod = sinon.stub()
+    ComponentWithMixin.methods.someMethod.restore()
+    sandbox.stub(ComponentWithMixin.methods, 'someMethod')
     mount(ComponentWithMixin)
     expect(ComponentWithMixin.methods.someMethod.callCount).to.equal(1)
   })
@@ -140,7 +141,6 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     if (
       !(navigator.userAgent.includes && navigator.userAgent.includes('node.js'))
     ) {
-      console.log('window read only. skipping test ...')
       return
     }
 
@@ -161,38 +161,39 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     expect(wrapper.html()).to.equal(`<div>foo</div>`)
   })
 
-  itDoNotRunIf(
-    vueVersion < 2.3,
-    'overrides methods', () => {
-      const stub = sinon.stub()
-      const TestComponent = Vue.extend({
-        template: '<div />',
-        methods: {
-          callStub () {
-            stub()
-          }
+  itDoNotRunIf(vueVersion < 2.3, 'overrides methods', () => {
+    const stub = sandbox.stub()
+    const TestComponent = Vue.extend({
+      template: '<div />',
+      methods: {
+        callStub() {
+          stub()
         }
-      })
-      mount(TestComponent, {
-        methods: {
-          callStub () {}
-        }
-      }).vm.callStub()
-
-      expect(stub).not.called
+      }
     })
+    mount(TestComponent, {
+      methods: {
+        callStub() {}
+      }
+    }).vm.callStub()
+
+    expect(stub).not.called
+  })
 
   it.skip('overrides component prototype', () => {
-    const mountSpy = sinon.spy()
-    const destroySpy = sinon.spy()
+    const mountSpy = sandbox.spy()
+    const destroySpy = sandbox.spy()
     const Component = Vue.extend({})
-    const { $mount: originalMount, $destroy: originalDestroy } = Component.prototype
-    Component.prototype.$mount = function (...args) {
+    const {
+      $mount: originalMount,
+      $destroy: originalDestroy
+    } = Component.prototype
+    Component.prototype.$mount = function(...args) {
       originalMount.apply(this, args)
       mountSpy()
       return this
     }
-    Component.prototype.$destroy = function () {
+    Component.prototype.$destroy = function() {
       originalDestroy.apply(this)
       destroySpy()
     }
@@ -215,7 +216,8 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
 
   itDoNotRunIf(
     vueVersion < 2.4, // auto resolve of default export added in 2.4
-    'handles components as dynamic imports', (done) => {
+    'handles components as dynamic imports',
+    done => {
       const TestComponent = {
         template: '<div><async-component /></div>',
         components: {
@@ -227,12 +229,13 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
         expect(wrapper.find(Component).exists()).to.equal(true)
         done()
       })
-    })
+    }
+  )
 
   it('deletes mounting options before passing options to component', () => {
     const wrapper = mount(
       {
-        render: h => h('div')
+        template: '<div />'
       },
       {
         provide: {
@@ -247,7 +250,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
         },
         localVue: createLocalVue(),
         stubs: {
-          prop: 'val'
+          prop: { template: '<div />' }
         },
         attrs: {
           prop: 'val'
@@ -258,7 +261,9 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
       }
     )
     if (injectSupported) {
-      expect(typeof wrapper.vm.$options.provide).to.equal('object')
+      expect(typeof wrapper.vm.$options.provide).to.equal(
+        vueVersion < 2.5 ? 'function' : 'object'
+      )
     }
 
     expect(wrapper.vm.$options.attachToDocument).to.equal(undefined)
@@ -271,29 +276,27 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     expect(wrapper.vm.$options.listeners).to.equal(undefined)
   })
 
-  itDoNotRunIf(
-    vueVersion < 2.3,
-    'injects store correctly', () => {
-      const localVue = createLocalVue()
-      localVue.use(Vuex)
-      const store = new Vuex.Store()
-      const wrapper = mount(ComponentAsAClass, {
-        store,
-        localVue
-      })
-      wrapper.vm.getters
-      mount(
-        {
-          template: '<div>{{$store.getters}}</div>'
-        },
-        { store, localVue }
-      )
+  itDoNotRunIf(vueVersion < 2.3, 'injects store correctly', () => {
+    const localVue = createLocalVue()
+    localVue.use(Vuex)
+    const store = new Vuex.Store()
+    const wrapper = mount(ComponentAsAClass, {
+      store,
+      localVue
     })
+    wrapper.vm.getters
+    mount(
+      {
+        template: '<div>{{$store.getters}}</div>'
+      },
+      { store, localVue }
+    )
+  })
 
   it('propagates errors when they are thrown', () => {
     const TestComponent = {
       template: '<div></div>',
-      mounted: function () {
+      mounted: function() {
         throw new Error('Error in mounted')
       }
     }
@@ -305,12 +308,12 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
   it('propagates errors when they are thrown by a nested component', () => {
     const childComponent = {
       template: '<div></div>',
-      mounted: function () {
+      mounted: function() {
         throw new Error('Error in mounted')
       }
     }
     const rootComponent = {
-      render: function (h) {
+      render: function(h) {
         return h('div', [h(childComponent)])
       }
     }
@@ -322,75 +325,48 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     expect(fn).to.throw('Error in mounted')
   })
 
-  itDoNotRunIf(vueVersion < 2.2, 'logs errors once after mount', done => {
-    Vue.config.errorHandler = null
-    const TestComponent = {
-      template: '<div/>',
-      updated: function () {
-        throw new Error('Error in updated')
-      }
-    }
-
-    const wrapper = mount(TestComponent, {
-      sync: false
-    })
-    wrapper.vm.$forceUpdate()
-    setTimeout(() => {
-      vueVersion > 2.1
-        ? expect(console.error).calledTwice
-        : expect(console.error).calledOnce
-      done()
-    })
-  })
-
-  it('restores user error handler after mount', () => {
-    const existingErrorHandler = () => {}
-    Vue.config.errorHandler = existingErrorHandler
-    const TestComponent = {
-      template: '<div/>'
-    }
-    mount(TestComponent)
-    expect(Vue.config.errorHandler).to.equal(existingErrorHandler)
-    Vue.config.errorHandler = null
-  })
-
   it('adds unused propsData as attributes', () => {
-    const wrapper = mount(
-      ComponentWithProps, {
-        attachToDocument: true,
-        propsData: {
-          prop1: 'prop1',
-          extra: 'attr'
-        },
-        attrs: {
-          height: '50px'
-        }
-      })
+    const wrapper = mount(ComponentWithProps, {
+      attachToDocument: true,
+      propsData: {
+        prop1: 'prop1',
+        extra: 'attr'
+      },
+      attrs: {
+        height: '50px'
+      }
+    })
 
     if (vueVersion > 2.3) {
       expect(wrapper.vm.$attrs).to.eql({ height: '50px', extra: 'attr' })
     }
-    expect(wrapper.html()).to.equal(`<div height="50px" extra="attr"><p class="prop-1">prop1</p> <p class="prop-2"></p></div>`)
+
+    expect(wrapper.html()).to.equal(
+      '<div height="50px" extra="attr">\n' +
+        '  <p class="prop-1">prop1</p>\n' +
+        '  <p class="prop-2"></p>\n' +
+        '</div>'
+    )
   })
 
   it('overwrites the component options with the instance options', () => {
     const Component = {
       template: '<div>{{ foo() }}{{ bar() }}{{ baz() }}</div>',
       methods: {
-        foo () {
+        foo() {
           return 'a'
         },
-        bar () {
+        bar() {
           return 'b'
         }
       }
     }
     const options = {
       methods: {
-        bar () {
+        bar() {
           return 'B'
         },
-        baz () {
+        baz() {
           return 'C'
         }
       }
@@ -401,7 +377,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
 
   it('handles inline components', () => {
     const ChildComponent = {
-      render (h) {
+      render(h) {
         h('p', this.$route.params)
       }
     }
@@ -415,4 +391,52 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     })
     expect(wrapper.findAll(ChildComponent).length).to.equal(1)
   })
+
+  it('handles nested components with extends', () => {
+    const GrandChildComponent = {
+      template: '<div />',
+      created() {
+        this.$route.params
+      }
+    }
+    const ChildComponent = Vue.extend({
+      template: '<grand-child-component />',
+      components: {
+        GrandChildComponent
+      }
+    })
+    const TestComponent = {
+      template: '<child-component />',
+      components: {
+        ChildComponent
+      }
+    }
+    const localVue = createLocalVue()
+    localVue.prototype.$route = {}
+    mount(TestComponent, {
+      localVue
+    })
+  })
+
+  itDoNotRunIf.skip(
+    vueVersion >= 2.5,
+    'throws if component throws during update',
+    () => {
+      const TestComponent = {
+        template: '<div :p="a" />',
+        updated() {
+          throw new Error('err')
+        },
+        data: () => ({
+          a: 1
+        })
+      }
+      const wrapper = mount(TestComponent)
+      const fn = () => {
+        wrapper.vm.a = 2
+      }
+      expect(fn).to.throw()
+      wrapper.destroy()
+    }
+  )
 })

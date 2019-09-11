@@ -7,10 +7,7 @@ Vue Test Utils includes a config object to defined options used by Vue Test Util
 ### `stubs`
 
 - type: `{ [name: string]: Component | boolean | string }`
-- default: `{
-  transition: TransitionStub,
-  'transition-group': TransitionGroupStub
-}`
+- default: `{ transition: TransitionStub, 'transition-group': TransitionGroupStub }`
 
 The stub stored in `config.stubs` is used by default.  
 Stubs to use in components. These are overwritten by `stubs` passed in the mounting options.
@@ -76,21 +73,6 @@ config.provide['$logger'] = {
     console.log(...args)
   }
 }
-```
-
-### `logModifiedComponents`
-
-- type: `Boolean`
-- default: `true`
-
-Logs warning when extended child components are automatically stubbed. Hides warnings when set to `false`. Unlike other config options, this cannot be set on the mounting options.
-
-Example:
-
-```js
-import { config } from '@vue/test-utils'
-
-config.logModifiedComponents = false
 ```
 
 ### `silent`

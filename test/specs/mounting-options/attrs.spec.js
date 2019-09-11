@@ -1,21 +1,21 @@
-import { compileToFunctions } from 'vue-template-compiler'
 import { attrsSupported } from '~resources/utils'
 import {
-  describeWithMountingMethods,
+  describeWithShallowAndMount,
   isRunningPhantomJS,
   vueVersion
 } from '~resources/utils'
 import { itSkipIf, itDoNotRunIf } from 'conditional-specs'
 
-describeWithMountingMethods('options.attrs', mountingMethod => {
+describeWithShallowAndMount('options.attrs', mountingMethod => {
   itDoNotRunIf(
-    vueVersion < 2.4 ||
-      mountingMethod.name === 'renderToString' ||
-      isRunningPhantomJS,
+    vueVersion < 2.4 || isRunningPhantomJS,
     'handles inherit attrs',
     () => {
       if (!attrsSupported) return
-      const wrapper = mountingMethod(compileToFunctions('<p :id="anAttr" />'), {
+      const TestComponent = {
+        template: '<p :id="$attrs.anAttr" />'
+      }
+      const wrapper = mountingMethod(TestComponent, {
         attrs: {
           anAttr: 'an attribute'
         }
@@ -26,10 +26,10 @@ describeWithMountingMethods('options.attrs', mountingMethod => {
   )
 
   itSkipIf(
-    mountingMethod.name === 'renderToString' || vueVersion < 2.5,
+    vueVersion < 2.5,
     'defines attrs as empty object even when not passed',
     () => {
-      const wrapper = mountingMethod(compileToFunctions('<p />'))
+      const wrapper = mountingMethod({ template: '<p />' })
       expect(wrapper.vm.$attrs).to.deep.equal({})
     }
   )

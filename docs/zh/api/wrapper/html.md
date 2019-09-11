@@ -1,4 +1,4 @@
-## html()
+## html
 
 返回 `Wrapper` DOM 节点的 HTML 字符串。
 

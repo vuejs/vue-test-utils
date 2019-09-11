@@ -1,6 +1,13 @@
 # 挂载选项
 
-即 `mount` 和 `shallowMount` 的选项。该对象同时包含了 Vue Test Utils 挂载选项和其它选项。
+`mount` 和 `shallowMount` 的选项。
+
+:::tip
+除了下方列出的选项，`options` 对象还可以包含任何 `new Vue ({ /*options here*/ })` 调用时的有效选项。
+当通过 `mount` / `shallowMount` 挂载时，这些选项将会合并入组件现有的选项中。
+
+[查阅其它选项的例子](#其它选项)
+:::
 
 - [`context`](#context)
 - [`slots`](#slots)
@@ -99,7 +106,7 @@ shallowMount(Component, {
 ```js
 shallowMount(Component, {
   scopedSlots: {
-    foo: function (props) {
+    foo: function(props) {
       return this.$createElement('div', props.index)
     }
   }
@@ -111,8 +118,8 @@ shallowMount(Component, {
 ```js
 shallowMount(Component, {
   scopedSlots: {
-    foo (props) {
-      return <div>{ props.text }</div>
+    foo(props) {
+      return <div>{props.text}</div>
     }
   }
 })
@@ -179,9 +186,7 @@ import Foo from './Foo.vue'
 const localVue = createLocalVue()
 localVue.use(VueRouter)
 
-const routes = [
-  { path: '/foo', component: Foo }
-]
+const routes = [{ path: '/foo', component: Foo }]
 
 const router = new VueRouter({
   routes
@@ -200,6 +205,8 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 - 默认值：`false`
 
 当设为 `true` 时，组件在渲染时将会挂载到 DOM 上。
+
+如果添加到了 DOM 上，你应该在测试的最后调用 `wrapper.destroy()` 将元素从文档中移除并销毁组件实例。
 
 ## attrs
 
@@ -228,9 +235,9 @@ const wrapper = mount(Component, {
 expect(wrapper.text()).toBe('aBC')
 ```
 
-::: tip 提示 
+::: tip 提示
 值得注意的是 `propsData` 实际上是一个 [Vue API](https://cn.vuejs.org/v2/api/#propsData)，不是 Vue Test Utils 的挂载选项。它会被 [`extends`](https://cn.vuejs.org/v2/api/#extends) 处理。请查阅[其它选项](#其它选项)。
-::: 
+:::
 
 ## listeners
 
@@ -271,7 +278,7 @@ const Component = {
 
 const wrapper = shallowMount(Component, {
   provide: {
-    foo () {
+    foo() {
       return 'fooValue'
     }
   }
@@ -296,20 +303,20 @@ expect(wrapper.text()).toBe('fooValue')
 const Component = {
   template: '<div>{{ foo() }}{{ bar() }}{{ baz() }}</div>',
   methods: {
-    foo () {
+    foo() {
       return 'a'
     },
-    bar () {
+    bar() {
       return 'b'
     }
   }
 }
 const options = {
   methods: {
-    bar () {
+    bar() {
       return 'B'
     },
-    baz () {
+    baz() {
       return 'C'
     }
   }

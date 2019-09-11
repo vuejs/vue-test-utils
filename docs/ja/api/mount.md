@@ -28,7 +28,8 @@ describe('Foo', () => {
   })
 })
 ```
-**Vueオプションを使用:**
+
+**Vue オプションを使用:**
 
 ```js
 import { mount } from '@vue/test-utils'
@@ -46,7 +47,7 @@ describe('Foo', () => {
 })
 ```
 
-**DOMへのアタッチ:**
+**DOM へのアタッチ:**
 
 ```js
 import { mount } from '@vue/test-utils'
@@ -61,6 +62,7 @@ describe('Foo', () => {
   })
 })
 ```
+
 **デフォルトおよび名前付きスロット:**
 
 ```js

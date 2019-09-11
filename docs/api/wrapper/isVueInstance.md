@@ -1,4 +1,4 @@
-## isVueInstance()
+## isVueInstance
 
 Assert `Wrapper` is Vue instance.
 
@@ -12,4 +12,4 @@ import Foo from './Foo.vue'
 
 const wrapper = mount(Foo)
 expect(wrapper.isVueInstance()).toBe(true)
- ```
+```

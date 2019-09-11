@@ -1,4 +1,4 @@
-## setData(data)
+## setData
 
 设置 `Wrapper` `vm` 的属性。
 
@@ -7,6 +7,7 @@
 **注意：该包裹器必须包含一个 Vue 示例。**
 
 - **参数：**
+
   - `{Object} data`
 
 - **示例：**

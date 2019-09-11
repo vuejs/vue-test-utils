@@ -3,6 +3,7 @@
 Устанавливает значение отмеченным элемент ввода типа чекбокса или радиокнопки и обновляет связанные данные с `v-model`.
 
 - **Аргументы:**
+
   - `{Boolean} checked (по умолчанию: true)`
 
 - **Примеры:**
@@ -12,8 +13,8 @@ import { mount } from '@vue/test-utils'
 import Foo from './Foo.vue'
 
 const wrapper = mount(Foo)
-const option = wrapper.find('input[type="radio"]')
-option.setChecked()
+const radioInput = wrapper.find('input[type="radio"]')
+radioInput.setChecked()
 ```
 
 - **Примечание:**

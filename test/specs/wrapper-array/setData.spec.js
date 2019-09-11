@@ -1,13 +1,15 @@
 import { compileToFunctions } from 'vue-template-compiler'
 import ComponentWithVIf from '~resources/components/component-with-v-if.vue'
 import { describeWithShallowAndMount } from '~resources/utils'
+import Vue from 'vue'
 
 describeWithShallowAndMount('setData', mountingMethod => {
-  it('sets component data and updates nested vm nodes', () => {
+  it('sets component data and updates nested vm nodes', async () => {
     const wrapper = mountingMethod(ComponentWithVIf)
     const componentArr = wrapper.findAll(ComponentWithVIf)
     expect(componentArr.at(0).findAll('.child.ready').length).to.equal(0)
     componentArr.setData({ ready: true })
+    await Vue.nextTick()
     expect(componentArr.at(0).findAll('.child.ready').length).to.equal(1)
   })
 

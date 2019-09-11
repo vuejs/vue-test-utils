@@ -10,7 +10,7 @@ describeWithShallowAndMount('name', mountingMethod => {
 
   it('returns the name of the tag if there is no vnode', () => {
     const TestComponent = {
-      render (createElement) {
+      render(createElement) {
         return createElement('div', {
           domProps: {
             innerHTML: '<svg></svg>'

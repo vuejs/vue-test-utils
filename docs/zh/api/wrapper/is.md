@@ -1,8 +1,9 @@
-## is(selector)
+## is
 
 断言 `Wrapper` DOM 节点或 `vm` 匹配[选择器](../selectors.md)。
 
 - **参数：**
+
   - `{string|Component} selector`
 
 - **返回值：**`{boolean}`

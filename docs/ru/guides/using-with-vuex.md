@@ -10,7 +10,7 @@
 
 Это компонент который мы хотим протестировать. Он вызывает действие Vuex.
 
-``` html
+```html
 <template>
   <div class="text-align-center">
     <input type="text" @input="actionInputIfTrue" />
@@ -19,21 +19,19 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+  import { mapActions } from 'vuex'
 
-export default{
-  methods: {
-    ...mapActions([
-      'actionClick'
-    ]),
-    actionInputIfTrue: function actionInputIfTrue (event) {
-      const inputValue = event.target.value
-      if (inputValue === 'input') {
-        this.$store.dispatch('actionInput', { inputValue })
+  export default {
+    methods: {
+      ...mapActions(['actionClick']),
+      actionInputIfTrue: function actionInputIfTrue(event) {
+        const inputValue = event.target.value
+        if (inputValue === 'input') {
+          this.$store.dispatch('actionInput', { inputValue })
+        }
       }
     }
   }
-}
 </script>
 ```
 
@@ -45,7 +43,7 @@ export default{
 
 Давайте посмотрим, как это выглядит:
 
-``` js
+```js
 import { shallowMount, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import Actions from '../../../src/components/Actions'
@@ -64,7 +62,6 @@ describe('Actions.vue', () => {
       actionInput: jest.fn()
     }
     store = new Vuex.Store({
-      state: {},
       actions
     })
   })
@@ -77,7 +74,7 @@ describe('Actions.vue', () => {
     expect(actions.actionInput).toHaveBeenCalled()
   })
 
-  it('не вызывает "actionInput", когда значение событие не "input"', () => {
+  it('не вызывает "actionInput", когда значение события не "input"', () => {
     const wrapper = shallowMount(Actions, { store, localVue })
     const input = wrapper.find('input')
     input.element.value = 'not input'
@@ -97,7 +94,7 @@ describe('Actions.vue', () => {
 
 Затем мы создаём мок хранилища вызовом `new Vuex.store` с нашими заготовленными значениями. Мы передаём ему только действия, так как это всё, что нам необходимо.
 
-Действия реализуются с помощью [mock-функций jest](https://facebook.github.io/jest/docs/en/mock-functions.html). Эти mock-функции предоставляют нам методы для проверки, вызывались ли действия или нет.
+Действия реализуются с помощью [mock-функций jest](https://jestjs.io/docs/en/mock-functions.html). Эти mock-функции предоставляют нам методы для проверки, вызывались ли действия или нет.
 
 Затем мы можем проверить в наших тестах, что заглушка действия была вызвана когда ожидалось.
 
@@ -111,8 +108,7 @@ describe('Actions.vue', () => {
 
 ### Создание моков для геттеров
 
-
-``` html
+```html
 <template>
   <div>
     <p v-if="inputValue">{{inputValue}}</p>
@@ -121,14 +117,11 @@ describe('Actions.vue', () => {
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+  import { mapGetters } from 'vuex'
 
-export default{
-  computed: mapGetters([
-    'clicks',
-    'inputValue'
-  ])
-}
+  export default {
+    computed: mapGetters(['clicks', 'inputValue'])
+  }
 </script>
 ```
 
@@ -136,7 +129,7 @@ export default{
 
 Давайте посмотрим на тест:
 
-``` js
+```js
 import { shallowMount, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import Getters from '../../../src/components/Getters'
@@ -180,11 +173,11 @@ describe('Getters.vue', () => {
 
 ### Создание моков с модулями
 
-[Модули](https://vuex.vuejs.org/ru/modules.html) полезны для разделения нашего хранилища на управляемые части. Они также экспортируют геттеры. Мы можем использовать их в наших тестах.
+[Модули](https://vuex.vuejs.org/ru/guide/modules.html) полезны для разделения нашего хранилища на управляемые части. Они также экспортируют геттеры. Мы можем использовать их в наших тестах.
 
 Давайте взглянем на наш компонент:
 
-``` html
+```html
 <template>
   <div>
     <button @click="moduleActionClick()">Нажми</button>
@@ -193,19 +186,15 @@ describe('Getters.vue', () => {
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+  import { mapActions, mapGetters } from 'vuex'
 
-export default{
-  methods: {
-    ...mapActions([
-      'moduleActionClick'
-    ])
-  },
+  export default {
+    methods: {
+      ...mapActions(['moduleActionClick'])
+    },
 
-  computed: mapGetters([
-    'moduleClicks'
-  ])
-}
+    computed: mapGetters(['moduleClicks'])
+  }
 </script>
 ```
 
@@ -213,7 +202,7 @@ export default{
 
 И тест:
 
-``` js
+```js
 import { shallowMount, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import MyComponent from '../../../src/components/MyComponent'
@@ -272,7 +261,7 @@ describe('MyComponent.vue', () => {
 ```js
 // mutations.js
 export default {
-  increment (state) {
+  increment(state) {
     state.count++
   }
 }
@@ -281,7 +270,7 @@ export default {
 ```js
 // getters.js
 export default {
-  evenOrOdd: state => state.count % 2 === 0 ? 'even' : 'odd'
+  evenOrOdd: state => (state.count % 2 === 0 ? 'even' : 'odd')
 }
 ```
 
@@ -300,7 +289,7 @@ export default {
 
 import mutations from './mutations'
 
-test('increment increments state.count by 1', () => {
+test('мутация "increment" увеличивает "state.count" на 1', () => {
   const state = {
     count: 0
   }
@@ -329,7 +318,6 @@ test('evenOrOdd возвращает odd, если в state.count находит
   }
   expect(getters.evenOrOdd(state)).toBe('odd')
 })
-
 ```
 
 ### Тестирование запущенного хранилища
@@ -343,7 +331,7 @@ test('evenOrOdd возвращает odd, если в state.count находит
 Давайте напишем тест. Когда мы создаём, мы будем использовать `localVue`, чтобы избежать загрязнения базового конструктора Vue. Тест создаёт хранилище, используя экспорт `store-config.js`:
 
 ```js
-// store-config.spec.js
+// store-config.js
 
 import mutations from './mutations'
 import getters from './getters'
@@ -358,6 +346,8 @@ export default {
 ```
 
 ```js
+// store-config.spec.js
+
 import { createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import storeConfig from './store-config'

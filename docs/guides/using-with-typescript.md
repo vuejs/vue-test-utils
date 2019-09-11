@@ -30,7 +30,7 @@ The next step is to add Jest to the project.
 
 ### Setting up Jest
 
-Jest is a test runner developed by Facebook, aiming to deliver a battery-included unit testing solution. You can learn more about Jest on its [official documentation](https://facebook.github.io/jest/).
+Jest is a test runner developed by Facebook, aiming to deliver a battery-included unit testing solution. You can learn more about Jest on its [official documentation](https://jestjs.io/).
 
 Install Jest and Vue Test Utils:
 
@@ -56,13 +56,13 @@ Next define a `test:unit` script in `package.json`.
 
 To teach Jest how to process `*.vue` files, we need to install and configure the `vue-jest` preprocessor:
 
-``` bash
+```bash
 npm install --save-dev vue-jest
 ```
 
 Next, create a `jest` block in `package.json`:
 
-``` json
+```json
 {
   // ...
   "jest": {
@@ -75,7 +75,7 @@ Next, create a `jest` block in `package.json`:
     ],
     "transform": {
       // process `*.vue` files with `vue-jest`
-      ".*\\.(vue)$": "vue-jest",
+      ".*\\.(vue)$": "vue-jest"
     },
     "testURL": "http://localhost/"
   }
@@ -86,13 +86,13 @@ Next, create a `jest` block in `package.json`:
 
 In order to use TypeScript files in tests, we need to set up Jest to compile TypeScript. For that we need to install `ts-jest`:
 
-``` bash
+```bash
 $ npm install --save-dev ts-jest
 ```
 
 Next, we need to tell Jest to process TypeScript test files with `ts-jest` by adding an entry under `jest.transform` in `package.json`:
 
-``` json
+```json
 {
   // ...
   "jest": {
@@ -101,7 +101,7 @@ Next, we need to tell Jest to process TypeScript test files with `ts-jest` by ad
       // ...
       // process `*.ts` files with `ts-jest`
       "^.+\\.tsx?$": "ts-jest"
-    },
+    }
     // ...
   }
 }
@@ -115,7 +115,7 @@ To run test files with a `.ts` extension, we need to change the `testRegex` in t
 
 Add the following to the `jest` field in `package.json`:
 
-``` json
+```json
 {
   // ...
   "jest": {
@@ -154,4 +154,4 @@ That's all we need to do to get TypeScript and Vue Test Utils working together!
 ### Resources
 
 - [Example project for this setup](https://github.com/vuejs/vue-test-utils-typescript-example)
-- [Jest](https://facebook.github.io/jest/)
+- [Jest](https://jestjs.io/)

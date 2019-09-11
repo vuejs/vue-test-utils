@@ -11,14 +11,10 @@ const MOUNTING_OPTIONS = [
   'attrs',
   'listeners',
   'propsData',
-  'logModifiedComponents',
-  'sync',
   'shouldProxy'
 ]
 
-export default function extractInstanceOptions (
-  options: Object
-): Object {
+export default function extractInstanceOptions(options: Object): Object {
   const instanceOptions = {
     ...options
   }

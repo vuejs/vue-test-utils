@@ -1,4 +1,4 @@
-## isVueInstance()
+## isVueInstance
 
 断言 `Wrapper` 是 Vue 实例。
 
@@ -12,4 +12,4 @@ import Foo from './Foo.vue'
 
 const wrapper = mount(Foo)
 expect(wrapper.isVueInstance()).toBe(true)
- ```
+```

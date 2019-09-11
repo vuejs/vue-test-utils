@@ -3,6 +3,7 @@
 text コントロールの input 要素の 値をセットします。そして、 `v-model` に束縛されているデータを更新します。
 
 - **引数:**
+
   - `{any} value`
 
 - **例:**
@@ -19,7 +20,6 @@ textInput.setValue('some value')
 const select = wrapper.find('select')
 select.setValue('option value')
 ```
-
 
 - **注:**
 

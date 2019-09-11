@@ -1,4 +1,3 @@
-import { compileToFunctions } from 'vue-template-compiler'
 import { listenersSupported } from '~resources/utils'
 import {
   describeWithShallowAndMount,
@@ -10,10 +9,13 @@ import { itDoNotRunIf } from 'conditional-specs'
 describeWithShallowAndMount('options.listeners', mountingMethod => {
   itDoNotRunIf(
     isRunningPhantomJS || !listenersSupported,
-    'handles inherit listeners', () => {
+    'handles inherit listeners',
+    () => {
       const aListener = () => {}
       const wrapper = mountingMethod(
-        compileToFunctions('<p :id="aListener" />'),
+        {
+          template: '<p :id="$listeners.aListener" />'
+        },
         {
           listeners: {
             aListener
@@ -22,13 +24,15 @@ describeWithShallowAndMount('options.listeners', mountingMethod => {
       )
 
       expect(wrapper.vm.$listeners.aListener.fns).to.equal(aListener)
-    })
+    }
+  )
 
   itDoNotRunIf(
     isRunningPhantomJS || !listenersSupported,
-    'passes listeners to functional components', () => {
+    'passes listeners to functional components',
+    () => {
       const TestComponent = {
-        render (h, ctx) {
+        render(h, ctx) {
           ctx.listeners.aListener()
           ctx.listeners.bListener()
           return h('div')
@@ -36,26 +40,24 @@ describeWithShallowAndMount('options.listeners', mountingMethod => {
         functional: true
       }
 
-      mountingMethod(
-        TestComponent,
-        {
-          context: {
-            on: {
-              bListener () {}
-            }
-          },
-          listeners: {
-            aListener () {}
+      mountingMethod(TestComponent, {
+        context: {
+          on: {
+            bListener() {}
           }
+        },
+        listeners: {
+          aListener() {}
         }
-      )
-    })
+      })
+    }
+  )
 
   itDoNotRunIf(
     vueVersion < 2.5,
     'defines listeners as empty object even when not passed',
     () => {
-      const wrapper = mountingMethod(compileToFunctions('<p />'))
+      const wrapper = mountingMethod({ template: '<p />' })
       expect(wrapper.vm.$listeners).to.deep.equal({})
     }
   )

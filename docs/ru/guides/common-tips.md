@@ -31,7 +31,7 @@ wrapper.vm // примонтированный экземпляр Vue
 
 Каждая примонтированная обёртка автоматически записывает все события, вызванные на экземпляре Vue. Вы можете получить записанные события с помощью метода `wrapper.emitted()`:
 
-``` js
+```js
 wrapper.vm.$emit('foo')
 wrapper.vm.$emit('foo', 123)
 
@@ -45,7 +45,7 @@ wrapper.vm.$emit('foo', 123)
 
 Затем вы можете добавить проверки на основе этих данных:
 
-``` js
+```js
 // проверка, что событие было вызвано
 expect(wrapper.emitted().foo).toBeTruthy()
 
@@ -57,6 +57,56 @@ expect(wrapper.emitted().foo[1]).toEqual([123])
 ```
 
 Вы также можете получить массив событий в порядке их вызова с помощью [`wrapper.emittedByOrder()`](../api/wrapper/emittedByOrder.md).
+
+### События дочерних компонентов
+
+Вы можете создавать пользовательские события в дочерних компонентах получая доступ к экземпляру.
+
+**Тестируемый компонент**
+
+```html
+<template>
+  <div>
+    <child-component @custom="onCustom" />
+    <p v-if="emitted">Emitted!</p>
+  </div>
+</template>
+
+<script>
+  import ChildComponent from './ChildComponent'
+
+  export default {
+    name: 'ParentComponent',
+    components: { ChildComponent },
+    data() {
+      return {
+        emitted: false
+      }
+    },
+    methods: {
+      onCustom() {
+        this.emitted = true
+      }
+    }
+  }
+</script>
+```
+
+**Тест**
+
+```js
+import { shallowMount } from '@vue/test-utils'
+import ParentComponent from '@/components/ParentComponent'
+import ChildComponent from '@/components/ChildComponent'
+
+describe('ParentComponent', () => {
+  it("displays 'Emitted!' when custom event is emitted", () => {
+    const wrapper = shallowMount(ParentComponent)
+    wrapper.find(ChildComponent).vm.$emit('custom')
+    expect(wrapper.html()).toContain('Emitted!')
+  })
+})
+```
 
 ### Манипулирование состоянием компонента
 
@@ -84,7 +134,7 @@ mount(Component, {
 
 Вы также можете обновить входные параметры на уже примонтированном компоненте с помощью метода `wrapper.setProps({})`.
 
-*Полный список опции можно посмотреть в [секции настроек монтирования](../api/options.md) документации.*
+_Полный список опции можно посмотреть в [секции настроек монтирования](../api/options.md) документации._
 
 ### Добавление глобальных плагинов и примесей
 
@@ -92,7 +142,7 @@ mount(Component, {
 
 Если вы пишете тесты для компонентов определённого приложения, вы можете настроить одни и те же глобальные плагины и примеси один раз перед началом ваших тестов. Но в некоторых случаях, например при тестировании набора общих компонентов, которые могут использоваться в разных приложениях, гораздо лучше протестировать ваши компоненты в более изолированной конфигурации, без загрязнения глобального конструктора `Vue`. Мы можем использовать метод [`createLocalVue`](../api/createLocalVue.md) для достижения этого:
 
-``` js
+```js
 import { createLocalVue } from '@vue/test-utils'
 
 // создаём расширенный конструктор `Vue`

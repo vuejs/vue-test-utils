@@ -1,10 +1,4 @@
-import Vue, { VNodeData, ComponentOptions, FunctionalComponentOptions } from 'vue'
-
-// TODO: use core repo's Component type after https://github.com/vuejs/vue/pull/7369 is released
-export type Component =
-  | typeof Vue
-  | FunctionalComponentOptions<{}>
-  | ComponentOptions<never, {}, {}, {}, {}>
+import Vue, { VNodeData, ComponentOptions, FunctionalComponentOptions, Component } from 'vue'
 
 /**
  * Utility type to declare an extended Vue constructor
@@ -16,7 +10,7 @@ type VueClass<V extends Vue> = (new (...args: any[]) => V) & typeof Vue
  * If it is an array of string, the specified children are replaced by blank components
  */
 type Stubs = {
-  [key: string]: Component | string | true
+  [key: string]: Component | string | boolean
 } | string[]
 
 /**
@@ -36,7 +30,6 @@ interface MountOptions<V extends Vue> extends ComponentOptions<V> {
   stubs?: Stubs,
   attrs?: Record<string, string>
   listeners?: Record<string, Function | Function[]>
-  sync?: boolean
 }
 
 type ThisTypedMountOptions<V extends Vue> = MountOptions<V> & ThisType<V>
@@ -50,16 +43,15 @@ interface VueTestUtilsConfigOptions {
   mocks?: object
   methods?: Record<string, Function>
   provide?: object,
-  logModifiedComponents?: Boolean
   silent?: Boolean
 }
 
 export declare let config: VueTestUtilsConfigOptions
 
-export declare function render<V extends Vue> (component: VueClass<V>, options?: ThisTypedMountOptions<V>): string
-export declare function render<V extends Vue> (component: ComponentOptions<V>, options?: ThisTypedMountOptions<V>): string
-export declare function render (component: FunctionalComponentOptions, options?: MountOptions<Vue>): string
+export declare function render<V extends Vue> (component: VueClass<V>, options?: ThisTypedMountOptions<V>): Promise<Cheerio>
+export declare function render<V extends Vue> (component: ComponentOptions<V>, options?: ThisTypedMountOptions<V>): Promise<Cheerio>
+export declare function render (component: FunctionalComponentOptions, options?: MountOptions<Vue>): Promise<Cheerio>
 
-export declare function renderToString<V extends Vue> (component: VueClass<V>, options?: ThisTypedMountOptions<V>): string
-export declare function renderToString<V extends Vue> (component: ComponentOptions<V>, options?: ThisTypedMountOptions<V>): string
-export declare function renderToString (component: FunctionalComponentOptions, options?: MountOptions<Vue>): string
+export declare function renderToString<V extends Vue> (component: VueClass<V>, options?: ThisTypedMountOptions<V>): Promise<string>
+export declare function renderToString<V extends Vue> (component: ComponentOptions<V>, options?: ThisTypedMountOptions<V>): Promise<string>
+export declare function renderToString (component: FunctionalComponentOptions, options?: MountOptions<Vue>): Promise<string>

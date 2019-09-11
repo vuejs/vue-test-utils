@@ -1,4 +1,3 @@
-import { compileToFunctions } from 'vue-template-compiler'
 import { describeWithShallowAndMount } from '~resources/utils'
 
 describeWithShallowAndMount('ErrorWrapper', mountingMethod => {
@@ -36,10 +35,12 @@ describeWithShallowAndMount('ErrorWrapper', mountingMethod => {
   ]
   methods.forEach(method => {
     it(`${method} throws error when called`, () => {
-      const compiled = compileToFunctions('<p />')
+      const TestComponent = {
+        template: '<p />'
+      }
       const selector = 'div'
       const message = `[vue-test-utils]: find did not return ${selector}, cannot call ${method}() on empty Wrapper`
-      const wrapper = mountingMethod(compiled)
+      const wrapper = mountingMethod(TestComponent)
       const error = wrapper.find(selector)
       expect(error.constructor.name).to.equal('ErrorWrapper')
       expect(() => error[method]())

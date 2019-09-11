@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import {
-  describeWithMountingMethods,
+  describeWithShallowAndMount,
   isRunningPhantomJS,
   vueVersion
 } from '~resources/utils'
@@ -8,7 +8,7 @@ import { createLocalVue, shallowMount, mount } from '~vue/test-utils'
 import { itSkipIf, itRunIf, itDoNotRunIf } from 'conditional-specs'
 import Vuex from 'vuex'
 
-describeWithMountingMethods('options.localVue', mountingMethod => {
+describeWithShallowAndMount('options.localVue', mountingMethod => {
   itSkipIf(
     isRunningPhantomJS,
     'mounts component using passed localVue as base Vue',
@@ -21,79 +21,73 @@ describeWithMountingMethods('options.localVue', mountingMethod => {
       const wrapper = mountingMethod(TestComponent, {
         localVue: localVue
       })
-      const HTML = mountingMethod.name === 'renderToString'
-        ? wrapper
-        : wrapper.html()
-      expect(HTML).to.contain('some value')
+      expect(wrapper.html()).to.contain('some value')
     }
   )
 
-  itSkipIf(
-    vueVersion < 2.3,
-    'works correctly with extended children', () => {
-      const localVue = createLocalVue()
-      localVue.use(Vuex)
-      const store = new Vuex.Store({
-        state: { val: 2 }
-      })
-      const ChildComponent = Vue.extend({
-        template: '<span>{{val}}</span>',
-        computed: {
-          val () {
-            return this.$store.state.val
-          }
-        }
-      })
-      const TestComponent = {
-        template: '<div><child-component /></div>',
-        components: {
-          ChildComponent
+  itSkipIf(vueVersion < 2.3, 'works correctly with extended children', () => {
+    const localVue = createLocalVue()
+    localVue.use(Vuex)
+    const store = new Vuex.Store({
+      state: { val: 2 }
+    })
+    const ChildComponent = Vue.extend({
+      template: '<span>{{val}}</span>',
+      computed: {
+        val() {
+          return this.$store.state.val
         }
       }
-      const wrapper = mountingMethod(TestComponent, {
-        localVue,
-        store
-      })
-      const HTML =
+    })
+    const TestComponent = {
+      template: '<div><child-component /></div>',
+      components: {
+        ChildComponent
+      }
+    }
+    const wrapper = mountingMethod(TestComponent, {
+      localVue,
+      store
+    })
+    const HTML =
       mountingMethod.name === 'renderToString' ? wrapper : wrapper.html()
-      if (mountingMethod.name === 'shallowMount') {
-        expect(HTML).to.not.contain('2')
-      } else {
-        expect(HTML).to.contain('2')
+    if (mountingMethod.name === 'shallowMount') {
+      expect(HTML).to.not.contain('2')
+    } else {
+      expect(HTML).to.contain('2')
+    }
+  })
+
+  itSkipIf(vueVersion < 2.3, 'is applied to deeply extended components', () => {
+    const GrandChildComponent = Vue.extend({
+      template: '<div>{{$route.params}}</div>'
+    })
+    const ChildComponent = Vue.extend({
+      template: '<div><grand-child-component />{{$route.params}}</div>',
+      components: {
+        GrandChildComponent
       }
     })
-
-  itSkipIf(
-    vueVersion < 2.3,
-    'is applied to deeply extended components', () => {
-      const GrandChildComponent = Vue.extend({
-        template: '<div>{{$route.params}}</div>'
-      })
-      const ChildComponent = Vue.extend({
-        template: '<div><grand-child-component />{{$route.params}}</div>',
-        components: {
-          GrandChildComponent
-        }
-      })
-      const TestComponent = Vue.extend({
-        template: '<child-component />',
-        components: { ChildComponent }
-      })
-      const localVue = createLocalVue()
-      localVue.prototype.$route = {}
-
-      mountingMethod(TestComponent, {
-        localVue
-      })
+    const TestComponent = Vue.extend({
+      template: '<child-component />',
+      components: { ChildComponent }
     })
+    const localVue = createLocalVue()
+    localVue.prototype.$route = {}
+
+    mountingMethod(TestComponent, {
+      localVue
+    })
+  })
 
   it('is applied to components that extend from other components', () => {
     const localVue = createLocalVue()
     localVue.prototype.$route = {}
 
     const Extends = {
-      created () {
-        console.log(this.$route.params)
+      template: '<div />',
+      created() {
+        this.$route.params
       }
     }
     const TestComponent = {
@@ -104,82 +98,91 @@ describeWithMountingMethods('options.localVue', mountingMethod => {
     })
   })
 
-  itSkipIf(
-    vueVersion < 2.3,
-    'is applied to mixed extended components', () => {
-      const BaseGrandChildComponent = {
-        created () {
-          this.$route.params
-        }
+  itSkipIf(vueVersion < 2.3, 'is applied to mixed extended components', () => {
+    const BaseGrandChildComponent = {
+      created() {
+        this.$route.params
       }
-      const GrandChildComponent = {
-        created () {
-          this.$route.params
-        },
-        template: '<div/>',
-        extends: BaseGrandChildComponent
+    }
+    const GrandChildComponent = {
+      created() {
+        this.$route.params
+      },
+      template: '<div/>',
+      extends: BaseGrandChildComponent
+    }
+    const ChildComponent = Vue.extend({
+      template: '<div><grand-child-component />{{$route.params}}</div>',
+      components: {
+        GrandChildComponent
       }
-      const ChildComponent = Vue.extend({
-        template: '<div><grand-child-component />{{$route.params}}</div>',
-        components: {
-          GrandChildComponent
-        }
-      })
-      const TestComponent = Vue.extend({
-        template: '<div><child-component /></div>',
-        components: { ChildComponent }
-      })
-      const localVue = createLocalVue()
-      localVue.prototype.$route = {}
-
-      mountingMethod(TestComponent, {
-        localVue
-      })
     })
+    const TestComponent = Vue.extend({
+      template: '<div><child-component /></div>',
+      components: { ChildComponent }
+    })
+    const localVue = createLocalVue()
+    localVue.prototype.$route = {}
+
+    mountingMethod(TestComponent, {
+      localVue
+    })
+  })
 
   it('does not add created mixin to localVue', () => {
     const localVue = createLocalVue()
-    mountingMethod({ render: () => {} }, {
-      localVue
-    })
+    mountingMethod(
+      { render: () => {} },
+      {
+        localVue
+      }
+    )
     expect(localVue.options.created).to.equal(undefined)
   })
 
   it('handles merging Vue instances', () => {
     const localVue = createLocalVue()
-    localVue.use((_Vue) => {
+    localVue.use(_Vue => {
       _Vue.$el = new _Vue()
     })
-    mountingMethod({ template: '<div />' }, {
-      localVue
-    })
+    mountingMethod(
+      { template: '<div />' },
+      {
+        localVue
+      }
+    )
   })
 
   itRunIf(
     vueVersion < 2.3,
-    'throws an error if used with an extended component in Vue 2.3', () => {
+    'throws an error if used with an extended component in Vue 2.3',
+    () => {
       const TestComponent = Vue.extend({
         template: '<div></div>'
       })
       const message =
-    `[vue-test-utils]: options.localVue is not supported for components ` +
-    `created with Vue.extend in Vue < 2.3. You can set localVue to false ` +
-    `to mount the component.`
+        `[vue-test-utils]: options.localVue is not supported for components ` +
+        `created with Vue.extend in Vue < 2.3. You can set localVue to false ` +
+        `to mount the component.`
 
-      const fn = () => mountingMethod(TestComponent, {
-        localVue: createLocalVue(),
-        stubs: false,
-        mocks: false
-      })
-      expect(fn).to.throw()
+      const fn = () =>
+        mountingMethod(TestComponent, {
+          localVue: createLocalVue(),
+          stubs: false,
+          mocks: false
+        })
+      expect(fn)
+        .to.throw()
         .with.property('message', message)
-    })
+    }
+  )
 
   itDoNotRunIf(
     vueVersion < 2.3,
-    'is applied to inline constructor functions', () => {
+    'is applied to inline constructor functions',
+    () => {
       const ChildComponent = Vue.extend({
-        render (h) {
+        render(h) {
           h('p', this.$route.params)
         }
       })
@@ -195,11 +198,13 @@ describeWithMountingMethods('options.localVue', mountingMethod => {
         return
       }
       expect(wrapper.findAll(ChildComponent).length).to.equal(1)
-    })
+    }
+  )
 
   itRunIf(
     mountingMethod.name === 'mount',
-    'does not affect future tests', () => {
+    'does not affect future tests',
+    () => {
       const ChildComponent = {
         template: '<span></span>'
       }
@@ -212,5 +217,6 @@ describeWithMountingMethods('options.localVue', mountingMethod => {
       shallowMount(TestComponent, { localVue })
       const wrapper = mount(TestComponent, { localVue })
       expect(wrapper.html()).to.contain('span')
-    })
+    }
+  )
 })

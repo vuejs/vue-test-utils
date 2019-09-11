@@ -10,10 +10,10 @@
 </template>
 
 <script>
-  export default {
-    name: 'component-with-if',
-    data: () => ({
-      ready: false
-    })
-  }
+export default {
+  name: 'component-with-if',
+  data: () => ({
+    ready: false
+  })
+}
 </script>

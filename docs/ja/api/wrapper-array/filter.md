@@ -5,6 +5,7 @@
 このメソッドの動作は [Array.prototype.filter](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Array/filter) に似ています。
 
 - **引数:**
+
   - `{function} predicate`
 
 - **戻り値:** `{WrapperArray}`
@@ -18,6 +19,7 @@ import { shallowMount } from '@vue/test-utils'
 import Foo from './Foo.vue'
 
 const wrapper = shallowMount(Foo)
-const filteredDivArray = wrapper.findAll('div')
+const filteredDivArray = wrapper
+  .findAll('div')
   .filter(w => !w.classes('filtered'))
 ```

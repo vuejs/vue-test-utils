@@ -2,9 +2,8 @@
 
 import Vue from 'vue'
 import cloneDeep from 'lodash/cloneDeep'
-import errorHandler from './error-handler'
 
-function createLocalVue (_Vue: Component = Vue): Component {
+function createLocalVue(_Vue: Component = Vue): Component {
   const instance = _Vue.extend()
 
   // clone global APIs
@@ -15,9 +14,8 @@ function createLocalVue (_Vue: Component = Vue): Component {
       // cloneDeep checks that the instance has a Symbol
       // which errors in Vue < 2.17 (https://github.com/vuejs/vue/pull/7878)
       try {
-        instance[key] = typeof original === 'object'
-          ? cloneDeep(original)
-          : original
+        instance[key] =
+          typeof original === 'object' ? cloneDeep(original) : original
       } catch (e) {
         instance[key] = original
       }
@@ -27,7 +25,7 @@ function createLocalVue (_Vue: Component = Vue): Component {
   // config is not enumerable
   instance.config = cloneDeep(Vue.config)
 
-  instance.config.errorHandler = errorHandler
+  instance.config.errorHandler = Vue.config.errorHandler
 
   // option merge strategies need to be exposed by reference
   // so that merge strats registered by plugins can work properly

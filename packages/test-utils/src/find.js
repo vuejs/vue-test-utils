@@ -10,7 +10,7 @@ import {
 import { throwError } from 'shared/util'
 import { matches } from './matches'
 
-export function findAllInstances (rootVm: any) {
+export function findAllInstances(rootVm: any) {
   const instances = [rootVm]
   let i = 0
   while (i < instances.length) {
@@ -23,17 +23,14 @@ export function findAllInstances (rootVm: any) {
   return instances
 }
 
-function findAllVNodes (
-  vnode: VNode,
-  selector: any
-): Array<VNode> {
+function findAllVNodes(vnode: VNode, selector: any): Array<VNode> {
   const matchingNodes = []
   const nodes = [vnode]
   while (nodes.length) {
     const node = nodes.shift()
     if (node.children) {
       const children = [...node.children].reverse()
-      children.forEach((n) => {
+      children.forEach(n => {
         nodes.unshift(n)
       })
     }
@@ -48,38 +45,32 @@ function findAllVNodes (
   return matchingNodes
 }
 
-function removeDuplicateNodes (vNodes: Array<VNode>): Array<VNode> {
+function removeDuplicateNodes(vNodes: Array<VNode>): Array<VNode> {
   const vNodeElms = vNodes.map(vNode => vNode.elm)
-  return vNodes.filter(
-    (vNode, index) => index === vNodeElms.indexOf(vNode.elm)
-  )
+  return vNodes.filter((vNode, index) => index === vNodeElms.indexOf(vNode.elm))
 }
 
-export default function find (
+export default function find(
   root: VNode | Element,
   vm?: Component,
   selector: Selector
 ): Array<VNode | Component> {
-  if ((root instanceof Element) && selector.type !== DOM_SELECTOR) {
+  if (root instanceof Element && selector.type !== DOM_SELECTOR) {
     throwError(
       `cannot find a Vue instance on a DOM node. The node ` +
-      `you are calling find on does not exist in the ` +
-      `VDom. Are you adding the node as innerHTML?`
+        `you are calling find on does not exist in the ` +
+        `VDom. Are you adding the node as innerHTML?`
     )
   }
 
   if (
     selector.type === COMPONENT_SELECTOR &&
-    (
-      selector.value.functional ||
-      (selector.value.options &&
-      selector.value.options.functional)
-    ) &&
+    (selector.value.functional ||
+      (selector.value.options && selector.value.options.functional)) &&
     VUE_VERSION < 2.3
   ) {
     throwError(
-      `find for functional components is not supported ` +
-        `in Vue < 2.3`
+      `find for functional components is not supported ` + `in Vue < 2.3`
     )
   }
 
@@ -90,22 +81,16 @@ export default function find (
   if (!root && selector.type !== DOM_SELECTOR) {
     throwError(
       `cannot find a Vue instance on a DOM node. The node ` +
-      `you are calling find on does not exist in the ` +
-      `VDom. Are you adding the node as innerHTML?`
+        `you are calling find on does not exist in the ` +
+        `VDom. Are you adding the node as innerHTML?`
     )
   }
 
   if (!vm && selector.type === REF_SELECTOR) {
-    throwError(
-      `$ref selectors can only be used on Vue component ` + `wrappers`
-    )
+    throwError(`$ref selectors can only be used on Vue component ` + `wrappers`)
   }
 
-  if (
-    vm &&
-    vm.$refs &&
-    selector.value.ref in vm.$refs
-  ) {
+  if (vm && vm.$refs && selector.value.ref in vm.$refs) {
     const refs = vm.$refs[selector.value.ref]
     return Array.isArray(refs) ? refs : [refs]
   }

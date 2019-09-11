@@ -1,6 +1,7 @@
 ## setProps(props)
 
 - **Принимает:**
+
   - `{Object} props`
 
 - **Использование:**
@@ -20,7 +21,7 @@ expect(wrapper.vm.foo).toBe('bar')
 
 Вы также можете передать объект `propsData`, который инициализирует экземпляр Vue с переданными значениями.
 
-``` js
+```js
 // Foo.vue
 export default {
   props: {
@@ -32,7 +33,7 @@ export default {
 }
 ```
 
-``` js
+```js
 import { mount } from '@vue/test-utils'
 import Foo from './Foo.vue'
 

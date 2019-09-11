@@ -1,6 +1,7 @@
 ## setProps(props)
 
 - **引数:**
+
   - `{Object} props`
 
 - **使用方法:**
@@ -8,7 +9,6 @@
 `Wrapper` `vm` プロパティを設定し更新を強制します。
 
 **Wrapper には Vue インスタンスを含む必要があることに注意してください**
-
 
 ```js
 import { mount } from '@vue/test-utils'
@@ -21,7 +21,7 @@ expect(wrapper.vm.foo).toBe('bar')
 
 渡された値で Vue インスタンス を初期化する `propsData` オブジェクトを渡すことができます。
 
-``` js
+```js
 // Foo.vue
 export default {
   props: {
@@ -33,7 +33,7 @@ export default {
 }
 ```
 
-``` js
+```js
 import { mount } from '@vue/test-utils'
 import Foo from './Foo.vue'
 

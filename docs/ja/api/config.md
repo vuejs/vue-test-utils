@@ -7,10 +7,7 @@ vue-test-utils にはオプションを定義するための `config` オプシ�
 #### `stubs`
 
 - 型: `{ [name: string]: Component | boolean | string }`
-- デフォルト: `{
-  transition: TransitionStub,
-  'transition-group': TransitionGroupStub
-}`
+- デフォルト: `{ transition: TransitionStub, 'transition-group': TransitionGroupStub }`
 
 コンポーネントで使用するスタブはマウンティングオプションの `stubs` で設定します。
 
@@ -63,7 +60,7 @@ config.methods['getData'] = () => {}
 - 型: `Object`
 - デフォルト: `{}`
 
-`stubs` や `mocks` のように `config.provide` に渡された値はデフォルトで使用されます。マウンティングオプションの `provide` オブジェクトに渡された値は `config.provide` で指定された値よりも優先されます。 **`config.provide` に関数をセットすることはできないことに注意してください。**
+`stubs` や  `mocks` のように `config.provide` に渡された値はデフォルトで使用されます。マウンティングオプションの `provide` オブジェクトに渡された値は `config.provide` で指定された値よりも優先されます。 **`config.provide` に関数をセットすることはできないことに注意してください。**
 
 例:
 
@@ -75,21 +72,6 @@ config.provide['$logger'] = {
     console.log(...args)
   }
 }
-```
-
-#### `logModifiedComponents`
-
-- 型: `Boolean`
-- デフォルト: `true`
-
-`Vue.extend() で拡張された子コンポーネントは自動的にスタブされます。その時、そのことを警告するログが表示されます。 `false` をセットすると警告は表示されません。他の config のオプションと違って、マウティングオプションでセットすることはできません。
-
-例:
-
-```js
-import { config } from '@vue/test-utils'
-
-config.logModifiedComponents = false
 ```
 
 ### `silent`

@@ -24,7 +24,7 @@ const modifiers = {
   pagedown: 34
 }
 
-function createEvent (
+function createEvent(
   type,
   modifier,
   { eventInterface, bubbles, cancelable },
@@ -47,7 +47,7 @@ function createEvent (
   return event
 }
 
-function createOldEvent (
+function createOldEvent(
   type,
   modifier,
   { eventInterface, bubbles, cancelable }
@@ -58,23 +58,25 @@ function createOldEvent (
   return event
 }
 
-export default function createDOMEvent (type, options) {
+export default function createDOMEvent(type, options) {
   const [eventType, modifier] = type.split('.')
   const meta = eventTypes[eventType] || defaultEventType
 
   // Fallback for IE10,11 - https://stackoverflow.com/questions/26596123
-  const event = typeof window.Event === 'function'
-    ? createEvent(eventType, modifier, meta, options)
-    : createOldEvent(eventType, modifier, meta)
+  const event =
+    typeof window.Event === 'function'
+      ? createEvent(eventType, modifier, meta, options)
+      : createOldEvent(eventType, modifier, meta)
 
   const eventPrototype = Object.getPrototypeOf(event)
   Object.keys(options || {}).forEach(key => {
-    const propertyDescriptor =
-      Object.getOwnPropertyDescriptor(eventPrototype, key)
+    const propertyDescriptor = Object.getOwnPropertyDescriptor(
+      eventPrototype,
+      key
+    )
 
     const canSetProperty = !(
-      propertyDescriptor &&
-      propertyDescriptor.setter === undefined
+      propertyDescriptor && propertyDescriptor.setter === undefined
     )
     if (canSetProperty) {
       event[key] = options[key]

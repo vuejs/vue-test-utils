@@ -1,12 +1,13 @@
-## trigger(eventType [, options ])
+## trigger
 
 Triggers an event on every `Wrapper` in the `WrapperArray` DOM node.
 
 **Note every `Wrapper` must contain a Vue instance.**
 
 - **Arguments:**
+
   - `{string} eventType` **required**
-  - `{Object} options`  **optional**
+  - `{Object} options` **optional**
 
 - **Example:**
 

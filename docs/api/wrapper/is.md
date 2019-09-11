@@ -1,8 +1,9 @@
-## is(selector)
+## is
 
 Assert `Wrapper` DOM node or `vm` matches [selector](../selectors.md).
 
 - **Arguments:**
+
   - `{string|Component} selector`
 
 - **Returns:** `{boolean}`

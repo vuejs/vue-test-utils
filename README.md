@@ -5,8 +5,8 @@
 This repository provides the following two packages.  
 They are currently in beta.
 
-* [Vue Test Utils](./packages/test-utils)
-* [Vue Server Test Utils](./packages/server-test-utils)
+- [Vue Test Utils](./packages/test-utils)
+- [Vue Server Test Utils](./packages/server-test-utils)
 
 You can install these packages by the following command.
 
@@ -16,6 +16,7 @@ npm install --save-dev @vue/server-test-utils
 ```
 
 ## Peer Dependencies
+
 You need to install `vue-template-compiler` which is used to compile components. It should be the same version as the version of Vue you are using.
 
 ```
@@ -25,13 +26,6 @@ npm install --save-dev vue-template-compiler
 ## Documentation
 
 Refer to the [documentation](https://vue-test-utils.vuejs.org/)
-
-## Examples
-
-- [example with Jest](https://github.com/vuejs/vue-test-utils-jest-example)
-- [example with Mocha](https://github.com/vuejs/vue-test-utils-mocha-webpack-example)
-- [example with tape](https://github.com/eddyerburgh/vue-test-utils-tape-example)
-- [example with AVA](https://github.com/eddyerburgh/vue-test-utils-ava-example)
 
 ## Questions
 

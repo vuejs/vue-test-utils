@@ -1,6 +1,13 @@
 # Mounting Options
 
-Options for `mount` and `shallowMount`. The options object can contain both Vue Test Utils mounting options and other options.
+Options for `mount` and `shallowMount`.
+
+:::tip
+Aside from the options documented below, the `options` object can contain any option that would be valid in a call to `new Vue ({ /*options here*/ })`.
+These options will be merged with the component's existing options when mounted with `mount` / `shallowMount`
+
+[See other options for examples](#other-options)
+:::
 
 - [`context`](#context)
 - [`slots`](#slots)
@@ -99,7 +106,7 @@ You can also pass a function that takes the props as an argument:
 ```js
 shallowMount(Component, {
   scopedSlots: {
-    foo: function (props) {
+    foo: function(props) {
       return this.$createElement('div', props.index)
     }
   }
@@ -111,8 +118,8 @@ Or you can use JSX. If you write JSX in a method, `this.$createElement` is auto-
 ```js
 shallowMount(Component, {
   scopedSlots: {
-    foo (props) {
-      return <div>{ props.text }</div>
+    foo(props) {
+      return <div>{props.text}</div>
     }
   }
 })
@@ -179,9 +186,7 @@ import Foo from './Foo.vue'
 const localVue = createLocalVue()
 localVue.use(VueRouter)
 
-const routes = [
-  { path: '/foo', component: Foo }
-]
+const routes = [{ path: '/foo', component: Foo }]
 
 const router = new VueRouter({
   routes
@@ -200,6 +205,9 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 - default: `false`
 
 Component will be attached to DOM when rendered if set to `true`.
+
+When attaching to the DOM, you should call `wrapper.destroy()` at the end of your test to
+remove the rendered elements from the document and destroy the component instance.
 
 ## attrs
 
@@ -228,11 +236,11 @@ const wrapper = mount(Component, {
 expect(wrapper.text()).toBe('aBC')
 ```
 
-::: tip 
-It's worth noting that `propsData` is actually a [Vue API](https://vuejs.org/v2/api/#propsData), not a 
+::: tip
+It's worth noting that `propsData` is actually a [Vue API](https://vuejs.org/v2/api/#propsData), not a
 Vue Test Utils mounting option. It is processed through [`extends`](https://vuejs.org/v2/api/#extends).
 Please see [Other options](#other-options).
-::: 
+:::
 
 ## listeners
 
@@ -273,7 +281,7 @@ const Component = {
 
 const wrapper = shallowMount(Component, {
   provide: {
-    foo () {
+    foo() {
       return 'fooValue'
     }
   }
@@ -298,20 +306,20 @@ When the options for `mount` and `shallowMount` contain the options other than t
 const Component = {
   template: '<div>{{ foo() }}{{ bar() }}{{ baz() }}</div>',
   methods: {
-    foo () {
+    foo() {
       return 'a'
     },
-    bar () {
+    bar() {
       return 'b'
     }
   }
 }
 const options = {
   methods: {
-    bar () {
+    bar() {
       return 'B'
     },
-    baz () {
+    baz() {
       return 'C'
     }
   }

@@ -25,6 +25,7 @@ Hi! I’m really excited that you are interested in contributing to Vue Test Uti
 - Make sure `npm test` passes. (see [development setup](#development-setup))
 
 - If adding new feature:
+
   - Add accompanying test case.
   - Provide convincing reason to add this feature. Ideally you should open a suggestion issue first and have it greenlighted before working on it.
 
@@ -37,11 +38,11 @@ Hi! I’m really excited that you are interested in contributing to Vue Test Uti
 
 You will need [Node.js](http://nodejs.org) **version 6+**
 
-Vue Test Utils is a monorepo. It contains a root package.json for running scripts across the project. The code is inside separate packages in the `packages` directory. The project uses [lerna](https://lernajs.io/) to manage the workspaces.
+Vue Test Utils is a monorepo. It contains a root package.json for running scripts across the project. The code is inside separate packages in the `packages` directory. The project uses [lerna](https://lerna.js.org/) to manage the workspaces.
 
 After cloning the repo, run:
 
-``` bash
+```bash
 $ yarn
 ```
 
@@ -50,9 +51,10 @@ Or with npm:
 ```bash
 npm i && npm run bootstrap
 ```
+
 ### Commonly used NPM scripts
 
-``` bash
+```bash
 # run unit tests with mocha-webpack
 $ npm run test:unit
 
@@ -90,4 +92,4 @@ The default test script will do the following: lint with ESLint -> type check wi
 
 - **`types`**: contains TypeScript type definitions
 
-    - **`test`**: type definitions tests
+  - **`test`**: type definitions tests

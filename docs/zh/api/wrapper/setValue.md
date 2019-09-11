@@ -1,8 +1,9 @@
-## setValue(value)
+## setValue
 
 设置一个文本控件或 select 元素的值并更新 `v-model` 绑定的数据。
 
 - **参数：**
+
   - `{String} value`
 
 - **示例：**

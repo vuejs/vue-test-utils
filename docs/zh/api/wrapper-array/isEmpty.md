@@ -1,4 +1,4 @@
-## isEmpty()
+## isEmpty
 
 断言 `WrapperArray` 的每个 `Wrapper` 都不包含子节点。
 

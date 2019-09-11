@@ -2,11 +2,11 @@
 import Vue from 'vue'
 import semver from 'semver'
 
-export function throwError (msg: string): void {
+export function throwError(msg: string): void {
   throw new Error(`[vue-test-utils]: ${msg}`)
 }
 
-export function warn (msg: string): void {
+export function warn(msg: string): void {
   console.error(`[vue-test-utils]: ${msg}`)
 }
 
@@ -32,11 +32,11 @@ const hyphenateRE = /\B([A-Z])/g
 export const hyphenate = (str: string): string =>
   str.replace(hyphenateRE, '-$1').toLowerCase()
 
-function hasOwnProperty (obj, prop) {
+function hasOwnProperty(obj, prop) {
   return Object.prototype.hasOwnProperty.call(obj, prop)
 }
 
-export function resolveComponent (id: string, components: Object) {
+export function resolveComponent(id: string, components: Object) {
   if (typeof id !== 'string') {
     return
   }
@@ -56,18 +56,18 @@ export function resolveComponent (id: string, components: Object) {
   return components[id] || components[camelizedId] || components[PascalCaseId]
 }
 
-const UA = typeof window !== 'undefined' &&
+const UA =
+  typeof window !== 'undefined' &&
   'navigator' in window &&
   navigator.userAgent.toLowerCase()
 
-export const isPhantomJS = UA && UA.includes &&
-  UA.match(/phantomjs/i)
+export const isPhantomJS = UA && UA.includes && UA.match(/phantomjs/i)
 
 export const isEdge = UA && UA.indexOf('edge/') > 0
 export const isChrome = UA && /chrome\/\d+/.test(UA) && !isEdge
 
 // get the event used to trigger v-model handler that updates bound data
-export function getCheckedEvent () {
+export function getCheckedEvent() {
   const version = Vue.version
 
   if (semver.satisfies(version, '2.1.9 - 2.1.10')) {

@@ -3,7 +3,7 @@ import { describeWithShallowAndMount } from '~resources/utils'
 describeWithShallowAndMount('setValue', mountingMethod => {
   it('sets value to the text-control input elements', () => {
     const wrapper = mountingMethod({
-      data () {
+      data() {
         return {
           t1: '',
           t2: ''

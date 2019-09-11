@@ -1,4 +1,4 @@
-## isEmpty()
+## isEmpty
 
 断言 `Wrapper` 并不包含子节点。
 

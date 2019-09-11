@@ -17,7 +17,7 @@ describeWithShallowAndMount('createLocalVue', mountingMethod => {
         test: 0
       },
       mutations: {
-        increment () {}
+        increment() {}
       }
     })
     const wrapper = mountingMethod(Component, { localVue, store })
@@ -26,7 +26,7 @@ describeWithShallowAndMount('createLocalVue', mountingMethod => {
     expect(typeof freshWrapper.vm.$store).to.equal('undefined')
   })
 
-  it('Vuex should work properly with local Vue', () => {
+  it('Vuex should work properly with local Vue', async () => {
     const localVue = createLocalVue()
     localVue.use(Vuex)
     const store = new Vuex.Store({
@@ -34,7 +34,7 @@ describeWithShallowAndMount('createLocalVue', mountingMethod => {
         count: 0
       },
       mutations: {
-        increment (state) {
+        increment(state) {
           state.count++
         }
       },
@@ -48,6 +48,7 @@ describeWithShallowAndMount('createLocalVue', mountingMethod => {
     expect(wrapper.vm.$store).to.be.an('object')
     expect(wrapper.text()).to.equal('0 1')
     wrapper.trigger('click')
+    await Vue.nextTick()
     expect(wrapper.text()).to.equal('1 1')
   })
 
@@ -104,7 +105,7 @@ describeWithShallowAndMount('createLocalVue', mountingMethod => {
     const localVue = createLocalVue()
     const pluginOptions = { foo: 'bar' }
     const plugin = {
-      install: function (_Vue, options) {
+      install: function(_Vue, options) {
         expect(options).to.equal(pluginOptions)
       }
     }
@@ -115,7 +116,7 @@ describeWithShallowAndMount('createLocalVue', mountingMethod => {
     let installCount = 0
 
     class Plugin {}
-    Plugin.install = function (_Vue) {
+    Plugin.install = function(_Vue) {
       if (_Vue._installedPlugins) {
         expect(_Vue._installedPlugins.indexOf(Plugin)).to.equal(-1)
       }
@@ -130,11 +131,5 @@ describeWithShallowAndMount('createLocalVue', mountingMethod => {
       expect(localVue._installedPlugins.indexOf(Plugin)).to.equal(0)
     }
     expect(installCount).to.equal(2)
-  })
-
-  it('has an errorHandler', () => {
-    const localVue = createLocalVue()
-
-    expect(localVue.config.errorHandler).to.be.an('function')
   })
 })

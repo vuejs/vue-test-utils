@@ -1,7 +1,7 @@
 // @flow
-import { normalizeStubs } from './normalize'
+import { normalizeStubs, normalizeProvide } from './normalize'
 
-function getOption (option, config?: Object): any {
+function getOption(option, config?: Object): any {
   if (option === false) {
     return false
   }
@@ -19,18 +19,28 @@ function getOption (option, config?: Object): any {
   }
 }
 
-export function mergeOptions (options: Options, config: Config): Options {
+function getStubs(stubs, configStubs): Object {
+  const normalizedStubs = normalizeStubs(stubs)
+  const normalizedConfigStubs = normalizeStubs(configStubs)
+  return getOption(normalizedStubs, normalizedConfigStubs)
+}
+
+export function mergeOptions(
+  options: Options,
+  config: Config
+): NormalizedOptions {
   const mocks = (getOption(options.mocks, config.mocks): Object)
-  const methods = (
-    (getOption(options.methods, config.methods)): { [key: string]: Function })
-  const provide = ((getOption(options.provide, config.provide)): Object)
+  const methods = (getOption(options.methods, config.methods): {
+    [key: string]: Function
+  })
+  const provide = (getOption(options.provide, config.provide): Object)
+  const stubs = (getStubs(options.stubs, config.stubs): Object)
+  // $FlowIgnore
   return {
     ...options,
-    logModifiedComponents: config.logModifiedComponents,
-    stubs: getOption(normalizeStubs(options.stubs), config.stubs),
+    provide: normalizeProvide(provide),
+    stubs,
     mocks,
-    methods,
-    provide,
-    sync: !!(options.sync || options.sync === undefined)
+    methods
   }
 }

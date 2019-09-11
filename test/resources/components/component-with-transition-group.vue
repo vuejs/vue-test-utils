@@ -1,15 +1,15 @@
 <template>
   <transition-group>
-    <div>{{a}}</div>
-    <div></div>
+    <div key="123">{{ a }}</div>
+    <div key="124"></div>
   </transition-group>
 </template>
 
 <script>
-  export default{
-    name: 'component-with-transition',
-    data: () => ({
-      a: 'a'
-    })
-  }
+export default {
+  name: 'component-with-transition',
+  data: () => ({
+    a: 'a'
+  })
+}
 </script>

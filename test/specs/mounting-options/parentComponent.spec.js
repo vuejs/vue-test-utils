@@ -1,6 +1,6 @@
-import { describeWithMountingMethods } from '~resources/utils'
+import { describeWithShallowAndMount } from '~resources/utils'
 
-describeWithMountingMethods('options.parentComponent', mountingMethod => {
+describeWithShallowAndMount('options.parentComponent', mountingMethod => {
   it('mounts component with $parent set to options.parentComponent', () => {
     const Parent = {
       data: () => ({
@@ -13,10 +13,7 @@ describeWithMountingMethods('options.parentComponent', mountingMethod => {
     const wrapper = mountingMethod(TestComponent, {
       parentComponent: Parent
     })
-    const HTML = mountingMethod.name === 'renderToString'
-      ? wrapper
-      : wrapper.html()
-    expect(HTML).to.contain('Parent Name')
+    expect(wrapper.html()).to.contain('Parent Name')
   })
 
   it('validates parentComponent option', () => {
@@ -24,11 +21,14 @@ describeWithMountingMethods('options.parentComponent', mountingMethod => {
       const TestComponent = {
         template: '<div>{{$parent.customName}}</div>'
       }
-      const fn = () => mountingMethod(TestComponent, {
-        parentComponent: invalidParent
-      })
-      const message = '[vue-test-utils]: options.parentComponent should be a valid Vue component options object'
-      expect(fn).to.throw()
+      const fn = () =>
+        mountingMethod(TestComponent, {
+          parentComponent: invalidParent
+        })
+      const message =
+        '[vue-test-utils]: options.parentComponent should be a valid Vue component options object'
+      expect(fn)
+        .to.throw()
         .with.property('message', message)
     })
   })

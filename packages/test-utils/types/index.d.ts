@@ -1,10 +1,4 @@
-import Vue, { VNodeData, ComponentOptions, FunctionalComponentOptions } from 'vue'
-
-// TODO: use core repo's Component type after https://github.com/vuejs/vue/pull/7369 is released
-export type Component =
-  | typeof Vue
-  | FunctionalComponentOptions<{}>
-  | ComponentOptions<never, {}, {}, {}, {}>
+import Vue, { VNodeData, ComponentOptions, FunctionalComponentOptions, Component } from 'vue'
 
 /**
  * Utility type to declare an extended Vue constructor
@@ -28,7 +22,7 @@ type Slots = {
  * If it is an array of string, the specified children are replaced by blank components
  */
 type Stubs = {
-  [key: string]: Component | string | true
+  [key: string]: Component | string | boolean
 } | string[]
 
 /**
@@ -53,7 +47,6 @@ interface BaseWrapper {
   contains (selector: Selector): boolean
   exists (): boolean
   isVisible (): boolean
-  visible (): boolean
 
   attributes(): { [name: string]: string }
   attributes(key: string): string | void
@@ -62,16 +55,10 @@ interface BaseWrapper {
   props(): { [name: string]: any }
   props(key: string): any | void
 
-  hasAttribute (attribute: string, value: string): boolean
-  hasClass (className: string): boolean
-  hasProp (prop: string, value: any): boolean
-  hasStyle (style: string, value: string): boolean
-
   is (selector: Selector): boolean
   isEmpty (): boolean
   isVueInstance (): boolean
 
-  setComputed (computed: object): void
   setData (data: object): void
   setMethods (data: object): void
   setProps (props: object): void
@@ -128,7 +115,6 @@ export interface WrapperArray<V extends Vue> extends BaseWrapper {
 
 interface WrapperOptions {
   attachedToDocument?: boolean
-  sync?: boolean
 }
 
 interface MountOptions<V extends Vue> extends ComponentOptions<V> {
@@ -142,7 +128,6 @@ interface MountOptions<V extends Vue> extends ComponentOptions<V> {
   stubs?: Stubs | false,
   attrs?: Record<string, string>
   listeners?: Record<string, Function | Function[]>
-  sync?: boolean
 }
 
 type ThisTypedMountOptions<V extends Vue> = MountOptions<V> & ThisType<V>
@@ -156,7 +141,6 @@ interface VueTestUtilsConfigOptions {
   mocks?: Record<string, any>
   methods?: Record<string, Function>
   provide?: Record<string, any>,
-  logModifiedComponents?: Boolean
   silent?: Boolean
 }
 

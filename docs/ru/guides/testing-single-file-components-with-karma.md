@@ -10,7 +10,7 @@ Karma — это программа для запуска тестов, кото
 
 Первым делом нам необходимо установить тестовые зависимости:
 
-``` bash
+```bash
 npm install --save-dev @vue/test-utils karma karma-chrome-launcher karma-mocha karma-sourcemap-loader karma-spec-reporter karma-webpack mocha
 ```
 
@@ -36,13 +36,11 @@ npm install --save-dev @vue/test-utils karma karma-chrome-launcher karma-mocha k
 
 var webpackConfig = require('./webpack.config.js')
 
-module.exports = function (config) {
+module.exports = function(config) {
   config.set({
     frameworks: ['mocha'],
 
-    files: [
-      'test/**/*.spec.js'
-    ],
+    files: ['test/**/*.spec.js'],
 
     preprocessors: {
       '**/*.spec.js': ['webpack', 'sourcemap']
@@ -61,7 +59,7 @@ module.exports = function (config) {
 
 Нам нужно предварительно обработать файлы с помощью webpack. Для этого мы добавляем webpack в качестве препроцессора и включаем нашу конфигурацию webpack. Мы можем использовать конфигурационный файл webpack в корне проекте, ничего не меняя.
 
-В нашей конфигурации мы запускаем тесты в Chrome. Для добавления дополнительных браузеров смотрите [раздел Браузеры в документации Karma](http://karma-runner.github.io/2.0/config/browsers.html).
+В нашей конфигурации мы запускаем тесты в Chrome. Для добавления дополнительных браузеров смотрите [раздел Браузеры в документации Karma](http://karma-runner.github.io/3.0/config/browsers.html).
 
 ### Выбор библиотеки утверждений
 
@@ -69,7 +67,7 @@ module.exports = function (config) {
 
 Мы можем установить плагин `karma-chai` для использования `chai` в наших тестах.
 
-``` bash
+```bash
 npm install --save-dev karma-chai
 ```
 
@@ -77,7 +75,7 @@ npm install --save-dev karma-chai
 
 Создайте в каталоге `src` файл с именем `Counter.vue`:
 
-``` html
+```html
 <template>
   <div>
     {{ count }}
@@ -86,19 +84,19 @@ npm install --save-dev karma-chai
 </template>
 
 <script>
-export default {
-  data () {
-    return {
-      count: 0
-    }
-  },
+  export default {
+    data() {
+      return {
+        count: 0
+      }
+    },
 
-  methods: {
-    increment () {
-      this.count++
+    methods: {
+      increment() {
+        this.count++
+      }
     }
   }
-}
 </script>
 ```
 
@@ -144,14 +142,11 @@ npm install --save-dev karma-coverage cross-env
 npm install --save-dev babel-plugin-istanbul
 ```
 
-Обновите файл `.babelrc` для использования `babel-plugin-istanbul`, когда  `BABEL_ENV` равняется test:
+Обновите файл `.babelrc` для использования `babel-plugin-istanbul`, когда `BABEL_ENV` равняется test:
 
 ```json
 {
-  "presets": [
-    ["env", { "modules": false }],
-    "stage-3"
-  ],
+  "presets": [["env", { "modules": false }], "stage-3"],
   "env": {
     "test": {
       "plugins": ["istanbul"]
@@ -165,18 +160,15 @@ npm install --save-dev babel-plugin-istanbul
 ```js
 // karma.conf.js
 
-module.exports = function (config) {
+module.exports = function(config) {
   config.set({
-  // ...
+    // ...
 
     reporters: ['spec', 'coverage'],
 
     coverageReporter: {
       dir: './coverage',
-      reporters: [
-        { type: 'lcov', subdir: '.' },
-        { type: 'text-summary' }
-      ]
+      reporters: [{ type: 'lcov', subdir: '.' }, { type: 'text-summary' }]
     }
   })
 }

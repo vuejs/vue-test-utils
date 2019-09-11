@@ -1,4 +1,4 @@
-## setValue(value)
+## setValue
 
 该方法是接下来这段代码的别名：
 
@@ -7,6 +7,7 @@ wrapperArray.wrappers.forEach(wrapper => wrapper.setValue(value))
 ```
 
 - **参数：**
+
   - `{any} value`
 
 - **示例：**
@@ -15,7 +16,7 @@ wrapperArray.wrappers.forEach(wrapper => wrapper.setValue(value))
 import { mount } from '@vue/test-utils'
 
 const wrapper = mount({
-  data () {
+  data() {
     return {
       t1: '',
       t2: ''
