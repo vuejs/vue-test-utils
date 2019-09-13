@@ -110,6 +110,9 @@ export function createStubFromComponent(
   // ignoreElements does not exist in Vue 2.0.x
   if (Vue.config.ignoredElements) {
     Vue.config.ignoredElements.push(tagName)
+    if (Vue.config.ignoredElements.indexOf('template-stub') === -1) {
+      Vue.config.ignoredElements.push('template-stub')
+    }
   }
 
   return {
@@ -117,30 +120,38 @@ export function createStubFromComponent(
     $_vueTestUtils_original: originalComponent,
     $_doNotStubChildren: true,
     render(h, context) {
-      return h(
-        tagName,
-        {
-          ref: componentOptions.functional ? context.data.ref : undefined,
-          attrs: componentOptions.functional
-            ? {
-                ...context.props,
-                ...context.data.attrs,
-                class: createClassString(
-                  context.data.staticClass,
-                  context.data.class
-                )
-              }
-            : {
-                ...this.$props
-              }
-        },
-        context
-          ? context.children
-          : this.$options._renderChildren ||
-              getScopedSlotRenderFunctions(this).map(x =>
-                this.$options.parent._vnode.data.scopedSlots[x]()
-              )
+      const attrs = componentOptions.functional
+        ? {
+            ...context.props,
+            ...context.data.attrs,
+            class: createClassString(
+              context.data.staticClass,
+              context.data.class
+            )
+          }
+        : {
+            ...this.$props
+          }
+
+      const slots = context ? context.slots() : this._renderProxy.$slots
+
+      // ensure consistent ordering of slots (default first, then alphabetical)
+      const sortedSlotEntries = Object.entries(slots)
+      sortedSlotEntries.sort(([slotNameA], [slotNameB]) =>
+        slotNameA === 'default'
+          ? -1
+          : slotNameB === 'default'
+          ? 1
+          : slotNameA.localeCompare(slotNameB)
       )
+
+      const children = sortedSlotEntries.map(([slotName, slotChildren]) =>
+        slotName === 'default'
+          ? slotChildren
+          : h('template-stub', { attrs: { slot: slotName } }, slotChildren)
+      )
+
+      return h(tagName, { attrs }, children)
     }
   }
 }
