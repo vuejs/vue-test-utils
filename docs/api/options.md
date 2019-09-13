@@ -262,7 +262,7 @@ const wrapper = mount(Component, {
 })
 
 wrapper.trigger('click')
-expect(onClick).toHaveBeenCalled();
+expect(onClick).toHaveBeenCalled()
 ```
 
 ## parentComponent
