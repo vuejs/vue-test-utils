@@ -229,6 +229,7 @@ describe('MyComponent.vue', () => {
     store = new Vuex.Store({
       modules: {
         myModule: {
+          namespaced: true,
           state,
           actions,
           getters: myModule.getters
