@@ -34,6 +34,7 @@ Xem code ví dụ
   }
 </script>
 ```
+
 Với mục đích của test này, chúng ta không quan tâm action làm gì, hoặc store sẽ như thế này. Chúng ta chỉ cần biết action đó có được gọi khi cần không và được gọi với giá trị như expect.
 
 Để test cái này, chúng ta cần truyền một store giả lập vào trong Vue khi chúng `shallowMount` component.
@@ -99,7 +100,7 @@ Chúng ta có thể xác nhận trong test action này đã được gọi khi c
 
 Cách chúng ta khai báo store có thể hơi lạ.
 
-Chúng ta sử dụng `beforeEach` để đảm bảo chúng ta có một store *sạch*, không có bất cứ gì trước khi test. `beforeEach` là một hàm hook có sẵn sẽ chạy trước khi mỗi lần chạy test. Trong test của chúng ta, chúng ta gán lại giá trị của biến store. Nếu không làm vậy, các hàm giả lập cần tự động reset. Nó cũng cho phép chúng ta thay đổi trạng thái của test mà không ảnh hưởng đến các test khác.
+Chúng ta sử dụng `beforeEach` để đảm bảo chúng ta có một store _sạch_, không có bất cứ gì trước khi test. `beforeEach` là một hàm hook có sẵn sẽ chạy trước khi mỗi lần chạy test. Trong test của chúng ta, chúng ta gán lại giá trị của biến store. Nếu không làm vậy, các hàm giả lập cần tự động reset. Nó cũng cho phép chúng ta thay đổi trạng thái của test mà không ảnh hưởng đến các test khác.
 
 Điều quan trọng nhất cần lưu ý ở test này là **chúng ta tạo ra một Vuex store giả lập và sau đó truyền vào cho Vue Test Utils**.
 
@@ -371,7 +372,7 @@ test('updates "evenOrOdd" getter when "increment" is commited', () => {
 })
 ```
 
-Để ý là chúng ta sử dụng `cloneDeep` để clone một store config trước khi tạo store. Với vì Vuex sẽ có thể  mutate object option. Để đảm bảo store *sạch* trong mọi test, chúng clone nó thành `storeConfig`.
+Để ý là chúng ta sử dụng `cloneDeep` để clone một store config trước khi tạo store. Với vì Vuex sẽ có thể mutate object option. Để đảm bảo store _sạch_ trong mọi test, chúng clone nó thành `storeConfig`.
 
 ### Tham khảo
 
