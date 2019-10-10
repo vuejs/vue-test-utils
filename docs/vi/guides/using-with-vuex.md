@@ -1,4 +1,3 @@
-
 # Sử dụng với Vuex
 
 Trong phần hướng dẫn này, chúng ta sẽ xem cách để test Vuex trong component với Vue Test Utils, và cách tiếp cận với test một Vuex store
