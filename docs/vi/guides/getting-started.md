@@ -53,7 +53,7 @@ Bạn có thể wrapper sử dụng phương thức `mount`. Tạo một file đ
 import { mount } from '@vue/test-utils'
 import Counter from './counter'
 
-// mout component và bạn nhận được một wrapper
+// mount component và bạn nhận được một wrapper
 const wrapper = mount(Counter)
 
 // bạn có thể truy cập Vue instance của component đó bằng `wrapper.vm`
@@ -104,7 +104,7 @@ it('button click should increment the count', () => {
 
 ### `nextTick` thì sao?
 
-Vue sẽ hoản lại việc cập nhập DOM, và áp dúng một cách bất tuần tự để tránh việc re-render không cần thiết nhiều lần gây ra bởi thay đổi data thường xuyên. Đó là lý do tại sao, trong thực tế, chúng ta thường phải sử dụng `Vue.nextTick` để đợi đến khi Vue đã thực hiện xong update DOM, sau đó chúng ta gọi thay đổi state.
+Vue sẽ hoãn lại việc cập nhập DOM, và áp dụng một cách bất tuần tự để tránh việc re-render không cần thiết nhiều lần gây ra bởi thay đổi data thường xuyên. Đó là lý do tại sao, trong thực tế, chúng ta thường phải sử dụng `Vue.nextTick` để đợi đến khi Vue đã thực hiện xong update DOM, sau đó chúng ta gọi thay đổi state.
 
 Để đơn giản hóa, Vue Test Utils áp dụng chiến lược update một cách tuần tự, bạn không cần dùng `Vue.nextTick` để đợi đến khi DOM update.
 
@@ -140,4 +140,4 @@ it('will catch the error using a promise', () => {
 ### Tiếp theo
 
 - Tích hợp Vue Test Utils trong project của bạn bằng cách [chọn một test runner](./choosing-a-test-runner.md).
-- Đọc thêm [các ký thuật căn bản khi viết test](./common-tips.md).
+- Đọc thêm [các kỹ thuật phổ biến khi viết test](./common-tips.md).
