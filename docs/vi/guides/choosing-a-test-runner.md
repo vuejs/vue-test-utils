@@ -6,7 +6,6 @@ Có rất nhiều thư viện Javascript phổ biến về test runner, và Vue 
 
 Có vài điểm cần lưu ý khi chọn một test runner: tập feature, hiệu năng, và có hổ trợ single-file component không. Sau khi cẩn thận so sánh các thư viện hiện tại, có 2 thư viện test runner chúng tôi đề nghị sử dụng:
 
-
 - [Jest](https://jestjs.io/docs/en/getting-started#content) là bộ test runner với đầy đủ tính năng nhất. Yêu cầu cấu hình ít nhất, đã cấu hình JSDOM mặc định, cung cấp các hàm kiểm tra đầy đủ, và có bộ command line rất tốt khi sử dụng. Tuy nhiên, bạn sẽ cần tiền xử lý để có thể import SFC (Single file component) bên trong test. Chúng tôi đã tạo `vue-jest` để tiền xử lý cho bạn, hiện tại vẫn chưa có 100% các tính năng đang có của `vue-loader`.
 
 - [mocha-webpack](https://github.com/zinserjan/mocha-webpack) là một bản sao của webpack + Mocha, nhưng với giao diện trực quan hơn và chế độ watch mode. Lợi ích của cấu hình này là bạn có sự hỗ trợ SFC đầy đủ thông qua webpack + `vue-loader`, tuy nhiên nó cần cài đặt khá nhiều.
