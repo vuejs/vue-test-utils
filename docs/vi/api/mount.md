@@ -1,38 +1,29 @@
-## shallowMount()
+## mount()
 
 - **Các tham số:**
 
   - `{Component} component`
   - `{Object} options`
-    - `{boolean} attachToDocument`
-    - `{Object} context`
-      - `{Array<Component|Object>|Component} children`
-    - `{Object} slots`
-      - `{Array<Component|Object>|Component|String} default`
-      - `{Array<Component|Object>|Component|String} named`
-    - `{Object} mocks`
-    - `{Object|Array<string>} stubs`
-    - `{Vue} localVue`
 
 - **Trả về:** `{Wrapper}`
 
 - **Các option:**
 
-Xem tất cả [option](./options.md)
+Xem tất cả [option](options.md)
 
 - **Sử dụng:**
 
-Giống như [`mount`](mount.md), nó trả về một [`Wrapper`](wrapper/) chứa component đã mount và render, nhưng không bao gồm component cont
+Creates a [`Wrapper`](wrapper/) that contains the mounted and rendered Vue component.
 
 **Không thêm option:**
 
 ```js
-import { shallowMount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {
   it('renders a div', () => {
-    const wrapper = shallowMount(Foo)
+    const wrapper = mount(Foo)
     expect(wrapper.contains('div')).toBe(true)
   })
 })
@@ -41,12 +32,12 @@ describe('Foo', () => {
 **Với option:**
 
 ```js
-import { shallowMount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {
   it('renders a div', () => {
-    const wrapper = shallowMount(Foo, {
+    const wrapper = mount(Foo, {
       propsData: {
         color: 'red'
       }
@@ -59,12 +50,12 @@ describe('Foo', () => {
 **Gắn vào DOM:**
 
 ```js
-import { shallowMount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {
   it('renders a div', () => {
-    const wrapper = shallowMount(Foo, {
+    const wrapper = mount(Foo, {
       attachToDocument: true
     })
     expect(wrapper.contains('div')).toBe(true)
@@ -75,17 +66,17 @@ describe('Foo', () => {
 **Với default slot và name slot:**
 
 ```js
-import { shallowMount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import Foo from './Foo.vue'
 import Bar from './Bar.vue'
 import FooBar from './FooBar.vue'
 
 describe('Foo', () => {
   it('renders a div', () => {
-    const wrapper = shallowMount(Foo, {
+    const wrapper = mount(Foo, {
       slots: {
         default: [Bar, FooBar],
-        fooBar: FooBar, // Will match <slot name="FooBar" />,
+        fooBar: FooBar, // Will match `<slot name="FooBar" />`.
         foo: '<div />'
       }
     })
@@ -97,13 +88,13 @@ describe('Foo', () => {
 **Xóa các property toàn cục:**
 
 ```js
-import { shallowMount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {
   it('renders a div', () => {
     const $route = { path: 'http://www.example-path.com' }
-    const wrapper = shallowMount(Foo, {
+    const wrapper = mount(Foo, {
       mocks: {
         $route
       }
@@ -112,3 +103,28 @@ describe('Foo', () => {
   })
 })
 ```
+
+**Xóa một component:**
+
+```js
+import { mount } from '@vue/test-utils'
+import Foo from './Foo.vue'
+import Bar from './Bar.vue'
+import Faz from './Faz.vue'
+
+describe('Foo', () => {
+  it('renders a div', () => {
+    const wrapper = mount(Foo, {
+      stubs: {
+        Bar: '<div class="stubbed" />',
+        BarFoo: true,
+        FooBar: Faz
+      }
+    })
+    expect(wrapper.contains('.stubbed')).toBe(true)
+    expect(wrapper.contains(Bar)).toBe(true)
+  })
+})
+```
+
+- **Xem thêm:** [Wrapper](wrapper/)
