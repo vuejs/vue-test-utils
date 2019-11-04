@@ -60,48 +60,13 @@ jobs:
       - run:
           name: yarn test
           command: yarn test
-  test_version_2.0.8:
+  test_compat:
     <<: *defaults
     steps:
       - attach_workspace:
           at: ~/repo
       - *restore_node_modules
-      - run: yarn test:compat "2.0.8"
-  test_version_2.1.10:
-    <<: *defaults
-    steps:
-      - attach_workspace:
-          at: ~/repo
-      - *restore_node_modules
-      - run: yarn test:compat "2.1.10"
-  test_version_2.2.6:
-    <<: *defaults
-    steps:
-      - attach_workspace:
-          at: ~/repo
-      - *restore_node_modules
-      - run: yarn test:compat "2.2.6"
-  test_version_2.3.4:
-    <<: *defaults
-    steps:
-      - attach_workspace:
-          at: ~/repo
-      - *restore_node_modules
-      - run: yarn test:compat "2.3.4"
-  test_version_2.4.2:
-    <<: *defaults
-    steps:
-      - attach_workspace:
-          at: ~/repo
-      - *restore_node_modules
-      - run: yarn test:compat "2.4.2"
-  test_version_2.5.13:
-    <<: *defaults
-    steps:
-      - attach_workspace:
-          at: ~/repo
-      - *restore_node_modules
-      - run: yarn test:compat "2.5.16"
+      - run: yarn test:compat
 workflows:
   version: 2
   install-tests:
@@ -116,32 +81,7 @@ workflows:
       - test:
           requires:
             - install
-      - test_version_2.0.8:
-          requires:
-            - install
-            - build_test
-            - test
-      - test_version_2.1.10:
-          requires:
-            - install
-            - build_test
-            - test
-      - test_version_2.2.6:
-          requires:
-            - install
-            - build_test
-            - test
-      - test_version_2.3.4:
-          requires:
-            - install
-            - build_test
-            - test
-      - test_version_2.4.2:
-          requires:
-            - install
-            - build_test
-            - test
-      - test_version_2.5.13:
+      - test_compat:
           requires:
             - install
             - build_test
