@@ -30,6 +30,7 @@
     "rollup-plugin-buble": "^0.19.2",
     "rollup-plugin-commonjs": "^8.3.0",
     "rollup-plugin-flow-no-whitespace": "^1.0.0",
+    "rollup-plugin-json": "^4.0.0",
     "rollup-plugin-node-resolve": "^3.0.3",
     "typescript": "^2.6.2"
   },
