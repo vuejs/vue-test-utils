@@ -5,9 +5,11 @@ set -e
 run() {
   echo "running unit tests with Vue $1"
   yarn add --pure-lockfile --non-interactive -W -D "vue@$1" "vue-template-compiler@$1" "vue-server-renderer@$1"
-  yarn test:unit
-  yarn test:unit:karma
+  yarn test:unit:only
+  yarn test:unit:karma:only
 }
+
+yarn build:test
 
 if [ "$1" ]; then
   run "$1"
