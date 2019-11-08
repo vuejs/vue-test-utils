@@ -68,7 +68,7 @@ it('fetches async when a button is clicked', done => {
 
 `setTimeout` 允许测试通过的原因是 Promise 回调的 microtask 队列会在处理 `setTimeout` 的回调的任务队列之前先被处理。也就是说在 `setTimeout` 的回调运行的时候，任何 microtask 队列上的 Promise 回调都已经执行过了。另一方面 `$nextTick` 会安排一个 microtask，但是因为 microtask 队列的处理方式是先进先出，所以也会保证回调在作出断言时已经被执行。更多的解释请移步[这里](https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/)。
 
-另一个解决方案是使用一个 `async` 函数配合 npm 包 `flush-promises`。`flush-promises` 会清除所有等待完成的 Promise 具柄。你可以 `await` 该 `flushPromiese` 调用，以此清除等待中的 Promise 并改进你的测试用例的可读性。
+另一个解决方案是使用一个 `async` 函数配合 npm 包 `flush-promises`。`flush-promises` 会清除所有等待完成的 Promise 具柄。你可以 `await` 该 `flushPromises` 调用，以此清除等待中的 Promise 并改进你的测试用例的可读性。
 
 更新后的测试看起来像这样：
 
