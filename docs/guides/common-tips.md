@@ -95,13 +95,13 @@ You can emit a custom event from a child component by accessing the instance.
 **Test**
 
 ```js
-import { shallowMount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import ParentComponent from '@/components/ParentComponent'
 import ChildComponent from '@/components/ChildComponent'
 
 describe('ParentComponent', () => {
   it("displays 'Emitted!' when custom event is emitted", () => {
-    const wrapper = shallowMount(ParentComponent)
+    const wrapper = mount(ParentComponent)
     wrapper.find(ChildComponent).vm.$emit('custom')
     expect(wrapper.html()).toContain('Emitted!')
   })
