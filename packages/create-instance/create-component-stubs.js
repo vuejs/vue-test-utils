@@ -38,6 +38,7 @@ function getCoreProperties(componentOptions: Component): Object {
   return {
     attrs: componentOptions.attrs,
     name: componentOptions.name,
+    model: componentOptions.model,
     props: componentOptions.props,
     on: componentOptions.on,
     key: componentOptions.key,

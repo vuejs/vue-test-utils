@@ -1,8 +1,12 @@
 ## props()
 
-Возвращает объект с входными параметрами `vm` для `Wrapper`.
+Возвращает объект с входными параметрами `vm` для `Wrapper`. Если `key` передан, метод вернёт значения свойства с именем `key`.
 
 **Обратите внимание что Wrapper должен содержать экземпляр Vue.**
+
+- **Принимает:**
+
+  - `{string} key` **опционально**
 
 - **Возвращает:** `{[prop: string]: any}`
 
@@ -18,4 +22,5 @@ const wrapper = mount(Foo, {
   }
 })
 expect(wrapper.props().bar).toBe('baz')
+expect(wrapper.props('bar')).toBe('baz')
 ```

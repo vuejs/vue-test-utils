@@ -1,4 +1,4 @@
-## exists()
+## exists
 
 断言 `Wrapper` 或 `WrapperArray` 是否存在。
 

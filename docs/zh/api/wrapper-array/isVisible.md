@@ -1,4 +1,4 @@
-## isVisible()
+## isVisible
 
 断言每个 `WrapperArray` 中的每个 `Wrapper` 是否可见。
 

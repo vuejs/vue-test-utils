@@ -1,4 +1,4 @@
-## text()
+## text
 
 返回 `Wrapper` 的文本内容。
 

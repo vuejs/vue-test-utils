@@ -182,18 +182,20 @@ test('renders correctly', () => {
 })
 ```
 
+Мы можем улучшить сохраненный снимок с помощью пользовательского сериализатора:
+
 ```bash
 npm install --save-dev jest-serializer-vue
 ```
 
-Затем добавьте конфигурацию в `package.json`:
+Затем настройте `jest-serializer-vue` в `package.json`:
 
 ```json
 {
   // ...
   "jest": {
     // ...
-    // serializer for snapshots
+    // сериализатор для снимков
     "snapshotSerializers": ["jest-serializer-vue"]
   }
 }

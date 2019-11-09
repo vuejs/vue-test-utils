@@ -1,4 +1,4 @@
-## isVueInstance()
+## isVueInstance
 
 断言 `Wrapper` 是 Vue 实例。
 

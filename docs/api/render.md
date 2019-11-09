@@ -13,7 +13,7 @@
     - `{Object|Array<string>} stubs`
     - `{Vue} localVue`
 
-- **Returns:** `{CheerioWrapper}`
+- **Returns:** `{Promise<CheerioWrapper>}`
 
 - **Options:**
 
@@ -36,8 +36,8 @@ import { render } from '@vue/server-test-utils'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {
-  it('renders a div', () => {
-    const wrapper = render(Foo)
+  it('renders a div', async () => {
+    const wrapper = await render(Foo)
     expect(wrapper.text()).toContain('<div></div>')
   })
 })
@@ -50,8 +50,8 @@ import { render } from '@vue/server-test-utils'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {
-  it('renders a div', () => {
-    const wrapper = render(Foo, {
+  it('renders a div', async () => {
+    const wrapper = await render(Foo, {
       propsData: {
         color: 'red'
       }
@@ -70,8 +70,8 @@ import Bar from './Bar.vue'
 import FooBar from './FooBar.vue'
 
 describe('Foo', () => {
-  it('renders a div', () => {
-    const wrapper = render(Foo, {
+  it('renders a div', async () => {
+    const wrapper = await render(Foo, {
       slots: {
         default: [Bar, FooBar],
         fooBar: FooBar, // Will match <slot name="FooBar" />,
@@ -90,9 +90,9 @@ import { render } from '@vue/server-test-utils'
 import Foo from './Foo.vue'
 
 describe('Foo', () => {
-  it('renders a div', () => {
+  it('renders a div', async () => {
     const $route = { path: 'http://www.example-path.com' }
-    const wrapper = render(Foo, {
+    const wrapper = await render(Foo, {
       mocks: {
         $route
       }

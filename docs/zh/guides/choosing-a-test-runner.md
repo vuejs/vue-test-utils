@@ -2,11 +2,11 @@
 
 测试运行器 (test runner) 就是运行测试的程序。
 
-主流的 JavaScript 测试运行器有很多，但 Vue Test Utils 都能够支持。它是测试运行器无关的。
+主流的 JavaScript 测试运行器有很多，但 Vue Test Utils 都能够支持。它是与测试运行器无关的。
 
 当然在我们选用测试运行器的时候也需要考虑一些事项：功能集合、性能和对单文件组件预编译的支持等。在仔细比对现有的库之后，我们推荐其中的两个测试运行器：
 
-- [Jest](https://jestjs.io/docs/en/getting-started.html#content) 是功能最全的测试运行器。它所需的配置是最少的，默认安装了 JSDOM，内置断言且命令行的用户体验非常好。不过你需要一个能够将单文件组件导入到测试中的预处理器。我们已经创建了 `vue-jest` 预处理器来处理最常见的单文件组件特性，但仍不是 `vue-loader` 100% 的功能。
+- [Jest](https://jestjs.io/docs/zh-Hans/getting-started) 是功能最全的测试运行器。它所需的配置是最少的，默认安装了 JSDOM，内置断言且命令行的用户体验非常好。不过你需要一个能够将单文件组件导入到测试中的预处理器。我们已经创建了 `vue-jest` 预处理器来处理最常见的单文件组件特性，但仍不是 `vue-loader` 100% 的功能。
 
 - [mocha-webpack](https://github.com/zinserjan/mocha-webpack) 是一个 webpack + Mocha 的包裹器，同时包含了更顺畅的接口和侦听模式。这些设置的好处在于我们能够通过 webpack + `vue-loader` 得到完整的单文件组件支持，但这本身是需要很多配置的。
 

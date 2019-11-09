@@ -340,8 +340,12 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     if (vueVersion > 2.3) {
       expect(wrapper.vm.$attrs).to.eql({ height: '50px', extra: 'attr' })
     }
+
     expect(wrapper.html()).to.equal(
-      `<div height="50px" extra="attr"><p class="prop-1">prop1</p> <p class="prop-2"></p></div>`
+      '<div height="50px" extra="attr">\n' +
+        '  <p class="prop-1">prop1</p>\n' +
+        '  <p class="prop-2"></p>\n' +
+        '</div>'
     )
   })
 

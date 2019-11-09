@@ -1,4 +1,4 @@
-## props([key])
+## props
 
 返回 `Wrapper` `vm` 的 props 对象。如果提供了 `key`，则返回这个 `key` 对应的值。
 

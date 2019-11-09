@@ -27,3 +27,7 @@ declare module 'cheerio' {
 declare module 'semver' {
   declare module.exports: any
 }
+
+declare module 'pretty' {
+  declare module.exports: any
+}

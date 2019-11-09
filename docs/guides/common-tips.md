@@ -119,13 +119,13 @@ You can emit a custom event from a child component by accessing the instance.
 **Test**
 
 ```js
-import { shallowMount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import ParentComponent from '@/components/ParentComponent'
 import ChildComponent from '@/components/ChildComponent'
 
 describe('ParentComponent', () => {
   it("displays 'Emitted!' when custom event is emitted", () => {
-    const wrapper = shallowMount(ParentComponent)
+    const wrapper = mount(ParentComponent)
     wrapper.find(ChildComponent).vm.$emit('custom')
     expect(wrapper.html()).toContain('Emitted!')
   })
@@ -167,7 +167,7 @@ Some of the components may rely on features injected by a global plugin or mixin
 If you are writing tests for components in a specific app, you can setup the same global plugins and mixins once in the entry of your tests. But in some cases, for example testing a generic component suite that may get shared across different apps, it's better to test your components in a more isolated setup, without polluting the global `Vue` constructor. We can use the [`createLocalVue`](../api/createLocalVue.md) method to achieve that:
 
 ```js
-import { createLocalVue } from '@vue/test-utils'
+import { createLocalVue, mount } from '@vue/test-utils'
 
 // create an extended `Vue` constructor
 const localVue = createLocalVue()

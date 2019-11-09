@@ -71,8 +71,8 @@ import YesNoComponent from '@/components/YesNoComponent'
 import { mount } from '@vue/test-utils'
 import sinon from 'sinon'
 
-describe('点击事件', () => {
-  it('在 yes 按钮上点击会调用我们的方法并附带参数 "yes"', () => {
+describe('Click event', () => {
+  it('Click on yes button calls our method with argument "yes"', () => {
     const spy = sinon.spy()
     const wrapper = mount(YesNoComponent, {
       propsData: {
@@ -101,7 +101,6 @@ describe('点击事件', () => {
   const KEY_DOWN = 40
   const KEY_UP = 38
   const ESCAPE = 27
-  const CHAR_A = 65
 
   export default {
     data() {
@@ -130,7 +129,7 @@ describe('点击事件', () => {
         if (e.keyCode === KEY_UP) {
           this.increment()
         }
-        if (e.which === CHAR_A) {
+        if (e.key === 'a') {
           this.quantity = 13
         }
       }
@@ -151,36 +150,36 @@ describe('点击事件', () => {
 import QuantityComponent from '@/components/QuantityComponent'
 import { mount } from '@vue/test-utils'
 
-describe('键盘事件测试', () => {
-  it('默认的数量是零', () => {
+describe('Key event tests', () => {
+  it('Quantity is zero by default', () => {
     const wrapper = mount(QuantityComponent)
     expect(wrapper.vm.quantity).toBe(0)
   })
 
-  it('上按键将数量加 1', () => {
+  it('Up arrow key increments quantity by 1', () => {
     const wrapper = mount(QuantityComponent)
     wrapper.trigger('keydown.up')
     expect(wrapper.vm.quantity).toBe(1)
   })
 
-  it('下按键将数量减 1', () => {
+  it('Down arrow key decrements quantity by 1', () => {
     const wrapper = mount(QuantityComponent)
     wrapper.vm.quantity = 5
     wrapper.trigger('keydown.down')
     expect(wrapper.vm.quantity).toBe(4)
   })
 
-  it('ESC 键将数量设置为 0', () => {
+  it('Escape sets quantity to 0', () => {
     const wrapper = mount(QuantityComponent)
     wrapper.vm.quantity = 5
     wrapper.trigger('keydown.esc')
     expect(wrapper.vm.quantity).toBe(0)
   })
 
-  it('魔术字符 "a" 键将数量设置为 13', () => {
+  it('Magic character "a" sets quantity to 13', () => {
     const wrapper = mount(QuantityComponent)
     wrapper.trigger('keydown', {
-      which: 65
+      key: 'a'
     })
     expect(wrapper.vm.quantity).toBe(13)
   })

@@ -1,4 +1,4 @@
-## setProps(props)
+## setProps
 
 - **参数：**
 

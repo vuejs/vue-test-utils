@@ -1,6 +1,6 @@
-import { describeWithMountingMethods } from '~resources/utils'
+import { describeWithShallowAndMount } from '~resources/utils'
 
-describeWithMountingMethods('options.parentComponent', mountingMethod => {
+describeWithShallowAndMount('options.parentComponent', mountingMethod => {
   it('mounts component with $parent set to options.parentComponent', () => {
     const Parent = {
       data: () => ({
@@ -13,9 +13,7 @@ describeWithMountingMethods('options.parentComponent', mountingMethod => {
     const wrapper = mountingMethod(TestComponent, {
       parentComponent: Parent
     })
-    const HTML =
-      mountingMethod.name === 'renderToString' ? wrapper : wrapper.html()
-    expect(HTML).to.contain('Parent Name')
+    expect(wrapper.html()).to.contain('Parent Name')
   })
 
   it('validates parentComponent option', () => {

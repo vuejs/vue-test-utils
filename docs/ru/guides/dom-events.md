@@ -41,14 +41,17 @@ wrapper.trigger('click', { button: 0 })
     <button class="no" @click="callNo">No</button>
   </div>
 </template>
+
 <script>
   export default {
     name: 'YesNoComponent',
+
     props: {
       callMe: {
         type: Function
       }
     },
+
     methods: {
       callYes() {
         this.callMe('yes')
@@ -69,7 +72,7 @@ import { mount } from '@vue/test-utils'
 import sinon from 'sinon'
 
 describe('Click event', () => {
-  it('Нажатие на кнопке yes вызывает наш метод с аргументом "yes"', () => {
+  it('Нажатие на кнопку yes вызывает наш метод с аргументом "yes"', () => {
     const spy = sinon.spy()
     const wrapper = mount(YesNoComponent, {
       propsData: {
@@ -93,11 +96,11 @@ describe('Click event', () => {
 <template>
   <input type="text" @keydown.prevent="onKeydown" v-model="quantity" />
 </template>
+
 <script>
   const KEY_DOWN = 40
   const KEY_UP = 38
   const ESCAPE = 27
-  const CHAR_A = 65
 
   export default {
     data() {
@@ -105,6 +108,7 @@ describe('Click event', () => {
         quantity: 0
       }
     },
+
     methods: {
       increment() {
         this.quantity += 1
@@ -125,11 +129,12 @@ describe('Click event', () => {
         if (e.keyCode === KEY_UP) {
           this.increment()
         }
-        if (e.which === CHAR_A) {
+        if (e.key === 'a') {
           this.quantity = 13
         }
       }
     },
+
     watch: {
       quantity: function(newValue) {
         this.$emit('input', newValue)
@@ -151,7 +156,7 @@ describe('Тестирование событий клавиш', () => {
     expect(wrapper.vm.quantity).toBe(0)
   })
 
-  it('Клавиша вверх устанавливает quantity равным 1', () => {
+  it('Клавиша вверх увеличивает quantity на 1', () => {
     const wrapper = mount(QuantityComponent)
     wrapper.trigger('keydown.up')
     expect(wrapper.vm.quantity).toBe(1)
@@ -174,7 +179,7 @@ describe('Тестирование событий клавиш', () => {
   it('Магический символ "a" устанавливает quantity равным 13', () => {
     const wrapper = mount(QuantityComponent)
     wrapper.trigger('keydown', {
-      which: 65
+      key: 'a'
     })
     expect(wrapper.vm.quantity).toBe(13)
   })

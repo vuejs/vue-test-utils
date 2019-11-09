@@ -1,6 +1,6 @@
 ## trigger
 
-Triggers an event on every `Wrapper` in the `WrapperArray` DOM node.
+Triggers an [event](../../guides/dom-events.md#trigger-events) on every `Wrapper` in the `WrapperArray` DOM node.
 
 **Note every `Wrapper` must contain a Vue instance.**
 

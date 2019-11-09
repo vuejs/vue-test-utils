@@ -1,4 +1,4 @@
-## classes([className])
+## classes
 
 返回 `Wrapper` DOM 节点的 class。
 

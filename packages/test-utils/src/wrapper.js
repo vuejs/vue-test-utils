@@ -1,6 +1,7 @@
 // @flow
 
 import Vue from 'vue'
+import pretty from 'pretty'
 import getSelector from './get-selector'
 import { REF_SELECTOR, FUNCTIONAL_OPTIONS, VUE_VERSION } from 'shared/consts'
 import config from './config'
@@ -124,16 +125,22 @@ export default class Wrapper implements BaseWrapper {
    * Calls destroy on vm
    */
   destroy(): void {
-    if (!this.isVueInstance()) {
-      throwError(`wrapper.destroy() can only be called on a Vue instance`)
+    if (!this.isVueInstance() && !this.isFunctionalComponent) {
+      throwError(
+        `wrapper.destroy() can only be called on a Vue instance or ` +
+          `functional component.`
+      )
     }
 
     if (this.element.parentNode) {
       this.element.parentNode.removeChild(this.element)
     }
-    // $FlowIgnore
-    this.vm.$destroy()
-    throwIfInstancesThrew(this.vm)
+
+    if (this.isVueInstance()) {
+      // $FlowIgnore
+      this.vm.$destroy()
+      throwIfInstancesThrew(this.vm)
+    }
   }
 
   /**
@@ -216,7 +223,7 @@ export default class Wrapper implements BaseWrapper {
    * Returns HTML of element as a string
    */
   html(): string {
-    return this.element.outerHTML
+    return pretty(this.element.outerHTML)
   }
 
   /**
@@ -263,9 +270,10 @@ export default class Wrapper implements BaseWrapper {
     let element = this.element
     while (element) {
       if (
-        element.style &&
-        (element.style.visibility === 'hidden' ||
-          element.style.display === 'none')
+        element.hidden ||
+        (element.style &&
+          (element.style.visibility === 'hidden' ||
+            element.style.display === 'none'))
       ) {
         return false
       }

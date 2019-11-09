@@ -59,7 +59,7 @@ module.exports = function(config) {
 
 我们需要用 webpack 预处理文件。为此，我们将 webpack 添加为预处理器，并引入我们的 webpack 配置。我们可以在项目基础中使用该 webpack 配置文件而无需任何修改。
 
-在我们的配置中，我们在 Chrome 中运行测试。如果想添加其它浏览器，可查阅[Karma 文档的浏览器章节](http://karma-runner.github.io/2.0/config/browsers.html)。
+在我们的配置中，我们在 Chrome 中运行测试。如果想添加其它浏览器，可查阅[Karma 文档的浏览器章节](http://karma-runner.github.io/3.0/config/browsers.html)。
 
 ### 选用一个断言库
 

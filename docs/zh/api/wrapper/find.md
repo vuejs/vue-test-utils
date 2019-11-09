@@ -1,4 +1,4 @@
-## find(selector)
+## find
 
 返回匹配选择器的第一个 DOM 节点或 Vue 组件的 `Wrapper`。
 

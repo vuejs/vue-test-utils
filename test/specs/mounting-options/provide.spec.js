@@ -1,10 +1,10 @@
 import { config } from '~vue/test-utils'
 import ComponentWithInject from '~resources/components/component-with-inject.vue'
 import { injectSupported } from '~resources/utils'
-import { describeWithMountingMethods } from '~resources/utils'
+import { describeWithShallowAndMount } from '~resources/utils'
 import { itDoNotRunIf, itSkipIf } from 'conditional-specs'
 
-describeWithMountingMethods('options.provide', mountingMethod => {
+describeWithShallowAndMount('options.provide', mountingMethod => {
   let configProvideSave
 
   beforeEach(() => {
@@ -25,9 +25,7 @@ describeWithMountingMethods('options.provide', mountingMethod => {
       const wrapper = mountingMethod(ComponentWithInject, {
         provide: { fromMount: 'objectValue' }
       })
-      const HTML =
-        mountingMethod.name === 'renderToString' ? wrapper : wrapper.html()
-      expect(HTML).to.contain('objectValue')
+      expect(wrapper.html()).to.contain('objectValue')
     }
   )
 
@@ -42,9 +40,7 @@ describeWithMountingMethods('options.provide', mountingMethod => {
           }
         }
       })
-      const HTML =
-        mountingMethod.name === 'renderToString' ? wrapper : wrapper.html()
-      expect(HTML).to.contain('functionValue')
+      expect(wrapper.html()).to.contain('functionValue')
     }
   )
 
@@ -72,10 +68,7 @@ describeWithMountingMethods('options.provide', mountingMethod => {
       config.provide['fromMount'] = 'globalConfig'
 
       const wrapper = mountingMethod(ComponentWithInject)
-      const HTML =
-        mountingMethod.name === 'renderToString' ? wrapper : wrapper.html()
-
-      expect(HTML).to.contain('globalConfig')
+      expect(wrapper.html()).to.contain('globalConfig')
     }
   )
 
@@ -88,24 +81,18 @@ describeWithMountingMethods('options.provide', mountingMethod => {
       const wrapper = mountingMethod(ComponentWithInject, {
         provide: { fromMount: '_' }
       })
-      const HTML =
-        mountingMethod.name === 'renderToString' ? wrapper : wrapper.html()
 
-      expect(HTML).to.contain('_')
+      expect(wrapper.html()).to.contain('_')
     }
   )
 
-  itSkipIf(
-    mountingMethod.name === 'renderToString',
-    'config with function throws',
-    () => {
-      config.provide = () => {}
+  it('config with function throws', () => {
+    config.provide = () => {}
 
-      expect(() => {
-        mountingMethod(ComponentWithInject, {
-          provide: { fromMount: '_' }
-        })
-      }).to.throw()
-    }
-  )
+    expect(() => {
+      mountingMethod(ComponentWithInject, {
+        provide: { fromMount: '_' }
+      })
+    }).to.throw()
+  })
 })

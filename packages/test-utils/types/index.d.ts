@@ -1,10 +1,4 @@
-import Vue, { VNodeData, ComponentOptions, FunctionalComponentOptions } from 'vue'
-
-// TODO: use core repo's Component type after https://github.com/vuejs/vue/pull/7369 is released
-export type Component =
-  | typeof Vue
-  | FunctionalComponentOptions<{}>
-  | ComponentOptions<never, {}, {}, {}, {}>
+import Vue, { VNodeData, ComponentOptions, FunctionalComponentOptions, Component } from 'vue'
 
 /**
  * Utility type to declare an extended Vue constructor
@@ -28,7 +22,7 @@ type Slots = {
  * If it is an array of string, the specified children are replaced by blank components
  */
 type Stubs = {
-  [key: string]: Component | string | true
+  [key: string]: Component | string | boolean
 } | string[]
 
 /**

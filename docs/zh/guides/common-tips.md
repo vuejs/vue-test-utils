@@ -68,7 +68,7 @@ expect(wrapper.emitted().foo[1]).toEqual([123])
 <template>
   <div>
     <child-component @custom="onCustom" />
-    <p v-if="emitted">触发！</p>
+    <p v-if="emitted">Emitted!</p>
   </div>
 </template>
 
@@ -202,4 +202,4 @@ mount(Component, {
 
 ### 探测样式
 
-当你的测试运行在 `jsdom` 中时，可以只探测到内联样式。
+当你的测试运行在 `jsdom` 中时，只能探测到内联样式。
