@@ -20,10 +20,6 @@ Vue Test Utils — это API основанное на использовани
 
 `Boolean` (только для чтения): true, если компонент прикреплен к DOM при монтировании.
 
-#### `options.sync`
-
-`Boolean`: True, если `sync` в опциях монтирования не было `false`
-
 ## Методы
 
 !!!include(docs/ru/api/wrapper/attributes.md)!!!

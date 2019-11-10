@@ -20,10 +20,6 @@ A `Wrapper` is an object that contains a mounted component or vnode and methods 
 
 `Boolean` (read-only): True if component is attached to document when rendered.
 
-#### `options.sync`
-
-`Boolean` (read-only): True if `sync` in mounting options was not `false`
-
 ## Methods
 
 !!!include(docs/api/wrapper/attributes.md)!!!

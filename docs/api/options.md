@@ -21,7 +21,6 @@ These options will be merged with the component's existing options when mounted 
 - [`listeners`](#listeners)
 - [`parentComponent`](#parentcomponent)
 - [`provide`](#provide)
-- [`sync`](#sync)
 
 ## context
 
@@ -289,14 +288,6 @@ const wrapper = shallowMount(Component, {
 
 expect(wrapper.text()).toBe('fooValue')
 ```
-
-## sync
-
-- type: `boolean`
-- default: `true`
-
-When `sync` is `true`, the Vue component is rendered synchronously.  
-When `sync` is `false`, the Vue component is rendered asynchronously.
 
 ## Other options
 

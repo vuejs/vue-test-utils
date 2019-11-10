@@ -22,10 +22,8 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     const Constructor = Vue.extend(Component)
     const vm = new Constructor().$mount()
     const wrapper = createWrapper(vm, {
-      sync: true,
       attachToDocument: true
     })
     expect(wrapper.options.attachToDocument).to.equal(true)
-    expect(wrapper.options.sync).to.equal(true)
   })
 })
