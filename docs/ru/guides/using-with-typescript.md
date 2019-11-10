@@ -26,7 +26,7 @@ $ vue create hello-world
 Если вы хотите получить более подробное руководство по настройке Vue с помощью TypeScript, ознакомьтесь с [руководством для начинающих по TypeScript во Vue](https://github.com/Microsoft/TypeScript-Vue-Starter).
 :::
 
-Следующий шаг — добавить Jest к проекту.
+Следующий шаг — добавить Jest в проект.
 
 ### Настройка Jest
 
@@ -90,7 +90,7 @@ npm install --save-dev vue-jest
 $ npm install --save-dev ts-jest
 ```
 
-Затем нам нужно указать Jest обработать тестовые файлы TypeScript с помощью `ts-jest`, добавив запись в `jest.transform` в `package.json`:
+Затем нам нужно указать Jest обрабатывать тестовые файлы TypeScript с помощью `ts-jest`, добавив запись в `jest.transform` в `package.json`:
 
 ```json
 {
@@ -125,7 +125,7 @@ $ npm install --save-dev ts-jest
 }
 ```
 
-Jest рекомендует создать каталог `__tests__` рядом с тестируемым кодом, но не стесняйтесь структурировать ваши тесты по своему усмотрению. Просто остерегайтесь того, что Jest создаст каталог `__snapshots__` рядом с тестовыми файлами, которые выполняют тестирование моментальными снимками.
+Jest рекомендует создать каталог `__tests__` рядом с тестируемым кодом, но не стесняйтесь структурировать ваши тесты по своему усмотрению. Просто помните, что Jest создаст каталог `__snapshots__` рядом с тестовыми файлами, которые выполняют тестирование моментальными снимками.
 
 ### Написание модульного теста
 
@@ -139,7 +139,7 @@ import { shallowMount } from '@vue/test-utils'
 import HelloWorld from '../HelloWorld.vue'
 
 describe('HelloWorld.vue', () => {
-  test('renders props.msg when passed', () => {
+  test('отрисовывает props.msg, если они переданы', () => {
     const msg = 'new message'
     const wrapper = shallowMount(HelloWorld, {
       propsData: { msg }

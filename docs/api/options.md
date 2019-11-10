@@ -1,6 +1,13 @@
 # Mounting Options
 
-Options for `mount` and `shallowMount`. The options object can contain both Vue Test Utils mounting options and other options.
+Options for `mount` and `shallowMount`.
+
+:::tip
+Aside from the options documented below, the `options` object can contain any option that would be valid in a call to `new Vue ({ /*options here*/ })`.
+These options will be merged with the component's existing options when mounted with `mount` / `shallowMount`
+
+[See other options for examples](#other-options)
+:::
 
 - [`context`](#context)
 - [`slots`](#slots)
@@ -197,6 +204,9 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 - default: `false`
 
 Component will be attached to DOM when rendered if set to `true`.
+
+When attaching to the DOM, you should call `wrapper.destroy()` at the end of your test to
+remove the rendered elements from the document and destroy the component instance.
 
 ## attrs
 

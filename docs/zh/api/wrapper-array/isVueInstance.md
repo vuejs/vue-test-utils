@@ -1,4 +1,4 @@
-## isVueInstance()
+## isVueInstance
 
 断言 `WrapperArray` 的每个 `Wrapper` 都是 Vue 实例。
 

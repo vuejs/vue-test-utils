@@ -1,4 +1,4 @@
-## setMethods(methods)
+## setMethods
 
 为 `WrapperArray` 的每个 `Wrapper` `vm` 都设置方法并强行更新。
 

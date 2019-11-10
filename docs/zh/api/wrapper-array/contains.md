@@ -1,4 +1,4 @@
-### contains(selector)
+### contains
 
 断言 `WrapperArray` 的每个包裹器都包含选择器。
 

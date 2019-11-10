@@ -27,6 +27,30 @@ const wrapper = shallowMount(Component)
 wrapper.vm // the mounted Vue instance
 ```
 
+### Using `nextTick`
+
+Vue batches watcher updates and runs them asynchronously on the "next tick".
+
+In practice, this means you must wait for updates to run after you set a reactive property. You can wait for updates with `Vue.nextTick()`:
+
+```js
+it('updates text', async () => {
+  const wrapper = mount(Component)
+  wrapper.trigger('click')
+  await Vue.nextTick()
+  expect(wrapper.text()).toContain('updated')
+})
+```
+
+The following methods often cause watcher updates that require you to wait for the next tick:
+
+- `setChecked`
+- `setData`
+- `setSelected`
+- `setProps`
+- `setValue`
+- `trigger`
+
 ### Asserting Emitted Events
 
 Each mounted wrapper automatically records all events emitted by the underlying Vue instance. You can retrieve the recorded events using the `wrapper.emitted()` method:
@@ -95,13 +119,13 @@ You can emit a custom event from a child component by accessing the instance.
 **Test**
 
 ```js
-import { shallowMount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import ParentComponent from '@/components/ParentComponent'
 import ChildComponent from '@/components/ChildComponent'
 
 describe('ParentComponent', () => {
   it("displays 'Emitted!' when custom event is emitted", () => {
-    const wrapper = shallowMount(ParentComponent)
+    const wrapper = mount(ParentComponent)
     wrapper.find(ChildComponent).vm.$emit('custom')
     expect(wrapper.html()).toContain('Emitted!')
   })
@@ -143,7 +167,7 @@ Some of the components may rely on features injected by a global plugin or mixin
 If you are writing tests for components in a specific app, you can setup the same global plugins and mixins once in the entry of your tests. But in some cases, for example testing a generic component suite that may get shared across different apps, it's better to test your components in a more isolated setup, without polluting the global `Vue` constructor. We can use the [`createLocalVue`](../api/createLocalVue.md) method to achieve that:
 
 ```js
-import { createLocalVue } from '@vue/test-utils'
+import { createLocalVue, mount } from '@vue/test-utils'
 
 // create an extended `Vue` constructor
 const localVue = createLocalVue()

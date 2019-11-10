@@ -96,7 +96,7 @@ require('jsdom-global')()
 
 [Chai](http://chaijs.com/) 是一个流行的断言库，经常和 Mocha 配合使用。你可能也想把 [Sinon](http://sinonjs.org/) 用于创建间谍和存根。
 
-另外你也可以使用 `expect`，它现在是 Jest 的一部分，且在 Jest 文档里暴露了[完全相同的 API](http://facebook.github.io/jest/docs/en/expect.html#content)。
+另外你也可以使用 `expect`，它现在是 Jest 的一部分，且在 Jest 文档里暴露了[完全相同的 API](https://jestjs.io/docs/zh-Hans/expect)。
 
 这里我们将使用 `expect` 且令其全局可用，这样我们就不需要在每个测试文件里导入它了：
 
@@ -154,7 +154,7 @@ import { shallowMount } from '@vue/test-utils'
 import Counter from '../src/Counter.vue'
 
 describe('Counter.vue', () => {
-  it('计数器在点击按钮时自增', () => {
+  it('increments count when button is clicked', () => {
     const wrapper = shallowMount(Counter)
     wrapper.find('button').trigger('click')
     expect(wrapper.find('div').text()).toMatch('1')
@@ -181,4 +181,4 @@ npm run test
 - [mocha-webpack](http://zinserjan.github.io/mocha-webpack/)
 - [Chai](http://chaijs.com/)
 - [Sinon](http://sinonjs.org/)
-- [jest/expect](http://facebook.github.io/jest/docs/en/expect.html#content)
+- [jest/expect](https://jestjs.io/docs/zh-Hans/expect)

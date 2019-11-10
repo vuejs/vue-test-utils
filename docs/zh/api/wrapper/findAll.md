@@ -1,4 +1,4 @@
-## findAll(selector)
+## findAll
 
 返回一个 [`WrapperArray`](../wrapper-array/)。
 

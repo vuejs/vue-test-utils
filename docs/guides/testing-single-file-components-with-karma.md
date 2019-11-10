@@ -59,7 +59,7 @@ This file is used to configure Karma.
 
 We need to preprocess our files with webpack. to do that, we add webpack as a preprocessor, and include our webpack config. We can use the webpack config file in the base of the project without changing anything.
 
-In our configuration, we run the tests in Chrome. To add extra browsers, see [the Browsers section in the Karma docs](http://karma-runner.github.io/2.0/config/browsers.html).
+In our configuration, we run the tests in Chrome. To add extra browsers, see [the Browsers section in the Karma docs](http://karma-runner.github.io/3.0/config/browsers.html).
 
 ### Picking an Assertion Library
 

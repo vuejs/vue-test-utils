@@ -36,6 +36,7 @@ function getVueTemplateCompilerHelpers(
     helpers[name] = vue._renderProxy[name]
   })
   helpers.$createElement = vue._renderProxy.$createElement
+  helpers.$set = vue._renderProxy.$set
   return helpers
 }
 

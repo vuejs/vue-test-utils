@@ -77,5 +77,6 @@ Vue Test Utils — официальная библиотека модульно�
   - [Компоненты](api/components/)
     - [RouterLinkStub](api/components/RouterLinkStub.md)
   - [Селекторы](api/selectors.md)
+  - [createWrapper](api/createWrapper.md)
   - [createLocalVue](api/createLocalVue.md)
   - [Конфигурация](api/config.md)

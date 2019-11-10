@@ -59,7 +59,7 @@ module.exports = function(config) {
 
 ファイルを Webpack で前処理する必要があります。そのために、 Webpack をプリプロセッサとして加えます。そして、 Webpack の設定を含めます。プロジェクトに元々あった Webpack の設定ファイルを変更なしで使用することができます。
 
-この設定では、 Chrome でテストを実行します。他のブラウザを加える方法は [Karma のドキュメントにあるブラウザセクション](http://karma-runner.github.io/2.0/config/browsers.html) を見てください。
+この設定では、 Chrome でテストを実行します。他のブラウザを加える方法は [Karma のドキュメントにあるブラウザセクション](http://karma-runner.github.io/3.0/config/browsers.html) を見てください。
 
 ### アサーションライブラリを選ぶ
 

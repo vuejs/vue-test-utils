@@ -1,4 +1,4 @@
-## emittedByOrder()
+## emittedByOrder
 
 返回一个包含由 `Wrapper` `vm` 触发的自定义事件的数组。
 

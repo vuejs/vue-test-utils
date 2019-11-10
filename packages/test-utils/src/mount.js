@@ -5,6 +5,7 @@ import { throwIfInstancesThrew, addGlobalErrorHandler } from './error'
 import { mergeOptions } from 'shared/merge-options'
 import config from './config'
 import warnIfNoWindow from './warn-if-no-window'
+import polyfill from './polyfill'
 import createWrapper from './create-wrapper'
 import createLocalVue from './create-local-vue'
 import { validateOptions } from 'shared/validate-options'
@@ -14,6 +15,8 @@ Vue.config.devtools = false
 
 export default function mount(component, options = {}) {
   warnIfNoWindow()
+
+  polyfill()
 
   addGlobalErrorHandler(Vue)
 

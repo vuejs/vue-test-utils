@@ -1,4 +1,4 @@
-## trigger(eventType [, options ])
+## trigger
 
 在该 `Wrapper` DOM 节点上触发一个事件。
 
@@ -25,6 +25,10 @@ wrapper.trigger('click')
 
 wrapper.trigger('click', {
   button: 0
+})
+
+wrapper.trigger('click', {
+  ctrlKey: true // 用于测试 @click.ctrl 处理函数
 })
 
 expect(clickHandler.called).toBe(true)

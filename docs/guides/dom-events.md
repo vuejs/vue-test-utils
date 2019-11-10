@@ -101,7 +101,6 @@ This component allows to increment/decrement the quantity using various keys.
   const KEY_DOWN = 40
   const KEY_UP = 38
   const ESCAPE = 27
-  const CHAR_A = 65
 
   export default {
     data() {
@@ -130,7 +129,7 @@ This component allows to increment/decrement the quantity using various keys.
         if (e.keyCode === KEY_UP) {
           this.increment()
         }
-        if (e.which === CHAR_A) {
+        if (e.key === 'a') {
           this.quantity = 13
         }
       }
@@ -180,7 +179,7 @@ describe('Key event tests', () => {
   it('Magic character "a" sets quantity to 13', () => {
     const wrapper = mount(QuantityComponent)
     wrapper.trigger('keydown', {
-      which: 65
+      key: 'a'
     })
     expect(wrapper.vm.quantity).toBe(13)
   })
@@ -208,7 +207,3 @@ A key name after the dot `keydown.up` is translated to a `keyCode`. This is supp
 | home      | 36       |
 | pageup    | 33       |
 | pagedown  | 34       |
-
-### Important
-
-Vue Test Utils triggers event synchronously. Consequently, `Vue.nextTick` is not required.

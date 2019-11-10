@@ -102,15 +102,29 @@ it('button click should increment the count', () => {
 })
 ```
 
-### What about `nextTick`?
+In order to test that the counter text has updated, we need to learn about `nextTick`.
 
-Vue batches pending DOM updates and applies them asynchronously to prevent unnecessary re-renders caused by multiple data mutations. This is why in practice we often have to use `Vue.nextTick` to wait until Vue has performed the actual DOM update after we trigger some state change.
+### Using `nextTick`
 
-To simplify usage, Vue Test Utils applies all updates synchronously so you don't need to use `Vue.nextTick` to wait for DOM updates in your tests.
+Vue batches pending DOM updates and applies them asynchronously to prevent unnecessary re-renders caused by multiple data mutations.
 
-_Note: `nextTick` is still necessary when you need to explictly advance the event loop, for operations such as asynchronous callbacks or promise resolution._
+_You can read more about asynchronous updates in the [Vue docs](https://vuejs.org/v2/guide/reactivity.html#Async-Update-Queue)_
 
-If you do still need to use `nextTick` in your test files, be aware that any errors thrown inside it may not be caught by your test runner as it uses promises internally. There are two approaches to fixing this: either you can set the `done` callback as Vue's global error handler at the start of the test, or you can call `nextTick` without an argument and return it as a promise:
+We need to use `Vue.nextTick()` to wait until Vue has performed the DOM update after we set a reactive property. In the counter example, setting the `count` property schedules a DOM update to run on the next tick.
+
+We can `await` `Vue.nextTick()` by writing the tests in an async function:
+
+```js
+it('button click should increment the count text', async () => {
+  expect(wrapper.text()).toContain('0')
+  const button = wrapper.find('button')
+  button.trigger('click')
+  await Vue.nextTick()
+  expect(wrapper.text()).toContain('1')
+})
+```
+
+When you use `nextTick` in your test files, be aware that any errors thrown inside it may not be caught by your test runner as it uses promises internally. There are two approaches to fixing this: either you can set the `done` callback as Vue's global error handler at the start of the test, or you can call `nextTick` without an argument and return it as a promise:
 
 ```js
 // this will not be caught
@@ -121,7 +135,7 @@ it('will time out', done => {
   })
 })
 
-// the two following tests will work as expected
+// the three following tests will work as expected
 it('will catch the error using done', done => {
   Vue.config.errorHandler = done
   Vue.nextTick(() => {
@@ -134,6 +148,11 @@ it('will catch the error using a promise', () => {
   return Vue.nextTick().then(function() {
     expect(true).toBe(false)
   })
+})
+
+it('will catch the error using async/await', async () => {
+  await Vue.nextTick()
+  expect(true).toBe(false)
 })
 ```
 

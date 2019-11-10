@@ -1,4 +1,4 @@
-## name()
+## name
 
 如果 `Wrapper` 包含一个 Vue 实例则返回组件名，否则返回 `Wrapper` DOM 节点的标签名。
 

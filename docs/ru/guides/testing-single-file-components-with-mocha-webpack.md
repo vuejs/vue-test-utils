@@ -1,4 +1,4 @@
-## Тестирование однофайловых компонентов с Mocha + webpack
+## Тестирование однофайловых компонентов с Mocha и webpack
 
 > Пример проекта для этой конфигурации доступен на [GitHub](https://github.com/vuejs/vue-test-utils-mocha-webpack-example).
 

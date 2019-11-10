@@ -18,7 +18,7 @@ A `Wrapper` is an object that contains a mounted component or vnode and methods 
 
 #### `options.attachedToDocument`
 
-`Boolean` (read-only): True if `attachedToDocument` in mounting options was `true`
+`Boolean` (read-only): True if component is attached to document when rendered.
 
 ## Methods
 

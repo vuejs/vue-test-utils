@@ -58,6 +58,56 @@ expect(wrapper.emitted().foo[1]).toEqual([123])
 
 Вы также можете получить массив событий в порядке их вызова с помощью [`wrapper.emittedByOrder()`](../api/wrapper/emittedByOrder.md).
 
+### События дочерних компонентов
+
+Вы можете создавать пользовательские события в дочерних компонентах получая доступ к экземпляру.
+
+**Тестируемый компонент**
+
+```html
+<template>
+  <div>
+    <child-component @custom="onCustom" />
+    <p v-if="emitted">Emitted!</p>
+  </div>
+</template>
+
+<script>
+  import ChildComponent from './ChildComponent'
+
+  export default {
+    name: 'ParentComponent',
+    components: { ChildComponent },
+    data() {
+      return {
+        emitted: false
+      }
+    },
+    methods: {
+      onCustom() {
+        this.emitted = true
+      }
+    }
+  }
+</script>
+```
+
+**Тест**
+
+```js
+import { shallowMount } from '@vue/test-utils'
+import ParentComponent from '@/components/ParentComponent'
+import ChildComponent from '@/components/ChildComponent'
+
+describe('ParentComponent', () => {
+  it("displays 'Emitted!' when custom event is emitted", () => {
+    const wrapper = shallowMount(ParentComponent)
+    wrapper.find(ChildComponent).vm.$emit('custom')
+    expect(wrapper.html()).toContain('Emitted!')
+  })
+})
+```
+
 ### Манипулирование состоянием компонента
 
 Вы можете напрямую манипулировать состоянием компонента с помощью методов `setData` или `setProps` на обёртке:

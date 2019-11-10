@@ -1,4 +1,4 @@
-## setProps(props)
+## setProps
 
 为 `WrapperArray` 的每个 `Wrapper` `vm` 都设置 prop 并强行更新。
 

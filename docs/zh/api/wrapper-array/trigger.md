@@ -1,4 +1,4 @@
-## trigger(eventType [, options ])
+## trigger
 
 为 `WrapperArray` 的每个 `Wrapper` DOM 节点都触发一个事件。
 
