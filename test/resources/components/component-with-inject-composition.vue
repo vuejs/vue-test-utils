@@ -1,14 +1,9 @@
 <template>
-  <div>
-    {{ fromMount }}
-  </div>
+  <div>{{ fromMount }}</div>
 </template>
 
 <script>
-import {
-  createComponent,
-  inject
-} from '@vue/composition-api'
+import { createComponent, inject } from '@vue/composition-api'
 
 export default createComponent({
   name: 'component-with-inject-composition',
