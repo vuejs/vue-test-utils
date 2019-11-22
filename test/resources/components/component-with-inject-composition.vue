@@ -7,9 +7,6 @@
 <script>
 import {
   createComponent,
-  reactive,
-  toRefs,
-  onMounted,
   inject
 } from '@vue/composition-api'
 
