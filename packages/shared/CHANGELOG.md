@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.0.0-beta.30"></a>
+# [1.0.0-beta.30](https://github.com/vuejs/vue-test-utils/compare/v1.0.0-beta.29...v1.0.0-beta.30) (2019-11-28)
+
+
+### Code Refactoring
+
+* remove sync mode ([#1141](https://github.com/vuejs/vue-test-utils/issues/1141)) ([ef613de](https://github.com/vuejs/vue-test-utils/commit/ef613de))
+
+
+### Features
+
+* stop auto stubbing transition and transition-group ([#1127](https://github.com/vuejs/vue-test-utils/issues/1127)) ([85a972c](https://github.com/vuejs/vue-test-utils/commit/85a972c))
+
+
+### BREAKING CHANGES
+
+* * Remove `sync` mode
+* Remove TransitionStub
+* Remove Transition
+
+
+
+
 <a name="1.0.0-beta.29"></a>
 # [1.0.0-beta.29](https://github.com/vuejs/vue-test-utils/compare/v1.0.0-beta.28...v1.0.0-beta.29) (2019-02-02)
 

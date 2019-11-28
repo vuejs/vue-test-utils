@@ -1,6 +1,6 @@
 {
   "name": "@vue/server-test-utils",
-  "version": "1.0.0-beta.29",
+  "version": "1.0.0-beta.30",
   "description": "Utilities for testing Vue components.",
   "main": "dist/vue-server-test-utils.js",
   "types": "types/index.d.ts",
@@ -24,8 +24,8 @@
   },
   "homepage": "https://github.com/vuejs/vue-test-utils#readme",
   "dependencies": {
-    "cheerio": "^1.0.0-rc.2",
-    "@types/cheerio": "^0.22.10"
+    "@types/cheerio": "^0.22.10",
+    "cheerio": "^1.0.0-rc.2"
   },
   "peerDependencies": {
     "@vue/test-utils": "*",

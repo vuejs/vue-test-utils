@@ -1,6 +1,6 @@
 {
   "name": "shared",
-  "version": "1.0.0-beta.29",
+  "version": "1.0.0-beta.30",
   "private": true,
   "peerDependencies": {
     "vue": "2.x",
