@@ -1,8 +1,8 @@
 ## get
 
-Works just like [find](../find.md) but will throw an error if selector not
-matching anything. You should use `find` when searching for an element that
-may not exist. You should use this method when getting an element that should
+Works just like [find](../find.md) but will throw an error if nothing matching
+the given selector is found. You should use `find` when searching for an element
+that may not exist. You should use this method when getting an element that should
 exist and it will provide a nice error message if that is not the case.
 
 ```js
