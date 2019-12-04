@@ -123,7 +123,8 @@ describeWithShallowAndMount('trigger', mountingMethod => {
   it('does not fire on disabled elements', () => {
     const clickHandler = sandbox.stub()
     const TestComponent = {
-      template: '<button disabled @click="clickHandler"/>',
+      template:
+        '<div><button disabled @click="clickHandler"/><a href="#" disabled @click="clickHandler"/></div>',
       props: ['clickHandler']
     }
     const wrapper = mountingMethod(TestComponent, {
@@ -131,8 +132,12 @@ describeWithShallowAndMount('trigger', mountingMethod => {
         clickHandler
       }
     })
-    wrapper.trigger('click')
+
+    wrapper.find('button').trigger('click')
     expect(clickHandler.called).to.equal(false)
+
+    wrapper.find('a').trigger('click')
+    expect(clickHandler.called).to.equal(true)
   })
 
   it('handles .prevent', () => {
