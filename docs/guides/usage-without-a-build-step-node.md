@@ -20,7 +20,7 @@ Now we need to require the libraries. There is a slight caveat, explained in a c
 // jsdom-global must be required before vue-test-utils,
 // because vue-test-utils expects a DOM (real DOM, or JSDOM)
 // to exist.
-require('jsdom-global')();
+require('jsdom-global')()
 
 const assert = require('assert')
 
