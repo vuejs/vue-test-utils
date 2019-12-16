@@ -161,12 +161,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     expect(wrapper.html()).to.equal(`<div>foo</div>`)
   })
 
-  it('compiles templates from querySelector', () => {
-    if (
-      !(navigator.userAgent.includes && navigator.userAgent.includes('node.js'))
-    ) {
-      return
-    }
+  itDoNotRunIf(process.env.TEST_ENV === 'node', 'compiles templates from querySelector', () => {
     const template = window.createElement('div')
     template.setAttribute('id', 'foo')
     template.innerHTML = '<div>foo</div>'
