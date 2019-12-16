@@ -1,6 +1,6 @@
 ## Useful Libraries for Testing
 
-`vue-test-utils` provides useful methods for testing Vue components. Community members have also written some additional libraries which either extend `vue-test-utils` with extra useful methods, or provide tools for testing other things found in Vue applications.
+Vue Test Utils provides useful methods for testing Vue components. Community members have also written some additional libraries which either extend `vue-test-utils` with extra useful methods, or provide tools for testing other things found in Vue applications.
 
 ### `vuex-mock-store`
 
