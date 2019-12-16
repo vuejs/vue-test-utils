@@ -163,7 +163,8 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
 
   itDoNotRunIf(
     !(navigator.userAgent.includes && navigator.userAgent.includes('node.js')),
-  'compiles templates from querySelector', () => {
+    'compiles templates from querySelector',
+    () => {
       const template = window.createElement('div')
       template.setAttribute('id', 'foo')
       template.innerHTML = '<div>foo</div>'
