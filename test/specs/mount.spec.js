@@ -161,20 +161,24 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     expect(wrapper.html()).to.equal(`<div>foo</div>`)
   })
 
-  itDoNotRunIf(process.env.TEST_ENV === 'node', 'compiles templates from querySelector', () => {
-    const template = window.createElement('div')
-    template.setAttribute('id', 'foo')
-    template.innerHTML = '<div>foo</div>'
-    window.document.body.appendChild(template)
+  itDoNotRunIf(
+    process.env.TEST_ENV === 'node',
+    'compiles templates from querySelector',
+    () => {
+      const template = window.createElement('div')
+      template.setAttribute('id', 'foo')
+      template.innerHTML = '<div>foo</div>'
+      window.document.body.appendChild(template)
 
-    const wrapper = mount({
-      template: '#foo'
-    })
-    expect(wrapper.vm).to.be.an('object')
-    expect(wrapper.html()).to.equal(`<div>foo</div>`)
+      const wrapper = mount({
+        template: '#foo'
+      })
+      expect(wrapper.vm).to.be.an('object')
+      expect(wrapper.html()).to.equal(`<div>foo</div>`)
 
-    window.body.removeChild(template)
-  })
+      window.body.removeChild(template)
+    }
+  )
 
   itDoNotRunIf(vueVersion < 2.3, 'overrides methods', () => {
     const stub = sandbox.stub()
