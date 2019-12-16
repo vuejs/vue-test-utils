@@ -1,6 +1,6 @@
 ## Usage Without a Build Step
 
-While it is common to build Vue applications using tools [Webpack](https://jestjs.io/) to bundle the application, `vue-loader` to leverage Single File Components, and [Jest](https://jestjs.io/) to write expressive tests, it is possible to use `vue-test-utils` with much less. The minimal requirements for `vue-test-utils`, aside from the library itself are:
+While it is common to build Vue applications using tools [Webpack](https://jestjs.io/) to bundle the application, `vue-loader` to leverage Single File Components, and [Jest](https://jestjs.io/) to write expressive tests, it is possible to use Vue Test Utils with much less. The minimal requirements for Vue Test Utils, aside from the library itself are:
 
 - Vue
 - vue-template-compiler
@@ -28,7 +28,7 @@ const Vue = require('vue')
 const VueTestUtils = require('@vue/test-utils')
 ```
 
-As the comment says, `jsdom-global` must be required before `@vue/test-utils`. This is because `vue-test-utils` expects a DOM to be present to render the Vue components. If you are running the tests in a real browser, you will not need `jsdom` at all. `Vue` must also be required before `@vue/test-utils` for obvious reasons - `vue-test-utils` expects to be available, as well. We also require `assert` from the node standard library. Normally we would use the matchers provided by a test runner, often in the format of an `expect(...).toEqual(...)` assertion, but `assert` will serve this purpose for this example.
+As the comment says, `jsdom-global` must be required before `@vue/test-utils`. This is because Vue Test Utils expects a DOM to be present to render the Vue components. If you are running the tests in a real browser, you will not need `jsdom` at all. `Vue` must also be required before `@vue/test-utils` for obvious reasons - Vue Test Utils expects to be available, as well. We also require `assert` from the node standard library. Normally we would use the matchers provided by a test runner, often in the format of an `expect(...).toEqual(...)` assertion, but `assert` will serve this purpose for this example.
 
 ## Writing a Test
 
