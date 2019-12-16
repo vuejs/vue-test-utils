@@ -10,7 +10,6 @@
 
 [`jest-matcher-vue-test-utils`](https://github.com/hmsk/jest-matcher-vue-test-utils) adds additional matchers for the Jest test runner with the goal of making assertions more expressive.
 
-
 ### `jest-mock-axios`
 
 [`jest-mock-axios`](https://github.com/knee-cola/jest-mock-axios) allows you to easily mock `axios`, a common HTTP client, in your tests. It works out of the box with Jest, and the author provides guidance on supporting other test runners in the documentation.
