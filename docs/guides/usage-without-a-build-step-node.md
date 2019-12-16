@@ -53,4 +53,3 @@ assert.strictEqual('Hello Vue Test Utils', wrapper.text())
 ```
 
 It's as simple as it looks. Since we do not have a build step, we cannot use Single File Components. There is nothing to stop us using Vue in the same style you would when including it from a CDN via a `<script>` tag, however.
-
