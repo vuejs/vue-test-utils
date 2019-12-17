@@ -27,11 +27,11 @@ const wrapper = shallowMount(Component)
 wrapper.vm // the mounted Vue instance
 ```
 
-### Using `nextTick`
+### Writing asynchronous tests using `nextTick` (new)
 
-Vue batches watcher updates and runs them asynchronously on the "next tick".
+By default, Vue batches updates to run asynchronously (on the next "tick"). This is to prevent unnecessary DOM re-renders, and watcher computations ([see the docs](https://vuejs.org/v2/guide/reactivity.html#Async-Update-Queue) for more details). 
 
-In practice, this means you must wait for updates to run after you set a reactive property. You can wait for updates with `Vue.nextTick()`:
+This means you **must** wait for updates to run after you set a reactive property. You can wait for updates with `Vue.nextTick()`:
 
 ```js
 it('updates text', async () => {
@@ -40,7 +40,22 @@ it('updates text', async () => {
   await Vue.nextTick()
   expect(wrapper.text()).toContain('updated')
 })
+
+// Or if you're without async/await
+it('render text', (done) => {
+    const wrapper = mount(TestComponent)
+    wrapper.trigger('click')
+    Vue.nextTick(() => {
+        wrapper.text().toContain('some text')
+        wrapper.trigger('click')
+        Vue.nextTick(() => {
+            wrapper.text().toContain('some different text')
+            done()
+        })
+    })
+})
 ```
+
 
 The following methods often cause watcher updates that require you to wait for the next tick:
 
@@ -159,6 +174,9 @@ mount(Component, {
 You can also update the props of an already-mounted component with the `wrapper.setProps({})` method.
 
 _For a full list of options, please see the [mount options section](../api/options.md) of the docs._
+
+### Mocking Transitions
+
 
 ### Applying Global Plugins and Mixins
 
