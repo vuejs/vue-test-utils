@@ -61,6 +61,23 @@ describeWithShallowAndMount('options.provide', mountingMethod => {
     }
   )
 
+  itDoNotRunIf(
+    !injectSupported || mountingMethod.name === 'renderToString',
+    'supports setup in composition api component',
+    () => {
+      if (!injectSupported) return
+
+      const localVue = createLocalVue()
+      localVue.use(VueCompositionApi)
+      const wrapper = mountingMethod(CompositionComponentWithInject, {
+        provide: { fromMount: '_' },
+        localVue
+      })
+
+      expect(wrapper.vm.setInSetup).to.equal('created')
+    }
+  )
+
   itSkipIf(
     mountingMethod.name === 'renderToString',
     'injects the provide from the config',
@@ -105,7 +122,7 @@ describeWithShallowAndMount('options.provide', mountingMethod => {
   )
 
   it('config with function throws', () => {
-    config.provide = () => {}
+    config.provide = () => { }
 
     expect(() => {
       mountingMethod(ComponentWithInject, {
