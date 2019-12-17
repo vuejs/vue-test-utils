@@ -194,6 +194,8 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 
 `true` に設定されている場合、描画時にコンポーネントは DOM にアタッチされます。
 
+DOM にアタッチされた際に、テストの最後で `wrapper.destroy()` を呼び出さなければなりません。レンダリングされた要素をドキュメントから取り除いて、コンポーネントインスタンスを壊さなければならないからです。
+
 ## attrs
 
 - 型: `Object`
