@@ -29,7 +29,7 @@ wrapper.vm // the mounted Vue instance
 
 ### Writing asynchronous tests using `nextTick` (new)
 
-By default, Vue batches updates to run asynchronously (on the next "tick"). This is to prevent unnecessary DOM re-renders, and watcher computations ([see the docs](https://vuejs.org/v2/guide/reactivity.html#Async-Update-Queue) for more details). 
+By default, Vue batches updates to run asynchronously (on the next "tick"). This is to prevent unnecessary DOM re-renders, and watcher computations ([see the docs](https://vuejs.org/v2/guide/reactivity.html#Async-Update-Queue) for more details).
 
 This means you **must** wait for updates to run after you set a reactive property. You can wait for updates with `Vue.nextTick()`:
 
@@ -42,20 +42,19 @@ it('updates text', async () => {
 })
 
 // Or if you're without async/await
-it('render text', (done) => {
-    const wrapper = mount(TestComponent)
+it('render text', done => {
+  const wrapper = mount(TestComponent)
+  wrapper.trigger('click')
+  Vue.nextTick(() => {
+    wrapper.text().toContain('some text')
     wrapper.trigger('click')
     Vue.nextTick(() => {
-        wrapper.text().toContain('some text')
-        wrapper.trigger('click')
-        Vue.nextTick(() => {
-            wrapper.text().toContain('some different text')
-            done()
-        })
+      wrapper.text().toContain('some different text')
+      done()
     })
+  })
 })
 ```
-
 
 The following methods often cause watcher updates that require you to wait for the next tick:
 
@@ -177,6 +176,101 @@ _For a full list of options, please see the [mount options section](../api/optio
 
 ### Mocking Transitions
 
+Although calling `await Vue.nexTick()` works well for most use cases, there are some situations where additional work arounds are required. These issues will be solved before the library transitions out of beta. One such example is unit testing components with the `<transition>` wrapper provided by Vue.
+
+```vue
+<template>
+  <div>
+    <transition>
+      <p v-if="show">Foo</p>
+    </transition>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      show: true
+    }
+  }
+}
+</script>
+```
+
+You might want to write a test that verifies that Foo is shown, then when `show` is set to `false`, Foo is no longer rendered. Such a test could be written as follows:
+
+```js
+test('should render Foo, then hide it', async () => {
+  const wrapper = mount(Foo)
+  expect(wrapper.text()).toMatch(/Foo/)
+
+  wrapper.setData({
+    show: false
+  })
+  await wrapper.vm.$nextTick()
+
+  expect(wrapper.text()).not.toMatch(/Foo/)
+})
+```
+
+In practice, although we are calling `setData` then waiting for the `nextTick` to ensure the DOM is updated, this test fails. This is an ongoing issue that we would like to solve before version 1.0. For now, there are some work arounds:
+
+1. Using a `transitionStub` helper
+
+```js
+const transitionStub = () => ({
+  render: function(h) {
+    return this.$options._renderChildren
+  }
+})
+
+test('should render Foo, then hide it', async () => {
+  const wrapper = mount(Foo, {
+    stubs: {
+      transition: transitionStub()
+    }
+  })
+  expect(wrapper.text()).toMatch(/Foo/)
+
+  wrapper.setData({
+    show: false
+  })
+  await wrapper.vm.$nextTick()
+
+  expect(wrapper.text()).not.toMatch(/Foo/)
+})
+```
+
+This overrides the default behavior of the `<transition>` component and renders the children as soon as the relevant boolean condition changes, as opposed to applying CSS classes, which is how Vue's `<transition>` component works.
+
+Another alternative is to simply avoid using `setData` by writing two tests, with the required setup performed using `mount` or `shallowMount` options:
+
+```js
+test('should render Foo', async () => {
+  const wrapper = mount(Foo, {
+    data() {
+      return {
+        show: true
+      }
+    }
+  })
+
+  expect(wrapper.text()).toMatch(/Foo/)
+})
+
+test('should not render Foo', async () => {
+  const wrapper = mount(Foo, {
+    data() {
+      return {
+        show: false
+      }
+    }
+  })
+
+  expect(wrapper.text()).not.toMatch(/Foo/)
+})
+```
 
 ### Applying Global Plugins and Mixins
 
