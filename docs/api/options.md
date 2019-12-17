@@ -74,6 +74,37 @@ const wrapper = shallowMount(Component, {
 expect(wrapper.find('div')).toBe(true)
 ```
 
+You can also provide slots components with props.
+Example:
+
+```js
+const wrapper = mount(Component, {
+  slots: {
+    default: `<child foo="bar"/><child :foo="val"/>`
+  },
+  mocks: {
+    val: 'qux'
+  },
+  stubs: {
+    child: {
+      props: {
+        foo: {
+          type: String,
+          required: true
+        }
+      },
+      render(h) {
+        return h('p', this.foo)
+      }
+    }
+  }
+})
+
+expect(wrapper.findAll('p').length).toBe(2)
+expect(wrapper.text()).toMatch(/bar/)
+expect(wrapper.text()).toMatch(/qux/)
+```
+
 ## scopedSlots
 
 - type: `{ [name: string]: string|Function }`
