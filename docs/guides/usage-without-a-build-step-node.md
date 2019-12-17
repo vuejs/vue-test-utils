@@ -1,6 +1,6 @@
 ## Usage Without a Build Step
 
-While it is common to build Vue applications using tools [Webpack](https://jestjs.io/) to bundle the application, `vue-loader` to leverage Single File Components, and [Jest](https://jestjs.io/) to write expressive tests, it is possible to use Vue Test Utils with much less. The minimal requirements for Vue Test Utils, aside from the library itself are:
+While it is common to build Vue applications using tools [Webpack](https://webpack.js.org/) to bundle the application, `vue-loader` to leverage Single File Components, and [Jest](https://jestjs.io/) to write expressive tests, it is possible to use Vue Test Utils with much less. The minimal requirements for Vue Test Utils, aside from the library itself are:
 
 - Vue
 - vue-template-compiler
