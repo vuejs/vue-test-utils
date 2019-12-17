@@ -14,6 +14,7 @@ Vue Test Utils is the official unit testing utility library for Vue.js.
   - [Using with TypeScript](guides/using-with-typescript.md)
   - [Using with Vue Router](guides/using-with-vue-router.md)
   - [Using with Vuex](guides/using-with-vuex.md)
+  - [Useful Libraries for Testing](guides/useful-libraries-for-testing.md)
 - [API](api/)
   - [mount](api/mount.md)
   - [shallowMount](api/shallowMount.md)
