@@ -31,7 +31,6 @@
     "test:types": "tsc -p packages/test-utils/types && tsc -p packages/server-test-utils/types"
   },
   "dependencies": {
-    "@vue/composition-api": "^0.3.2",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.2",
     "babel-loader": "^7.1.3",
@@ -89,5 +88,8 @@
     "vuex": "^3.0.1",
     "webpack": "^3.0.1",
     "webpack-node-externals": "^1.6.0"
+  },
+  "devDependencies": {
+    "@vue/composition-api": "^0.3.2"
   }
 }

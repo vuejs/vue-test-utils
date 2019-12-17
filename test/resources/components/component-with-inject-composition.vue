@@ -3,17 +3,17 @@
 </template>
 
 <script>
-import { createComponent, inject } from '@vue/composition-api'
+import { createComponent, inject, ref } from '@vue/composition-api'
 
 export default createComponent({
   name: 'component-with-inject-composition',
   setup: () => {
     const fromMount = inject('fromMount')
-    const setInBeforeCreate = 'created'
+    const setInSetup = ref('created')
 
     return {
       fromMount,
-      setInBeforeCreate
+      setInSetup
     }
   }
 })
