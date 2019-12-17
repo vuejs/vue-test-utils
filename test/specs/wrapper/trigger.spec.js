@@ -120,23 +120,46 @@ describeWithShallowAndMount('trigger', mountingMethod => {
     expect(stub).calledWith(123)
   })
 
-  it('does not fire on disabled elements', () => {
+  it('does not fire on valid disabled elements', () => {
     const clickHandler = sandbox.stub()
-    const TestComponent = {
-      template:
-        '<div><button disabled @click="clickHandler"/><a href="#" disabled @click="clickHandler"/></div>',
+    const ButtonComponent = {
+      template: '<button disabled @click="clickHandler">Button</button>',
       props: ['clickHandler']
     }
-    const wrapper = mountingMethod(TestComponent, {
+    const buttonWrapper = mountingMethod(ButtonComponent, {
       propsData: {
         clickHandler
       }
     })
-
-    wrapper.find('button').trigger('click')
+    buttonWrapper.trigger('click')
     expect(clickHandler.called).to.equal(false)
 
-    wrapper.find('a').trigger('click')
+    const changeHandler = sandbox.stub()
+    const InputComponent = {
+      template: '<input disabled @change="changeHandler"/>',
+      props: ['changeHandler']
+    }
+    const inputWrapper = mountingMethod(InputComponent, {
+      propsData: {
+        changeHandler
+      }
+    })
+    inputWrapper.trigger('change')
+    expect(changeHandler.called).to.equal(false)
+  })
+
+  it('fires on invalid disabled elements', () => {
+    const clickHandler = sandbox.stub()
+    const LinkComponent = {
+      template: '<a disabled href="#" @click="clickHandler">Link</a>',
+      props: ['clickHandler']
+    }
+    const linkWrapper = mountingMethod(LinkComponent, {
+      propsData: {
+        clickHandler
+      }
+    })
+    linkWrapper.trigger('click')
     expect(clickHandler.called).to.equal(true)
   })
 
