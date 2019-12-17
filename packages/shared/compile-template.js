@@ -17,6 +17,16 @@ export function compileFromString(str: string) {
 
 export function compileTemplate(component: Component): void {
   if (component.template) {
+    if (component.template.charAt('#') === '#') {
+      var el = document.querySelector(component.template)
+      if (!el) {
+        throwError('Cannot find element' + component.template)
+
+        el = document.createElement('div')
+      }
+      component.template = el.innerHTML
+    }
+
     Object.assign(component, compileToFunctions(component.template))
   }
 
