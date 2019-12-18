@@ -82,6 +82,7 @@ export default function createInstance(
   const parentComponentOptions = options.parentComponent || {}
 
   parentComponentOptions.provide = options.provide
+  parentComponentOptions._provided = options.provide
   parentComponentOptions.$_doNotStubChildren = true
   parentComponentOptions._isFunctionalContainer = componentOptions.functional
   parentComponentOptions.render = function(h) {
