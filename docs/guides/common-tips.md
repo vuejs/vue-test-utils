@@ -176,7 +176,7 @@ _For a full list of options, please see the [mount options section](../api/optio
 
 ### Mocking Transitions
 
-Although calling `await Vue.nexTick()` works well for most use cases, there are some situations where additional work arounds are required. These issues will be solved before the library transitions out of beta. One such example is unit testing components with the `<transition>` wrapper provided by Vue.
+Although calling `await Vue.nextTick()` works well for most use cases, there are some situations where additional workarounds are required. These issues will be solved before the `vue-test-utils` library moves out of beta. One such example is unit testing components with the `<transition>` wrapper provided by Vue.
 
 ```vue
 <template>
@@ -214,9 +214,9 @@ test('should render Foo, then hide it', async () => {
 })
 ```
 
-In practice, although we are calling `setData` then waiting for the `nextTick` to ensure the DOM is updated, this test fails. This is an ongoing issue related to show Vue implements the `<transition`> component, that we would like to solve before version 1.0. For now, there are some work arounds:
+In practice, although we are calling `setData` then waiting for the `nextTick` to ensure the DOM is updated, this test fails. This is an ongoing issue related to show Vue implements the `<transition>` component, that we would like to solve before version 1.0. For now, there are some workarounds:
 
-1. Using a `transitionStub` helper
+#### Using a `transitionStub` helper
 
 ```js
 const transitionStub = () => ({
@@ -243,6 +243,8 @@ test('should render Foo, then hide it', async () => {
 ```
 
 This overrides the default behavior of the `<transition>` component and renders the children as soon as the relevant boolean condition changes, as opposed to applying CSS classes, which is how Vue's `<transition>` component works.
+
+#### Avoid `setData`
 
 Another alternative is to simply avoid using `setData` by writing two tests, with the required setup performed using `mount` or `shallowMount` options:
 
