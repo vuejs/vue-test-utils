@@ -54,10 +54,23 @@ Example:
 
 ```js
 import Foo from './Foo.vue'
+import MyComponent from './MyComponent.vue'
 
 const bazComponent = {
   name: 'baz-component',
   template: '<p>baz</p>'
+}
+
+const yourComponent = {
+  props: {
+    foo: {
+      type: String,
+      required: true
+    }
+  },
+  render (h) {
+    return h('p', this.foo)
+  }
 }
 
 const wrapper = shallowMount(Component, {
@@ -67,42 +80,19 @@ const wrapper = shallowMount(Component, {
     foo: '<div />',
     bar: 'bar',
     baz: bazComponent,
-    qux: '<my-component />'
+    qux: '<my-component />',
+    quux: '<your-component foo="lorem"/><your-component :foo="yourProperty"/>'
+  },
+  stubs: { // used to register custom components
+    'my-component': MyComponent,
+    'your-component': yourComponent
+  },
+  mocks: { // used to add properties to the rendering context
+    yourProperty: 'ipsum'
   }
 })
 
 expect(wrapper.find('div')).toBe(true)
-```
-
-You can also provide slots components with props.
-Example:
-
-```js
-const wrapper = mount(Component, {
-  slots: {
-    default: `<child foo="bar"/><child :foo="val"/>`
-  },
-  mocks: {
-    val: 'qux'
-  },
-  stubs: {
-    child: {
-      props: {
-        foo: {
-          type: String,
-          required: true
-        }
-      },
-      render(h) {
-        return h('p', this.foo)
-      }
-    }
-  }
-})
-
-expect(wrapper.findAll('p').length).toBe(2)
-expect(wrapper.text()).toMatch(/bar/)
-expect(wrapper.text()).toMatch(/qux/)
 ```
 
 ## scopedSlots
