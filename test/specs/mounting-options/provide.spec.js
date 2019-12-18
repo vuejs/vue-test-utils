@@ -122,7 +122,7 @@ describeWithShallowAndMount('options.provide', mountingMethod => {
   )
 
   it('config with function throws', () => {
-    config.provide = () => { }
+    config.provide = () => {}
 
     expect(() => {
       mountingMethod(ComponentWithInject, {
