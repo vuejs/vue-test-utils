@@ -37,6 +37,26 @@ describeWithShallowAndMount('trigger', mountingMethod => {
     expect(keydownHandler.calledOnce).to.equal(true)
   })
 
+  describe('causes keydown handler to fire with the appropriate keyCode when wrapper.trigger("keydown", { keyCode: 65 }) is fired on a Component', () => {
+    const keydownHandler = sandbox.stub()
+    const wrapper = mountingMethod(ComponentWithEvents, {
+      propsData: { keydownHandler }
+    })
+
+    wrapper.find('.keydown').trigger('keydown', { keyCode: 65 })
+
+    const keyboardEvent = keydownHandler.getCall(0).args[0]
+
+    // Unfortunately, JSDom will give different types than PhantomJS for keyCodes (string vs number), so we have to use parseInt to normalize the types.
+    it('contains the keyCode', () => {
+      expect(parseInt(keyboardEvent.keyCode, 10)).to.equal(65)
+    })
+
+    itDoNotRunIf(isRunningPhantomJS, 'contains the code', () => {
+      expect(parseInt(keyboardEvent.code, 10)).to.equal(65)
+    })
+  })
+
   it('causes keydown handler to fire when wrapper.trigger("keydown.enter") is fired on a Component', () => {
     const keydownHandler = sandbox.stub()
     const wrapper = mountingMethod(ComponentWithEvents, {
