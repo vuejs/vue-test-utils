@@ -574,8 +574,25 @@ export default class Wrapper implements BaseWrapper {
       )
     }
 
-    // Don't fire event on a disabled element
-    if (this.attributes().disabled) {
+    /**
+     * Avoids firing events on specific disabled elements
+     * See more: https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled
+     */
+
+    const supportedTags = [
+      'BUTTON',
+      'COMMAND',
+      'FIELDSET',
+      'KEYGEN',
+      'OPTGROUP',
+      'OPTION',
+      'SELECT',
+      'TEXTAREA',
+      'INPUT'
+    ]
+    const tagName = this.element.tagName
+
+    if (this.attributes().disabled && supportedTags.indexOf(tagName) > -1) {
       return
     }
 
