@@ -370,7 +370,7 @@ describeWithShallowAndMount('find', mountingMethod => {
     const wrapper = mountingMethod(Component)
     const error = wrapper.find(ComponentWithChild)
     expect(error.exists()).to.equal(false)
-    expect(error.selector).to.equal('Component')
+    expect(error.selector).to.equal(ComponentWithChild)
   })
 
   it('returns Wrapper of elements matching the ref in options object', () => {
@@ -458,9 +458,10 @@ describeWithShallowAndMount('find', mountingMethod => {
 
   it('returns empty Wrapper with error if no nodes are found via ref in options object', () => {
     const wrapper = mountingMethod(Component)
-    const error = wrapper.find({ ref: 'foo' })
+    const selector = { ref: 'foo' }
+    const error = wrapper.find(selector)
     expect(error.exists()).to.equal(false)
-    expect(error.selector).to.equal('ref="foo"')
+    expect(error.selector).to.equal(selector)
   })
 
   it('returns Wrapper matching component that has no name property', () => {
@@ -542,4 +543,34 @@ describeWithShallowAndMount('find', mountingMethod => {
       expect(wrapper.find('p').vm.$options.name).to.equal('bar')
     }
   )
+
+  it('stores CSS selector', () => {
+    const compiled = compileToFunctions('<div><p></p><p></p></div>')
+    const wrapper = mountingMethod(compiled)
+    const selector = 'p'
+    const result = wrapper.find(selector)
+    expect(result.selector).to.equal(selector)
+  })
+
+  it('stores ref selector', () => {
+    const compiled = compileToFunctions('<div><p ref="foo"></p></div>')
+    const wrapper = mountingMethod(compiled)
+    const selector = { ref: 'foo' }
+    const result = wrapper.find(selector)
+    expect(result.selector).to.equal(selector)
+  })
+
+  it('stores component selector', () => {
+    const wrapper = mountingMethod(ComponentWithChild)
+    const selector = Component
+    const result = wrapper.find(selector)
+    expect(result.selector).to.equal(selector)
+  })
+
+  it('stores name selector', () => {
+    const wrapper = mountingMethod(ComponentWithChild)
+    const selector = { name: 'test-component' }
+    const result = wrapper.find(selector)
+    expect(result.selector).to.equal(selector)
+  })
 })

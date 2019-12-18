@@ -28,6 +28,7 @@ declare interface BaseWrapper {
   name(): string | void;
   props(key?: string): { [name: string]: any } | any | void;
   text(): string | void;
+  selector: Selector | void;
   setData(data: Object): void;
   setMethods(methods: Object): void;
   setValue(value: any): void;

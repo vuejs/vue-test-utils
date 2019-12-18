@@ -343,4 +343,38 @@ describeWithShallowAndMount('findAll', mountingMethod => {
       expect(wrappers.at(2).vm.$options.name).to.equal('bar')
     }
   )
+
+  it('stores CSS selector', () => {
+    const compiled = compileToFunctions('<div><p></p><p></p></div>')
+    const wrapper = mountingMethod(compiled)
+    const selector = 'p'
+    const result = wrapper.findAll('p')
+    expect(result.selector).to.equal(selector)
+    expect(result.at(0).selector).to.equal(selector)
+  })
+
+  it('stores ref selector', () => {
+    const compiled = compileToFunctions('<div><div ref="foo" /></div>')
+    const wrapper = mountingMethod(compiled)
+    const selector = { ref: 'foo' }
+    const result = wrapper.findAll(selector)
+    expect(result.selector).to.equal(selector)
+    expect(result.at(0).selector).to.equal(selector)
+  })
+
+  it('stores component selector', () => {
+    const wrapper = mountingMethod(ComponentWithChild)
+    const selector = Component
+    const result = wrapper.findAll(selector)
+    expect(result.selector).to.equal(selector)
+    expect(result.at(0).selector).to.equal(selector)
+  })
+
+  it('stores name selector', () => {
+    const wrapper = mountingMethod(ComponentWithChild)
+    const selector = { name: 'test-component' }
+    const result = wrapper.findAll(selector)
+    expect(result.selector).to.equal(selector)
+    expect(result.at(0).selector).to.equal(selector)
+  })
 })

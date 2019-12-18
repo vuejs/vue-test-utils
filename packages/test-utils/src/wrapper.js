@@ -24,6 +24,7 @@ export default class Wrapper implements BaseWrapper {
   +options: WrapperOptions
   isFunctionalComponent: boolean
   rootNode: VNode | Element
+  selector: Selector | void
 
   constructor(
     node: VNode | Element,
@@ -193,15 +194,12 @@ export default class Wrapper implements BaseWrapper {
     const node = find(this.rootNode, this.vm, selector)[0]
 
     if (!node) {
-      if (selector.type === REF_SELECTOR) {
-        return new ErrorWrapper(`ref="${selector.value.ref}"`)
-      }
-      return new ErrorWrapper(
-        typeof selector.value === 'string' ? selector.value : 'Component'
-      )
+      return new ErrorWrapper(rawSelector)
     }
 
-    return createWrapper(node, this.options)
+    const wrapper = createWrapper(node, this.options)
+    wrapper.selector = rawSelector
+    return wrapper
   }
 
   /**
@@ -214,9 +212,14 @@ export default class Wrapper implements BaseWrapper {
     const wrappers = nodes.map(node => {
       // Using CSS Selector, returns a VueWrapper instance if the root element
       // binds a Vue instance.
-      return createWrapper(node, this.options)
+      const wrapper = createWrapper(node, this.options)
+      wrapper.selector = rawSelector
+      return wrapper
     })
-    return new WrapperArray(wrappers)
+
+    const wrapperArray = new WrapperArray(wrappers)
+    wrapperArray.selector = rawSelector
+    return wrapperArray
   }
 
   /**
