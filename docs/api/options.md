@@ -68,7 +68,7 @@ const yourComponent = {
       required: true
     }
   },
-  render (h) {
+  render(h) {
     return h('p', this.foo)
   }
 }
@@ -83,11 +83,13 @@ const wrapper = shallowMount(Component, {
     qux: '<my-component />',
     quux: '<your-component foo="lorem"/><your-component :foo="yourProperty"/>'
   },
-  stubs: { // used to register custom components
+  stubs: {
+    // used to register custom components
     'my-component': MyComponent,
     'your-component': yourComponent
   },
-  mocks: { // used to add properties to the rendering context
+  mocks: {
+    // used to add properties to the rendering context
     yourProperty: 'ipsum'
   }
 })
