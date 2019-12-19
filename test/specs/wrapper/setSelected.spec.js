@@ -39,7 +39,7 @@ describeWithShallowAndMount('setSelected', mountingMethod => {
     expect(wrapper.text()).to.contain('selectA')
   })
 
-  it('should trigger a change event on the parent <select>', () => {
+  it('triggers a change event on the parent select', () => {
     const change = sinon.spy()
 
     mountingMethod({
@@ -58,7 +58,7 @@ describeWithShallowAndMount('setSelected', mountingMethod => {
     expect(change).to.have.been.called
   })
 
-  it('should not trigger an event if already selected', () => {
+  it('does not trigger an event if called on already selected option', () => {
     const change = sinon.spy()
 
     mountingMethod({

@@ -55,7 +55,7 @@ describeWithShallowAndMount('setChecked', mountingMethod => {
     expect(wrapper.find('.counter').text()).to.equal('4')
   })
 
-  it('should trigger a change event when called on a checkbox', () => {
+  it('triggers a change event when called on a checkbox', () => {
     const listener = sinon.spy()
 
     mountingMethod({
@@ -74,7 +74,7 @@ describeWithShallowAndMount('setChecked', mountingMethod => {
     expect(listener).to.have.been.called
   })
 
-  it('should not trigger a change event if the checkbox is already checked', () => {
+  it('does not trigger a change event if the checkbox is already checked', () => {
     const listener = sinon.spy()
 
     mountingMethod({
@@ -126,7 +126,7 @@ describeWithShallowAndMount('setChecked', mountingMethod => {
     expect(wrapper.find('.counter').text()).to.equal('4')
   })
 
-  it('should trigger a change event when called on a radio button', () => {
+  it('triggers a change event when called on a radio button', () => {
     const listener = sinon.spy()
 
     mountingMethod({
@@ -143,7 +143,7 @@ describeWithShallowAndMount('setChecked', mountingMethod => {
     expect(listener).to.have.been.called
   })
 
-  it('should not trigger a change event if the radio button is already checked', () => {
+  it('does not trigger a change event if the radio button is already checked', () => {
     const listener = sinon.spy()
 
     mountingMethod({
