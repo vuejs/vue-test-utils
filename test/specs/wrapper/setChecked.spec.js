@@ -68,7 +68,7 @@ describeWithShallowAndMount('setChecked', mountingMethod => {
           @click="listener"
         >
       `,
-      methods: { listener },
+      methods: { listener }
     }).setChecked()
 
     expect(listener).to.have.been.called
@@ -86,7 +86,7 @@ describeWithShallowAndMount('setChecked', mountingMethod => {
           @click="listener"
         >
       `,
-      methods: { listener },
+      methods: { listener }
     }).setChecked()
 
     expect(listener).not.to.have.been.called
@@ -137,7 +137,7 @@ describeWithShallowAndMount('setChecked', mountingMethod => {
           @click="listener"
         >
       `,
-      methods: { listener },
+      methods: { listener }
     }).setChecked()
 
     expect(listener).to.have.been.called
@@ -155,7 +155,7 @@ describeWithShallowAndMount('setChecked', mountingMethod => {
           @click="listener"
         >
       `,
-      methods: { listener },
+      methods: { listener }
     }).setChecked()
 
     expect(listener).not.to.have.been.called

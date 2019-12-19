@@ -49,11 +49,14 @@ describeWithShallowAndMount('setSelected', mountingMethod => {
           <option value="foo" />
         </select>
       `,
-      methods: { change },
-    }).findAll('option').at(1).setSelected()
+      methods: { change }
+    })
+      .findAll('option')
+      .at(1)
+      .setSelected()
 
     expect(change).to.have.been.called
-  });
+  })
 
   it('should not trigger an event if already selected', () => {
     const change = sinon.spy()
@@ -65,11 +68,14 @@ describeWithShallowAndMount('setSelected', mountingMethod => {
           <option selected value="foo" />
         </select>
       `,
-      methods: { change },
-    }).findAll('option').at(1).setSelected()
+      methods: { change }
+    })
+      .findAll('option')
+      .at(1)
+      .setSelected()
 
     expect(change).not.to.have.been.called
-  });
+  })
 
   it('throws error if element is not valid', () => {
     const message = 'wrapper.setSelected() cannot be called on this element'
