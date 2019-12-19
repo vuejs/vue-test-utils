@@ -375,6 +375,10 @@ export default class Wrapper implements BaseWrapper {
         )
       }
 
+      if (this.element.checked === checked) {
+        return
+      }
+
       if (event !== 'click' || isPhantomJS) {
         // $FlowIgnore
         this.element.selected = true
