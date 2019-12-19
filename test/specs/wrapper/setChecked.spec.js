@@ -55,6 +55,28 @@ describeWithShallowAndMount('setChecked', mountingMethod => {
     expect(wrapper.find('.counter').text()).to.equal('4')
   })
 
+  it('should trigger a change event when called on a checkbox', () => {
+    const listeners = { change: sinon.spy() }
+    const input = mountingMethod({
+      template: `<input type="checkbox" v-on="$listeners">`,
+    }, { listeners })
+
+    input.setChecked()
+
+    expect(listeners.change).to.have.been.called
+  });
+
+  it('should not trigger a change event if the checkbox is already checked', () => {
+    const listeners = { change: sinon.spy() }
+    const input = mountingMethod({
+      template: `<input type="checkbox" checked v-on="$listeners">`,
+    }, { listeners })
+
+    input.setChecked()
+
+    expect(listeners.change).not.to.have.been.called
+  });
+
   it('updates dom with radio v-model', async () => {
     const wrapper = mountingMethod(ComponentWithInput)
 
@@ -67,7 +89,7 @@ describeWithShallowAndMount('setChecked', mountingMethod => {
     expect(wrapper.text()).to.contain('radioFooResult')
   })
 
-  it('changes state the right amount of times with checkbox v-model', async () => {
+  it('changes state the right amount of times with radio v-model', async () => {
     const wrapper = mountingMethod(ComponentWithInput)
     const radioBar = wrapper.find('#radioBar')
     const radioFoo = wrapper.find('#radioFoo')
