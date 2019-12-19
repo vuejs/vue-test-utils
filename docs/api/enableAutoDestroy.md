@@ -6,7 +6,7 @@
 
 - **Usage:**
 
-`enableAutoDestroy` allows to destroy all created `Wrapper` instances using the passed hook function (for example [`afterEach`](https://jestjs.io/docs/en/api#aftereachfn-timeout)).
+`enableAutoDestroy` will destroy all created `Wrapper` instances using the passed hook function (for example [`afterEach`](https://jestjs.io/docs/en/api#aftereachfn-timeout)).
 
 ```js
 import { enableAutoDestroy, mount } from '@vue/test-utils'
