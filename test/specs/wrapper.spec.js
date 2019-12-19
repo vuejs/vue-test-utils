@@ -1,5 +1,5 @@
 import { describeWithShallowAndMount } from '~resources/utils'
-import { enableAutoDestroy } from '~vue/test-utils'
+import { enableAutoDestroy, resetAutoDestroyState } from '~vue/test-utils'
 
 describeWithShallowAndMount('Wrapper', mountingMethod => {
   ;['vnode', 'element', 'vm', 'options'].forEach(property => {
@@ -19,6 +19,10 @@ describeWithShallowAndMount('Wrapper', mountingMethod => {
 
   describe('enableAutoDestroy', () => {
     const sandbox = sinon.createSandbox()
+
+    beforeEach(() => {
+      resetAutoDestroyState()
+    })
 
     it('calls the hook function', () => {
       const hookSpy = sandbox.spy()

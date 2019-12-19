@@ -3,14 +3,20 @@
 import { throwError } from 'shared/util'
 import Wrapper from './wrapper'
 
-let wrapperInstances: Array<Wrapper>
+let isEnabled = false
+const wrapperInstances = []
+
+export function resetAutoDestroyState() {
+  isEnabled = false
+  wrapperInstances.length = 0
+}
 
 export function enableAutoDestroy(hook: (() => void) => void) {
-  if (wrapperInstances) {
+  if (isEnabled) {
     throwError('enableAutoDestroy cannot be called more than once')
   }
 
-  wrapperInstances = []
+  isEnabled = true
 
   hook(() => {
     wrapperInstances.forEach((wrapper: Wrapper) => {
@@ -19,12 +25,13 @@ export function enableAutoDestroy(hook: (() => void) => void) {
 
       wrapper.destroy()
     })
-    wrapperInstances = []
+
+    wrapperInstances.length = 0
   })
 }
 
 export function trackInstance(wrapper: Wrapper) {
-  if (!wrapperInstances) return
+  if (!isEnabled) return
 
   wrapperInstances.push(wrapper)
 }
