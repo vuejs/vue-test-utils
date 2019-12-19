@@ -25,7 +25,6 @@ export default class Wrapper implements BaseWrapper {
   isFunctionalComponent: boolean
   rootNode: VNode | Element
   selector: Selector | void
-  static _instances: ?Array<Wrapper>
 
   constructor(
     node: VNode | Element,
@@ -68,10 +67,6 @@ export default class Wrapper implements BaseWrapper {
       (this.vnode[FUNCTIONAL_OPTIONS] || this.vnode.functionalContext)
     ) {
       this.isFunctionalComponent = true
-    }
-
-    if (Wrapper._instances) {
-      Wrapper._instances.push(this)
     }
   }
 
@@ -607,24 +602,4 @@ export default class Wrapper implements BaseWrapper {
     const event = createDOMEvent(type, options)
     this.element.dispatchEvent(event)
   }
-}
-
-export const enableAutoDestroy = (hook: Function) => {
-  if (Wrapper._instances) {
-    throwError('enableAutoDestroy cannot be called more than once')
-  }
-
-  Wrapper._instances = []
-
-  hook(() => {
-    const { _instances } = Wrapper
-    if (!_instances) {
-      return
-    }
-
-    while (_instances.length > 0) {
-      const wrapper = _instances.pop()
-      wrapper.destroy()
-    }
-  })
 }
