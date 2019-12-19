@@ -57,22 +57,22 @@ describeWithShallowAndMount('setChecked', mountingMethod => {
 
   it('should trigger a change event when called on a checkbox', () => {
     const listeners = { change: sinon.spy() }
-    const input = mountingMethod({
-      template: `<input type="checkbox" v-on="$listeners">`,
-    }, { listeners })
 
-    input.setChecked()
+    mountingMethod(
+      { template: `<input type="checkbox" v-on="$listeners">` },
+      { listeners },
+    ).setChecked()
 
     expect(listeners.change).to.have.been.called
   });
 
   it('should not trigger a change event if the checkbox is already checked', () => {
     const listeners = { change: sinon.spy() }
-    const input = mountingMethod({
-      template: `<input type="checkbox" checked v-on="$listeners">`,
-    }, { listeners })
 
-    input.setChecked()
+    mountingMethod(
+      { template: `<input type="checkbox" checked v-on="$listeners">` },
+      { listeners },
+    ).setChecked()
 
     expect(listeners.change).not.to.have.been.called
   });
@@ -110,6 +110,28 @@ describeWithShallowAndMount('setChecked', mountingMethod => {
     await Vue.nextTick()
     expect(wrapper.find('.counter').text()).to.equal('4')
   })
+
+  it('should trigger a change event when called on a radio button', () => {
+    const listeners = { change: sinon.spy() }
+
+    mountingMethod(
+      { template: `<input type="radio" v-on="$listeners">` },
+      { listeners },
+    ).setChecked()
+
+    expect(listeners.change).to.have.been.called
+  });
+
+  it('should not trigger a change event if the radio button is already selected', () => {
+    const listeners = { change: sinon.spy() }
+
+    mountingMethod(
+      { template: `<input type="radio" checked v-on="$listeners">` },
+      { listeners },
+    ).setChecked()
+
+    expect(listeners.change).not.to.have.been.called
+  });
 
   it('throws error if checked param is not boolean', () => {
     const message = 'wrapper.setChecked() must be passed a boolean'
