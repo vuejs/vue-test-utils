@@ -96,7 +96,8 @@
     "@vue/composition-api": "^0.3.2",
     "commitizen": "^4.0.3",
     "cz-conventional-changelog": "^3.0.2",
-    "husky": "^3.1.0"
+    "husky": "^3.1.0",
+    "lint-staged": "^9.5.0"
   },
   "config": {
     "commitizen": {
@@ -110,7 +111,11 @@
   },
   "husky": {
     "hooks": {
+      "pre-commit": "lint-staged",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
+  },
+  "lint-staged": {
+    "*.{js,json,vue,md}": "npm run format:check && npm run lint"
   }
 }
