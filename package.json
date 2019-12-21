@@ -66,7 +66,6 @@
     "markdown-it-include": "^1.0.0",
     "mocha": "^5.2.0",
     "mocha-webpack": "^1.0.1",
-    "prettier": "^1.16.0",
     "rollup": "1",
     "rollup-plugin-buble": "^0.19",
     "rollup-plugin-commonjs": "10",
@@ -97,7 +96,8 @@
     "commitizen": "^4.0.3",
     "cz-conventional-changelog": "^3.0.2",
     "husky": "^3.1.0",
-    "lint-staged": "^9.5.0"
+    "lint-staged": "^9.5.0",
+    "prettier": "^1.16.0"
   },
   "config": {
     "commitizen": {
@@ -116,6 +116,7 @@
     }
   },
   "lint-staged": {
-    "*.{js,json,vue,md}": "npm run format:check && npm run lint"
+    "*.{js,json,vue,md}": "prettier --check",
+    "*.{js,vue}": "lint"
   }
 }
