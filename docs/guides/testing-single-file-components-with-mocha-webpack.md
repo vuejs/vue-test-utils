@@ -10,7 +10,7 @@ We will assume you are starting with a setup that already has webpack, vue-loade
 
 The first thing to do is installing test dependencies:
 
-``` bash
+```bash
 npm install --save-dev @vue/test-utils mocha mochapack
 ```
 
