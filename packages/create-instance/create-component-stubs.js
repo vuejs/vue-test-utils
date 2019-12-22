@@ -93,14 +93,18 @@ export function createStubFromComponent(
     $_vueTestUtils_original: originalComponent,
     $_doNotStubChildren: true,
     render(h, context) {
-
-      const renderFns = this && this.$options &&
-      this.$options.parent._vnode &&
-      this.$options.parent._vnode.data &&
-      this.$options.parent._vnode.data.scopedSlots &&
-      Object.keys(this.$options.parent._vnode.data.scopedSlots).filter(x =>
-        x[0] !== '_' && !x.includes('$')
-      )
+      // In Vue 2.6+ a new v-slot syntax was introduced
+      // scopedSlots are now saved in parent._vnode.data.scopedSlots
+      // We filter out the _normalized and $stable key
+      const renderFns =
+        this &&
+        this.$options &&
+        this.$options.parent._vnode &&
+        this.$options.parent._vnode.data &&
+        this.$options.parent._vnode.data.scopedSlots &&
+        Object.keys(this.$options.parent._vnode.data.scopedSlots).filter(
+          x => x[0] !== '_' && !x.includes('$')
+        )
       return h(
         tagName,
         {
@@ -120,8 +124,10 @@ export function createStubFromComponent(
         context
           ? context.children
           : this.$options._renderChildren ||
-            // support 2.6+ scopedSlots
-            renderFns && renderFns.map(x => this.$options.parent._vnode.data.scopedSlots[x]())
+              (renderFns &&
+                renderFns.map(x =>
+                  this.$options.parent._vnode.data.scopedSlots[x]()
+                ))
       )
     }
   }
