@@ -6290,7 +6290,7 @@ lodash.sortby@^4.7.0:
   version "4.7.0"
   resolved "https://registry.yarnpkg.com/lodash.sortby/-/lodash.sortby-4.7.0.tgz#edd14c824e2cc9c1e0b0a1b42bb5210516a42438"
 
-lodash.template@^4.0.2, lodash.template@^4.4.0:
+lodash.template@^4.0.2, lodash.template@^4.4.0, lodash.template@^4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/lodash.template/-/lodash.template-4.5.0.tgz#f976195cf3f347d0d5f52483569fe8031ccce8ab"
   integrity sha512-84vYFxIkmidUiFxidA/KjjH9pAycqW+h980j7Fuz5qxRtO9pgB7MDFTdys1N7A5mcucRiDyEq4fusljItR1T/A==
@@ -8787,6 +8787,11 @@ serialize-javascript@^1.4.0:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/serialize-javascript/-/serialize-javascript-1.5.0.tgz#1aa336162c88a890ddad5384baebc93a655161fe"
 
+serialize-javascript@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/serialize-javascript/-/serialize-javascript-2.1.2.tgz#ecec53b0e0317bdc95ef76ab7074b7384785fa61"
+  integrity sha512-rs9OggEUF0V4jUSecXazOYsLfu7OGK2qIn3c7IPBiffz32XniEp/TX9Xmc9LQfK2nQ2QKHvZ2oygKUGU0lG4jQ==
+
 set-blocking@^2.0.0, set-blocking@~2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/set-blocking/-/set-blocking-2.0.0.tgz#045f9782d011ae9a6803ddd382b24392b3d890f7"
@@ -10092,18 +10097,18 @@ vue-server-renderer@^2.5.16:
     serialize-javascript "^1.3.0"
     source-map "0.5.6"
 
-vue-server-renderer@^2.5.22:
-  version "2.5.22"
-  resolved "https://registry.yarnpkg.com/vue-server-renderer/-/vue-server-renderer-2.5.22.tgz#f119efef289c865adc22fda0ae7595299bedbdcf"
-  integrity sha512-PQ0PubA6b2MyZud/gepWeiUuDFSbRfa6h1qYINcbwXRr4Z3yLTHprEQuFnWikdkTkZpeLFYUqZrDxPbDcJ71mA==
+vue-server-renderer@^2.6.11:
+  version "2.6.11"
+  resolved "https://registry.yarnpkg.com/vue-server-renderer/-/vue-server-renderer-2.6.11.tgz#be8c9abc6aacc309828a755c021a05fc474b4bc3"
+  integrity sha512-V3faFJHr2KYfdSIalL+JjinZSHYUhlrvJ9pzCIjjwSh77+pkrsXpK4PucdPcng57+N77pd1LrKqwbqjQdktU1A==
   dependencies:
     chalk "^1.1.3"
     hash-sum "^1.0.2"
     he "^1.1.0"
-    lodash.template "^4.4.0"
+    lodash.template "^4.5.0"
     lodash.uniq "^4.5.0"
     resolve "^1.2.0"
-    serialize-javascript "^1.3.0"
+    serialize-javascript "^2.1.2"
     source-map "0.5.6"
 
 vue-style-loader@^3.0.0:
@@ -10127,10 +10132,10 @@ vue-template-compiler@^2.5.16:
     de-indent "^1.0.2"
     he "^1.1.0"
 
-vue-template-compiler@^2.5.22:
-  version "2.5.22"
-  resolved "https://registry.yarnpkg.com/vue-template-compiler/-/vue-template-compiler-2.5.22.tgz#c3d3c02c65f1908205c4fbd3b0ef579e51239955"
-  integrity sha512-1VTw/NPTUeHNiwhkq6NkFzO7gYLjFCueBN0FX8NEiQIemd5EUMQ5hxrF7O0zCPo5tae+U9S/scETPea+hIz8Eg==
+vue-template-compiler@^2.6.11:
+  version "2.6.11"
+  resolved "https://registry.yarnpkg.com/vue-template-compiler/-/vue-template-compiler-2.6.11.tgz#c04704ef8f498b153130018993e56309d4698080"
+  integrity sha512-KIq15bvQDrcCjpGjrAhx4mUlyyHfdmTaoNfeoATHLAiWB+MU3cx4lOzMwrnUh9cCxy0Lt1T11hAFY6TQgroUAA==
   dependencies:
     de-indent "^1.0.2"
     he "^1.1.0"
@@ -10143,10 +10148,10 @@ vue@^2.5.16:
   version "2.5.16"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.5.16.tgz#07edb75e8412aaeed871ebafa99f4672584a0085"
 
-vue@^2.5.22:
-  version "2.5.22"
-  resolved "https://registry.yarnpkg.com/vue/-/vue-2.5.22.tgz#3bf88041af08b8539c37b268b70ca79245e9cc30"
-  integrity sha512-pxY3ZHlXNJMFQbkjEgGVMaMMkSV1ONpz+4qB55kZuJzyJOhn6MSy/YZdzhdnumegNzVTL/Dn3Pp4UrVBYt1j/g==
+vue@^2.6.11:
+  version "2.6.11"
+  resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.11.tgz#76594d877d4b12234406e84e35275c6d514125c5"
+  integrity sha512-VfPwgcGABbGAue9+sfrD4PuwFar7gPb1yl1UK1MwXoQPAw0BKSqWfoYCT/ThFrdEVWoI51dBuyCoiNU9bZDZxQ==
 
 vuepress-html-webpack-plugin@^3.2.0:
   version "3.2.0"
