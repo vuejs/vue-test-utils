@@ -270,6 +270,23 @@ Please see [Other options](#other-options).
 
 Set the component instance's `$listeners` object.
 
+Example:
+
+```js
+const Component = {
+  template: '<button v-on:click="$emit(\'click\')"></button>'
+}
+const onClick = jest.fn()
+const wrapper = mount(Component, {
+  listeners: {
+    click: onClick
+  }
+})
+
+wrapper.trigger('click')
+expect(onClick).toHaveBeenCalled()
+```
+
 ## parentComponent
 
 - type: `Object`
