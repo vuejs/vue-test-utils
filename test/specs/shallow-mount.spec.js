@@ -114,15 +114,12 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
       localVue
     })
 
-    expect(wrapper.find({ name: 'Foo' }).exists()).to.equal(true);
-    expect(wrapper.find(".new-example").exists()).to.equal(true);
+    expect(wrapper.find({ name: 'Foo' }).exists()).to.equal(true)
+    expect(wrapper.find('.new-example').exists()).to.equal(true)
     expect(wrapper.html()).to.equal(
-      '<foo-stub>\n' +
-      '  <p class="new-example">text</p>\n' +
-      '</foo-stub>'
+      '<foo-stub>\n' + '  <p class="new-example">text</p>\n' + '</foo-stub>'
     )
   })
-
 
   it('renders no children if none supplied', () => {
     const TestComponent = {
