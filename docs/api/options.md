@@ -252,7 +252,7 @@ Example:
 
 ```js
 const Component = {
-  template: '<div v-on:click="$emit(\'click\')"><slot></slot></div>'
+  template: '<button v-on:click="$emit(\'click\')"></button>'
 }
 const onClick = jest.fn()
 const wrapper = mount(Component, {
