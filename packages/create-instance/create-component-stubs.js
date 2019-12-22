@@ -93,7 +93,14 @@ export function createStubFromComponent(
     $_vueTestUtils_original: originalComponent,
     $_doNotStubChildren: true,
     render(h, context) {
-      console.log('parent', this.$options.parent._vnode.data.scopedSlots.newSyntax())
+
+      const renderFns = this && this.$options &&
+      this.$options.parent._vnode &&
+      this.$options.parent._vnode.data &&
+      this.$options.parent._vnode.data.scopedSlots &&
+      Object.keys(this.$options.parent._vnode.data.scopedSlots).filter(x =>
+        x[0] !== '_' && !x.includes('$')
+      )
       return h(
         tagName,
         {
@@ -110,10 +117,11 @@ export function createStubFromComponent(
                 ...this.$props
               }
         },
-        // this fucker passes
-        [this.$options.parent._vnode.data.scopedSlots.newSyntax()] // .newSyntax
-
-        // context ? context.children : this.$options._renderChildren ||  this.$options.parent._vnode.data.scopedSlots // .newSyntax
+        context
+          ? context.children
+          : this.$options._renderChildren ||
+            // support 2.6+ scopedSlots
+            renderFns && renderFns.map(x => this.$options.parent._vnode.data.scopedSlots[x]())
       )
     }
   }

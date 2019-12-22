@@ -110,7 +110,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
     )
   })
 
-  it.only('renders named slots with v-slot syntax', () => {
+  it('renders named slots with v-slot syntax', () => {
     const localVue = createLocalVue()
     localVue.component('Foo', {
       template: '<div><slot name="newSyntax" /></div>'
@@ -127,7 +127,6 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
     const wrapper = shallowMount(TestComponent, {
       localVue
     })
-
     expect(wrapper.find({ name: 'Foo' }).exists()).to.equal(true)
     expect(wrapper.find('.new-example').exists()).to.equal(true)
     expect(wrapper.html()).to.equal(
