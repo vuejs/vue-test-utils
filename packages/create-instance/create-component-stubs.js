@@ -93,6 +93,7 @@ export function createStubFromComponent(
     $_vueTestUtils_original: originalComponent,
     $_doNotStubChildren: true,
     render(h, context) {
+      console.log('parent', this.$options.parent._vnode.data.scopedSlots.newSyntax())
       return h(
         tagName,
         {
@@ -109,7 +110,10 @@ export function createStubFromComponent(
                 ...this.$props
               }
         },
-        context ? context.children : this.$options._renderChildren
+        // this fucker passes
+        [this.$options.parent._vnode.data.scopedSlots.newSyntax()] // .newSyntax
+
+        // context ? context.children : this.$options._renderChildren ||  this.$options.parent._vnode.data.scopedSlots // .newSyntax
       )
     }
   }

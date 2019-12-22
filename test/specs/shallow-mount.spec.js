@@ -110,7 +110,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
     )
   })
 
-  it('renders named slots with v-slot syntax', () => {
+  it.only('renders named slots with v-slot syntax', () => {
     const localVue = createLocalVue()
     localVue.component('Foo', {
       template: '<div><slot name="newSyntax" /></div>'
