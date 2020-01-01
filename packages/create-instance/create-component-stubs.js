@@ -75,6 +75,25 @@ function resolveOptions(component, _Vue) {
   return options
 }
 
+function getScopedSlotRenderFunctions(ctx: any): Array<String> {
+  // In Vue 2.6+ a new v-slot syntax was introduced
+  // scopedSlots are now saved in parent._vnode.data.scopedSlots
+  // We filter out the _normalized and $stable key
+  if (
+    ctx &&
+    ctx.$options &&
+    ctx.$options.parent._vnode &&
+    ctx.$options.parent._vnode.data &&
+    ctx.$options.parent._vnode.data.scopedSlots
+  ) {
+    return Object.keys(ctx.$options.parent._vnode.data.scopedSlots).filter(
+      x => x[0] !== '_' && !x.includes('$')
+    )
+  }
+
+  return []
+}
+
 export function createStubFromComponent(
   originalComponent: Component,
   name: string,
@@ -93,18 +112,6 @@ export function createStubFromComponent(
     $_vueTestUtils_original: originalComponent,
     $_doNotStubChildren: true,
     render(h, context) {
-      // In Vue 2.6+ a new v-slot syntax was introduced
-      // scopedSlots are now saved in parent._vnode.data.scopedSlots
-      // We filter out the _normalized and $stable key
-      const renderFns =
-        this &&
-        this.$options &&
-        this.$options.parent._vnode &&
-        this.$options.parent._vnode.data &&
-        this.$options.parent._vnode.data.scopedSlots &&
-        Object.keys(this.$options.parent._vnode.data.scopedSlots).filter(
-          x => x[0] !== '_' && !x.includes('$')
-        )
       return h(
         tagName,
         {
@@ -124,10 +131,9 @@ export function createStubFromComponent(
         context
           ? context.children
           : this.$options._renderChildren ||
-              (renderFns &&
-                renderFns.map(x =>
-                  this.$options.parent._vnode.data.scopedSlots[x]()
-                ))
+              getScopedSlotRenderFunctions(this).map(x =>
+                this.$options.parent._vnode.data.scopedSlots[x]()
+              )
       )
     }
   }
