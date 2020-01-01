@@ -1,7 +1,7 @@
 // @flow
 
 import Vue from 'vue'
-import { throwError, camelize, capitalize, hyphenate } from '../shared/util'
+import { throwError, camelize, capitalize, hyphenate, keys } from '../shared/util'
 import {
   componentNeedsCompiling,
   templateContainsComponent,
@@ -75,7 +75,7 @@ function resolveOptions(component, _Vue) {
   return options
 }
 
-function getScopedSlotRenderFunctions(ctx: any): Array<String> {
+function getScopedSlotRenderFunctions(ctx: any): Array<string> {
   // In Vue 2.6+ a new v-slot syntax was introduced
   // scopedSlots are now saved in parent._vnode.data.scopedSlots
   // We filter out the _normalized and $stable key
@@ -86,7 +86,8 @@ function getScopedSlotRenderFunctions(ctx: any): Array<String> {
     ctx.$options.parent._vnode.data &&
     ctx.$options.parent._vnode.data.scopedSlots
   ) {
-    return Object.keys(ctx.$options.parent._vnode.data.scopedSlots).filter(
+    const slotKeys: Array<string> = ctx.$options.parent._vnode.data.scopedSlots
+    return keys(slotKeys).filter(
       x => x[0] !== '_' && !x.includes('$')
     )
   }
