@@ -1,7 +1,13 @@
 // @flow
 
 import Vue from 'vue'
-import { throwError, camelize, capitalize, hyphenate, keys } from '../shared/util'
+import {
+  throwError,
+  camelize,
+  capitalize,
+  hyphenate,
+  keys
+} from '../shared/util'
 import {
   componentNeedsCompiling,
   templateContainsComponent,
@@ -87,9 +93,7 @@ function getScopedSlotRenderFunctions(ctx: any): Array<string> {
     ctx.$options.parent._vnode.data.scopedSlots
   ) {
     const slotKeys: Array<string> = ctx.$options.parent._vnode.data.scopedSlots
-    return keys(slotKeys).filter(
-      x => x[0] !== '_' && !x.includes('$')
-    )
+    return keys(slotKeys).filter(x => x[0] !== '_' && !x.includes('$'))
   }
 
   return []
