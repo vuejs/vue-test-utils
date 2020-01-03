@@ -10,7 +10,6 @@
     "build:test": "lerna run build:test",
     "clean": "lerna clean --yes",
     "docs": "vuepress dev docs",
-    "docs:deploy": "scripts/update-docs.sh",
     "docs:build": "vuepress build docs",
     "flow": "flow check",
     "lint": "eslint --ext js,vue . --ignore-path .gitignore",
