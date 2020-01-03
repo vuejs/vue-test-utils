@@ -10,6 +10,22 @@ cd vue-test-utils-getting-started
 npm install
 ```
 
+If you already have a project that was craeted with the [Vue CLI](https://cli.vuejs.org/) and want to add testing capabilities you may run:
+
+```bash
+# unit testing
+vue add @vue/unit-jest
+
+# or:
+vue add @vue/unit-mocha
+
+# end-to-end
+vue add @vue/e2e-cypress
+
+# or:
+vue add @vue/e2e-nightwatch
+```
+
 You will see that the project includes a simple component, `counter.js`:
 
 ```js
