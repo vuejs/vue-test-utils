@@ -22,7 +22,7 @@ Hi! I’m really excited that you are interested in contributing to Vue Test Uti
 
 - It's OK to have multiple small commits as you work on the PR - we will let GitHub automatically squash it before merging.
 
-- Make sure `npm test` passes. (see [development setup](#development-setup))
+- Make sure `yarn test` passes. (see [development setup](#development-setup))
 
 - If adding new feature:
 
@@ -38,7 +38,7 @@ Hi! I’m really excited that you are interested in contributing to Vue Test Uti
 
 You will need [Node.js](http://nodejs.org) **version 6+**
 
-Vue Test Utils is a monorepo. It contains a root package.json for running scripts across the project. The code is inside separate packages in the `packages` directory. The project uses [lerna](https://lerna.js.org/) to manage the workspaces.
+Vue Test Utils is a monorepo. It contains a root `package.json` for running scripts across the project. The code is inside separate packages in the `packages` directory. The project uses [lerna](https://lerna.js.org/) to manage the workspaces and should be run using [yarn](https://yarnpkg.com/lang/en/).
 
 After cloning the repo, run:
 
@@ -46,20 +46,14 @@ After cloning the repo, run:
 $ yarn
 ```
 
-Or with npm:
-
-```bash
-npm i && npm run bootstrap
-```
-
 ### Commonly used NPM scripts
 
 ```bash
 # run unit tests with mocha-webpack
-$ npm run test:unit
+$ yarn test:unit
 
 # run the full test suite, include linting / type checking
-$ npm test
+$ yarn test
 ```
 
 There are some other scripts available in the `scripts` section of the `package.json` file.
