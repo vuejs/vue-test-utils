@@ -10,19 +10,19 @@ cd vue-test-utils-getting-started
 npm install
 ```
 
-If you already have a project and want to add testing capabilities you may run:
+If you already have a project that was craeted with the [Vue CLI](https://cli.vuejs.org/) and want to add testing capabilities you may run:
 
 ```bash
 # unit testing
-vue add @vue/unit-jest 
+vue add @vue/unit-jest
 
-#or:
+# or:
 vue add @vue/unit-mocha
 
 # end-to-end
-vue add @vue/e2e-cypress 
+vue add @vue/e2e-cypress
 
-#or:
+# or:
 vue add @vue/e2e-nightwatch
 ```
 
