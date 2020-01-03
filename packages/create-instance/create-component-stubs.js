@@ -93,7 +93,7 @@ function getScopedSlotRenderFunctions(ctx: any): Array<string> {
     ctx.$options.parent._vnode.data.scopedSlots
   ) {
     const slotKeys: Array<string> = ctx.$options.parent._vnode.data.scopedSlots
-    return keys(slotKeys).filter(x => x[0] !== '_' && !x.includes('$'))
+    return keys(slotKeys).filter(x => x !== '_normalized' && x !== '$stable')
   }
 
   return []
