@@ -166,9 +166,7 @@ const WrapperComp = {
   }
 }
 const wrapper = mount(WrapperComp).find(ComponentUnderTest)
-
 ```
-
 
 ## stubs
 
