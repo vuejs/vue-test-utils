@@ -375,6 +375,10 @@ export default class Wrapper implements BaseWrapper {
         )
       }
 
+      if (this.element.checked === checked) {
+        return
+      }
+
       if (event !== 'click' || isPhantomJS) {
         // $FlowIgnore
         this.element.selected = true
@@ -400,6 +404,10 @@ export default class Wrapper implements BaseWrapper {
     }
 
     if (tagName === 'OPTION') {
+      if (this.element.selected) {
+        return
+      }
+
       // $FlowIgnore
       this.element.selected = true
       // $FlowIgnore

@@ -39,6 +39,44 @@ describeWithShallowAndMount('setSelected', mountingMethod => {
     expect(wrapper.text()).to.contain('selectA')
   })
 
+  it('triggers a change event on the parent select', () => {
+    const change = sinon.spy()
+
+    mountingMethod({
+      template: `
+        <select @change="change">
+          <option />
+          <option value="foo" />
+        </select>
+      `,
+      methods: { change }
+    })
+      .findAll('option')
+      .at(1)
+      .setSelected()
+
+    expect(change).to.have.been.called
+  })
+
+  it('does not trigger an event if called on already selected option', () => {
+    const change = sinon.spy()
+
+    mountingMethod({
+      template: `
+        <select @change="change">
+          <option />
+          <option selected value="foo" />
+        </select>
+      `,
+      methods: { change }
+    })
+      .findAll('option')
+      .at(1)
+      .setSelected()
+
+    expect(change).not.to.have.been.called
+  })
+
   it('throws error if element is not valid', () => {
     const message = 'wrapper.setSelected() cannot be called on this element'
 
