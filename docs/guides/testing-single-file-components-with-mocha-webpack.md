@@ -148,7 +148,7 @@ Create a file in `src` named `Counter.vue`:
 And create a test file named `test/Counter.spec.js` with the following code:
 
 ```js
-import Vue from 'vue';
+import Vue from 'vue'
 import { shallowMount } from '@vue/test-utils'
 import Counter from '../src/Counter.vue'
 
