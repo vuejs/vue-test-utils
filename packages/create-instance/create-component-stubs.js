@@ -88,6 +88,7 @@ function getScopedSlotRenderFunctions(ctx: any): Array<string> {
   if (
     ctx &&
     ctx.$options &&
+    ctx.$options.parent &&
     ctx.$options.parent._vnode &&
     ctx.$options.parent._vnode.data &&
     ctx.$options.parent._vnode.data.scopedSlots
