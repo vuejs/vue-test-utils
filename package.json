@@ -116,7 +116,7 @@
     }
   },
   "lint-staged": {
-    "*.{js,json,vue,md}": "prettier --check",
-    "*.{js,vue}": "lint"
+    "*.{js,json,vue,md}": ["prettier --write", "git add"],
+    "*.{js,vue}": ["eslint --fix", "git add"]
   }
 }
