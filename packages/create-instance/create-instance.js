@@ -73,6 +73,24 @@ export default function createInstance(
 
   // make sure all extends are based on this instance
 
+  if (instanceOptions.watch) {
+    console.log(instanceOptions.watch)
+  }
+
+  // watchers provided in mounting options should override preexisting ones
+  if (componentOptions.watch && instanceOptions.watch) {
+    const componentWatchers = Object.keys(componentOptions.watch)
+    const instanceWatchers = Object.keys(instanceOptions.watch)
+
+    for (let i = 0; i < instanceWatchers.length; i++) {
+      const k = instanceWatchers[i]
+      // override the componentOptions with the one provided in mounting options
+      if (componentWatchers.includes(k)) {
+        componentOptions.watch[k] = instanceOptions.watch[k]
+      }
+    }
+  }
+
   const Constructor = _Vue.extend(componentOptions).extend(instanceOptions)
   componentOptions._Ctor = {}
   Constructor.options._base = _Vue
