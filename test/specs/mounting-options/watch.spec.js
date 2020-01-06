@@ -3,7 +3,7 @@ import { describeWithShallowAndMount } from '~resources/utils'
 describeWithShallowAndMount('options.watch', mountingMethod => {
   it('overrides a default watch handler', async () => {
     const TestComponent = {
-      props: ['someProp', 'anotherProp'],
+      props: ['someProp'],
       template: '<div>{{ foo }}</div>',
       data() {
         return {
@@ -11,11 +11,6 @@ describeWithShallowAndMount('options.watch', mountingMethod => {
         }
       },
       watch: {
-        anotherProp: {
-          handler() {
-            // placeholder
-          }
-        },
         someProp: {
           handler() {
             this.foo = 'updated-bar'
