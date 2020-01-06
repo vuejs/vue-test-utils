@@ -71,12 +71,6 @@ export default function createInstance(
   // used to identify extended component using constructor
   componentOptions.$_vueTestUtils_original = component
 
-  // make sure all extends are based on this instance
-
-  if (instanceOptions.watch) {
-    console.log(instanceOptions.watch)
-  }
-
   // watchers provided in mounting options should override preexisting ones
   if (componentOptions.watch && instanceOptions.watch) {
     const componentWatchers = Object.keys(componentOptions.watch)
@@ -91,6 +85,7 @@ export default function createInstance(
     }
   }
 
+  // make sure all extends are based on this instance
   const Constructor = _Vue.extend(componentOptions).extend(instanceOptions)
   componentOptions._Ctor = {}
   Constructor.options._base = _Vue
