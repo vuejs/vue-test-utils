@@ -1,5 +1,4 @@
 import { describeWithShallowAndMount } from '~resources/utils'
-import { itSkipIf, itDoNotRunIf } from 'conditional-specs'
 
 describeWithShallowAndMount('options.watch', mountingMethod => {
   it('overrides a default watch handler', async () => {
