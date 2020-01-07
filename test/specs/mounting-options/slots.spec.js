@@ -139,9 +139,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
       require.resolve('vue-template-compiler')
     ].exports.compileToFunctions = undefined
     delete require.cache[require.resolve('@vue/test-utils')]
-    const mountingMethodFresh = require('@vue/test-utils')[
-      mountingMethod.name
-    ]
+    const mountingMethodFresh = require('@vue/test-utils')[mountingMethod.name]
     const message =
       '[vue-test-utils]: vueTemplateCompiler is undefined, you must pass precompiled components if vue-template-compiler is undefined'
     const fn = () =>
@@ -391,12 +389,12 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
     const compilerSave =
       require.cache[require.resolve('vue-template-compiler')].exports
         .compileToFunctions
-    require.cache[require.resolve('vue-template-compiler')].exports.compileToFunctions = undefined
+    require.cache[
+      require.resolve('vue-template-compiler')
+    ].exports.compileToFunctions = undefined
 
     delete require.cache[require.resolve('@vue/test-utils')]
-    const mountingMethodFresh = require('@vue/test-utils')[
-      mountingMethod.name
-    ]
+    const mountingMethodFresh = require('@vue/test-utils')[mountingMethod.name]
     const message =
       '[vue-test-utils]: vueTemplateCompiler is undefined, you must pass precompiled components if vue-template-compiler is undefined'
     const fn = () => {

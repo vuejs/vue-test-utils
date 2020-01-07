@@ -265,9 +265,7 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
     ].exports.compileToFunctions = undefined
     delete require.cache[require.resolve('@vue/test-utils')]
     delete require.cache[require.resolve('@vue/server-test-utils')]
-    const mountingMethodFresh = require('@vue/test-utils')[
-      mountingMethod.name
-    ]
+    const mountingMethodFresh = require('@vue/test-utils')[mountingMethod.name]
     const message =
       '[vue-test-utils]: vueTemplateCompiler is undefined, you must pass precompiled components if vue-template-compiler is undefined'
     const fn = () =>
