@@ -1,4 +1,4 @@
-import { RouterLinkStub } from '~vue/test-utils'
+import { RouterLinkStub } from '@vue/test-utils'
 import { describeWithShallowAndMount } from '~resources/utils'
 
 describeWithShallowAndMount('RouterLinkStub', mountingMethod => {

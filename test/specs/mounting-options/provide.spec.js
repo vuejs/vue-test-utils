@@ -1,5 +1,5 @@
-import { config } from '~vue/test-utils'
-import { createLocalVue } from '~vue/test-utils'
+import { config } from '@vue/test-utils'
+import { createLocalVue } from '@vue/test-utils'
 import ComponentWithInject from '~resources/components/component-with-inject.vue'
 import CompositionComponentWithInject from '~resources/components/component-with-inject-composition.vue'
 import { injectSupported } from '~resources/utils'

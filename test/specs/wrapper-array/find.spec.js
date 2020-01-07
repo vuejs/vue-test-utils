@@ -1,5 +1,5 @@
 import { describeWithShallowAndMount } from '~resources/utils'
-import '~vue/test-utils'
+import '@vue/test-utils'
 
 describeWithShallowAndMount('find', mountingMethod => {
   it('throws error if wrapper array contains no items', () => {

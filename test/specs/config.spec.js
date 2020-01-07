@@ -1,6 +1,6 @@
 import { describeWithShallowAndMount } from '~resources/utils'
 import ComponentWithProps from '~resources/components/component-with-props.vue'
-import { config, createLocalVue } from '~vue/test-utils'
+import { config, createLocalVue } from '@vue/test-utils'
 
 describeWithShallowAndMount('config', mountingMethod => {
   const sandbox = sinon.createSandbox()

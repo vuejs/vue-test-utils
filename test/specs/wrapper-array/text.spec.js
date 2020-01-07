@@ -1,6 +1,6 @@
 import { describeWithShallowAndMount } from '~resources/utils'
 import { compileToFunctions } from 'vue-template-compiler'
-import '~vue/test-utils'
+import '@vue/test-utils'
 
 describeWithShallowAndMount('text', mountingMethod => {
   it('throws error when called on a WrapperArray', () => {

@@ -2,8 +2,8 @@ import ComponentWithChild from '~resources/components/component-with-child.vue'
 import ComponentWithNestedChildren from '~resources/components/component-with-nested-children.vue'
 import Component from '~resources/components/component.vue'
 import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
-import { createLocalVue, config } from '~vue/test-utils'
-import { config as serverConfig } from '~vue/server-test-utils'
+import { createLocalVue, config } from '@vue/test-utils'
+import { config as serverConfig } from '@vue/server-test-utils'
 import Vue from 'vue'
 import { describeWithShallowAndMount, vueVersion } from '~resources/utils'
 import { itDoNotRunIf, itSkipIf, itRunIf } from 'conditional-specs'
@@ -263,9 +263,9 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
     require.cache[
       require.resolve('vue-template-compiler')
     ].exports.compileToFunctions = undefined
-    delete require.cache[require.resolve('../../../packages/test-utils')]
-    delete require.cache[require.resolve('../../../packages/server-test-utils')]
-    const mountingMethodFresh = require('../../../packages/test-utils')[
+    delete require.cache[require.resolve('@vue/test-utils')]
+    delete require.cache[require.resolve('@vue/server-test-utils')]
+    const mountingMethodFresh = require('@vue/test-utils')[
       mountingMethod.name
     ]
     const message =
