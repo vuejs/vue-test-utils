@@ -22,6 +22,7 @@
     "test:compat": "scripts/test-compat.sh",
     "test:unit": "npm run build:test && npm run test:unit:only",
     "test:unit:only": "mocha-webpack --webpack-config test/setup/webpack.test.config.js test/specs --recursive --require test/setup/mocha.setup.js",
+    "test:unit:only:dev": "cross-env TARGET=dev yarn run test:unit:only",
     "test:unit:debug": "npm run build:test && node --inspect-brk node_modules/.bin/mocha-webpack --webpack-config test/setup/webpack.test.config.js test/specs --recursive --require test/setup/mocha.setup.js",
     "test:unit:karma": "npm run build:test && npm run test:unit:karma:only",
     "test:unit:karma:only": "cross-env TARGET=browser karma start test/setup/karma.conf.js --single-run",

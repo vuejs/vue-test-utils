@@ -16,7 +16,7 @@ function shallow(component, options) {
   return shallowMount(component, options)
 }
 
-export default {
+export {
   createLocalVue,
   createWrapper,
   config,
