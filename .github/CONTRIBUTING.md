@@ -54,6 +54,9 @@ $ yarn test:unit
 
 # run the full test suite, include linting / type checking
 $ yarn test
+
+# run tests against src files only. Allows inline debugging.
+$ yarn test:unit:only:dev
 ```
 
 There are some other scripts available in the `scripts` section of the `package.json` file.
