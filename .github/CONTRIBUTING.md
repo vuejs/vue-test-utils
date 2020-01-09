@@ -5,6 +5,7 @@ Hi! I’m really excited that you are interested in contributing to Vue Test Uti
 - [Code of Conduct](https://github.com/vuejs/vue/blob/dev/.github/CODE_OF_CONDUCT.md)
 - [Issue Reporting Guidelines](#issue-reporting-guidelines)
 - [Pull Request Guidelines](#pull-request-guidelines)
+- [Committing Changes](#committing-changes)
 - [Development Setup](#development-setup)
 - [Project Structure](#project-structure)
 
@@ -33,6 +34,10 @@ Hi! I’m really excited that you are interested in contributing to Vue Test Uti
   - If you are resolving a special issue, add `(fix #xxxx[,#xxx])` (#xxxx is the issue id) in your PR title for a better release log, e.g. `update entities encoding/decoding (fix #3899)`.
   - Provide detailed description of the bug in the PR. Live demo preferred.
   - Add appropriate test coverage if applicable.
+
+### Committing Changes
+
+Commit messages should follow the [commit message convention](./COMMIT_CONVENTION.md) so that changelogs can be automatically generated. Commit messages will be automatically validated upon commit. If you are not familiar with the commit message convention, you can use `npm run commit` or `yarn commit` instead of `git commit`, which provides an interactive CLI for generating proper commit messages.
 
 ## Development Setup
 
