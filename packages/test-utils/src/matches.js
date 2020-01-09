@@ -5,7 +5,7 @@ import {
 } from 'shared/consts'
 import { isConstructor } from 'shared/validators'
 
-export function vmMatchesName(vm, name) {
+function vmMatchesName(vm, name) {
   const normalize = (name = '') => name.replace(/-/gi, '').toLowerCase()
   const normalizedName = normalize(name)
   return (
