@@ -431,6 +431,20 @@ describeWithShallowAndMount('find', mountingMethod => {
     )
   })
 
+  it('returns a Wrapper matching a component pascal case name in options object', () => {
+    const wrapper = mountingMethod(ComponentWithChild)
+    expect(wrapper.find({ name: 'TestComponent' }).name()).to.equal(
+      'test-component'
+    )
+  })
+
+  it('returns a Wrapper matching a component camel case name in options object', () => {
+    const wrapper = mountingMethod(ComponentWithChild)
+    expect(wrapper.find({ name: 'testComponent' }).name()).to.equal(
+      'test-component'
+    )
+  })
+
   it('returns Wrapper of Vue Component matching the ref in options object', () => {
     const wrapper = mountingMethod(ComponentWithChild)
     expect(wrapper.find({ ref: 'child' }).isVueInstance()).to.equal(true)

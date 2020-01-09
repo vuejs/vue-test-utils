@@ -6,8 +6,12 @@ import {
 import { isConstructor } from 'shared/validators'
 
 export function vmMatchesName(vm, name) {
+  const normalize = (name = '') => name.replace(/-/gi, '').toLowerCase()
+  const normalizedName = normalize(name)
   return (
-    !!name && (vm.name === name || (vm.$options && vm.$options.name === name))
+    !!name &&
+    (normalize(vm.name) === normalizedName ||
+      (vm.$options && normalize(vm.$options.name) === normalizedName))
   )
 }
 
