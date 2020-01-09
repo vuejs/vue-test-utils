@@ -19,7 +19,7 @@ const rules = [].concat(
   }
 )
 const externals = nodeExternals({
-  // we need to whitelist both `create-instance` and files in `shared` package. Otherwise Webpack wont bundle them in the test dev env
+  // we need to whitelist both `create-instance` and files in `shared` package. Otherwise webpack won't bundle them in the test dev env
   whitelist: [
     '@vue/test-utils',
     '@vue/server-test-utils',
