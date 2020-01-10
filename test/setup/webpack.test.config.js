@@ -15,19 +15,35 @@ const rules = [].concat(
   {
     test: /\.js$/,
     loader: 'babel-loader',
-    exclude: /node_modules\/(?!(shared|create-instance)\/).*/
+    exclude: /node_modules/
   }
 )
-
+const externals = nodeExternals({
+  // we need to whitelist both `create-instance` and files in `shared` package. Otherwise webpack won't bundle them in the test dev env
+  whitelist: [
+    '@vue/test-utils',
+    '@vue/server-test-utils',
+    'create-instance',
+    /^shared\/.*/
+  ]
+})
+// define the default aliases
+let aliasedFiles = {}
+if (process.env.TARGET === 'dev') {
+  // if we are in dev test mode, we want to alias all files to the src file, not dist
+  aliasedFiles = {
+    '@vue/server-test-utils': `@vue/server-test-utils/src/index.js`,
+    '@vue/test-utils': `@vue/test-utils/src/index.js`
+  }
+}
 module.exports = {
   module: {
     rules
   },
-  externals: !browser ? [nodeExternals()] : undefined,
+  externals: !browser ? [externals] : undefined,
   resolve: {
     alias: {
-      '~vue/server-test-utils': `${projectRoot}/packages/server-test-utils/dist/vue-server-test-utils.js`,
-      '~vue/test-utils': `${projectRoot}/packages/test-utils/dist/vue-test-utils.js`,
+      ...aliasedFiles,
       '~resources': `${projectRoot}/test/resources`
     }
   },

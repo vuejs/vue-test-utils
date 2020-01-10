@@ -1,6 +1,6 @@
 import { compileToFunctions } from 'vue-template-compiler'
 import Vue from 'vue'
-import { mount, shallowMount, createLocalVue } from '~vue/test-utils'
+import { mount, shallowMount, createLocalVue } from '@vue/test-utils'
 import Component from '~resources/components/component.vue'
 import ComponentWithChild from '~resources/components/component-with-child.vue'
 import ComponentWithNestedChildren from '~resources/components/component-with-nested-children.vue'

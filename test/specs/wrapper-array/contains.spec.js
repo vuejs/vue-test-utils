@@ -1,5 +1,5 @@
 import { describeWithShallowAndMount } from '~resources/utils'
-import '~vue/test-utils'
+import '@vue/test-utils'
 
 describeWithShallowAndMount('contains', mountingMethod => {
   it('returns true if every Wrapper contains element', () => {

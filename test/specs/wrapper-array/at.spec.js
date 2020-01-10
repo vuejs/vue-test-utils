@@ -1,5 +1,5 @@
 import { describeWithShallowAndMount } from '~resources/utils'
-import '~vue/test-utils'
+import '@vue/test-utils'
 
 describeWithShallowAndMount('at', mountingMethod => {
   it('returns Wrapper at index', () => {

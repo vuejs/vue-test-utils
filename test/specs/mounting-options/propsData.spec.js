@@ -1,4 +1,4 @@
-import { shallowMount } from '~vue/test-utils'
+import { shallowMount } from '@vue/test-utils'
 import ComponentWithProps from '~resources/components/component-with-props.vue'
 import { describeRunIf } from 'conditional-specs'
 
