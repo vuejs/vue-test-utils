@@ -27,6 +27,12 @@ const wrapper = shallowMount(Component)
 wrapper.vm // the mounted Vue instance
 ```
 
+### Lifecycle Hooks
+
+When using either the `mount` or `shallowMount` methods, you can expect your component to respond to all lifecycle events. However, it is important to note that `beforeDestroy` and `destroyed` _will not be triggered_ unless the component is manually destroyed using `Wrapper.destroy()`.
+
+Additionally, the component will not be automatically destroyed at the end of each spec, and it is up to the user to stub or manually clean up tasks that will continue to run (`setInterval` or `setTimeout`, for example) before the end of each spec.
+
 ### Writing asynchronous tests using `nextTick` (new)
 
 By default, Vue batches updates to run asynchronously (on the next "tick"). This is to prevent unnecessary DOM re-renders, and watcher computations ([see the docs](https://vuejs.org/v2/guide/reactivity.html#Async-Update-Queue) for more details).
