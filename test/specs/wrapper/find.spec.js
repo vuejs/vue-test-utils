@@ -526,6 +526,32 @@ describeWithShallowAndMount('find', mountingMethod => {
     expect(wrapper.find(ChildComponent).vnode).to.be.an('object')
   })
 
+  it.only('returns the proper component when root is another component', async () => {
+    const baseComponent = {
+      name: 'baseComponent',
+      template: `<div><slot/></div>`
+    }
+    const Component = {
+      name: 'MountedBaseComponent',
+      template: `
+        <base-component key="v1" id="v1" ref="v1" @custom="val=1">
+          <base-component key="v2" id="v2" @custom="val2=1" />
+        </base-component>`,
+      components: { baseComponent },
+      data: () => ({ val: 0, val2: 0 })
+    }
+    const wrapper = mountingMethod(Component)
+    // wrapper.find('#v2').vm.$emit('custom')
+    // await wrapper.vm.$nextTick()
+    // expect(wrapper.vm.val2).to.equal(1)
+
+    // const v1 = wrapper.find({ ref: 'v1' }) // this works properly
+    const v1 = wrapper.find('#v1')
+    v1.vm.$emit('custom')
+    await wrapper.vm.$nextTick()
+    expect(wrapper.vm.val).to.equal(1)
+  })
+
   itDoNotRunIf(
     mountingMethod.name === 'shallowMount',
     'returns a VueWrapper instance by CSS selector if the element binds a Vue instance',
