@@ -25,7 +25,8 @@
   "homepage": "https://github.com/vuejs/vue-test-utils#readme",
   "dependencies": {
     "@types/cheerio": "^0.22.10",
-    "cheerio": "^1.0.0-rc.2"
+    "cheerio": "^1.0.0-rc.2",
+    "rollup-plugin-buble": "^0.19.8"
   },
   "peerDependencies": {
     "@vue/test-utils": "*",
