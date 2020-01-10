@@ -440,6 +440,24 @@ describeWithShallowAndMount('find', mountingMethod => {
     expect(wrapper.find({ name: 'camelCase' }).name()).to.equal('CamelCase')
   })
 
+  it('returns a Wrapper matching a kebab-case name option and a Pascal Case component name ', () => {
+    const component = {
+      name: 'CamelCase',
+      render: h => h('div')
+    }
+    const wrapper = mountingMethod(component)
+    expect(wrapper.find({ name: 'camel-case' }).name()).to.equal('CamelCase')
+  })
+
+  it('returns a Wrapper matching a Pascal Case name option and a kebab-casecomponent name ', () => {
+    const component = {
+      name: 'camel-case',
+      render: h => h('div')
+    }
+    const wrapper = mountingMethod(component)
+    expect(wrapper.find({ name: 'CamelCase' }).name()).to.equal('camel-case')
+  })
+
   it('returns Wrapper of Vue Component matching the ref in options object', () => {
     const wrapper = mountingMethod(ComponentWithChild)
     expect(wrapper.find({ ref: 'child' }).isVueInstance()).to.equal(true)
@@ -450,7 +468,7 @@ describeWithShallowAndMount('find', mountingMethod => {
     const wrapper = mountingMethod(compiled)
     const a = wrapper.find('a')
     const message =
-      '[vue-test-utils]: $ref selectors can only be used on Vue component wrappers'
+      '[vue-test-utils]: $ref selectors can used on Vue component wrappers'
     const fn = () => a.find({ ref: 'foo' })
     expect(fn)
       .to.throw()

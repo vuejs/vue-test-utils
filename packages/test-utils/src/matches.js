@@ -4,15 +4,19 @@ import {
   FUNCTIONAL_OPTIONS
 } from 'shared/consts'
 import { isConstructor } from 'shared/validators'
-import { capitalize } from 'shared/util'
+import { capitalize, camelize } from 'shared/util'
 
 function vmMatchesName(vm, name) {
+  console.log(name)
+  console.log(vm.$options.name)
   return (
     !!name && (
-      vm.name === name || 
+      vm.name === name ||
       (vm.$options && vm.$options.name === name) ||
       vm.name === capitalize(name) ||
-      vm.$options && vm.$options.name === capitalize(name)
+      vm.$options && vm.$options.name === capitalize(name) ||
+      vm.$options && vm.$options.name && vm.$options.name === capitalize(camelize(name)) ||
+      vm.$options && vm.$options.name && capitalize(camelize(vm.$options.name)) === name
     )
   )
 }
