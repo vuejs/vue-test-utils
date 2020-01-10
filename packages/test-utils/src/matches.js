@@ -4,14 +4,16 @@ import {
   FUNCTIONAL_OPTIONS
 } from 'shared/consts'
 import { isConstructor } from 'shared/validators'
+import { capitalize } from 'shared/util'
 
 function vmMatchesName(vm, name) {
-  const lc = (name = '') => name.toLowerCase()
-  const lowerCaseName = lc(name)
   return (
-    !!name &&
-    (lc(vm.name) === lowerCaseName ||
-      (vm.$options && lc(vm.$options.name) === lowerCaseName))
+    !!name && (
+      vm.name === name || 
+      (vm.$options && vm.$options.name === name) ||
+      vm.name === capitalize(name) ||
+      vm.$options && vm.$options.name === capitalize(name)
+    )
   )
 }
 

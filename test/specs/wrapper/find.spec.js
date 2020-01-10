@@ -431,14 +431,7 @@ describeWithShallowAndMount('find', mountingMethod => {
     )
   })
 
-  it('returns a Wrapper matching a component camel case name in options object', () => {
-    const wrapper = mountingMethod(ComponentWithChild)
-    expect(wrapper.find({ name: 'test-Component' }).name()).to.equal(
-      'test-component'
-    )
-  })
-
-  it('returns a Wrapper matching a name disregarding case in options object', () => {
+  it('returns a Wrapper matching a camelCase name option and a Pascal Case component name ', () => {
     const component = {
       name: 'CamelCase',
       render: h => h('div')
