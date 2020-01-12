@@ -7,14 +7,19 @@ import { isConstructor } from 'shared/validators'
 import { capitalize, camelize } from 'shared/util'
 
 function vmMatchesName(vm, name) {
-  const componentName = vm.$options && vm.$options.name || ''
+  // We want to mirror how Vue resolves component names in SFCs:
+  // For example, <test-component />, <TestComponent /> and `<testComponent />
+  // all resolve to the same component
+  const componentName = (vm.$options && vm.$options.name) || ''
   return (
-    !!name && (
-      componentName === name || 
+    !!name &&
+    (componentName === name ||
+      // testComponent -> TestComponent
       componentName === capitalize(name) ||
+      // testcomponent -> TestComponent
       componentName === capitalize(camelize(name)) ||
-      capitalize(camelize(componentName)) === name
-    )
+      // same match as above, but the component name vs query
+      capitalize(camelize(componentName)) === name)
   )
 }
 
