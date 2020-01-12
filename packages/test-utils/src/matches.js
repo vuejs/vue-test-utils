@@ -16,7 +16,7 @@ function vmMatchesName(vm, name) {
     (componentName === name ||
       // testComponent -> TestComponent
       componentName === capitalize(name) ||
-      // testcomponent -> TestComponent
+      // test-component -> TestComponent
       componentName === capitalize(camelize(name)) ||
       // same match as above, but the component name vs query
       capitalize(camelize(componentName)) === name)
