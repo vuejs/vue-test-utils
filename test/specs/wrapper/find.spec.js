@@ -468,7 +468,7 @@ describeWithShallowAndMount('find', mountingMethod => {
     const wrapper = mountingMethod(compiled)
     const a = wrapper.find('a')
     const message =
-      '[vue-test-utils]: $ref selectors can used on Vue component wrappers'
+      '[vue-test-utils]: $ref selectors can only be used on Vue component wrappers'
     const fn = () => a.find({ ref: 'foo' })
     expect(fn)
       .to.throw()
