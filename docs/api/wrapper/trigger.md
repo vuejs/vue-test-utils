@@ -1,6 +1,6 @@
 ## trigger
 
-Triggers an event on the `Wrapper` DOM node.
+Triggers an event asynchronously on the `Wrapper` DOM node.
 
 `trigger` takes an optional `options` object. The properties in the `options` object are added to the Event.
 
@@ -30,6 +30,8 @@ wrapper.trigger('click', {
 wrapper.trigger('click', {
   ctrlKey: true // For testing @click.ctrl handlers
 })
+
+await wrapper.vm.$nextTick()  // Wait until trigger events have been handled
 
 expect(clickHandler.called).toBe(true)
 ```
