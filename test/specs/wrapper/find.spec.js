@@ -431,6 +431,33 @@ describeWithShallowAndMount('find', mountingMethod => {
     )
   })
 
+  it('returns a Wrapper matching a camelCase name option and a Pascal Case component name ', () => {
+    const component = {
+      name: 'CamelCase',
+      render: h => h('div')
+    }
+    const wrapper = mountingMethod(component)
+    expect(wrapper.find({ name: 'camelCase' }).name()).to.equal('CamelCase')
+  })
+
+  it('returns a Wrapper matching a kebab-case name option and a Pascal Case component name ', () => {
+    const component = {
+      name: 'CamelCase',
+      render: h => h('div')
+    }
+    const wrapper = mountingMethod(component)
+    expect(wrapper.find({ name: 'camel-case' }).name()).to.equal('CamelCase')
+  })
+
+  it('returns a Wrapper matching a Pascal Case name option and a kebab-casecomponent name ', () => {
+    const component = {
+      name: 'camel-case',
+      render: h => h('div')
+    }
+    const wrapper = mountingMethod(component)
+    expect(wrapper.find({ name: 'CamelCase' }).name()).to.equal('camel-case')
+  })
+
   it('returns Wrapper of Vue Component matching the ref in options object', () => {
     const wrapper = mountingMethod(ComponentWithChild)
     expect(wrapper.find({ ref: 'child' }).isVueInstance()).to.equal(true)
