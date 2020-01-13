@@ -31,7 +31,7 @@ wrapper.trigger('click', {
   ctrlKey: true // For testing @click.ctrl handlers
 })
 
-await wrapper.vm.$nextTick()  // Wait until trigger events have been handled
+await wrapper.vm.$nextTick() // Wait until trigger events have been handled
 
 expect(clickHandler.called).toBe(true)
 ```

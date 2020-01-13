@@ -14,7 +14,7 @@ const wrapper = mount(Component)
 wrapper.vm.$emit('foo')
 wrapper.vm.$emit('foo', 123)
 
-await wrapper.vm.$nextTick()  // Wait until $emits have been handled
+await wrapper.vm.$nextTick() // Wait until $emits have been handled
 
 /*
 wrapper.emitted() returns the following object:
