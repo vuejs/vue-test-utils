@@ -10,6 +10,10 @@ import { mount } from '@vue/test-utils'
 
 const wrapper = mount(Foo)
 
+// similar to `wrapper.find`.
+`get` will throw an error if an element is not found. `find` will do nothing.
+expect(wrapper.get('.does-exist'))
+
 expect(() => wrapper.get('.does-not-exist'))
   .to.throw()
   .with.property(
