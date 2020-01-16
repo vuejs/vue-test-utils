@@ -72,6 +72,13 @@ selector = array.selector
 array = wrapper.findAll({ name: 'my-button' })
 selector = array.selector
 
+let gotten = wrapper.get('.foo')
+gotten = wrapper.get(normalOptions)
+gotten = wrapper.get(functionalOptions)
+gotten = wrapper.get(ClassComponent)
+gotten = wrapper.get({ ref: 'myButton' })
+gotten = wrapper.get({ name: 'my-button' })
+
 wrapper.setChecked()
 wrapper.setChecked(true)
 wrapper.setValue('some string')

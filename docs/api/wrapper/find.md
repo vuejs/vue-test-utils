@@ -31,3 +31,5 @@ expect(barByName.is(Bar)).toBe(true)
 const fooRef = wrapper.find({ ref: 'foo' })
 expect(fooRef.is(Foo)).toBe(true)
 ```
+
+See also: [get](../get.md).

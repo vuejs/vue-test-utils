@@ -77,6 +77,13 @@ export interface Wrapper<V extends Vue | null> extends BaseWrapper {
   readonly element: HTMLElement
   readonly options: WrapperOptions
 
+  get<R extends Vue> (selector: VueClass<R>): Wrapper<R>
+  get<R extends Vue> (selector: ComponentOptions<R>): Wrapper<R>
+  get (selector: FunctionalComponentOptions): Wrapper<Vue>
+  get (selector: string): Wrapper<Vue>
+  get (selector: RefSelector): Wrapper<Vue>
+  get (selector: NameSelector): Wrapper<Vue>
+
   find<R extends Vue> (selector: VueClass<R>): Wrapper<R>
   find<R extends Vue> (selector: ComponentOptions<R>): Wrapper<R>
   find (selector: FunctionalComponentOptions): Wrapper<Vue>
