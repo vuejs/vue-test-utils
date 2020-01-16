@@ -1,19 +1,17 @@
 ## Testing Single-File Components with Mocha + webpack
 
-> An example project for this setup is available on [GitHub](https://github.com/vuejs/vue-test-utils-mocha-webpack-example).
-
 Another strategy for testing SFCs is compiling all our tests via webpack and then run it in a test runner. The advantage of this approach is that it gives us full support for all webpack and `vue-loader` features, so we don't have to make compromises in our source code.
 
-You can technically use any test runner you like and manually wire things together, but we've found [`mocha-webpack`](https://github.com/zinserjan/mocha-webpack) to provide a very streamlined experience for this particular task.
+You can technically use any test runner you like and manually wire things together, but we've found [`mochapack`](https://github.com/sysgears/mochapack) to provide a very streamlined experience for this particular task.
 
-### Setting Up `mocha-webpack`
+### Setting Up `mochapack`
 
 We will assume you are starting with a setup that already has webpack, vue-loader and Babel properly configured - e.g. the `webpack-simple` template scaffolded by `vue-cli`.
 
 The first thing to do is installing test dependencies:
 
 ```bash
-npm install --save-dev @vue/test-utils mocha mocha-webpack
+npm install --save-dev @vue/test-utils mocha mochapack
 ```
 
 Next we need to define a test script in our `package.json`.
@@ -22,7 +20,7 @@ Next we need to define a test script in our `package.json`.
 // package.json
 {
   "scripts": {
-    "test": "mocha-webpack --webpack-config webpack.config.js --require test/setup.js test/**/*.spec.js"
+    "test": "mochapack --webpack-config webpack.config.js --require test/setup.js test/**/*.spec.js"
   }
 }
 ```
@@ -53,7 +51,7 @@ module.exports = {
 
 #### Source Maps
 
-Source maps need to be inlined to be picked up by `mocha-webpack`. The recommended config is:
+Source maps need to be inlined to be picked up by `mochapack`. The recommended config is:
 
 ```js
 module.exports = {
@@ -150,13 +148,15 @@ Create a file in `src` named `Counter.vue`:
 And create a test file named `test/Counter.spec.js` with the following code:
 
 ```js
+import Vue from 'vue'
 import { shallowMount } from '@vue/test-utils'
 import Counter from '../src/Counter.vue'
 
 describe('Counter.vue', () => {
-  it('increments count when button is clicked', () => {
+  it('increments count when button is clicked', async () => {
     const wrapper = shallowMount(Counter)
     wrapper.find('button').trigger('click')
+    await Vue.nextTick()
     expect(wrapper.find('div').text()).toMatch('1')
   })
 })
@@ -172,13 +172,12 @@ Woohoo, we got our tests running!
 
 ### Coverage
 
-To setup code coverage to `mocha-webpack`, follow [the `mocha-webpack` code coverage guide](https://github.com/zinserjan/mocha-webpack/blob/master/docs/guides/code-coverage.md).
+To setup code coverage to `mochapack`, follow [the `mochapack` code coverage guide](https://github.com/sysgears/mochapack/blob/master/docs/guides/code-coverage.md).
 
 ### Resources
 
-- [Example project for this setup](https://github.com/vuejs/vue-test-utils-mocha-webpack-example)
 - [Mocha](https://mochajs.org/)
-- [mocha-webpack](http://zinserjan.github.io/mocha-webpack/)
+- [mochapack](https://github.com/sysgears/mochapack/)
 - [Chai](http://chaijs.com/)
 - [Sinon](http://sinonjs.org/)
 - [jest/expect](https://jestjs.io/docs/en/expect#content)

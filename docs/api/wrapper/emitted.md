@@ -9,26 +9,30 @@ Return an object containing custom events emitted by the `Wrapper` `vm`.
 ```js
 import { mount } from '@vue/test-utils'
 
-const wrapper = mount(Component)
+test('emit demo', async () => {
+  const wrapper = mount(Component)
 
-wrapper.vm.$emit('foo')
-wrapper.vm.$emit('foo', 123)
+  wrapper.vm.$emit('foo')
+  wrapper.vm.$emit('foo', 123)
 
-/*
-wrapper.emitted() returns the following object:
-{
-  foo: [[], [123]]
-}
-*/
+  await wrapper.vm.$nextTick() // Wait until $emits have been handled
 
-// assert event has been emitted
-expect(wrapper.emitted().foo).toBeTruthy()
+  /*
+  wrapper.emitted() returns the following object:
+  {
+    foo: [[], [123]]
+  }
+  */
 
-// assert event count
-expect(wrapper.emitted().foo.length).toBe(2)
+  // assert event has been emitted
+  expect(wrapper.emitted().foo).toBeTruthy()
 
-// assert event payload
-expect(wrapper.emitted().foo[1]).toEqual([123])
+  // assert event count
+  expect(wrapper.emitted().foo.length).toBe(2)
+
+  // assert event payload
+  expect(wrapper.emitted().foo[1]).toEqual([123])
+})
 ```
 
 You can also write the above as follows:

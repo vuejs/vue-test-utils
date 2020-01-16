@@ -14,7 +14,6 @@
 - [`listeners`](#listeners)
 - [`parentComponent`](#parentcomponent)
 - [`provide`](#provide)
-- [`sync`](#sync)
 
 ## context
 
@@ -195,6 +194,8 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 
 `true` に設定されている場合、描画時にコンポーネントは DOM にアタッチされます。
 
+DOM にアタッチされた際に、テストの最後で `wrapper.destroy()` を呼び出さなければなりません。レンダリングされた要素をドキュメントから取り除いて、コンポーネントインスタンスを壊さなければならないからです。
+
 ## attrs
 
 - 型: `Object`
@@ -275,14 +276,6 @@ const wrapper = shallowMount(Component, {
 
 expect(wrapper.text()).toBe('fooValue')
 ```
-
-## sync
-
-- 型: `boolean`
-- デフォルト: `true`
-
-`sync` を `true` にすると、Vue コンポーネントは同期的に描画されます。  
-`sync` を `false` にすると、Vue コンポーネントは非同期的に描画されます。
 
 ## その他のオプション
 

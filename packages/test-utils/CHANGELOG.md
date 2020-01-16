@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.0.0-beta.30"></a>
+# [1.0.0-beta.30](https://github.com/vuejs/vue-test-utils/compare/v1.0.0-beta.29...v1.0.0-beta.30) (2019-11-28)
+
+
+### Bug Fixes
+
+* polyfill Element.matches for IE < 11 ([#1230](https://github.com/vuejs/vue-test-utils/issues/1230)) ([5e04331](https://github.com/vuejs/vue-test-utils/commit/5e04331)), closes [#1223](https://github.com/vuejs/vue-test-utils/issues/1223)
+* **types:** allow `false` as a component stub value ([#1231](https://github.com/vuejs/vue-test-utils/issues/1231)) ([2a4c6ef](https://github.com/vuejs/vue-test-utils/commit/2a4c6ef))
+* respect "hidden" attributes in isVisible() ([#1257](https://github.com/vuejs/vue-test-utils/issues/1257)) ([950763f](https://github.com/vuejs/vue-test-utils/commit/950763f))
+
+
+### Code Refactoring
+
+* remove sync mode ([#1141](https://github.com/vuejs/vue-test-utils/issues/1141)) ([ef613de](https://github.com/vuejs/vue-test-utils/commit/ef613de))
+
+
+### Features
+
+* **wrapper:** allow destroy() method to work with functional components ([#1188](https://github.com/vuejs/vue-test-utils/issues/1188)) ([f4ea3fd](https://github.com/vuejs/vue-test-utils/commit/f4ea3fd))
+* add option to pretty print html components ([#1229](https://github.com/vuejs/vue-test-utils/issues/1229)) ([99336c4](https://github.com/vuejs/vue-test-utils/commit/99336c4))
+* stop auto stubbing transition and transition-group ([#1127](https://github.com/vuejs/vue-test-utils/issues/1127)) ([85a972c](https://github.com/vuejs/vue-test-utils/commit/85a972c))
+
+
+### BREAKING CHANGES
+
+* html output will now be formatted
+* * Remove `sync` mode
+* Remove TransitionStub
+* Remove Transition
+
+
+
+
 <a name="1.0.0-beta.29"></a>
 # [1.0.0-beta.29](https://github.com/vuejs/vue-test-utils/compare/v1.0.0-beta.28...v1.0.0-beta.29) (2019-02-02)
 

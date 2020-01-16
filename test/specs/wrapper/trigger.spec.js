@@ -37,6 +37,26 @@ describeWithShallowAndMount('trigger', mountingMethod => {
     expect(keydownHandler.calledOnce).to.equal(true)
   })
 
+  describe('causes keydown handler to fire with the appropriate keyCode when wrapper.trigger("keydown", { keyCode: 65 }) is fired on a Component', () => {
+    const keydownHandler = sandbox.stub()
+    const wrapper = mountingMethod(ComponentWithEvents, {
+      propsData: { keydownHandler }
+    })
+
+    wrapper.find('.keydown').trigger('keydown', { keyCode: 65 })
+
+    const keyboardEvent = keydownHandler.getCall(0).args[0]
+
+    // Unfortunately, JSDom will give different types than PhantomJS for keyCodes (string vs number), so we have to use parseInt to normalize the types.
+    it('contains the keyCode', () => {
+      expect(parseInt(keyboardEvent.keyCode, 10)).to.equal(65)
+    })
+
+    itDoNotRunIf(isRunningPhantomJS, 'contains the code', () => {
+      expect(parseInt(keyboardEvent.code, 10)).to.equal(65)
+    })
+  })
+
   it('causes keydown handler to fire when wrapper.trigger("keydown.enter") is fired on a Component', () => {
     const keydownHandler = sandbox.stub()
     const wrapper = mountingMethod(ComponentWithEvents, {
@@ -120,19 +140,47 @@ describeWithShallowAndMount('trigger', mountingMethod => {
     expect(stub).calledWith(123)
   })
 
-  it('does not fire on disabled elements', () => {
+  it('does not fire on valid disabled elements', () => {
     const clickHandler = sandbox.stub()
-    const TestComponent = {
-      template: '<button disabled @click="clickHandler"/>',
+    const ButtonComponent = {
+      template: '<button disabled @click="clickHandler">Button</button>',
       props: ['clickHandler']
     }
-    const wrapper = mountingMethod(TestComponent, {
+    const buttonWrapper = mountingMethod(ButtonComponent, {
       propsData: {
         clickHandler
       }
     })
-    wrapper.trigger('click')
+    buttonWrapper.trigger('click')
     expect(clickHandler.called).to.equal(false)
+
+    const changeHandler = sandbox.stub()
+    const InputComponent = {
+      template: '<input disabled @change="changeHandler"/>',
+      props: ['changeHandler']
+    }
+    const inputWrapper = mountingMethod(InputComponent, {
+      propsData: {
+        changeHandler
+      }
+    })
+    inputWrapper.trigger('change')
+    expect(changeHandler.called).to.equal(false)
+  })
+
+  it('fires on invalid disabled elements', () => {
+    const clickHandler = sandbox.stub()
+    const LinkComponent = {
+      template: '<a disabled href="#" @click="clickHandler">Link</a>',
+      props: ['clickHandler']
+    }
+    const linkWrapper = mountingMethod(LinkComponent, {
+      propsData: {
+        clickHandler
+      }
+    })
+    linkWrapper.trigger('click')
+    expect(clickHandler.called).to.equal(true)
   })
 
   it('handles .prevent', () => {

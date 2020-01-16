@@ -24,6 +24,7 @@ export default class Wrapper implements BaseWrapper {
   +options: WrapperOptions
   isFunctionalComponent: boolean
   rootNode: VNode | Element
+  selector: Selector | void
 
   constructor(
     node: VNode | Element,
@@ -205,15 +206,12 @@ export default class Wrapper implements BaseWrapper {
     const node = find(this.rootNode, this.vm, selector)[0]
 
     if (!node) {
-      if (selector.type === REF_SELECTOR) {
-        return new ErrorWrapper(`ref="${selector.value.ref}"`)
-      }
-      return new ErrorWrapper(
-        typeof selector.value === 'string' ? selector.value : 'Component'
-      )
+      return new ErrorWrapper(rawSelector)
     }
 
-    return createWrapper(node, this.options)
+    const wrapper = createWrapper(node, this.options)
+    wrapper.selector = rawSelector
+    return wrapper
   }
 
   /**
@@ -226,9 +224,14 @@ export default class Wrapper implements BaseWrapper {
     const wrappers = nodes.map(node => {
       // Using CSS Selector, returns a VueWrapper instance if the root element
       // binds a Vue instance.
-      return createWrapper(node, this.options)
+      const wrapper = createWrapper(node, this.options)
+      wrapper.selector = rawSelector
+      return wrapper
     })
-    return new WrapperArray(wrappers)
+
+    const wrapperArray = new WrapperArray(wrappers)
+    wrapperArray.selector = rawSelector
+    return wrapperArray
   }
 
   /**
@@ -384,6 +387,10 @@ export default class Wrapper implements BaseWrapper {
         )
       }
 
+      if (this.element.checked === checked) {
+        return
+      }
+
       if (event !== 'click' || isPhantomJS) {
         // $FlowIgnore
         this.element.selected = true
@@ -409,6 +416,10 @@ export default class Wrapper implements BaseWrapper {
     }
 
     if (tagName === 'OPTION') {
+      if (this.element.selected) {
+        return
+      }
+
       // $FlowIgnore
       this.element.selected = true
       // $FlowIgnore
@@ -586,8 +597,25 @@ export default class Wrapper implements BaseWrapper {
       )
     }
 
-    // Don't fire event on a disabled element
-    if (this.attributes().disabled) {
+    /**
+     * Avoids firing events on specific disabled elements
+     * See more: https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled
+     */
+
+    const supportedTags = [
+      'BUTTON',
+      'COMMAND',
+      'FIELDSET',
+      'KEYGEN',
+      'OPTGROUP',
+      'OPTION',
+      'SELECT',
+      'TEXTAREA',
+      'INPUT'
+    ]
+    const tagName = this.element.tagName
+
+    if (this.attributes().disabled && supportedTags.indexOf(tagName) > -1) {
       return
     }
 

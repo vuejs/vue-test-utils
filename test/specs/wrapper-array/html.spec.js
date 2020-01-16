@@ -1,6 +1,6 @@
 import { describeWithShallowAndMount } from '~resources/utils'
 import { compileToFunctions } from 'vue-template-compiler'
-import '~vue/test-utils'
+import '@vue/test-utils'
 
 describeWithShallowAndMount('html', mountingMethod => {
   it('throws error if wrapper array contains no items', () => {

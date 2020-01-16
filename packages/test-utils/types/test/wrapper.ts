@@ -1,4 +1,4 @@
-import { mount, createWrapper } from '../'
+import { mount, createWrapper, Selector } from '../'
 import { normalOptions, functionalOptions, ClassComponent } from './resources'
 import Vue from 'vue'
 
@@ -44,19 +44,33 @@ wrapper.vm.$emit('event', 'arg')
 
 let el: HTMLElement = wrapper.element
 
+let selector: Selector | void
+
 let found = wrapper.find('.foo')
+selector = found.selector
 found = wrapper.find(normalOptions)
+selector = found.selector
 found = wrapper.find(functionalOptions)
+selector = found.selector
 found = wrapper.find(ClassComponent)
+selector = found.selector
 found = wrapper.find({ ref: 'myButton' })
+selector = found.selector
 found = wrapper.find({ name: 'my-button' })
+selector = found.selector
 
 let array = wrapper.findAll('.bar')
+selector = array.selector
 array = wrapper.findAll(normalOptions)
+selector = array.selector
 array = wrapper.findAll(functionalOptions)
+selector = array.selector
 array = wrapper.findAll(ClassComponent)
+selector = array.selector
 array = wrapper.findAll({ ref: 'myButton' })
+selector = array.selector
 array = wrapper.findAll({ name: 'my-button' })
+selector = array.selector
 
 let gotten = wrapper.get('.foo')
 gotten = wrapper.get(normalOptions)

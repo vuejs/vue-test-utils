@@ -22,7 +22,6 @@
   - [listeners](#listeners)
   - [parentComponent](#parentcomponent)
   - [provide](#provide)
-  - [sync](#sync)
   - [Другие опции](#%D0%B4%D1%80%D1%83%D0%B3%D0%B8%D0%B5-%D0%BE%D0%BF%D1%86%D0%B8%D0%B8)
 
 ## context
@@ -81,7 +80,7 @@ expect(wrapper.find('div')).toBe(true)
 
 - Тип: `{ [name: string]: string|Function }`
 
-Предоставляет объект содержимое слотов с ограниченной областью видимости для компонента. Ключ соответствует имени слота.
+Предоставляет объект с содержимым слотов с ограниченной областью видимости для компонента. Ключ соответствует имени слота.
 
 Вы можете установить имя входного параметра, используя атрибут slot-scope:
 
@@ -291,14 +290,6 @@ const wrapper = shallowMount(Component, {
 
 expect(wrapper.text()).toBe('fooValue')
 ```
-
-## sync
-
-- Тип: `boolean`
-- По умолчанию: `true`
-
-Когда `sync` равняется `true`, Vue-компонент рендериться синхронно.  
-Когда `sync` равняется `false`, Vue-компонент рендериться асинхронно.
 
 ## Другие опции
 

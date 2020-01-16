@@ -2,8 +2,8 @@ import ComponentWithChild from '~resources/components/component-with-child.vue'
 import ComponentWithNestedChildren from '~resources/components/component-with-nested-children.vue'
 import Component from '~resources/components/component.vue'
 import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
-import { createLocalVue, config } from '~vue/test-utils'
-import { config as serverConfig } from '~vue/server-test-utils'
+import { createLocalVue, config } from '@vue/test-utils'
+import { config as serverConfig } from '@vue/server-test-utils'
 import Vue from 'vue'
 import { describeWithShallowAndMount, vueVersion } from '~resources/utils'
 import { itDoNotRunIf, itSkipIf, itRunIf } from 'conditional-specs'
@@ -263,11 +263,9 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
     require.cache[
       require.resolve('vue-template-compiler')
     ].exports.compileToFunctions = undefined
-    delete require.cache[require.resolve('../../../packages/test-utils')]
-    delete require.cache[require.resolve('../../../packages/server-test-utils')]
-    const mountingMethodFresh = require('../../../packages/test-utils')[
-      mountingMethod.name
-    ]
+    delete require.cache[require.resolve('@vue/test-utils')]
+    delete require.cache[require.resolve('@vue/server-test-utils')]
+    const mountingMethodFresh = require('@vue/test-utils')[mountingMethod.name]
     const message =
       '[vue-test-utils]: vueTemplateCompiler is undefined, you must pass precompiled components if vue-template-compiler is undefined'
     const fn = () =>
@@ -523,6 +521,30 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
     expect(wrapper.html()).to.contain('span')
     expect(wrapper.html()).to.contain('dynamichello2-stub')
     expect(wrapper.html()).to.contain('h1')
+  })
+
+  it('maintains refs to components', () => {
+    const FunctionalComponentPassingRef = {
+      functional: true,
+      render: (h, context) => h('div', context.data)
+    }
+
+    const TestComponent = {
+      template: `
+        <div>
+          <test-component ref="normalChild" />
+          <test-functional-component ref="functionalChild" />
+        </div>
+      `,
+      components: {
+        testComponent: Component,
+        testFunctionalComponent: FunctionalComponentPassingRef
+      }
+    }
+
+    const wrapper = mountingMethod(TestComponent)
+    expect(wrapper.vm.$refs.normalChild).to.exist
+    expect(wrapper.vm.$refs.functionalChild).to.exist
   })
 
   it('uses original component stub', () => {

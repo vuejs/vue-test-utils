@@ -36,6 +36,10 @@ function hasOwnProperty(obj, prop) {
   return Object.prototype.hasOwnProperty.call(obj, prop)
 }
 
+export function keys<T: string>(obj: any): Array<T> {
+  return Object.keys(obj)
+}
+
 export function resolveComponent(id: string, components: Object) {
   if (typeof id !== 'string') {
     return

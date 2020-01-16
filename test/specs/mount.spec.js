@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import { compileToFunctions } from 'vue-template-compiler'
-import { mount, createLocalVue } from '~vue/test-utils'
+import { mount, createLocalVue } from '@vue/test-utils'
 import Component from '~resources/components/component.vue'
 import ComponentWithProps from '~resources/components/component-with-props.vue'
 import ComponentWithMixin from '~resources/components/component-with-mixin.vue'
@@ -160,6 +160,25 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     expect(wrapper.vm).to.be.an('object')
     expect(wrapper.html()).to.equal(`<div>foo</div>`)
   })
+
+  itDoNotRunIf(
+    !(navigator.userAgent.includes && navigator.userAgent.includes('node.js')),
+    'compiles templates from querySelector',
+    () => {
+      const template = window.createElement('div')
+      template.setAttribute('id', 'foo')
+      template.innerHTML = '<div>foo</div>'
+      window.document.body.appendChild(template)
+
+      const wrapper = mount({
+        template: '#foo'
+      })
+      expect(wrapper.vm).to.be.an('object')
+      expect(wrapper.html()).to.equal(`<div>foo</div>`)
+
+      window.body.removeChild(template)
+    }
+  )
 
   itDoNotRunIf(vueVersion < 2.3, 'overrides methods', () => {
     const stub = sandbox.stub()

@@ -55,6 +55,43 @@ describeWithShallowAndMount('setChecked', mountingMethod => {
     expect(wrapper.find('.counter').text()).to.equal('4')
   })
 
+  it('triggers a change event when called on a checkbox', () => {
+    const listener = sinon.spy()
+
+    mountingMethod({
+      // For compatibility with earlier versions of Vue that use the `click`
+      // event for updating `v-model`.
+      template: `
+        <input
+          type="checkbox"
+          @change="listener"
+          @click="listener"
+        >
+      `,
+      methods: { listener }
+    }).setChecked()
+
+    expect(listener).to.have.been.called
+  })
+
+  it('does not trigger a change event if the checkbox is already checked', () => {
+    const listener = sinon.spy()
+
+    mountingMethod({
+      template: `
+        <input
+          type="checkbox"
+          checked
+          @change="listener"
+          @click="listener"
+        >
+      `,
+      methods: { listener }
+    }).setChecked()
+
+    expect(listener).not.to.have.been.called
+  })
+
   it('updates dom with radio v-model', async () => {
     const wrapper = mountingMethod(ComponentWithInput)
 
@@ -67,7 +104,7 @@ describeWithShallowAndMount('setChecked', mountingMethod => {
     expect(wrapper.text()).to.contain('radioFooResult')
   })
 
-  it('changes state the right amount of times with checkbox v-model', async () => {
+  it('changes state the right amount of times with radio v-model', async () => {
     const wrapper = mountingMethod(ComponentWithInput)
     const radioBar = wrapper.find('#radioBar')
     const radioFoo = wrapper.find('#radioFoo')
@@ -87,6 +124,41 @@ describeWithShallowAndMount('setChecked', mountingMethod => {
     radioFoo.setChecked()
     await Vue.nextTick()
     expect(wrapper.find('.counter').text()).to.equal('4')
+  })
+
+  it('triggers a change event when called on a radio button', () => {
+    const listener = sinon.spy()
+
+    mountingMethod({
+      template: `
+        <input
+          type="radio"
+          @change="listener"
+          @click="listener"
+        >
+      `,
+      methods: { listener }
+    }).setChecked()
+
+    expect(listener).to.have.been.called
+  })
+
+  it('does not trigger a change event if the radio button is already checked', () => {
+    const listener = sinon.spy()
+
+    mountingMethod({
+      template: `
+        <input
+          type="radio"
+          checked
+          @change="listener"
+          @click="listener"
+        >
+      `,
+      methods: { listener }
+    }).setChecked()
+
+    expect(listener).not.to.have.been.called
   })
 
   it('throws error if checked param is not boolean', () => {

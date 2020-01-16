@@ -7,6 +7,7 @@ import { throwError } from 'shared/util'
 export default class WrapperArray implements BaseWrapper {
   +wrappers: Array<Wrapper | VueWrapper>
   +length: number
+  selector: Selector | void
 
   constructor(wrappers: Array<Wrapper | VueWrapper>) {
     const length = wrappers.length

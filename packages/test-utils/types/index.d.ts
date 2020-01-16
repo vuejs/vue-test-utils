@@ -69,6 +69,7 @@ interface BaseWrapper {
 
   trigger (eventName: string, options?: object): void
   destroy (): void
+  selector: Selector | void
 }
 
 export interface Wrapper<V extends Vue | null> extends BaseWrapper {
@@ -165,6 +166,4 @@ export declare function shallowMount (component: FunctionalComponentOptions, opt
 export declare function createWrapper(node: Vue, options?: WrapperOptions): Wrapper<Vue>
 export declare function createWrapper(node: HTMLElement, options?: WrapperOptions): Wrapper<null>
 
-export declare let TransitionStub: Component | string | true
-export declare let TransitionGroupStub: Component | string | true
 export declare let RouterLinkStub: VueClass<Vue>

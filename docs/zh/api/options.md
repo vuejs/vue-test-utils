@@ -21,7 +21,6 @@
 - [`listeners`](#listeners)
 - [`parentComponent`](#parentcomponent)
 - [`provide`](#provide)
-- [`sync`](#sync)
 
 ## context
 
@@ -286,14 +285,6 @@ const wrapper = shallowMount(Component, {
 
 expect(wrapper.text()).toBe('fooValue')
 ```
-
-## sync
-
-- 类型：`boolean`
-- 默认值：`true`
-
-当 `sync` 是 `true` 时，这个 Vue 组件会被同步渲染。  
-当 `sync` 是 `false` 时，这个 Vue 组件会被异步渲染。
 
 ## 其它选项
 

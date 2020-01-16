@@ -13,7 +13,6 @@ declare type Options = {
   attrs?: { [key: string]: string },
   listeners?: { [key: string]: Function | Array<Function> },
   parentComponent?: Object,
-  sync?: boolean,
   shouldProxy?: boolean
 }
 

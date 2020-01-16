@@ -8,7 +8,7 @@ option 要素を選択します。そして、 `v-model` に束縛されてい�
 import { mount } from '@vue/test-utils'
 import Foo from './Foo.vue'
 
-const wrapper = shallowMount(Foo)
+const wrapper = mount(Foo)
 const options = wrapper.find('select').findAll('option')
 
 options.at(1).setSelected()
