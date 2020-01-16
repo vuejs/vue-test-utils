@@ -56,10 +56,11 @@ export default class ErrorWrapper implements BaseWrapper {
   }
 
   emitted(): void {
+    throwError(
       `find did not return ${buildSelectorString(
         this.selector
       )}, cannot call emitted() on empty Wrapper`
-)
+    )
   }
 
   emittedByOrder(): void {
@@ -71,14 +72,15 @@ export default class ErrorWrapper implements BaseWrapper {
   }
 
   exists(): boolean {
-)
+    return false
   }
 
   filter(): void {
+    throwError(
       `find did not return ${buildSelectorString(
         this.selector
       )}, cannot call filter() on empty Wrapper`
-)
+    )
   }
 
   visible(): void {
@@ -90,22 +92,23 @@ export default class ErrorWrapper implements BaseWrapper {
   }
 
   hasAttribute(): void {
+    throwError(
       `find did not return ${buildSelectorString(
         this.selector
       )}, cannot call hasAttribute() on empty Wrapper`
-)
+    )
   }
 
   hasClass(): void {
+    throwError(
       `find did not return ${buildSelectorString(
         this.selector
       )}, cannot call hasClass() on empty Wrapper`
-)
+    )
   }
 
   hasProp(): void {
     throwError(
-      `find did not return ${this.selector}, cannot call hasProp() on empty Wrapper`
       `find did not return ${buildSelectorString(
         this.selector
       )}, cannot call hasProp() on empty Wrapper`
@@ -114,7 +117,6 @@ export default class ErrorWrapper implements BaseWrapper {
 
   hasStyle(): void {
     throwError(
-      `find did not return ${this.selector}, cannot call hasStyle() on empty Wrapper`
       `find did not return ${buildSelectorString(
         this.selector
       )}, cannot call hasStyle() on empty Wrapper`
@@ -123,7 +125,6 @@ export default class ErrorWrapper implements BaseWrapper {
 
   findAll(): void {
     throwError(
-      `find did not return ${this.selector}, cannot call findAll() on empty Wrapper`
       `find did not return ${buildSelectorString(
         this.selector
       )}, cannot call findAll() on empty Wrapper`
@@ -132,7 +133,6 @@ export default class ErrorWrapper implements BaseWrapper {
 
   find(): void {
     throwError(
-      `find did not return ${this.selector}, cannot call find() on empty Wrapper`
       `find did not return ${buildSelectorString(
         this.selector
       )}, cannot call find() on empty Wrapper`
@@ -141,7 +141,6 @@ export default class ErrorWrapper implements BaseWrapper {
 
   html(): void {
     throwError(
-      `find did not return ${this.selector}, cannot call html() on empty Wrapper`
       `find did not return ${buildSelectorString(
         this.selector
       )}, cannot call html() on empty Wrapper`
@@ -158,7 +157,6 @@ export default class ErrorWrapper implements BaseWrapper {
 
   isEmpty(): void {
     throwError(
-      `find did not return ${this.selector}, cannot call isEmpty() on empty Wrapper`
       `find did not return ${buildSelectorString(
         this.selector
       )}, cannot call isEmpty() on empty Wrapper`
@@ -167,7 +165,6 @@ export default class ErrorWrapper implements BaseWrapper {
 
   isVisible(): void {
     throwError(
-      `find did not return ${this.selector}, cannot call isVisible() on empty Wrapper`
       `find did not return ${buildSelectorString(
         this.selector
       )}, cannot call isVisible() on empty Wrapper`
@@ -176,7 +173,6 @@ export default class ErrorWrapper implements BaseWrapper {
 
   isVueInstance(): void {
     throwError(
-      `find did not return ${this.selector}, cannot call isVueInstance() on empty Wrapper`
       `find did not return ${buildSelectorString(
         this.selector
       )}, cannot call isVueInstance() on empty Wrapper`
@@ -185,7 +181,6 @@ export default class ErrorWrapper implements BaseWrapper {
 
   name(): void {
     throwError(
-      `find did not return ${this.selector}, cannot call name() on empty Wrapper`
       `find did not return ${buildSelectorString(
         this.selector
       )}, cannot call name() on empty Wrapper`
@@ -194,7 +189,6 @@ export default class ErrorWrapper implements BaseWrapper {
 
   props(): void {
     throwError(
-      `find did not return ${this.selector}, cannot call props() on empty Wrapper`
       `find did not return ${buildSelectorString(
         this.selector
       )}, cannot call props() on empty Wrapper`
@@ -203,7 +197,6 @@ export default class ErrorWrapper implements BaseWrapper {
 
   text(): void {
     throwError(
-      `find did not return ${this.selector}, cannot call text() on empty Wrapper`
       `find did not return ${buildSelectorString(
         this.selector
       )}, cannot call text() on empty Wrapper`
@@ -212,7 +205,6 @@ export default class ErrorWrapper implements BaseWrapper {
 
   setComputed(): void {
     throwError(
-      `find did not return ${this.selector}, cannot call setComputed() on empty Wrapper`
       `find did not return ${buildSelectorString(
         this.selector
       )}, cannot call setComputed() on empty Wrapper`
@@ -221,7 +213,6 @@ export default class ErrorWrapper implements BaseWrapper {
 
   setData(): void {
     throwError(
-      `find did not return ${this.selector}, cannot call setData() on empty Wrapper`
       `find did not return ${buildSelectorString(
         this.selector
       )}, cannot call setData() on empty Wrapper`
@@ -230,7 +221,6 @@ export default class ErrorWrapper implements BaseWrapper {
 
   setMethods(): void {
     throwError(
-      `find did not return ${this.selector}, cannot call setMethods() on empty Wrapper`
       `find did not return ${buildSelectorString(
         this.selector
       )}, cannot call setMethods() on empty Wrapper`
@@ -239,7 +229,6 @@ export default class ErrorWrapper implements BaseWrapper {
 
   setProps(): void {
     throwError(
-      `find did not return ${this.selector}, cannot call setProps() on empty Wrapper`
       `find did not return ${buildSelectorString(
         this.selector
       )}, cannot call setProps() on empty Wrapper`
@@ -248,7 +237,6 @@ export default class ErrorWrapper implements BaseWrapper {
 
   setValue(): void {
     throwError(
-      `find did not return ${this.selector}, cannot call setValue() on empty Wrapper`
       `find did not return ${buildSelectorString(
         this.selector
       )}, cannot call setValue() on empty Wrapper`
@@ -257,7 +245,6 @@ export default class ErrorWrapper implements BaseWrapper {
 
   setChecked(): void {
     throwError(
-      `find did not return ${this.selector}, cannot call setChecked() on empty Wrapper`
       `find did not return ${buildSelectorString(
         this.selector
       )}, cannot call setChecked() on empty Wrapper`
@@ -266,7 +253,6 @@ export default class ErrorWrapper implements BaseWrapper {
 
   setSelected(): void {
     throwError(
-      `find did not return ${this.selector}, cannot call setSelected() on empty Wrapper`
       `find did not return ${buildSelectorString(
         this.selector
       )}, cannot call setSelected() on empty Wrapper`
@@ -275,7 +261,6 @@ export default class ErrorWrapper implements BaseWrapper {
 
   trigger(): void {
     throwError(
-      `find did not return ${this.selector}, cannot call trigger() on empty Wrapper`
       `find did not return ${buildSelectorString(
         this.selector
       )}, cannot call trigger() on empty Wrapper`
@@ -284,7 +269,6 @@ export default class ErrorWrapper implements BaseWrapper {
 
   destroy(): void {
     throwError(
-      `find did not return ${this.selector}, cannot call destroy() on empty Wrapper`
       `find did not return ${buildSelectorString(
         this.selector
       )}, cannot call destroy() on empty Wrapper`
