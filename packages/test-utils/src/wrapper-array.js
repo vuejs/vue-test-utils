@@ -24,10 +24,13 @@ export default class WrapperArray implements BaseWrapper {
   }
 
   at(index: number): Wrapper | VueWrapper {
-    if (index > this.length - 1) {
-      throwError(`no item exists at ${index}`)
+    const normalizedIndex = index < 0 ? this.length + index : index
+    if (normalizedIndex > this.length - 1 || normalizedIndex < 0) {
+      let error = `no item exists at ${index}`
+      error += index < 0 ? ` (normalized to ${normalizedIndex})` : ''
+      throwError(error)
     }
-    return this.wrappers[index]
+    return this.wrappers[normalizedIndex]
   }
 
   attributes(): void {
