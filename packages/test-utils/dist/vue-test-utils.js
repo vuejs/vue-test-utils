@@ -1,9 +1,11 @@
 'use strict';
 
+Object.defineProperty(exports, '__esModule', { value: true });
+
 function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
 
-var vueTemplateCompiler = require('vue-template-compiler');
 var Vue = _interopDefault(require('vue'));
+var vueTemplateCompiler = require('vue-template-compiler');
 
 // 
 
@@ -50,35 +52,41 @@ function createSlotVNodes(
   }, [])
 }
 
-var commonjsGlobal = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
 function createCommonjsModule(fn, module) {
 	return module = { exports: {} }, fn(module, module.exports), module.exports;
 }
 
+function getCjsExportFromNamespace (n) {
+	return n && n['default'] || n;
+}
+
 var semver = createCommonjsModule(function (module, exports) {
 exports = module.exports = SemVer;
 
-// The debug function is excluded entirely from the minified version.
-/* nomin */ var debug;
-/* nomin */ if (typeof process === 'object' &&
-    /* nomin */ process.env &&
-    /* nomin */ process.env.NODE_DEBUG &&
-    /* nomin */ /\bsemver\b/i.test(process.env.NODE_DEBUG))
-  /* nomin */ { debug = function() {
-    /* nomin */ var args = Array.prototype.slice.call(arguments, 0);
-    /* nomin */ args.unshift('SEMVER');
-    /* nomin */ console.log.apply(console, args);
-    /* nomin */ }; }
-/* nomin */ else
-  /* nomin */ { debug = function() {}; }
+var debug;
+/* istanbul ignore next */
+if (typeof process === 'object' &&
+    process.env &&
+    process.env.NODE_DEBUG &&
+    /\bsemver\b/i.test(process.env.NODE_DEBUG)) {
+  debug = function () {
+    var args = Array.prototype.slice.call(arguments, 0);
+    args.unshift('SEMVER');
+    console.log.apply(console, args);
+  };
+} else {
+  debug = function () {};
+}
 
 // Note: this is the semver.org version of the spec that it implements
 // Not necessarily the package version of this code.
 exports.SEMVER_SPEC_VERSION = '2.0.0';
 
 var MAX_LENGTH = 256;
-var MAX_SAFE_INTEGER = Number.MAX_SAFE_INTEGER || 9007199254740991;
+var MAX_SAFE_INTEGER = Number.MAX_SAFE_INTEGER ||
+  /* istanbul ignore next */ 9007199254740991;
 
 // Max safe segment length for coercion.
 var MAX_SAFE_COMPONENT_LENGTH = 16;
@@ -86,7 +94,12 @@ var MAX_SAFE_COMPONENT_LENGTH = 16;
 // The actual regexps go on exports.re
 var re = exports.re = [];
 var src = exports.src = [];
+var t = exports.tokens = {};
 var R = 0;
+
+function tok (n) {
+  t[n] = R++;
+}
 
 // The following Regular Expressions can be used for tokenizing,
 // validating, and parsing SemVer version strings.
@@ -94,71 +107,67 @@ var R = 0;
 // ## Numeric Identifier
 // A single `0`, or a non-zero digit followed by zero or more digits.
 
-var NUMERICIDENTIFIER = R++;
-src[NUMERICIDENTIFIER] = '0|[1-9]\\d*';
-var NUMERICIDENTIFIERLOOSE = R++;
-src[NUMERICIDENTIFIERLOOSE] = '[0-9]+';
-
+tok('NUMERICIDENTIFIER');
+src[t.NUMERICIDENTIFIER] = '0|[1-9]\\d*';
+tok('NUMERICIDENTIFIERLOOSE');
+src[t.NUMERICIDENTIFIERLOOSE] = '[0-9]+';
 
 // ## Non-numeric Identifier
 // Zero or more digits, followed by a letter or hyphen, and then zero or
 // more letters, digits, or hyphens.
 
-var NONNUMERICIDENTIFIER = R++;
-src[NONNUMERICIDENTIFIER] = '\\d*[a-zA-Z-][a-zA-Z0-9-]*';
-
+tok('NONNUMERICIDENTIFIER');
+src[t.NONNUMERICIDENTIFIER] = '\\d*[a-zA-Z-][a-zA-Z0-9-]*';
 
 // ## Main Version
 // Three dot-separated numeric identifiers.
 
-var MAINVERSION = R++;
-src[MAINVERSION] = '(' + src[NUMERICIDENTIFIER] + ')\\.' +
-                   '(' + src[NUMERICIDENTIFIER] + ')\\.' +
-                   '(' + src[NUMERICIDENTIFIER] + ')';
+tok('MAINVERSION');
+src[t.MAINVERSION] = '(' + src[t.NUMERICIDENTIFIER] + ')\\.' +
+                   '(' + src[t.NUMERICIDENTIFIER] + ')\\.' +
+                   '(' + src[t.NUMERICIDENTIFIER] + ')';
 
-var MAINVERSIONLOOSE = R++;
-src[MAINVERSIONLOOSE] = '(' + src[NUMERICIDENTIFIERLOOSE] + ')\\.' +
-                        '(' + src[NUMERICIDENTIFIERLOOSE] + ')\\.' +
-                        '(' + src[NUMERICIDENTIFIERLOOSE] + ')';
+tok('MAINVERSIONLOOSE');
+src[t.MAINVERSIONLOOSE] = '(' + src[t.NUMERICIDENTIFIERLOOSE] + ')\\.' +
+                        '(' + src[t.NUMERICIDENTIFIERLOOSE] + ')\\.' +
+                        '(' + src[t.NUMERICIDENTIFIERLOOSE] + ')';
 
 // ## Pre-release Version Identifier
 // A numeric identifier, or a non-numeric identifier.
 
-var PRERELEASEIDENTIFIER = R++;
-src[PRERELEASEIDENTIFIER] = '(?:' + src[NUMERICIDENTIFIER] +
-                            '|' + src[NONNUMERICIDENTIFIER] + ')';
+tok('PRERELEASEIDENTIFIER');
+src[t.PRERELEASEIDENTIFIER] = '(?:' + src[t.NUMERICIDENTIFIER] +
+                            '|' + src[t.NONNUMERICIDENTIFIER] + ')';
 
-var PRERELEASEIDENTIFIERLOOSE = R++;
-src[PRERELEASEIDENTIFIERLOOSE] = '(?:' + src[NUMERICIDENTIFIERLOOSE] +
-                                 '|' + src[NONNUMERICIDENTIFIER] + ')';
-
+tok('PRERELEASEIDENTIFIERLOOSE');
+src[t.PRERELEASEIDENTIFIERLOOSE] = '(?:' + src[t.NUMERICIDENTIFIERLOOSE] +
+                                 '|' + src[t.NONNUMERICIDENTIFIER] + ')';
 
 // ## Pre-release Version
 // Hyphen, followed by one or more dot-separated pre-release version
 // identifiers.
 
-var PRERELEASE = R++;
-src[PRERELEASE] = '(?:-(' + src[PRERELEASEIDENTIFIER] +
-                  '(?:\\.' + src[PRERELEASEIDENTIFIER] + ')*))';
+tok('PRERELEASE');
+src[t.PRERELEASE] = '(?:-(' + src[t.PRERELEASEIDENTIFIER] +
+                  '(?:\\.' + src[t.PRERELEASEIDENTIFIER] + ')*))';
 
-var PRERELEASELOOSE = R++;
-src[PRERELEASELOOSE] = '(?:-?(' + src[PRERELEASEIDENTIFIERLOOSE] +
-                       '(?:\\.' + src[PRERELEASEIDENTIFIERLOOSE] + ')*))';
+tok('PRERELEASELOOSE');
+src[t.PRERELEASELOOSE] = '(?:-?(' + src[t.PRERELEASEIDENTIFIERLOOSE] +
+                       '(?:\\.' + src[t.PRERELEASEIDENTIFIERLOOSE] + ')*))';
 
 // ## Build Metadata Identifier
 // Any combination of digits, letters, or hyphens.
 
-var BUILDIDENTIFIER = R++;
-src[BUILDIDENTIFIER] = '[0-9A-Za-z-]+';
+tok('BUILDIDENTIFIER');
+src[t.BUILDIDENTIFIER] = '[0-9A-Za-z-]+';
 
 // ## Build Metadata
 // Plus sign, followed by one or more period-separated build metadata
 // identifiers.
 
-var BUILD = R++;
-src[BUILD] = '(?:\\+(' + src[BUILDIDENTIFIER] +
-             '(?:\\.' + src[BUILDIDENTIFIER] + ')*))';
-
+tok('BUILD');
+src[t.BUILD] = '(?:\\+(' + src[t.BUILDIDENTIFIER] +
+             '(?:\\.' + src[t.BUILDIDENTIFIER] + ')*))';
 
 // ## Full Version String
 // A main version, followed optionally by a pre-release version and
@@ -169,206 +178,224 @@ src[BUILD] = '(?:\\+(' + src[BUILDIDENTIFIER] +
 // capturing group, because it should not ever be used in version
 // comparison.
 
-var FULL = R++;
-var FULLPLAIN = 'v?' + src[MAINVERSION] +
-                src[PRERELEASE] + '?' +
-                src[BUILD] + '?';
+tok('FULL');
+tok('FULLPLAIN');
+src[t.FULLPLAIN] = 'v?' + src[t.MAINVERSION] +
+                  src[t.PRERELEASE] + '?' +
+                  src[t.BUILD] + '?';
 
-src[FULL] = '^' + FULLPLAIN + '$';
+src[t.FULL] = '^' + src[t.FULLPLAIN] + '$';
 
 // like full, but allows v1.2.3 and =1.2.3, which people do sometimes.
 // also, 1.0.0alpha1 (prerelease without the hyphen) which is pretty
 // common in the npm registry.
-var LOOSEPLAIN = '[v=\\s]*' + src[MAINVERSIONLOOSE] +
-                 src[PRERELEASELOOSE] + '?' +
-                 src[BUILD] + '?';
+tok('LOOSEPLAIN');
+src[t.LOOSEPLAIN] = '[v=\\s]*' + src[t.MAINVERSIONLOOSE] +
+                  src[t.PRERELEASELOOSE] + '?' +
+                  src[t.BUILD] + '?';
 
-var LOOSE = R++;
-src[LOOSE] = '^' + LOOSEPLAIN + '$';
+tok('LOOSE');
+src[t.LOOSE] = '^' + src[t.LOOSEPLAIN] + '$';
 
-var GTLT = R++;
-src[GTLT] = '((?:<|>)?=?)';
+tok('GTLT');
+src[t.GTLT] = '((?:<|>)?=?)';
 
 // Something like "2.*" or "1.2.x".
 // Note that "x.x" is a valid xRange identifer, meaning "any version"
 // Only the first item is strictly required.
-var XRANGEIDENTIFIERLOOSE = R++;
-src[XRANGEIDENTIFIERLOOSE] = src[NUMERICIDENTIFIERLOOSE] + '|x|X|\\*';
-var XRANGEIDENTIFIER = R++;
-src[XRANGEIDENTIFIER] = src[NUMERICIDENTIFIER] + '|x|X|\\*';
+tok('XRANGEIDENTIFIERLOOSE');
+src[t.XRANGEIDENTIFIERLOOSE] = src[t.NUMERICIDENTIFIERLOOSE] + '|x|X|\\*';
+tok('XRANGEIDENTIFIER');
+src[t.XRANGEIDENTIFIER] = src[t.NUMERICIDENTIFIER] + '|x|X|\\*';
 
-var XRANGEPLAIN = R++;
-src[XRANGEPLAIN] = '[v=\\s]*(' + src[XRANGEIDENTIFIER] + ')' +
-                   '(?:\\.(' + src[XRANGEIDENTIFIER] + ')' +
-                   '(?:\\.(' + src[XRANGEIDENTIFIER] + ')' +
-                   '(?:' + src[PRERELEASE] + ')?' +
-                   src[BUILD] + '?' +
+tok('XRANGEPLAIN');
+src[t.XRANGEPLAIN] = '[v=\\s]*(' + src[t.XRANGEIDENTIFIER] + ')' +
+                   '(?:\\.(' + src[t.XRANGEIDENTIFIER] + ')' +
+                   '(?:\\.(' + src[t.XRANGEIDENTIFIER] + ')' +
+                   '(?:' + src[t.PRERELEASE] + ')?' +
+                   src[t.BUILD] + '?' +
                    ')?)?';
 
-var XRANGEPLAINLOOSE = R++;
-src[XRANGEPLAINLOOSE] = '[v=\\s]*(' + src[XRANGEIDENTIFIERLOOSE] + ')' +
-                        '(?:\\.(' + src[XRANGEIDENTIFIERLOOSE] + ')' +
-                        '(?:\\.(' + src[XRANGEIDENTIFIERLOOSE] + ')' +
-                        '(?:' + src[PRERELEASELOOSE] + ')?' +
-                        src[BUILD] + '?' +
+tok('XRANGEPLAINLOOSE');
+src[t.XRANGEPLAINLOOSE] = '[v=\\s]*(' + src[t.XRANGEIDENTIFIERLOOSE] + ')' +
+                        '(?:\\.(' + src[t.XRANGEIDENTIFIERLOOSE] + ')' +
+                        '(?:\\.(' + src[t.XRANGEIDENTIFIERLOOSE] + ')' +
+                        '(?:' + src[t.PRERELEASELOOSE] + ')?' +
+                        src[t.BUILD] + '?' +
                         ')?)?';
 
-var XRANGE = R++;
-src[XRANGE] = '^' + src[GTLT] + '\\s*' + src[XRANGEPLAIN] + '$';
-var XRANGELOOSE = R++;
-src[XRANGELOOSE] = '^' + src[GTLT] + '\\s*' + src[XRANGEPLAINLOOSE] + '$';
+tok('XRANGE');
+src[t.XRANGE] = '^' + src[t.GTLT] + '\\s*' + src[t.XRANGEPLAIN] + '$';
+tok('XRANGELOOSE');
+src[t.XRANGELOOSE] = '^' + src[t.GTLT] + '\\s*' + src[t.XRANGEPLAINLOOSE] + '$';
 
 // Coercion.
 // Extract anything that could conceivably be a part of a valid semver
-var COERCE = R++;
-src[COERCE] = '(?:^|[^\\d])' +
+tok('COERCE');
+src[t.COERCE] = '(^|[^\\d])' +
               '(\\d{1,' + MAX_SAFE_COMPONENT_LENGTH + '})' +
               '(?:\\.(\\d{1,' + MAX_SAFE_COMPONENT_LENGTH + '}))?' +
               '(?:\\.(\\d{1,' + MAX_SAFE_COMPONENT_LENGTH + '}))?' +
               '(?:$|[^\\d])';
+tok('COERCERTL');
+re[t.COERCERTL] = new RegExp(src[t.COERCE], 'g');
 
 // Tilde ranges.
 // Meaning is "reasonably at or greater than"
-var LONETILDE = R++;
-src[LONETILDE] = '(?:~>?)';
+tok('LONETILDE');
+src[t.LONETILDE] = '(?:~>?)';
 
-var TILDETRIM = R++;
-src[TILDETRIM] = '(\\s*)' + src[LONETILDE] + '\\s+';
-re[TILDETRIM] = new RegExp(src[TILDETRIM], 'g');
+tok('TILDETRIM');
+src[t.TILDETRIM] = '(\\s*)' + src[t.LONETILDE] + '\\s+';
+re[t.TILDETRIM] = new RegExp(src[t.TILDETRIM], 'g');
 var tildeTrimReplace = '$1~';
 
-var TILDE = R++;
-src[TILDE] = '^' + src[LONETILDE] + src[XRANGEPLAIN] + '$';
-var TILDELOOSE = R++;
-src[TILDELOOSE] = '^' + src[LONETILDE] + src[XRANGEPLAINLOOSE] + '$';
+tok('TILDE');
+src[t.TILDE] = '^' + src[t.LONETILDE] + src[t.XRANGEPLAIN] + '$';
+tok('TILDELOOSE');
+src[t.TILDELOOSE] = '^' + src[t.LONETILDE] + src[t.XRANGEPLAINLOOSE] + '$';
 
 // Caret ranges.
 // Meaning is "at least and backwards compatible with"
-var LONECARET = R++;
-src[LONECARET] = '(?:\\^)';
+tok('LONECARET');
+src[t.LONECARET] = '(?:\\^)';
 
-var CARETTRIM = R++;
-src[CARETTRIM] = '(\\s*)' + src[LONECARET] + '\\s+';
-re[CARETTRIM] = new RegExp(src[CARETTRIM], 'g');
+tok('CARETTRIM');
+src[t.CARETTRIM] = '(\\s*)' + src[t.LONECARET] + '\\s+';
+re[t.CARETTRIM] = new RegExp(src[t.CARETTRIM], 'g');
 var caretTrimReplace = '$1^';
 
-var CARET = R++;
-src[CARET] = '^' + src[LONECARET] + src[XRANGEPLAIN] + '$';
-var CARETLOOSE = R++;
-src[CARETLOOSE] = '^' + src[LONECARET] + src[XRANGEPLAINLOOSE] + '$';
+tok('CARET');
+src[t.CARET] = '^' + src[t.LONECARET] + src[t.XRANGEPLAIN] + '$';
+tok('CARETLOOSE');
+src[t.CARETLOOSE] = '^' + src[t.LONECARET] + src[t.XRANGEPLAINLOOSE] + '$';
 
 // A simple gt/lt/eq thing, or just "" to indicate "any version"
-var COMPARATORLOOSE = R++;
-src[COMPARATORLOOSE] = '^' + src[GTLT] + '\\s*(' + LOOSEPLAIN + ')$|^$';
-var COMPARATOR = R++;
-src[COMPARATOR] = '^' + src[GTLT] + '\\s*(' + FULLPLAIN + ')$|^$';
-
+tok('COMPARATORLOOSE');
+src[t.COMPARATORLOOSE] = '^' + src[t.GTLT] + '\\s*(' + src[t.LOOSEPLAIN] + ')$|^$';
+tok('COMPARATOR');
+src[t.COMPARATOR] = '^' + src[t.GTLT] + '\\s*(' + src[t.FULLPLAIN] + ')$|^$';
 
 // An expression to strip any whitespace between the gtlt and the thing
 // it modifies, so that `> 1.2.3` ==> `>1.2.3`
-var COMPARATORTRIM = R++;
-src[COMPARATORTRIM] = '(\\s*)' + src[GTLT] +
-                      '\\s*(' + LOOSEPLAIN + '|' + src[XRANGEPLAIN] + ')';
+tok('COMPARATORTRIM');
+src[t.COMPARATORTRIM] = '(\\s*)' + src[t.GTLT] +
+                      '\\s*(' + src[t.LOOSEPLAIN] + '|' + src[t.XRANGEPLAIN] + ')';
 
 // this one has to use the /g flag
-re[COMPARATORTRIM] = new RegExp(src[COMPARATORTRIM], 'g');
+re[t.COMPARATORTRIM] = new RegExp(src[t.COMPARATORTRIM], 'g');
 var comparatorTrimReplace = '$1$2$3';
-
 
 // Something like `1.2.3 - 1.2.4`
 // Note that these all use the loose form, because they'll be
 // checked against either the strict or loose comparator form
 // later.
-var HYPHENRANGE = R++;
-src[HYPHENRANGE] = '^\\s*(' + src[XRANGEPLAIN] + ')' +
+tok('HYPHENRANGE');
+src[t.HYPHENRANGE] = '^\\s*(' + src[t.XRANGEPLAIN] + ')' +
                    '\\s+-\\s+' +
-                   '(' + src[XRANGEPLAIN] + ')' +
+                   '(' + src[t.XRANGEPLAIN] + ')' +
                    '\\s*$';
 
-var HYPHENRANGELOOSE = R++;
-src[HYPHENRANGELOOSE] = '^\\s*(' + src[XRANGEPLAINLOOSE] + ')' +
+tok('HYPHENRANGELOOSE');
+src[t.HYPHENRANGELOOSE] = '^\\s*(' + src[t.XRANGEPLAINLOOSE] + ')' +
                         '\\s+-\\s+' +
-                        '(' + src[XRANGEPLAINLOOSE] + ')' +
+                        '(' + src[t.XRANGEPLAINLOOSE] + ')' +
                         '\\s*$';
 
 // Star ranges basically just allow anything at all.
-var STAR = R++;
-src[STAR] = '(<|>)?=?\\s*\\*';
+tok('STAR');
+src[t.STAR] = '(<|>)?=?\\s*\\*';
 
 // Compile to actual regexp objects.
 // All are flag-free, unless they were created above with a flag.
 for (var i = 0; i < R; i++) {
   debug(i, src[i]);
-  if (!re[i])
-    { re[i] = new RegExp(src[i]); }
+  if (!re[i]) {
+    re[i] = new RegExp(src[i]);
+  }
 }
 
 exports.parse = parse;
-function parse(version, options) {
-  if (!options || typeof options !== 'object')
-    { options = { loose: !!options, includePrerelease: false }; }
+function parse (version, options) {
+  if (!options || typeof options !== 'object') {
+    options = {
+      loose: !!options,
+      includePrerelease: false
+    };
+  }
 
-  if (version instanceof SemVer)
-    { return version; }
+  if (version instanceof SemVer) {
+    return version
+  }
 
-  if (typeof version !== 'string')
-    { return null; }
+  if (typeof version !== 'string') {
+    return null
+  }
 
-  if (version.length > MAX_LENGTH)
-    { return null; }
+  if (version.length > MAX_LENGTH) {
+    return null
+  }
 
-  var r = options.loose ? re[LOOSE] : re[FULL];
-  if (!r.test(version))
-    { return null; }
+  var r = options.loose ? re[t.LOOSE] : re[t.FULL];
+  if (!r.test(version)) {
+    return null
+  }
 
   try {
-    return new SemVer(version, options);
+    return new SemVer(version, options)
   } catch (er) {
-    return null;
+    return null
   }
 }
 
 exports.valid = valid;
-function valid(version, options) {
+function valid (version, options) {
   var v = parse(version, options);
-  return v ? v.version : null;
+  return v ? v.version : null
 }
 
-
 exports.clean = clean;
-function clean(version, options) {
+function clean (version, options) {
   var s = parse(version.trim().replace(/^[=v]+/, ''), options);
-  return s ? s.version : null;
+  return s ? s.version : null
 }
 
 exports.SemVer = SemVer;
 
-function SemVer(version, options) {
-  if (!options || typeof options !== 'object')
-    { options = { loose: !!options, includePrerelease: false }; }
+function SemVer (version, options) {
+  if (!options || typeof options !== 'object') {
+    options = {
+      loose: !!options,
+      includePrerelease: false
+    };
+  }
   if (version instanceof SemVer) {
-    if (version.loose === options.loose)
-      { return version; }
-    else
-      { version = version.version; }
+    if (version.loose === options.loose) {
+      return version
+    } else {
+      version = version.version;
+    }
   } else if (typeof version !== 'string') {
-    throw new TypeError('Invalid Version: ' + version);
+    throw new TypeError('Invalid Version: ' + version)
   }
 
-  if (version.length > MAX_LENGTH)
-    { throw new TypeError('version is longer than ' + MAX_LENGTH + ' characters') }
+  if (version.length > MAX_LENGTH) {
+    throw new TypeError('version is longer than ' + MAX_LENGTH + ' characters')
+  }
 
-  if (!(this instanceof SemVer))
-    { return new SemVer(version, options); }
+  if (!(this instanceof SemVer)) {
+    return new SemVer(version, options)
+  }
 
   debug('SemVer', version, options);
   this.options = options;
   this.loose = !!options.loose;
 
-  var m = version.trim().match(options.loose ? re[LOOSE] : re[FULL]);
+  var m = version.trim().match(options.loose ? re[t.LOOSE] : re[t.FULL]);
 
-  if (!m)
-    { throw new TypeError('Invalid Version: ' + version); }
+  if (!m) {
+    throw new TypeError('Invalid Version: ' + version)
+  }
 
   this.raw = version;
 
@@ -377,97 +404,128 @@ function SemVer(version, options) {
   this.minor = +m[2];
   this.patch = +m[3];
 
-  if (this.major > MAX_SAFE_INTEGER || this.major < 0)
-    { throw new TypeError('Invalid major version') }
+  if (this.major > MAX_SAFE_INTEGER || this.major < 0) {
+    throw new TypeError('Invalid major version')
+  }
 
-  if (this.minor > MAX_SAFE_INTEGER || this.minor < 0)
-    { throw new TypeError('Invalid minor version') }
+  if (this.minor > MAX_SAFE_INTEGER || this.minor < 0) {
+    throw new TypeError('Invalid minor version')
+  }
 
-  if (this.patch > MAX_SAFE_INTEGER || this.patch < 0)
-    { throw new TypeError('Invalid patch version') }
+  if (this.patch > MAX_SAFE_INTEGER || this.patch < 0) {
+    throw new TypeError('Invalid patch version')
+  }
 
   // numberify any prerelease numeric ids
-  if (!m[4])
-    { this.prerelease = []; }
-  else
-    { this.prerelease = m[4].split('.').map(function(id) {
+  if (!m[4]) {
+    this.prerelease = [];
+  } else {
+    this.prerelease = m[4].split('.').map(function (id) {
       if (/^[0-9]+$/.test(id)) {
         var num = +id;
-        if (num >= 0 && num < MAX_SAFE_INTEGER)
-          { return num; }
+        if (num >= 0 && num < MAX_SAFE_INTEGER) {
+          return num
+        }
       }
-      return id;
-    }); }
+      return id
+    });
+  }
 
   this.build = m[5] ? m[5].split('.') : [];
   this.format();
 }
 
-SemVer.prototype.format = function() {
+SemVer.prototype.format = function () {
   this.version = this.major + '.' + this.minor + '.' + this.patch;
-  if (this.prerelease.length)
-    { this.version += '-' + this.prerelease.join('.'); }
-  return this.version;
+  if (this.prerelease.length) {
+    this.version += '-' + this.prerelease.join('.');
+  }
+  return this.version
 };
 
-SemVer.prototype.toString = function() {
-  return this.version;
+SemVer.prototype.toString = function () {
+  return this.version
 };
 
-SemVer.prototype.compare = function(other) {
+SemVer.prototype.compare = function (other) {
   debug('SemVer.compare', this.version, this.options, other);
-  if (!(other instanceof SemVer))
-    { other = new SemVer(other, this.options); }
+  if (!(other instanceof SemVer)) {
+    other = new SemVer(other, this.options);
+  }
 
-  return this.compareMain(other) || this.comparePre(other);
+  return this.compareMain(other) || this.comparePre(other)
 };
 
-SemVer.prototype.compareMain = function(other) {
-  if (!(other instanceof SemVer))
-    { other = new SemVer(other, this.options); }
+SemVer.prototype.compareMain = function (other) {
+  if (!(other instanceof SemVer)) {
+    other = new SemVer(other, this.options);
+  }
 
   return compareIdentifiers(this.major, other.major) ||
          compareIdentifiers(this.minor, other.minor) ||
-         compareIdentifiers(this.patch, other.patch);
+         compareIdentifiers(this.patch, other.patch)
 };
 
-SemVer.prototype.comparePre = function(other) {
-  var this$1 = this;
-
-  if (!(other instanceof SemVer))
-    { other = new SemVer(other, this.options); }
+SemVer.prototype.comparePre = function (other) {
+  if (!(other instanceof SemVer)) {
+    other = new SemVer(other, this.options);
+  }
 
   // NOT having a prerelease is > having one
-  if (this.prerelease.length && !other.prerelease.length)
-    { return -1; }
-  else if (!this.prerelease.length && other.prerelease.length)
-    { return 1; }
-  else if (!this.prerelease.length && !other.prerelease.length)
-    { return 0; }
+  if (this.prerelease.length && !other.prerelease.length) {
+    return -1
+  } else if (!this.prerelease.length && other.prerelease.length) {
+    return 1
+  } else if (!this.prerelease.length && !other.prerelease.length) {
+    return 0
+  }
 
   var i = 0;
   do {
-    var a = this$1.prerelease[i];
+    var a = this.prerelease[i];
     var b = other.prerelease[i];
     debug('prerelease compare', i, a, b);
-    if (a === undefined && b === undefined)
-      { return 0; }
-    else if (b === undefined)
-      { return 1; }
-    else if (a === undefined)
-      { return -1; }
-    else if (a === b)
-      { continue; }
-    else
-      { return compareIdentifiers(a, b); }
-  } while (++i);
+    if (a === undefined && b === undefined) {
+      return 0
+    } else if (b === undefined) {
+      return 1
+    } else if (a === undefined) {
+      return -1
+    } else if (a === b) {
+      continue
+    } else {
+      return compareIdentifiers(a, b)
+    }
+  } while (++i)
+};
+
+SemVer.prototype.compareBuild = function (other) {
+  if (!(other instanceof SemVer)) {
+    other = new SemVer(other, this.options);
+  }
+
+  var i = 0;
+  do {
+    var a = this.build[i];
+    var b = other.build[i];
+    debug('prerelease compare', i, a, b);
+    if (a === undefined && b === undefined) {
+      return 0
+    } else if (b === undefined) {
+      return 1
+    } else if (a === undefined) {
+      return -1
+    } else if (a === b) {
+      continue
+    } else {
+      return compareIdentifiers(a, b)
+    }
+  } while (++i)
 };
 
 // preminor will bump the version up to the next minor release, and immediately
 // down to pre-release. premajor and prepatch work the same way.
-SemVer.prototype.inc = function(release, identifier) {
-  var this$1 = this;
-
+SemVer.prototype.inc = function (release, identifier) {
   switch (release) {
     case 'premajor':
       this.prerelease.length = 0;
@@ -475,13 +533,13 @@ SemVer.prototype.inc = function(release, identifier) {
       this.minor = 0;
       this.major++;
       this.inc('pre', identifier);
-      break;
+      break
     case 'preminor':
       this.prerelease.length = 0;
       this.patch = 0;
       this.minor++;
       this.inc('pre', identifier);
-      break;
+      break
     case 'prepatch':
       // If this is already a prerelease, it will bump to the next version
       // drop any prereleases that might already exist, since they are not
@@ -489,125 +547,131 @@ SemVer.prototype.inc = function(release, identifier) {
       this.prerelease.length = 0;
       this.inc('patch', identifier);
       this.inc('pre', identifier);
-      break;
+      break
     // If the input is a non-prerelease version, this acts the same as
     // prepatch.
     case 'prerelease':
-      if (this.prerelease.length === 0)
-        { this.inc('patch', identifier); }
+      if (this.prerelease.length === 0) {
+        this.inc('patch', identifier);
+      }
       this.inc('pre', identifier);
-      break;
+      break
 
     case 'major':
       // If this is a pre-major version, bump up to the same major version.
       // Otherwise increment major.
       // 1.0.0-5 bumps to 1.0.0
       // 1.1.0 bumps to 2.0.0
-      if (this.minor !== 0 || this.patch !== 0 || this.prerelease.length === 0)
-        { this.major++; }
+      if (this.minor !== 0 ||
+          this.patch !== 0 ||
+          this.prerelease.length === 0) {
+        this.major++;
+      }
       this.minor = 0;
       this.patch = 0;
       this.prerelease = [];
-      break;
+      break
     case 'minor':
       // If this is a pre-minor version, bump up to the same minor version.
       // Otherwise increment minor.
       // 1.2.0-5 bumps to 1.2.0
       // 1.2.1 bumps to 1.3.0
-      if (this.patch !== 0 || this.prerelease.length === 0)
-        { this.minor++; }
+      if (this.patch !== 0 || this.prerelease.length === 0) {
+        this.minor++;
+      }
       this.patch = 0;
       this.prerelease = [];
-      break;
+      break
     case 'patch':
       // If this is not a pre-release version, it will increment the patch.
       // If it is a pre-release it will bump up to the same patch version.
       // 1.2.0-5 patches to 1.2.0
       // 1.2.0 patches to 1.2.1
-      if (this.prerelease.length === 0)
-        { this.patch++; }
+      if (this.prerelease.length === 0) {
+        this.patch++;
+      }
       this.prerelease = [];
-      break;
+      break
     // This probably shouldn't be used publicly.
     // 1.0.0 "pre" would become 1.0.0-0 which is the wrong direction.
     case 'pre':
-      if (this.prerelease.length === 0)
-        { this.prerelease = [0]; }
-      else {
+      if (this.prerelease.length === 0) {
+        this.prerelease = [0];
+      } else {
         var i = this.prerelease.length;
         while (--i >= 0) {
-          if (typeof this$1.prerelease[i] === 'number') {
-            this$1.prerelease[i]++;
+          if (typeof this.prerelease[i] === 'number') {
+            this.prerelease[i]++;
             i = -2;
           }
         }
-        if (i === -1) // didn't increment anything
-          { this.prerelease.push(0); }
+        if (i === -1) {
+          // didn't increment anything
+          this.prerelease.push(0);
+        }
       }
       if (identifier) {
         // 1.2.0-beta.1 bumps to 1.2.0-beta.2,
         // 1.2.0-beta.fooblz or 1.2.0-beta bumps to 1.2.0-beta.0
         if (this.prerelease[0] === identifier) {
-          if (isNaN(this.prerelease[1]))
-            { this.prerelease = [identifier, 0]; }
-        } else
-          { this.prerelease = [identifier, 0]; }
+          if (isNaN(this.prerelease[1])) {
+            this.prerelease = [identifier, 0];
+          }
+        } else {
+          this.prerelease = [identifier, 0];
+        }
       }
-      break;
+      break
 
     default:
-      throw new Error('invalid increment argument: ' + release);
+      throw new Error('invalid increment argument: ' + release)
   }
   this.format();
   this.raw = this.version;
-  return this;
+  return this
 };
 
 exports.inc = inc;
-function inc(version, release, loose, identifier) {
-  if (typeof(loose) === 'string') {
+function inc (version, release, loose, identifier) {
+  if (typeof (loose) === 'string') {
     identifier = loose;
     loose = undefined;
   }
 
   try {
-    return new SemVer(version, loose).inc(release, identifier).version;
+    return new SemVer(version, loose).inc(release, identifier).version
   } catch (er) {
-    return null;
+    return null
   }
 }
 
 exports.diff = diff;
-function diff(version1, version2) {
+function diff (version1, version2) {
   if (eq(version1, version2)) {
-    return null;
+    return null
   } else {
     var v1 = parse(version1);
     var v2 = parse(version2);
+    var prefix = '';
     if (v1.prerelease.length || v2.prerelease.length) {
-      for (var key in v1) {
-        if (key === 'major' || key === 'minor' || key === 'patch') {
-          if (v1[key] !== v2[key]) {
-            return 'pre'+key;
-          }
-        }
-      }
-      return 'prerelease';
+      prefix = 'pre';
+      var defaultResult = 'prerelease';
     }
     for (var key in v1) {
       if (key === 'major' || key === 'minor' || key === 'patch') {
         if (v1[key] !== v2[key]) {
-          return key;
+          return prefix + key
         }
       }
     }
+    return defaultResult // may be undefined
   }
 }
 
 exports.compareIdentifiers = compareIdentifiers;
 
 var numeric = /^[0-9]+$/;
-function compareIdentifiers(a, b) {
+function compareIdentifiers (a, b) {
   var anum = numeric.test(a);
   var bnum = numeric.test(b);
 
@@ -616,196 +680,246 @@ function compareIdentifiers(a, b) {
     b = +b;
   }
 
-  return (anum && !bnum) ? -1 :
-         (bnum && !anum) ? 1 :
-         a < b ? -1 :
-         a > b ? 1 :
-         0;
+  return a === b ? 0
+    : (anum && !bnum) ? -1
+    : (bnum && !anum) ? 1
+    : a < b ? -1
+    : 1
 }
 
 exports.rcompareIdentifiers = rcompareIdentifiers;
-function rcompareIdentifiers(a, b) {
-  return compareIdentifiers(b, a);
+function rcompareIdentifiers (a, b) {
+  return compareIdentifiers(b, a)
 }
 
 exports.major = major;
-function major(a, loose) {
-  return new SemVer(a, loose).major;
+function major (a, loose) {
+  return new SemVer(a, loose).major
 }
 
 exports.minor = minor;
-function minor(a, loose) {
-  return new SemVer(a, loose).minor;
+function minor (a, loose) {
+  return new SemVer(a, loose).minor
 }
 
 exports.patch = patch;
-function patch(a, loose) {
-  return new SemVer(a, loose).patch;
+function patch (a, loose) {
+  return new SemVer(a, loose).patch
 }
 
 exports.compare = compare;
-function compare(a, b, loose) {
-  return new SemVer(a, loose).compare(new SemVer(b, loose));
+function compare (a, b, loose) {
+  return new SemVer(a, loose).compare(new SemVer(b, loose))
 }
 
 exports.compareLoose = compareLoose;
-function compareLoose(a, b) {
-  return compare(a, b, true);
+function compareLoose (a, b) {
+  return compare(a, b, true)
+}
+
+exports.compareBuild = compareBuild;
+function compareBuild (a, b, loose) {
+  var versionA = new SemVer(a, loose);
+  var versionB = new SemVer(b, loose);
+  return versionA.compare(versionB) || versionA.compareBuild(versionB)
 }
 
 exports.rcompare = rcompare;
-function rcompare(a, b, loose) {
-  return compare(b, a, loose);
+function rcompare (a, b, loose) {
+  return compare(b, a, loose)
 }
 
 exports.sort = sort;
-function sort(list, loose) {
-  return list.sort(function(a, b) {
-    return exports.compare(a, b, loose);
-  });
+function sort (list, loose) {
+  return list.sort(function (a, b) {
+    return exports.compareBuild(a, b, loose)
+  })
 }
 
 exports.rsort = rsort;
-function rsort(list, loose) {
-  return list.sort(function(a, b) {
-    return exports.rcompare(a, b, loose);
-  });
+function rsort (list, loose) {
+  return list.sort(function (a, b) {
+    return exports.compareBuild(b, a, loose)
+  })
 }
 
 exports.gt = gt;
-function gt(a, b, loose) {
-  return compare(a, b, loose) > 0;
+function gt (a, b, loose) {
+  return compare(a, b, loose) > 0
 }
 
 exports.lt = lt;
-function lt(a, b, loose) {
-  return compare(a, b, loose) < 0;
+function lt (a, b, loose) {
+  return compare(a, b, loose) < 0
 }
 
 exports.eq = eq;
-function eq(a, b, loose) {
-  return compare(a, b, loose) === 0;
+function eq (a, b, loose) {
+  return compare(a, b, loose) === 0
 }
 
 exports.neq = neq;
-function neq(a, b, loose) {
-  return compare(a, b, loose) !== 0;
+function neq (a, b, loose) {
+  return compare(a, b, loose) !== 0
 }
 
 exports.gte = gte;
-function gte(a, b, loose) {
-  return compare(a, b, loose) >= 0;
+function gte (a, b, loose) {
+  return compare(a, b, loose) >= 0
 }
 
 exports.lte = lte;
-function lte(a, b, loose) {
-  return compare(a, b, loose) <= 0;
+function lte (a, b, loose) {
+  return compare(a, b, loose) <= 0
 }
 
 exports.cmp = cmp;
-function cmp(a, op, b, loose) {
-  var ret;
+function cmp (a, op, b, loose) {
   switch (op) {
     case '===':
-      if (typeof a === 'object') { a = a.version; }
-      if (typeof b === 'object') { b = b.version; }
-      ret = a === b;
-      break;
+      if (typeof a === 'object')
+        { a = a.version; }
+      if (typeof b === 'object')
+        { b = b.version; }
+      return a === b
+
     case '!==':
-      if (typeof a === 'object') { a = a.version; }
-      if (typeof b === 'object') { b = b.version; }
-      ret = a !== b;
-      break;
-    case '': case '=': case '==': ret = eq(a, b, loose); break;
-    case '!=': ret = neq(a, b, loose); break;
-    case '>': ret = gt(a, b, loose); break;
-    case '>=': ret = gte(a, b, loose); break;
-    case '<': ret = lt(a, b, loose); break;
-    case '<=': ret = lte(a, b, loose); break;
-    default: throw new TypeError('Invalid operator: ' + op);
+      if (typeof a === 'object')
+        { a = a.version; }
+      if (typeof b === 'object')
+        { b = b.version; }
+      return a !== b
+
+    case '':
+    case '=':
+    case '==':
+      return eq(a, b, loose)
+
+    case '!=':
+      return neq(a, b, loose)
+
+    case '>':
+      return gt(a, b, loose)
+
+    case '>=':
+      return gte(a, b, loose)
+
+    case '<':
+      return lt(a, b, loose)
+
+    case '<=':
+      return lte(a, b, loose)
+
+    default:
+      throw new TypeError('Invalid operator: ' + op)
   }
-  return ret;
 }
 
 exports.Comparator = Comparator;
-function Comparator(comp, options) {
-  if (!options || typeof options !== 'object')
-    { options = { loose: !!options, includePrerelease: false }; }
-
-  if (comp instanceof Comparator) {
-    if (comp.loose === !!options.loose)
-      { return comp; }
-    else
-      { comp = comp.value; }
+function Comparator (comp, options) {
+  if (!options || typeof options !== 'object') {
+    options = {
+      loose: !!options,
+      includePrerelease: false
+    };
   }
 
-  if (!(this instanceof Comparator))
-    { return new Comparator(comp, options); }
+  if (comp instanceof Comparator) {
+    if (comp.loose === !!options.loose) {
+      return comp
+    } else {
+      comp = comp.value;
+    }
+  }
+
+  if (!(this instanceof Comparator)) {
+    return new Comparator(comp, options)
+  }
 
   debug('comparator', comp, options);
   this.options = options;
   this.loose = !!options.loose;
   this.parse(comp);
 
-  if (this.semver === ANY)
-    { this.value = ''; }
-  else
-    { this.value = this.operator + this.semver.version; }
+  if (this.semver === ANY) {
+    this.value = '';
+  } else {
+    this.value = this.operator + this.semver.version;
+  }
 
   debug('comp', this);
 }
 
 var ANY = {};
-Comparator.prototype.parse = function(comp) {
-  var r = this.options.loose ? re[COMPARATORLOOSE] : re[COMPARATOR];
+Comparator.prototype.parse = function (comp) {
+  var r = this.options.loose ? re[t.COMPARATORLOOSE] : re[t.COMPARATOR];
   var m = comp.match(r);
 
-  if (!m)
-    { throw new TypeError('Invalid comparator: ' + comp); }
-
-  this.operator = m[1];
-  if (this.operator === '=')
-    { this.operator = ''; }
-
-  // if it literally is just '>' or '' then allow anything.
-  if (!m[2])
-    { this.semver = ANY; }
-  else
-    { this.semver = new SemVer(m[2], this.options.loose); }
-};
-
-Comparator.prototype.toString = function() {
-  return this.value;
-};
-
-Comparator.prototype.test = function(version) {
-  debug('Comparator.test', version, this.options.loose);
-
-  if (this.semver === ANY)
-    { return true; }
-
-  if (typeof version === 'string')
-    { version = new SemVer(version, this.options); }
-
-  return cmp(version, this.operator, this.semver, this.options);
-};
-
-Comparator.prototype.intersects = function(comp, options) {
-  if (!(comp instanceof Comparator)) {
-    throw new TypeError('a Comparator is required');
+  if (!m) {
+    throw new TypeError('Invalid comparator: ' + comp)
   }
 
-  if (!options || typeof options !== 'object')
-    { options = { loose: !!options, includePrerelease: false }; }
+  this.operator = m[1] !== undefined ? m[1] : '';
+  if (this.operator === '=') {
+    this.operator = '';
+  }
+
+  // if it literally is just '>' or '' then allow anything.
+  if (!m[2]) {
+    this.semver = ANY;
+  } else {
+    this.semver = new SemVer(m[2], this.options.loose);
+  }
+};
+
+Comparator.prototype.toString = function () {
+  return this.value
+};
+
+Comparator.prototype.test = function (version) {
+  debug('Comparator.test', version, this.options.loose);
+
+  if (this.semver === ANY || version === ANY) {
+    return true
+  }
+
+  if (typeof version === 'string') {
+    try {
+      version = new SemVer(version, this.options);
+    } catch (er) {
+      return false
+    }
+  }
+
+  return cmp(version, this.operator, this.semver, this.options)
+};
+
+Comparator.prototype.intersects = function (comp, options) {
+  if (!(comp instanceof Comparator)) {
+    throw new TypeError('a Comparator is required')
+  }
+
+  if (!options || typeof options !== 'object') {
+    options = {
+      loose: !!options,
+      includePrerelease: false
+    };
+  }
 
   var rangeTmp;
 
   if (this.operator === '') {
+    if (this.value === '') {
+      return true
+    }
     rangeTmp = new Range(comp.value, options);
-    return satisfies(this.value, rangeTmp, options);
+    return satisfies(this.value, rangeTmp, options)
   } else if (comp.operator === '') {
+    if (comp.value === '') {
+      return true
+    }
     rangeTmp = new Range(this.value, options);
-    return satisfies(comp.semver, rangeTmp, options);
+    return satisfies(comp.semver, rangeTmp, options)
   }
 
   var sameDirectionIncreasing =
@@ -829,30 +943,34 @@ Comparator.prototype.intersects = function(comp, options) {
 
   return sameDirectionIncreasing || sameDirectionDecreasing ||
     (sameSemVer && differentDirectionsInclusive) ||
-    oppositeDirectionsLessThan || oppositeDirectionsGreaterThan;
+    oppositeDirectionsLessThan || oppositeDirectionsGreaterThan
 };
 
-
 exports.Range = Range;
-function Range(range, options) {
-  if (!options || typeof options !== 'object')
-    { options = { loose: !!options, includePrerelease: false }; }
+function Range (range, options) {
+  if (!options || typeof options !== 'object') {
+    options = {
+      loose: !!options,
+      includePrerelease: false
+    };
+  }
 
   if (range instanceof Range) {
     if (range.loose === !!options.loose &&
         range.includePrerelease === !!options.includePrerelease) {
-      return range;
+      return range
     } else {
-      return new Range(range.raw, options);
+      return new Range(range.raw, options)
     }
   }
 
   if (range instanceof Comparator) {
-    return new Range(range.value, options);
+    return new Range(range.value, options)
   }
 
-  if (!(this instanceof Range))
-    { return new Range(range, options); }
+  if (!(this instanceof Range)) {
+    return new Range(range, options)
+  }
 
   this.options = options;
   this.loose = !!options.loose;
@@ -860,47 +978,47 @@ function Range(range, options) {
 
   // First, split based on boolean or ||
   this.raw = range;
-  this.set = range.split(/\s*\|\|\s*/).map(function(range) {
-    return this.parseRange(range.trim());
-  }, this).filter(function(c) {
+  this.set = range.split(/\s*\|\|\s*/).map(function (range) {
+    return this.parseRange(range.trim())
+  }, this).filter(function (c) {
     // throw out any that are not relevant for whatever reason
-    return c.length;
+    return c.length
   });
 
   if (!this.set.length) {
-    throw new TypeError('Invalid SemVer Range: ' + range);
+    throw new TypeError('Invalid SemVer Range: ' + range)
   }
 
   this.format();
 }
 
-Range.prototype.format = function() {
-  this.range = this.set.map(function(comps) {
-    return comps.join(' ').trim();
+Range.prototype.format = function () {
+  this.range = this.set.map(function (comps) {
+    return comps.join(' ').trim()
   }).join('||').trim();
-  return this.range;
+  return this.range
 };
 
-Range.prototype.toString = function() {
-  return this.range;
+Range.prototype.toString = function () {
+  return this.range
 };
 
-Range.prototype.parseRange = function(range) {
+Range.prototype.parseRange = function (range) {
   var loose = this.options.loose;
   range = range.trim();
   // `1.2.3 - 1.2.4` => `>=1.2.3 <=1.2.4`
-  var hr = loose ? re[HYPHENRANGELOOSE] : re[HYPHENRANGE];
+  var hr = loose ? re[t.HYPHENRANGELOOSE] : re[t.HYPHENRANGE];
   range = range.replace(hr, hyphenReplace);
   debug('hyphen replace', range);
   // `> 1.2.3 < 1.2.5` => `>1.2.3 <1.2.5`
-  range = range.replace(re[COMPARATORTRIM], comparatorTrimReplace);
-  debug('comparator trim', range, re[COMPARATORTRIM]);
+  range = range.replace(re[t.COMPARATORTRIM], comparatorTrimReplace);
+  debug('comparator trim', range, re[t.COMPARATORTRIM]);
 
   // `~ 1.2.3` => `~1.2.3`
-  range = range.replace(re[TILDETRIM], tildeTrimReplace);
+  range = range.replace(re[t.TILDETRIM], tildeTrimReplace);
 
   // `^ 1.2.3` => `^1.2.3`
-  range = range.replace(re[CARETTRIM], caretTrimReplace);
+  range = range.replace(re[t.CARETTRIM], caretTrimReplace);
 
   // normalize spaces
   range = range.split(/\s+/).join(' ');
@@ -908,53 +1026,77 @@ Range.prototype.parseRange = function(range) {
   // At this point, the range is completely trimmed and
   // ready to be split into comparators.
 
-  var compRe = loose ? re[COMPARATORLOOSE] : re[COMPARATOR];
-  var set = range.split(' ').map(function(comp) {
-    return parseComparator(comp, this.options);
+  var compRe = loose ? re[t.COMPARATORLOOSE] : re[t.COMPARATOR];
+  var set = range.split(' ').map(function (comp) {
+    return parseComparator(comp, this.options)
   }, this).join(' ').split(/\s+/);
   if (this.options.loose) {
     // in loose mode, throw out any that are not valid comparators
-    set = set.filter(function(comp) {
-      return !!comp.match(compRe);
+    set = set.filter(function (comp) {
+      return !!comp.match(compRe)
     });
   }
-  set = set.map(function(comp) {
-    return new Comparator(comp, this.options);
+  set = set.map(function (comp) {
+    return new Comparator(comp, this.options)
   }, this);
 
-  return set;
+  return set
 };
 
-Range.prototype.intersects = function(range, options) {
+Range.prototype.intersects = function (range, options) {
   if (!(range instanceof Range)) {
-    throw new TypeError('a Range is required');
+    throw new TypeError('a Range is required')
   }
 
-  return this.set.some(function(thisComparators) {
-    return thisComparators.every(function(thisComparator) {
-      return range.set.some(function(rangeComparators) {
-        return rangeComparators.every(function(rangeComparator) {
-          return thisComparator.intersects(rangeComparator, options);
-        });
-      });
-    });
-  });
+  return this.set.some(function (thisComparators) {
+    return (
+      isSatisfiable(thisComparators, options) &&
+      range.set.some(function (rangeComparators) {
+        return (
+          isSatisfiable(rangeComparators, options) &&
+          thisComparators.every(function (thisComparator) {
+            return rangeComparators.every(function (rangeComparator) {
+              return thisComparator.intersects(rangeComparator, options)
+            })
+          })
+        )
+      })
+    )
+  })
 };
+
+// take a set of comparators and determine whether there
+// exists a version which can satisfy it
+function isSatisfiable (comparators, options) {
+  var result = true;
+  var remainingComparators = comparators.slice();
+  var testComparator = remainingComparators.pop();
+
+  while (result && remainingComparators.length) {
+    result = remainingComparators.every(function (otherComparator) {
+      return testComparator.intersects(otherComparator, options)
+    });
+
+    testComparator = remainingComparators.pop();
+  }
+
+  return result
+}
 
 // Mostly just for testing and legacy API reasons
 exports.toComparators = toComparators;
-function toComparators(range, options) {
-  return new Range(range, options).set.map(function(comp) {
-    return comp.map(function(c) {
-      return c.value;
-    }).join(' ').trim().split(' ');
-  });
+function toComparators (range, options) {
+  return new Range(range, options).set.map(function (comp) {
+    return comp.map(function (c) {
+      return c.value
+    }).join(' ').trim().split(' ')
+  })
 }
 
 // comprised of xranges, tildes, stars, and gtlt's at this point.
 // already replaced the hyphen ranges
 // turn into a set of JUST comparators.
-function parseComparator(comp, options) {
+function parseComparator (comp, options) {
   debug('comp', comp, options);
   comp = replaceCarets(comp, options);
   debug('caret', comp);
@@ -964,11 +1106,11 @@ function parseComparator(comp, options) {
   debug('xrange', comp);
   comp = replaceStars(comp, options);
   debug('stars', comp);
-  return comp;
+  return comp
 }
 
-function isX(id) {
-  return !id || id.toLowerCase() === 'x' || id === '*';
+function isX (id) {
+  return !id || id.toLowerCase() === 'x' || id === '*'
 }
 
 // ~, ~> --> * (any, kinda silly)
@@ -977,41 +1119,38 @@ function isX(id) {
 // ~1.2, ~1.2.x, ~>1.2, ~>1.2.x --> >=1.2.0 <1.3.0
 // ~1.2.3, ~>1.2.3 --> >=1.2.3 <1.3.0
 // ~1.2.0, ~>1.2.0 --> >=1.2.0 <1.3.0
-function replaceTildes(comp, options) {
-  return comp.trim().split(/\s+/).map(function(comp) {
-    return replaceTilde(comp, options);
-  }).join(' ');
+function replaceTildes (comp, options) {
+  return comp.trim().split(/\s+/).map(function (comp) {
+    return replaceTilde(comp, options)
+  }).join(' ')
 }
 
-function replaceTilde(comp, options) {
-  if (!options || typeof options !== 'object')
-    { options = { loose: !!options, includePrerelease: false }; }
-  var r = options.loose ? re[TILDELOOSE] : re[TILDE];
-  return comp.replace(r, function(_, M, m, p, pr) {
+function replaceTilde (comp, options) {
+  var r = options.loose ? re[t.TILDELOOSE] : re[t.TILDE];
+  return comp.replace(r, function (_, M, m, p, pr) {
     debug('tilde', comp, _, M, m, p, pr);
     var ret;
 
-    if (isX(M))
-      { ret = ''; }
-    else if (isX(m))
-      { ret = '>=' + M + '.0.0 <' + (+M + 1) + '.0.0'; }
-    else if (isX(p))
+    if (isX(M)) {
+      ret = '';
+    } else if (isX(m)) {
+      ret = '>=' + M + '.0.0 <' + (+M + 1) + '.0.0';
+    } else if (isX(p)) {
       // ~1.2 == >=1.2.0 <1.3.0
-      { ret = '>=' + M + '.' + m + '.0 <' + M + '.' + (+m + 1) + '.0'; }
-    else if (pr) {
+      ret = '>=' + M + '.' + m + '.0 <' + M + '.' + (+m + 1) + '.0';
+    } else if (pr) {
       debug('replaceTilde pr', pr);
-      if (pr.charAt(0) !== '-')
-        { pr = '-' + pr; }
-      ret = '>=' + M + '.' + m + '.' + p + pr +
+      ret = '>=' + M + '.' + m + '.' + p + '-' + pr +
             ' <' + M + '.' + (+m + 1) + '.0';
-    } else
+    } else {
       // ~1.2.3 == >=1.2.3 <1.3.0
-      { ret = '>=' + M + '.' + m + '.' + p +
-            ' <' + M + '.' + (+m + 1) + '.0'; }
+      ret = '>=' + M + '.' + m + '.' + p +
+            ' <' + M + '.' + (+m + 1) + '.0';
+    }
 
     debug('tilde return', ret);
-    return ret;
-  });
+    return ret
+  })
 }
 
 // ^ --> * (any, kinda silly)
@@ -1020,99 +1159,104 @@ function replaceTilde(comp, options) {
 // ^1.2, ^1.2.x --> >=1.2.0 <2.0.0
 // ^1.2.3 --> >=1.2.3 <2.0.0
 // ^1.2.0 --> >=1.2.0 <2.0.0
-function replaceCarets(comp, options) {
-  return comp.trim().split(/\s+/).map(function(comp) {
-    return replaceCaret(comp, options);
-  }).join(' ');
+function replaceCarets (comp, options) {
+  return comp.trim().split(/\s+/).map(function (comp) {
+    return replaceCaret(comp, options)
+  }).join(' ')
 }
 
-function replaceCaret(comp, options) {
+function replaceCaret (comp, options) {
   debug('caret', comp, options);
-  if (!options || typeof options !== 'object')
-    { options = { loose: !!options, includePrerelease: false }; }
-  var r = options.loose ? re[CARETLOOSE] : re[CARET];
-  return comp.replace(r, function(_, M, m, p, pr) {
+  var r = options.loose ? re[t.CARETLOOSE] : re[t.CARET];
+  return comp.replace(r, function (_, M, m, p, pr) {
     debug('caret', comp, _, M, m, p, pr);
     var ret;
 
-    if (isX(M))
-      { ret = ''; }
-    else if (isX(m))
-      { ret = '>=' + M + '.0.0 <' + (+M + 1) + '.0.0'; }
-    else if (isX(p)) {
-      if (M === '0')
-        { ret = '>=' + M + '.' + m + '.0 <' + M + '.' + (+m + 1) + '.0'; }
-      else
-        { ret = '>=' + M + '.' + m + '.0 <' + (+M + 1) + '.0.0'; }
+    if (isX(M)) {
+      ret = '';
+    } else if (isX(m)) {
+      ret = '>=' + M + '.0.0 <' + (+M + 1) + '.0.0';
+    } else if (isX(p)) {
+      if (M === '0') {
+        ret = '>=' + M + '.' + m + '.0 <' + M + '.' + (+m + 1) + '.0';
+      } else {
+        ret = '>=' + M + '.' + m + '.0 <' + (+M + 1) + '.0.0';
+      }
     } else if (pr) {
       debug('replaceCaret pr', pr);
-      if (pr.charAt(0) !== '-')
-        { pr = '-' + pr; }
       if (M === '0') {
-        if (m === '0')
-          { ret = '>=' + M + '.' + m + '.' + p + pr +
-                ' <' + M + '.' + m + '.' + (+p + 1); }
-        else
-          { ret = '>=' + M + '.' + m + '.' + p + pr +
-                ' <' + M + '.' + (+m + 1) + '.0'; }
-      } else
-        { ret = '>=' + M + '.' + m + '.' + p + pr +
-              ' <' + (+M + 1) + '.0.0'; }
+        if (m === '0') {
+          ret = '>=' + M + '.' + m + '.' + p + '-' + pr +
+                ' <' + M + '.' + m + '.' + (+p + 1);
+        } else {
+          ret = '>=' + M + '.' + m + '.' + p + '-' + pr +
+                ' <' + M + '.' + (+m + 1) + '.0';
+        }
+      } else {
+        ret = '>=' + M + '.' + m + '.' + p + '-' + pr +
+              ' <' + (+M + 1) + '.0.0';
+      }
     } else {
       debug('no pr');
       if (M === '0') {
-        if (m === '0')
-          { ret = '>=' + M + '.' + m + '.' + p +
-                ' <' + M + '.' + m + '.' + (+p + 1); }
-        else
-          { ret = '>=' + M + '.' + m + '.' + p +
-                ' <' + M + '.' + (+m + 1) + '.0'; }
-      } else
-        { ret = '>=' + M + '.' + m + '.' + p +
-              ' <' + (+M + 1) + '.0.0'; }
+        if (m === '0') {
+          ret = '>=' + M + '.' + m + '.' + p +
+                ' <' + M + '.' + m + '.' + (+p + 1);
+        } else {
+          ret = '>=' + M + '.' + m + '.' + p +
+                ' <' + M + '.' + (+m + 1) + '.0';
+        }
+      } else {
+        ret = '>=' + M + '.' + m + '.' + p +
+              ' <' + (+M + 1) + '.0.0';
+      }
     }
 
     debug('caret return', ret);
-    return ret;
-  });
+    return ret
+  })
 }
 
-function replaceXRanges(comp, options) {
+function replaceXRanges (comp, options) {
   debug('replaceXRanges', comp, options);
-  return comp.split(/\s+/).map(function(comp) {
-    return replaceXRange(comp, options);
-  }).join(' ');
+  return comp.split(/\s+/).map(function (comp) {
+    return replaceXRange(comp, options)
+  }).join(' ')
 }
 
-function replaceXRange(comp, options) {
+function replaceXRange (comp, options) {
   comp = comp.trim();
-  if (!options || typeof options !== 'object')
-    { options = { loose: !!options, includePrerelease: false }; }
-  var r = options.loose ? re[XRANGELOOSE] : re[XRANGE];
-  return comp.replace(r, function(ret, gtlt, M, m, p, pr) {
+  var r = options.loose ? re[t.XRANGELOOSE] : re[t.XRANGE];
+  return comp.replace(r, function (ret, gtlt, M, m, p, pr) {
     debug('xRange', comp, ret, gtlt, M, m, p, pr);
     var xM = isX(M);
     var xm = xM || isX(m);
     var xp = xm || isX(p);
     var anyX = xp;
 
-    if (gtlt === '=' && anyX)
-      { gtlt = ''; }
+    if (gtlt === '=' && anyX) {
+      gtlt = '';
+    }
+
+    // if we're including prereleases in the match, then we need
+    // to fix this to -0, the lowest possible prerelease value
+    pr = options.includePrerelease ? '-0' : '';
 
     if (xM) {
       if (gtlt === '>' || gtlt === '<') {
         // nothing is allowed
-        ret = '<0.0.0';
+        ret = '<0.0.0-0';
       } else {
         // nothing is forbidden
         ret = '*';
       }
     } else if (gtlt && anyX) {
+      // we know patch is an x, because we have any x at all.
       // replace X with 0
-      if (xm)
-        { m = 0; }
-      if (xp)
-        { p = 0; }
+      if (xm) {
+        m = 0;
+      }
+      p = 0;
 
       if (gtlt === '>') {
         // >1 => >=2.0.0
@@ -1123,7 +1267,7 @@ function replaceXRange(comp, options) {
           M = +M + 1;
           m = 0;
           p = 0;
-        } else if (xp) {
+        } else {
           m = +m + 1;
           p = 0;
         }
@@ -1131,91 +1275,96 @@ function replaceXRange(comp, options) {
         // <=0.7.x is actually <0.8.0, since any 0.7.x should
         // pass.  Similarly, <=7.x is actually <8.0.0, etc.
         gtlt = '<';
-        if (xm)
-          { M = +M + 1; }
-        else
-          { m = +m + 1; }
+        if (xm) {
+          M = +M + 1;
+        } else {
+          m = +m + 1;
+        }
       }
 
-      ret = gtlt + M + '.' + m + '.' + p;
+      ret = gtlt + M + '.' + m + '.' + p + pr;
     } else if (xm) {
-      ret = '>=' + M + '.0.0 <' + (+M + 1) + '.0.0';
+      ret = '>=' + M + '.0.0' + pr + ' <' + (+M + 1) + '.0.0' + pr;
     } else if (xp) {
-      ret = '>=' + M + '.' + m + '.0 <' + M + '.' + (+m + 1) + '.0';
+      ret = '>=' + M + '.' + m + '.0' + pr +
+        ' <' + M + '.' + (+m + 1) + '.0' + pr;
     }
 
     debug('xRange return', ret);
 
-    return ret;
-  });
+    return ret
+  })
 }
 
 // Because * is AND-ed with everything else in the comparator,
 // and '' means "any version", just remove the *s entirely.
-function replaceStars(comp, options) {
+function replaceStars (comp, options) {
   debug('replaceStars', comp, options);
   // Looseness is ignored here.  star is always as loose as it gets!
-  return comp.trim().replace(re[STAR], '');
+  return comp.trim().replace(re[t.STAR], '')
 }
 
-// This function is passed to string.replace(re[HYPHENRANGE])
+// This function is passed to string.replace(re[t.HYPHENRANGE])
 // M, m, patch, prerelease, build
 // 1.2 - 3.4.5 => >=1.2.0 <=3.4.5
 // 1.2.3 - 3.4 => >=1.2.0 <3.5.0 Any 3.4.x will do
 // 1.2 - 3.4 => >=1.2.0 <3.5.0
-function hyphenReplace($0,
-                       from, fM, fm, fp, fpr, fb,
-                       to, tM, tm, tp, tpr, tb) {
+function hyphenReplace ($0,
+  from, fM, fm, fp, fpr, fb,
+  to, tM, tm, tp, tpr, tb) {
+  if (isX(fM)) {
+    from = '';
+  } else if (isX(fm)) {
+    from = '>=' + fM + '.0.0';
+  } else if (isX(fp)) {
+    from = '>=' + fM + '.' + fm + '.0';
+  } else {
+    from = '>=' + from;
+  }
 
-  if (isX(fM))
-    { from = ''; }
-  else if (isX(fm))
-    { from = '>=' + fM + '.0.0'; }
-  else if (isX(fp))
-    { from = '>=' + fM + '.' + fm + '.0'; }
-  else
-    { from = '>=' + from; }
+  if (isX(tM)) {
+    to = '';
+  } else if (isX(tm)) {
+    to = '<' + (+tM + 1) + '.0.0';
+  } else if (isX(tp)) {
+    to = '<' + tM + '.' + (+tm + 1) + '.0';
+  } else if (tpr) {
+    to = '<=' + tM + '.' + tm + '.' + tp + '-' + tpr;
+  } else {
+    to = '<=' + to;
+  }
 
-  if (isX(tM))
-    { to = ''; }
-  else if (isX(tm))
-    { to = '<' + (+tM + 1) + '.0.0'; }
-  else if (isX(tp))
-    { to = '<' + tM + '.' + (+tm + 1) + '.0'; }
-  else if (tpr)
-    { to = '<=' + tM + '.' + tm + '.' + tp + '-' + tpr; }
-  else
-    { to = '<=' + to; }
-
-  return (from + ' ' + to).trim();
+  return (from + ' ' + to).trim()
 }
 
-
 // if ANY of the sets match ALL of its comparators, then pass
-Range.prototype.test = function(version) {
-  var this$1 = this;
+Range.prototype.test = function (version) {
+  if (!version) {
+    return false
+  }
 
-  if (!version)
-    { return false; }
-
-  if (typeof version === 'string')
-    { version = new SemVer(version, this.options); }
+  if (typeof version === 'string') {
+    try {
+      version = new SemVer(version, this.options);
+    } catch (er) {
+      return false
+    }
+  }
 
   for (var i = 0; i < this.set.length; i++) {
-    if (testSet(this$1.set[i], version, this$1.options))
-      { return true; }
+    if (testSet(this.set[i], version, this.options)) {
+      return true
+    }
   }
-  return false;
+  return false
 };
 
-function testSet(set, version, options) {
+function testSet (set, version, options) {
   for (var i = 0; i < set.length; i++) {
-    if (!set[i].test(version))
-      { return false; }
+    if (!set[i].test(version)) {
+      return false
+    }
   }
-
-  if (!options)
-    { options = {}; }
 
   if (version.prerelease.length && !options.includePrerelease) {
     // Find the set of versions that are allowed to have prereleases
@@ -1223,102 +1372,162 @@ function testSet(set, version, options) {
     // That should allow `1.2.3-pr.2` to pass.
     // However, `1.2.4-alpha.notready` should NOT be allowed,
     // even though it's within the range set by the comparators.
-    for (var i = 0; i < set.length; i++) {
+    for (i = 0; i < set.length; i++) {
       debug(set[i].semver);
-      if (set[i].semver === ANY)
-        { continue; }
+      if (set[i].semver === ANY) {
+        continue
+      }
 
       if (set[i].semver.prerelease.length > 0) {
         var allowed = set[i].semver;
         if (allowed.major === version.major &&
             allowed.minor === version.minor &&
-            allowed.patch === version.patch)
-          { return true; }
+            allowed.patch === version.patch) {
+          return true
+        }
       }
     }
 
     // Version has a -pre, but it's not one of the ones we like.
-    return false;
+    return false
   }
 
-  return true;
+  return true
 }
 
 exports.satisfies = satisfies;
-function satisfies(version, range, options) {
+function satisfies (version, range, options) {
   try {
     range = new Range(range, options);
   } catch (er) {
-    return false;
+    return false
   }
-  return range.test(version);
+  return range.test(version)
 }
 
 exports.maxSatisfying = maxSatisfying;
-function maxSatisfying(versions, range, options) {
+function maxSatisfying (versions, range, options) {
   var max = null;
   var maxSV = null;
   try {
     var rangeObj = new Range(range, options);
   } catch (er) {
-    return null;
+    return null
   }
   versions.forEach(function (v) {
-    if (rangeObj.test(v)) { // satisfies(v, range, options)
-      if (!max || maxSV.compare(v) === -1) { // compare(max, v, true)
+    if (rangeObj.test(v)) {
+      // satisfies(v, range, options)
+      if (!max || maxSV.compare(v) === -1) {
+        // compare(max, v, true)
         max = v;
         maxSV = new SemVer(max, options);
       }
     }
   });
-  return max;
+  return max
 }
 
 exports.minSatisfying = minSatisfying;
-function minSatisfying(versions, range, options) {
+function minSatisfying (versions, range, options) {
   var min = null;
   var minSV = null;
   try {
     var rangeObj = new Range(range, options);
   } catch (er) {
-    return null;
+    return null
   }
   versions.forEach(function (v) {
-    if (rangeObj.test(v)) { // satisfies(v, range, options)
-      if (!min || minSV.compare(v) === 1) { // compare(min, v, true)
+    if (rangeObj.test(v)) {
+      // satisfies(v, range, options)
+      if (!min || minSV.compare(v) === 1) {
+        // compare(min, v, true)
         min = v;
         minSV = new SemVer(min, options);
       }
     }
   });
-  return min;
+  return min
+}
+
+exports.minVersion = minVersion;
+function minVersion (range, loose) {
+  range = new Range(range, loose);
+
+  var minver = new SemVer('0.0.0');
+  if (range.test(minver)) {
+    return minver
+  }
+
+  minver = new SemVer('0.0.0-0');
+  if (range.test(minver)) {
+    return minver
+  }
+
+  minver = null;
+  for (var i = 0; i < range.set.length; ++i) {
+    var comparators = range.set[i];
+
+    comparators.forEach(function (comparator) {
+      // Clone to avoid manipulating the comparator's semver object.
+      var compver = new SemVer(comparator.semver.version);
+      switch (comparator.operator) {
+        case '>':
+          if (compver.prerelease.length === 0) {
+            compver.patch++;
+          } else {
+            compver.prerelease.push(0);
+          }
+          compver.raw = compver.format();
+          /* fallthrough */
+        case '':
+        case '>=':
+          if (!minver || gt(minver, compver)) {
+            minver = compver;
+          }
+          break
+        case '<':
+        case '<=':
+          /* Ignore maximum versions */
+          break
+        /* istanbul ignore next */
+        default:
+          throw new Error('Unexpected operation: ' + comparator.operator)
+      }
+    });
+  }
+
+  if (minver && range.test(minver)) {
+    return minver
+  }
+
+  return null
 }
 
 exports.validRange = validRange;
-function validRange(range, options) {
+function validRange (range, options) {
   try {
     // Return '*' instead of '' so that truthiness works.
     // This will throw if it's invalid anyway
-    return new Range(range, options).range || '*';
+    return new Range(range, options).range || '*'
   } catch (er) {
-    return null;
+    return null
   }
 }
 
 // Determine if version is less than all the versions possible in the range
 exports.ltr = ltr;
-function ltr(version, range, options) {
-  return outside(version, range, '<', options);
+function ltr (version, range, options) {
+  return outside(version, range, '<', options)
 }
 
 // Determine if version is greater than all the versions possible in the range.
 exports.gtr = gtr;
-function gtr(version, range, options) {
-  return outside(version, range, '>', options);
+function gtr (version, range, options) {
+  return outside(version, range, '>', options)
 }
 
 exports.outside = outside;
-function outside(version, range, hilo, options) {
+function outside (version, range, hilo, options) {
   version = new SemVer(version, options);
   range = new Range(range, options);
 
@@ -1330,21 +1539,21 @@ function outside(version, range, hilo, options) {
       ltfn = lt;
       comp = '>';
       ecomp = '>=';
-      break;
+      break
     case '<':
       gtfn = lt;
       ltefn = gte;
       ltfn = gt;
       comp = '<';
       ecomp = '<=';
-      break;
+      break
     default:
-      throw new TypeError('Must provide a hilo val of "<" or ">"');
+      throw new TypeError('Must provide a hilo val of "<" or ">"')
   }
 
   // If it satisifes the range it is not outside
   if (satisfies(version, range, options)) {
-    return false;
+    return false
   }
 
   // From now on, variable terms are as if we're in "gtr" mode.
@@ -1356,7 +1565,7 @@ function outside(version, range, hilo, options) {
     var high = null;
     var low = null;
 
-    comparators.forEach(function(comparator) {
+    comparators.forEach(function (comparator) {
       if (comparator.semver === ANY) {
         comparator = new Comparator('>=0.0.0');
       }
@@ -1372,89 +1581,127 @@ function outside(version, range, hilo, options) {
     // If the edge version comparator has a operator then our version
     // isn't outside it
     if (high.operator === comp || high.operator === ecomp) {
-      return false;
+      return false
     }
 
     // If the lowest version comparator has an operator and our version
     // is less than it then it isn't higher than the range
     if ((!low.operator || low.operator === comp) &&
         ltefn(version, low.semver)) {
-      return false;
+      return false
     } else if (low.operator === ecomp && ltfn(version, low.semver)) {
-      return false;
+      return false
     }
   }
-  return true;
+  return true
 }
 
 exports.prerelease = prerelease;
-function prerelease(version, options) {
+function prerelease (version, options) {
   var parsed = parse(version, options);
-  return (parsed && parsed.prerelease.length) ? parsed.prerelease : null;
+  return (parsed && parsed.prerelease.length) ? parsed.prerelease : null
 }
 
 exports.intersects = intersects;
-function intersects(r1, r2, options) {
+function intersects (r1, r2, options) {
   r1 = new Range(r1, options);
   r2 = new Range(r2, options);
   return r1.intersects(r2)
 }
 
 exports.coerce = coerce;
-function coerce(version) {
-  if (version instanceof SemVer)
-    { return version; }
+function coerce (version, options) {
+  if (version instanceof SemVer) {
+    return version
+  }
 
-  if (typeof version !== 'string')
-    { return null; }
+  if (typeof version === 'number') {
+    version = String(version);
+  }
 
-  var match = version.match(re[COERCE]);
+  if (typeof version !== 'string') {
+    return null
+  }
 
-  if (match == null)
-    { return null; }
+  options = options || {};
 
-  return parse((match[1] || '0') + '.' + (match[2] || '0') + '.' + (match[3] || '0')); 
+  var match = null;
+  if (!options.rtl) {
+    match = version.match(re[t.COERCE]);
+  } else {
+    // Find the right-most coercible string that does not share
+    // a terminus with a more left-ward coercible string.
+    // Eg, '1.2.3.4' wants to coerce '2.3.4', not '3.4' or '4'
+    //
+    // Walk through the string checking with a /g regexp
+    // Manually set the index so as to pick up overlapping matches.
+    // Stop when we get a match that ends at the string end, since no
+    // coercible string can be more right-ward without the same terminus.
+    var next;
+    while ((next = re[t.COERCERTL].exec(version)) &&
+      (!match || match.index + match[0].length !== version.length)
+    ) {
+      if (!match ||
+          next.index + next[0].length !== match.index + match[0].length) {
+        match = next;
+      }
+      re[t.COERCERTL].lastIndex = next.index + next[1].length + next[2].length;
+    }
+    // leave it in a clean state
+    re[t.COERCERTL].lastIndex = -1;
+  }
+
+  if (match === null) {
+    return null
+  }
+
+  return parse(match[2] +
+    '.' + (match[3] || '0') +
+    '.' + (match[4] || '0'), options)
 }
 });
 var semver_1 = semver.SEMVER_SPEC_VERSION;
 var semver_2 = semver.re;
 var semver_3 = semver.src;
-var semver_4 = semver.parse;
-var semver_5 = semver.valid;
-var semver_6 = semver.clean;
-var semver_7 = semver.SemVer;
-var semver_8 = semver.inc;
-var semver_9 = semver.diff;
-var semver_10 = semver.compareIdentifiers;
-var semver_11 = semver.rcompareIdentifiers;
-var semver_12 = semver.major;
-var semver_13 = semver.minor;
-var semver_14 = semver.patch;
-var semver_15 = semver.compare;
-var semver_16 = semver.compareLoose;
-var semver_17 = semver.rcompare;
-var semver_18 = semver.sort;
-var semver_19 = semver.rsort;
-var semver_20 = semver.gt;
-var semver_21 = semver.lt;
-var semver_22 = semver.eq;
-var semver_23 = semver.neq;
-var semver_24 = semver.gte;
-var semver_25 = semver.lte;
-var semver_26 = semver.cmp;
-var semver_27 = semver.Comparator;
-var semver_28 = semver.Range;
-var semver_29 = semver.toComparators;
-var semver_30 = semver.satisfies;
-var semver_31 = semver.maxSatisfying;
-var semver_32 = semver.minSatisfying;
-var semver_33 = semver.validRange;
-var semver_34 = semver.ltr;
-var semver_35 = semver.gtr;
-var semver_36 = semver.outside;
-var semver_37 = semver.prerelease;
-var semver_38 = semver.intersects;
-var semver_39 = semver.coerce;
+var semver_4 = semver.tokens;
+var semver_5 = semver.parse;
+var semver_6 = semver.valid;
+var semver_7 = semver.clean;
+var semver_8 = semver.SemVer;
+var semver_9 = semver.inc;
+var semver_10 = semver.diff;
+var semver_11 = semver.compareIdentifiers;
+var semver_12 = semver.rcompareIdentifiers;
+var semver_13 = semver.major;
+var semver_14 = semver.minor;
+var semver_15 = semver.patch;
+var semver_16 = semver.compare;
+var semver_17 = semver.compareLoose;
+var semver_18 = semver.compareBuild;
+var semver_19 = semver.rcompare;
+var semver_20 = semver.sort;
+var semver_21 = semver.rsort;
+var semver_22 = semver.gt;
+var semver_23 = semver.lt;
+var semver_24 = semver.eq;
+var semver_25 = semver.neq;
+var semver_26 = semver.gte;
+var semver_27 = semver.lte;
+var semver_28 = semver.cmp;
+var semver_29 = semver.Comparator;
+var semver_30 = semver.Range;
+var semver_31 = semver.toComparators;
+var semver_32 = semver.satisfies;
+var semver_33 = semver.maxSatisfying;
+var semver_34 = semver.minSatisfying;
+var semver_35 = semver.minVersion;
+var semver_36 = semver.validRange;
+var semver_37 = semver.ltr;
+var semver_38 = semver.gtr;
+var semver_39 = semver.outside;
+var semver_40 = semver.prerelease;
+var semver_41 = semver.intersects;
+var semver_42 = semver.coerce;
 
 // 
 
@@ -1487,6 +1734,10 @@ var hyphenate = function (str) { return str.replace(hyphenateRE, '-$1').toLowerC
 
 function hasOwnProperty(obj, prop) {
   return Object.prototype.hasOwnProperty.call(obj, prop)
+}
+
+function keys(obj) {
+  return Object.keys(obj)
 }
 
 function resolveComponent(id, components) {
@@ -1617,7 +1868,7 @@ function addStubs(_Vue, stubComponents) {
     Object.assign(this.$options.components, stubComponents);
   }
 
-  _Vue.mixin(( obj = {}, obj[BEFORE_RENDER_LIFECYCLE_HOOK] = addStubComponentsMixin, obj));
+  _Vue.mixin(( obj = {}, obj[BEFORE_RENDER_LIFECYCLE_HOOK] = addStubComponentsMixin, obj ));
 }
 
 // 
@@ -1788,6 +2039,16 @@ function compileFromString(str) {
 
 function compileTemplate(component) {
   if (component.template) {
+    if (component.template.charAt('#') === '#') {
+      var el = document.querySelector(component.template);
+      if (!el) {
+        throwError('Cannot find element' + component.template);
+
+        el = document.createElement('div');
+      }
+      component.template = el.innerHTML;
+    }
+
     Object.assign(component, vueTemplateCompiler.compileToFunctions(component.template));
   }
 
@@ -1925,7 +2186,7 @@ function createScopedSlots(
       if (isFn) {
         res = renderFn.call(Object.assign({}, helpers), props);
       } else if (slotScope && !isDestructuringSlotScope(slotScope)) {
-        res = renderFn.call(Object.assign({}, helpers, ( obj = {}, obj[slotScope] = props, obj)));
+        res = renderFn.call(Object.assign({}, helpers, ( obj = {}, obj[slotScope] = props, obj )));
       } else if (slotScope && isDestructuringSlotScope(slotScope)) {
         res = renderFn.call(Object.assign({}, helpers, props));
       } else {
@@ -1973,7 +2234,6 @@ function getCoreProperties(componentOptions) {
     props: componentOptions.props,
     on: componentOptions.on,
     key: componentOptions.key,
-    ref: componentOptions.ref,
     domProps: componentOptions.domProps,
     class: componentOptions.class,
     staticClass: componentOptions.staticClass,
@@ -2006,6 +2266,25 @@ function resolveOptions(component, _Vue) {
   return options
 }
 
+function getScopedSlotRenderFunctions(ctx) {
+  // In Vue 2.6+ a new v-slot syntax was introduced
+  // scopedSlots are now saved in parent._vnode.data.scopedSlots
+  // We filter out the _normalized and $stable key
+  if (
+    ctx &&
+    ctx.$options &&
+    ctx.$options.parent &&
+    ctx.$options.parent._vnode &&
+    ctx.$options.parent._vnode.data &&
+    ctx.$options.parent._vnode.data.scopedSlots
+  ) {
+    var slotKeys = ctx.$options.parent._vnode.data.scopedSlots;
+    return keys(slotKeys).filter(function (x) { return x !== '_normalized' && x !== '$stable'; })
+  }
+
+  return []
+}
+
 function createStubFromComponent(
   originalComponent,
   name,
@@ -2023,9 +2302,12 @@ function createStubFromComponent(
     {$_vueTestUtils_original: originalComponent,
     $_doNotStubChildren: true,
     render: function render(h, context) {
+      var this$1 = this;
+
       return h(
         tagName,
         {
+          ref: componentOptions.functional ? context.data.ref : undefined,
           attrs: componentOptions.functional
             ? Object.assign({}, context.props,
                 context.data.attrs,
@@ -2035,7 +2317,11 @@ function createStubFromComponent(
                 )})
             : Object.assign({}, this.$props)
         },
-        context ? context.children : this.$options._renderChildren
+        context
+          ? context.children
+          : this.$options._renderChildren ||
+              getScopedSlotRenderFunctions(this).map(function (x) { return this$1.$options.parent._vnode.data.scopedSlots[x](); }
+              )
       )
     }})
 }
@@ -2124,7 +2410,7 @@ function createStubIfNeeded(shouldStub, component, _Vue, el) {
     return createStubFromComponent(component || {}, el, _Vue)
   }
 
-  if (shouldExtend(component, _Vue)) {
+  if (shouldExtend(component)) {
     return extend(component, _Vue)
   }
 }
@@ -2171,7 +2457,7 @@ function patchCreateElement(_Vue, stubs, stubAllComponents) {
           var stub = createStubFromComponent(el, el.name || 'anonymous', _Vue);
           return originalCreateElement.apply(void 0, [ stub ].concat( args ))
         }
-        var Constructor = shouldExtend(el, _Vue) ? extend(el, _Vue) : el;
+        var Constructor = shouldExtend(el) ? extend(el, _Vue) : el;
 
         return originalCreateElement.apply(void 0, [ Constructor ].concat( args ))
       }
@@ -2190,7 +2476,7 @@ function patchCreateElement(_Vue, stubs, stubAllComponents) {
         var stub$1 = createStubIfNeeded(stubAllComponents, original, _Vue, el);
 
         if (stub$1) {
-          Object.assign(vm.$options.components, ( obj = {}, obj[el] = stub$1, obj));
+          Object.assign(vm.$options.components, ( obj = {}, obj[el] = stub$1, obj ));
           modifiedComponents.add(el);
         }
       }
@@ -2202,7 +2488,7 @@ function patchCreateElement(_Vue, stubs, stubAllComponents) {
     vm.$createElement = createElement;
   }
 
-  _Vue.mixin(( obj = {}, obj[BEFORE_RENDER_LIFECYCLE_HOOK] = patchCreateElementMixin, obj));
+  _Vue.mixin(( obj = {}, obj[BEFORE_RENDER_LIFECYCLE_HOOK] = patchCreateElementMixin, obj ));
 }
 
 // 
@@ -2264,8 +2550,21 @@ function createInstance(
   // used to identify extended component using constructor
   componentOptions.$_vueTestUtils_original = component;
 
-  // make sure all extends are based on this instance
+  // watchers provided in mounting options should override preexisting ones
+  if (componentOptions.watch && instanceOptions.watch) {
+    var componentWatchers = Object.keys(componentOptions.watch);
+    var instanceWatchers = Object.keys(instanceOptions.watch);
 
+    for (var i = 0; i < instanceWatchers.length; i++) {
+      var k = instanceWatchers[i];
+      // override the componentOptions with the one provided in mounting options
+      if (componentWatchers.includes(k)) {
+        componentOptions.watch[k] = instanceOptions.watch[k];
+      }
+    }
+  }
+
+  // make sure all extends are based on this instance
   var Constructor = _Vue.extend(componentOptions).extend(instanceOptions);
   componentOptions._Ctor = {};
   Constructor.options._base = _Vue;
@@ -2275,6 +2574,7 @@ function createInstance(
   var parentComponentOptions = options.parentComponent || {};
 
   parentComponentOptions.provide = options.provide;
+  parentComponentOptions._provided = options.provide;
   parentComponentOptions.$_doNotStubChildren = true;
   parentComponentOptions._isFunctionalContainer = componentOptions.functional;
   parentComponentOptions.render = function(h) {
@@ -2321,8 +2621,19 @@ function findDOMNodes(
 }
 
 function vmMatchesName(vm, name) {
+  // We want to mirror how Vue resolves component names in SFCs:
+  // For example, <test-component />, <TestComponent /> and `<testComponent />
+  // all resolve to the same component
+  var componentName = (vm.$options && vm.$options.name) || '';
   return (
-    !!name && (vm.name === name || (vm.$options && vm.$options.name === name))
+    !!name &&
+    (componentName === name ||
+      // testComponent -> TestComponent
+      componentName === capitalize(name) ||
+      // test-component -> TestComponent
+      componentName === capitalize(camelize(name)) ||
+      // same match as above, but the component name vs query
+      capitalize(camelize(componentName)) === name)
   )
 }
 
@@ -2603,7 +2914,7 @@ var config = {
   methods: {},
   provide: {},
   silent: true
-}
+};
 
 // 
 
@@ -2660,10 +2971,8 @@ OutputLine.prototype.item = function(index) {
 };
 
 OutputLine.prototype.has_match = function(pattern) {
-  var this$1 = this;
-
   for (var lastCheckedOutput = this.__items.length - 1; lastCheckedOutput >= 0; lastCheckedOutput--) {
-    if (this$1.__items[lastCheckedOutput].match(pattern)) {
+    if (this.__items[lastCheckedOutput].match(pattern)) {
       return true;
     }
   }
@@ -2758,11 +3067,9 @@ OutputLine.prototype._remove_wrap_indent = function() {
   }
 };
 OutputLine.prototype.trim = function() {
-  var this$1 = this;
-
   while (this.last() === ' ') {
-    this$1.__items.pop();
-    this$1.__character_count -= 1;
+    this.__items.pop();
+    this.__character_count -= 1;
   }
 };
 
@@ -2822,10 +3129,8 @@ IndentStringCache.prototype.get_indent_string = function(indent_level, column) {
 };
 
 IndentStringCache.prototype.__ensure_cache = function(column) {
-  var this$1 = this;
-
   while (column >= this.__cache.length) {
-    this$1.__add_column();
+    this.__add_column();
   }
 };
 
@@ -2948,10 +3253,8 @@ Output.prototype.set_indent = function(indent, alignment) {
 };
 
 Output.prototype.add_raw_token = function(token) {
-  var this$1 = this;
-
   for (var x = 0; x < token.newlines; x++) {
-    this$1.__add_outputline();
+    this.__add_outputline();
   }
   this.current_line.set_indent(-1);
   this.current_line.push(token.whitespace_before);
@@ -2979,28 +3282,24 @@ Output.prototype.__add_space_before_token = function() {
 };
 
 Output.prototype.remove_indent = function(index) {
-  var this$1 = this;
-
   var output_length = this.__lines.length;
   while (index < output_length) {
-    this$1.__lines[index]._remove_indent();
+    this.__lines[index]._remove_indent();
     index++;
   }
   this.current_line._remove_wrap_indent();
 };
 
 Output.prototype.trim = function(eat_newlines) {
-  var this$1 = this;
-
   eat_newlines = (eat_newlines === undefined) ? false : eat_newlines;
 
   this.current_line.trim();
 
   while (eat_newlines && this.__lines.length > 1 &&
     this.current_line.is_empty()) {
-    this$1.__lines.pop();
-    this$1.current_line = this$1.__lines[this$1.__lines.length - 1];
-    this$1.current_line.trim();
+    this.__lines.pop();
+    this.current_line = this.__lines[this.__lines.length - 1];
+    this.current_line.trim();
   }
 
   this.previous_line = this.__lines.length > 1 ?
@@ -3017,17 +3316,15 @@ Output.prototype.just_added_blankline = function() {
 };
 
 Output.prototype.ensure_empty_line_above = function(starts_with, ends_with) {
-  var this$1 = this;
-
   var index = this.__lines.length - 2;
   while (index >= 0) {
-    var potentialEmptyLine = this$1.__lines[index];
+    var potentialEmptyLine = this.__lines[index];
     if (potentialEmptyLine.is_empty()) {
       break;
     } else if (potentialEmptyLine.item(0).indexOf(starts_with) !== 0 &&
       potentialEmptyLine.item(-1) !== ends_with) {
-      this$1.__lines.splice(index + 1, 0, new OutputLine(this$1));
-      this$1.previous_line = this$1.__lines[this$1.__lines.length - 2];
+      this.__lines.splice(index + 1, 0, new OutputLine(this));
+      this.previous_line = this.__lines[this.__lines.length - 2];
       break;
     }
     index--;
@@ -3295,10 +3592,8 @@ var BaseOptions = options.Options;
 
 var validPositionValues = ['before-newline', 'after-newline', 'preserve-newline'];
 
-function Options$1(options$$1) {
-  var this$1 = this;
-
-  BaseOptions.call(this, options$$1, 'js');
+function Options$1(options) {
+  BaseOptions.call(this, options, 'js');
 
   // compatibility, re
   var raw_brace_style = this.raw_options.brace_style || null;
@@ -3322,9 +3617,9 @@ function Options$1(options$$1) {
 
   for (var bs = 0; bs < brace_style_split.length; bs++) {
     if (brace_style_split[bs] === "preserve-inline") {
-      this$1.brace_preserve_inline = true;
+      this.brace_preserve_inline = true;
     } else {
-      this$1.brace_style = brace_style_split[bs];
+      this.brace_style = brace_style_split[bs];
     }
   }
 
@@ -3757,8 +4052,6 @@ var Tokenizer = function(input_string, options) {
 };
 
 Tokenizer.prototype.tokenize = function() {
-  var this$1 = this;
-
   this._input.restart();
   this.__tokens = new TokenStream$1();
 
@@ -3771,10 +4064,10 @@ Tokenizer.prototype.tokenize = function() {
   var comments = new TokenStream$1();
 
   while (previous.type !== TOKEN.EOF) {
-    current = this$1._get_next_token(previous, open_token);
+    current = this._get_next_token(previous, open_token);
     while (this._is_comment(current)) {
       comments.add(current);
-      current = this$1._get_next_token(previous, open_token);
+      current = this._get_next_token(previous, open_token);
     }
 
     if (!comments.isEmpty()) {
@@ -3784,10 +4077,10 @@ Tokenizer.prototype.tokenize = function() {
 
     current.parent = open_token;
 
-    if (this$1._is_opening(current)) {
+    if (this._is_opening(current)) {
       open_stack.push(open_token);
       open_token = current;
-    } else if (open_token && this$1._is_closing(current, open_token)) {
+    } else if (open_token && this._is_closing(current, open_token)) {
       current.opened = open_token;
       open_token.closed = current;
       open_token = open_stack.pop();
@@ -3797,7 +4090,7 @@ Tokenizer.prototype.tokenize = function() {
     current.previous = previous;
     previous.next = current;
 
-    this$1.__tokens.add(current);
+    this.__tokens.add(current);
     previous = current;
   }
 
@@ -3834,10 +4127,10 @@ Tokenizer.prototype._is_closing = function(current_token, open_token) { // jshin
 };
 
 Tokenizer.prototype._create_token = function(type, text) {
-  var token$$1 = new Token$1(type, text,
+  var token = new Token$1(type, text,
     this._patterns.whitespace.newline_count,
     this._patterns.whitespace.whitespace_before_token);
-  return token$$1;
+  return token;
 };
 
 Tokenizer.prototype._readWhitespace = function() {
@@ -3866,8 +4159,6 @@ function Directives(start_block_pattern, end_block_pattern) {
 }
 
 Directives.prototype.get_directives = function(text) {
-  var this$1 = this;
-
   if (!text.match(this.__directives_block_pattern)) {
     return null;
   }
@@ -3878,7 +4169,7 @@ Directives.prototype.get_directives = function(text) {
 
   while (directive_match) {
     directives[directive_match[1]] = directive_match[2];
-    directive_match = this$1.__directive_pattern.exec(text);
+    directive_match = this.__directive_pattern.exec(text);
   }
 
   return directives;
@@ -3918,16 +4209,16 @@ function TemplatablePattern(input_scanner, parent) {
     this._excluded = Object.assign(this._excluded, parent._excluded);
     this._disabled = Object.assign(this._disabled, parent._disabled);
   }
-  var pattern$$1 = new Pattern$2(input_scanner);
+  var pattern = new Pattern$2(input_scanner);
   this.__patterns = {
-    handlebars_comment: pattern$$1.starting_with(/{{!--/).until_after(/--}}/),
-    handlebars: pattern$$1.starting_with(/{{/).until_after(/}}/),
-    php: pattern$$1.starting_with(/<\?(?:[=]|php)/).until_after(/\?>/),
-    erb: pattern$$1.starting_with(/<%[^%]/).until_after(/[^%]%>/),
+    handlebars_comment: pattern.starting_with(/{{!--/).until_after(/--}}/),
+    handlebars: pattern.starting_with(/{{/).until_after(/}}/),
+    php: pattern.starting_with(/<\?(?:[=]|php)/).until_after(/\?>/),
+    erb: pattern.starting_with(/<%[^%]/).until_after(/[^%]%>/),
     // django coflicts with handlebars a bit.
-    django: pattern$$1.starting_with(/{%/).until_after(/%}/),
-    django_value: pattern$$1.starting_with(/{{/).until_after(/}}/),
-    django_comment: pattern$$1.starting_with(/{#/).until_after(/#}/)
+    django: pattern.starting_with(/{%/).until_after(/%}/),
+    django_value: pattern.starting_with(/{{/).until_after(/}}/),
+    django_comment: pattern.starting_with(/{#/).until_after(/#}/)
   };
 }
 TemplatablePattern.prototype = new Pattern$2();
@@ -3964,8 +4255,6 @@ TemplatablePattern.prototype.exclude = function(language) {
 };
 
 TemplatablePattern.prototype.read = function() {
-  var this$1 = this;
-
   var result = '';
   if (this._match_pattern) {
     result = this._input.read(this._starting_pattern);
@@ -3974,13 +4263,13 @@ TemplatablePattern.prototype.read = function() {
   }
   var next = this._read_template();
   while (next) {
-    if (this$1._match_pattern) {
-      next += this$1._input.read(this$1._match_pattern);
+    if (this._match_pattern) {
+      next += this._input.read(this._match_pattern);
     } else {
-      next += this$1._input.readUntil(this$1.__template_pattern);
+      next += this._input.readUntil(this.__template_pattern);
     }
     result += next;
-    next = this$1._read_template();
+    next = this._read_template();
   }
 
   if (this._until_after) {
@@ -4267,8 +4556,6 @@ Tokenizer$1.prototype._read_punctuation = function() {
 };
 
 Tokenizer$1.prototype._read_non_javascript = function(c) {
-  var this$1 = this;
-
   var resulting_string = '';
 
   if (c === '#') {
@@ -4293,12 +4580,10 @@ Tokenizer$1.prototype._read_non_javascript = function(c) {
     var sharp = '#';
     if (this._input.hasNext() && this._input.testChar(digit)) {
       do {
-        c = this$1._input.next();
+        c = this._input.next();
         sharp += c;
       } while (this._input.hasNext() && c !== '#' && c !== '=');
-      if (c === '#') {
-        //
-      } else if (this._input.peek() === '[' && this._input.peek(1) === ']') {
+      if (c === '#') ; else if (this._input.peek() === '[' && this._input.peek(1) === ']') {
         sharp += '[]';
         this._input.next();
         this._input.next();
@@ -4316,7 +4601,7 @@ Tokenizer$1.prototype._read_non_javascript = function(c) {
     resulting_string = this.__patterns.html_comment_start.read();
     if (resulting_string) {
       while (this._input.hasNext() && !this._input.testChar(acorn.newline)) {
-        resulting_string += this$1._input.next();
+        resulting_string += this._input.next();
       }
       in_html_comment = true;
       return this._create_token(TOKEN$1.COMMENT, resulting_string);
@@ -4339,13 +4624,13 @@ Tokenizer$1.prototype._read_comment = function(c) {
     if (this._input.peek(1) === '*') {
       // peek for comment /* ... */
       comment = this.__patterns.block_comment.read();
-      var directives$$1 = directives_core.get_directives(comment);
-      if (directives$$1 && directives$$1.ignore === 'start') {
+      var directives = directives_core.get_directives(comment);
+      if (directives && directives.ignore === 'start') {
         comment += directives_core.readIgnored(this._input);
       }
       comment = comment.replace(acorn.allLineBreaks, '\n');
       token = this._create_token(TOKEN$1.BLOCK_COMMENT, comment);
-      token.directives = directives$$1;
+      token.directives = directives;
     } else if (this._input.peek(1) === '/') {
       // peek for comment // ...
       comment = this.__patterns.comment.read();
@@ -4393,8 +4678,6 @@ Tokenizer$1.prototype._allow_regexp_or_xml = function(previous_token) {
 };
 
 Tokenizer$1.prototype._read_regexp = function(c, previous_token) {
-  var this$1 = this;
-
 
   if (c === '/' && this._allow_regexp_or_xml(previous_token)) {
     // handle regexp
@@ -4406,18 +4689,18 @@ Tokenizer$1.prototype._read_regexp = function(c, previous_token) {
     while (this._input.hasNext() &&
       ((esc || in_char_class || this._input.peek() !== c) &&
         !this._input.testChar(acorn.newline))) {
-      resulting_string += this$1._input.peek();
+      resulting_string += this._input.peek();
       if (!esc) {
-        esc = this$1._input.peek() === '\\';
-        if (this$1._input.peek() === '[') {
+        esc = this._input.peek() === '\\';
+        if (this._input.peek() === '[') {
           in_char_class = true;
-        } else if (this$1._input.peek() === ']') {
+        } else if (this._input.peek() === ']') {
           in_char_class = false;
         }
       } else {
         esc = false;
       }
-      this$1._input.next();
+      this._input.next();
     }
 
     if (this._input.peek() === c) {
@@ -4433,8 +4716,6 @@ Tokenizer$1.prototype._read_regexp = function(c, previous_token) {
 };
 
 Tokenizer$1.prototype._read_xml = function(c, previous_token) {
-  var this$1 = this;
-
 
   if (this._options.e4x && c === "<" && this._allow_regexp_or_xml(previous_token)) {
     var xmlStr = '';
@@ -4462,7 +4743,7 @@ Tokenizer$1.prototype._read_xml = function(c, previous_token) {
         if (depth <= 0) {
           break;
         }
-        match = this$1.__patterns.xml.read_match();
+        match = this.__patterns.xml.read_match();
       }
       // if we didn't close correctly, keep unformatted.
       if (!match) {
@@ -4542,54 +4823,52 @@ function unescape_string(s) {
 // handle string
 //
 Tokenizer$1.prototype._read_string_recursive = function(delimiter, allow_unescaped_newlines, start_sub) {
-  var this$1 = this;
-
   var current_char;
-  var pattern$$1;
+  var pattern;
   if (delimiter === '\'') {
-    pattern$$1 = this.__patterns.single_quote;
+    pattern = this.__patterns.single_quote;
   } else if (delimiter === '"') {
-    pattern$$1 = this.__patterns.double_quote;
+    pattern = this.__patterns.double_quote;
   } else if (delimiter === '`') {
-    pattern$$1 = this.__patterns.template_text;
+    pattern = this.__patterns.template_text;
   } else if (delimiter === '}') {
-    pattern$$1 = this.__patterns.template_expression;
+    pattern = this.__patterns.template_expression;
   }
 
-  var resulting_string = pattern$$1.read();
+  var resulting_string = pattern.read();
   var next = '';
   while (this._input.hasNext()) {
-    next = this$1._input.next();
+    next = this._input.next();
     if (next === delimiter ||
       (!allow_unescaped_newlines && acorn.newline.test(next))) {
-      this$1._input.back();
+      this._input.back();
       break;
-    } else if (next === '\\' && this$1._input.hasNext()) {
-      current_char = this$1._input.peek();
+    } else if (next === '\\' && this._input.hasNext()) {
+      current_char = this._input.peek();
 
       if (current_char === 'x' || current_char === 'u') {
-        this$1.has_char_escapes = true;
-      } else if (current_char === '\r' && this$1._input.peek(1) === '\n') {
-        this$1._input.next();
+        this.has_char_escapes = true;
+      } else if (current_char === '\r' && this._input.peek(1) === '\n') {
+        this._input.next();
       }
-      next += this$1._input.next();
+      next += this._input.next();
     } else if (start_sub) {
-      if (start_sub === '${' && next === '$' && this$1._input.peek() === '{') {
-        next += this$1._input.next();
+      if (start_sub === '${' && next === '$' && this._input.peek() === '{') {
+        next += this._input.next();
       }
 
       if (start_sub === next) {
         if (delimiter === '`') {
-          next += this$1._read_string_recursive('}', allow_unescaped_newlines, '`');
+          next += this._read_string_recursive('}', allow_unescaped_newlines, '`');
         } else {
-          next += this$1._read_string_recursive('`', allow_unescaped_newlines, '${');
+          next += this._read_string_recursive('`', allow_unescaped_newlines, '${');
         }
-        if (this$1._input.hasNext()) {
-          next += this$1._input.next();
+        if (this._input.hasNext()) {
+          next += this._input.next();
         }
       }
     }
-    next += pattern$$1.read();
+    next += pattern.read();
     resulting_string += next;
   }
 
@@ -4635,12 +4914,12 @@ function generateMapFromStrings(list) {
   return result;
 }
 
-function reserved_word(token$$1, word) {
-  return token$$1 && token$$1.type === TOKEN$2.RESERVED && token$$1.text === word;
+function reserved_word(token, word) {
+  return token && token.type === TOKEN$2.RESERVED && token.text === word;
 }
 
-function reserved_array(token$$1, words) {
-  return token$$1 && token$$1.type === TOKEN$2.RESERVED && in_array$1(token$$1.text, words);
+function reserved_array(token, words) {
+  return token && token.type === TOKEN$2.RESERVED && in_array$1(token.text, words);
 }
 // Unsure of what they mean, but they work. Worth cleaning up in future.
 var special_words = ['case', 'return', 'do', 'if', 'throw', 'else', 'await', 'break', 'continue', 'async'];
@@ -4662,7 +4941,7 @@ var MODE = {
   Expression: 'Expression' //'(EXPRESSION)'
 };
 
-function remove_redundant_indentation(output$$1, frame) {
+function remove_redundant_indentation(output, frame) {
   // This implementation is effective but has some issues:
   //     - can cause line wrap to happen too soon due to indent removal
   //           after wrap points are calculated
@@ -4675,7 +4954,7 @@ function remove_redundant_indentation(output$$1, frame) {
   }
 
   // remove one indent from each line inside this section
-  output$$1.remove_indent(frame.start_line_index);
+  output.remove_indent(frame.start_line_index);
 }
 
 // we could use just string.split, but
@@ -4808,8 +5087,6 @@ Beautifier.prototype._reset = function(source_text) {
 };
 
 Beautifier.prototype.beautify = function() {
-  var this$1 = this;
-
   // if disabled, return the input unchanged.
   if (this._options.disabled) {
     return this._source_text;
@@ -4828,12 +5105,12 @@ Beautifier.prototype.beautify = function() {
 
   var current_token = this._tokens.next();
   while (current_token) {
-    this$1.handle_token(current_token);
+    this.handle_token(current_token);
 
-    this$1._last_last_text = this$1._flags.last_token.text;
-    this$1._flags.last_token = current_token;
+    this._last_last_text = this._flags.last_token.text;
+    this._flags.last_token = current_token;
 
-    current_token = this$1._tokens.next();
+    current_token = this._tokens.next();
   }
 
   sweet_code = this._output.get_code(eol);
@@ -4880,8 +5157,6 @@ Beautifier.prototype.handle_token = function(current_token, preserve_statement_f
 };
 
 Beautifier.prototype.handle_whitespace_and_comments = function(current_token, preserve_statement_flags) {
-  var this$1 = this;
-
   var newlines = current_token.newlines;
   var keep_whitespace = this._options.keep_array_indentation && is_array(this._flags.mode);
 
@@ -4891,15 +5166,15 @@ Beautifier.prototype.handle_whitespace_and_comments = function(current_token, pr
       // The cleanest handling of inline comments is to treat them as though they aren't there.
       // Just continue formatting and the behavior should be logical.
       // Also ignore unknown tokens.  Again, this should result in better behavior.
-      this$1.handle_whitespace_and_comments(comment_token, preserve_statement_flags);
-      this$1.handle_token(comment_token, preserve_statement_flags);
+      this.handle_whitespace_and_comments(comment_token, preserve_statement_flags);
+      this.handle_token(comment_token, preserve_statement_flags);
       comment_token = current_token.comments_before.next();
     }
   }
 
   if (keep_whitespace) {
     for (var i = 0; i < newlines; i += 1) {
-      this$1.print_newline(i > 0, preserve_statement_flags);
+      this.print_newline(i > 0, preserve_statement_flags);
     }
   } else {
     if (this._options.max_preserve_newlines && newlines > this._options.max_preserve_newlines) {
@@ -4910,7 +5185,7 @@ Beautifier.prototype.handle_whitespace_and_comments = function(current_token, pr
       if (newlines > 1) {
         this.print_newline(false, preserve_statement_flags);
         for (var j = 1; j < newlines; j += 1) {
-          this$1.print_newline(true, preserve_statement_flags);
+          this.print_newline(true, preserve_statement_flags);
         }
       }
     }
@@ -4954,15 +5229,13 @@ Beautifier.prototype.allow_wrap_or_preserved_newline = function(current_token, f
 };
 
 Beautifier.prototype.print_newline = function(force_newline, preserve_statement_flags) {
-  var this$1 = this;
-
   if (!preserve_statement_flags) {
     if (this._flags.last_token.text !== ';' && this._flags.last_token.text !== ',' && this._flags.last_token.text !== '=' && (this._flags.last_token.type !== TOKEN$2.OPERATOR || this._flags.last_token.text === '--' || this._flags.last_token.text === '++')) {
       var next_token = this._tokens.peek();
       while (this._flags.mode === MODE.Statement &&
         !(this._flags.if_block && reserved_word(next_token, 'else')) &&
         !this._flags.do_block) {
-        this$1.restore_mode();
+        this.restore_mode();
       }
     }
   }
@@ -5222,12 +5495,10 @@ Beautifier.prototype.handle_start_expr = function(current_token) {
 };
 
 Beautifier.prototype.handle_end_expr = function(current_token) {
-  var this$1 = this;
-
   // statements inside expressions are not valid syntax, but...
   // statements must all be closed when their container closes
   while (this._flags.mode === MODE.Statement) {
-    this$1.restore_mode();
+    this.restore_mode();
   }
 
   this.handle_whitespace_and_comments(current_token);
@@ -5262,8 +5533,6 @@ Beautifier.prototype.handle_end_expr = function(current_token) {
 };
 
 Beautifier.prototype.handle_start_block = function(current_token) {
-  var this$1 = this;
-
   this.handle_whitespace_and_comments(current_token);
 
   // Check if this is should be treated as a ObjectLiteral
@@ -5312,9 +5581,9 @@ Beautifier.prototype.handle_start_block = function(current_token) {
     this._flags.inline_frame = true;
     do {
       index += 1;
-      check_token = this$1._tokens.peek(index - 1);
+      check_token = this._tokens.peek(index - 1);
       if (check_token.newlines) {
-        this$1._flags.inline_frame = false;
+        this._flags.inline_frame = false;
         break;
       }
     } while (check_token.type !== TOKEN$2.EOF &&
@@ -5362,13 +5631,11 @@ Beautifier.prototype.handle_start_block = function(current_token) {
 };
 
 Beautifier.prototype.handle_end_block = function(current_token) {
-  var this$1 = this;
-
   // statements must all be closed when their container closes
   this.handle_whitespace_and_comments(current_token);
 
   while (this._flags.mode === MODE.Statement) {
-    this$1.restore_mode();
+    this.restore_mode();
   }
 
   var empty_braces = this._flags.last_token.type === TOKEN$2.START_BLOCK;
@@ -5398,8 +5665,6 @@ Beautifier.prototype.handle_end_block = function(current_token) {
 };
 
 Beautifier.prototype.handle_word = function(current_token) {
-  var this$1 = this;
-
   if (current_token.type === TOKEN$2.RESERVED) {
     if (in_array$1(current_token.text, ['set', 'get']) && this._flags.mode !== MODE.ObjectLiteral) {
       current_token.type = TOKEN$2.WORD;
@@ -5454,7 +5719,7 @@ Beautifier.prototype.handle_word = function(current_token) {
       this._flags.else_block = true;
     } else {
       while (this._flags.mode === MODE.Statement) {
-        this$1.restore_mode();
+        this.restore_mode();
       }
       this._flags.if_block = false;
       this._flags.else_block = false;
@@ -5505,9 +5770,7 @@ Beautifier.prototype.handle_word = function(current_token) {
     } else if (this._flags.last_token.type === TOKEN$2.OPERATOR || this._flags.last_token.text === '=') {
       // foo = function
       this._output.space_before_token = true;
-    } else if (!this._flags.multiline_frame && (is_expression(this._flags.mode) || is_array(this._flags.mode))) {
-      // (function
-    } else {
+    } else if (!this._flags.multiline_frame && (is_expression(this._flags.mode) || is_array(this._flags.mode))) ; else {
       this.print_newline();
     }
 
@@ -5628,8 +5891,6 @@ Beautifier.prototype.handle_word = function(current_token) {
 };
 
 Beautifier.prototype.handle_semicolon = function(current_token) {
-  var this$1 = this;
-
   if (this.start_of_statement(current_token)) {
     // The conditional starts the statement if appropriate.
     // Semicolon can be the start (and end) of a statement
@@ -5642,7 +5903,7 @@ Beautifier.prototype.handle_semicolon = function(current_token) {
   while (this._flags.mode === MODE.Statement &&
     !(this._flags.if_block && reserved_word(next_token, 'else')) &&
     !this._flags.do_block) {
-    this$1.restore_mode();
+    this.restore_mode();
   }
 
   // hacky but effective for the moment
@@ -5673,9 +5934,7 @@ Beautifier.prototype.handle_string = function(current_token) {
 };
 
 Beautifier.prototype.handle_equals = function(current_token) {
-  if (this.start_of_statement(current_token)) {
-    // The conditional starts the statement if appropriate.
-  } else {
+  if (this.start_of_statement(current_token)) ; else {
     this.handle_whitespace_and_comments(current_token);
   }
 
@@ -5735,9 +5994,7 @@ Beautifier.prototype.handle_operator = function(current_token) {
     this._flags.last_token.text === ','
   );
 
-  if (this.start_of_statement(current_token)) {
-    // The conditional starts the statement if appropriate.
-  } else {
+  if (this.start_of_statement(current_token)) ; else {
     var preserve_statement_flags = !isGeneratorAsterisk;
     this.handle_whitespace_and_comments(current_token, preserve_statement_flags);
   }
@@ -5946,8 +6203,6 @@ Beautifier.prototype.handle_block_comment = function(current_token, preserve_sta
 };
 
 Beautifier.prototype.print_block_commment = function(current_token, preserve_statement_flags) {
-  var this$1 = this;
-
   var lines = split_linebreaks(current_token.text);
   var j; // iterator for this case
   var javadoc = false;
@@ -5976,20 +6231,20 @@ Beautifier.prototype.print_block_commment = function(current_token, preserve_sta
     for (j = 0; j < lines.length; j++) {
       if (javadoc) {
         // javadoc: reformat and re-indent
-        this$1.print_token_line_indentation(current_token);
-        this$1._output.add_token(ltrim(lines[j]));
+        this.print_token_line_indentation(current_token);
+        this._output.add_token(ltrim(lines[j]));
       } else if (starless && lines[j]) {
         // starless: re-indent non-empty content, avoiding trim
-        this$1.print_token_line_indentation(current_token);
-        this$1._output.add_token(lines[j].substring(lastIndentLength));
+        this.print_token_line_indentation(current_token);
+        this._output.add_token(lines[j].substring(lastIndentLength));
       } else {
         // normal comments output raw
-        this$1._output.current_line.set_indent(-1);
-        this$1._output.add_token(lines[j]);
+        this._output.current_line.set_indent(-1);
+        this._output.add_token(lines[j]);
       }
 
       // for comments on their own line or  more than one line, make sure there's a new line after
-      this$1.print_newline(false, preserve_statement_flags);
+      this.print_newline(false, preserve_statement_flags);
     }
 
     this._flags.alignment = 0;
@@ -6010,9 +6265,7 @@ Beautifier.prototype.handle_comment = function(current_token, preserve_statement
 };
 
 Beautifier.prototype.handle_dot = function(current_token) {
-  if (this.start_of_statement(current_token)) {
-    // The conditional starts the statement if appropriate.
-  } else {
+  if (this.start_of_statement(current_token)) ; else {
     this.handle_whitespace_and_comments(current_token, true);
   }
 
@@ -6043,11 +6296,9 @@ Beautifier.prototype.handle_unknown = function(current_token, preserve_statement
 };
 
 Beautifier.prototype.handle_eof = function(current_token) {
-  var this$1 = this;
-
   // Unwind any open statements
   while (this._flags.mode === MODE.Statement) {
-    this$1.restore_mode();
+    this.restore_mode();
   }
   this.handle_whitespace_and_comments(current_token);
 };
@@ -6062,8 +6313,8 @@ var Beautifier$1 = beautifier.Beautifier,
   Options$3 = options$1.Options;
 
 function js_beautify(js_source_text, options) {
-  var beautifier$$1 = new Beautifier$1(js_source_text, options);
-  return beautifier$$1.beautify();
+  var beautifier = new Beautifier$1(js_source_text, options);
+  return beautifier.beautify();
 }
 
 var javascript = js_beautify;
@@ -6074,8 +6325,8 @@ javascript.defaultOptions = defaultOptions;
 
 var BaseOptions$1 = options.Options;
 
-function Options$4(options$$1) {
-  BaseOptions$1.call(this, options$$1, 'css');
+function Options$4(options) {
+  BaseOptions$1.call(this, options, 'css');
 
   this.selector_separator_newline = this._get_boolean('selector_separator_newline', true);
   this.newline_between_rules = this._get_boolean('newline_between_rules', true);
@@ -6136,18 +6387,16 @@ function Beautifier$2(source_text, options) {
 }
 
 Beautifier$2.prototype.eatString = function(endChars) {
-  var this$1 = this;
-
   var result = '';
   this._ch = this._input.next();
   while (this._ch) {
-    result += this$1._ch;
-    if (this$1._ch === "\\") {
-      result += this$1._input.next();
-    } else if (endChars.indexOf(this$1._ch) !== -1 || this$1._ch === "\n") {
+    result += this._ch;
+    if (this._ch === "\\") {
+      result += this._input.next();
+    } else if (endChars.indexOf(this._ch) !== -1 || this._ch === "\n") {
       break;
     }
-    this$1._ch = this$1._input.next();
+    this._ch = this._input.next();
   }
   return result;
 };
@@ -6157,17 +6406,15 @@ Beautifier$2.prototype.eatString = function(endChars) {
 // newline character found; if the user has preserve_newlines off, only
 // the first newline will be output
 Beautifier$2.prototype.eatWhitespace = function(allowAtLeastOneNewLine) {
-  var this$1 = this;
-
   var result = whitespaceChar.test(this._input.peek());
   var isFirstNewLine = true;
 
   while (whitespaceChar.test(this._input.peek())) {
-    this$1._ch = this$1._input.next();
-    if (allowAtLeastOneNewLine && this$1._ch === '\n') {
-      if (this$1._options.preserve_newlines || isFirstNewLine) {
+    this._ch = this._input.next();
+    if (allowAtLeastOneNewLine && this._ch === '\n') {
+      if (this._options.preserve_newlines || isFirstNewLine) {
         isFirstNewLine = false;
-        this$1._output.add_new_line(true);
+        this._output.add_new_line(true);
       }
     }
   }
@@ -6178,8 +6425,6 @@ Beautifier$2.prototype.eatWhitespace = function(allowAtLeastOneNewLine) {
 // and the next special character found opens
 // a new block
 Beautifier$2.prototype.foundNestedPseudoClass = function() {
-  var this$1 = this;
-
   var openParen = 0;
   var i = 1;
   var ch = this._input.peek(i);
@@ -6198,7 +6443,7 @@ Beautifier$2.prototype.foundNestedPseudoClass = function() {
       return false;
     }
     i++;
-    ch = this$1._input.peek(i);
+    ch = this._input.peek(i);
   }
   return false;
 };
@@ -6228,8 +6473,6 @@ Beautifier$2.prototype.outdent = function() {
 /*_____________________--------------------_____________________*/
 
 Beautifier$2.prototype.beautify = function() {
-  var this$1 = this;
-
   if (this._options.disabled) {
     return this._source_text;
   }
@@ -6271,69 +6514,69 @@ Beautifier$2.prototype.beautify = function() {
   var previous_ch;
 
   while (true) {
-    whitespace = this$1._input.read(whitespacePattern);
+    whitespace = this._input.read(whitespacePattern);
     isAfterSpace = whitespace !== '';
     previous_ch = topCharacter;
-    this$1._ch = this$1._input.next();
-    if (this$1._ch === '\\' && this$1._input.hasNext()) {
-      this$1._ch += this$1._input.next();
+    this._ch = this._input.next();
+    if (this._ch === '\\' && this._input.hasNext()) {
+      this._ch += this._input.next();
     }
-    topCharacter = this$1._ch;
+    topCharacter = this._ch;
 
-    if (!this$1._ch) {
+    if (!this._ch) {
       break;
-    } else if (this$1._ch === '/' && this$1._input.peek() === '*') {
+    } else if (this._ch === '/' && this._input.peek() === '*') {
       // /* css comment */
       // Always start block comments on a new line.
       // This handles scenarios where a block comment immediately
       // follows a property definition on the same line or where
       // minified code is being beautified.
-      this$1._output.add_new_line();
-      this$1._input.back();
+      this._output.add_new_line();
+      this._input.back();
 
-      var comment = this$1._input.read(block_comment_pattern);
+      var comment = this._input.read(block_comment_pattern);
 
       // Handle ignore directive
-      var directives$$1 = directives_core$1.get_directives(comment);
-      if (directives$$1 && directives$$1.ignore === 'start') {
-        comment += directives_core$1.readIgnored(this$1._input);
+      var directives = directives_core$1.get_directives(comment);
+      if (directives && directives.ignore === 'start') {
+        comment += directives_core$1.readIgnored(this._input);
       }
 
-      this$1.print_string(comment);
+      this.print_string(comment);
 
       // Ensures any new lines following the comment are preserved
-      this$1.eatWhitespace(true);
+      this.eatWhitespace(true);
 
       // Block comments are followed by a new line so they don't
       // share a line with other properties
-      this$1._output.add_new_line();
-    } else if (this$1._ch === '/' && this$1._input.peek() === '/') {
+      this._output.add_new_line();
+    } else if (this._ch === '/' && this._input.peek() === '/') {
       // // single line comment
       // Preserves the space before a comment
       // on the same line as a rule
-      this$1._output.space_before_token = true;
-      this$1._input.back();
-      this$1.print_string(this$1._input.read(comment_pattern));
+      this._output.space_before_token = true;
+      this._input.back();
+      this.print_string(this._input.read(comment_pattern));
 
       // Ensures any new lines following the comment are preserved
-      this$1.eatWhitespace(true);
-    } else if (this$1._ch === '@') {
-      this$1.preserveSingleSpace(isAfterSpace);
+      this.eatWhitespace(true);
+    } else if (this._ch === '@') {
+      this.preserveSingleSpace(isAfterSpace);
 
       // deal with less propery mixins @{...}
-      if (this$1._input.peek() === '{') {
-        this$1.print_string(this$1._ch + this$1.eatString('}'));
+      if (this._input.peek() === '{') {
+        this.print_string(this._ch + this.eatString('}'));
       } else {
-        this$1.print_string(this$1._ch);
+        this.print_string(this._ch);
 
         // strip trailing space, if present, for hash property checks
-        var variableOrRule = this$1._input.peekUntilAfter(/[: ,;{}()[\]\/='"]/g);
+        var variableOrRule = this._input.peekUntilAfter(/[: ,;{}()[\]\/='"]/g);
 
         if (variableOrRule.match(/[ :]$/)) {
           // we have a variable or pseudo-class, add it and insert one space before continuing
-          variableOrRule = this$1.eatString(": ").replace(/\s$/, '');
-          this$1.print_string(variableOrRule);
-          this$1._output.space_before_token = true;
+          variableOrRule = this.eatString(": ").replace(/\s$/, '');
+          this.print_string(variableOrRule);
+          this._output.space_before_token = true;
         }
 
         variableOrRule = variableOrRule.replace(/\s$/, '');
@@ -6345,193 +6588,193 @@ Beautifier$2.prototype.beautify = function() {
         }
 
         // might be a nesting at-rule
-        if (variableOrRule in this$1.NESTED_AT_RULE) {
-          this$1._nestedLevel += 1;
-          if (variableOrRule in this$1.CONDITIONAL_GROUP_RULE) {
+        if (variableOrRule in this.NESTED_AT_RULE) {
+          this._nestedLevel += 1;
+          if (variableOrRule in this.CONDITIONAL_GROUP_RULE) {
             enteringConditionalGroup = true;
           }
           // might be less variable
         } else if (!insideRule && parenLevel === 0 && variableOrRule.indexOf(':') !== -1) {
           insidePropertyValue = true;
-          this$1.indent();
+          this.indent();
         }
       }
-    } else if (this$1._ch === '#' && this$1._input.peek() === '{') {
-      this$1.preserveSingleSpace(isAfterSpace);
-      this$1.print_string(this$1._ch + this$1.eatString('}'));
-    } else if (this$1._ch === '{') {
+    } else if (this._ch === '#' && this._input.peek() === '{') {
+      this.preserveSingleSpace(isAfterSpace);
+      this.print_string(this._ch + this.eatString('}'));
+    } else if (this._ch === '{') {
       if (insidePropertyValue) {
         insidePropertyValue = false;
-        this$1.outdent();
+        this.outdent();
       }
-      this$1.indent();
-      this$1._output.space_before_token = true;
-      this$1.print_string(this$1._ch);
+      this.indent();
+      this._output.space_before_token = true;
+      this.print_string(this._ch);
 
       // when entering conditional groups, only rulesets are allowed
       if (enteringConditionalGroup) {
         enteringConditionalGroup = false;
-        insideRule = (this$1._indentLevel > this$1._nestedLevel);
+        insideRule = (this._indentLevel > this._nestedLevel);
       } else {
         // otherwise, declarations are also allowed
-        insideRule = (this$1._indentLevel >= this$1._nestedLevel);
+        insideRule = (this._indentLevel >= this._nestedLevel);
       }
-      if (this$1._options.newline_between_rules && insideRule) {
-        if (this$1._output.previous_line && this$1._output.previous_line.item(-1) !== '{') {
-          this$1._output.ensure_empty_line_above('/', ',');
+      if (this._options.newline_between_rules && insideRule) {
+        if (this._output.previous_line && this._output.previous_line.item(-1) !== '{') {
+          this._output.ensure_empty_line_above('/', ',');
         }
       }
-      this$1.eatWhitespace(true);
-      this$1._output.add_new_line();
-    } else if (this$1._ch === '}') {
-      this$1.outdent();
-      this$1._output.add_new_line();
+      this.eatWhitespace(true);
+      this._output.add_new_line();
+    } else if (this._ch === '}') {
+      this.outdent();
+      this._output.add_new_line();
       if (previous_ch === '{') {
-        this$1._output.trim(true);
+        this._output.trim(true);
       }
       insideAtImport = false;
       insideAtExtend = false;
       if (insidePropertyValue) {
-        this$1.outdent();
+        this.outdent();
         insidePropertyValue = false;
       }
-      this$1.print_string(this$1._ch);
+      this.print_string(this._ch);
       insideRule = false;
-      if (this$1._nestedLevel) {
-        this$1._nestedLevel--;
+      if (this._nestedLevel) {
+        this._nestedLevel--;
       }
 
-      this$1.eatWhitespace(true);
-      this$1._output.add_new_line();
+      this.eatWhitespace(true);
+      this._output.add_new_line();
 
-      if (this$1._options.newline_between_rules && !this$1._output.just_added_blankline()) {
-        if (this$1._input.peek() !== '}') {
-          this$1._output.add_new_line(true);
+      if (this._options.newline_between_rules && !this._output.just_added_blankline()) {
+        if (this._input.peek() !== '}') {
+          this._output.add_new_line(true);
         }
       }
-    } else if (this$1._ch === ":") {
-      if ((insideRule || enteringConditionalGroup) && !(this$1._input.lookBack("&") || this$1.foundNestedPseudoClass()) && !this$1._input.lookBack("(") && !insideAtExtend && parenLevel === 0) {
+    } else if (this._ch === ":") {
+      if ((insideRule || enteringConditionalGroup) && !(this._input.lookBack("&") || this.foundNestedPseudoClass()) && !this._input.lookBack("(") && !insideAtExtend && parenLevel === 0) {
         // 'property: value' delimiter
         // which could be in a conditional group query
-        this$1.print_string(':');
+        this.print_string(':');
         if (!insidePropertyValue) {
           insidePropertyValue = true;
-          this$1._output.space_before_token = true;
-          this$1.eatWhitespace(true);
-          this$1.indent();
+          this._output.space_before_token = true;
+          this.eatWhitespace(true);
+          this.indent();
         }
       } else {
         // sass/less parent reference don't use a space
         // sass nested pseudo-class don't use a space
 
         // preserve space before pseudoclasses/pseudoelements, as it means "in any child"
-        if (this$1._input.lookBack(" ")) {
-          this$1._output.space_before_token = true;
+        if (this._input.lookBack(" ")) {
+          this._output.space_before_token = true;
         }
-        if (this$1._input.peek() === ":") {
+        if (this._input.peek() === ":") {
           // pseudo-element
-          this$1._ch = this$1._input.next();
-          this$1.print_string("::");
+          this._ch = this._input.next();
+          this.print_string("::");
         } else {
           // pseudo-class
-          this$1.print_string(':');
+          this.print_string(':');
         }
       }
-    } else if (this$1._ch === '"' || this$1._ch === '\'') {
-      this$1.preserveSingleSpace(isAfterSpace);
-      this$1.print_string(this$1._ch + this$1.eatString(this$1._ch));
-      this$1.eatWhitespace(true);
-    } else if (this$1._ch === ';') {
+    } else if (this._ch === '"' || this._ch === '\'') {
+      this.preserveSingleSpace(isAfterSpace);
+      this.print_string(this._ch + this.eatString(this._ch));
+      this.eatWhitespace(true);
+    } else if (this._ch === ';') {
       if (parenLevel === 0) {
         if (insidePropertyValue) {
-          this$1.outdent();
+          this.outdent();
           insidePropertyValue = false;
         }
         insideAtExtend = false;
         insideAtImport = false;
-        this$1.print_string(this$1._ch);
-        this$1.eatWhitespace(true);
+        this.print_string(this._ch);
+        this.eatWhitespace(true);
 
         // This maintains single line comments on the same
         // line. Block comments are also affected, but
         // a new line is always output before one inside
         // that section
-        if (this$1._input.peek() !== '/') {
-          this$1._output.add_new_line();
+        if (this._input.peek() !== '/') {
+          this._output.add_new_line();
         }
       } else {
-        this$1.print_string(this$1._ch);
-        this$1.eatWhitespace(true);
-        this$1._output.space_before_token = true;
+        this.print_string(this._ch);
+        this.eatWhitespace(true);
+        this._output.space_before_token = true;
       }
-    } else if (this$1._ch === '(') { // may be a url
-      if (this$1._input.lookBack("url")) {
-        this$1.print_string(this$1._ch);
-        this$1.eatWhitespace();
+    } else if (this._ch === '(') { // may be a url
+      if (this._input.lookBack("url")) {
+        this.print_string(this._ch);
+        this.eatWhitespace();
         parenLevel++;
-        this$1.indent();
-        this$1._ch = this$1._input.next();
-        if (this$1._ch === ')' || this$1._ch === '"' || this$1._ch === '\'') {
-          this$1._input.back();
-        } else if (this$1._ch) {
-          this$1.print_string(this$1._ch + this$1.eatString(')'));
+        this.indent();
+        this._ch = this._input.next();
+        if (this._ch === ')' || this._ch === '"' || this._ch === '\'') {
+          this._input.back();
+        } else if (this._ch) {
+          this.print_string(this._ch + this.eatString(')'));
           if (parenLevel) {
             parenLevel--;
-            this$1.outdent();
+            this.outdent();
           }
         }
       } else {
-        this$1.preserveSingleSpace(isAfterSpace);
-        this$1.print_string(this$1._ch);
-        this$1.eatWhitespace();
+        this.preserveSingleSpace(isAfterSpace);
+        this.print_string(this._ch);
+        this.eatWhitespace();
         parenLevel++;
-        this$1.indent();
+        this.indent();
       }
-    } else if (this$1._ch === ')') {
+    } else if (this._ch === ')') {
       if (parenLevel) {
         parenLevel--;
-        this$1.outdent();
+        this.outdent();
       }
-      this$1.print_string(this$1._ch);
-    } else if (this$1._ch === ',') {
-      this$1.print_string(this$1._ch);
-      this$1.eatWhitespace(true);
-      if (this$1._options.selector_separator_newline && !insidePropertyValue && parenLevel === 0 && !insideAtImport) {
-        this$1._output.add_new_line();
+      this.print_string(this._ch);
+    } else if (this._ch === ',') {
+      this.print_string(this._ch);
+      this.eatWhitespace(true);
+      if (this._options.selector_separator_newline && !insidePropertyValue && parenLevel === 0 && !insideAtImport) {
+        this._output.add_new_line();
       } else {
-        this$1._output.space_before_token = true;
+        this._output.space_before_token = true;
       }
-    } else if ((this$1._ch === '>' || this$1._ch === '+' || this$1._ch === '~') && !insidePropertyValue && parenLevel === 0) {
+    } else if ((this._ch === '>' || this._ch === '+' || this._ch === '~') && !insidePropertyValue && parenLevel === 0) {
       //handle combinator spacing
-      if (this$1._options.space_around_combinator) {
-        this$1._output.space_before_token = true;
-        this$1.print_string(this$1._ch);
-        this$1._output.space_before_token = true;
+      if (this._options.space_around_combinator) {
+        this._output.space_before_token = true;
+        this.print_string(this._ch);
+        this._output.space_before_token = true;
       } else {
-        this$1.print_string(this$1._ch);
-        this$1.eatWhitespace();
+        this.print_string(this._ch);
+        this.eatWhitespace();
         // squash extra whitespace
-        if (this$1._ch && whitespaceChar.test(this$1._ch)) {
-          this$1._ch = '';
+        if (this._ch && whitespaceChar.test(this._ch)) {
+          this._ch = '';
         }
       }
-    } else if (this$1._ch === ']') {
-      this$1.print_string(this$1._ch);
-    } else if (this$1._ch === '[') {
-      this$1.preserveSingleSpace(isAfterSpace);
-      this$1.print_string(this$1._ch);
-    } else if (this$1._ch === '=') { // no whitespace before or after
-      this$1.eatWhitespace();
-      this$1.print_string('=');
-      if (whitespaceChar.test(this$1._ch)) {
-        this$1._ch = '';
+    } else if (this._ch === ']') {
+      this.print_string(this._ch);
+    } else if (this._ch === '[') {
+      this.preserveSingleSpace(isAfterSpace);
+      this.print_string(this._ch);
+    } else if (this._ch === '=') { // no whitespace before or after
+      this.eatWhitespace();
+      this.print_string('=');
+      if (whitespaceChar.test(this._ch)) {
+        this._ch = '';
       }
-    } else if (this$1._ch === '!' && !this$1._input.lookBack("\\")) { // !important
-      this$1.print_string(' ');
-      this$1.print_string(this$1._ch);
+    } else if (this._ch === '!' && !this._input.lookBack("\\")) { // !important
+      this.print_string(' ');
+      this.print_string(this._ch);
     } else {
-      this$1.preserveSingleSpace(isAfterSpace);
-      this$1.print_string(this$1._ch);
+      this.preserveSingleSpace(isAfterSpace);
+      this.print_string(this._ch);
     }
   }
 
@@ -6562,8 +6805,8 @@ css.defaultOptions = defaultOptions$1;
 
 var BaseOptions$2 = options.Options;
 
-function Options$7(options$$1) {
-  BaseOptions$2.call(this, options$$1, 'html');
+function Options$7(options) {
+  BaseOptions$2.call(this, options, 'html');
   if (this.templating.length === 1 && this.templating[0] === 'auto') {
     this.templating = ['django', 'erb', 'handlebars', 'php'];
   }
@@ -6733,7 +6976,7 @@ Tokenizer$3.prototype._get_next_token = function(previous_token, open_token) { /
 Tokenizer$3.prototype._read_comment = function(c) { // jshint unused:false
   var token = null;
   var resulting_string = null;
-  var directives$$1 = null;
+  var directives = null;
 
   if (c === '<') {
     var peek1 = this._input.peek(1);
@@ -6745,8 +6988,8 @@ Tokenizer$3.prototype._read_comment = function(c) { // jshint unused:false
 
       // only process directive on html comments
       if (resulting_string) {
-        directives$$1 = directives_core$2.get_directives(resulting_string);
-        if (directives$$1 && directives$$1.ignore === 'start') {
+        directives = directives_core$2.get_directives(resulting_string);
+        if (directives && directives.ignore === 'start') {
           resulting_string += directives_core$2.readIgnored(this._input);
         }
       } else {
@@ -6758,7 +7001,7 @@ Tokenizer$3.prototype._read_comment = function(c) { // jshint unused:false
 
     if (resulting_string) {
       token = this._create_token(TOKEN$3.COMMENT, resulting_string);
-      token.directives = directives$$1;
+      token.directives = directives;
     }
   }
 
@@ -6951,8 +7194,6 @@ Printer.prototype.add_raw_token = function(token) {
 };
 
 Printer.prototype.print_preserved_newlines = function(raw_token) {
-  var this$1 = this;
-
   var newlines = 0;
   if (raw_token.type !== TOKEN$4.TEXT && raw_token.previous.type !== TOKEN$4.TEXT) {
     newlines = raw_token.newlines ? 1 : 0;
@@ -6962,7 +7203,7 @@ Printer.prototype.print_preserved_newlines = function(raw_token) {
     newlines = raw_token.newlines < this.max_preserve_newlines + 1 ? raw_token.newlines : this.max_preserve_newlines + 1;
   }
   for (var n = 0; n < newlines; n++) {
-    this$1.print_newline(n > 0);
+    this.print_newline(n > 0);
   }
 
   return newlines !== 0;
@@ -7145,8 +7386,6 @@ function Beautifier$4(source_text, options, js_beautify, css_beautify) {
 }
 
 Beautifier$4.prototype.beautify = function() {
-  var this$1 = this;
-
 
   // if disabled, return the input unchanged.
   if (this._options.disabled) {
@@ -7184,15 +7423,15 @@ Beautifier$4.prototype.beautify = function() {
   while (raw_token.type !== TOKEN$4.EOF) {
 
     if (raw_token.type === TOKEN$4.TAG_OPEN || raw_token.type === TOKEN$4.COMMENT) {
-      parser_token = this$1._handle_tag_open(printer, raw_token, last_tag_token, last_token);
+      parser_token = this._handle_tag_open(printer, raw_token, last_tag_token, last_token);
       last_tag_token = parser_token;
     } else if ((raw_token.type === TOKEN$4.ATTRIBUTE || raw_token.type === TOKEN$4.EQUALS || raw_token.type === TOKEN$4.VALUE) ||
       (raw_token.type === TOKEN$4.TEXT && !last_tag_token.tag_complete)) {
-      parser_token = this$1._handle_inside_tag(printer, raw_token, last_tag_token, tokens);
+      parser_token = this._handle_inside_tag(printer, raw_token, last_tag_token, tokens);
     } else if (raw_token.type === TOKEN$4.TAG_CLOSE) {
-      parser_token = this$1._handle_tag_close(printer, raw_token, last_tag_token);
+      parser_token = this._handle_tag_close(printer, raw_token, last_tag_token);
     } else if (raw_token.type === TOKEN$4.TEXT) {
-      parser_token = this$1._handle_text(printer, raw_token, last_tag_token);
+      parser_token = this._handle_text(printer, raw_token, last_tag_token);
     } else {
       // This should never happen, but if it does. Print the raw token
       printer.add_raw_token(raw_token);
@@ -7581,9 +7820,7 @@ Beautifier$4.prototype._set_tag_position = function(printer, raw_token, parser_t
 
     // Don't add a newline before elements that should remain where they are.
     if (parser_token.tag_name === '!--' && last_token.type === TOKEN$4.TAG_CLOSE &&
-      last_tag_token.is_end_tag && parser_token.text.indexOf('\n') === -1) {
-      //Do nothing. Leave comments on same line.
-    } else if (!parser_token.is_inline_element && !parser_token.is_unformatted) {
+      last_tag_token.is_end_tag && parser_token.text.indexOf('\n') === -1) ; else if (!parser_token.is_inline_element && !parser_token.is_unformatted) {
       printer.print_newline(false);
     }
   } else if (parser_token.is_unformatted || parser_token.is_content_unformatted) {
@@ -7745,10 +7982,10 @@ var defaultOptions$2 = function() {
 };
 html.defaultOptions = defaultOptions$2;
 
-function style_html$1(html_source, options, js, css$$1) {
+function style_html$1(html_source, options, js, css$1) {
   js = js || javascript;
-  css$$1 = css$$1 || css;
-  return html(html_source, options, js, css$$1);
+  css$1 = css$1 || css;
+  return html(html_source, options, js, css$1);
 }
 style_html$1.defaultOptions = html.defaultOptions;
 
@@ -7782,8 +8019,8 @@ All methods returned accept two arguments, the source string and an options obje
 
 function get_beautify(js_beautify, css_beautify, html_beautify) {
   // the default is js
-  var beautify = function(src$$1, config) {
-    return js_beautify.js_beautify(src$$1, config);
+  var beautify = function(src, config) {
+    return js_beautify.js_beautify(src, config);
   };
 
   // short aliases
@@ -7799,16 +8036,7 @@ function get_beautify(js_beautify, css_beautify, html_beautify) {
   return beautify;
 }
 
-if (typeof undefined === "function" && undefined.amd) {
-  // Add support for AMD ( https://github.com/amdjs/amdjs-api/wiki/AMD#defineamd-property- )
-  undefined([
-    "./lib/beautify",
-    "./lib/beautify-css",
-    "./lib/beautify-html"
-  ], function(js_beautify, css_beautify, html_beautify) {
-    return get_beautify(js_beautify, css_beautify, html_beautify);
-  });
-} else {
+{
   (function(mod) {
     var beautifier = src;
     beautifier.js_beautify = beautifier.js;
@@ -8148,10 +8376,13 @@ var WrapperArray = function WrapperArray(wrappers) {
 };
 
 WrapperArray.prototype.at = function at (index) {
-  if (index > this.length - 1) {
-    throwError(("no item exists at " + index));
+  var normalizedIndex = index < 0 ? this.length + index : index;
+  if (normalizedIndex > this.length - 1 || normalizedIndex < 0) {
+    var error = "no item exists at " + index;
+    error += index < 0 ? (" (normalized to " + normalizedIndex + ")") : '';
+    throwError(error);
   }
-  return this.wrappers[index]
+  return this.wrappers[normalizedIndex]
 };
 
 WrapperArray.prototype.attributes = function attributes () {
@@ -8343,43 +8574,67 @@ WrapperArray.prototype.destroy = function destroy () {
 
 // 
 
+var buildSelectorString = function (selector) {
+  if (getSelectorType(selector) === REF_SELECTOR) {
+    return ("ref=\"" + (selector.value.ref) + "\"")
+  }
+
+  if (typeof selector === 'string') {
+    return selector
+  }
+
+  return 'Component'
+};
+
 var ErrorWrapper = function ErrorWrapper(selector) {
   this.selector = selector;
 };
 
 ErrorWrapper.prototype.at = function at () {
   throwError(
-    ("find did not return " + (this.selector) + ", cannot call at() on empty Wrapper")
+    ("find did not return " + (buildSelectorString(
+      this.selector
+    )) + ", cannot call at() on empty Wrapper")
   );
 };
 
 ErrorWrapper.prototype.attributes = function attributes () {
   throwError(
-    ("find did not return " + (this.selector) + ", cannot call attributes() on empty Wrapper")
+    ("find did not return " + (buildSelectorString(
+      this.selector
+    )) + ", cannot call attributes() on empty Wrapper")
   );
 };
 
 ErrorWrapper.prototype.classes = function classes () {
   throwError(
-    ("find did not return " + (this.selector) + ", cannot call classes() on empty Wrapper")
+    ("find did not return " + (buildSelectorString(
+      this.selector
+    )) + ", cannot call classes() on empty Wrapper")
   );
 };
 
 ErrorWrapper.prototype.contains = function contains () {
   throwError(
-    ("find did not return " + (this.selector) + ", cannot call contains() on empty Wrapper")
+    ("find did not return " + (buildSelectorString(
+      this.selector
+    )) + ", cannot call contains() on empty Wrapper")
   );
 };
 
 ErrorWrapper.prototype.emitted = function emitted () {
   throwError(
-    ("find did not return " + (this.selector) + ", cannot call emitted() on empty Wrapper")
+    ("find did not return " + (buildSelectorString(
+      this.selector
+    )) + ", cannot call emitted() on empty Wrapper")
   );
 };
 
 ErrorWrapper.prototype.emittedByOrder = function emittedByOrder () {
   throwError(
-    ("find did not return " + (this.selector) + ", cannot call emittedByOrder() on empty Wrapper")
+    ("find did not return " + (buildSelectorString(
+      this.selector
+    )) + ", cannot call emittedByOrder() on empty Wrapper")
   );
 };
 
@@ -8389,151 +8644,201 @@ ErrorWrapper.prototype.exists = function exists () {
 
 ErrorWrapper.prototype.filter = function filter () {
   throwError(
-    ("find did not return " + (this.selector) + ", cannot call filter() on empty Wrapper")
+    ("find did not return " + (buildSelectorString(
+      this.selector
+    )) + ", cannot call filter() on empty Wrapper")
   );
 };
 
 ErrorWrapper.prototype.visible = function visible () {
   throwError(
-    ("find did not return " + (this.selector) + ", cannot call visible() on empty Wrapper")
+    ("find did not return " + (buildSelectorString(
+      this.selector
+    )) + ", cannot call visible() on empty Wrapper")
   );
 };
 
 ErrorWrapper.prototype.hasAttribute = function hasAttribute () {
   throwError(
-    ("find did not return " + (this.selector) + ", cannot call hasAttribute() on empty Wrapper")
+    ("find did not return " + (buildSelectorString(
+      this.selector
+    )) + ", cannot call hasAttribute() on empty Wrapper")
   );
 };
 
 ErrorWrapper.prototype.hasClass = function hasClass () {
   throwError(
-    ("find did not return " + (this.selector) + ", cannot call hasClass() on empty Wrapper")
+    ("find did not return " + (buildSelectorString(
+      this.selector
+    )) + ", cannot call hasClass() on empty Wrapper")
   );
 };
 
 ErrorWrapper.prototype.hasProp = function hasProp () {
   throwError(
-    ("find did not return " + (this.selector) + ", cannot call hasProp() on empty Wrapper")
+    ("find did not return " + (buildSelectorString(
+      this.selector
+    )) + ", cannot call hasProp() on empty Wrapper")
   );
 };
 
 ErrorWrapper.prototype.hasStyle = function hasStyle () {
   throwError(
-    ("find did not return " + (this.selector) + ", cannot call hasStyle() on empty Wrapper")
+    ("find did not return " + (buildSelectorString(
+      this.selector
+    )) + ", cannot call hasStyle() on empty Wrapper")
   );
 };
 
 ErrorWrapper.prototype.findAll = function findAll () {
   throwError(
-    ("find did not return " + (this.selector) + ", cannot call findAll() on empty Wrapper")
+    ("find did not return " + (buildSelectorString(
+      this.selector
+    )) + ", cannot call findAll() on empty Wrapper")
   );
 };
 
 ErrorWrapper.prototype.find = function find () {
   throwError(
-    ("find did not return " + (this.selector) + ", cannot call find() on empty Wrapper")
+    ("find did not return " + (buildSelectorString(
+      this.selector
+    )) + ", cannot call find() on empty Wrapper")
   );
 };
 
 ErrorWrapper.prototype.html = function html () {
   throwError(
-    ("find did not return " + (this.selector) + ", cannot call html() on empty Wrapper")
+    ("find did not return " + (buildSelectorString(
+      this.selector
+    )) + ", cannot call html() on empty Wrapper")
   );
 };
 
 ErrorWrapper.prototype.is = function is () {
   throwError(
-    ("find did not return " + (this.selector) + ", cannot call is() on empty Wrapper")
+    ("find did not return " + (buildSelectorString(
+      this.selector
+    )) + ", cannot call is() on empty Wrapper")
   );
 };
 
 ErrorWrapper.prototype.isEmpty = function isEmpty () {
   throwError(
-    ("find did not return " + (this.selector) + ", cannot call isEmpty() on empty Wrapper")
+    ("find did not return " + (buildSelectorString(
+      this.selector
+    )) + ", cannot call isEmpty() on empty Wrapper")
   );
 };
 
 ErrorWrapper.prototype.isVisible = function isVisible () {
   throwError(
-    ("find did not return " + (this.selector) + ", cannot call isVisible() on empty Wrapper")
+    ("find did not return " + (buildSelectorString(
+      this.selector
+    )) + ", cannot call isVisible() on empty Wrapper")
   );
 };
 
 ErrorWrapper.prototype.isVueInstance = function isVueInstance () {
   throwError(
-    ("find did not return " + (this.selector) + ", cannot call isVueInstance() on empty Wrapper")
+    ("find did not return " + (buildSelectorString(
+      this.selector
+    )) + ", cannot call isVueInstance() on empty Wrapper")
   );
 };
 
 ErrorWrapper.prototype.name = function name () {
   throwError(
-    ("find did not return " + (this.selector) + ", cannot call name() on empty Wrapper")
+    ("find did not return " + (buildSelectorString(
+      this.selector
+    )) + ", cannot call name() on empty Wrapper")
   );
 };
 
 ErrorWrapper.prototype.props = function props () {
   throwError(
-    ("find did not return " + (this.selector) + ", cannot call props() on empty Wrapper")
+    ("find did not return " + (buildSelectorString(
+      this.selector
+    )) + ", cannot call props() on empty Wrapper")
   );
 };
 
 ErrorWrapper.prototype.text = function text () {
   throwError(
-    ("find did not return " + (this.selector) + ", cannot call text() on empty Wrapper")
+    ("find did not return " + (buildSelectorString(
+      this.selector
+    )) + ", cannot call text() on empty Wrapper")
   );
 };
 
 ErrorWrapper.prototype.setComputed = function setComputed () {
   throwError(
-    ("find did not return " + (this.selector) + ", cannot call setComputed() on empty Wrapper")
+    ("find did not return " + (buildSelectorString(
+      this.selector
+    )) + ", cannot call setComputed() on empty Wrapper")
   );
 };
 
 ErrorWrapper.prototype.setData = function setData () {
   throwError(
-    ("find did not return " + (this.selector) + ", cannot call setData() on empty Wrapper")
+    ("find did not return " + (buildSelectorString(
+      this.selector
+    )) + ", cannot call setData() on empty Wrapper")
   );
 };
 
 ErrorWrapper.prototype.setMethods = function setMethods () {
   throwError(
-    ("find did not return " + (this.selector) + ", cannot call setMethods() on empty Wrapper")
+    ("find did not return " + (buildSelectorString(
+      this.selector
+    )) + ", cannot call setMethods() on empty Wrapper")
   );
 };
 
 ErrorWrapper.prototype.setProps = function setProps () {
   throwError(
-    ("find did not return " + (this.selector) + ", cannot call setProps() on empty Wrapper")
+    ("find did not return " + (buildSelectorString(
+      this.selector
+    )) + ", cannot call setProps() on empty Wrapper")
   );
 };
 
 ErrorWrapper.prototype.setValue = function setValue () {
   throwError(
-    ("find did not return " + (this.selector) + ", cannot call setValue() on empty Wrapper")
+    ("find did not return " + (buildSelectorString(
+      this.selector
+    )) + ", cannot call setValue() on empty Wrapper")
   );
 };
 
 ErrorWrapper.prototype.setChecked = function setChecked () {
   throwError(
-    ("find did not return " + (this.selector) + ", cannot call setChecked() on empty Wrapper")
+    ("find did not return " + (buildSelectorString(
+      this.selector
+    )) + ", cannot call setChecked() on empty Wrapper")
   );
 };
 
 ErrorWrapper.prototype.setSelected = function setSelected () {
   throwError(
-    ("find did not return " + (this.selector) + ", cannot call setSelected() on empty Wrapper")
+    ("find did not return " + (buildSelectorString(
+      this.selector
+    )) + ", cannot call setSelected() on empty Wrapper")
   );
 };
 
 ErrorWrapper.prototype.trigger = function trigger () {
   throwError(
-    ("find did not return " + (this.selector) + ", cannot call trigger() on empty Wrapper")
+    ("find did not return " + (buildSelectorString(
+      this.selector
+    )) + ", cannot call trigger() on empty Wrapper")
   );
 };
 
 ErrorWrapper.prototype.destroy = function destroy () {
   throwError(
-    ("find did not return " + (this.selector) + ", cannot call destroy() on empty Wrapper")
+    ("find did not return " + (buildSelectorString(
+      this.selector
+    )) + ", cannot call destroy() on empty Wrapper")
   );
 };
 
@@ -8550,178 +8855,857 @@ function recursivelySetData(vm, target, data) {
   });
 }
 
-var abort = {"eventInterface":"Event","bubbles":false,"cancelable":false};
-var afterprint = {"eventInterface":"Event","bubbles":false,"cancelable":false};
-var animationend = {"eventInterface":"AnimationEvent","bubbles":true,"cancelable":false};
-var animationiteration = {"eventInterface":"AnimationEvent","bubbles":true,"cancelable":false};
-var animationstart = {"eventInterface":"AnimationEvent","bubbles":true,"cancelable":false};
-var appinstalled = {"eventInterface":"Event","bubbles":false,"cancelable":false};
-var audioprocess = {"eventInterface":"AudioProcessingEvent"};
-var audioend = {"eventInterface":"Event","bubbles":false,"cancelable":false};
-var audiostart = {"eventInterface":"Event","bubbles":false,"cancelable":false};
-var beforeprint = {"eventInterface":"Event","bubbles":false,"cancelable":false};
-var beforeunload = {"eventInterface":"BeforeUnloadEvent","bubbles":false,"cancelable":true};
-var beginEvent = {"eventInterface":"TimeEvent","bubbles":false,"cancelable":false};
-var blur = {"eventInterface":"FocusEvent","bubbles":false,"cancelable":false};
-var boundary = {"eventInterface":"SpeechSynthesisEvent","bubbles":false,"cancelable":false};
-var cached = {"eventInterface":"Event","bubbles":false,"cancelable":false};
-var canplay = {"eventInterface":"Event","bubbles":false,"cancelable":false};
-var canplaythrough = {"eventInterface":"Event","bubbles":false,"cancelable":false};
-var change = {"eventInterface":"Event","bubbles":true,"cancelable":false};
-var chargingchange = {"eventInterface":"Event","bubbles":false,"cancelable":false};
-var chargingtimechange = {"eventInterface":"Event","bubbles":false,"cancelable":false};
-var checking = {"eventInterface":"Event","bubbles":false,"cancelable":false};
-var click = {"eventInterface":"MouseEvent","bubbles":true,"cancelable":true};
-var close = {"eventInterface":"Event","bubbles":false,"cancelable":false};
-var complete = {"eventInterface":"OfflineAudioCompletionEvent"};
-var compositionend = {"eventInterface":"CompositionEvent","bubbles":true,"cancelable":true};
-var compositionstart = {"eventInterface":"CompositionEvent","bubbles":true,"cancelable":true};
-var compositionupdate = {"eventInterface":"CompositionEvent","bubbles":true,"cancelable":false};
-var contextmenu = {"eventInterface":"MouseEvent","bubbles":true,"cancelable":true};
-var copy = {"eventInterface":"ClipboardEvent"};
-var cut = {"eventInterface":"ClipboardEvent","bubbles":true,"cancelable":true};
-var dblclick = {"eventInterface":"MouseEvent","bubbles":true,"cancelable":true};
-var devicechange = {"eventInterface":"Event","bubbles":false,"cancelable":false};
-var devicelight = {"eventInterface":"DeviceLightEvent","bubbles":false,"cancelable":false};
-var devicemotion = {"eventInterface":"DeviceMotionEvent","bubbles":false,"cancelable":false};
-var deviceorientation = {"eventInterface":"DeviceOrientationEvent","bubbles":false,"cancelable":false};
-var deviceproximity = {"eventInterface":"DeviceProximityEvent","bubbles":false,"cancelable":false};
-var dischargingtimechange = {"eventInterface":"Event","bubbles":false,"cancelable":false};
-var DOMActivate = {"eventInterface":"UIEvent","bubbles":true,"cancelable":true};
-var DOMAttributeNameChanged = {"eventInterface":"MutationNameEvent","bubbles":true,"cancelable":true};
-var DOMAttrModified = {"eventInterface":"MutationEvent","bubbles":true,"cancelable":true};
-var DOMCharacterDataModified = {"eventInterface":"MutationEvent","bubbles":true,"cancelable":true};
-var DOMContentLoaded = {"eventInterface":"Event","bubbles":true,"cancelable":true};
-var DOMElementNameChanged = {"eventInterface":"MutationNameEvent","bubbles":true,"cancelable":true};
-var DOMFocusIn = {"eventInterface":"FocusEvent","bubbles":true,"cancelable":true};
-var DOMFocusOut = {"eventInterface":"FocusEvent","bubbles":true,"cancelable":true};
-var DOMNodeInserted = {"eventInterface":"MutationEvent","bubbles":true,"cancelable":true};
-var DOMNodeInsertedIntoDocument = {"eventInterface":"MutationEvent","bubbles":true,"cancelable":true};
-var DOMNodeRemoved = {"eventInterface":"MutationEvent","bubbles":true,"cancelable":true};
-var DOMNodeRemovedFromDocument = {"eventInterface":"MutationEvent","bubbles":true,"cancelable":true};
-var DOMSubtreeModified = {"eventInterface":"MutationEvent"};
-var downloading = {"eventInterface":"Event","bubbles":false,"cancelable":false};
-var drag = {"eventInterface":"DragEvent","bubbles":true,"cancelable":true};
-var dragend = {"eventInterface":"DragEvent","bubbles":true,"cancelable":false};
-var dragenter = {"eventInterface":"DragEvent","bubbles":true,"cancelable":true};
-var dragleave = {"eventInterface":"DragEvent","bubbles":true,"cancelable":false};
-var dragover = {"eventInterface":"DragEvent","bubbles":true,"cancelable":true};
-var dragstart = {"eventInterface":"DragEvent","bubbles":true,"cancelable":true};
-var drop = {"eventInterface":"DragEvent","bubbles":true,"cancelable":true};
-var durationchange = {"eventInterface":"Event","bubbles":false,"cancelable":false};
-var emptied = {"eventInterface":"Event","bubbles":false,"cancelable":false};
-var end = {"eventInterface":"Event","bubbles":false,"cancelable":false};
-var ended = {"eventInterface":"Event","bubbles":false,"cancelable":false};
-var endEvent = {"eventInterface":"TimeEvent","bubbles":false,"cancelable":false};
-var error = {"eventInterface":"Event","bubbles":false,"cancelable":false};
-var focus = {"eventInterface":"FocusEvent","bubbles":false,"cancelable":false};
-var focusin = {"eventInterface":"FocusEvent","bubbles":true,"cancelable":false};
-var focusout = {"eventInterface":"FocusEvent","bubbles":true,"cancelable":false};
-var fullscreenchange = {"eventInterface":"Event","bubbles":true,"cancelable":false};
-var fullscreenerror = {"eventInterface":"Event","bubbles":true,"cancelable":false};
-var gamepadconnected = {"eventInterface":"GamepadEvent","bubbles":false,"cancelable":false};
-var gamepaddisconnected = {"eventInterface":"GamepadEvent","bubbles":false,"cancelable":false};
-var gotpointercapture = {"eventInterface":"PointerEvent","bubbles":false,"cancelable":false};
-var hashchange = {"eventInterface":"HashChangeEvent","bubbles":true,"cancelable":false};
-var lostpointercapture = {"eventInterface":"PointerEvent","bubbles":false,"cancelable":false};
-var input = {"eventInterface":"Event","bubbles":true,"cancelable":false};
-var invalid = {"eventInterface":"Event","cancelable":true,"bubbles":false};
-var keydown = {"eventInterface":"KeyboardEvent","bubbles":true,"cancelable":true};
-var keypress = {"eventInterface":"KeyboardEvent","bubbles":true,"cancelable":true};
-var keyup = {"eventInterface":"KeyboardEvent","bubbles":true,"cancelable":true};
-var languagechange = {"eventInterface":"Event","bubbles":false,"cancelable":false};
-var levelchange = {"eventInterface":"Event","bubbles":false,"cancelable":false};
-var load = {"eventInterface":"UIEvent","bubbles":false,"cancelable":false};
-var loadeddata = {"eventInterface":"Event","bubbles":false,"cancelable":false};
-var loadedmetadata = {"eventInterface":"Event","bubbles":false,"cancelable":false};
-var loadend = {"eventInterface":"ProgressEvent","bubbles":false,"cancelable":false};
-var loadstart = {"eventInterface":"ProgressEvent","bubbles":false,"cancelable":false};
-var mark = {"eventInterface":"SpeechSynthesisEvent","bubbles":false,"cancelable":false};
-var message = {"eventInterface":"MessageEvent","bubbles":false,"cancelable":false};
-var messageerror = {"eventInterface":"MessageEvent","bubbles":false,"cancelable":false};
-var mousedown = {"eventInterface":"MouseEvent","bubbles":true,"cancelable":true};
-var mouseenter = {"eventInterface":"MouseEvent","bubbles":false,"cancelable":false};
-var mouseleave = {"eventInterface":"MouseEvent","bubbles":false,"cancelable":false};
-var mousemove = {"eventInterface":"MouseEvent","bubbles":true,"cancelable":true};
-var mouseout = {"eventInterface":"MouseEvent","bubbles":true,"cancelable":true};
-var mouseover = {"eventInterface":"MouseEvent","bubbles":true,"cancelable":true};
-var mouseup = {"eventInterface":"MouseEvent","bubbles":true,"cancelable":true};
-var nomatch = {"eventInterface":"SpeechRecognitionEvent","bubbles":false,"cancelable":false};
-var notificationclick = {"eventInterface":"NotificationEvent","bubbles":false,"cancelable":false};
-var noupdate = {"eventInterface":"Event","bubbles":false,"cancelable":false};
-var obsolete = {"eventInterface":"Event","bubbles":false,"cancelable":false};
-var offline = {"eventInterface":"Event","bubbles":false,"cancelable":false};
-var online = {"eventInterface":"Event","bubbles":false,"cancelable":false};
-var open = {"eventInterface":"Event","bubbles":false,"cancelable":false};
-var orientationchange = {"eventInterface":"Event","bubbles":false,"cancelable":false};
-var pagehide = {"eventInterface":"PageTransitionEvent","bubbles":false,"cancelable":false};
-var pageshow = {"eventInterface":"PageTransitionEvent","bubbles":false,"cancelable":false};
-var paste = {"eventInterface":"ClipboardEvent","bubbles":true,"cancelable":true};
-var pause = {"eventInterface":"SpeechSynthesisEvent","bubbles":false,"cancelable":false};
-var pointercancel = {"eventInterface":"PointerEvent","bubbles":true,"cancelable":false};
-var pointerdown = {"eventInterface":"PointerEvent","bubbles":true,"cancelable":true};
-var pointerenter = {"eventInterface":"PointerEvent","bubbles":false,"cancelable":false};
-var pointerleave = {"eventInterface":"PointerEvent","bubbles":false,"cancelable":false};
-var pointerlockchange = {"eventInterface":"Event","bubbles":true,"cancelable":false};
-var pointerlockerror = {"eventInterface":"Event","bubbles":true,"cancelable":false};
-var pointermove = {"eventInterface":"PointerEvent","bubbles":true,"cancelable":true};
-var pointerout = {"eventInterface":"PointerEvent","bubbles":true,"cancelable":true};
-var pointerover = {"eventInterface":"PointerEvent","bubbles":true,"cancelable":true};
-var pointerup = {"eventInterface":"PointerEvent","bubbles":true,"cancelable":true};
-var play = {"eventInterface":"Event","bubbles":false,"cancelable":false};
-var playing = {"eventInterface":"Event","bubbles":false,"cancelable":false};
-var popstate = {"eventInterface":"PopStateEvent","bubbles":true,"cancelable":false};
-var progress = {"eventInterface":"ProgressEvent","bubbles":false,"cancelable":false};
-var push = {"eventInterface":"PushEvent","bubbles":false,"cancelable":false};
-var pushsubscriptionchange = {"eventInterface":"PushEvent","bubbles":false,"cancelable":false};
-var ratechange = {"eventInterface":"Event","bubbles":false,"cancelable":false};
-var readystatechange = {"eventInterface":"Event","bubbles":false,"cancelable":false};
-var repeatEvent = {"eventInterface":"TimeEvent","bubbles":false,"cancelable":false};
-var reset = {"eventInterface":"Event","bubbles":true,"cancelable":true};
-var resize = {"eventInterface":"UIEvent","bubbles":false,"cancelable":false};
-var resourcetimingbufferfull = {"eventInterface":"Performance","bubbles":true,"cancelable":true};
-var result = {"eventInterface":"SpeechRecognitionEvent","bubbles":false,"cancelable":false};
-var resume = {"eventInterface":"SpeechSynthesisEvent","bubbles":false,"cancelable":false};
-var scroll = {"eventInterface":"UIEvent","bubbles":false,"cancelable":false};
-var seeked = {"eventInterface":"Event","bubbles":false,"cancelable":false};
-var seeking = {"eventInterface":"Event","bubbles":false,"cancelable":false};
-var select = {"eventInterface":"UIEvent","bubbles":true,"cancelable":false};
-var selectstart = {"eventInterface":"Event","bubbles":true,"cancelable":true};
-var selectionchange = {"eventInterface":"Event","bubbles":false,"cancelable":false};
-var show = {"eventInterface":"MouseEvent","bubbles":false,"cancelable":false};
-var slotchange = {"eventInterface":"Event","bubbles":true,"cancelable":false};
-var soundend = {"eventInterface":"Event","bubbles":false,"cancelable":false};
-var soundstart = {"eventInterface":"Event","bubbles":false,"cancelable":false};
-var speechend = {"eventInterface":"Event","bubbles":false,"cancelable":false};
-var speechstart = {"eventInterface":"Event","bubbles":false,"cancelable":false};
-var stalled = {"eventInterface":"Event","bubbles":false,"cancelable":false};
-var start = {"eventInterface":"SpeechSynthesisEvent","bubbles":false,"cancelable":false};
-var storage = {"eventInterface":"StorageEvent","bubbles":false,"cancelable":false};
-var submit = {"eventInterface":"Event","bubbles":true,"cancelable":true};
-var success = {"eventInterface":"Event","bubbles":false,"cancelable":false};
-var suspend = {"eventInterface":"Event","bubbles":false,"cancelable":false};
-var SVGAbort = {"eventInterface":"SVGEvent","bubbles":true,"cancelable":false};
-var SVGError = {"eventInterface":"SVGEvent","bubbles":true,"cancelable":false};
-var SVGLoad = {"eventInterface":"SVGEvent","bubbles":false,"cancelable":false};
-var SVGResize = {"eventInterface":"SVGEvent","bubbles":true,"cancelable":false};
-var SVGScroll = {"eventInterface":"SVGEvent","bubbles":true,"cancelable":false};
-var SVGUnload = {"eventInterface":"SVGEvent","bubbles":false,"cancelable":false};
-var SVGZoom = {"eventInterface":"SVGZoomEvent","bubbles":true,"cancelable":false};
-var timeout = {"eventInterface":"ProgressEvent","bubbles":false,"cancelable":false};
-var timeupdate = {"eventInterface":"Event","bubbles":false,"cancelable":false};
-var touchcancel = {"eventInterface":"TouchEvent","bubbles":true,"cancelable":false};
-var touchend = {"eventInterface":"TouchEvent","bubbles":true,"cancelable":true};
-var touchmove = {"eventInterface":"TouchEvent","bubbles":true,"cancelable":true};
-var touchstart = {"eventInterface":"TouchEvent","bubbles":true,"cancelable":true};
-var transitionend = {"eventInterface":"TransitionEvent","bubbles":true,"cancelable":true};
-var unload = {"eventInterface":"UIEvent","bubbles":false};
-var updateready = {"eventInterface":"Event","bubbles":false,"cancelable":false};
-var userproximity = {"eventInterface":"UserProximityEvent","bubbles":false,"cancelable":false};
-var voiceschanged = {"eventInterface":"Event","bubbles":false,"cancelable":false};
-var visibilitychange = {"eventInterface":"Event","bubbles":true,"cancelable":false};
-var volumechange = {"eventInterface":"Event","bubbles":false,"cancelable":false};
-var waiting = {"eventInterface":"Event","bubbles":false,"cancelable":false};
-var wheel = {"eventInterface":"WheelEvent","bubbles":true,"cancelable":true};
+var abort = {
+	eventInterface: "Event",
+	bubbles: false,
+	cancelable: false
+};
+var afterprint = {
+	eventInterface: "Event",
+	bubbles: false,
+	cancelable: false
+};
+var animationend = {
+	eventInterface: "AnimationEvent",
+	bubbles: true,
+	cancelable: false
+};
+var animationiteration = {
+	eventInterface: "AnimationEvent",
+	bubbles: true,
+	cancelable: false
+};
+var animationstart = {
+	eventInterface: "AnimationEvent",
+	bubbles: true,
+	cancelable: false
+};
+var appinstalled = {
+	eventInterface: "Event",
+	bubbles: false,
+	cancelable: false
+};
+var audioprocess = {
+	eventInterface: "AudioProcessingEvent"
+};
+var audioend = {
+	eventInterface: "Event",
+	bubbles: false,
+	cancelable: false
+};
+var audiostart = {
+	eventInterface: "Event",
+	bubbles: false,
+	cancelable: false
+};
+var beforeprint = {
+	eventInterface: "Event",
+	bubbles: false,
+	cancelable: false
+};
+var beforeunload = {
+	eventInterface: "BeforeUnloadEvent",
+	bubbles: false,
+	cancelable: true
+};
+var beginEvent = {
+	eventInterface: "TimeEvent",
+	bubbles: false,
+	cancelable: false
+};
+var blur = {
+	eventInterface: "FocusEvent",
+	bubbles: false,
+	cancelable: false
+};
+var boundary = {
+	eventInterface: "SpeechSynthesisEvent",
+	bubbles: false,
+	cancelable: false
+};
+var cached = {
+	eventInterface: "Event",
+	bubbles: false,
+	cancelable: false
+};
+var canplay = {
+	eventInterface: "Event",
+	bubbles: false,
+	cancelable: false
+};
+var canplaythrough = {
+	eventInterface: "Event",
+	bubbles: false,
+	cancelable: false
+};
+var change = {
+	eventInterface: "Event",
+	bubbles: true,
+	cancelable: false
+};
+var chargingchange = {
+	eventInterface: "Event",
+	bubbles: false,
+	cancelable: false
+};
+var chargingtimechange = {
+	eventInterface: "Event",
+	bubbles: false,
+	cancelable: false
+};
+var checking = {
+	eventInterface: "Event",
+	bubbles: false,
+	cancelable: false
+};
+var click = {
+	eventInterface: "MouseEvent",
+	bubbles: true,
+	cancelable: true
+};
+var close = {
+	eventInterface: "Event",
+	bubbles: false,
+	cancelable: false
+};
+var complete = {
+	eventInterface: "OfflineAudioCompletionEvent"
+};
+var compositionend = {
+	eventInterface: "CompositionEvent",
+	bubbles: true,
+	cancelable: true
+};
+var compositionstart = {
+	eventInterface: "CompositionEvent",
+	bubbles: true,
+	cancelable: true
+};
+var compositionupdate = {
+	eventInterface: "CompositionEvent",
+	bubbles: true,
+	cancelable: false
+};
+var contextmenu = {
+	eventInterface: "MouseEvent",
+	bubbles: true,
+	cancelable: true
+};
+var copy = {
+	eventInterface: "ClipboardEvent"
+};
+var cut = {
+	eventInterface: "ClipboardEvent",
+	bubbles: true,
+	cancelable: true
+};
+var dblclick = {
+	eventInterface: "MouseEvent",
+	bubbles: true,
+	cancelable: true
+};
+var devicechange = {
+	eventInterface: "Event",
+	bubbles: false,
+	cancelable: false
+};
+var devicelight = {
+	eventInterface: "DeviceLightEvent",
+	bubbles: false,
+	cancelable: false
+};
+var devicemotion = {
+	eventInterface: "DeviceMotionEvent",
+	bubbles: false,
+	cancelable: false
+};
+var deviceorientation = {
+	eventInterface: "DeviceOrientationEvent",
+	bubbles: false,
+	cancelable: false
+};
+var deviceproximity = {
+	eventInterface: "DeviceProximityEvent",
+	bubbles: false,
+	cancelable: false
+};
+var dischargingtimechange = {
+	eventInterface: "Event",
+	bubbles: false,
+	cancelable: false
+};
+var DOMActivate = {
+	eventInterface: "UIEvent",
+	bubbles: true,
+	cancelable: true
+};
+var DOMAttributeNameChanged = {
+	eventInterface: "MutationNameEvent",
+	bubbles: true,
+	cancelable: true
+};
+var DOMAttrModified = {
+	eventInterface: "MutationEvent",
+	bubbles: true,
+	cancelable: true
+};
+var DOMCharacterDataModified = {
+	eventInterface: "MutationEvent",
+	bubbles: true,
+	cancelable: true
+};
+var DOMContentLoaded = {
+	eventInterface: "Event",
+	bubbles: true,
+	cancelable: true
+};
+var DOMElementNameChanged = {
+	eventInterface: "MutationNameEvent",
+	bubbles: true,
+	cancelable: true
+};
+var DOMFocusIn = {
+	eventInterface: "FocusEvent",
+	bubbles: true,
+	cancelable: true
+};
+var DOMFocusOut = {
+	eventInterface: "FocusEvent",
+	bubbles: true,
+	cancelable: true
+};
+var DOMNodeInserted = {
+	eventInterface: "MutationEvent",
+	bubbles: true,
+	cancelable: true
+};
+var DOMNodeInsertedIntoDocument = {
+	eventInterface: "MutationEvent",
+	bubbles: true,
+	cancelable: true
+};
+var DOMNodeRemoved = {
+	eventInterface: "MutationEvent",
+	bubbles: true,
+	cancelable: true
+};
+var DOMNodeRemovedFromDocument = {
+	eventInterface: "MutationEvent",
+	bubbles: true,
+	cancelable: true
+};
+var DOMSubtreeModified = {
+	eventInterface: "MutationEvent"
+};
+var downloading = {
+	eventInterface: "Event",
+	bubbles: false,
+	cancelable: false
+};
+var drag = {
+	eventInterface: "DragEvent",
+	bubbles: true,
+	cancelable: true
+};
+var dragend = {
+	eventInterface: "DragEvent",
+	bubbles: true,
+	cancelable: false
+};
+var dragenter = {
+	eventInterface: "DragEvent",
+	bubbles: true,
+	cancelable: true
+};
+var dragleave = {
+	eventInterface: "DragEvent",
+	bubbles: true,
+	cancelable: false
+};
+var dragover = {
+	eventInterface: "DragEvent",
+	bubbles: true,
+	cancelable: true
+};
+var dragstart = {
+	eventInterface: "DragEvent",
+	bubbles: true,
+	cancelable: true
+};
+var drop = {
+	eventInterface: "DragEvent",
+	bubbles: true,
+	cancelable: true
+};
+var durationchange = {
+	eventInterface: "Event",
+	bubbles: false,
+	cancelable: false
+};
+var emptied = {
+	eventInterface: "Event",
+	bubbles: false,
+	cancelable: false
+};
+var end = {
+	eventInterface: "Event",
+	bubbles: false,
+	cancelable: false
+};
+var ended = {
+	eventInterface: "Event",
+	bubbles: false,
+	cancelable: false
+};
+var endEvent = {
+	eventInterface: "TimeEvent",
+	bubbles: false,
+	cancelable: false
+};
+var error = {
+	eventInterface: "Event",
+	bubbles: false,
+	cancelable: false
+};
+var focus = {
+	eventInterface: "FocusEvent",
+	bubbles: false,
+	cancelable: false
+};
+var focusin = {
+	eventInterface: "FocusEvent",
+	bubbles: true,
+	cancelable: false
+};
+var focusout = {
+	eventInterface: "FocusEvent",
+	bubbles: true,
+	cancelable: false
+};
+var fullscreenchange = {
+	eventInterface: "Event",
+	bubbles: true,
+	cancelable: false
+};
+var fullscreenerror = {
+	eventInterface: "Event",
+	bubbles: true,
+	cancelable: false
+};
+var gamepadconnected = {
+	eventInterface: "GamepadEvent",
+	bubbles: false,
+	cancelable: false
+};
+var gamepaddisconnected = {
+	eventInterface: "GamepadEvent",
+	bubbles: false,
+	cancelable: false
+};
+var gotpointercapture = {
+	eventInterface: "PointerEvent",
+	bubbles: false,
+	cancelable: false
+};
+var hashchange = {
+	eventInterface: "HashChangeEvent",
+	bubbles: true,
+	cancelable: false
+};
+var lostpointercapture = {
+	eventInterface: "PointerEvent",
+	bubbles: false,
+	cancelable: false
+};
+var input = {
+	eventInterface: "Event",
+	bubbles: true,
+	cancelable: false
+};
+var invalid = {
+	eventInterface: "Event",
+	cancelable: true,
+	bubbles: false
+};
+var keydown = {
+	eventInterface: "KeyboardEvent",
+	bubbles: true,
+	cancelable: true
+};
+var keypress = {
+	eventInterface: "KeyboardEvent",
+	bubbles: true,
+	cancelable: true
+};
+var keyup = {
+	eventInterface: "KeyboardEvent",
+	bubbles: true,
+	cancelable: true
+};
+var languagechange = {
+	eventInterface: "Event",
+	bubbles: false,
+	cancelable: false
+};
+var levelchange = {
+	eventInterface: "Event",
+	bubbles: false,
+	cancelable: false
+};
+var load = {
+	eventInterface: "UIEvent",
+	bubbles: false,
+	cancelable: false
+};
+var loadeddata = {
+	eventInterface: "Event",
+	bubbles: false,
+	cancelable: false
+};
+var loadedmetadata = {
+	eventInterface: "Event",
+	bubbles: false,
+	cancelable: false
+};
+var loadend = {
+	eventInterface: "ProgressEvent",
+	bubbles: false,
+	cancelable: false
+};
+var loadstart = {
+	eventInterface: "ProgressEvent",
+	bubbles: false,
+	cancelable: false
+};
+var mark = {
+	eventInterface: "SpeechSynthesisEvent",
+	bubbles: false,
+	cancelable: false
+};
+var message = {
+	eventInterface: "MessageEvent",
+	bubbles: false,
+	cancelable: false
+};
+var messageerror = {
+	eventInterface: "MessageEvent",
+	bubbles: false,
+	cancelable: false
+};
+var mousedown = {
+	eventInterface: "MouseEvent",
+	bubbles: true,
+	cancelable: true
+};
+var mouseenter = {
+	eventInterface: "MouseEvent",
+	bubbles: false,
+	cancelable: false
+};
+var mouseleave = {
+	eventInterface: "MouseEvent",
+	bubbles: false,
+	cancelable: false
+};
+var mousemove = {
+	eventInterface: "MouseEvent",
+	bubbles: true,
+	cancelable: true
+};
+var mouseout = {
+	eventInterface: "MouseEvent",
+	bubbles: true,
+	cancelable: true
+};
+var mouseover = {
+	eventInterface: "MouseEvent",
+	bubbles: true,
+	cancelable: true
+};
+var mouseup = {
+	eventInterface: "MouseEvent",
+	bubbles: true,
+	cancelable: true
+};
+var nomatch = {
+	eventInterface: "SpeechRecognitionEvent",
+	bubbles: false,
+	cancelable: false
+};
+var notificationclick = {
+	eventInterface: "NotificationEvent",
+	bubbles: false,
+	cancelable: false
+};
+var noupdate = {
+	eventInterface: "Event",
+	bubbles: false,
+	cancelable: false
+};
+var obsolete = {
+	eventInterface: "Event",
+	bubbles: false,
+	cancelable: false
+};
+var offline = {
+	eventInterface: "Event",
+	bubbles: false,
+	cancelable: false
+};
+var online = {
+	eventInterface: "Event",
+	bubbles: false,
+	cancelable: false
+};
+var open = {
+	eventInterface: "Event",
+	bubbles: false,
+	cancelable: false
+};
+var orientationchange = {
+	eventInterface: "Event",
+	bubbles: false,
+	cancelable: false
+};
+var pagehide = {
+	eventInterface: "PageTransitionEvent",
+	bubbles: false,
+	cancelable: false
+};
+var pageshow = {
+	eventInterface: "PageTransitionEvent",
+	bubbles: false,
+	cancelable: false
+};
+var paste = {
+	eventInterface: "ClipboardEvent",
+	bubbles: true,
+	cancelable: true
+};
+var pause = {
+	eventInterface: "SpeechSynthesisEvent",
+	bubbles: false,
+	cancelable: false
+};
+var pointercancel = {
+	eventInterface: "PointerEvent",
+	bubbles: true,
+	cancelable: false
+};
+var pointerdown = {
+	eventInterface: "PointerEvent",
+	bubbles: true,
+	cancelable: true
+};
+var pointerenter = {
+	eventInterface: "PointerEvent",
+	bubbles: false,
+	cancelable: false
+};
+var pointerleave = {
+	eventInterface: "PointerEvent",
+	bubbles: false,
+	cancelable: false
+};
+var pointerlockchange = {
+	eventInterface: "Event",
+	bubbles: true,
+	cancelable: false
+};
+var pointerlockerror = {
+	eventInterface: "Event",
+	bubbles: true,
+	cancelable: false
+};
+var pointermove = {
+	eventInterface: "PointerEvent",
+	bubbles: true,
+	cancelable: true
+};
+var pointerout = {
+	eventInterface: "PointerEvent",
+	bubbles: true,
+	cancelable: true
+};
+var pointerover = {
+	eventInterface: "PointerEvent",
+	bubbles: true,
+	cancelable: true
+};
+var pointerup = {
+	eventInterface: "PointerEvent",
+	bubbles: true,
+	cancelable: true
+};
+var play = {
+	eventInterface: "Event",
+	bubbles: false,
+	cancelable: false
+};
+var playing = {
+	eventInterface: "Event",
+	bubbles: false,
+	cancelable: false
+};
+var popstate = {
+	eventInterface: "PopStateEvent",
+	bubbles: true,
+	cancelable: false
+};
+var progress = {
+	eventInterface: "ProgressEvent",
+	bubbles: false,
+	cancelable: false
+};
+var push = {
+	eventInterface: "PushEvent",
+	bubbles: false,
+	cancelable: false
+};
+var pushsubscriptionchange = {
+	eventInterface: "PushEvent",
+	bubbles: false,
+	cancelable: false
+};
+var ratechange = {
+	eventInterface: "Event",
+	bubbles: false,
+	cancelable: false
+};
+var readystatechange = {
+	eventInterface: "Event",
+	bubbles: false,
+	cancelable: false
+};
+var repeatEvent = {
+	eventInterface: "TimeEvent",
+	bubbles: false,
+	cancelable: false
+};
+var reset = {
+	eventInterface: "Event",
+	bubbles: true,
+	cancelable: true
+};
+var resize = {
+	eventInterface: "UIEvent",
+	bubbles: false,
+	cancelable: false
+};
+var resourcetimingbufferfull = {
+	eventInterface: "Performance",
+	bubbles: true,
+	cancelable: true
+};
+var result = {
+	eventInterface: "SpeechRecognitionEvent",
+	bubbles: false,
+	cancelable: false
+};
+var resume = {
+	eventInterface: "SpeechSynthesisEvent",
+	bubbles: false,
+	cancelable: false
+};
+var scroll = {
+	eventInterface: "UIEvent",
+	bubbles: false,
+	cancelable: false
+};
+var seeked = {
+	eventInterface: "Event",
+	bubbles: false,
+	cancelable: false
+};
+var seeking = {
+	eventInterface: "Event",
+	bubbles: false,
+	cancelable: false
+};
+var select = {
+	eventInterface: "UIEvent",
+	bubbles: true,
+	cancelable: false
+};
+var selectstart = {
+	eventInterface: "Event",
+	bubbles: true,
+	cancelable: true
+};
+var selectionchange = {
+	eventInterface: "Event",
+	bubbles: false,
+	cancelable: false
+};
+var show = {
+	eventInterface: "MouseEvent",
+	bubbles: false,
+	cancelable: false
+};
+var slotchange = {
+	eventInterface: "Event",
+	bubbles: true,
+	cancelable: false
+};
+var soundend = {
+	eventInterface: "Event",
+	bubbles: false,
+	cancelable: false
+};
+var soundstart = {
+	eventInterface: "Event",
+	bubbles: false,
+	cancelable: false
+};
+var speechend = {
+	eventInterface: "Event",
+	bubbles: false,
+	cancelable: false
+};
+var speechstart = {
+	eventInterface: "Event",
+	bubbles: false,
+	cancelable: false
+};
+var stalled = {
+	eventInterface: "Event",
+	bubbles: false,
+	cancelable: false
+};
+var start = {
+	eventInterface: "SpeechSynthesisEvent",
+	bubbles: false,
+	cancelable: false
+};
+var storage = {
+	eventInterface: "StorageEvent",
+	bubbles: false,
+	cancelable: false
+};
+var submit = {
+	eventInterface: "Event",
+	bubbles: true,
+	cancelable: true
+};
+var success = {
+	eventInterface: "Event",
+	bubbles: false,
+	cancelable: false
+};
+var suspend = {
+	eventInterface: "Event",
+	bubbles: false,
+	cancelable: false
+};
+var SVGAbort = {
+	eventInterface: "SVGEvent",
+	bubbles: true,
+	cancelable: false
+};
+var SVGError = {
+	eventInterface: "SVGEvent",
+	bubbles: true,
+	cancelable: false
+};
+var SVGLoad = {
+	eventInterface: "SVGEvent",
+	bubbles: false,
+	cancelable: false
+};
+var SVGResize = {
+	eventInterface: "SVGEvent",
+	bubbles: true,
+	cancelable: false
+};
+var SVGScroll = {
+	eventInterface: "SVGEvent",
+	bubbles: true,
+	cancelable: false
+};
+var SVGUnload = {
+	eventInterface: "SVGEvent",
+	bubbles: false,
+	cancelable: false
+};
+var SVGZoom = {
+	eventInterface: "SVGZoomEvent",
+	bubbles: true,
+	cancelable: false
+};
+var timeout = {
+	eventInterface: "ProgressEvent",
+	bubbles: false,
+	cancelable: false
+};
+var timeupdate = {
+	eventInterface: "Event",
+	bubbles: false,
+	cancelable: false
+};
+var touchcancel = {
+	eventInterface: "TouchEvent",
+	bubbles: true,
+	cancelable: false
+};
+var touchend = {
+	eventInterface: "TouchEvent",
+	bubbles: true,
+	cancelable: true
+};
+var touchmove = {
+	eventInterface: "TouchEvent",
+	bubbles: true,
+	cancelable: true
+};
+var touchstart = {
+	eventInterface: "TouchEvent",
+	bubbles: true,
+	cancelable: true
+};
+var transitionend = {
+	eventInterface: "TransitionEvent",
+	bubbles: true,
+	cancelable: true
+};
+var unload = {
+	eventInterface: "UIEvent",
+	bubbles: false
+};
+var updateready = {
+	eventInterface: "Event",
+	bubbles: false,
+	cancelable: false
+};
+var userproximity = {
+	eventInterface: "UserProximityEvent",
+	bubbles: false,
+	cancelable: false
+};
+var voiceschanged = {
+	eventInterface: "Event",
+	bubbles: false,
+	cancelable: false
+};
+var visibilitychange = {
+	eventInterface: "Event",
+	bubbles: true,
+	cancelable: false
+};
+var volumechange = {
+	eventInterface: "Event",
+	bubbles: false,
+	cancelable: false
+};
+var waiting = {
+	eventInterface: "Event",
+	bubbles: false,
+	cancelable: false
+};
+var wheel = {
+	eventInterface: "WheelEvent",
+	bubbles: true,
+	cancelable: true
+};
 var domEventTypes = {
 	abort: abort,
 	afterprint: afterprint,
@@ -8897,183 +9881,184 @@ var domEventTypes = {
 	wheel: wheel
 };
 
-var domEventTypes$1 = Object.freeze({
-	abort: abort,
-	afterprint: afterprint,
-	animationend: animationend,
-	animationiteration: animationiteration,
-	animationstart: animationstart,
-	appinstalled: appinstalled,
-	audioprocess: audioprocess,
-	audioend: audioend,
-	audiostart: audiostart,
-	beforeprint: beforeprint,
-	beforeunload: beforeunload,
-	beginEvent: beginEvent,
-	blur: blur,
-	boundary: boundary,
-	cached: cached,
-	canplay: canplay,
-	canplaythrough: canplaythrough,
-	change: change,
-	chargingchange: chargingchange,
-	chargingtimechange: chargingtimechange,
-	checking: checking,
-	click: click,
-	close: close,
-	complete: complete,
-	compositionend: compositionend,
-	compositionstart: compositionstart,
-	compositionupdate: compositionupdate,
-	contextmenu: contextmenu,
-	copy: copy,
-	cut: cut,
-	dblclick: dblclick,
-	devicechange: devicechange,
-	devicelight: devicelight,
-	devicemotion: devicemotion,
-	deviceorientation: deviceorientation,
-	deviceproximity: deviceproximity,
-	dischargingtimechange: dischargingtimechange,
-	DOMActivate: DOMActivate,
-	DOMAttributeNameChanged: DOMAttributeNameChanged,
-	DOMAttrModified: DOMAttrModified,
-	DOMCharacterDataModified: DOMCharacterDataModified,
-	DOMContentLoaded: DOMContentLoaded,
-	DOMElementNameChanged: DOMElementNameChanged,
-	DOMFocusIn: DOMFocusIn,
-	DOMFocusOut: DOMFocusOut,
-	DOMNodeInserted: DOMNodeInserted,
-	DOMNodeInsertedIntoDocument: DOMNodeInsertedIntoDocument,
-	DOMNodeRemoved: DOMNodeRemoved,
-	DOMNodeRemovedFromDocument: DOMNodeRemovedFromDocument,
-	DOMSubtreeModified: DOMSubtreeModified,
-	downloading: downloading,
-	drag: drag,
-	dragend: dragend,
-	dragenter: dragenter,
-	dragleave: dragleave,
-	dragover: dragover,
-	dragstart: dragstart,
-	drop: drop,
-	durationchange: durationchange,
-	emptied: emptied,
-	end: end,
-	ended: ended,
-	endEvent: endEvent,
-	error: error,
-	focus: focus,
-	focusin: focusin,
-	focusout: focusout,
-	fullscreenchange: fullscreenchange,
-	fullscreenerror: fullscreenerror,
-	gamepadconnected: gamepadconnected,
-	gamepaddisconnected: gamepaddisconnected,
-	gotpointercapture: gotpointercapture,
-	hashchange: hashchange,
-	lostpointercapture: lostpointercapture,
-	input: input,
-	invalid: invalid,
-	keydown: keydown,
-	keypress: keypress,
-	keyup: keyup,
-	languagechange: languagechange,
-	levelchange: levelchange,
-	load: load,
-	loadeddata: loadeddata,
-	loadedmetadata: loadedmetadata,
-	loadend: loadend,
-	loadstart: loadstart,
-	mark: mark,
-	message: message,
-	messageerror: messageerror,
-	mousedown: mousedown,
-	mouseenter: mouseenter,
-	mouseleave: mouseleave,
-	mousemove: mousemove,
-	mouseout: mouseout,
-	mouseover: mouseover,
-	mouseup: mouseup,
-	nomatch: nomatch,
-	notificationclick: notificationclick,
-	noupdate: noupdate,
-	obsolete: obsolete,
-	offline: offline,
-	online: online,
-	open: open,
-	orientationchange: orientationchange,
-	pagehide: pagehide,
-	pageshow: pageshow,
-	paste: paste,
-	pause: pause,
-	pointercancel: pointercancel,
-	pointerdown: pointerdown,
-	pointerenter: pointerenter,
-	pointerleave: pointerleave,
-	pointerlockchange: pointerlockchange,
-	pointerlockerror: pointerlockerror,
-	pointermove: pointermove,
-	pointerout: pointerout,
-	pointerover: pointerover,
-	pointerup: pointerup,
-	play: play,
-	playing: playing,
-	popstate: popstate,
-	progress: progress,
-	push: push,
-	pushsubscriptionchange: pushsubscriptionchange,
-	ratechange: ratechange,
-	readystatechange: readystatechange,
-	repeatEvent: repeatEvent,
-	reset: reset,
-	resize: resize,
-	resourcetimingbufferfull: resourcetimingbufferfull,
-	result: result,
-	resume: resume,
-	scroll: scroll,
-	seeked: seeked,
-	seeking: seeking,
-	select: select,
-	selectstart: selectstart,
-	selectionchange: selectionchange,
-	show: show,
-	slotchange: slotchange,
-	soundend: soundend,
-	soundstart: soundstart,
-	speechend: speechend,
-	speechstart: speechstart,
-	stalled: stalled,
-	start: start,
-	storage: storage,
-	submit: submit,
-	success: success,
-	suspend: suspend,
-	SVGAbort: SVGAbort,
-	SVGError: SVGError,
-	SVGLoad: SVGLoad,
-	SVGResize: SVGResize,
-	SVGScroll: SVGScroll,
-	SVGUnload: SVGUnload,
-	SVGZoom: SVGZoom,
-	timeout: timeout,
-	timeupdate: timeupdate,
-	touchcancel: touchcancel,
-	touchend: touchend,
-	touchmove: touchmove,
-	touchstart: touchstart,
-	transitionend: transitionend,
-	unload: unload,
-	updateready: updateready,
-	userproximity: userproximity,
-	voiceschanged: voiceschanged,
-	visibilitychange: visibilitychange,
-	volumechange: volumechange,
-	waiting: waiting,
-	wheel: wheel,
-	default: domEventTypes
+var domEventTypes$1 = /*#__PURE__*/Object.freeze({
+  __proto__: null,
+  abort: abort,
+  afterprint: afterprint,
+  animationend: animationend,
+  animationiteration: animationiteration,
+  animationstart: animationstart,
+  appinstalled: appinstalled,
+  audioprocess: audioprocess,
+  audioend: audioend,
+  audiostart: audiostart,
+  beforeprint: beforeprint,
+  beforeunload: beforeunload,
+  beginEvent: beginEvent,
+  blur: blur,
+  boundary: boundary,
+  cached: cached,
+  canplay: canplay,
+  canplaythrough: canplaythrough,
+  change: change,
+  chargingchange: chargingchange,
+  chargingtimechange: chargingtimechange,
+  checking: checking,
+  click: click,
+  close: close,
+  complete: complete,
+  compositionend: compositionend,
+  compositionstart: compositionstart,
+  compositionupdate: compositionupdate,
+  contextmenu: contextmenu,
+  copy: copy,
+  cut: cut,
+  dblclick: dblclick,
+  devicechange: devicechange,
+  devicelight: devicelight,
+  devicemotion: devicemotion,
+  deviceorientation: deviceorientation,
+  deviceproximity: deviceproximity,
+  dischargingtimechange: dischargingtimechange,
+  DOMActivate: DOMActivate,
+  DOMAttributeNameChanged: DOMAttributeNameChanged,
+  DOMAttrModified: DOMAttrModified,
+  DOMCharacterDataModified: DOMCharacterDataModified,
+  DOMContentLoaded: DOMContentLoaded,
+  DOMElementNameChanged: DOMElementNameChanged,
+  DOMFocusIn: DOMFocusIn,
+  DOMFocusOut: DOMFocusOut,
+  DOMNodeInserted: DOMNodeInserted,
+  DOMNodeInsertedIntoDocument: DOMNodeInsertedIntoDocument,
+  DOMNodeRemoved: DOMNodeRemoved,
+  DOMNodeRemovedFromDocument: DOMNodeRemovedFromDocument,
+  DOMSubtreeModified: DOMSubtreeModified,
+  downloading: downloading,
+  drag: drag,
+  dragend: dragend,
+  dragenter: dragenter,
+  dragleave: dragleave,
+  dragover: dragover,
+  dragstart: dragstart,
+  drop: drop,
+  durationchange: durationchange,
+  emptied: emptied,
+  end: end,
+  ended: ended,
+  endEvent: endEvent,
+  error: error,
+  focus: focus,
+  focusin: focusin,
+  focusout: focusout,
+  fullscreenchange: fullscreenchange,
+  fullscreenerror: fullscreenerror,
+  gamepadconnected: gamepadconnected,
+  gamepaddisconnected: gamepaddisconnected,
+  gotpointercapture: gotpointercapture,
+  hashchange: hashchange,
+  lostpointercapture: lostpointercapture,
+  input: input,
+  invalid: invalid,
+  keydown: keydown,
+  keypress: keypress,
+  keyup: keyup,
+  languagechange: languagechange,
+  levelchange: levelchange,
+  load: load,
+  loadeddata: loadeddata,
+  loadedmetadata: loadedmetadata,
+  loadend: loadend,
+  loadstart: loadstart,
+  mark: mark,
+  message: message,
+  messageerror: messageerror,
+  mousedown: mousedown,
+  mouseenter: mouseenter,
+  mouseleave: mouseleave,
+  mousemove: mousemove,
+  mouseout: mouseout,
+  mouseover: mouseover,
+  mouseup: mouseup,
+  nomatch: nomatch,
+  notificationclick: notificationclick,
+  noupdate: noupdate,
+  obsolete: obsolete,
+  offline: offline,
+  online: online,
+  open: open,
+  orientationchange: orientationchange,
+  pagehide: pagehide,
+  pageshow: pageshow,
+  paste: paste,
+  pause: pause,
+  pointercancel: pointercancel,
+  pointerdown: pointerdown,
+  pointerenter: pointerenter,
+  pointerleave: pointerleave,
+  pointerlockchange: pointerlockchange,
+  pointerlockerror: pointerlockerror,
+  pointermove: pointermove,
+  pointerout: pointerout,
+  pointerover: pointerover,
+  pointerup: pointerup,
+  play: play,
+  playing: playing,
+  popstate: popstate,
+  progress: progress,
+  push: push,
+  pushsubscriptionchange: pushsubscriptionchange,
+  ratechange: ratechange,
+  readystatechange: readystatechange,
+  repeatEvent: repeatEvent,
+  reset: reset,
+  resize: resize,
+  resourcetimingbufferfull: resourcetimingbufferfull,
+  result: result,
+  resume: resume,
+  scroll: scroll,
+  seeked: seeked,
+  seeking: seeking,
+  select: select,
+  selectstart: selectstart,
+  selectionchange: selectionchange,
+  show: show,
+  slotchange: slotchange,
+  soundend: soundend,
+  soundstart: soundstart,
+  speechend: speechend,
+  speechstart: speechstart,
+  stalled: stalled,
+  start: start,
+  storage: storage,
+  submit: submit,
+  success: success,
+  suspend: suspend,
+  SVGAbort: SVGAbort,
+  SVGError: SVGError,
+  SVGLoad: SVGLoad,
+  SVGResize: SVGResize,
+  SVGScroll: SVGScroll,
+  SVGUnload: SVGUnload,
+  SVGZoom: SVGZoom,
+  timeout: timeout,
+  timeupdate: timeupdate,
+  touchcancel: touchcancel,
+  touchend: touchend,
+  touchmove: touchmove,
+  touchstart: touchstart,
+  transitionend: transitionend,
+  unload: unload,
+  updateready: updateready,
+  userproximity: userproximity,
+  voiceschanged: voiceschanged,
+  visibilitychange: visibilitychange,
+  volumechange: volumechange,
+  waiting: waiting,
+  wheel: wheel,
+  'default': domEventTypes
 });
 
-var require$$0 = ( domEventTypes$1 && domEventTypes ) || domEventTypes$1;
+var require$$0 = getCjsExportFromNamespace(domEventTypes$1);
 
 var domEventTypes$2 = require$$0;
 
@@ -9101,40 +10086,50 @@ var modifiers = {
   pagedown: 34
 };
 
-function createEvent(
-  type,
-  modifier,
-  ref,
-  options
-) {
-  var eventInterface = ref.eventInterface;
-  var bubbles = ref.bubbles;
-  var cancelable = ref.cancelable;
+function getOptions(eventParams) {
+  var modifier = eventParams.modifier;
+  var meta = eventParams.meta;
+  var options = eventParams.options;
+  var keyCode = modifiers[modifier] || options.keyCode || options.code;
+
+  return Object.assign({}, options, // What the user passed in as the second argument to #trigger
+
+    {bubbles: meta.bubbles,
+    meta: meta.cancelable,
+
+    // Any derived options should go here
+    keyCode: keyCode,
+    code: keyCode})
+}
+
+function createEvent(eventParams) {
+  var eventType = eventParams.eventType;
+  var meta = eventParams.meta; if ( meta === void 0 ) meta = {};
 
   var SupportedEventInterface =
-    typeof window[eventInterface] === 'function'
-      ? window[eventInterface]
+    typeof window[meta.eventInterface] === 'function'
+      ? window[meta.eventInterface]
       : window.Event;
 
-  var event = new SupportedEventInterface(type, Object.assign({}, options,
-    {bubbles: bubbles,
-    cancelable: cancelable,
-    keyCode: modifiers[modifier]}));
+  var event = new SupportedEventInterface(
+    eventType,
+    // event properties can only be added when the event is instantiated
+    // custom properties must be added after the event has been instantiated
+    getOptions(eventParams)
+  );
 
   return event
 }
 
-function createOldEvent(
-  type,
-  modifier,
-  ref
-) {
-  var eventInterface = ref.eventInterface;
-  var bubbles = ref.bubbles;
-  var cancelable = ref.cancelable;
+function createOldEvent(eventParams) {
+  var eventType = eventParams.eventType;
+  var modifier = eventParams.modifier;
+  var meta = eventParams.meta;
+  var bubbles = meta.bubbles;
+  var cancelable = meta.cancelable;
 
   var event = document.createEvent('Event');
-  event.initEvent(type, bubbles, cancelable);
+  event.initEvent(eventType, bubbles, cancelable);
   event.keyCode = modifiers[modifier];
   return event
 }
@@ -9145,11 +10140,13 @@ function createDOMEvent(type, options) {
   var modifier = ref[1];
   var meta = domEventTypes$2[eventType] || defaultEventType;
 
+  var eventParams = { eventType: eventType, modifier: modifier, meta: meta, options: options };
+
   // Fallback for IE10,11 - https://stackoverflow.com/questions/26596123
   var event =
     typeof window.Event === 'function'
-      ? createEvent(eventType, modifier, meta, options)
-      : createOldEvent(eventType, modifier, meta);
+      ? createEvent(eventParams)
+      : createOldEvent(eventParams);
 
   var eventPrototype = Object.getPrototypeOf(event);
   Object.keys(options || {}).forEach(function (key) {
@@ -9333,6 +10330,18 @@ Wrapper.prototype.filter = function filter () {
 };
 
 /**
+ * Gets first node in tree of the current wrapper that
+ * matches the provided selector.
+ */
+Wrapper.prototype.get = function get (rawSelector) {
+  var found = this.find(rawSelector);
+  if (found instanceof ErrorWrapper) {
+    throw new Error(("Unable to find " + rawSelector + " within: " + (this.html())))
+  }
+  return found
+};
+
+/**
  * Finds first node in tree of the current wrapper that
  * matches the provided selector.
  */
@@ -9341,15 +10350,12 @@ Wrapper.prototype.find = function find$1 (rawSelector) {
   var node = find(this.rootNode, this.vm, selector)[0];
 
   if (!node) {
-    if (selector.type === REF_SELECTOR) {
-      return new ErrorWrapper(("ref=\"" + (selector.value.ref) + "\""))
-    }
-    return new ErrorWrapper(
-      typeof selector.value === 'string' ? selector.value : 'Component'
-    )
+    return new ErrorWrapper(rawSelector)
   }
 
-  return createWrapper(node, this.options)
+  var wrapper = createWrapper(node, this.options);
+  wrapper.selector = rawSelector;
+  return wrapper
 };
 
 /**
@@ -9364,9 +10370,14 @@ Wrapper.prototype.findAll = function findAll (rawSelector) {
   var wrappers = nodes.map(function (node) {
     // Using CSS Selector, returns a VueWrapper instance if the root element
     // binds a Vue instance.
-    return createWrapper(node, this$1.options)
+    var wrapper = createWrapper(node, this$1.options);
+    wrapper.selector = rawSelector;
+    return wrapper
   });
-  return new WrapperArray(wrappers)
+
+  var wrapperArray = new WrapperArray(wrappers);
+  wrapperArray.selector = rawSelector;
+  return wrapperArray
 };
 
 /**
@@ -9526,6 +10537,10 @@ Wrapper.prototype.setChecked = function setChecked (checked) {
       );
     }
 
+    if (this.element.checked === checked) {
+      return
+    }
+
     if (event !== 'click' || isPhantomJS) {
       // $FlowIgnore
       this.element.selected = true;
@@ -9551,6 +10566,10 @@ Wrapper.prototype.setSelected = function setSelected () {
   }
 
   if (tagName === 'OPTION') {
+    if (this.element.selected) {
+      return
+    }
+
     // $FlowIgnore
     this.element.selected = true;
     // $FlowIgnore
@@ -9734,8 +10753,25 @@ Wrapper.prototype.trigger = function trigger (type, options) {
     );
   }
 
-  // Don't fire event on a disabled element
-  if (this.attributes().disabled) {
+  /**
+   * Avoids firing events on specific disabled elements
+   * See more: https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled
+   */
+
+  var supportedTags = [
+    'BUTTON',
+    'COMMAND',
+    'FIELDSET',
+    'KEYGEN',
+    'OPTGROUP',
+    'OPTION',
+    'SELECT',
+    'TEXTAREA',
+    'INPUT'
+  ];
+  var tagName = this.element.tagName;
+
+  if (this.attributes().disabled && supportedTags.indexOf(tagName) > -1) {
     return
   }
 
@@ -9745,11 +10781,11 @@ Wrapper.prototype.trigger = function trigger (type, options) {
 
 // 
 
-var VueWrapper = (function (Wrapper$$1) {
+var VueWrapper = /*@__PURE__*/(function (Wrapper) {
   function VueWrapper(vm, options) {
     var this$1 = this;
 
-    Wrapper$$1.call(this, vm._vnode, options, true);
+    Wrapper.call(this, vm._vnode, options, true);
     // $FlowIgnore : issue with defineProperty
     Object.defineProperty(this, 'rootNode', {
       get: function () { return vm.$vnode || { child: this$1.vm }; },
@@ -9775,12 +10811,47 @@ var VueWrapper = (function (Wrapper$$1) {
     this._emittedByOrder = vm.__emittedByOrder;
   }
 
-  if ( Wrapper$$1 ) VueWrapper.__proto__ = Wrapper$$1;
-  VueWrapper.prototype = Object.create( Wrapper$$1 && Wrapper$$1.prototype );
+  if ( Wrapper ) VueWrapper.__proto__ = Wrapper;
+  VueWrapper.prototype = Object.create( Wrapper && Wrapper.prototype );
   VueWrapper.prototype.constructor = VueWrapper;
 
   return VueWrapper;
 }(Wrapper));
+
+// 
+
+var isEnabled = false;
+var wrapperInstances = [];
+
+function resetAutoDestroyState() {
+  isEnabled = false;
+  wrapperInstances.length = 0;
+}
+
+function enableAutoDestroy(hook) {
+  if (isEnabled) {
+    throwError('enableAutoDestroy cannot be called more than once');
+  }
+
+  isEnabled = true;
+
+  hook(function () {
+    wrapperInstances.forEach(function (wrapper) {
+      // skip child wrappers created by wrapper.find()
+      if (wrapper.selector) { return }
+
+      wrapper.destroy();
+    });
+
+    wrapperInstances.length = 0;
+  });
+}
+
+function trackInstance(wrapper) {
+  if (!isEnabled) { return }
+
+  wrapperInstances.push(wrapper);
+}
 
 // 
 
@@ -9792,11 +10863,16 @@ function createWrapper(
 
   var componentInstance = node.child;
   if (componentInstance) {
-    return new VueWrapper(componentInstance, options)
+    var wrapper$1 = new VueWrapper(componentInstance, options);
+    trackInstance(wrapper$1);
+    return wrapper$1
   }
-  return node instanceof Vue
-    ? new VueWrapper(node, options)
-    : new Wrapper(node, options)
+  var wrapper =
+    node instanceof Vue
+      ? new VueWrapper(node, options)
+      : new Wrapper(node, options);
+  trackInstance(wrapper);
+  return wrapper
 }
 
 /**
@@ -9971,15 +11047,13 @@ var _listCacheSet = listCacheSet;
  * @param {Array} [entries] The key-value pairs to cache.
  */
 function ListCache(entries) {
-  var this$1 = this;
-
   var index = -1,
       length = entries == null ? 0 : entries.length;
 
   this.clear();
   while (++index < length) {
     var entry = entries[index];
-    this$1.set(entry[0], entry[1]);
+    this.set(entry[0], entry[1]);
   }
 }
 
@@ -10479,15 +11553,13 @@ var _hashSet = hashSet;
  * @param {Array} [entries] The key-value pairs to cache.
  */
 function Hash(entries) {
-  var this$1 = this;
-
   var index = -1,
       length = entries == null ? 0 : entries.length;
 
   this.clear();
   while (++index < length) {
     var entry = entries[index];
-    this$1.set(entry[0], entry[1]);
+    this.set(entry[0], entry[1]);
   }
 }
 
@@ -10627,15 +11699,13 @@ var _mapCacheSet = mapCacheSet;
  * @param {Array} [entries] The key-value pairs to cache.
  */
 function MapCache(entries) {
-  var this$1 = this;
-
   var index = -1,
       length = entries == null ? 0 : entries.length;
 
   this.clear();
   while (++index < length) {
     var entry = entries[index];
-    this$1.set(entry[0], entry[1]);
+    this.set(entry[0], entry[1]);
   }
 }
 
@@ -10970,7 +12040,7 @@ var stubFalse_1 = stubFalse;
 
 var isBuffer_1$1 = createCommonjsModule(function (module, exports) {
 /** Detect free variable `exports`. */
-var freeExports = 'object' == 'object' && exports && !exports.nodeType && exports;
+var freeExports =  exports && !exports.nodeType && exports;
 
 /** Detect free variable `module`. */
 var freeModule = freeExports && 'object' == 'object' && module && !module.nodeType && module;
@@ -11021,10 +12091,13 @@ var reIsUint = /^(?:0|[1-9]\d*)$/;
  * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
  */
 function isIndex(value, length) {
+  var type = typeof value;
   length = length == null ? MAX_SAFE_INTEGER : length;
+
   return !!length &&
-    (typeof value == 'number' || reIsUint.test(value)) &&
-    (value > -1 && value % 1 == 0 && value < length);
+    (type == 'number' ||
+      (type != 'symbol' && reIsUint.test(value))) &&
+        (value > -1 && value % 1 == 0 && value < length);
 }
 
 var _isIndex = isIndex;
@@ -11139,7 +12212,7 @@ var _baseUnary = baseUnary;
 
 var _nodeUtil = createCommonjsModule(function (module, exports) {
 /** Detect free variable `exports`. */
-var freeExports = 'object' == 'object' && exports && !exports.nodeType && exports;
+var freeExports =  exports && !exports.nodeType && exports;
 
 /** Detect free variable `module`. */
 var freeModule = freeExports && 'object' == 'object' && module && !module.nodeType && module;
@@ -11153,6 +12226,14 @@ var freeProcess = moduleExports && _freeGlobal.process;
 /** Used to access faster Node.js helpers. */
 var nodeUtil = (function() {
   try {
+    // Use `util.types` for Node.js 10+.
+    var types = freeModule && freeModule.require && freeModule.require('util').types;
+
+    if (types) {
+      return types;
+    }
+
+    // Legacy `process.binding('util')` for Node.js < 10.
     return freeProcess && freeProcess.binding && freeProcess.binding('util');
   } catch (e) {}
 }());
@@ -11354,11 +12435,11 @@ var isArrayLike_1 = isArrayLike;
  * _.keys('hi');
  * // => ['0', '1']
  */
-function keys(object) {
+function keys$1(object) {
   return isArrayLike_1(object) ? _arrayLikeKeys(object) : _baseKeys(object);
 }
 
-var keys_1 = keys;
+var keys_1 = keys$1;
 
 /**
  * The base implementation of `_.assign` without support for multiple sources
@@ -11397,10 +12478,10 @@ function nativeKeysIn(object) {
 var _nativeKeysIn = nativeKeysIn;
 
 /** Used for built-in method references. */
-var objectProto$10 = Object.prototype;
+var objectProto$a = Object.prototype;
 
 /** Used to check objects for own properties. */
-var hasOwnProperty$9 = objectProto$10.hasOwnProperty;
+var hasOwnProperty$9 = objectProto$a.hasOwnProperty;
 
 /**
  * The base implementation of `_.keysIn` which doesn't treat sparse arrays as dense.
@@ -11472,7 +12553,7 @@ var _baseAssignIn = baseAssignIn;
 
 var _cloneBuffer = createCommonjsModule(function (module, exports) {
 /** Detect free variable `exports`. */
-var freeExports = 'object' == 'object' && exports && !exports.nodeType && exports;
+var freeExports =  exports && !exports.nodeType && exports;
 
 /** Detect free variable `module`. */
 var freeModule = freeExports && 'object' == 'object' && module && !module.nodeType && module;
@@ -11578,10 +12659,10 @@ function stubArray() {
 var stubArray_1 = stubArray;
 
 /** Used for built-in method references. */
-var objectProto$11 = Object.prototype;
+var objectProto$b = Object.prototype;
 
 /** Built-in value references. */
-var propertyIsEnumerable$1 = objectProto$11.propertyIsEnumerable;
+var propertyIsEnumerable$1 = objectProto$b.propertyIsEnumerable;
 
 /* Built-in method references for those with the same name as other `lodash` methods. */
 var nativeGetSymbols = Object.getOwnPropertySymbols;
@@ -11797,10 +12878,10 @@ if ((_DataView && getTag(new _DataView(new ArrayBuffer(1))) != dataViewTag$1) ||
 var _getTag = getTag;
 
 /** Used for built-in method references. */
-var objectProto$12 = Object.prototype;
+var objectProto$c = Object.prototype;
 
 /** Used to check objects for own properties. */
-var hasOwnProperty$10 = objectProto$12.hasOwnProperty;
+var hasOwnProperty$a = objectProto$c.hasOwnProperty;
 
 /**
  * Initializes an array clone.
@@ -11811,10 +12892,10 @@ var hasOwnProperty$10 = objectProto$12.hasOwnProperty;
  */
 function initCloneArray(array) {
   var length = array.length,
-      result = array.constructor(length);
+      result = new array.constructor(length);
 
   // Add properties assigned by `RegExp#exec`.
-  if (length && typeof array[0] == 'string' && hasOwnProperty$10.call(array, 'index')) {
+  if (length && typeof array[0] == 'string' && hasOwnProperty$a.call(array, 'index')) {
     result.index = array.index;
     result.input = array.input;
   }
@@ -11858,87 +12939,6 @@ function cloneDataView(dataView, isDeep) {
 
 var _cloneDataView = cloneDataView;
 
-/**
- * Adds the key-value `pair` to `map`.
- *
- * @private
- * @param {Object} map The map to modify.
- * @param {Array} pair The key-value pair to add.
- * @returns {Object} Returns `map`.
- */
-function addMapEntry(map, pair) {
-  // Don't return `map.set` because it's not chainable in IE 11.
-  map.set(pair[0], pair[1]);
-  return map;
-}
-
-var _addMapEntry = addMapEntry;
-
-/**
- * A specialized version of `_.reduce` for arrays without support for
- * iteratee shorthands.
- *
- * @private
- * @param {Array} [array] The array to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @param {*} [accumulator] The initial value.
- * @param {boolean} [initAccum] Specify using the first element of `array` as
- *  the initial value.
- * @returns {*} Returns the accumulated value.
- */
-function arrayReduce(array, iteratee, accumulator, initAccum) {
-  var index = -1,
-      length = array == null ? 0 : array.length;
-
-  if (initAccum && length) {
-    accumulator = array[++index];
-  }
-  while (++index < length) {
-    accumulator = iteratee(accumulator, array[index], index, array);
-  }
-  return accumulator;
-}
-
-var _arrayReduce = arrayReduce;
-
-/**
- * Converts `map` to its key-value pairs.
- *
- * @private
- * @param {Object} map The map to convert.
- * @returns {Array} Returns the key-value pairs.
- */
-function mapToArray(map) {
-  var index = -1,
-      result = Array(map.size);
-
-  map.forEach(function(value, key) {
-    result[++index] = [key, value];
-  });
-  return result;
-}
-
-var _mapToArray = mapToArray;
-
-/** Used to compose bitmasks for cloning. */
-var CLONE_DEEP_FLAG = 1;
-
-/**
- * Creates a clone of `map`.
- *
- * @private
- * @param {Object} map The map to clone.
- * @param {Function} cloneFunc The function to clone values.
- * @param {boolean} [isDeep] Specify a deep clone.
- * @returns {Object} Returns the cloned map.
- */
-function cloneMap(map, isDeep, cloneFunc) {
-  var array = isDeep ? cloneFunc(_mapToArray(map), CLONE_DEEP_FLAG) : _mapToArray(map);
-  return _arrayReduce(array, _addMapEntry, new map.constructor);
-}
-
-var _cloneMap = cloneMap;
-
 /** Used to match `RegExp` flags from their coerced string values. */
 var reFlags = /\w*$/;
 
@@ -11956,60 +12956,6 @@ function cloneRegExp(regexp) {
 }
 
 var _cloneRegExp = cloneRegExp;
-
-/**
- * Adds `value` to `set`.
- *
- * @private
- * @param {Object} set The set to modify.
- * @param {*} value The value to add.
- * @returns {Object} Returns `set`.
- */
-function addSetEntry(set, value) {
-  // Don't return `set.add` because it's not chainable in IE 11.
-  set.add(value);
-  return set;
-}
-
-var _addSetEntry = addSetEntry;
-
-/**
- * Converts `set` to an array of its values.
- *
- * @private
- * @param {Object} set The set to convert.
- * @returns {Array} Returns the values.
- */
-function setToArray(set) {
-  var index = -1,
-      result = Array(set.size);
-
-  set.forEach(function(value) {
-    result[++index] = value;
-  });
-  return result;
-}
-
-var _setToArray = setToArray;
-
-/** Used to compose bitmasks for cloning. */
-var CLONE_DEEP_FLAG$1 = 1;
-
-/**
- * Creates a clone of `set`.
- *
- * @private
- * @param {Object} set The set to clone.
- * @param {Function} cloneFunc The function to clone values.
- * @param {boolean} [isDeep] Specify a deep clone.
- * @returns {Object} Returns the cloned set.
- */
-function cloneSet(set, isDeep, cloneFunc) {
-  var array = isDeep ? cloneFunc(_setToArray(set), CLONE_DEEP_FLAG$1) : _setToArray(set);
-  return _arrayReduce(array, _addSetEntry, new set.constructor);
-}
-
-var _cloneSet = cloneSet;
 
 /** Used to convert symbols to primitives and strings. */
 var symbolProto = _Symbol ? _Symbol.prototype : undefined,
@@ -12069,16 +13015,15 @@ var arrayBufferTag$1 = '[object ArrayBuffer]',
  * Initializes an object clone based on its `toStringTag`.
  *
  * **Note:** This function only supports cloning values with tags of
- * `Boolean`, `Date`, `Error`, `Number`, `RegExp`, or `String`.
+ * `Boolean`, `Date`, `Error`, `Map`, `Number`, `RegExp`, `Set`, or `String`.
  *
  * @private
  * @param {Object} object The object to clone.
  * @param {string} tag The `toStringTag` of the object to clone.
- * @param {Function} cloneFunc The function to clone values.
  * @param {boolean} [isDeep] Specify a deep clone.
  * @returns {Object} Returns the initialized clone.
  */
-function initCloneByTag(object, tag, cloneFunc, isDeep) {
+function initCloneByTag(object, tag, isDeep) {
   var Ctor = object.constructor;
   switch (tag) {
     case arrayBufferTag$1:
@@ -12097,7 +13042,7 @@ function initCloneByTag(object, tag, cloneFunc, isDeep) {
       return _cloneTypedArray(object, isDeep);
 
     case mapTag$2:
-      return _cloneMap(object, isDeep, cloneFunc);
+      return new Ctor;
 
     case numberTag$1:
     case stringTag$1:
@@ -12107,7 +13052,7 @@ function initCloneByTag(object, tag, cloneFunc, isDeep) {
       return _cloneRegExp(object);
 
     case setTag$2:
-      return _cloneSet(object, isDeep, cloneFunc);
+      return new Ctor;
 
     case symbolTag:
       return _cloneSymbol(object);
@@ -12160,8 +13105,88 @@ function initCloneObject(object) {
 
 var _initCloneObject = initCloneObject;
 
+/** `Object#toString` result references. */
+var mapTag$3 = '[object Map]';
+
+/**
+ * The base implementation of `_.isMap` without Node.js optimizations.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a map, else `false`.
+ */
+function baseIsMap(value) {
+  return isObjectLike_1(value) && _getTag(value) == mapTag$3;
+}
+
+var _baseIsMap = baseIsMap;
+
+/* Node.js helper references. */
+var nodeIsMap = _nodeUtil && _nodeUtil.isMap;
+
+/**
+ * Checks if `value` is classified as a `Map` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.3.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a map, else `false`.
+ * @example
+ *
+ * _.isMap(new Map);
+ * // => true
+ *
+ * _.isMap(new WeakMap);
+ * // => false
+ */
+var isMap = nodeIsMap ? _baseUnary(nodeIsMap) : _baseIsMap;
+
+var isMap_1 = isMap;
+
+/** `Object#toString` result references. */
+var setTag$3 = '[object Set]';
+
+/**
+ * The base implementation of `_.isSet` without Node.js optimizations.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a set, else `false`.
+ */
+function baseIsSet(value) {
+  return isObjectLike_1(value) && _getTag(value) == setTag$3;
+}
+
+var _baseIsSet = baseIsSet;
+
+/* Node.js helper references. */
+var nodeIsSet = _nodeUtil && _nodeUtil.isSet;
+
+/**
+ * Checks if `value` is classified as a `Set` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.3.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a set, else `false`.
+ * @example
+ *
+ * _.isSet(new Set);
+ * // => true
+ *
+ * _.isSet(new WeakSet);
+ * // => false
+ */
+var isSet = nodeIsSet ? _baseUnary(nodeIsSet) : _baseIsSet;
+
+var isSet_1 = isSet;
+
 /** Used to compose bitmasks for cloning. */
-var CLONE_DEEP_FLAG$2 = 1,
+var CLONE_DEEP_FLAG = 1,
     CLONE_FLAT_FLAG = 2,
     CLONE_SYMBOLS_FLAG = 4;
 
@@ -12173,11 +13198,11 @@ var argsTag$2 = '[object Arguments]',
     errorTag$1 = '[object Error]',
     funcTag$2 = '[object Function]',
     genTag$1 = '[object GeneratorFunction]',
-    mapTag$3 = '[object Map]',
+    mapTag$4 = '[object Map]',
     numberTag$2 = '[object Number]',
     objectTag$2 = '[object Object]',
     regexpTag$2 = '[object RegExp]',
-    setTag$3 = '[object Set]',
+    setTag$4 = '[object Set]',
     stringTag$2 = '[object String]',
     symbolTag$1 = '[object Symbol]',
     weakMapTag$2 = '[object WeakMap]';
@@ -12201,9 +13226,9 @@ cloneableTags[arrayBufferTag$2] = cloneableTags[dataViewTag$3] =
 cloneableTags[boolTag$2] = cloneableTags[dateTag$2] =
 cloneableTags[float32Tag$2] = cloneableTags[float64Tag$2] =
 cloneableTags[int8Tag$2] = cloneableTags[int16Tag$2] =
-cloneableTags[int32Tag$2] = cloneableTags[mapTag$3] =
+cloneableTags[int32Tag$2] = cloneableTags[mapTag$4] =
 cloneableTags[numberTag$2] = cloneableTags[objectTag$2] =
-cloneableTags[regexpTag$2] = cloneableTags[setTag$3] =
+cloneableTags[regexpTag$2] = cloneableTags[setTag$4] =
 cloneableTags[stringTag$2] = cloneableTags[symbolTag$1] =
 cloneableTags[uint8Tag$2] = cloneableTags[uint8ClampedTag$2] =
 cloneableTags[uint16Tag$2] = cloneableTags[uint32Tag$2] = true;
@@ -12228,7 +13253,7 @@ cloneableTags[weakMapTag$2] = false;
  */
 function baseClone(value, bitmask, customizer, key, object, stack) {
   var result,
-      isDeep = bitmask & CLONE_DEEP_FLAG$2,
+      isDeep = bitmask & CLONE_DEEP_FLAG,
       isFlat = bitmask & CLONE_FLAT_FLAG,
       isFull = bitmask & CLONE_SYMBOLS_FLAG;
 
@@ -12265,7 +13290,7 @@ function baseClone(value, bitmask, customizer, key, object, stack) {
       if (!cloneableTags[tag]) {
         return object ? value : {};
       }
-      result = _initCloneByTag(value, tag, baseClone, isDeep);
+      result = _initCloneByTag(value, tag, isDeep);
     }
   }
   // Check for circular references and return its corresponding clone.
@@ -12275,6 +13300,16 @@ function baseClone(value, bitmask, customizer, key, object, stack) {
     return stacked;
   }
   stack.set(value, result);
+
+  if (isSet_1(value)) {
+    value.forEach(function(subValue) {
+      result.add(baseClone(subValue, bitmask, customizer, subValue, value, stack));
+    });
+  } else if (isMap_1(value)) {
+    value.forEach(function(subValue, key) {
+      result.set(key, baseClone(subValue, bitmask, customizer, key, value, stack));
+    });
+  }
 
   var keysFunc = isFull
     ? (isFlat ? _getAllKeysIn : _getAllKeys)
@@ -12295,7 +13330,7 @@ function baseClone(value, bitmask, customizer, key, object, stack) {
 var _baseClone = baseClone;
 
 /** Used to compose bitmasks for cloning. */
-var CLONE_DEEP_FLAG$3 = 1,
+var CLONE_DEEP_FLAG$1 = 1,
     CLONE_SYMBOLS_FLAG$1 = 4;
 
 /**
@@ -12317,7 +13352,7 @@ var CLONE_DEEP_FLAG$3 = 1,
  * // => false
  */
 function cloneDeep(value) {
-  return _baseClone(value, CLONE_DEEP_FLAG$3 | CLONE_SYMBOLS_FLAG$1);
+  return _baseClone(value, CLONE_DEEP_FLAG$1 | CLONE_SYMBOLS_FLAG$1);
 }
 
 var cloneDeep_1 = cloneDeep;
@@ -12538,7 +13573,7 @@ var RouterLinkStub = {
   render: function render(h) {
     return h(this.tag, undefined, this.$slots.default)
   }
-}
+};
 
 function shallow(component, options) {
   warn(
@@ -12548,16 +13583,14 @@ function shallow(component, options) {
   return shallowMount(component, options)
 }
 
-var index = {
-  createLocalVue: createLocalVue,
-  createWrapper: createWrapper,
-  config: config,
-  mount: mount,
-  shallow: shallow,
-  shallowMount: shallowMount,
-  RouterLinkStub: RouterLinkStub,
-  Wrapper: Wrapper,
-  WrapperArray: WrapperArray
-}
-
-module.exports = index;
+exports.RouterLinkStub = RouterLinkStub;
+exports.Wrapper = Wrapper;
+exports.WrapperArray = WrapperArray;
+exports.config = config;
+exports.createLocalVue = createLocalVue;
+exports.createWrapper = createWrapper;
+exports.enableAutoDestroy = enableAutoDestroy;
+exports.mount = mount;
+exports.resetAutoDestroyState = resetAutoDestroyState;
+exports.shallow = shallow;
+exports.shallowMount = shallowMount;

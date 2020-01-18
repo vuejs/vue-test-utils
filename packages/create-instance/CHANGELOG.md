@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-beta.31](https://github.com/vuejs/vue-test-utils/compare/v1.0.0-beta.30...v1.0.0-beta.31) (2020-01-18)
+
+
+### Bug Fixes
+
+* Override watch definitions properly ([#1392](https://github.com/vuejs/vue-test-utils/pull/1392)) closes [#1391](https://github.com/vuejs/vue-test-utils/issues/1391)
+* Support v-slot ([#1383](https://github.com/vuejs/vue-test-utils/pull/1383)) closes [#1261](https://github.com/vuejs/vue-test-utils/issues/1261)
+* Add a get method to Wrapper ([#1304](https://github.com/vuejs/vue-test-utils/pull/1304)) closes [#1298](https://github.com/vuejs/vue-test-utils/issues/1298)
+* Pass refs to functional component stubs [#1293](https://github.com/vuejs/vue-test-utils/pull/1293) closes [#1292](https://github.com/vuejs/vue-test-utils/issues/1292)
+
+
+
 <a name="1.0.0-beta.30"></a>
 # [1.0.0-beta.30](https://github.com/vuejs/vue-test-utils/compare/v1.0.0-beta.29...v1.0.0-beta.30) (2019-11-28)
 

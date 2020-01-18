@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-beta.31](https://github.com/vuejs/vue-test-utils/compare/v1.0.0-beta.30...v1.0.0-beta.31) (2020-01-18)
+
+
+### Features
+
+* change to a named export ([d45e248](https://github.com/vuejs/vue-test-utils/commit/d45e248ea9d0b9665ba19a020483db493219b481))
+
+
+
+
+
 <a name="1.0.0-beta.30"></a>
 # [1.0.0-beta.30](https://github.com/vuejs/vue-test-utils/compare/v1.0.0-beta.29...v1.0.0-beta.30) (2019-11-28)
 
