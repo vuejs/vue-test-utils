@@ -15,8 +15,6 @@ Hi! I’m really excited that you are interested in contributing to Vue Test Uti
 
 ## Pull Request Guidelines
 
-- The `master` branch is basically just a snapshot of the latest stable release. All development should be done in dedicated branches. **Do not submit PRs against the `master` branch.**
-
 - Checkout a topic branch from the relevant branch, e.g. `dev`, and merge back against that branch.
 
 - Work in the `src` folder and **DO NOT** checkin `dist` in the commits.
@@ -37,11 +35,11 @@ Hi! I’m really excited that you are interested in contributing to Vue Test Uti
 
 ### Committing Changes
 
-Commit messages should follow the [commit message convention](./COMMIT_CONVENTION.md) so that changelogs can be automatically generated. Commit messages will be automatically validated upon commit. If you are not familiar with the commit message convention, you can use `npm run commit` or `yarn commit` instead of `git commit`, which provides an interactive CLI for generating proper commit messages.
+Commit messages should follow the [commit message convention](./COMMIT_CONVENTION.md) so that changelogs can be automatically generated. Commit messages will be automatically validated upon commit. If you are not familiar with the commit message convention, you can use `yarn commit` instead of `git commit`, which provides an interactive CLI for generating proper commit messages.
 
 ## Development Setup
 
-You will need [Node.js](http://nodejs.org) **version 6+**
+You will need [Node.js](http://nodejs.org) **version 10+**
 
 Vue Test Utils is a monorepo. It contains a root `package.json` for running scripts across the project. The code is inside separate packages in the `packages` directory. The project uses [lerna](https://lerna.js.org/) to manage the workspaces and should be run using [yarn](https://yarnpkg.com/lang/en/).
 
