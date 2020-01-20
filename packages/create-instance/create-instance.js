@@ -55,7 +55,7 @@ export default function createInstance(
   const stubComponentsObject = createStubsFromStubsObject(
     componentOptions.components,
     // $FlowIgnore
-    options.stubs,
+    { ...options.stubs, transition: true },
     _Vue
   )
 
