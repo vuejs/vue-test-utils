@@ -1,6 +1,6 @@
 ## trigger
 
-Triggers an event on the `Wrapper` DOM node.
+Triggers an event asynchronously on the `Wrapper` DOM node.
 
 `trigger` takes an optional `options` object. The properties in the `options` object are added to the Event.
 
@@ -16,22 +16,26 @@ import { mount } from '@vue/test-utils'
 import sinon from 'sinon'
 import Foo from './Foo'
 
-const clickHandler = sinon.stub()
-const wrapper = mount(Foo, {
-  propsData: { clickHandler }
+test('trigger demo', async () => {
+  const clickHandler = sinon.stub()
+  const wrapper = mount(Foo, {
+    propsData: { clickHandler }
+  })
+
+  wrapper.trigger('click')
+
+  wrapper.trigger('click', {
+    button: 0
+  })
+
+  wrapper.trigger('click', {
+    ctrlKey: true // For testing @click.ctrl handlers
+  })
+
+  await wrapper.vm.$nextTick() // Wait until trigger events have been handled
+
+  expect(clickHandler.called).toBe(true)
 })
-
-wrapper.trigger('click')
-
-wrapper.trigger('click', {
-  button: 0
-})
-
-wrapper.trigger('click', {
-  ctrlKey: true // For testing @click.ctrl handlers
-})
-
-expect(clickHandler.called).toBe(true)
 ```
 
 - **Setting the event target:**

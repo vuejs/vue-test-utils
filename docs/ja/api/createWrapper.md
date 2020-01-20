@@ -4,7 +4,6 @@
 
   - `{vm|HTMLElement} node`
   - `{Object} options`
-    - `{Boolean} sync`
     - `{Boolean} attachedToDocument`
 
 - **戻り値:**

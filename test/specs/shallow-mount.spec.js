@@ -1,12 +1,14 @@
 import { compileToFunctions } from 'vue-template-compiler'
 import Vue from 'vue'
-import { mount, shallowMount, createLocalVue } from '~vue/test-utils'
+import { mount, shallowMount, createLocalVue } from '@vue/test-utils'
 import Component from '~resources/components/component.vue'
 import ComponentWithChild from '~resources/components/component-with-child.vue'
 import ComponentWithNestedChildren from '~resources/components/component-with-nested-children.vue'
 import ComponentWithLifecycleHooks from '~resources/components/component-with-lifecycle-hooks.vue'
 import ComponentWithoutName from '~resources/components/component-without-name.vue'
 import ComponentAsAClassWithChild from '~resources/components/component-as-a-class-with-child.vue'
+import ComponentWithVSlotSyntax from '~resources/components/component-with-v-slot-syntax.vue'
+import ComponentWithVSlot from '~resources/components/component-with-v-slot.vue'
 import RecursiveComponent from '~resources/components/recursive-component.vue'
 import { vueVersion } from '~resources/utils'
 import { describeRunIf, itDoNotRunIf } from 'conditional-specs'
@@ -93,6 +95,42 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
         '  <p>Hello</p>\n' +
         '  <p>World</p>\n' +
         '</child-stub>'
+    )
+  })
+
+  it('renders SFC with named slots with v-slot syntax', () => {
+    const wrapper = shallowMount(ComponentWithVSlotSyntax)
+
+    expect(wrapper.find(ComponentWithVSlot).exists()).to.equal(true)
+    expect(wrapper.find('.new-example').exists()).to.equal(true)
+    expect(wrapper.html()).to.equal(
+      '<componentwithvslot-stub>\n' +
+        '  <p class="new-example">new slot syntax</p>\n' +
+        '</componentwithvslot-stub>'
+    )
+  })
+
+  it('renders named slots with v-slot syntax', () => {
+    const localVue = createLocalVue()
+    localVue.component('Foo', {
+      template: '<div><slot name="newSyntax" /></div>'
+    })
+    const TestComponent = {
+      template: `
+        <Foo>
+          <template v-slot:newSyntax>
+            <p class="new-example">text</p>
+          </template>
+        </Foo>
+      `
+    }
+    const wrapper = shallowMount(TestComponent, {
+      localVue
+    })
+    expect(wrapper.find({ name: 'Foo' }).exists()).to.equal(true)
+    expect(wrapper.find('.new-example').exists()).to.equal(true)
+    expect(wrapper.html()).to.equal(
+      '<foo-stub>\n' + '  <p class="new-example">text</p>\n' + '</foo-stub>'
     )
   })
 

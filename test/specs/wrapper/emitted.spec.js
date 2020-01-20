@@ -1,4 +1,4 @@
-import { createLocalVue, createWrapper } from '~vue/test-utils'
+import { createLocalVue, createWrapper } from '@vue/test-utils'
 import { describeWithShallowAndMount, vueVersion } from '~resources/utils'
 import { itDoNotRunIf } from 'conditional-specs'
 import Vue from 'vue'

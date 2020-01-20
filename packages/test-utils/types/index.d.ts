@@ -69,12 +69,20 @@ interface BaseWrapper {
 
   trigger (eventName: string, options?: object): void
   destroy (): void
+  selector: Selector | void
 }
 
 export interface Wrapper<V extends Vue | null> extends BaseWrapper {
   readonly vm: V
   readonly element: HTMLElement
   readonly options: WrapperOptions
+
+  get<R extends Vue> (selector: VueClass<R>): Wrapper<R>
+  get<R extends Vue> (selector: ComponentOptions<R>): Wrapper<R>
+  get (selector: FunctionalComponentOptions): Wrapper<Vue>
+  get (selector: string): Wrapper<Vue>
+  get (selector: RefSelector): Wrapper<Vue>
+  get (selector: NameSelector): Wrapper<Vue>
 
   find<R extends Vue> (selector: VueClass<R>): Wrapper<R>
   find<R extends Vue> (selector: ComponentOptions<R>): Wrapper<R>
@@ -158,6 +166,4 @@ export declare function shallowMount (component: FunctionalComponentOptions, opt
 export declare function createWrapper(node: Vue, options?: WrapperOptions): Wrapper<Vue>
 export declare function createWrapper(node: HTMLElement, options?: WrapperOptions): Wrapper<null>
 
-export declare let TransitionStub: Component | string | true
-export declare let TransitionGroupStub: Component | string | true
 export declare let RouterLinkStub: VueClass<Vue>

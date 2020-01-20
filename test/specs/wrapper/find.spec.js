@@ -1,5 +1,5 @@
 import { compileToFunctions } from 'vue-template-compiler'
-import { createLocalVue } from '~vue/test-utils'
+import { createLocalVue } from '@vue/test-utils'
 import Vue from 'vue'
 import ComponentWithChild from '~resources/components/component-with-child.vue'
 import ComponentWithoutName from '~resources/components/component-without-name.vue'
@@ -370,7 +370,7 @@ describeWithShallowAndMount('find', mountingMethod => {
     const wrapper = mountingMethod(Component)
     const error = wrapper.find(ComponentWithChild)
     expect(error.exists()).to.equal(false)
-    expect(error.selector).to.equal('Component')
+    expect(error.selector).to.equal(ComponentWithChild)
   })
 
   it('returns Wrapper of elements matching the ref in options object', () => {
@@ -431,6 +431,33 @@ describeWithShallowAndMount('find', mountingMethod => {
     )
   })
 
+  it('returns a Wrapper matching a camelCase name option and a Pascal Case component name ', () => {
+    const component = {
+      name: 'CamelCase',
+      render: h => h('div')
+    }
+    const wrapper = mountingMethod(component)
+    expect(wrapper.find({ name: 'camelCase' }).name()).to.equal('CamelCase')
+  })
+
+  it('returns a Wrapper matching a kebab-case name option and a Pascal Case component name ', () => {
+    const component = {
+      name: 'CamelCase',
+      render: h => h('div')
+    }
+    const wrapper = mountingMethod(component)
+    expect(wrapper.find({ name: 'camel-case' }).name()).to.equal('CamelCase')
+  })
+
+  it('returns a Wrapper matching a Pascal Case name option and a kebab-casecomponent name ', () => {
+    const component = {
+      name: 'camel-case',
+      render: h => h('div')
+    }
+    const wrapper = mountingMethod(component)
+    expect(wrapper.find({ name: 'CamelCase' }).name()).to.equal('camel-case')
+  })
+
   it('returns Wrapper of Vue Component matching the ref in options object', () => {
     const wrapper = mountingMethod(ComponentWithChild)
     expect(wrapper.find({ ref: 'child' }).isVueInstance()).to.equal(true)
@@ -458,9 +485,10 @@ describeWithShallowAndMount('find', mountingMethod => {
 
   it('returns empty Wrapper with error if no nodes are found via ref in options object', () => {
     const wrapper = mountingMethod(Component)
-    const error = wrapper.find({ ref: 'foo' })
+    const selector = { ref: 'foo' }
+    const error = wrapper.find(selector)
     expect(error.exists()).to.equal(false)
-    expect(error.selector).to.equal('ref="foo"')
+    expect(error.selector).to.equal(selector)
   })
 
   it('returns Wrapper matching component that has no name property', () => {
@@ -542,4 +570,34 @@ describeWithShallowAndMount('find', mountingMethod => {
       expect(wrapper.find('p').vm.$options.name).to.equal('bar')
     }
   )
+
+  it('stores CSS selector', () => {
+    const compiled = compileToFunctions('<div><p></p><p></p></div>')
+    const wrapper = mountingMethod(compiled)
+    const selector = 'p'
+    const result = wrapper.find(selector)
+    expect(result.selector).to.equal(selector)
+  })
+
+  it('stores ref selector', () => {
+    const compiled = compileToFunctions('<div><p ref="foo"></p></div>')
+    const wrapper = mountingMethod(compiled)
+    const selector = { ref: 'foo' }
+    const result = wrapper.find(selector)
+    expect(result.selector).to.equal(selector)
+  })
+
+  it('stores component selector', () => {
+    const wrapper = mountingMethod(ComponentWithChild)
+    const selector = Component
+    const result = wrapper.find(selector)
+    expect(result.selector).to.equal(selector)
+  })
+
+  it('stores name selector', () => {
+    const wrapper = mountingMethod(ComponentWithChild)
+    const selector = { name: 'test-component' }
+    const result = wrapper.find(selector)
+    expect(result.selector).to.equal(selector)
+  })
 })

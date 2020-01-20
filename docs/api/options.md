@@ -21,7 +21,6 @@ These options will be merged with the component's existing options when mounted 
 - [`listeners`](#listeners)
 - [`parentComponent`](#parentcomponent)
 - [`provide`](#provide)
-- [`sync`](#sync)
 
 ## context
 
@@ -55,10 +54,23 @@ Example:
 
 ```js
 import Foo from './Foo.vue'
+import MyComponent from './MyComponent.vue'
 
 const bazComponent = {
   name: 'baz-component',
   template: '<p>baz</p>'
+}
+
+const yourComponent = {
+  props: {
+    foo: {
+      type: String,
+      required: true
+    }
+  },
+  render(h) {
+    return h('p', this.foo)
+  }
 }
 
 const wrapper = shallowMount(Component, {
@@ -68,7 +80,17 @@ const wrapper = shallowMount(Component, {
     foo: '<div />',
     bar: 'bar',
     baz: bazComponent,
-    qux: '<my-component />'
+    qux: '<my-component />',
+    quux: '<your-component foo="lorem"/><your-component :foo="yourProperty"/>'
+  },
+  stubs: {
+    // used to register custom components
+    'my-component': MyComponent,
+    'your-component': yourComponent
+  },
+  mocks: {
+    // used to add properties to the rendering context
+    yourProperty: 'ipsum'
   }
 })
 
@@ -123,6 +145,27 @@ shallowMount(Component, {
     }
   }
 })
+```
+
+::: warning Root Element required
+Due to the internal implementation of this feature, the slot content has to return a root element, even though a scoped slot is allowed to return an array of elements.
+
+If you ever need this in a test, the recommended workaround is to wrap the component under test in another component and mount that one:
+:::
+
+```javascript
+const WrapperComp = {
+  template: `
+  <ComponentUnderTest v-slot="props">
+    <p>Using the {{props.a}}</p>
+    <p>Using the {{props.a}}</p>
+  </ComponentUnderTest>
+  `,
+  components: {
+    ComponentUnderTest
+  }
+}
+const wrapper = mount(WrapperComp).find(ComponentUnderTest)
 ```
 
 ## stubs
@@ -248,6 +291,23 @@ Please see [Other options](#other-options).
 
 Set the component instance's `$listeners` object.
 
+Example:
+
+```js
+const Component = {
+  template: '<button v-on:click="$emit(\'click\')"></button>'
+}
+const onClick = jest.fn()
+const wrapper = mount(Component, {
+  listeners: {
+    click: onClick
+  }
+})
+
+wrapper.trigger('click')
+expect(onClick).toHaveBeenCalled()
+```
+
 ## parentComponent
 
 - type: `Object`
@@ -289,14 +349,6 @@ const wrapper = shallowMount(Component, {
 
 expect(wrapper.text()).toBe('fooValue')
 ```
-
-## sync
-
-- type: `boolean`
-- default: `true`
-
-When `sync` is `true`, the Vue component is rendered synchronously.  
-When `sync` is `false`, the Vue component is rendered asynchronously.
 
 ## Other options
 

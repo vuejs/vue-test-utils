@@ -5,7 +5,7 @@ import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
 import ComponentWithParentName from '~resources/components/component-with-parent-name.vue'
 import { describeWithShallowAndMount, vueVersion } from '~resources/utils'
 import { itDoNotRunIf } from 'conditional-specs'
-import { mount, createLocalVue } from '~vue/test-utils'
+import { mount, createLocalVue } from '@vue/test-utils'
 
 describeWithShallowAndMount('options.slots', mountingMethod => {
   it('mounts component with default slot if passed component in slot object', () => {
@@ -138,10 +138,8 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
     require.cache[
       require.resolve('vue-template-compiler')
     ].exports.compileToFunctions = undefined
-    delete require.cache[require.resolve('../../../packages/test-utils')]
-    const mountingMethodFresh = require('../../../packages/test-utils')[
-      mountingMethod.name
-    ]
+    delete require.cache[require.resolve('@vue/test-utils')]
+    const mountingMethodFresh = require('@vue/test-utils')[mountingMethod.name]
     const message =
       '[vue-test-utils]: vueTemplateCompiler is undefined, you must pass precompiled components if vue-template-compiler is undefined'
     const fn = () =>
@@ -391,13 +389,12 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
     const compilerSave =
       require.cache[require.resolve('vue-template-compiler')].exports
         .compileToFunctions
-    require.cache[require.resolve('vue-template-compiler')].exports = {
-      compileToFunctions: undefined
-    }
-    delete require.cache[require.resolve('../../../packages/test-utils')]
-    const mountingMethodFresh = require('../../../packages/test-utils')[
-      mountingMethod.name
-    ]
+    require.cache[
+      require.resolve('vue-template-compiler')
+    ].exports.compileToFunctions = undefined
+
+    delete require.cache[require.resolve('@vue/test-utils')]
+    const mountingMethodFresh = require('@vue/test-utils')[mountingMethod.name]
     const message =
       '[vue-test-utils]: vueTemplateCompiler is undefined, you must pass precompiled components if vue-template-compiler is undefined'
     const fn = () => {

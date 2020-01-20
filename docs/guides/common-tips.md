@@ -27,6 +27,50 @@ const wrapper = shallowMount(Component)
 wrapper.vm // the mounted Vue instance
 ```
 
+### Lifecycle Hooks
+
+When using either the `mount` or `shallowMount` methods, you can expect your component to respond to all lifecycle events. However, it is important to note that `beforeDestroy` and `destroyed` _will not be triggered_ unless the component is manually destroyed using `Wrapper.destroy()`.
+
+Additionally, the component will not be automatically destroyed at the end of each spec, and it is up to the user to stub or manually clean up tasks that will continue to run (`setInterval` or `setTimeout`, for example) before the end of each spec.
+
+### Writing asynchronous tests using `nextTick` (new)
+
+By default, Vue batches updates to run asynchronously (on the next "tick"). This is to prevent unnecessary DOM re-renders, and watcher computations ([see the docs](https://vuejs.org/v2/guide/reactivity.html#Async-Update-Queue) for more details).
+
+This means you **must** wait for updates to run after you set a reactive property. You can wait for updates with `Vue.nextTick()`:
+
+```js
+it('updates text', async () => {
+  const wrapper = mount(Component)
+  wrapper.trigger('click')
+  await Vue.nextTick()
+  expect(wrapper.text()).toContain('updated')
+})
+
+// Or if you're without async/await
+it('render text', done => {
+  const wrapper = mount(TestComponent)
+  wrapper.trigger('click')
+  Vue.nextTick(() => {
+    wrapper.text().toContain('some text')
+    wrapper.trigger('click')
+    Vue.nextTick(() => {
+      wrapper.text().toContain('some different text')
+      done()
+    })
+  })
+})
+```
+
+The following methods often cause watcher updates that require you to wait for the next tick:
+
+- `setChecked`
+- `setData`
+- `setSelected`
+- `setProps`
+- `setValue`
+- `trigger`
+
 ### Asserting Emitted Events
 
 Each mounted wrapper automatically records all events emitted by the underlying Vue instance. You can retrieve the recorded events using the `wrapper.emitted()` method:
@@ -95,13 +139,13 @@ You can emit a custom event from a child component by accessing the instance.
 **Test**
 
 ```js
-import { shallowMount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import ParentComponent from '@/components/ParentComponent'
 import ChildComponent from '@/components/ChildComponent'
 
 describe('ParentComponent', () => {
   it("displays 'Emitted!' when custom event is emitted", () => {
-    const wrapper = shallowMount(ParentComponent)
+    const wrapper = mount(ParentComponent)
     wrapper.find(ChildComponent).vm.$emit('custom')
     expect(wrapper.html()).toContain('Emitted!')
   })
@@ -136,6 +180,106 @@ You can also update the props of an already-mounted component with the `wrapper.
 
 _For a full list of options, please see the [mount options section](../api/options.md) of the docs._
 
+### Mocking Transitions
+
+Although calling `await Vue.nextTick()` works well for most use cases, there are some situations where additional workarounds are required. These issues will be solved before the `vue-test-utils` library moves out of beta. One such example is unit testing components with the `<transition>` wrapper provided by Vue.
+
+```vue
+<template>
+  <div>
+    <transition>
+      <p v-if="show">Foo</p>
+    </transition>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      show: true
+    }
+  }
+}
+</script>
+```
+
+You might want to write a test that verifies that Foo is shown, then when `show` is set to `false`, Foo is no longer rendered. Such a test could be written as follows:
+
+```js
+test('should render Foo, then hide it', async () => {
+  const wrapper = mount(Foo)
+  expect(wrapper.text()).toMatch(/Foo/)
+
+  wrapper.setData({
+    show: false
+  })
+  await wrapper.vm.$nextTick()
+
+  expect(wrapper.text()).not.toMatch(/Foo/)
+})
+```
+
+In practice, although we are calling `setData` then waiting for the `nextTick` to ensure the DOM is updated, this test fails. This is an ongoing issue related to show Vue implements the `<transition>` component, that we would like to solve before version 1.0. For now, there are some workarounds:
+
+#### Using a `transitionStub` helper
+
+```js
+const transitionStub = () => ({
+  render: function(h) {
+    return this.$options._renderChildren
+  }
+})
+
+test('should render Foo, then hide it', async () => {
+  const wrapper = mount(Foo, {
+    stubs: {
+      transition: transitionStub()
+    }
+  })
+  expect(wrapper.text()).toMatch(/Foo/)
+
+  wrapper.setData({
+    show: false
+  })
+  await wrapper.vm.$nextTick()
+
+  expect(wrapper.text()).not.toMatch(/Foo/)
+})
+```
+
+This overrides the default behavior of the `<transition>` component and renders the children as soon as the relevant boolean condition changes, as opposed to applying CSS classes, which is how Vue's `<transition>` component works.
+
+#### Avoid `setData`
+
+Another alternative is to simply avoid using `setData` by writing two tests, with the required setup performed using `mount` or `shallowMount` options:
+
+```js
+test('should render Foo', async () => {
+  const wrapper = mount(Foo, {
+    data() {
+      return {
+        show: true
+      }
+    }
+  })
+
+  expect(wrapper.text()).toMatch(/Foo/)
+})
+
+test('should not render Foo', async () => {
+  const wrapper = mount(Foo, {
+    data() {
+      return {
+        show: false
+      }
+    }
+  })
+
+  expect(wrapper.text()).not.toMatch(/Foo/)
+})
+```
+
 ### Applying Global Plugins and Mixins
 
 Some of the components may rely on features injected by a global plugin or mixin, for example `vuex` and `vue-router`.
@@ -143,7 +287,7 @@ Some of the components may rely on features injected by a global plugin or mixin
 If you are writing tests for components in a specific app, you can setup the same global plugins and mixins once in the entry of your tests. But in some cases, for example testing a generic component suite that may get shared across different apps, it's better to test your components in a more isolated setup, without polluting the global `Vue` constructor. We can use the [`createLocalVue`](../api/createLocalVue.md) method to achieve that:
 
 ```js
-import { createLocalVue } from '@vue/test-utils'
+import { createLocalVue, mount } from '@vue/test-utils'
 
 // create an extended `Vue` constructor
 const localVue = createLocalVue()

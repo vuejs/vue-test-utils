@@ -1,8 +1,8 @@
 /* global describe */
 
 import Vue from 'vue'
-import { shallowMount, mount } from '~vue/test-utils'
-import { renderToString } from '~vue/server-test-utils'
+import { shallowMount, mount } from '@vue/test-utils'
+import { renderToString } from '@vue/server-test-utils'
 
 export const vueVersion = Number(
   `${Vue.version.split('.')[0]}.${Vue.version.split('.')[1]}`
