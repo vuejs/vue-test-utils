@@ -1,5 +1,4 @@
 import ComponentWithChild from '~resources/components/component-with-child.vue'
-import ComponentWithTransitions from '~resources/components/component-with-transitions.vue'
 import ComponentWithNestedChildren from '~resources/components/component-with-nested-children.vue'
 import Component from '~resources/components/component.vue'
 import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
@@ -52,14 +51,6 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
     })
     expect(wrapper.findAll('.stub').length).to.equal(1)
     expect(wrapper.findAll(Component).length).to.equal(1)
-  })
-
-  it('stubs out transitions by default', async () => {
-    const wrapper = mountingMethod(ComponentWithTransitions)
-    expect(wrapper.find('[data-testid="expanded"]').exists()).to.equal(true)
-    wrapper.setData({ expanded: true })
-    await wrapper.vm.$nextTick()
-    expect(wrapper.find('[data-testid="expanded"]').exists()).to.equal(false)
   })
 
   it('replaces component with a component', () => {

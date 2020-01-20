@@ -1,6 +1,7 @@
 import { describeWithShallowAndMount } from '~resources/utils'
 import ComponentWithProps from '~resources/components/component-with-props.vue'
 import { config, createLocalVue } from '@vue/test-utils'
+import ComponentWithTransitions from '~resources/components/component-with-transitions.vue'
 
 describeWithShallowAndMount('config', mountingMethod => {
   const sandbox = sinon.createSandbox()
@@ -89,5 +90,13 @@ describeWithShallowAndMount('config', mountingMethod => {
       prop1: 'new value'
     })
     expect(console.error).calledWith(sandbox.match('[Vue warn]'))
+  })
+
+  it('stubs out transitions by default', async () => {
+    const wrapper = mountingMethod(ComponentWithTransitions)
+    expect(wrapper.find('[data-testid="expanded"]').exists()).to.equal(true)
+    wrapper.setData({ expanded: true })
+    await wrapper.vm.$nextTick()
+    expect(wrapper.find('[data-testid="expanded"]').exists()).to.equal(false)
   })
 })
