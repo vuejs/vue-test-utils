@@ -1,6 +1,7 @@
 import { compileToFunctions } from 'vue-template-compiler'
 import ComponentWithProps from '~resources/components/component-with-props.vue'
 import ComponentWithWatch from '~resources/components/component-with-watch.vue'
+import ComponentWithWatchImmediate from '~resources/components/component-with-watch-immediate.vue'
 import { describeWithShallowAndMount, vueVersion } from '~resources/utils'
 import { itDoNotRunIf } from 'conditional-specs'
 import Vue from 'vue'
@@ -242,6 +243,14 @@ describeWithShallowAndMount('setProps', mountingMethod => {
     wrapper.setProps({ propA: 'value' })
     expect(wrapper.props().propA).to.equal('value')
     expect(wrapper.vm.propA).to.equal('value')
+  })
+
+  it('correctly sets props in async mode when component has immediate watchers', async () => {
+    const wrapper = mountingMethod(ComponentWithWatchImmediate)
+    const prop1 = 'testest'
+    wrapper.setProps({ prop1 })
+    await Vue.nextTick()
+    expect(wrapper.vm.prop1).to.equal(prop1)
   })
 
   it('throws an error if node is not a Vue instance', () => {

@@ -1,10 +1,8 @@
 // @flow
 
-import Vue from 'vue'
 import pretty from 'pretty'
 import getSelector from './get-selector'
 import { REF_SELECTOR, FUNCTIONAL_OPTIONS, VUE_VERSION } from 'shared/consts'
-import config from './config'
 import WrapperArray from './wrapper-array'
 import ErrorWrapper from './error-wrapper'
 import { throwError, getCheckedEvent, isPhantomJS } from 'shared/util'
@@ -478,8 +476,6 @@ export default class Wrapper implements BaseWrapper {
    * Sets vm props
    */
   setProps(data: Object): void {
-    const originalConfig = Vue.config.silent
-    Vue.config.silent = config.silent
     if (this.isFunctionalComponent) {
       throwError(
         `wrapper.setProps() cannot be called on a functional component`
@@ -531,10 +527,13 @@ export default class Wrapper implements BaseWrapper {
         // $FlowIgnore : Need to call this twice to fix watcher bug in 2.0.x
         this.vm[key] = data[key]
       }
+
+      if (this.vm && this.vm.$parent) {
+        this.vm.$parent.vueTestUtils_childProps[key] = data[key]
+      }
     })
     // $FlowIgnore : Problem with possibly null this.vm
     this.vm.$forceUpdate()
-    Vue.config.silent = originalConfig
   }
 
   /**

@@ -1,6 +1,7 @@
 // @flow
 
 import Vue from 'vue'
+import config from './config'
 import cloneDeep from 'lodash/cloneDeep'
 
 function createLocalVue(_Vue: Component = Vue): Component {
@@ -22,7 +23,10 @@ function createLocalVue(_Vue: Component = Vue): Component {
     }
   })
 
-  // config is not enumerable
+  // Merge in the (possibly) modified config.
+  // It needs to be done on the prototype for it to actually work throughout the runtime
+  Object.assign(Vue.config, config)
+
   instance.config = cloneDeep(Vue.config)
 
   instance.config.errorHandler = Vue.config.errorHandler
