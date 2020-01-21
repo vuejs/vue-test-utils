@@ -1,6 +1,6 @@
 import { compileToFunctions } from 'vue-template-compiler'
 import Vue from 'vue'
-import { mount, shallowMount, createLocalVue } from '~vue/test-utils'
+import { mount, shallowMount, createLocalVue } from '@vue/test-utils'
 import Component from '~resources/components/component.vue'
 import ComponentWithChild from '~resources/components/component-with-child.vue'
 import ComponentWithNestedChildren from '~resources/components/component-with-nested-children.vue'
@@ -109,7 +109,9 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
     expect(wrapper.find('.new-example').exists()).to.equal(true)
     expect(wrapper.html()).to.equal(
       '<componentwithvslot-stub>\n' +
-        '  <p class="new-example">new slot syntax</p>\n' +
+        '  <template-stub slot="newSyntax">\n' +
+        '    <p class="new-example">new slot syntax</p>\n' +
+        '  </template-stub>\n' +
         '</componentwithvslot-stub>'
     )
   })
@@ -134,7 +136,11 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
     expect(wrapper.find({ name: 'Foo' }).exists()).to.equal(true)
     expect(wrapper.find('.new-example').exists()).to.equal(true)
     expect(wrapper.html()).to.equal(
-      '<foo-stub>\n' + '  <p class="new-example">text</p>\n' + '</foo-stub>'
+      '<foo-stub>\n' +
+        '  <template-stub slot="newSyntax">\n' +
+        '    <p class="new-example">text</p>\n' +
+        '  </template-stub>\n' +
+        '</foo-stub>'
     )
   })
 

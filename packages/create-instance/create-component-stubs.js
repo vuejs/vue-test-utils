@@ -5,8 +5,8 @@ import {
   throwError,
   camelize,
   capitalize,
-  hyphenate,
-  keys
+  hyphenate
+  // keys
 } from '../shared/util'
 import {
   componentNeedsCompiling,
@@ -80,24 +80,41 @@ function resolveOptions(component, _Vue) {
   return options
 }
 
-function getScopedSlotRenderFunctions(ctx: any): Array<string> {
-  // In Vue 2.6+ a new v-slot syntax was introduced
-  // scopedSlots are now saved in parent._vnode.data.scopedSlots
-  // We filter out the _normalized and $stable key
-  if (
-    ctx &&
-    ctx.$options &&
-    ctx.$options.parent &&
-    ctx.$options.parent._vnode &&
-    ctx.$options.parent._vnode.data &&
-    ctx.$options.parent._vnode.data.scopedSlots
-  ) {
-    const slotKeys: Array<string> = ctx.$options.parent._vnode.data.scopedSlots
-    return keys(slotKeys).filter(x => x !== '_normalized' && x !== '$stable')
-  }
-
-  return []
+function getAttributes(
+  functional: boolean,
+  functionalCtx: any,
+  componentCtx
+): Object {
+  return functional
+    ? {
+        ...functionalCtx.props,
+        ...functionalCtx.data.attrs,
+        class: createClassString(
+          functionalCtx.data.staticClass,
+          functionalCtx.data.class
+        )
+      }
+    : componentCtx.$props
 }
+
+// function getScopedSlotRenderFunctions(ctx: any): Array<string> {
+//   // In Vue 2.6+ a new v-slot syntax was introduced
+//   // scopedSlots are now saved in parent._vnode.data.scopedSlots
+//   // We filter out the _normalized and $stable key
+//   if (
+//     ctx &&
+//     ctx.$options &&
+//     ctx.$options.parent &&
+//     ctx.$options.parent._vnode &&
+//     ctx.$options.parent._vnode.data &&
+//     ctx.$options.parent._vnode.data.scopedSlots
+//   ) {
+//     const slotKeys: Array<string> = ctx.$options.parent._vnode.data.scopedSlots
+//     return keys(slotKeys).filter(x => x !== '_normalized' && x !== '$stable')
+//   }
+//
+//   return []
+// }
 
 export function createStubFromComponent(
   originalComponent: Component,
@@ -120,19 +137,7 @@ export function createStubFromComponent(
     $_vueTestUtils_original: originalComponent,
     $_doNotStubChildren: true,
     render(h, context) {
-      const attrs = componentOptions.functional
-        ? {
-            ...context.props,
-            ...context.data.attrs,
-            class: createClassString(
-              context.data.staticClass,
-              context.data.class
-            )
-          }
-        : {
-            ...this.$props
-          }
-
+      const attrs = getAttributes(componentOptions.functional, context, this)
       const slots = context ? context.slots() : this._renderProxy.$slots
 
       // ensure consistent ordering of slots (default first, then alphabetical)
@@ -145,13 +150,31 @@ export function createStubFromComponent(
           : slotNameA.localeCompare(slotNameB)
       )
 
-      const children = sortedSlotEntries.map(([slotName, slotChildren]) =>
+      const sortedSlots = sortedSlotEntries.map(([slotName, slotChildren]) =>
         slotName === 'default'
           ? slotChildren
           : h('template-stub', { attrs: { slot: slotName } }, slotChildren)
       )
 
-      return h(tagName, { attrs }, children)
+      // let children
+      // if (context) {
+      //   children = sortedSlots
+      // } else if (this.$options._renderChildren) {
+      //   children = this.$options._renderChildren
+      // } else {
+      //   children = getScopedSlotRenderFunctions(this).map(x =>
+      //     this.$options.parent._vnode.data.scopedSlots[x]()
+      //   )
+      // }
+
+      return h(
+        tagName,
+        {
+          attrs,
+          ref: componentOptions.functional ? context.data.ref : undefined
+        },
+        sortedSlots
+      )
     }
   }
 }
