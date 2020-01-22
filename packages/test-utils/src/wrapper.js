@@ -478,63 +478,67 @@ export default class Wrapper implements BaseWrapper {
    * Sets vm props
    */
   setProps(data: Object): void {
-    const originalConfig = Vue.config.silent
-    Vue.config.silent = config.silent
+    // Validate the setProps method call
     if (this.isFunctionalComponent) {
       throwError(
         `wrapper.setProps() cannot be called on a functional component`
       )
     }
+
     if (!this.vm) {
       throwError(`wrapper.setProps() can only be called on a Vue instance`)
     }
 
-    Object.keys(data).forEach(key => {
-      if (
-        typeof data[key] === 'object' &&
-        data[key] !== null &&
-        // $FlowIgnore : Problem with possibly null this.vm
-        data[key] === this.vm[key]
-      ) {
-        throwError(
-          `wrapper.setProps() called with the same object of the existing ` +
-            `${key} property. You must call wrapper.setProps() with a new ` +
-            `object to trigger reactivity`
-        )
-      }
-      if (
-        !this.vm ||
-        !this.vm.$options._propKeys ||
-        !this.vm.$options._propKeys.some(prop => prop === key)
-      ) {
-        if (VUE_VERSION > 2.3) {
-          // $FlowIgnore : Problem with possibly null this.vm
-          this.vm.$attrs[key] = data[key]
-          return
-        }
-        throwError(
-          `wrapper.setProps() called with ${key} property which ` +
-            `is not defined on the component`
-        )
-      }
+    // Save the original "silent" config so that we can directly mutate props
+    const originalConfig = Vue.config.silent
+    Vue.config.silent = config.silent
 
-      if (this.vm && this.vm._props) {
-        // Set actual props value
-        this.vm._props[key] = data[key]
+    try {
+      Object.keys(data).forEach(key => {
+        // Don't let people set entire objects, because reactivity won't work
+        if (
+          typeof data[key] === 'object' &&
+          data[key] !== null &&
+          // $FlowIgnore : Problem with possibly null this.vm
+          data[key] === this.vm[key]
+        ) {
+          throwError(
+            `wrapper.setProps() called with the same object of the existing ` +
+              `${key} property. You must call wrapper.setProps() with a new ` +
+              `object to trigger reactivity`
+          )
+        }
+
+        if (
+          !this.vm ||
+          !this.vm.$options._propKeys ||
+          !this.vm.$options._propKeys.some(prop => prop === key)
+        ) {
+          if (VUE_VERSION > 2.3) {
+            // $FlowIgnore : Problem with possibly null this.vm
+            this.vm.$attrs[key] = data[key]
+            return
+          }
+          throwError(
+            `wrapper.setProps() called with ${key} property which ` +
+              `is not defined on the component`
+          )
+        }
+
+        // Actually set the prop
         // $FlowIgnore : Problem with possibly null this.vm
         this.vm[key] = data[key]
-      } else {
-        // $FlowIgnore : Problem with possibly null this.vm.$options
-        this.vm.$options.propsData[key] = data[key]
-        // $FlowIgnore : Problem with possibly null this.vm
-        this.vm[key] = data[key]
-        // $FlowIgnore : Need to call this twice to fix watcher bug in 2.0.x
-        this.vm[key] = data[key]
-      }
-    })
-    // $FlowIgnore : Problem with possibly null this.vm
-    this.vm.$forceUpdate()
-    Vue.config.silent = originalConfig
+      })
+
+      // $FlowIgnore : Problem with possibly null this.vm
+      this.vm.$forceUpdate()
+    } catch (err) {
+      throw err
+    } finally {
+      // Ensure you teardown the modifications you made to the user's config
+      // After all the props are set, then reset the state
+      Vue.config.silent = originalConfig
+    }
   }
 
   /**
