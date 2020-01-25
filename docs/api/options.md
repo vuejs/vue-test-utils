@@ -10,6 +10,7 @@ These options will be merged with the component's existing options when mounted 
 :::
 
 - [`context`](#context)
+- [`data`](#data)
 - [`slots`](#slots)
 - [`scopedSlots`](#scopedslots)
 - [`stubs`](#stubs)
@@ -42,6 +43,43 @@ const wrapper = mount(Component, {
 })
 
 expect(wrapper.is(Component)).toBe(true)
+```
+
+## data
+
+- type: `Function`
+
+Passes data to a component. It will merge with the existing `data` function.
+
+Example:
+
+```js
+const Component = {
+  template: `
+    <div>
+      <span id="foo">{{ foo }}</span>
+      <span id="bar">{{ bar }}</span>
+    </div>
+  `,
+
+  data() {
+    return {
+      foo: 'foo',
+      bar: 'bar'
+    }
+  }
+}
+
+const wrapper = mount(Component, {
+  data() {
+    return {
+      bar: 'my-override'
+    }
+  }
+})
+
+wrapper.find('#foo').text() // 'foo'
+wrapper.find('#bar').text() // 'my-override'
 ```
 
 ## slots
