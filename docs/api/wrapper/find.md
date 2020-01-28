@@ -32,4 +32,4 @@ const fooRef = wrapper.find({ ref: 'foo' })
 expect(fooRef.is(Foo)).toBe(true)
 ```
 
-See also: [get](../get.md).
+See also: [get](./get.md).
