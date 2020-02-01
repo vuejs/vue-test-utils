@@ -220,7 +220,7 @@ test('should render Foo, then hide it', async () => {
 })
 ```
 
-In practice, although we are calling `setData` then waiting for the `nextTick` to ensure the DOM is updated, this test fails. This is an ongoing issue related to show Vue implements the `<transition>` component, that we would like to solve before version 1.0. For now, there are some workarounds:
+In practice, although we are calling `setData` then waiting for the `nextTick` to ensure the DOM is updated, this test fails. This is an ongoing issue related to how Vue implements the `<transition>` component, that we would like to solve before version 1.0. For now, there are some workarounds:
 
 #### Using a `transitionStub` helper
 
