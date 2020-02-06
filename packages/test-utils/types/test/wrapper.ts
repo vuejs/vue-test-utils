@@ -23,8 +23,8 @@ bool = wrapper.isVueInstance()
 
 wrapper.vm.$emit('hello')
 
-let n: number = wrapper.emitted().hello[0][0]
-let o: string = wrapper.emitted('hello')[0]
+let n: number = wrapper.emitted().hello![0][0]
+let o: string = wrapper.emitted('hello')![0]
 
 const emittedByOrder = wrapper.emittedByOrder()
 const name: string = emittedByOrder[0].name
