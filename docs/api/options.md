@@ -251,6 +251,10 @@ const wrapper = shallowMount(Component, {
 expect(wrapper.vm.$route.path).toBe($route.path)
 ```
 
+::: tip
+To mock `$root` please use `parentComponent` option instead as described [here](https://github.com/vuejs/vue-test-utils/issues/481#issuecomment-423716430)
+:::
+
 ## localVue
 
 - type: `Vue`
