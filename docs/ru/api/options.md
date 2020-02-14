@@ -174,7 +174,6 @@ expect(wrapper.vm.$route.path).toBe($route.path)
 
 ::: tip
 Для создания мока `$root` нужно использовать опцию `parentComponent` как описано [здесь](https://github.com/vuejs/vue-test-utils/issues/481#issuecomment-423716430)
-
 :::
 
 ## localVue
