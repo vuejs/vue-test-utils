@@ -10,7 +10,7 @@ In this example, we will demonstrate how to write a simple test using nothing bu
 
 ## Installing the Dependencies
 
-We need to install some dependencies, as explained above: `npm install vue vue-template-complier jsdom jsdom-global @vue/test-utils`. No test runner or bundler is needed for this example.
+We need to install some dependencies, as explained above: `npm install vue vue-template-compiler jsdom jsdom-global @vue/test-utils`. No test runner or bundler is needed for this example.
 
 ## Requiring the Libraries
 
