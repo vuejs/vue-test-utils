@@ -16,6 +16,13 @@ In practice, this means you have to use `Vue.nextTick()` to wait until Vue has p
 The easiest way to use `Vue.nextTick()` is to write your tests in an async function:
 
 ```js
+// import Vue at the top of file
+import Vue from 'vue'
+
+...
+...
+
+// inside test-suite, add this test case
 it('button click should increment the count text', async () => {
   expect(wrapper.text()).toContain('0')
   const button = wrapper.find('button')
