@@ -19,8 +19,7 @@ The easiest way to use `Vue.nextTick()` is to write your tests in an async funct
 // import Vue at the top of file
 import Vue from 'vue'
 
-...
-...
+// other code snippet...
 
 // inside test-suite, add this test case
 it('button click should increment the count text', async () => {
