@@ -52,8 +52,14 @@ export default function createInstance(
   // root instance when it's instantiated
   const instanceOptions = extractInstanceOptions(options)
 
+  const globalComponents = _Vue.options.components || {}
+  const componentsToStub = Object.assign(
+    Object.create(globalComponents),
+    componentOptions.components
+  )
+
   const stubComponentsObject = createStubsFromStubsObject(
-    componentOptions.components,
+    componentsToStub,
     // $FlowIgnore
     options.stubs,
     _Vue

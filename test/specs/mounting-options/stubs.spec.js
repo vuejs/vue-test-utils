@@ -568,4 +568,26 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
     expect(wrapper.find(ToStub).exists()).to.be.false
     expect(wrapper.find(Stub).exists()).to.be.true
   })
+
+  it('stubs globally registered components', () => {
+    const ChildComponent = {
+      template: '<div />',
+      props: ['propA'],
+      name: 'child-component'
+    }
+    const TestComponent = {
+      template: '<child-component prop-a="A" />'
+    }
+
+    Vue.component('child-component', ChildComponent)
+    const wrapper = mountingMethod(TestComponent, {
+      stubs: {
+        ChildComponent: true
+      }
+    })
+    const result = wrapper.find(ChildComponent)
+    expect(result.exists()).to.be.true
+    expect(result.props().propA).to.equal('A')
+    delete Vue.options.components['child-component']
+  })
 })
