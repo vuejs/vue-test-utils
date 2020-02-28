@@ -135,6 +135,7 @@ Jest 推荐我们在被测试的代码旁边创建一个 `__tests__` 目录，�
 
 ```js
 // src/components/__tests__/HelloWorld.spec.ts
+import 'jest';
 import { shallowMount } from '@vue/test-utils'
 import HelloWorld from '../HelloWorld.vue'
 
