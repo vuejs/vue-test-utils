@@ -32,7 +32,7 @@ function getOptions(eventParams) {
     ...options, // What the user passed in as the second argument to #trigger
 
     bubbles: meta.bubbles,
-    meta: meta.cancelable,
+    cancelable: meta.cancelable,
 
     // Any derived options should go here
     keyCode,
