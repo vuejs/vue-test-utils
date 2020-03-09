@@ -2,6 +2,7 @@ import ComponentWithChild from '~resources/components/component-with-child.vue'
 import ComponentWithNestedChildren from '~resources/components/component-with-nested-children.vue'
 import Component from '~resources/components/component.vue'
 import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
+import ComponentWithNestedChildrenAndAttributes from '~resources/components/component-with-nested-childern-and-attributes.vue'
 import { createLocalVue, config } from '@vue/test-utils'
 import { config as serverConfig } from '@vue/server-test-utils'
 import Vue from 'vue'
@@ -589,5 +590,27 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
     expect(result.exists()).to.be.true
     expect(result.props().propA).to.equal('A')
     delete Vue.options.components['child-component']
+  })
+
+  it.only('replaces component with a component and inherits attributes', () => {
+    const mounted = sandbox.stub()
+    const Stub = {
+      template: '<div id="SlotComponent"><slot name="newSyntax"/></div>',
+      mounted
+    }
+    const wrapper = mountingMethod(ComponentWithNestedChildrenAndAttributes, {
+      stubs: {
+        SlotComponent: Stub,
+        ChildComponent: '<div id="child-component"/>'
+      }
+    })
+
+    const childStub = wrapper.find('#child-component')
+    expect(wrapper.vm.$el.innerHTML).to.include('prop1="foobar"')
+    expect(wrapper.vm.$el.innerHTML).to.include('prop2="fizzbuzz"')
+    expect(childStub.attributes()).to.eql({
+      prop1: 'foobar',
+      prop2: 'fizzbuzz'
+    })
   })
 })
