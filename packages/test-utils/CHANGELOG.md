@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-beta.32](https://github.com/vuejs/vue-test-utils/compare/v1.0.0-beta.31...v1.0.0-beta.32) (2020-03-09)
+
+
+### Bug Fixes
+
+* **types:** emitted can return undefined ([#1431](https://github.com/vuejs/vue-test-utils/issues/1431)) ([b41a09d](https://github.com/vuejs/vue-test-utils/commit/b41a09dcfd616c933bb1e36eba131ba273af6ea4))
+* improvement functional component features ([#1427](https://github.com/vuejs/vue-test-utils/issues/1427)) ([ebcf97c](https://github.com/vuejs/vue-test-utils/commit/ebcf97cc3cf230a29bdbe37a5aa6c69e3fa5ec97))
+
+
+
+
+
 # [1.0.0-beta.31](https://github.com/vuejs/vue-test-utils/compare/v1.0.0-beta.30...v1.0.0-beta.31) (2020-01-18)
 
 

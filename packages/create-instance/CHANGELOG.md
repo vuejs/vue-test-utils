@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-beta.32](https://github.com/vuejs/vue-test-utils/compare/v1.0.0-beta.31...v1.0.0-beta.32) (2020-03-09)
+
+
+### Bug Fixes
+
+* stub globally registered components ([#1441](https://github.com/vuejs/vue-test-utils/issues/1441)) ([228cd1a](https://github.com/vuejs/vue-test-utils/commit/228cd1ad4c578d71a0d05e7d7e491ce8b90229a9)), closes [#1272](https://github.com/vuejs/vue-test-utils/issues/1272)
+
+
+
+
+
 # [1.0.0-beta.31](https://github.com/vuejs/vue-test-utils/compare/v1.0.0-beta.30...v1.0.0-beta.31) (2020-01-18)
 
 
