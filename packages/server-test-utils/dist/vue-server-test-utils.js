@@ -2458,8 +2458,14 @@ function createInstance(
   // root instance when it's instantiated
   var instanceOptions = extractInstanceOptions(options);
 
+  var globalComponents = _Vue.options.components || {};
+  var componentsToStub = Object.assign(
+    Object.create(globalComponents),
+    componentOptions.components
+  );
+
   var stubComponentsObject = createStubsFromStubsObject(
-    componentOptions.components,
+    componentsToStub,
     // $FlowIgnore
     options.stubs,
     _Vue
