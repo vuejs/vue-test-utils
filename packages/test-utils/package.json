@@ -31,5 +31,6 @@
     "dom-event-types": "^1.0.0",
     "lodash": "^4.17.15",
     "pretty": "^2.0.0"
-  }
+  },
+  "gitHead": "4503e6cd05566b60c14a061bd4026f0798a6647a"
 }

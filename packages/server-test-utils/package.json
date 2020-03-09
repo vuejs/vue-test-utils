@@ -32,5 +32,6 @@
     "vue": "2.x",
     "vue-server-renderer": "2.x",
     "vue-template-compiler": "^2.x"
-  }
+  },
+  "gitHead": "4503e6cd05566b60c14a061bd4026f0798a6647a"
 }
