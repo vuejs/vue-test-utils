@@ -36,6 +36,8 @@
     {{ textVal }}
     {{ selectVal }}
     {{ radioVal }}
+    <input id="lazy" type="text" v-model.lazy="lazy" />
+    {{ lazy }}
   </div>
 </template>
 
@@ -44,6 +46,7 @@ export default {
   name: 'component-with-input',
   data() {
     return {
+      lazy: '',
       checkboxVal: undefined,
       textVal: undefined,
       textareaVal: undefined,
