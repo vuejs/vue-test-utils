@@ -581,7 +581,7 @@ export default class Wrapper implements BaseWrapper {
       // for v-model.lazy, we need to trigger a change event, too.
       // $FlowIgnore
       if (
-        tagName === 'INPUT' &&
+        (tagName === 'INPUT' || tagName === 'TEXTAREA') &&
         this.element._vModifiers &&
         this.element._vModifiers.lazy
       ) {
