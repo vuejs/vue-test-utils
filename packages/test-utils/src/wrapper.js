@@ -569,10 +569,24 @@ export default class Wrapper implements BaseWrapper {
       tagName === 'TEXTAREA' ||
       tagName === 'SELECT'
     ) {
-      const event = tagName === 'SELECT' ? 'change' : 'input'
       // $FlowIgnore
       this.element.value = value
-      this.trigger(event)
+
+      if (tagName === 'SELECT') {
+        this.trigger('change')
+      } else {
+        this.trigger('input')
+      }
+
+      // for v-model.lazy, we need to trigger a change event, too.
+      // $FlowIgnore
+      if (
+        (tagName === 'INPUT' || tagName === 'TEXTAREA') &&
+        this.element._vModifiers &&
+        this.element._vModifiers.lazy
+      ) {
+        this.trigger('change')
+      }
     } else {
       throwError(`wrapper.setValue() cannot be called on this element`)
     }
