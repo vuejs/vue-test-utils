@@ -580,7 +580,11 @@ export default class Wrapper implements BaseWrapper {
 
       // for v-model.lazy, we need to trigger a change event, too.
       // $FlowIgnore
-      if (tagName === 'INPUT' && this.element._vModifiers.lazy) {
+      if (
+        tagName === 'INPUT' &&
+        this.element._vModifiers &&
+        this.element._vModifiers.lazy
+      ) {
         this.trigger('change')
       }
     } else {
