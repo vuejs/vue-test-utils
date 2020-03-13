@@ -1,5 +1,7 @@
 import ComponentWithInput from '~resources/components/component-with-input.vue'
 import { describeWithShallowAndMount } from '~resources/utils'
+import { itDoNotRunIf } from 'conditional-specs'
+import { vueVersion } from '~resources/utils'
 import Vue from 'vue'
 
 describeWithShallowAndMount('setValue', mountingMethod => {
@@ -28,14 +30,18 @@ describeWithShallowAndMount('setValue', mountingMethod => {
     expect(wrapper.text()).to.contain('input text awesome binding')
   })
 
-  it('updates dom with input v-model.lazy', async () => {
-    const wrapper = mountingMethod(ComponentWithInput)
-    const input = wrapper.find('input#lazy')
-    input.setValue('lazy')
-    await Vue.nextTick()
+  itDoNotRunIf(
+    vueVersion < 2.1,
+    'updates dom with input v-model.lazy',
+    async () => {
+      const wrapper = mountingMethod(ComponentWithInput)
+      const input = wrapper.find('input#lazy')
+      input.setValue('lazy')
+      await Vue.nextTick()
 
-    expect(wrapper.text()).to.contain('lazy')
-  })
+      expect(wrapper.text()).to.contain('lazy')
+    }
+  )
 
   it('sets element of select value', () => {
     const wrapper = mountingMethod(ComponentWithInput)
