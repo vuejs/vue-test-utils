@@ -235,6 +235,18 @@ export default class Wrapper implements BaseWrapper {
   }
 
   /**
+   * Pretty print HTML of element with useful
+   * information for debugging
+   */
+  debug(): void {
+    const pretyHtml = pretty(this.element.outerHTML)
+    const title = 'Wrapper'
+
+    console.log(`${title}:`)
+    console.log(`${pretyHtml}\n`)
+  }
+
+  /**
    * Returns HTML of element as a string
    */
   html(): string {

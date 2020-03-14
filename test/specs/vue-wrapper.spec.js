@@ -13,4 +13,28 @@ describeWithShallowAndMount('VueWrapper', mountingMethod => {
         .with.property('message', message)
     })
   })
+
+  describe('debug function', () => {
+    const sandbox = sinon.createSandbox()
+
+    beforeEach(() => {
+      sandbox.spy(console, 'log')
+    })
+
+    it('writes to the console formated html content of the vue-wrapper', () => {
+      const basicComponent = { template: '<div><p>Debug me please</p></div>' }
+      const wrapper = mountingMethod(basicComponent)
+
+      wrapper.debug()
+
+      expect(console.log).to.have.been.calledWith('Wrapper:')
+      expect(console.log).to.have.been.calledWith(
+        '<div>\n' + '  <p>Debug me please</p>\n' + '</div>\n'
+      )
+    })
+
+    afterEach(() => {
+      sandbox.restore()
+    })
+  })
 })

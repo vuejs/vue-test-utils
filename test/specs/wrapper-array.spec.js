@@ -268,4 +268,57 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
     wrapperArray.destroy()
     expect(destroy.calledTwice).to.equal(true)
   })
+
+  describe('debug function', () => {
+    const sandbox = sinon.createSandbox()
+
+    beforeEach(() => {
+      sandbox.spy(console, 'log')
+    })
+
+    it('calls debug on each wrapper with aditional information', () => {
+      function getNestedElement(text, level = 1) {
+        const nestElement = element => {
+          const div = document.createElement('div')
+          div.appendChild(element)
+          return div
+        }
+        let element = document.createElement('p')
+        element.textContent = text
+
+        for (let i = 0; i < level; i++) {
+          element = nestElement(element)
+        }
+        return element
+      }
+      const wrapperArray = getWrapperArray([
+        new Wrapper(getNestedElement('One level', 1)),
+        new Wrapper(getNestedElement('Two levels', 2))
+      ])
+
+      wrapperArray.debug()
+
+      expect(console.log).to.have.been.calledWith(
+        'Wrapper-Array (Length: 2):\n'
+      )
+      expect(console.log).to.have.been.calledWith('(At 0)')
+      expect(console.log).to.have.been.calledWith('Wrapper:')
+      expect(console.log).to.have.been.calledWith(
+        '<div>\n' + '  <p>One level</p>\n' + '</div>\n'
+      )
+      expect(console.log).to.have.been.calledWith('(At 1)')
+      expect(console.log).to.have.been.calledWith('Wrapper:')
+      expect(console.log).to.have.been.calledWith(
+        '<div>\n' +
+          '  <div>\n' +
+          '    <p>Two levels</p>\n' +
+          '  </div>\n' +
+          '</div>\n'
+      )
+    })
+
+    afterEach(() => {
+      sandbox.restore()
+    })
+  })
 })

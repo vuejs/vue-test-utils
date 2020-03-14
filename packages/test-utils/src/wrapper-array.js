@@ -101,6 +101,19 @@ export default class WrapperArray implements BaseWrapper {
     )
   }
 
+  /**
+   * Prety print element HTML content
+   */
+  debug(): void {
+    this.throwErrorIfWrappersIsEmpty('debug')
+
+    console.log(`Wrapper-Array (Length: ${this.wrappers.length}):\n`)
+    this.wrappers.forEach((wrapper, idx) => {
+      console.log(`(At ${idx})`)
+      wrapper.debug()
+    })
+  }
+
   html(): void {
     this.throwErrorIfWrappersIsEmpty('html')
 
