@@ -208,9 +208,12 @@ const wrapper = mount(WrapperComp).find(ComponentUnderTest)
 
 ## stubs
 
-- type: `{ [name: string]: Component | boolean } | Array<string>`
+- type: `{ [name: string]: Component | string | boolean } | Array<string>`
 
 Stubs child components. Can be an Array of component names to stub, or an object. If `stubs` is an Array, every stub is `<${component name}-stub>`.
+
+Depercation note:
+If declaring an object, string stubs are now deprecated and will be removed in a future version.
 
 Example:
 
