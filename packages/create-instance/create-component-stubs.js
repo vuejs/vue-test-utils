@@ -6,7 +6,8 @@ import {
   camelize,
   capitalize,
   hyphenate,
-  keys
+  keys,
+  warn
 } from '../shared/util'
 import {
   componentNeedsCompiling,
@@ -15,7 +16,7 @@ import {
   isDynamicComponent,
   isConstructor
 } from '../shared/validators'
-import { compileTemplate, compileFromString } from '../shared/compile-template'
+import { compileTemplate } from '../shared/compile-template'
 
 function isVueComponentStub(comp): boolean {
   return (comp && comp.template) || isVueComponent(comp)
@@ -145,22 +146,29 @@ export function createStubFromComponent(
   }
 }
 
-function createStubFromString(
-  templateString: string,
-  originalComponent: Component = {},
-  name: string,
-  _Vue: Component
-): Component {
+// DEPRECATED: converts string stub to template stub.
+function createStubFromString(templateString: string, name: string): Component {
+  warn('String stubs are deprecated and will be removed in future versions')
+
   if (templateContainsComponent(templateString, name)) {
     throwError('options.stub cannot contain a circular reference')
   }
-  const componentOptions = resolveOptions(originalComponent, _Vue)
 
   return {
-    ...getCoreProperties(componentOptions),
-    $_doNotStubChildren: true,
-    ...compileFromString(templateString)
+    template: templateString,
+    $_doNotStubChildren: true
   }
+}
+
+function setStubComponentName(
+  stub: Object,
+  originalComponent: Component = {},
+  _Vue: Component
+) {
+  if (stub.name) return
+
+  const componentOptions = resolveOptions(originalComponent, _Vue)
+  stub.name = getCoreProperties(componentOptions).name
 }
 
 function validateStub(stub) {
@@ -175,7 +183,7 @@ export function createStubsFromStubsObject(
   _Vue: Component
 ): Components {
   return Object.keys(stubs || {}).reduce((acc, stubName) => {
-    const stub = stubs[stubName]
+    let stub = stubs[stubName]
 
     validateStub(stub)
 
@@ -183,18 +191,19 @@ export function createStubsFromStubsObject(
       return acc
     }
 
+    const component = resolveComponent(originalComponents, stubName)
+
     if (stub === true) {
-      const component = resolveComponent(originalComponents, stubName)
       acc[stubName] = createStubFromComponent(component, stubName, _Vue)
       return acc
     }
 
     if (typeof stub === 'string') {
-      const component = resolveComponent(originalComponents, stubName)
-      acc[stubName] = createStubFromString(stub, component, stubName, _Vue)
-      return acc
+      stub = createStubFromString(stub, stubName)
+      stubs[stubName]
     }
 
+    setStubComponentName(stub, component, _Vue)
     if (componentNeedsCompiling(stub)) {
       compileTemplate(stub)
     }
