@@ -3,6 +3,7 @@ import Vue from 'vue'
 import { mount, shallowMount, createLocalVue } from '@vue/test-utils'
 import Component from '~resources/components/component.vue'
 import ComponentWithChild from '~resources/components/component-with-child.vue'
+import ComponentWithFunctionalChild from '~resources/components/component-with-functional-child.vue'
 import ComponentWithNestedChildren from '~resources/components/component-with-nested-children.vue'
 import ComponentWithLifecycleHooks from '~resources/components/component-with-lifecycle-hooks.vue'
 import ComponentWithoutName from '~resources/components/component-without-name.vue'
@@ -23,6 +24,17 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
   afterEach(() => {
     sandbox.reset()
     sandbox.restore()
+  })
+
+  it('renders dynamic class of functional child', () => {
+    const wrapper = shallowMount(ComponentWithFunctionalChild)
+    expect(wrapper.find('functional-component-stub').classes()).to.contain(
+      'foo',
+      'bar'
+    )
+    expect(wrapper.find('functional-component-stub').classes()).not.to.contain(
+      'qux'
+    )
   })
 
   it('returns new VueWrapper of Vue localVue if no options are passed', () => {

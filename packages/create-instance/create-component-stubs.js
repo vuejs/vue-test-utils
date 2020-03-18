@@ -60,10 +60,25 @@ function getCoreProperties(componentOptions: Component): Object {
 }
 
 function createClassString(staticClass, dynamicClass) {
-  if (staticClass && dynamicClass) {
-    return staticClass + ' ' + dynamicClass
+  // :class="someComputedObject" can return a string, object or undefined
+  // if it is a string, we don't need to do anything special.
+  let evalutedDynamicClass = dynamicClass
+
+  // if it is an object, eg { 'foo': true }, we need to evaluate it.
+  // see https://github.com/vuejs/vue-test-utils/issues/1474 for more context.
+  if (typeof dynamicClass === 'object') {
+    evalutedDynamicClass = Object.keys(dynamicClass).reduce((acc, key) => {
+      if (dynamicClass[key] === true) {
+        return acc + ' ' + key
+      }
+      return acc
+    }, '')
   }
-  return staticClass || dynamicClass
+
+  if (staticClass && evalutedDynamicClass) {
+    return staticClass + ' ' + evalutedDynamicClass
+  }
+  return staticClass || evalutedDynamicClass
 }
 
 function resolveOptions(component, _Vue) {
