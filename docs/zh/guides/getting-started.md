@@ -102,15 +102,29 @@ it('button click should increment the count', () => {
 })
 ```
 
-### 关于 `nextTick` 怎么办？
+为了测试计数器中的文本是否已经更新，我们需要了解 `nextTick`。
 
-Vue 会异步的将未生效的 DOM 更新批量应用，以避免因数据反复突变而导致的无谓的重渲染。这也是为什么在实践过程中我们经常在触发状态改变后用 `Vue.nextTick` 来等待 Vue 把实际的 DOM 更新做完的原因。
+### 使用 `nextTick`
 
-为了简化用法，Vue Test Utils 同步应用了所有的更新，所以你不需要在测试中使用 `Vue.nextTick` 来等待 DOM 更新。
+Vue 会异步的将未生效的 DOM 批量更新，避免因数据反复变化而导致不必要的渲染。
 
-_注意：当你需要为诸如异步回调或 Promise 解析等操作显性改进为事件循环的时候，`nextTick` 仍然是必要的。_
+_你可以阅读[Vue 文档](https://vuejs.org/v2/guide/reactivity.html#Async-Update-Queue)了解更多关于异步指更新的信息。_
 
-如果你仍然需要在自己的测试文件中使用 `nextTick`，注意任何在其内部被抛出的错误可能都不会被测试运行器捕获，因为其内部使用了 Promise。关于这个问题有两个建议：要么你可以在测试的一开始将 Vue 的全局错误处理器设置为 `done` 回调，要么你可以在调用 `nextTick` 时不带参数让其作为一个 Promise 返回：
+更新会引发 DOM 变化的属性后，我们需要使用 `Vue.nextTick()` 等待 Vue 完成 DOM 更新。
+
+在编写测试代码时，我们可以在异步函数里使用`await` `Vue.nextTick()`：
+
+```js
+it('button click should increment the count text', async () => {
+  expect(wrapper.text()).toContain('0')
+  const button = wrapper.find('button')
+  button.trigger('click')
+  await Vue.nextTick()
+  expect(wrapper.text()).toContain('1')
+})
+```
+
+当你在测试代码中使用 `nextTick` 时，请注意任何在其内部被抛出的错误可能都不会被测试运行器捕获，因为其内部使用了 Promise。关于这个问题有两个建议：要么你可以在测试的一开始将 Vue 的全局错误处理器设置为 `done` 回调，要么你可以在调用 `nextTick` 时不带参数让其作为一个 Promise 返回：
 
 ```js
 // 这不会被捕获
@@ -121,7 +135,7 @@ it('will time out', done => {
   })
 })
 
-// 接下来的两项测试都会如预期工作
+// 接下来的三项测试都会如预期工作
 it('will catch the error using done', done => {
   Vue.config.errorHandler = done
   Vue.nextTick(() => {
@@ -134,6 +148,11 @@ it('will catch the error using a promise', () => {
   return Vue.nextTick().then(function() {
     expect(true).toBe(false)
   })
+})
+
+it('will catch the error using async/await', async () => {
+  await Vue.nextTick()
+  expect(true).toBe(false)
 })
 ```
 

@@ -27,6 +27,50 @@ const wrapper = shallowMount(Component)
 wrapper.vm // 挂载的 Vue 实例
 ```
 
+### 生命周期钩子
+
+在使用 `mount` 或 `shallowMount` 方法时，你可以期望你的组件响应 Vue 所有生命周期事件。但是请务必注意的是，除非使用 `Wrapper.destory()`，否则 `beforeDestroy` 和 `destroyed` _将不会触发_。
+
+此外组件在每个测试规范结束时并不会被自动销毁，并且将由用户来决定是否要存根或手动清理那些在测试规范结束前继续运行的任务（ 例如 `setInterval` 或者 `setTimeout`）。
+
+### 使用 `nextTick` 编写异步测试代码 (新)
+
+默认情况下 Vue 会异步地批量执行更新（在下一轮 tick），以避免不必要的 DOM 重绘或者是观察者计算（[查看文档](https://vuejs.org/v2/guide/reactivity.html#Async-Update-Queue) 了解更多信息）。
+
+这意味着你在更新会引发 DOM 变化的属性后**必须**等待一下。你可以使用 `Vue.nextTick()`：
+
+```js
+it('updates text', async () => {
+  const wrapper = mount(Component)
+  wrapper.trigger('click')
+  await Vue.nextTick()
+  expect(wrapper.text()).toContain('updated')
+})
+
+// 或者你不希望使用async/await
+it('render text', done => {
+  const wrapper = mount(TestComponent)
+  wrapper.trigger('click')
+  Vue.nextTick(() => {
+    wrapper.text().toContain('some text')
+    wrapper.trigger('click')
+    Vue.nextTick(() => {
+      wrapper.text().toContain('some different text')
+      done()
+    })
+  })
+})
+```
+
+下面的方法通常会导致观察者更新，你需要等待下一轮 tick：
+
+- `setChecked`
+- `setData`
+- `setSelected`
+- `setProps`
+- `setValue`
+- `trigger`
+
 ### 断言触发的事件
 
 每个挂载的包裹器都会通过其背后的 Vue 实例自动记录所有被触发的事件。你可以用 `wrapper.emitted()` 方法取回这些事件记录。
@@ -135,6 +179,106 @@ mount(Component, {
 你也可以用 `wrapper.setProps({})` 方法更新这些已经挂载的组件的 prop：
 
 _想查阅所有选项的完整列表，请移步该文档的[挂载选项](../api/options.md)章节。_
+
+### 仿造 Transitions
+
+尽管在大多数情况下使用 `await Vue.nextTick（）` 效果很好，但是在某些情况下还需要一些额外的工作。这些问题将在 `vue-test-utils` 移出 beta 版本之前解决。其中一个例子是 Vue 提供的带有 `<transition>` 包装器的单元测试组件。
+
+```vue
+<template>
+  <div>
+    <transition>
+      <p v-if="show">Foo</p>
+    </transition>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      show: true
+    }
+  }
+}
+</script>
+```
+
+您可能想编写一个测试用例来验证是否显示了文本 Foo ，在将 `show` 设置为 `false` 时，不再显示文本 Foo。测试用例可以这么写：
+
+```js
+test('should render Foo, then hide it', async () => {
+  const wrapper = mount(Foo)
+  expect(wrapper.text()).toMatch(/Foo/)
+
+  wrapper.setData({
+    show: false
+  })
+  await wrapper.vm.$nextTick()
+
+  expect(wrapper.text()).not.toMatch(/Foo/)
+})
+```
+
+实际上，尽管我们调用了 `setData` 方法，然后等待 `nextTick` 来确保 DOM 被更新，但是该测试用例仍然失败了。这是一个已知的问题，与 Vue 中 `<transition>` 组件的实现有关，我们希望在 1.0 版之前解决该问题。在目前情况下，有一些解决方案：
+
+#### 使用 `transitionStub`
+
+```js
+const transitionStub = () => ({
+  render: function(h) {
+    return this.$options._renderChildren
+  }
+})
+
+test('should render Foo, then hide it', async () => {
+  const wrapper = mount(Foo, {
+    stubs: {
+      transition: transitionStub()
+    }
+  })
+  expect(wrapper.text()).toMatch(/Foo/)
+
+  wrapper.setData({
+    show: false
+  })
+  await wrapper.vm.$nextTick()
+
+  expect(wrapper.text()).not.toMatch(/Foo/)
+})
+```
+
+上面的代码重写了 `<transition>` 组件的默认行为，并在在条件发生变化时立即呈现子元素。这与 Vue 中 `<transition>` 组件应用 CSS 类的实现是相反的。
+
+#### 避免 `setData`
+
+另一种选择是通过编写两个测试来简单地避免使用 `setData`，这要求我们在使用 `mount` 或者 `shallowMount` 时需要指定一些  选项：
+
+```js
+test('should render Foo', async () => {
+  const wrapper = mount(Foo, {
+    data() {
+      return {
+        show: true
+      }
+    }
+  })
+
+  expect(wrapper.text()).toMatch(/Foo/)
+})
+
+test('should not render Foo', async () => {
+  const wrapper = mount(Foo, {
+    data() {
+      return {
+        show: false
+      }
+    }
+  })
+
+  expect(wrapper.text()).not.toMatch(/Foo/)
+})
+```
 
 ### 应用全局的插件和混入
 

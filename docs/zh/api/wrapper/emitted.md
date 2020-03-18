@@ -9,26 +9,30 @@
 ```js
 import { mount } from '@vue/test-utils'
 
-const wrapper = mount(Component)
+test('emit demo', async () => {
+  const wrapper = mount(Component)
 
-wrapper.vm.$emit('foo')
-wrapper.vm.$emit('foo', 123)
+  wrapper.vm.$emit('foo')
+  wrapper.vm.$emit('foo', 123)
 
-/*
-`wrapper.emitted() 返回如下对象：
-{
-  foo: [[], [123]]
-}
-*/
+  await wrapper.vm.$nextTick() // 等待事件处理完成
 
-// 断言事件已经被触发
-expect(wrapper.emitted().foo).toBeTruthy()
+  /*
+  wrapper.emitted() 返回如下对象：
+  {
+    foo: [[], [123]]
+  }
+  */
 
-// 断言事件的数量
-expect(wrapper.emitted().foo.length).toBe(2)
+  // 断言事件已经被触发
+  expect(wrapper.emitted().foo).toBeTruthy()
 
-// 断言事件的有效数据
-expect(wrapper.emitted().foo[1]).toEqual([123])
+  // 断言事件的数量
+  expect(wrapper.emitted().foo.length).toBe(2)
+
+  // 断言事件的数量
+  expect(wrapper.emitted().foo[1]).toEqual([123])
+})
 ```
 
 你也可以把上面的代码写成这样：
