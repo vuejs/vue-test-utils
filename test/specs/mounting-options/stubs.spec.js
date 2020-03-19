@@ -596,34 +596,38 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
     delete Vue.options.components['child-component']
   })
 
-  it('renders props in the element as attributes', () => {
-    const ComponentStub = { template: '<div id="component-stub" />' }
-    const StringStub = '<div id="string-stub" />'
-    const BooleanStub = true
+  itRunIf(
+    vueVersion >= 2.2,
+    'renders props in the element as attributes',
+    () => {
+      const ComponentStub = { template: '<div id="component-stub" />' }
+      const StringStub = '<div id="string-stub" />'
+      const BooleanStub = true
 
-    const wrapper = mountingMethod(ComponentWithNestedChildrenAndAttributes, {
-      stubs: {
-        SlotComponent: ComponentStub,
-        ChildComponent: StringStub,
-        OriginalComponent: BooleanStub
-      }
-    })
+      const wrapper = mountingMethod(ComponentWithNestedChildrenAndAttributes, {
+        stubs: {
+          SlotComponent: ComponentStub,
+          ChildComponent: StringStub,
+          OriginalComponent: BooleanStub
+        }
+      })
 
-    expect(wrapper.find('#component-stub').attributes()).to.eql({
-      id: 'component-stub',
-      prop1: 'foobar',
-      prop2: 'fizzbuzz'
-    })
-    expect(wrapper.find('#string-stub').attributes()).to.eql({
-      id: 'string-stub',
-      prop1: 'foobar',
-      prop2: 'fizzbuzz'
-    })
-    expect(wrapper.find('originalcomponent-stub').attributes()).to.eql({
-      prop1: 'foobar',
-      prop2: 'fizzbuzz'
-    })
-  })
+      expect(wrapper.find('#component-stub').attributes()).to.eql({
+        id: 'component-stub',
+        prop1: 'foobar',
+        prop2: 'fizzbuzz'
+      })
+      expect(wrapper.find('#string-stub').attributes()).to.eql({
+        id: 'string-stub',
+        prop1: 'foobar',
+        prop2: 'fizzbuzz'
+      })
+      expect(wrapper.find('originalcomponent-stub').attributes()).to.eql({
+        prop1: 'foobar',
+        prop2: 'fizzbuzz'
+      })
+    }
+  )
 
   it('warns when passing a string', () => {
     const StringComponent = '<div></div>'
