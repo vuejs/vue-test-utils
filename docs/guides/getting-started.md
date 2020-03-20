@@ -136,7 +136,7 @@ it('button click should increment the count text', async () => {
   const button = wrapper.find('button')
   button.trigger('click')
   await wrapper.vm.$nextTick()
-	expect(wrapper.text()).toContain('1')
+  expect(wrapper.text()).toContain('1')
 })
 ```
 
