@@ -68,7 +68,7 @@ function createClassString(staticClass, dynamicClass) {
   // see https://github.com/vuejs/vue-test-utils/issues/1474 for more context.
   if (typeof dynamicClass === 'object') {
     evaluatedDynamicClass = Object.keys(dynamicClass).reduce((acc, key) => {
-      if (dynamicClass[key] === true) {
+      if (dynamicClass[key]) {
         return acc + ' ' + key
       }
       return acc
