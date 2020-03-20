@@ -122,7 +122,7 @@ In order to test that the counter text has updated, we need to learn about `next
 
 ### Using `nextTick`
 
-Anytime you make a change (in computed, data, vuex state, etc) which updates the DOM (ex. show a component from v-if), you should await the `nextTick` function before running the test. This is because Vue batches pending DOM updates and *applies them asynchronously* to prevent unnecessary re-renders caused by multiple data mutations.
+Anytime you make a change (in computed, data, vuex state, etc) which updates the DOM (ex. show a component from v-if), you should await the `nextTick` function before running the test. This is because Vue batches pending DOM updates and _applies them asynchronously_ to prevent unnecessary re-renders caused by multiple data mutations.
 
 _You can read more about asynchronous updates in the [Vue docs](https://vuejs.org/v2/guide/reactivity.html#Async-Update-Queue)_
 
