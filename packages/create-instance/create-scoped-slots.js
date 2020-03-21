@@ -5,7 +5,7 @@ import { throwError } from 'shared/util'
 import { VUE_VERSION } from 'shared/consts'
 
 function isDestructuringSlotScope(slotScope: string): boolean {
-  return slotScope[0] === '{' && slotScope[slotScope.length - 1] === '}'
+  return /^{.*}$/.test(slotScope)
 }
 
 function getVueTemplateCompilerHelpers(
@@ -46,7 +46,17 @@ function validateEnvironment(): void {
   }
 }
 
-const slotScopeRe = /<[^>]+ slot-scope=\"(.+)\"/
+function isScopedSlot(slotString) {
+  const slotScopeRe = /<[^>]+ slot-scope="(.+)"/
+  const vSlotRe = /<template v-slot(?::.+)?="(.+)"/
+  const shortVSlotRe = /<template #.*="(.+)"/
+
+  const hasOldSlotScope = slotString.match(slotScopeRe)
+  const hasVSlotScopeAttr = slotString.match(vSlotRe)
+  const hasShortVSlotScopeAttr = slotString.match(shortVSlotRe)
+
+  return hasOldSlotScope || hasVSlotScopeAttr || hasShortVSlotScopeAttr
+}
 
 // Hide warning about <template> disallowed as root element
 function customWarn(msg) {
@@ -76,7 +86,8 @@ export default function createScopedSlots(
         ? slot
         : compileToFunctions(slot, { warn: customWarn }).render
 
-    const hasSlotScopeAttr = !isFn && slot.match(slotScopeRe)
+    const hasSlotScopeAttr = !isFn && isScopedSlot(slot)
+
     const slotScope = hasSlotScopeAttr && hasSlotScopeAttr[1]
     scopedSlots[scopedSlotName] = function(props) {
       let res

@@ -281,6 +281,29 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
     }
   )
 
+  itDoNotRunIf.only(
+    vueVersion < 2.5,
+    'renders scoped slot with v-slot syntax',
+    async () => {
+      const TestComponent = {
+        data() {
+          return {
+            val: 25
+          }
+        },
+        render() {
+          return this.$scopedSlots.default({ val: this.val })
+        }
+      }
+      const wrapper = mountingMethod(TestComponent, {
+        scopedSlots: {
+          default: '<template v-slot:default="{ val }">{{ val }}</template>'
+        }
+      })
+      expect(wrapper.html()).to.contain(25)
+    }
+  )
+
   itDoNotRunIf(
     vueVersion < 2.5 || mountingMethod.name !== 'mount',
     'renders using localVue constructor',
