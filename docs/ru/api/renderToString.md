@@ -23,7 +23,7 @@
 
 Рендерит компонент в HTML.
 
-`renderToString` использует [`vue-server-renderer`](https://ssr.vuejs.org/en/basic.html) под капотом для рендеринга компонента в статический HTML.
+`renderToString` использует [`vue-server-renderer`](https://ssr.vuejs.org/ru/basic.html) под капотом для рендеринга компонента в статический HTML.
 
 `renderToString` включён в пакет `@vue/server-test-utils`.
 

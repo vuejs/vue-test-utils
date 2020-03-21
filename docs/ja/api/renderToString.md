@@ -23,7 +23,7 @@
 
 コンポーネントを HTML にレンダリングします。
 
-コンポーネントを HTML にレンダリングするために、`renderToString` は内部で [`vue-server-renderer`](https://ssr.vuejs.org/en/basic.html) を使用します。
+コンポーネントを HTML にレンダリングするために、`renderToString` は内部で [`vue-server-renderer`](https://ssr.vuejs.org/ja/basic.html) を使用します。
 
 `renderToString` は `@vue/server-test-utils` パッケージに含まれています。
 
