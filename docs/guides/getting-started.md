@@ -122,20 +122,20 @@ In order to test that the counter text has updated, we need to learn about `next
 
 ### Using `nextTick`
 
-Vue batches pending DOM updates and applies them asynchronously to prevent unnecessary re-renders caused by multiple data mutations.
+Anytime you make a change (in computed, data, vuex state, etc) which updates the DOM (ex. show a component from v-if), you should await the `nextTick` function before running the test. This is because Vue batches pending DOM updates and _applies them asynchronously_ to prevent unnecessary re-renders caused by multiple data mutations.
 
 _You can read more about asynchronous updates in the [Vue docs](https://vuejs.org/v2/guide/reactivity.html#Async-Update-Queue)_
 
-We need to use `Vue.nextTick()` to wait until Vue has performed the DOM update after we set a reactive property. In the counter example, setting the `count` property schedules a DOM update to run on the next tick.
+We need to use `wrapper.vm.$nextTick` to wait until Vue has performed the DOM update after we set a reactive property. In the counter example, setting the `count` property schedules a DOM update to run on the next tick.
 
-We can `await` `Vue.nextTick()` by writing the tests in an async function:
+We can `await` `wrapper.vm.$nextTick()` by writing the tests in an async function:
 
 ```js
 it('button click should increment the count text', async () => {
   expect(wrapper.text()).toContain('0')
   const button = wrapper.find('button')
   button.trigger('click')
-  await Vue.nextTick()
+  await wrapper.vm.$nextTick()
   expect(wrapper.text()).toContain('1')
 })
 ```
