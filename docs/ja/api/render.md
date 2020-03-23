@@ -26,7 +26,7 @@
 Cheerio は Node.js で jQuery のように DOM をスキャンするためのライブラリです。  
 これは Vue Test Utils の [`Wrapper`](wrapper/) に似ている API を持っています。
 
-コンポーネントを静的な HTML にレンダリングするために、`render` は内部で [`vue-server-renderer`](https://ssr.vuejs.org/en/basic.html) を使用します。
+コンポーネントを静的な HTML にレンダリングするために、`render` は内部で [`vue-server-renderer`](https://ssr.vuejs.org/ja/basic.html) を使用します。
 
 `render` は `@vue/server-test-utils` パッケージに含まれています。
 

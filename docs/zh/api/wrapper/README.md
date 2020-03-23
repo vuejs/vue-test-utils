@@ -8,7 +8,7 @@ Vue Test Utils 是一个基于包裹器的 API。
 
 ### `vm`
 
-`Component` (只读)：这是该 Vue 实例。你可以通过 `wrapper.vm` 访问一个实例所有的[方法和属性](https://vuejs.org/v2/api/#Instance-Properties)。这只存在于 Vue 组件包裹器或绑定了 Vue 组件包裹器的 HTMLElement 中。
+`Component` (只读)：这是该 Vue 实例。你可以通过 `wrapper.vm` 访问一个实例所有的[方法和属性](https://cn.vuejs.org/v2/api/#实例属性)。这只存在于 Vue 组件包裹器或绑定了 Vue 组件包裹器的 HTMLElement 中。
 
 ### `element`
 

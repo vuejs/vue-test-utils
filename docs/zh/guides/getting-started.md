@@ -108,7 +108,7 @@ it('button click should increment the count', () => {
 
 Vue 会异步的将未生效的 DOM 批量更新，避免因数据反复变化而导致不必要的渲染。
 
-_你可以阅读[Vue 文档](https://vuejs.org/v2/guide/reactivity.html#Async-Update-Queue)了解更多关于异步指更新的信息。_
+_你可以阅读[Vue 文档](https://cn.vuejs.org/v2/guide/reactivity.html#异步更新队列)了解更多关于异步指更新的信息。_
 
 更新会引发 DOM 变化的属性后，我们需要使用 `Vue.nextTick()` 等待 Vue 完成 DOM 更新。
 

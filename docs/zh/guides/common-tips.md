@@ -35,7 +35,7 @@ wrapper.vm // 挂载的 Vue 实例
 
 ### 使用 `nextTick` 编写异步测试代码 (新)
 
-默认情况下 Vue 会异步地批量执行更新（在下一轮 tick），以避免不必要的 DOM 重绘或者是观察者计算（[查看文档](https://vuejs.org/v2/guide/reactivity.html#Async-Update-Queue) 了解更多信息）。
+默认情况下 Vue 会异步地批量执行更新（在下一轮 tick），以避免不必要的 DOM 重绘或者是观察者计算（[查看文档](https://cn.vuejs.org/v2/guide/reactivity.html#异步更新队列) 了解更多信息）。
 
 这意味着你在更新会引发 DOM 变化的属性后**必须**等待一下。你可以使用 `Vue.nextTick()`：
 

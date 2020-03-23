@@ -224,8 +224,8 @@ expect(wrapper.text()).toBe('aBC')
 ```
 
 ::: 注意
-`propsData` は Vue Test Utils のマウンティングオプションではなく [Vue API](https://vuejs.org/v2/api/#propsData) です。
-この `propsData` は [`extends`](https://vuejs.org/v2/api/#extends) を内部で利用しています。
+`propsData` は Vue Test Utils のマウンティングオプションではなく [Vue API](https://jp.vuejs.org/v2/api/#propsData) です。
+この `propsData` は [`extends`](https://jp.vuejs.org/v2/api/#extends) を内部で利用しています。
 詳しくは[その他のオプション](#その他のオプション)を参照してください。
 :::
 
@@ -256,7 +256,7 @@ expect(wrapper.vm.$parent.$options.name).toBe('foo')
 
 - 型: `Object`
 
-コンポーネントに指定したプロパティを注入します。[provide/inject](https://vuejs.org/v2/api/#provide-inject) を参照してください。
+コンポーネントに指定したプロパティを注入します。[provide/inject](https://jp.vuejs.org/v2/api/#provide-inject) を参照してください。
 
 例:
 
@@ -279,7 +279,7 @@ expect(wrapper.text()).toBe('fooValue')
 
 ## その他のオプション
 
-`mount` と  `shallowMount` にマウンティングオプション以外のオプションが渡されると、コンポーネントのオプションは [extends](https://vuejs.org/v2/api/#extends) を使ってマウンティングオプション以外のオプションに上書きされます。
+`mount` と  `shallowMount` にマウンティングオプション以外のオプションが渡されると、コンポーネントのオプションは [extends](https://jp.vuejs.org/v2/api/#extends) を使ってマウンティングオプション以外のオプションに上書きされます。
 
 ```js
 const Component = {
