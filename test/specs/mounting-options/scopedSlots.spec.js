@@ -281,26 +281,46 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
     }
   )
 
-  itDoNotRunIf.only(
-    vueVersion < 2.5,
+  itDoNotRunIf(
+    vueVersion < 2.6,
     'renders scoped slot with v-slot syntax',
-    async () => {
+    () => {
       const TestComponent = {
         data() {
           return {
             val: 25
           }
         },
-        render() {
-          return this.$scopedSlots.default({ val: this.val })
-        }
+        template: '<div><slot :val="val"/></div>'
       }
       const wrapper = mountingMethod(TestComponent, {
         scopedSlots: {
-          default: '<template v-slot:default="{ val }">{{ val }}</template>'
+          default:
+            '<template v-slot:default="{ val }"><p>{{ val }}</p></template>'
         }
       })
-      expect(wrapper.html()).to.contain(25)
+      expect(wrapper.html()).to.equal('<div>\n  <p>25</p>\n</div>')
+    }
+  )
+
+  itDoNotRunIf(
+    vueVersion < 2.6,
+    'renders scoped slot with shorthand v-slot syntax',
+    () => {
+      const TestComponent = {
+        data() {
+          return {
+            val: 25
+          }
+        },
+        template: '<div><slot :val="val"/></div>'
+      }
+      const wrapper = mountingMethod(TestComponent, {
+        scopedSlots: {
+          default: '<template #default="{ val }"><p>{{ val }}</p></template>'
+        }
+      })
+      expect(wrapper.html()).to.equal('<div>\n  <p>25</p>\n</div>')
     }
   )
 
