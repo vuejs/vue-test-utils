@@ -288,18 +288,22 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
       const TestComponent = {
         data() {
           return {
-            val: 25
+            val: 25,
+            val2: 50
           }
         },
-        template: '<div><slot :val="val"/></div>'
+        template:
+          '<div><slot :val="val"/><slot name="named" :val="val2"/></div>'
       }
       const wrapper = mountingMethod(TestComponent, {
         scopedSlots: {
           default:
-            '<template v-slot:default="{ val }"><p>{{ val }}</p></template>'
+            '<template v-slot:default="{ val }"><p>{{ val }}</p></template>',
+          named:
+            '<template v-slot:named="prop"><p>{{ prop.val }}</p></template>'
         }
       })
-      expect(wrapper.html()).to.equal('<div>\n  <p>25</p>\n</div>')
+      expect(wrapper.html()).to.equal('<div>\n  <p>25</p>\n  <p>50</p>\n</div>')
     }
   )
 
@@ -310,17 +314,20 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
       const TestComponent = {
         data() {
           return {
-            val: 25
+            val: 25,
+            val2: 50
           }
         },
-        template: '<div><slot :val="val"/></div>'
+        template:
+          '<div><slot :val="val"/><slot name="named" :val="val2"/></div>'
       }
       const wrapper = mountingMethod(TestComponent, {
         scopedSlots: {
-          default: '<template #default="{ val }"><p>{{ val }}</p></template>'
+          default: '<template #default="{ val }"><p>{{ val }}</p></template>',
+          named: '<template #named="prop"><p>{{ prop.val }}</p></template>'
         }
       })
-      expect(wrapper.html()).to.equal('<div>\n  <p>25</p>\n</div>')
+      expect(wrapper.html()).to.equal('<div>\n  <p>25</p>\n  <p>50</p>\n</div>')
     }
   )
 
