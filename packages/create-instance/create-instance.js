@@ -93,7 +93,6 @@ export default function createInstance(
 
   // make sure all extends are based on this instance
   const Constructor = _Vue.extend(componentOptions).extend(instanceOptions)
-  componentOptions._Ctor = {}
   Constructor.options._base = _Vue
 
   const scopedSlots = createScopedSlots(options.scopedSlots, _Vue)

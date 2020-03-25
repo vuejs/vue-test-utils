@@ -86,13 +86,9 @@ function resolveOptions(component, _Vue) {
     return {}
   }
 
-  if (isConstructor(component)) {
-    return component.options
-  }
-  const options = _Vue.extend(component).options
-  component._Ctor = {}
-
-  return options
+  return isConstructor(component)
+    ? component.options
+    : _Vue.extend(component).options
 }
 
 function getScopedSlotRenderFunctions(ctx: any): Array<string> {
