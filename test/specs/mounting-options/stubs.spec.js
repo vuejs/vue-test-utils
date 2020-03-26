@@ -2,6 +2,7 @@ import ComponentWithChild from '~resources/components/component-with-child.vue'
 import ComponentWithNestedChildren from '~resources/components/component-with-nested-children.vue'
 import Component from '~resources/components/component.vue'
 import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
+import ComponentWithNestedChildrenAndAttributes from '~resources/components/component-with-nested-childern-and-attributes.vue'
 import { createLocalVue, config } from '@vue/test-utils'
 import { config as serverConfig } from '@vue/server-test-utils'
 import Vue from 'vue'
@@ -18,6 +19,7 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
     serverConfigSave = serverConfig.stubs
     config.stubs = {}
     serverConfig.stubs = {}
+    sandbox.stub(console, 'error').callThrough()
   })
 
   afterEach(() => {
@@ -32,21 +34,24 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
     const ComponentWithoutRender = { template: '<div></div>' }
     const ExtendedComponent = { extends: ComponentWithRender }
     const SubclassedComponent = Vue.extend({ template: '<div></div>' })
+    const StringComponent = '<div></div>'
     mountingMethod(ComponentWithChild, {
       stubs: {
         ChildComponent: ComponentWithRender,
         ChildComponent2: ComponentAsAClass,
         ChildComponent3: ComponentWithoutRender,
         ChildComponent4: ExtendedComponent,
-        ChildComponent5: SubclassedComponent
+        ChildComponent5: SubclassedComponent,
+        ChildComponent6: StringComponent
       }
     })
   })
 
   it('replaces component with template string ', () => {
+    const Stub = { template: '<div class="stub"></div>' }
     const wrapper = mountingMethod(ComponentWithChild, {
       stubs: {
-        ChildComponent: '<div class="stub"></div>'
+        ChildComponent: Stub
       }
     })
     expect(wrapper.findAll('.stub').length).to.equal(1)
@@ -321,7 +326,7 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
 
     const wrapper = mountingMethod(TestComponent, {
       stubs: {
-        'span-component': '<p />'
+        'span-component': { template: '<p />' }
       },
       localVue
     })
@@ -342,7 +347,7 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
 
     const wrapper = mountingMethod(TestComponent, {
       stubs: {
-        'time-component': '<span />'
+        'time-component': { template: '<span />' }
       },
       localVue
     })
@@ -414,7 +419,7 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
     expect(wrapper.html()).contains('No render function')
   })
 
-  it('throws an error when passed a circular reference', () => {
+  it('throws an error when passed a circular reference for string stubs', () => {
     const names = ['child-component', 'ChildComponent', 'childComponent']
     const validValues = [
       '<NAME-suffix />',
@@ -589,5 +594,53 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
     expect(result.exists()).to.be.true
     expect(result.props().propA).to.equal('A')
     delete Vue.options.components['child-component']
+  })
+
+  itRunIf(
+    vueVersion >= 2.2,
+    'renders props in the element as attributes',
+    () => {
+      const ComponentStub = { template: '<div id="component-stub" />' }
+      const StringStub = '<div id="string-stub" />'
+      const BooleanStub = true
+
+      const wrapper = mountingMethod(ComponentWithNestedChildrenAndAttributes, {
+        stubs: {
+          SlotComponent: ComponentStub,
+          ChildComponent: StringStub,
+          OriginalComponent: BooleanStub
+        }
+      })
+
+      expect(wrapper.find('#component-stub').attributes()).to.eql({
+        id: 'component-stub',
+        prop1: 'foobar',
+        prop2: 'fizzbuzz'
+      })
+      expect(wrapper.find('#string-stub').attributes()).to.eql({
+        id: 'string-stub',
+        prop1: 'foobar',
+        prop2: 'fizzbuzz'
+      })
+      expect(wrapper.find('originalcomponent-stub').attributes()).to.eql({
+        prop1: 'foobar',
+        prop2: 'fizzbuzz'
+      })
+    }
+  )
+
+  it('warns when passing a string', () => {
+    const StringComponent = '<div></div>'
+    mountingMethod(ComponentWithChild, {
+      stubs: {
+        ChildComponent6: StringComponent
+      }
+    })
+
+    expect(console.error).calledWith(
+      sandbox.match(
+        '[vue-test-utils]: String stubs are deprecated and will be removed in future versions'
+      )
+    )
   })
 })

@@ -116,9 +116,9 @@ describe('Foo', () => {
   it('renders a div', () => {
     const wrapper = mount(Foo, {
       stubs: {
-        Bar: '<div class="stubbed" />',
         BarFoo: true,
-        FooBar: Faz
+        FooBar: Faz,
+        Bar: { template: '<div class="stubbed" />' }
       }
     })
     expect(wrapper.contains('.stubbed')).toBe(true)
@@ -126,5 +126,9 @@ describe('Foo', () => {
   })
 })
 ```
+
+**Deprecation Notice:**
+
+When stubbing components, supplying a string (`ComponentToStub: '<div class="stubbed" />`) is no longer supported.
 
 - **See also:** [Wrapper](wrapper/)
