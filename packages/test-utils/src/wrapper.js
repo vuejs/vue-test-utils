@@ -325,6 +325,53 @@ export default class Wrapper implements BaseWrapper {
   }
 
   /**
+   * Prints a simple overview of the wrapper current state
+   * with useful information for debugging
+   */
+  overview(): void {
+    if (!this.isVueInstance()) {
+      throwError(`wrapper.overview() can only be called on a Vue instance`)
+    }
+    const identation = 4
+    const formatJSON = (json: string, replacer: Function = null) =>
+      JSON.stringify(json, replacer, identation).replace(/"/g, '')
+
+    const visibility = this.isVisible() ? 'Visible' : 'Not visible'
+
+    const html = this.html()
+      ? this.html().replace(/^(?!\s*$)/gm, ' '.repeat(identation)) + '\n'
+      : ''
+
+    const data = formatJSON(this.vm.$data)
+
+    const computed = this.vm._computedWatchers
+      ? formatJSON(
+          ...Object.keys(this.vm._computedWatchers).map(computedKey => ({
+            [computedKey]: this.vm[computedKey]
+          }))
+        )
+      : '{}'
+
+    const emittedJSONReplacer = (key, value) =>
+      value instanceof Array
+        ? value.map(
+            (calledWith, index) => `${index}: [ ${calledWith.join(', ')} ]`
+          )
+        : value
+
+    const emitted = formatJSON(this.emitted(), emittedJSONReplacer)
+
+    console.log(
+      '\n' +
+        `Wrapper (${visibility}):\n\n` +
+        `Html:\n${html}\n` +
+        `Data: ${data}\n\n` +
+        `Computed: ${computed}\n\n` +
+        `Emitted: ${emitted}\n`
+    )
+  }
+
+  /**
    * Returns an Object containing the prop name/value pairs on the element
    */
   props(key?: string): { [name: string]: any } | any {

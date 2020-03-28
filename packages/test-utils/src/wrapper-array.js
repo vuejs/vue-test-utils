@@ -143,6 +143,15 @@ export default class WrapperArray implements BaseWrapper {
     )
   }
 
+  overview(): void {
+    this.throwErrorIfWrappersIsEmpty('overview()')
+
+    throwError(
+      `overview() must be called on a single wrapper, use at(i) ` +
+        `to access a wrapper`
+    )
+  }
+
   props(): void {
     this.throwErrorIfWrappersIsEmpty('props')
 
