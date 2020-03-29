@@ -187,6 +187,14 @@ export default class ErrorWrapper implements BaseWrapper {
     )
   }
 
+  overview(): void {
+    throwError(
+      `find did not return ${buildSelectorString(
+        this.selector
+      )}, cannot call overview() on empty Wrapper`
+    )
+  }
+
   props(): void {
     throwError(
       `find did not return ${buildSelectorString(

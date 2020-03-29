@@ -333,7 +333,7 @@ export default class Wrapper implements BaseWrapper {
       throwError(`wrapper.overview() can only be called on a Vue instance`)
     }
     const identation = 4
-    const formatJSON = (json: string, replacer: Function = null) =>
+    const formatJSON = (json: any, replacer: Function = null) =>
       JSON.stringify(json, replacer, identation).replace(/"/g, '')
 
     const visibility = this.isVisible() ? 'Visible' : 'Not visible'
