@@ -333,7 +333,7 @@ export default class Wrapper implements BaseWrapper {
       throwError(`wrapper.overview() can only be called on a Vue instance`)
     }
     const identation = 4
-    const formatJSON = (json: any, replacer: Function = null) =>
+    const formatJSON = (json: any, replacer: Function | null = null) =>
       JSON.stringify(json, replacer, identation).replace(/"/g, '')
 
     const visibility = this.isVisible() ? 'Visible' : 'Not visible'
@@ -342,11 +342,15 @@ export default class Wrapper implements BaseWrapper {
       ? this.html().replace(/^(?!\s*$)/gm, ' '.repeat(identation)) + '\n'
       : ''
 
+    // $FlowIgnore
     const data = formatJSON(this.vm.$data)
 
+    // $FlowIgnore
     const computed = this.vm._computedWatchers
       ? formatJSON(
+          // $FlowIgnore
           ...Object.keys(this.vm._computedWatchers).map(computedKey => ({
+            // $FlowIgnore
             [computedKey]: this.vm[computedKey]
           }))
         )
