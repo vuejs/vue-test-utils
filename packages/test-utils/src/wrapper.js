@@ -332,6 +332,7 @@ export default class Wrapper implements BaseWrapper {
     if (!this.isVueInstance()) {
       throwError(`wrapper.overview() can only be called on a Vue instance`)
     }
+
     const identation = 4
     const formatJSON = (json: any, replacer: Function | null = null) =>
       JSON.stringify(json, replacer, identation).replace(/"/g, '')
@@ -345,6 +346,7 @@ export default class Wrapper implements BaseWrapper {
     // $FlowIgnore
     const data = formatJSON(this.vm.$data)
 
+    /* eslint-disable operator-linebreak */
     // $FlowIgnore
     const computed = this.vm._computedWatchers
       ? formatJSON(
@@ -354,7 +356,16 @@ export default class Wrapper implements BaseWrapper {
             [computedKey]: this.vm[computedKey]
           }))
         )
+      : // $FlowIgnore
+      this.vm.$options.computed
+      ? formatJSON(
+          // $FlowIgnore
+          ...Object.entries(this.vm.$options.computed).map(([key, value]) => ({
+            [key]: value()
+          }))
+        )
       : '{}'
+    /* eslint-enable operator-linebreak */
 
     const emittedJSONReplacer = (key, value) =>
       value instanceof Array
