@@ -361,6 +361,7 @@ export default class Wrapper implements BaseWrapper {
       ? formatJSON(
           // $FlowIgnore
           ...Object.entries(this.vm.$options.computed).map(([key, value]) => ({
+            // $FlowIgnore
             [key]: value()
           }))
         )
