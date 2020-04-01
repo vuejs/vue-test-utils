@@ -1,5 +1,7 @@
 ## Testing Key, Mouse and other DOM events
 
+<div class="vueschool"><a href="https://vueschool.io/lessons/traversing-the-dom?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn to traverse and interact with the DOM with a free video lesson from Vue School">Learn to traverse and interact with the DOM with a free lesson on Vue School</a></div>
+
 ### Trigger events
 
 The `Wrapper` exposes a `trigger` method. It can be used to trigger DOM events.
