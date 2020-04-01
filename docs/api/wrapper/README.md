@@ -4,6 +4,8 @@ Vue Test Utils is a wrapper based API.
 
 A `Wrapper` is an object that contains a mounted component or vnode and methods to test the component or vnode.
 
+<div class="vueschool"><a href="https://vueschool.io/lessons/the-wrapper-object?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn about the Wrapper object in a FREE video lesson from Vue School">Learn about the Wrapper object in a FREE video lesson from Vue School</a></div>
+
 ## Properties
 
 ### `vm`
