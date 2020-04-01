@@ -1,5 +1,7 @@
 ## Getting Started
 
+<div class="vueschool"><a href="https://vueschool.io/lessons/installing-vue-test-utils?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to get started with Vue Test Utils, Jest, and testing Vue Components with Vue School">Learn how to get started with Vue Test Utils, Jest, and testing Vue Components</a></div>
+
 ### Setup
 
 To get a quick taste of using Vue Test Utils, clone our demo repository with basic setup and install the dependencies:
