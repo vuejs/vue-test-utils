@@ -4,6 +4,7 @@
   border-radius: 2px;
   color: #486491;
   position: relative;
+  display: flex;
 }
 
 .vueschool a {
@@ -18,7 +19,7 @@
   display: block;
   width: 30px;
   height: 30px;
-  top: -5px;
+  top: calc(50% - 15px);
   left: -4px;
   border-radius: 50%;
   background-color: #73abfe;
@@ -30,7 +31,7 @@
   display: block;
   width: 0;
   height: 0;
-  top: 5px;
+  top: calc(50% - 5px);
   left: 8px;
   border-top: 5px solid transparent;
   border-bottom: 5px solid transparent;
