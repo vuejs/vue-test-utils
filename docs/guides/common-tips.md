@@ -29,6 +29,8 @@ wrapper.vm // the mounted Vue instance
 
 ### Lifecycle Hooks
 
+<div class="vueschool" style="margin-top:1em;"><a href="https://vueschool.io/lessons/learn-how-to-test-vuejs-lifecycle-methods?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to use Vue Test Utils to test Vue.js Lifecycle Hooks with Vue School">Learn how to test lifecycle methods and intervals with Vue School</a></div>
+
 When using either the `mount` or `shallowMount` methods, you can expect your component to respond to all lifecycle events. However, it is important to note that `beforeDestroy` and `destroyed` _will not be triggered_ unless the component is manually destroyed using `Wrapper.destroy()`.
 
 Additionally, the component will not be automatically destroyed at the end of each spec, and it is up to the user to stub or manually clean up tasks that will continue to run (`setInterval` or `setTimeout`, for example) before the end of each spec.
