@@ -2,6 +2,8 @@
 
 In this guide, we'll see how to test Vuex in components with Vue Test Utils, and how to approach testing a Vuex store.
 
+<div class="vueschool"><a href="https://vueschool.io/lessons/how-to-test-vuejs-component-with-vuex-store?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to test that a Vuex Store is injected into a component with a free video lesson on Vue School">Learn how to test that a Vuex Store is injected into a component with Vue School</a></div>
+
 ## Testing Vuex in components
 
 ### Mocking Actions
