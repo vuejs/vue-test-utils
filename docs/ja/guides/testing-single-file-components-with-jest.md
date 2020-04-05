@@ -1,6 +1,6 @@
 ## Jest を使用した単一ファイルコンポーネントのテスト
 
-> このセットアップのサンプルプロジェクトは、 [GitHub](https://github.com/vuejs/vue-test-utils-jest-example) にあります。
+> このセットアップのサンプルプロジェクトは、 [GitHub](https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-unit-jest) にあります。
 
 Jest は Facebook が開発したテストランナであり、ユニットテストソリューションの提供を目指しています。 Jest の詳細については、[公式ドキュメント](https://jestjs.io/)を参照してください。
 
@@ -201,7 +201,7 @@ npm install --save-dev jest-serializer-vue
 
 ### リソース
 
-- [このセットアップのプロジェクト例](https://github.com/vuejs/vue-test-utils-jest-example)
+- [このセットアップのプロジェクト例](https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-unit-jest)
 - [Vue Conf 2017 のスライド](https://github.com/codebryo/vue-testing-with-jest-conf17)
 - [Jest](https://jestjs.io/)
 - [Babel preset env](https://github.com/babel/babel-preset-env)

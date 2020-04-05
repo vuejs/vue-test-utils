@@ -41,7 +41,7 @@ require('jsdom-global')()
 ### リソース
 
 - [テストランナの性能比較](https://github.com/eddyerburgh/vue-unit-test-perf-comparison)
-- [Jest のプロジェクト例](https://github.com/vuejs/vue-test-utils-jest-example)
-- [Mocha のプロジェクト例](https://github.com/vuejs/vue-test-utils-mocha-webpack-example)
+- [Jest のプロジェクト例](https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-unit-jest)
+- [Mocha のプロジェクト例](https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-unit-mocha)
 - [tape のプロジェクト例](https://github.com/eddyerburgh/vue-test-utils-tape-example)
 - [AVA のプロジェクト例](https://github.com/eddyerburgh/vue-test-utils-ava-example)

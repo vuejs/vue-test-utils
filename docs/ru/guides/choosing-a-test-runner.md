@@ -41,8 +41,8 @@ require('jsdom-global')()
 ### Дополнительные ресурсы
 
 - [Сравнение производительности программ для запуска тестов](https://github.com/eddyerburgh/vue-unit-test-perf-comparison)
-- [Пример проекта с Jest](https://github.com/vuejs/vue-test-utils-jest-example)
-- [Пример проекта с Mocha](https://github.com/vuejs/vue-test-utils-mocha-webpack-example)
+- [Пример проекта с Jest](https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-unit-jest)
+- [Пример проекта с Mocha](https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-unit-mocha)
 - [Пример проекта с tape](https://github.com/eddyerburgh/vue-test-utils-tape-example)
 - [Пример проекта с AVA](https://github.com/eddyerburgh/vue-test-utils-ava-example)
 - [tyu — Восхитительное веб-тестирование от egoist](https://github.com/egoist/tyu)
