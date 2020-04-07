@@ -246,11 +246,80 @@ describeWithShallowAndMount('overview', mountingMethod => {
         wrapper.overview()
         expect(consoleOutput).to.have.ordered.members(expectedConsoleOutput)
       })
+
+      it('prints an empty array in Emitted arrays of calls when emit was empty', () => {
+        const wrapper = mountingMethod({
+          template: '<div class="test" style="{ color: red }"></div>'
+        })
+
+        wrapper.vm.$emit('foo')
+        wrapper.vm.$emit('foo')
+
+        const expectedConsoleOutput = [
+          '',
+          'Wrapper (Visible):',
+          '',
+          'Html:',
+          '    <div class="test"></div>',
+          '',
+          'Data: {}',
+          '',
+          'Computed: {}',
+          '',
+          'Emitted: {',
+          '    foo: [',
+          '        0: [  ],',
+          '        1: [  ]',
+          '    ]',
+          '}',
+          ''
+        ]
+        wrapper.overview()
+        expect(consoleOutput).to.have.ordered.members(expectedConsoleOutput)
+      })
+
+      it('prints inline formated object in Emitted arrays of calls when an object has been emitted', () => {
+        const wrapper = mountingMethod({
+          template: '<div class="test" style="{ color: red }"></div>'
+        })
+
+        wrapper.vm.$emit('foo', {
+          title: 'How to test',
+          author: 'Tester',
+          price: 10
+        })
+        wrapper.vm.$emit(
+          'foo',
+          { title: 'How to test 2', author: 'Tester Jr', price: 12 },
+          'New'
+        )
+
+        const expectedConsoleOutput = [
+          '',
+          'Wrapper (Visible):',
+          '',
+          'Html:',
+          '    <div class="test"></div>',
+          '',
+          'Data: {}',
+          '',
+          'Computed: {}',
+          '',
+          'Emitted: {',
+          '    foo: [',
+          '        0: [ {title:How to test, author:Tester, price:10} ],',
+          '        1: [ {title:How to test 2, author:Tester Jr, price:12}, New ]',
+          '    ]',
+          '}',
+          ''
+        ]
+        wrapper.overview()
+        expect(consoleOutput).to.have.ordered.members(expectedConsoleOutput)
+      })
     })
 
     describe('child components', () => {
       it('prints children compenents HTML', () => {
-        if (mountingMethod.name === 'shallowMount') return
         const wrapper = mountingMethod({
           template: `<div>1<tester></tester></div>`,
           components: {
@@ -265,7 +334,9 @@ describeWithShallowAndMount('overview', mountingMethod => {
           'Wrapper (Visible):',
           '',
           'Html:',
-          '    <div>1<div class="tester">test</div>',
+          mountingMethod.name === 'shallowMount'
+            ? '    <div>1<tester-stub></tester-stub>'
+            : '    <div>1<div class="tester">test</div>',
           '    </div>',
           '',
           'Data: {}',
@@ -282,7 +353,6 @@ describeWithShallowAndMount('overview', mountingMethod => {
       })
 
       it('does not print child component data or computed', () => {
-        if (mountingMethod.name === 'shallowMount') return
         const wrapper = mountingMethod({
           template: `<div>1<tester></tester></div>`,
           data() {
@@ -313,7 +383,9 @@ describeWithShallowAndMount('overview', mountingMethod => {
           'Wrapper (Visible):',
           '',
           'Html:',
-          '    <div>1<div class="tester">test</div>',
+          mountingMethod.name === 'shallowMount'
+            ? '    <div>1<tester-stub></tester-stub>'
+            : '    <div>1<div class="tester">test</div>',
           '    </div>',
           '',
           'Data: {',

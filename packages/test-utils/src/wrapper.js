@@ -370,9 +370,17 @@ export default class Wrapper implements BaseWrapper {
 
     const emittedJSONReplacer = (key, value) =>
       value instanceof Array
-        ? value.map(
-            (calledWith, index) => `${index}: [ ${calledWith.join(', ')} ]`
-          )
+        ? value.map((calledWith, index) => {
+            const callParams = calledWith.map(param =>
+              typeof param === 'object'
+                ? JSON.stringify(param)
+                    .replace(/"/g, '')
+                    .replace(/,/g, ', ')
+                : param
+            )
+
+            return `${index}: [ ${callParams.join(', ')} ]`
+          })
         : value
 
     const emitted = formatJSON(this.emitted(), emittedJSONReplacer)
