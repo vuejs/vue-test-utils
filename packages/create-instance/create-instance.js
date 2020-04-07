@@ -39,6 +39,13 @@ function createChildren(vm, h, { slots, context }) {
   )
 }
 
+function getValuesFromCallableOption(optionValue) {
+  if (typeof optionValue === 'function') {
+    return optionValue.call(this)
+  }
+  return optionValue
+}
+
 export default function createInstance(
   component: Component,
   options: NormalizedOptions,
@@ -99,8 +106,14 @@ export default function createInstance(
 
   const parentComponentOptions = options.parentComponent || {}
 
-  parentComponentOptions.provide = options.provide
-  parentComponentOptions._provided = options.provide
+  const originalParentComponentProvide = parentComponentOptions.provide
+  parentComponentOptions.provide = function() {
+    return {
+      ...getValuesFromCallableOption.call(this, originalParentComponentProvide),
+      ...getValuesFromCallableOption.call(this, options.provide)
+    }
+  }
+
   parentComponentOptions.$_doNotStubChildren = true
   parentComponentOptions._isFunctionalContainer = componentOptions.functional
   parentComponentOptions.render = function(h) {
