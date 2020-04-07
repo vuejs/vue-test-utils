@@ -34,28 +34,28 @@ describeWithShallowAndMount('options.provide', mountingMethod => {
 
   itDoNotRunIf(
     !injectSupported,
-    'respects provide values from parentComponent',
+    'respects provide fooues from parentComponent',
     () => {
       const parentComponent = {
         provide: {
-          val: 'from parent'
+          foo: 'from parent'
         }
       }
 
       const child = {
-        inject: ['val', 'val2'],
+        inject: ['foo', 'foo2'],
         template: '<div></div>'
       }
 
       const wrapper = mountingMethod(child, {
         parentComponent,
         provide: {
-          val2: 'from config'
+          foo2: 'from config'
         }
       })
 
-      expect(wrapper.vm.val).to.equal('from parent')
-      expect(wrapper.vm.val2).to.equal('from config')
+      expect(wrapper.vm.foo).to.equal('from parent')
+      expect(wrapper.vm.foo2).to.equal('from config')
     }
   )
 
@@ -65,24 +65,24 @@ describeWithShallowAndMount('options.provide', mountingMethod => {
     () => {
       const parentComponent = {
         provide() {
-          return { val: 'from parent' }
+          return { foo: 'from parent' }
         }
       }
 
       const child = {
-        inject: ['val', 'val2'],
+        inject: ['foo', 'foo2'],
         template: '<div></div>'
       }
 
       const wrapper = mountingMethod(child, {
         parentComponent,
         provide: {
-          val2: 'from config'
+          foo2: 'from config'
         }
       })
 
-      expect(wrapper.vm.val).to.equal('from parent')
-      expect(wrapper.vm.val2).to.equal('from config')
+      expect(wrapper.vm.foo).to.equal('from parent')
+      expect(wrapper.vm.foo2).to.equal('from config')
     }
   )
 
@@ -92,23 +92,23 @@ describeWithShallowAndMount('options.provide', mountingMethod => {
     () => {
       const parentComponent = {
         provide() {
-          return { val: 'from parent' }
+          return { foo: 'from parent' }
         }
       }
 
       const child = {
-        inject: ['val'],
+        inject: ['foo'],
         template: '<div></div>'
       }
 
       const wrapper = mountingMethod(child, {
         parentComponent,
         provide: {
-          val: 'from config'
+          foo: 'from config'
         }
       })
 
-      expect(wrapper.vm.val).to.equal('from config')
+      expect(wrapper.vm.foo).to.equal('from config')
     }
   )
 
