@@ -1,4 +1,5 @@
 import { describeWithShallowAndMount } from '~resources/utils'
+import { enableAutoDestroy, resetAutoDestroyState } from '@vue/test-utils'
 
 describeWithShallowAndMount('Wrapper', mountingMethod => {
   ;['vnode', 'element', 'vm', 'options'].forEach(property => {
@@ -13,6 +14,43 @@ describeWithShallowAndMount('Wrapper', mountingMethod => {
       })
         .to.throw()
         .with.property('message', message)
+    })
+  })
+
+  describe('enableAutoDestroy', () => {
+    const sandbox = sinon.createSandbox()
+
+    beforeEach(() => {
+      resetAutoDestroyState()
+    })
+
+    it('calls the hook function', () => {
+      const hookSpy = sandbox.spy()
+
+      enableAutoDestroy(hookSpy)
+
+      expect(hookSpy).calledOnce
+    })
+
+    it('uses the hook function to destroy wrappers', () => {
+      let hookCallback
+      enableAutoDestroy(callback => {
+        hookCallback = callback
+      })
+      const wrapper = mountingMethod({ template: '<p>con tent</p>' })
+      sandbox.spy(wrapper, 'destroy')
+
+      hookCallback()
+
+      expect(wrapper.destroy).calledOnce
+    })
+
+    it('cannot be called twice', () => {
+      const noop = () => {}
+
+      enableAutoDestroy(noop)
+
+      expect(() => enableAutoDestroy(noop)).to.throw()
     })
   })
 })

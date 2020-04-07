@@ -1,10 +1,41 @@
 ## 测试异步行为
 
-为了让测试变得简单，`@vue/test-utils` *同步*应用 DOM 更新。不过当测试一个带有回调或 Promise 等异步行为的组件时，你需要留意一些技巧。
+在编写测试代码时你将会遇到两种异步行为：
 
-API 调用和 Vuex action 都是最常见的异步行为之一。下列例子展示了如何测试一个会调用到 API 的方法。这个例子使用 Jest 运行测试用例同时模拟了 HTTP 库 `axios`。更多关于 Jest 的手动模拟的介绍可移步[这里](https://jestjs.io/docs/zh-Hans/manual-mocks)。
+1. 来自 Vue 的更新
+2. 来自外部行为的更新
 
-`axios` 的模拟实现大概是这个样子的：
+## 来自 Vue 的更新
+
+Vue 会异步的将未生效的 DOM 批量更新，避免因数据反复变化而导致不必要的渲染。
+
+_你可以阅读[Vue 文档](https://cn.vuejs.org/v2/guide/reactivity.html#异步更新队列)了解更多关于异步指更新的信息。_
+
+在实践中，往往意味着你在更新会引发 DOM 变化的属性后必须使用 `Vue.nextTick（）` 来等待 Vue 完成 DOM 更新。
+
+使用 `Vue.nextTick()` 最简单的方法是在你的测试代码中使用异步函数：
+
+```js
+// 在文件头部引用Vue库
+import Vue from 'vue'
+
+// 其它的代码片断...
+
+// 在测试框架中，编写一个测试用例
+it('button click should increment the count text', async () => {
+  expect(wrapper.text()).toContain('0')
+  const button = wrapper.find('button')
+  button.trigger('click')
+  await Vue.nextTick()
+  expect(wrapper.text()).toContain('1')
+})
+```
+
+## 来自外部行为的更新
+
+在 Vue 之外最常见的一种异步行为就是在 Vuex 中进行 API 调用。以下示例将展示如何测试在 Vuex 中进行 API 调用的方法。本示例使用 Jest 运行测试并模拟 HTTP 库`axios`。可以在[这里](https://jestjs.io/docs/en/manual-mocks.html#content)找到有关 Jest Mock 的更多信息。
+
+`axios` Mock 的实现如下所示：
 
 ```js
 export default {
@@ -12,7 +43,7 @@ export default {
 }
 ```
 
-下面的组件在按钮被点击的时候会调用一个 API，然后将响应的值赋给 `value`。
+当按钮被点击时，组件将会产生一个 API 调用，并且将响应的返回内容赋值给 `value`。
 
 ```html
 <template>
@@ -39,7 +70,7 @@ export default {
 </script>
 ```
 
-测试用例可以写成像这样：
+可以这样编写测试：
 
 ```js
 import { shallowMount } from '@vue/test-utils'
@@ -53,7 +84,7 @@ it('fetches async when a button is clicked', () => {
 })
 ```
 
-现在这则测试用例会失败，因为断言在 `fetchResults` 中的 Promise 完成之前就被调用了。大多数单元测试库都提供一个回调来使得运行期知道测试用例的完成时机。Jest 和 Mocha 都是用了 `done`。我们可以和 `$nextTick` 或 `setTimeout` 结合使用 `done` 来确保任何 Promise 都会在断言之前完成。
+上面的代码代码会执行失败，这是因为我们在 `fetchResults` 方法执行完毕前就对结果进行断言。绝大多数单元测试框架都会提供一个回调来通知你测试将在何时完成。Jest 和 Mocha 都使用`done` 这个方法。我们可以将 `done` 与 `$nextTick` 或 `setTimeout` 结合使用，以确保在进行断言前已经处理完所有的 Promise 回调。
 
 ```js
 it('fetches async when a button is clicked', done => {
@@ -66,11 +97,11 @@ it('fetches async when a button is clicked', done => {
 })
 ```
 
-`setTimeout` 允许测试通过的原因是 Promise 回调的 microtask 队列会在处理 `setTimeout` 的回调的任务队列之前先被处理。也就是说在 `setTimeout` 的回调运行的时候，任何 microtask 队列上的 Promise 回调都已经执行过了。另一方面 `$nextTick` 会安排一个 microtask，但是因为 microtask 队列的处理方式是先进先出，所以也会保证回调在作出断言时已经被执行。更多的解释请移步[这里](https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/)。
+setTimeout 也可以使测试通过的原因是，Promise 回调的微任务队列会排在 setTimeout 回调的微任务队列之前。这意味着当 setTimeout 回调执行时，微任务队列上的所有 Promise 回调已经被执行过了。另一方面，`$nextTick` 也存在调度微任务的情况，但是由于微任务队列是先进先出的，因此也保证了在进行断言时已经处理完所有的 Promise 回调。请参阅[此处]（https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/）了解更多详细说明。
 
-另一个解决方案是使用一个 `async` 函数配合 npm 包 `flush-promises`。`flush-promises` 会清除所有等待完成的 Promise 具柄。你可以 `await` 该 `flushPromiese` 调用，以此清除等待中的 Promise 并改进你的测试用例的可读性。
+另外一个使用 `async` 方法的解决方案是使用 npm 仓库中的 `flush-promises`。`flush-promises` 会刷新所有处于 pending 状态或 resolved 状态的 Promise。你可以用 `await` 语句来等待 `flushPromises` 刷新 Promise 的状态，这样可以提升你代码的可读性。
 
-更新后的测试看起来像这样：
+修改以后的测试代码：
 
 ```js
 import { shallowMount } from '@vue/test-utils'
@@ -86,4 +117,4 @@ it('fetches async when a button is clicked', async () => {
 })
 ```
 
-相同的技巧可以被运用在同样默认返回一个 Promise 的 Vuex action 中。
+相同的技术细节也可以应用在处理 Vue Actions 上，默认情况下，它也会返回一个 Promise。

@@ -3,6 +3,58 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-beta.32](https://github.com/vuejs/vue-test-utils/compare/v1.0.0-beta.31...v1.0.0-beta.32) (2020-03-09)
+
+
+### Bug Fixes
+
+* improvement functional component features ([#1427](https://github.com/vuejs/vue-test-utils/issues/1427)) ([ebcf97c](https://github.com/vuejs/vue-test-utils/commit/ebcf97cc3cf230a29bdbe37a5aa6c69e3fa5ec97))
+
+
+
+
+
+# [1.0.0-beta.31](https://github.com/vuejs/vue-test-utils/compare/v1.0.0-beta.30...v1.0.0-beta.31) (2020-01-18)
+
+
+### Features
+
+* change to a named export ([d45e248](https://github.com/vuejs/vue-test-utils/commit/d45e248ea9d0b9665ba19a020483db493219b481))
+
+
+
+
+
+<a name="1.0.0-beta.30"></a>
+# [1.0.0-beta.30](https://github.com/vuejs/vue-test-utils/compare/v1.0.0-beta.29...v1.0.0-beta.30) (2019-11-28)
+
+
+### Bug Fixes
+
+* return promise from render and renderToString ([#1164](https://github.com/vuejs/vue-test-utils/issues/1164)) ([3c597d3](https://github.com/vuejs/vue-test-utils/commit/3c597d3))
+* **types:** allow `false` as a component stub value ([#1231](https://github.com/vuejs/vue-test-utils/issues/1231)) ([2a4c6ef](https://github.com/vuejs/vue-test-utils/commit/2a4c6ef))
+
+
+### Code Refactoring
+
+* remove sync mode ([#1141](https://github.com/vuejs/vue-test-utils/issues/1141)) ([ef613de](https://github.com/vuejs/vue-test-utils/commit/ef613de))
+
+
+### Features
+
+* add correct render type ([#1143](https://github.com/vuejs/vue-test-utils/issues/1143)) ([8a9757c](https://github.com/vuejs/vue-test-utils/commit/8a9757c))
+
+
+### BREAKING CHANGES
+
+* render and renderToString are now async
+* * Remove `sync` mode
+* Remove TransitionStub
+* Remove Transition
+
+
+
+
 <a name="1.0.0-beta.29"></a>
 # [1.0.0-beta.29](https://github.com/vuejs/vue-test-utils/compare/v1.0.0-beta.28...v1.0.0-beta.29) (2019-02-02)
 

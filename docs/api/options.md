@@ -10,6 +10,7 @@ These options will be merged with the component's existing options when mounted 
 :::
 
 - [`context`](#context)
+- [`data`](#data)
 - [`slots`](#slots)
 - [`scopedSlots`](#scopedslots)
 - [`stubs`](#stubs)
@@ -21,7 +22,6 @@ These options will be merged with the component's existing options when mounted 
 - [`listeners`](#listeners)
 - [`parentComponent`](#parentcomponent)
 - [`provide`](#provide)
-- [`sync`](#sync)
 
 ## context
 
@@ -45,6 +45,43 @@ const wrapper = mount(Component, {
 expect(wrapper.is(Component)).toBe(true)
 ```
 
+## data
+
+- type: `Function`
+
+Passes data to a component. It will merge with the existing `data` function.
+
+Example:
+
+```js
+const Component = {
+  template: `
+    <div>
+      <span id="foo">{{ foo }}</span>
+      <span id="bar">{{ bar }}</span>
+    </div>
+  `,
+
+  data() {
+    return {
+      foo: 'foo',
+      bar: 'bar'
+    }
+  }
+}
+
+const wrapper = mount(Component, {
+  data() {
+    return {
+      bar: 'my-override'
+    }
+  }
+})
+
+wrapper.find('#foo').text() // 'foo'
+wrapper.find('#bar').text() // 'my-override'
+```
+
 ## slots
 
 - type: `{ [name: string]: Array<Component>|Component|string }`
@@ -55,10 +92,23 @@ Example:
 
 ```js
 import Foo from './Foo.vue'
+import MyComponent from './MyComponent.vue'
 
 const bazComponent = {
   name: 'baz-component',
   template: '<p>baz</p>'
+}
+
+const yourComponent = {
+  props: {
+    foo: {
+      type: String,
+      required: true
+    }
+  },
+  render(h) {
+    return h('p', this.foo)
+  }
 }
 
 const wrapper = shallowMount(Component, {
@@ -68,7 +118,17 @@ const wrapper = shallowMount(Component, {
     foo: '<div />',
     bar: 'bar',
     baz: bazComponent,
-    qux: '<my-component />'
+    qux: '<my-component />',
+    quux: '<your-component foo="lorem"/><your-component :foo="yourProperty"/>'
+  },
+  stubs: {
+    // used to register custom components
+    'my-component': MyComponent,
+    'your-component': yourComponent
+  },
+  mocks: {
+    // used to add properties to the rendering context
+    yourProperty: 'ipsum'
   }
 })
 
@@ -125,11 +185,36 @@ shallowMount(Component, {
 })
 ```
 
+::: warning Root Element required
+Due to the internal implementation of this feature, the slot content has to return a root element, even though a scoped slot is allowed to return an array of elements.
+
+If you ever need this in a test, the recommended workaround is to wrap the component under test in another component and mount that one:
+:::
+
+```javascript
+const WrapperComp = {
+  template: `
+  <ComponentUnderTest v-slot="props">
+    <p>Using the {{props.a}}</p>
+    <p>Using the {{props.a}}</p>
+  </ComponentUnderTest>
+  `,
+  components: {
+    ComponentUnderTest
+  }
+}
+const wrapper = mount(WrapperComp).find(ComponentUnderTest)
+```
+
 ## stubs
 
-- type: `{ [name: string]: Component | boolean } | Array<string>`
+- type: `{ [name: string]: Component | string | boolean } | Array<string>`
 
-Stubs child components. Can be an Array of component names to stub, or an object. If `stubs` is an Array, every stub is `<${component name}-stub>`.
+Stubs child components can be an Array of component names to stub, or an object. If `stubs` is an Array, every stub is `<${component name}-stub>`.
+
+**Deprecation Notice:**
+
+When stubbing components, supplying a string (`ComponentToStub: '<div class="stubbed" />`) is no longer supported.
 
 Example:
 
@@ -169,6 +254,10 @@ const wrapper = shallowMount(Component, {
 })
 expect(wrapper.vm.$route.path).toBe($route.path)
 ```
+
+::: tip
+To mock `$root` please use `parentComponent` option instead as described [here](https://github.com/vuejs/vue-test-utils/issues/481#issuecomment-423716430)
+:::
 
 ## localVue
 
@@ -248,6 +337,23 @@ Please see [Other options](#other-options).
 
 Set the component instance's `$listeners` object.
 
+Example:
+
+```js
+const Component = {
+  template: '<button v-on:click="$emit(\'click\')"></button>'
+}
+const onClick = jest.fn()
+const wrapper = mount(Component, {
+  listeners: {
+    click: onClick
+  }
+})
+
+wrapper.trigger('click')
+expect(onClick).toHaveBeenCalled()
+```
+
 ## parentComponent
 
 - type: `Object`
@@ -289,14 +395,6 @@ const wrapper = shallowMount(Component, {
 
 expect(wrapper.text()).toBe('fooValue')
 ```
-
-## sync
-
-- type: `boolean`
-- default: `true`
-
-When `sync` is `true`, the Vue component is rendered synchronously.  
-When `sync` is `false`, the Vue component is rendered asynchronously.
 
 ## Other options
 

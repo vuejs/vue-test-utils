@@ -1,8 +1,10 @@
 ## Testing Single-File Components with Jest
 
-> An example project for this setup is available on [GitHub](https://github.com/vuejs/vue-test-utils-jest-example).
+> An example project for this setup is available on [GitHub](https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-unit-jest).
 
 Jest is a test runner developed by Facebook, aiming to deliver a battery-included unit testing solution. You can learn more about Jest on its [official documentation](https://jestjs.io/).
+
+<div class="vueschool"><a href="https://vueschool.io/courses/learn-how-to-test-vuejs-components?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to use Jest and Vue Test Utils to test Single File Components with Vue School">Learn how to use Jest to test Single File Components with Vue School</a></div>
 
 #### Setting up Jest
 
@@ -54,6 +56,8 @@ Next, create a `jest` block in `package.json`:
 ```
 
 > **Note:** `vue-jest` currently does not support all the features of `vue-loader`, for example custom block support and style loading. In addition, some webpack-specific features such as code-splitting are not supported either. To use these unsupported features, you need to use Mocha instead of Jest to run your tests, and webpack to compile your components. To get started, read the guide on [testing SFCs with Mocha + webpack](./testing-single-file-components-with-mocha-webpack.md).
+
+> **Note:** If you are using Babel 7 or higher, you will need to add [babel-bridge](https://github.com/babel/babel-bridge) to your devDependencies (`$ npm install --save-dev babel-core@^7.0.0-bridge.0`).
 
 ### Handling webpack Aliases
 
@@ -203,7 +207,7 @@ Then configure it in `package.json`:
 
 ### Resources
 
-- [Example project for this setup](https://github.com/vuejs/vue-test-utils-jest-example)
+- [Example project for this setup](https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-unit-jest)
 - [Examples and slides from Vue Conf 2017](https://github.com/codebryo/vue-testing-with-jest-conf17)
 - [Jest](https://jestjs.io/)
 - [Babel preset env](https://github.com/babel/babel-preset-env)

@@ -1,4 +1,4 @@
-import { config } from '~vue/test-utils'
+import { config } from '@vue/test-utils'
 import { describeWithShallowAndMount } from '~resources/utils'
 
 describeWithShallowAndMount('options.methods', mountingMethod => {

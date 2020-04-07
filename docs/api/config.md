@@ -7,7 +7,7 @@ Vue Test Utils includes a config object to defined options used by Vue Test Util
 ### `stubs`
 
 - type: `{ [name: string]: Component | boolean | string }`
-- default: `{ transition: TransitionStub, 'transition-group': TransitionGroupStub }`
+- default: `{}`
 
 The stub stored in `config.stubs` is used by default.  
 Stubs to use in components. These are overwritten by `stubs` passed in the mounting options.
@@ -46,7 +46,7 @@ config.mocks['$store'] = {
 - type: `{ [name: string]: Function }`
 - default: `{}`
 
-You can configure default methods using the `config` object. This can be useful for plugins that inject methods to components, like [VeeValidate](https://vee-validate.logaretm.com/). You can override methods set in `config` by passing `methods` in the mounting options.
+You can configure default methods using the `config` object. This can be useful for plugins that inject methods to components, like [VeeValidate](https://logaretm.github.io/vee-validate/). You can override methods set in `config` by passing `methods` in the mounting options.
 
 Example:
 

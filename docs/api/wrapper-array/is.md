@@ -15,6 +15,6 @@ import { mount } from '@vue/test-utils'
 import Foo from './Foo.vue'
 
 const wrapper = mount(Foo)
-const divArray = wrapper.find('div')
+const divArray = wrapper.findAll('div')
 expect(divArray.is('div')).toBe(true)
 ```

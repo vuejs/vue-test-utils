@@ -15,7 +15,7 @@ import {
   INVALID_SELECTOR
 } from 'shared/consts'
 
-function getSelectorType(selector: Selector): string {
+export function getSelectorType(selector: Selector): string {
   if (isDomSelector(selector)) return DOM_SELECTOR
   if (isVueComponent(selector)) return COMPONENT_SELECTOR
   if (isNameSelector(selector)) return NAME_SELECTOR

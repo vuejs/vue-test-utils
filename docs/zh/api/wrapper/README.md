@@ -8,7 +8,7 @@ Vue Test Utils 是一个基于包裹器的 API。
 
 ### `vm`
 
-`Component` (只读)：这是该 Vue 实例。你可以通过 `wrapper.vm` 访问一个实例所有的[方法和属性](https://vuejs.org/v2/api/#Instance-Properties)。这只存在于 Vue 组件包裹器或绑定了 Vue 组件包裹器的 HTMLElement 中。
+`Component` (只读)：这是该 Vue 实例。你可以通过 `wrapper.vm` 访问一个实例所有的[方法和属性](https://cn.vuejs.org/v2/api/#实例属性)。这只存在于 Vue 组件包裹器或绑定了 Vue 组件包裹器的 HTMLElement 中。
 
 ### `element`
 
@@ -19,10 +19,6 @@ Vue Test Utils 是一个基于包裹器的 API。
 #### `options.attachedToDocument`
 
 `Boolean` (只读)：如果组件在渲染之后被添加到了文档上则为真
-
-#### `options.sync`
-
-`Boolean` (只读)：如果挂载选项里的 `sync` 不是 `false` 则为真
 
 ## 方法
 

@@ -24,36 +24,46 @@ const modifiers = {
   pagedown: 34
 }
 
-function createEvent(
-  type,
-  modifier,
-  { eventInterface, bubbles, cancelable },
-  options
-) {
+function getOptions(eventParams) {
+  const { modifier, meta, options } = eventParams
+  const keyCode = modifiers[modifier] || options.keyCode || options.code
+
+  return {
+    ...options, // What the user passed in as the second argument to #trigger
+
+    bubbles: meta.bubbles,
+    cancelable: meta.cancelable,
+
+    // Any derived options should go here
+    keyCode,
+    code: keyCode
+  }
+}
+
+function createEvent(eventParams) {
+  const { eventType, meta = {} } = eventParams
+
   const SupportedEventInterface =
-    typeof window[eventInterface] === 'function'
-      ? window[eventInterface]
+    typeof window[meta.eventInterface] === 'function'
+      ? window[meta.eventInterface]
       : window.Event
 
-  const event = new SupportedEventInterface(type, {
+  const event = new SupportedEventInterface(
+    eventType,
     // event properties can only be added when the event is instantiated
     // custom properties must be added after the event has been instantiated
-    ...options,
-    bubbles,
-    cancelable,
-    keyCode: modifiers[modifier]
-  })
+    getOptions(eventParams)
+  )
 
   return event
 }
 
-function createOldEvent(
-  type,
-  modifier,
-  { eventInterface, bubbles, cancelable }
-) {
+function createOldEvent(eventParams) {
+  const { eventType, modifier, meta } = eventParams
+  const { bubbles, cancelable } = meta
+
   const event = document.createEvent('Event')
-  event.initEvent(type, bubbles, cancelable)
+  event.initEvent(eventType, bubbles, cancelable)
   event.keyCode = modifiers[modifier]
   return event
 }
@@ -62,11 +72,13 @@ export default function createDOMEvent(type, options) {
   const [eventType, modifier] = type.split('.')
   const meta = eventTypes[eventType] || defaultEventType
 
+  const eventParams = { eventType, modifier, meta, options }
+
   // Fallback for IE10,11 - https://stackoverflow.com/questions/26596123
   const event =
     typeof window.Event === 'function'
-      ? createEvent(eventType, modifier, meta, options)
-      : createOldEvent(eventType, modifier, meta)
+      ? createEvent(eventParams)
+      : createOldEvent(eventParams)
 
   const eventPrototype = Object.getPrototypeOf(event)
   Object.keys(options || {}).forEach(key => {

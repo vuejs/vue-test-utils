@@ -22,8 +22,8 @@ Refer to the [documentation](https://vue-test-utils.vuejs.org/)
 
 ## Examples
 
-- [example with Jest](https://github.com/vuejs/vue-test-utils-jest-example)
-- [example with Mocha](https://github.com/vuejs/vue-test-utils-mocha-webpack-example)
+- [example with Jest](https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-unit-jest)
+- [example with Mocha](https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-unit-mocha)
 - [example with tape](https://github.com/eddyerburgh/vue-test-utils-tape-example)
 - [example with AVA](https://github.com/eddyerburgh/vue-test-utils-ava-example)
 

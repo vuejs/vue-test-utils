@@ -14,9 +14,6 @@ reports
 coverage
 .nyc_output/
 
-# Build
-dist
-
 # Docs
 _book
 .tmp

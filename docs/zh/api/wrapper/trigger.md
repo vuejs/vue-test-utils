@@ -16,22 +16,26 @@ import { mount } from '@vue/test-utils'
 import sinon from 'sinon'
 import Foo from './Foo'
 
-const clickHandler = sinon.stub()
-const wrapper = mount(Foo, {
-  propsData: { clickHandler }
+test('trigger demo', async () => {
+  const clickHandler = sinon.stub()
+  const wrapper = mount(Foo, {
+    propsData: { clickHandler }
+  })
+
+  wrapper.trigger('click')
+
+  wrapper.trigger('click', {
+    button: 0
+  })
+
+  wrapper.trigger('click', {
+    ctrlKey: true // 用于测试 @click.ctrl 处理函数
+  })
+
+  await wrapper.vm.$nextTick() // 等待事件处理完成
+
+  expect(clickHandler.called).toBe(true)
 })
-
-wrapper.trigger('click')
-
-wrapper.trigger('click', {
-  button: 0
-})
-
-wrapper.trigger('click', {
-  ctrlKey: true // 用于测试 @click.ctrl 处理函数
-})
-
-expect(clickHandler.called).toBe(true)
 ```
 
 - **设置事件目标：**

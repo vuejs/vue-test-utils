@@ -3,6 +3,75 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-beta.32](https://github.com/vuejs/vue-test-utils/compare/v1.0.0-beta.31...v1.0.0-beta.32) (2020-03-09)
+
+
+### Bug Fixes
+
+* **types:** emitted can return undefined ([#1431](https://github.com/vuejs/vue-test-utils/issues/1431)) ([b41a09d](https://github.com/vuejs/vue-test-utils/commit/b41a09dcfd616c933bb1e36eba131ba273af6ea4))
+* improvement functional component features ([#1427](https://github.com/vuejs/vue-test-utils/issues/1427)) ([ebcf97c](https://github.com/vuejs/vue-test-utils/commit/ebcf97cc3cf230a29bdbe37a5aa6c69e3fa5ec97))
+
+
+
+
+
+# [1.0.0-beta.31](https://github.com/vuejs/vue-test-utils/compare/v1.0.0-beta.30...v1.0.0-beta.31) (2020-01-18)
+
+
+### Bug Fixes
+
+* Stop `trigger` from working on disabled html elements ([#1362](https://github.com/vuejs/vue-test-utils/pull/1362))
+* Add provide/inject support for Composition API ([#1354](https://github.com/vuejs/vue-test-utils/pull/1354)) 
+* Fix issue with keyCodes provided to `trigger` ([#1378](https://github.com/vuejs/vue-test-utils/pull/1378)) closes [#1285](https://github.com/vuejs/vue-test-utils/issues/1285), [#1295](https://github.com/vuejs/vue-test-utils/issues/1295)
+* setChecked and setSelected should only work if not already selected ([#1380](https://github.com/vuejs/vue-test-utils/pull/1380)) closes [#1339](https://github.com/vuejs/vue-test-utils/issues/1339)
+* Override watch definitions properly ([#1392](https://github.com/vuejs/vue-test-utils/pull/1392)) closes [#1391](https://github.com/vuejs/vue-test-utils/issues/1391)
+* Support v-slot ([#1383](https://github.com/vuejs/vue-test-utils/pull/1383)) closes [#1261](https://github.com/vuejs/vue-test-utils/issues/1261)
+* Allow find to work on both Pascal case and camel case ([#1398](https://github.com/vuejs/vue-test-utils/pull/1398)) closes [#1232](https://github.com/vuejs/vue-test-utils/issues/1232)
+* Pass refs to functional component stubs [#1293](https://github.com/vuejs/vue-test-utils/pull/1293) closes [#1292](https://github.com/vuejs/vue-test-utils/issues/1292)
+
+### Features
+
+* Allow templates to be defined in HTML ([#1362](https://github.com/vuejs/vue-test-utils/pull/1320)) closes [#351](https://github.com/vuejs/vue-test-utils/issues/351)
+* Store the selector when using `find` ([#1248](https://github.com/vuejs/vue-test-utils/pull/1248)) closes [#1135](https://github.com/vuejs/vue-test-utils/issues/1135)
+* Introduce enableAutoDestroy() helper function ([#1245](https://github.com/vuejs/vue-test-utils/pull/1245)) closes [#1236](https://github.com/vuejs/vue-test-utils/issues/1236)
+* Allow negative indices to be passed to .at() ([#1244](https://github.com/vuejs/vue-test-utils/pull/1244))  
+* Add a get method to Wrapper ([#1304](https://github.com/vuejs/vue-test-utils/pull/1304)) closes [#1298](https://github.com/vuejs/vue-test-utils/issues/1298)
+
+
+
+<a name="1.0.0-beta.30"></a>
+# [1.0.0-beta.30](https://github.com/vuejs/vue-test-utils/compare/v1.0.0-beta.29...v1.0.0-beta.30) (2019-11-28)
+
+
+### Bug Fixes
+
+* polyfill Element.matches for IE < 11 ([#1230](https://github.com/vuejs/vue-test-utils/issues/1230)) ([5e04331](https://github.com/vuejs/vue-test-utils/commit/5e04331)), closes [#1223](https://github.com/vuejs/vue-test-utils/issues/1223)
+* **types:** allow `false` as a component stub value ([#1231](https://github.com/vuejs/vue-test-utils/issues/1231)) ([2a4c6ef](https://github.com/vuejs/vue-test-utils/commit/2a4c6ef))
+* respect "hidden" attributes in isVisible() ([#1257](https://github.com/vuejs/vue-test-utils/issues/1257)) ([950763f](https://github.com/vuejs/vue-test-utils/commit/950763f))
+
+
+### Code Refactoring
+
+* remove sync mode ([#1141](https://github.com/vuejs/vue-test-utils/issues/1141)) ([ef613de](https://github.com/vuejs/vue-test-utils/commit/ef613de))
+
+
+### Features
+
+* **wrapper:** allow destroy() method to work with functional components ([#1188](https://github.com/vuejs/vue-test-utils/issues/1188)) ([f4ea3fd](https://github.com/vuejs/vue-test-utils/commit/f4ea3fd))
+* add option to pretty print html components ([#1229](https://github.com/vuejs/vue-test-utils/issues/1229)) ([99336c4](https://github.com/vuejs/vue-test-utils/commit/99336c4))
+* stop auto stubbing transition and transition-group ([#1127](https://github.com/vuejs/vue-test-utils/issues/1127)) ([85a972c](https://github.com/vuejs/vue-test-utils/commit/85a972c))
+
+
+### BREAKING CHANGES
+
+* html output will now be formatted
+* * Remove `sync` mode
+* Remove TransitionStub
+* Remove Transition
+
+
+
+
 <a name="1.0.0-beta.29"></a>
 # [1.0.0-beta.29](https://github.com/vuejs/vue-test-utils/compare/v1.0.0-beta.28...v1.0.0-beta.29) (2019-02-02)
 

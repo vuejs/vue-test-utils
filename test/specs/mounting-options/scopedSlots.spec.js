@@ -1,5 +1,5 @@
 import { describeWithShallowAndMount, vueVersion } from '~resources/utils'
-import { createLocalVue } from '~vue/test-utils'
+import { createLocalVue } from '@vue/test-utils'
 import ComponentWithScopedSlots from '~resources/components/component-with-scoped-slots.vue'
 import { itDoNotRunIf } from 'conditional-specs'
 import Vue from 'vue'
@@ -278,6 +278,56 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
       })
       await Vue.nextTick()
       expect(stub).calledWith(123)
+    }
+  )
+
+  itDoNotRunIf(
+    vueVersion < 2.6,
+    'renders scoped slot with v-slot syntax',
+    () => {
+      const TestComponent = {
+        data() {
+          return {
+            val: 25,
+            val2: 50
+          }
+        },
+        template:
+          '<div><slot :val="val"/><slot name="named" :val="val2"/></div>'
+      }
+      const wrapper = mountingMethod(TestComponent, {
+        scopedSlots: {
+          default:
+            '<template v-slot:default="{ val }"><p>{{ val }}</p></template>',
+          named:
+            '<template v-slot:named="prop"><p>{{ prop.val }}</p></template>'
+        }
+      })
+      expect(wrapper.html()).to.equal('<div>\n  <p>25</p>\n  <p>50</p>\n</div>')
+    }
+  )
+
+  itDoNotRunIf(
+    vueVersion < 2.6,
+    'renders scoped slot with shorthand v-slot syntax',
+    () => {
+      const TestComponent = {
+        data() {
+          return {
+            val: 25,
+            val2: 50
+          }
+        },
+        template:
+          '<div><slot :val="val"/><slot name="named" :val="val2"/></div>'
+      }
+      const wrapper = mountingMethod(TestComponent, {
+        scopedSlots: {
+          default: '<template #default="{ val }"><p>{{ val }}</p></template>',
+          named: '<template #named="prop"><p>{{ prop.val }}</p></template>'
+        }
+      })
+      expect(wrapper.html()).to.equal('<div>\n  <p>25</p>\n  <p>50</p>\n</div>')
     }
   )
 

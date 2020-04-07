@@ -8,7 +8,7 @@
 import { mount } from '@vue/test-utils'
 import Foo from './Foo.vue'
 
-const wrapper = shallowMount(Foo)
+const wrapper = mount(Foo)
 const options = wrapper.find('select').findAll('option')
 
 options.at(1).setSelected()

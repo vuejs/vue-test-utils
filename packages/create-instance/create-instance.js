@@ -59,8 +59,14 @@ export default function createInstance(
   // root instance when it's instantiated
   const instanceOptions = extractInstanceOptions(options)
 
+  const globalComponents = _Vue.options.components || {}
+  const componentsToStub = Object.assign(
+    Object.create(globalComponents),
+    componentOptions.components
+  )
+
   const stubComponentsObject = createStubsFromStubsObject(
-    componentOptions.components,
+    componentsToStub,
     // $FlowIgnore
     options.stubs,
     _Vue
@@ -78,10 +84,22 @@ export default function createInstance(
   // used to identify extended component using constructor
   componentOptions.$_vueTestUtils_original = component
 
-  // make sure all extends are based on this instance
+  // watchers provided in mounting options should override preexisting ones
+  if (componentOptions.watch && instanceOptions.watch) {
+    const componentWatchers = Object.keys(componentOptions.watch)
+    const instanceWatchers = Object.keys(instanceOptions.watch)
 
+    for (let i = 0; i < instanceWatchers.length; i++) {
+      const k = instanceWatchers[i]
+      // override the componentOptions with the one provided in mounting options
+      if (componentWatchers.includes(k)) {
+        componentOptions.watch[k] = instanceOptions.watch[k]
+      }
+    }
+  }
+
+  // make sure all extends are based on this instance
   const Constructor = _Vue.extend(componentOptions).extend(instanceOptions)
-  componentOptions._Ctor = {}
   Constructor.options._base = _Vue
 
   const scopedSlots = createScopedSlots(options.scopedSlots, _Vue)

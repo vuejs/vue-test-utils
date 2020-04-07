@@ -1,6 +1,6 @@
 ## Тестирование однофайловых компонентов с Jest
 
-> Пример проекта для этой конфигурации доступен на [GitHub](https://github.com/vuejs/vue-test-utils-jest-example).
+> Пример проекта для этой конфигурации доступен на [GitHub](https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-unit-jest).
 
 Jest — это программа для запуска тестов, разработанная Facebook, направленная на предоставление функционального решения для модульного тестирования. Вы можете узнать больше о Jest в [официальной документации](https://jestjs.io/).
 
@@ -203,7 +203,7 @@ npm install --save-dev jest-serializer-vue
 
 ### Ресурсы
 
-- [Пример проекта для этой конфигурации](https://github.com/vuejs/vue-test-utils-jest-example)
+- [Пример проекта для этой конфигурации](https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-unit-jest)
 - [Примеры и слайды с Vue Conf 2017](https://github.com/codebryo/vue-testing-with-jest-conf17)
 - [Jest](https://jestjs.io/)
 - [Babel preset env](https://github.com/babel/babel-preset-env)

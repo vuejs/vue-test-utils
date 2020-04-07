@@ -25,7 +25,7 @@
 
 Cheerio — библиотека, похожая на jQuery, для навигации по DOM в Node.js. Она имеет аналогичный API в [`Wrapper`](wrapper/) Vue Test Utils.
 
-`render` использует [`vue-server-renderer`](https://ssr.vuejs.org/en/basic.html) под капотом для рендеринга компонента в статический HTML.
+`render` использует [`vue-server-renderer`](https://ssr.vuejs.org/ru/basic.html) под капотом для рендеринга компонента в статический HTML.
 
 `render` включён в пакет `@vue/server-test-utils`.
 

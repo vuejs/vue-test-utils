@@ -22,6 +22,10 @@ module.exports = {
     }
   },
   serviceWorker: true,
+  head: [
+    ['link', { rel: 'icon', href: '/favicon.png' }],
+    ['link', { rel: 'stylesheet', href: '/vueschool.css' }]
+  ],
   theme: 'vue',
   themeConfig: {
     algolia: {

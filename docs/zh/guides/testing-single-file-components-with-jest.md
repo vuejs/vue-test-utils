@@ -1,6 +1,6 @@
 ## 用 Jest 测试单文件组件
 
-> 我们在 [GitHub](https://github.com/vuejs/vue-test-utils-jest-example) 上放有一个关于这些设置的示例工程。
+> 我们在 [GitHub](https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-unit-jest) 上放有一个关于这些设置的示例工程。
 
 Jest 是一个由 Facebook 开发的测试运行器，致力于提供一个“bettery-included”单元测试解决方案。你可以在其[官方文档](https://jestjs.io/)学习到更多 Jest 的知识。
 
@@ -201,7 +201,7 @@ npm install --save-dev jest-serializer-vue
 
 ### 相关资料
 
-- [该设置的示例工程](https://github.com/vuejs/vue-test-utils-jest-example)
+- [该设置的示例工程](https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-unit-jest)
 - [Vue Conf 2017 中的示例和幻灯片](https://github.com/codebryo/vue-testing-with-jest-conf17)
 - [Jest](https://jestjs.io/)
 - [Babel preset env](https://github.com/babel/babel-preset-env)

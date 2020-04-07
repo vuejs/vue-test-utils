@@ -24,6 +24,7 @@ export default class Wrapper implements BaseWrapper {
   +options: WrapperOptions
   isFunctionalComponent: boolean
   rootNode: VNode | Element
+  selector: Selector | void
 
   constructor(
     node: VNode | Element,
@@ -185,6 +186,18 @@ export default class Wrapper implements BaseWrapper {
   }
 
   /**
+   * Gets first node in tree of the current wrapper that
+   * matches the provided selector.
+   */
+  get(rawSelector: Selector): Wrapper {
+    const found = this.find(rawSelector)
+    if (found instanceof ErrorWrapper) {
+      throw new Error(`Unable to find ${rawSelector} within: ${this.html()}`)
+    }
+    return found
+  }
+
+  /**
    * Finds first node in tree of the current wrapper that
    * matches the provided selector.
    */
@@ -193,15 +206,12 @@ export default class Wrapper implements BaseWrapper {
     const node = find(this.rootNode, this.vm, selector)[0]
 
     if (!node) {
-      if (selector.type === REF_SELECTOR) {
-        return new ErrorWrapper(`ref="${selector.value.ref}"`)
-      }
-      return new ErrorWrapper(
-        typeof selector.value === 'string' ? selector.value : 'Component'
-      )
+      return new ErrorWrapper(rawSelector)
     }
 
-    return createWrapper(node, this.options)
+    const wrapper = createWrapper(node, this.options)
+    wrapper.selector = rawSelector
+    return wrapper
   }
 
   /**
@@ -214,9 +224,14 @@ export default class Wrapper implements BaseWrapper {
     const wrappers = nodes.map(node => {
       // Using CSS Selector, returns a VueWrapper instance if the root element
       // binds a Vue instance.
-      return createWrapper(node, this.options)
+      const wrapper = createWrapper(node, this.options)
+      wrapper.selector = rawSelector
+      return wrapper
     })
-    return new WrapperArray(wrappers)
+
+    const wrapperArray = new WrapperArray(wrappers)
+    wrapperArray.selector = rawSelector
+    return wrapperArray
   }
 
   /**
@@ -372,6 +387,10 @@ export default class Wrapper implements BaseWrapper {
         )
       }
 
+      if (this.element.checked === checked) {
+        return
+      }
+
       if (event !== 'click' || isPhantomJS) {
         // $FlowIgnore
         this.element.selected = true
@@ -397,6 +416,10 @@ export default class Wrapper implements BaseWrapper {
     }
 
     if (tagName === 'OPTION') {
+      if (this.element.selected) {
+        return
+      }
+
       // $FlowIgnore
       this.element.selected = true
       // $FlowIgnore
@@ -455,63 +478,67 @@ export default class Wrapper implements BaseWrapper {
    * Sets vm props
    */
   setProps(data: Object): void {
-    const originalConfig = Vue.config.silent
-    Vue.config.silent = config.silent
+    // Validate the setProps method call
     if (this.isFunctionalComponent) {
       throwError(
         `wrapper.setProps() cannot be called on a functional component`
       )
     }
+
     if (!this.vm) {
       throwError(`wrapper.setProps() can only be called on a Vue instance`)
     }
 
-    Object.keys(data).forEach(key => {
-      if (
-        typeof data[key] === 'object' &&
-        data[key] !== null &&
-        // $FlowIgnore : Problem with possibly null this.vm
-        data[key] === this.vm[key]
-      ) {
-        throwError(
-          `wrapper.setProps() called with the same object of the existing ` +
-            `${key} property. You must call wrapper.setProps() with a new ` +
-            `object to trigger reactivity`
-        )
-      }
-      if (
-        !this.vm ||
-        !this.vm.$options._propKeys ||
-        !this.vm.$options._propKeys.some(prop => prop === key)
-      ) {
-        if (VUE_VERSION > 2.3) {
-          // $FlowIgnore : Problem with possibly null this.vm
-          this.vm.$attrs[key] = data[key]
-          return
-        }
-        throwError(
-          `wrapper.setProps() called with ${key} property which ` +
-            `is not defined on the component`
-        )
-      }
+    // Save the original "silent" config so that we can directly mutate props
+    const originalConfig = Vue.config.silent
+    Vue.config.silent = config.silent
 
-      if (this.vm && this.vm._props) {
-        // Set actual props value
-        this.vm._props[key] = data[key]
+    try {
+      Object.keys(data).forEach(key => {
+        // Don't let people set entire objects, because reactivity won't work
+        if (
+          typeof data[key] === 'object' &&
+          data[key] !== null &&
+          // $FlowIgnore : Problem with possibly null this.vm
+          data[key] === this.vm[key]
+        ) {
+          throwError(
+            `wrapper.setProps() called with the same object of the existing ` +
+              `${key} property. You must call wrapper.setProps() with a new ` +
+              `object to trigger reactivity`
+          )
+        }
+
+        if (
+          !this.vm ||
+          !this.vm.$options._propKeys ||
+          !this.vm.$options._propKeys.some(prop => prop === key)
+        ) {
+          if (VUE_VERSION > 2.3) {
+            // $FlowIgnore : Problem with possibly null this.vm
+            this.vm.$attrs[key] = data[key]
+            return
+          }
+          throwError(
+            `wrapper.setProps() called with ${key} property which ` +
+              `is not defined on the component`
+          )
+        }
+
+        // Actually set the prop
         // $FlowIgnore : Problem with possibly null this.vm
         this.vm[key] = data[key]
-      } else {
-        // $FlowIgnore : Problem with possibly null this.vm.$options
-        this.vm.$options.propsData[key] = data[key]
-        // $FlowIgnore : Problem with possibly null this.vm
-        this.vm[key] = data[key]
-        // $FlowIgnore : Need to call this twice to fix watcher bug in 2.0.x
-        this.vm[key] = data[key]
-      }
-    })
-    // $FlowIgnore : Problem with possibly null this.vm
-    this.vm.$forceUpdate()
-    Vue.config.silent = originalConfig
+      })
+
+      // $FlowIgnore : Problem with possibly null this.vm
+      this.vm.$forceUpdate()
+    } catch (err) {
+      throw err
+    } finally {
+      // Ensure you teardown the modifications you made to the user's config
+      // After all the props are set, then reset the state
+      Vue.config.silent = originalConfig
+    }
   }
 
   /**
@@ -542,10 +569,24 @@ export default class Wrapper implements BaseWrapper {
       tagName === 'TEXTAREA' ||
       tagName === 'SELECT'
     ) {
-      const event = tagName === 'SELECT' ? 'change' : 'input'
       // $FlowIgnore
       this.element.value = value
-      this.trigger(event)
+
+      if (tagName === 'SELECT') {
+        this.trigger('change')
+      } else {
+        this.trigger('input')
+      }
+
+      // for v-model.lazy, we need to trigger a change event, too.
+      // $FlowIgnore
+      if (
+        (tagName === 'INPUT' || tagName === 'TEXTAREA') &&
+        this.element._vModifiers &&
+        this.element._vModifiers.lazy
+      ) {
+        this.trigger('change')
+      }
     } else {
       throwError(`wrapper.setValue() cannot be called on this element`)
     }
@@ -574,8 +615,25 @@ export default class Wrapper implements BaseWrapper {
       )
     }
 
-    // Don't fire event on a disabled element
-    if (this.attributes().disabled) {
+    /**
+     * Avoids firing events on specific disabled elements
+     * See more: https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/disabled
+     */
+
+    const supportedTags = [
+      'BUTTON',
+      'COMMAND',
+      'FIELDSET',
+      'KEYGEN',
+      'OPTGROUP',
+      'OPTION',
+      'SELECT',
+      'TEXTAREA',
+      'INPUT'
+    ]
+    const tagName = this.element.tagName
+
+    if (this.attributes().disabled && supportedTags.indexOf(tagName) > -1) {
       return
     }
 

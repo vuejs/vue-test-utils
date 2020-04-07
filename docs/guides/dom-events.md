@@ -1,5 +1,7 @@
 ## Testing Key, Mouse and other DOM events
 
+<div class="vueschool"><a href="https://vueschool.io/lessons/traversing-the-dom?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn to traverse and interact with the DOM with a free video lesson from Vue School">Learn to traverse and interact with the DOM with a free lesson on Vue School</a></div>
+
 ### Trigger events
 
 The `Wrapper` exposes a `trigger` method. It can be used to trigger DOM events.
@@ -207,7 +209,3 @@ A key name after the dot `keydown.up` is translated to a `keyCode`. This is supp
 | home      | 36       |
 | pageup    | 33       |
 | pagedown  | 34       |
-
-### Important
-
-Vue Test Utils triggers event synchronously. Consequently, `Vue.nextTick` is not required.

@@ -2,6 +2,8 @@
 
 In this guide, we'll see how to test Vuex in components with Vue Test Utils, and how to approach testing a Vuex store.
 
+<div class="vueschool"><a href="https://vueschool.io/lessons/how-to-test-vuejs-component-with-vuex-store?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to test that a Vuex Store is injected into a component with a free video lesson on Vue School">Learn how to test that a Vuex Store is injected into a component with Vue School</a></div>
+
 ## Testing Vuex in components
 
 ### Mocking Actions
@@ -353,7 +355,7 @@ import Vuex from 'vuex'
 import storeConfig from './store-config'
 import { cloneDeep } from 'lodash'
 
-test('increments "count" value when "increment" is commited', () => {
+test('increments "count" value when "increment" is committed', () => {
   const localVue = createLocalVue()
   localVue.use(Vuex)
   const store = new Vuex.Store(cloneDeep(storeConfig))
@@ -362,7 +364,7 @@ test('increments "count" value when "increment" is commited', () => {
   expect(store.state.count).toBe(1)
 })
 
-test('updates "evenOrOdd" getter when "increment" is commited', () => {
+test('updates "evenOrOdd" getter when "increment" is committed', () => {
   const localVue = createLocalVue()
   localVue.use(Vuex)
   const store = new Vuex.Store(cloneDeep(storeConfig))

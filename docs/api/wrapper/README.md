@@ -4,6 +4,8 @@ Vue Test Utils is a wrapper based API.
 
 A `Wrapper` is an object that contains a mounted component or vnode and methods to test the component or vnode.
 
+<div class="vueschool"><a href="https://vueschool.io/lessons/the-wrapper-object?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn about the Wrapper object in a FREE video lesson from Vue School">Learn about the Wrapper object in a FREE video lesson from Vue School</a></div>
+
 ## Properties
 
 ### `vm`
@@ -18,11 +20,11 @@ A `Wrapper` is an object that contains a mounted component or vnode and methods 
 
 #### `options.attachedToDocument`
 
-`Boolean` (read-only): True if component is attached to document when rendered.
+`Boolean` (read-only): `true` if component is [attached to document](../options.md) when rendered.
 
-#### `options.sync`
+### `selector`
 
-`Boolean` (read-only): True if `sync` in mounting options was not `false`
+`Selector`: the selector that was used by [`find()`](./find.md) or [`findAll()`](./findAll.md) to create this wrapper
 
 ## Methods
 
@@ -36,6 +38,7 @@ A `Wrapper` is an object that contains a mounted component or vnode and methods 
 !!!include(docs/api/wrapper/find.md)!!!
 !!!include(docs/api/wrapper/findAll.md)!!!
 !!!include(docs/api/wrapper/html.md)!!!
+!!!include(docs/api/wrapper/get.md)!!!
 !!!include(docs/api/wrapper/is.md)!!!
 !!!include(docs/api/wrapper/isEmpty.md)!!!
 !!!include(docs/api/wrapper/isVisible.md)!!!

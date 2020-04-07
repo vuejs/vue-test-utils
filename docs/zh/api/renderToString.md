@@ -23,7 +23,7 @@
 
 将一个组件渲染为 HTML。
 
-`renderToString` 在底层使用 [`vue-server-renderer`](https://ssr.vuejs.org/en/basic.html) 将一个组件渲染为 HTML。
+`renderToString` 在底层使用 [`vue-server-renderer`](https://ssr.vuejs.org/zh/basic.html) 将一个组件渲染为 HTML。
 
 **不带选项：**
 

@@ -21,7 +21,6 @@
 - [`listeners`](#listeners)
 - [`parentComponent`](#parentcomponent)
 - [`provide`](#provide)
-- [`sync`](#sync)
 
 ## context
 
@@ -287,17 +286,9 @@ const wrapper = shallowMount(Component, {
 expect(wrapper.text()).toBe('fooValue')
 ```
 
-## sync
-
-- 类型：`boolean`
-- 默认值：`true`
-
-当 `sync` 是 `true` 时，这个 Vue 组件会被同步渲染。  
-当 `sync` 是 `false` 时，这个 Vue 组件会被异步渲染。
-
 ## 其它选项
 
-当 `mount` 和 `shallowMount` 的选项包含了挂载选项之外的选项时，则会将它们通过[扩展](https://vuejs.org/v2/api/#extends)覆写到其组件选项。
+当 `mount` 和 `shallowMount` 的选项包含了挂载选项之外的选项时，则会将它们通过[扩展](https://cn.vuejs.org/v2/api/#extends)覆写到其组件选项。
 
 ```js
 const Component = {

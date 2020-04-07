@@ -1,4 +1,5 @@
 import Vue, { VNodeData, ComponentOptions, FunctionalComponentOptions, Component } from 'vue'
+import { DefaultProps, PropsDefinition } from 'vue/types/options'
 
 /**
  * Utility type to declare an extended Vue constructor
@@ -69,6 +70,7 @@ interface BaseWrapper {
 
   trigger (eventName: string, options?: object): void
   destroy (): void
+  selector: Selector | void
 }
 
 export interface Wrapper<V extends Vue | null> extends BaseWrapper {
@@ -76,16 +78,23 @@ export interface Wrapper<V extends Vue | null> extends BaseWrapper {
   readonly element: HTMLElement
   readonly options: WrapperOptions
 
+  get<R extends Vue> (selector: VueClass<R>): Wrapper<R>
+  get<R extends Vue> (selector: ComponentOptions<R>): Wrapper<R>
+  get<Props = DefaultProps, PropDefs = PropsDefinition<Props>>(selector: FunctionalComponentOptions<Props, PropDefs>): Wrapper<Vue>
+  get (selector: string): Wrapper<Vue>
+  get (selector: RefSelector): Wrapper<Vue>
+  get (selector: NameSelector): Wrapper<Vue>
+
   find<R extends Vue> (selector: VueClass<R>): Wrapper<R>
   find<R extends Vue> (selector: ComponentOptions<R>): Wrapper<R>
-  find (selector: FunctionalComponentOptions): Wrapper<Vue>
+  find<Props = DefaultProps, PropDefs = PropsDefinition<Props>>(selector: FunctionalComponentOptions<Props, PropDefs>): Wrapper<Vue>
   find (selector: string): Wrapper<Vue>
   find (selector: RefSelector): Wrapper<Vue>
   find (selector: NameSelector): Wrapper<Vue>
 
   findAll<R extends Vue> (selector: VueClass<R>): WrapperArray<R>
   findAll<R extends Vue> (selector: ComponentOptions<R>): WrapperArray<R>
-  findAll (selector: FunctionalComponentOptions): WrapperArray<Vue>
+  findAll<Props = DefaultProps, PropDefs = PropsDefinition<Props>>(selector: FunctionalComponentOptions<Props, PropDefs>): WrapperArray<Vue>
   findAll (selector: string): WrapperArray<Vue>
   findAll (selector: RefSelector): WrapperArray<Vue>
   findAll (selector: NameSelector): WrapperArray<Vue>
@@ -94,8 +103,8 @@ export interface Wrapper<V extends Vue | null> extends BaseWrapper {
   text (): string
   name (): string
 
-  emitted (): { [name: string]: Array<Array<any>> }
-  emitted (event: string): Array<any>
+  emitted (): { [name: string]: Array<Array<any>>|undefined }
+  emitted (event: string): Array<any>|undefined
   emittedByOrder (): Array<{ name: string, args: Array<any> }>
 }
 
@@ -149,15 +158,13 @@ export declare let config: VueTestUtilsConfigOptions
 
 export declare function mount<V extends Vue> (component: VueClass<V>, options?: ThisTypedMountOptions<V>): Wrapper<V>
 export declare function mount<V extends Vue> (component: ComponentOptions<V>, options?: ThisTypedMountOptions<V>): Wrapper<V>
-export declare function mount (component: FunctionalComponentOptions, options?: MountOptions<Vue>): Wrapper<Vue>
+export declare function mount<Props = DefaultProps, PropDefs = PropsDefinition<Props>>(component: FunctionalComponentOptions<Props, PropDefs>, options?: MountOptions<Vue>): Wrapper<Vue>
 
 export declare function shallowMount<V extends Vue> (component: VueClass<V>, options?: ThisTypedShallowMountOptions<V>): Wrapper<V>
 export declare function shallowMount<V extends Vue> (component: ComponentOptions<V>, options?: ThisTypedShallowMountOptions<V>): Wrapper<V>
-export declare function shallowMount (component: FunctionalComponentOptions, options?: ShallowMountOptions<Vue>): Wrapper<Vue>
+export declare function shallowMount<Props = DefaultProps, PropDefs = PropsDefinition<Props>>(component: FunctionalComponentOptions<Props, PropDefs>, options?: ShallowMountOptions<Vue>): Wrapper<Vue>
 
 export declare function createWrapper(node: Vue, options?: WrapperOptions): Wrapper<Vue>
 export declare function createWrapper(node: HTMLElement, options?: WrapperOptions): Wrapper<null>
 
-export declare let TransitionStub: Component | string | true
-export declare let TransitionGroupStub: Component | string | true
 export declare let RouterLinkStub: VueClass<Vue>

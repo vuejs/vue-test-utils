@@ -2,6 +2,8 @@
 
 Vue Test Utils is the official unit testing utility library for Vue.js.
 
+<div class="vueschool"><a href="https://vueschool.io/courses/learn-how-to-test-vuejs-components?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to use Vue Test Utils to test Vue.js Components with Vue School">Learn how to test Vue.js components with Vue School</a></div>
+
 - [Guides](./guides/)
   - [Getting Started](./guides/getting-started.md)
   - [Common Tips](guides/common-tips.md)
@@ -10,10 +12,12 @@ Vue Test Utils is the official unit testing utility library for Vue.js.
   - [Testing Single-File Components with Jest](guides/testing-single-file-components-with-jest.md)
   - [Testing Single-File Components with Mocha + webpack](guides/testing-single-file-components-with-mocha-webpack.md)
   - [Testing Single-File Components with Karma](guides/testing-single-file-components-with-karma.md)
+  - [Testing in Node.js Without a Build Step](guides/usage-without-a-build-step-node.md)
   - [Testing Asynchronous Behavior](guides/testing-async-components.md)
   - [Using with TypeScript](guides/using-with-typescript.md)
   - [Using with Vue Router](guides/using-with-vue-router.md)
   - [Using with Vuex](guides/using-with-vuex.md)
+  - [Useful Libraries for Testing](guides/useful-libraries-for-testing.md)
 - [API](api/)
   - [mount](api/mount.md)
   - [shallowMount](api/shallowMount.md)
@@ -32,7 +36,6 @@ Vue Test Utils is the official unit testing utility library for Vue.js.
     - [listeners](api/options.md#listeners)
     - [parentComponent](api/options.md#parentComponent)
     - [provide](api/options.md#provide)
-    - [sync](api/options.md#sync)
     - [other options](api/options.md#other-options)
   - [Wrapper](api/wrapper/)
     - [attributes](api/wrapper/attributes.md)
@@ -44,6 +47,7 @@ Vue Test Utils is the official unit testing utility library for Vue.js.
     - [destroy](api/wrapper/destroy.md)
     - [find](api/wrapper/find.md)
     - [findAll](api/wrapper/findAll.md)
+    - [get](api/wrapper/get.md)
     - [html](api/wrapper/html.md)
     - [is](api/wrapper/is.md)
     - [isEmpty](api/wrapper/isEmpty.md)
@@ -76,8 +80,6 @@ Vue Test Utils is the official unit testing utility library for Vue.js.
     - [trigger](api/wrapper-array/trigger.md)
     - [isVisible](api/wrapper-array/isVisible.md)
   - [components](api/components/)
-    - [TransitionStub](api/components/TransitionStub.md)
-    - [TransitionGroupStub](api/components/TransitionGroupStub.md)
     - [RouterLinkStub](api/components/RouterLinkStub.md)
   - [Selectors](api/selectors.md)
   - [createWrapper](api/createWrapper.md)

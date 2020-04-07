@@ -1,8 +1,39 @@
 ## Testing Asynchronous Behavior
 
-To simplify testing, Vue Test Utils applies DOM updates _synchronously_. However, there are some techniques you need to be aware of when testing a component with asynchronous behavior such as callbacks or promises.
+There are two types of asynchronous behavior you will encounter in your tests:
 
-One of the most common asynchronous behaviors is API calls and Vuex actions. The following examples shows how to test a method that makes an API call. This example uses Jest to run the test and to mock the HTTP library `axios`. More about Jest manual mocks can be found [here](https://jestjs.io/docs/en/manual-mocks#content).
+1. Updates applied by Vue
+2. Asynchronous behavior outside of Vue
+
+## Updates applied by Vue
+
+Vue batches pending DOM updates and applies them asynchronously to prevent unnecessary re-renders caused by multiple data mutations.
+
+_You can read more about asynchronous updates in the [Vue docs](https://vuejs.org/v2/guide/reactivity.html#Async-Update-Queue)_
+
+In practice, this means you have to use `Vue.nextTick()` to wait until Vue has performed updates after you set a reactive property.
+
+The easiest way to use `Vue.nextTick()` is to write your tests in an async function:
+
+```js
+// import Vue at the top of file
+import Vue from 'vue'
+
+// other code snippet...
+
+// inside test-suite, add this test case
+it('button click should increment the count text', async () => {
+  expect(wrapper.text()).toContain('0')
+  const button = wrapper.find('button')
+  button.trigger('click')
+  await Vue.nextTick()
+  expect(wrapper.text()).toContain('1')
+})
+```
+
+## Asynchronous behavior outside of Vue
+
+One of the most common asynchronous behaviors outside of Vue is API calls in Vuex actions. The following examples shows how to test a method that makes an API call. This example uses Jest to run the test and to mock the HTTP library `axios`. More about Jest manual mocks can be found [here](https://jestjs.io/docs/en/manual-mocks.html#content).
 
 The implementation of the `axios` mock looks like this:
 
@@ -68,7 +99,7 @@ it('fetches async when a button is clicked', done => {
 
 The reason `setTimeout` allows the test to pass is because the microtask queue where promise callbacks are processed runs before the task queue, where `setTimeout` callbacks are processed. This means by the time the `setTimeout` callback runs, any promise callbacks on the microtask queue will have been executed. `$nextTick` on the other hand schedules a microtask, but since the microtask queue is processed first-in-first-out that also guarantees the promise callback has been executed by the time the assertion is made. See [here](https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/) for a more detailed explanation.
 
-Another solution is to use an `async` function and the npm package `flush-promises`. `flush-promises` flushes all pending resolved promise handlers. You can `await` the call of `flushPromises` to flush pending promises and improve the readability of your test.
+Another solution is to use an `async` function and the [npm package flush-promises](https://www.npmjs.com/package/flush-promises). `flush-promises` flushes all pending resolved promise handlers. You can `await` the call of `flushPromises` to flush pending promises and improve the readability of your test.
 
 The updated test looks like this:
 

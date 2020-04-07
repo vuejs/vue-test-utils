@@ -1,8 +1,11 @@
-import { config } from '~vue/test-utils'
+import { config } from '@vue/test-utils'
+import { createLocalVue } from '@vue/test-utils'
 import ComponentWithInject from '~resources/components/component-with-inject.vue'
+import CompositionComponentWithInject from '~resources/components/component-with-inject-composition.vue'
 import { injectSupported } from '~resources/utils'
 import { describeWithShallowAndMount } from '~resources/utils'
 import { itDoNotRunIf, itSkipIf } from 'conditional-specs'
+import VueCompositionApi from '@vue/composition-api'
 
 describeWithShallowAndMount('options.provide', mountingMethod => {
   let configProvideSave
@@ -138,6 +141,23 @@ describeWithShallowAndMount('options.provide', mountingMethod => {
     }
   )
 
+  itDoNotRunIf(
+    !injectSupported || mountingMethod.name === 'renderToString',
+    'supports setup in composition api component',
+    () => {
+      if (!injectSupported) return
+
+      const localVue = createLocalVue()
+      localVue.use(VueCompositionApi)
+      const wrapper = mountingMethod(CompositionComponentWithInject, {
+        provide: { fromMount: '_' },
+        localVue
+      })
+
+      expect(wrapper.vm.setInSetup).to.equal('created')
+    }
+  )
+
   itSkipIf(
     mountingMethod.name === 'renderToString',
     'injects the provide from the config',
@@ -160,6 +180,21 @@ describeWithShallowAndMount('options.provide', mountingMethod => {
 
       const wrapper = mountingMethod(ComponentWithInject, {
         provide: { fromMount: '_' }
+      })
+
+      expect(wrapper.html()).to.contain('_')
+    }
+  )
+
+  itDoNotRunIf(
+    !injectSupported,
+    'injects in a composition api component',
+    () => {
+      const localVue = createLocalVue()
+      localVue.use(VueCompositionApi)
+      const wrapper = mountingMethod(CompositionComponentWithInject, {
+        provide: { fromMount: '_' },
+        localVue
       })
 
       expect(wrapper.html()).to.contain('_')

@@ -14,7 +14,6 @@
 - [`listeners`](#listeners)
 - [`parentComponent`](#parentcomponent)
 - [`provide`](#provide)
-- [`sync`](#sync)
 
 ## context
 
@@ -195,6 +194,8 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 
 `true` に設定されている場合、描画時にコンポーネントは DOM にアタッチされます。
 
+DOM にアタッチされた際に、テストの最後で `wrapper.destroy()` を呼び出さなければなりません。レンダリングされた要素をドキュメントから取り除いて、コンポーネントインスタンスを壊さなければならないからです。
+
 ## attrs
 
 - 型: `Object`
@@ -223,8 +224,8 @@ expect(wrapper.text()).toBe('aBC')
 ```
 
 ::: 注意
-`propsData` は Vue Test Utils のマウンティングオプションではなく [Vue API](https://vuejs.org/v2/api/#propsData) です。
-この `propsData` は [`extends`](https://vuejs.org/v2/api/#extends) を内部で利用しています。
+`propsData` は Vue Test Utils のマウンティングオプションではなく [Vue API](https://jp.vuejs.org/v2/api/#propsData) です。
+この `propsData` は [`extends`](https://jp.vuejs.org/v2/api/#extends) を内部で利用しています。
 詳しくは[その他のオプション](#その他のオプション)を参照してください。
 :::
 
@@ -255,7 +256,7 @@ expect(wrapper.vm.$parent.$options.name).toBe('foo')
 
 - 型: `Object`
 
-コンポーネントに指定したプロパティを注入します。[provide/inject](https://vuejs.org/v2/api/#provide-inject) を参照してください。
+コンポーネントに指定したプロパティを注入します。[provide/inject](https://jp.vuejs.org/v2/api/#provide-inject) を参照してください。
 
 例:
 
@@ -276,17 +277,9 @@ const wrapper = shallowMount(Component, {
 expect(wrapper.text()).toBe('fooValue')
 ```
 
-## sync
-
-- 型: `boolean`
-- デフォルト: `true`
-
-`sync` を `true` にすると、Vue コンポーネントは同期的に描画されます。  
-`sync` を `false` にすると、Vue コンポーネントは非同期的に描画されます。
-
 ## その他のオプション
 
-`mount` と  `shallowMount` にマウンティングオプション以外のオプションが渡されると、コンポーネントのオプションは [extends](https://vuejs.org/v2/api/#extends) を使ってマウンティングオプション以外のオプションに上書きされます。
+`mount` と  `shallowMount` にマウンティングオプション以外のオプションが渡されると、コンポーネントのオプションは [extends](https://jp.vuejs.org/v2/api/#extends) を使ってマウンティングオプション以外のオプションに上書きされます。
 
 ```js
 const Component = {

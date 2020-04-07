@@ -1,6 +1,6 @@
 ## 用 Mocha 和 webpack 测试单文件组件
 
-> 我们在 [GitHub](https://github.com/vuejs/vue-test-utils-mocha-webpack-example) 上放有一个关于这些设置的示例工程。
+> 我们在 [GitHub](https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-unit-mocha) 上放有一个关于这些设置的示例工程。
 
 另一个测试单文件组件的策略是通过 webpack 编译所有的测试文件然后在测试运行器中运行。这样做的好处是可以完全支持所有 webpack 和 `vue-loader` 的功能，所以我们不必对我们的源代码做任何妥协。
 
@@ -154,9 +154,10 @@ import { shallowMount } from '@vue/test-utils'
 import Counter from '../src/Counter.vue'
 
 describe('Counter.vue', () => {
-  it('increments count when button is clicked', () => {
+  it('increments count when button is clicked', async () => {
     const wrapper = shallowMount(Counter)
     wrapper.find('button').trigger('click')
+    await Vue.nextTick()
     expect(wrapper.find('div').text()).toMatch('1')
   })
 })
@@ -176,7 +177,7 @@ npm run test
 
 ### 相关资料
 
-- [该设置的示例工程](https://github.com/vuejs/vue-test-utils-mocha-webpack-example)
+- [该设置的示例工程](https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-unit-mocha)
 - [Mocha](https://mochajs.org/)
 - [mocha-webpack](http://zinserjan.github.io/mocha-webpack/)
 - [Chai](http://chaijs.com/)

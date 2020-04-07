@@ -5,7 +5,7 @@ import { throwError } from 'shared/util'
 import { VUE_VERSION } from 'shared/consts'
 
 function isDestructuringSlotScope(slotScope: string): boolean {
-  return slotScope[0] === '{' && slotScope[slotScope.length - 1] === '}'
+  return /^{.*}$/.test(slotScope)
 }
 
 function getVueTemplateCompilerHelpers(
@@ -46,7 +46,36 @@ function validateEnvironment(): void {
   }
 }
 
-const slotScopeRe = /<[^>]+ slot-scope=\"(.+)\"/
+function isScopedSlot(slot) {
+  if (typeof slot === 'function') return { match: null, slot }
+
+  const slotScopeRe = /<[^>]+ slot-scope="(.+)"/
+  const vSlotRe = /<template v-slot(?::.+)?="(.+)"/
+  const shortVSlotRe = /<template #.*="(.+)"/
+
+  const hasOldSlotScope = slot.match(slotScopeRe)
+  const hasVSlotScopeAttr = slot.match(vSlotRe)
+  const hasShortVSlotScopeAttr = slot.match(shortVSlotRe)
+
+  if (hasOldSlotScope) {
+    return { slot, match: hasOldSlotScope }
+  } else if (hasVSlotScopeAttr || hasShortVSlotScopeAttr) {
+    // Strip v-slot and #slot attributes from `template` tag. compileToFunctions leaves empty `template` tag otherwise.
+    const sanitizedSlot = slot.replace(
+      /(<template)([^>]+)(>.+<\/template>)/,
+      '$1$3'
+    )
+    return {
+      slot: sanitizedSlot,
+      match: hasVSlotScopeAttr || hasShortVSlotScopeAttr
+    }
+  }
+  // we have no matches, so we just return
+  return {
+    slot: slot,
+    match: null
+  }
+}
 
 // Hide warning about <template> disallowed as root element
 function customWarn(msg) {
@@ -70,14 +99,18 @@ export default function createScopedSlots(
   for (const scopedSlotName in scopedSlotsOption) {
     const slot = scopedSlotsOption[scopedSlotName]
     const isFn = typeof slot === 'function'
+
+    const scopedSlotMatches = isScopedSlot(slot)
+
     // Type check to silence flow (can't use isFn)
     const renderFn =
       typeof slot === 'function'
         ? slot
-        : compileToFunctions(slot, { warn: customWarn }).render
+        : compileToFunctions(scopedSlotMatches.slot, { warn: customWarn })
+            .render
 
-    const hasSlotScopeAttr = !isFn && slot.match(slotScopeRe)
-    const slotScope = hasSlotScopeAttr && hasSlotScopeAttr[1]
+    const slotScope = scopedSlotMatches.match && scopedSlotMatches.match[1]
+
     scopedSlots[scopedSlotName] = function(props) {
       let res
       if (isFn) {

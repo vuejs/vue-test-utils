@@ -1,6 +1,6 @@
 ### Mocha + webpack による単一ファイルコンポーネントのテスト
 
-> このセットアップのサンプルプロジェクトは、 [GitHub](https://github.com/vuejs/vue-test-utils-mocha-webpack-example) にあります。
+> このセットアップのサンプルプロジェクトは、 [GitHub](https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-unit-mocha) にあります。
 
 単一ファイルコンポーネントをテストするためのもう一つの戦略は、webpack を使用してすべてのテストをコンパイルし、それをテストランナで実行することです。このアプローチの利点は、すべての webpack と `vue-loader` 機能を完全にサポートしていることです。ソースコードに妥協する必要はありません。
 
@@ -176,7 +176,7 @@ mocha-webpack にコードカバレッジをセットしたい場合は、 [the 
 
 ### リソース
 
-- [この設定のプロジェクトの例](https://github.com/vuejs/vue-test-utils-mocha-webpack-example)
+- [この設定のプロジェクトの例](https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-unit-mocha)
 - [Mocha](https://mochajs.org/)
 - [mocha-webpack](http://zinserjan.github.io/mocha-webpack/)
 - [Chai](http://chaijs.com/)
