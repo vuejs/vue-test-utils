@@ -1,6 +1,6 @@
 ## Тестирование однофайловых компонентов с Mocha и webpack
 
-> Пример проекта для этой конфигурации доступен на [GitHub](https://github.com/vuejs/vue-test-utils-mocha-webpack-example).
+> Пример проекта для этой конфигурации доступен на [GitHub](https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-unit-mocha).
 
 Другая стратегия тестирования однофайловых компонентов заключается в компиляции всех наших тестов с помощью webpack, а затем программой для запуска тестов. Преимущество такого подхода заключается в том, что он даёт нам полную поддержку всех функций webpack и `vue-loader`, поэтому нам не нужно идти на компромиссы в нашем исходном коде.
 
@@ -176,7 +176,7 @@ npm run test
 
 ### Ресурсы
 
-- [Пример проекта для этой настройки](https://github.com/vuejs/vue-test-utils-mocha-webpack-example)
+- [Пример проекта для этой настройки](https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-unit-mocha)
 - [Mocha](https://mochajs.org/)
 - [mocha-webpack](http://zinserjan.github.io/mocha-webpack/)
 - [Chai](http://chaijs.com/)

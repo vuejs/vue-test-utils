@@ -1,6 +1,6 @@
 ## Testing Single-File Components with Jest
 
-> An example project for this setup is available on [GitHub](https://github.com/vuejs/vue-test-utils-jest-example).
+> An example project for this setup is available on [GitHub](https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-unit-jest).
 
 Jest is a test runner developed by Facebook, aiming to deliver a battery-included unit testing solution. You can learn more about Jest on its [official documentation](https://jestjs.io/).
 
@@ -207,7 +207,7 @@ Then configure it in `package.json`:
 
 ### Resources
 
-- [Example project for this setup](https://github.com/vuejs/vue-test-utils-jest-example)
+- [Example project for this setup](https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-unit-jest)
 - [Examples and slides from Vue Conf 2017](https://github.com/codebryo/vue-testing-with-jest-conf17)
 - [Jest](https://jestjs.io/)
 - [Babel preset env](https://github.com/babel/babel-preset-env)

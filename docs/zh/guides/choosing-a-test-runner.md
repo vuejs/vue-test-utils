@@ -41,8 +41,8 @@ Vue 的单文件组件在它们运行于 Node 或浏览器之前是需要预编�
 ### 相关资料
 
 - [测试运行器性能比拼](https://github.com/eddyerburgh/vue-unit-test-perf-comparison)
-- [使用 Jest 的示例工程](https://github.com/vuejs/vue-test-utils-jest-example)
-- [使用 Mocha 的示例工程](https://github.com/vuejs/vue-test-utils-mocha-webpack-example)
+- [使用 Jest 的示例工程](https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-unit-jest)
+- [使用 Mocha 的示例工程](https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-unit-mocha)
 - [使用 tape 的示例工程](https://github.com/eddyerburgh/vue-test-utils-tape-example)
 - [使用 AVA 的示例工程](https://github.com/eddyerburgh/vue-test-utils-ava-example)
 - [tyu - Delightful web testing by egoist](https://github.com/egoist/tyu)
