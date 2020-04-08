@@ -325,6 +325,77 @@ export default class Wrapper implements BaseWrapper {
   }
 
   /**
+   * Prints a simple overview of the wrapper current state
+   * with useful information for debugging
+   */
+  overview(): void {
+    if (!this.isVueInstance()) {
+      throwError(`wrapper.overview() can only be called on a Vue instance`)
+    }
+
+    const identation = 4
+    const formatJSON = (json: any, replacer: Function | null = null) =>
+      JSON.stringify(json, replacer, identation).replace(/"/g, '')
+
+    const visibility = this.isVisible() ? 'Visible' : 'Not visible'
+
+    const html = this.html()
+      ? this.html().replace(/^(?!\s*$)/gm, ' '.repeat(identation)) + '\n'
+      : ''
+
+    // $FlowIgnore
+    const data = formatJSON(this.vm.$data)
+
+    /* eslint-disable operator-linebreak */
+    // $FlowIgnore
+    const computed = this.vm._computedWatchers
+      ? formatJSON(
+          // $FlowIgnore
+          ...Object.keys(this.vm._computedWatchers).map(computedKey => ({
+            // $FlowIgnore
+            [computedKey]: this.vm[computedKey]
+          }))
+        )
+      : // $FlowIgnore
+      this.vm.$options.computed
+      ? formatJSON(
+          // $FlowIgnore
+          ...Object.entries(this.vm.$options.computed).map(([key, value]) => ({
+            // $FlowIgnore
+            [key]: value()
+          }))
+        )
+      : '{}'
+    /* eslint-enable operator-linebreak */
+
+    const emittedJSONReplacer = (key, value) =>
+      value instanceof Array
+        ? value.map((calledWith, index) => {
+            const callParams = calledWith.map(param =>
+              typeof param === 'object'
+                ? JSON.stringify(param)
+                    .replace(/"/g, '')
+                    .replace(/,/g, ', ')
+                : param
+            )
+
+            return `${index}: [ ${callParams.join(', ')} ]`
+          })
+        : value
+
+    const emitted = formatJSON(this.emitted(), emittedJSONReplacer)
+
+    console.log(
+      '\n' +
+        `Wrapper (${visibility}):\n\n` +
+        `Html:\n${html}\n` +
+        `Data: ${data}\n\n` +
+        `Computed: ${computed}\n\n` +
+        `Emitted: ${emitted}\n`
+    )
+  }
+
+  /**
    * Returns an Object containing the prop name/value pairs on the element
    */
   props(key?: string): { [name: string]: any } | any {

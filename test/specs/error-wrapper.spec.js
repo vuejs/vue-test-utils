@@ -22,6 +22,7 @@ describeWithShallowAndMount('ErrorWrapper', mountingMethod => {
     'isVisible',
     'isVueInstance',
     'name',
+    'overview',
     'props',
     'setComputed',
     'setMethods',

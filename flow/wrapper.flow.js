@@ -26,6 +26,7 @@ declare interface BaseWrapper {
   isVisible(): boolean | void;
   isVueInstance(): boolean | void;
   name(): string | void;
+  overview(): void;
   props(key?: string): { [name: string]: any } | any | void;
   text(): string | void;
   selector: Selector | void;
