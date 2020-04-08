@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-beta.33](https://github.com/vuejs/vue-test-utils/compare/v1.0.0-beta.32...v1.0.0-beta.33) (2020-04-08)
+
+
+### Bug Fixes
+
+* **test-utils:** fix cancelable attribute in dom events ([#1460](https://github.com/vuejs/vue-test-utils/issues/1460)) ([b1a532a](https://github.com/vuejs/vue-test-utils/commit/b1a532aa72c71d2f4282f4bc31373cb143e82833))
+
+
+### Features
+
+* support lazy modifier with setValue ([#1467](https://github.com/vuejs/vue-test-utils/issues/1467)) ([afd7a82](https://github.com/vuejs/vue-test-utils/commit/afd7a82426c2e72fca61bf00881574d81dffbf68))
+
+
+
+
+
 # [1.0.0-beta.32](https://github.com/vuejs/vue-test-utils/compare/v1.0.0-beta.31...v1.0.0-beta.32) (2020-03-09)
 
 
