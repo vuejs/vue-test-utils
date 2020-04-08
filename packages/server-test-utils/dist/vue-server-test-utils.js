@@ -1953,19 +1953,16 @@ var isReservedTag = function (tag) { return isHTMLTag(tag) || isSVG(tag); };
 
 // 
 
-function compileFromString(str) {
-  if (!vueTemplateCompiler.compileToFunctions) {
-    throwError(
-      "vueTemplateCompiler is undefined, you must pass " +
-        "precompiled components if vue-template-compiler is " +
-        "undefined"
-    );
-  }
-  return vueTemplateCompiler.compileToFunctions(str)
-}
-
 function compileTemplate(component) {
   if (component.template) {
+    if (!vueTemplateCompiler.compileToFunctions) {
+      throwError(
+        "vueTemplateCompiler is undefined, you must pass " +
+          "precompiled components if vue-template-compiler is " +
+          "undefined"
+      );
+    }
+
     if (component.template.charAt('#') === '#') {
       var el = document.querySelector(component.template);
       if (!el) {
@@ -1976,7 +1973,8 @@ function compileTemplate(component) {
       component.template = el.innerHTML;
     }
 
-    Object.assign(component, vueTemplateCompiler.compileToFunctions(component.template));
+    Object.assign(component, Object.assign({}, vueTemplateCompiler.compileToFunctions(component.template),
+      {name: component.name}));
   }
 
   if (component.components) {
@@ -2035,7 +2033,7 @@ function extractInstanceOptions(options) {
 // 
 
 function isDestructuringSlotScope(slotScope) {
-  return slotScope[0] === '{' && slotScope[slotScope.length - 1] === '}'
+  return /^{.*}$/.test(slotScope)
 }
 
 function getVueTemplateCompilerHelpers(
@@ -2076,7 +2074,36 @@ function validateEnvironment() {
   }
 }
 
-var slotScopeRe = /<[^>]+ slot-scope=\"(.+)\"/;
+function isScopedSlot(slot) {
+  if (typeof slot === 'function') { return { match: null, slot: slot } }
+
+  var slotScopeRe = /<[^>]+ slot-scope="(.+)"/;
+  var vSlotRe = /<template v-slot(?::.+)?="(.+)"/;
+  var shortVSlotRe = /<template #.*="(.+)"/;
+
+  var hasOldSlotScope = slot.match(slotScopeRe);
+  var hasVSlotScopeAttr = slot.match(vSlotRe);
+  var hasShortVSlotScopeAttr = slot.match(shortVSlotRe);
+
+  if (hasOldSlotScope) {
+    return { slot: slot, match: hasOldSlotScope }
+  } else if (hasVSlotScopeAttr || hasShortVSlotScopeAttr) {
+    // Strip v-slot and #slot attributes from `template` tag. compileToFunctions leaves empty `template` tag otherwise.
+    var sanitizedSlot = slot.replace(
+      /(<template)([^>]+)(>.+<\/template>)/,
+      '$1$3'
+    );
+    return {
+      slot: sanitizedSlot,
+      match: hasVSlotScopeAttr || hasShortVSlotScopeAttr
+    }
+  }
+  // we have no matches, so we just return
+  return {
+    slot: slot,
+    match: null
+  }
+}
 
 // Hide warning about <template> disallowed as root element
 function customWarn(msg) {
@@ -2098,14 +2125,18 @@ function createScopedSlots(
   var loop = function ( scopedSlotName ) {
     var slot = scopedSlotsOption[scopedSlotName];
     var isFn = typeof slot === 'function';
+
+    var scopedSlotMatches = isScopedSlot(slot);
+
     // Type check to silence flow (can't use isFn)
     var renderFn =
       typeof slot === 'function'
         ? slot
-        : vueTemplateCompiler.compileToFunctions(slot, { warn: customWarn }).render;
+        : vueTemplateCompiler.compileToFunctions(scopedSlotMatches.slot, { warn: customWarn })
+            .render;
 
-    var hasSlotScopeAttr = !isFn && slot.match(slotScopeRe);
-    var slotScope = hasSlotScopeAttr && hasSlotScopeAttr[1];
+    var slotScope = scopedSlotMatches.match && scopedSlotMatches.match[1];
+
     scopedSlots[scopedSlotName] = function(props) {
       var obj;
 
@@ -2173,10 +2204,25 @@ function getCoreProperties(componentOptions) {
 }
 
 function createClassString(staticClass, dynamicClass) {
-  if (staticClass && dynamicClass) {
-    return staticClass + ' ' + dynamicClass
+  // :class="someComputedObject" can return a string, object or undefined
+  // if it is a string, we don't need to do anything special.
+  var evaluatedDynamicClass = dynamicClass;
+
+  // if it is an object, eg { 'foo': true }, we need to evaluate it.
+  // see https://github.com/vuejs/vue-test-utils/issues/1474 for more context.
+  if (typeof dynamicClass === 'object') {
+    evaluatedDynamicClass = Object.keys(dynamicClass).reduce(function (acc, key) {
+      if (dynamicClass[key]) {
+        return acc + ' ' + key
+      }
+      return acc
+    }, '');
   }
-  return staticClass || dynamicClass
+
+  if (staticClass && evaluatedDynamicClass) {
+    return staticClass + ' ' + evaluatedDynamicClass
+  }
+  return staticClass || evaluatedDynamicClass
 }
 
 function resolveOptions(component, _Vue) {
@@ -2184,13 +2230,9 @@ function resolveOptions(component, _Vue) {
     return {}
   }
 
-  if (isConstructor(component)) {
-    return component.options
-  }
-  var options = _Vue.extend(component).options;
-  component._Ctor = {};
-
-  return options
+  return isConstructor(component)
+    ? component.options
+    : _Vue.extend(component).options
 }
 
 function getScopedSlotRenderFunctions(ctx) {
@@ -2253,22 +2295,31 @@ function createStubFromComponent(
     }})
 }
 
-function createStubFromString(
-  templateString,
-  originalComponent,
-  name,
-  _Vue
-) {
-  if ( originalComponent === void 0 ) originalComponent = {};
+// DEPRECATED: converts string stub to template stub.
+function createStubFromString(templateString, name) {
+  warn('String stubs are deprecated and will be removed in future versions');
 
   if (templateContainsComponent(templateString, name)) {
     throwError('options.stub cannot contain a circular reference');
   }
-  var componentOptions = resolveOptions(originalComponent, _Vue);
 
-  return Object.assign({}, getCoreProperties(componentOptions),
-    {$_doNotStubChildren: true},
-    compileFromString(templateString))
+  return {
+    template: templateString,
+    $_doNotStubChildren: true
+  }
+}
+
+function setStubComponentName(
+  stub,
+  originalComponent,
+  _Vue
+) {
+  if ( originalComponent === void 0 ) originalComponent = {};
+
+  if (stub.name) { return }
+
+  var componentOptions = resolveOptions(originalComponent, _Vue);
+  stub.name = getCoreProperties(componentOptions).name;
 }
 
 function validateStub(stub) {
@@ -2293,18 +2344,19 @@ function createStubsFromStubsObject(
       return acc
     }
 
+    var component = resolveComponent$1(originalComponents, stubName);
+
     if (stub === true) {
-      var component = resolveComponent$1(originalComponents, stubName);
       acc[stubName] = createStubFromComponent(component, stubName, _Vue);
       return acc
     }
 
     if (typeof stub === 'string') {
-      var component$1 = resolveComponent$1(originalComponents, stubName);
-      acc[stubName] = createStubFromString(stub, component$1, stubName, _Vue);
-      return acc
+      stub = createStubFromString(stub, stubName);
+      stubs[stubName];
     }
 
+    setStubComponentName(stub, component, _Vue);
     if (componentNeedsCompiling(stub)) {
       compileTemplate(stub);
     }
@@ -2326,7 +2378,6 @@ function shouldExtend(component, _Vue) {
 function extend(component, _Vue) {
   var componentOptions = component.options ? component.options : component;
   var stub = _Vue.extend(componentOptions);
-  componentOptions._Ctor = {};
   stub.options.$_vueTestUtils_original = component;
   stub.options._base = _Vue;
   return stub
@@ -2445,6 +2496,13 @@ function createChildren(vm, h, ref) {
   )
 }
 
+function getValuesFromCallableOption(optionValue) {
+  if (typeof optionValue === 'function') {
+    return optionValue.call(this)
+  }
+  return optionValue
+}
+
 function createInstance(
   component,
   options,
@@ -2499,15 +2557,18 @@ function createInstance(
 
   // make sure all extends are based on this instance
   var Constructor = _Vue.extend(componentOptions).extend(instanceOptions);
-  componentOptions._Ctor = {};
   Constructor.options._base = _Vue;
 
   var scopedSlots = createScopedSlots(options.scopedSlots, _Vue);
 
   var parentComponentOptions = options.parentComponent || {};
 
-  parentComponentOptions.provide = options.provide;
-  parentComponentOptions._provided = options.provide;
+  var originalParentComponentProvide = parentComponentOptions.provide;
+  parentComponentOptions.provide = function() {
+    return Object.assign({}, getValuesFromCallableOption.call(this, originalParentComponentProvide),
+      getValuesFromCallableOption.call(this, options.provide))
+  };
+
   parentComponentOptions.$_doNotStubChildren = true;
   parentComponentOptions._isFunctionalContainer = componentOptions.functional;
   parentComponentOptions.render = function(h) {
