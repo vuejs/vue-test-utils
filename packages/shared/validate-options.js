@@ -1,11 +1,13 @@
 import {
   isPlainObject,
   isFunctionalComponent,
-  isConstructor
+  isConstructor,
+  isDomSelector,
+  isHTMLElement
 } from './validators'
 import { VUE_VERSION } from './consts'
 import { compileTemplateForSlots } from './compile-template'
-import { throwError } from './util'
+import { throwError, warn } from './util'
 import { validateSlots } from './validate-slots'
 
 function vueExtendUnsupportedOption(option) {
@@ -22,6 +24,20 @@ function vueExtendUnsupportedOption(option) {
 const UNSUPPORTED_VERSION_OPTIONS = ['mocks', 'stubs', 'localVue']
 
 export function validateOptions(options, component) {
+  if (
+    options.attachTo &&
+    !isHTMLElement(options.attachTo) &&
+    !isDomSelector(options.attachTo)
+  ) {
+    throwError(
+      `options.attachTo should be a valid HTMLElement or CSS selector string`
+    )
+  }
+  if ('attachToDocument' in options) {
+    warn(
+      `options.attachToDocument is deprecated in favor of options.attachTo and will be removed in a future release`
+    )
+  }
   if (options.parentComponent && !isPlainObject(options.parentComponent)) {
     throwError(
       `options.parentComponent should be a valid Vue component options object`

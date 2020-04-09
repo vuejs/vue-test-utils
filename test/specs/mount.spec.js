@@ -293,6 +293,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     expect(wrapper.vm.$options.context).to.equal(undefined)
     expect(wrapper.vm.$options.attrs).to.equal(undefined)
     expect(wrapper.vm.$options.listeners).to.equal(undefined)
+    wrapper.destroy()
   })
 
   itDoNotRunIf(vueVersion < 2.3, 'injects store correctly', () => {
@@ -366,6 +367,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
         '  <p class="prop-2"></p>\n' +
         '</div>'
     )
+    wrapper.destroy()
   })
 
   it('overwrites the component options with the instance options', () => {

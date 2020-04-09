@@ -55,10 +55,13 @@ import Foo from './Foo.vue'
 
 describe('Foo', () => {
   it('renders a div', () => {
+    const div = document.createElement('div')
+    document.body.appendChild(div)
     const wrapper = mount(Foo, {
-      attachToDocument: true
+      attachTo: div
     })
     expect(wrapper.contains('div')).toBe(true)
+    wrapper.destroy()
   })
 })
 ```

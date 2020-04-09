@@ -1,6 +1,7 @@
 declare type Options = {
   // eslint-disable-line no-undef
   attachToDocument?: boolean,
+  attachTo?: HTMLElement | string,
   propsData?: Object,
   mocks?: Object,
   methods?: { [key: string]: Function },
@@ -17,6 +18,7 @@ declare type Options = {
 }
 
 declare type NormalizedOptions = {
+  attachTo?: HTMLElement | string,
   attachToDocument?: boolean,
   propsData?: Object,
   mocks: Object,
