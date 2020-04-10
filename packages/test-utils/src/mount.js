@@ -28,7 +28,8 @@ export default function mount(component, options = {}) {
 
   const parentVm = createInstance(component, mergedOptions, _Vue)
 
-  const el = options.attachToDocument ? createElement() : undefined
+  const el =
+    options.attachTo || (options.attachToDocument ? createElement() : undefined)
   const vm = parentVm.$mount(el)
 
   component._Ctor = {}
@@ -36,7 +37,7 @@ export default function mount(component, options = {}) {
   throwIfInstancesThrew(vm)
 
   const wrapperOptions = {
-    attachedToDocument: !!mergedOptions.attachToDocument
+    attachedToDocument: !!el
   }
 
   const root = parentVm.$options._isFunctionalContainer

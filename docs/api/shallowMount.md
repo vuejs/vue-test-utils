@@ -4,6 +4,7 @@
 
   - `{Component} component`
   - `{Object} options`
+    - `{HTMLElement|string} string`
     - `{boolean} attachToDocument`
     - `{Object} context`
       - `{Array<Component|Object>|Component} children`
@@ -64,10 +65,13 @@ import Foo from './Foo.vue'
 
 describe('Foo', () => {
   it('renders a div', () => {
+    const div = document.createElement('div')
+    document.body.appendChild(div)
     const wrapper = shallowMount(Foo, {
-      attachToDocument: true
+      attachTo: div
     })
     expect(wrapper.contains('div')).toBe(true)
+    wrapper.destroy()
   })
 })
 ```

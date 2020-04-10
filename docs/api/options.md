@@ -16,6 +16,7 @@ These options will be merged with the component's existing options when mounted 
 - [`stubs`](#stubs)
 - [`mocks`](#mocks)
 - [`localVue`](#localvue)
+- [`attachTo`](#attachto)
 - [`attachToDocument`](#attachtodocument)
 - [`propsData`](#propsdata)
 - [`attrs`](#attrs)
@@ -288,12 +289,41 @@ const wrapper = mount(Component, {
 expect(wrapper.vm.$route).toBeInstanceOf(Object)
 ```
 
+## attachTo
+
+- type: `HTMLElement | string`
+- default: `null`
+
+This either specifies a specific HTMLElement or CSS selector string targeting an
+HTMLElement, to which your component will be fully mounted in the document.
+
+When attaching to the DOM, you should call `wrapper.destroy()` at the end of your test to
+remove the rendered elements from the document and destroy the component instance.
+
+```js
+const Component = {
+  template: '<div>ABC</div>',
+  props: ['msg']
+}
+let wrapper = mount(Component, {
+  attachTo: '#root'
+})
+expect(wrapper.vm.$el.parentNode).to.not.be.null
+wrapper.destroy()
+
+wrapper = mount(Component, {
+  attachTo: document.getElementById('root')
+})
+expect(wrapper.vm.$el.parentNode).to.not.be.null
+wrapper.destroy()
+```
+
 ## attachToDocument
 
 - type: `boolean`
 - default: `false`
 
-Component will be attached to DOM when rendered if set to `true`.
+Like [`attachTo`](#attachto), but automatically creates a new `div` element for you and inserts it into the body. This is deprecated in favor of [`attachTo`](#attachto).
 
 When attaching to the DOM, you should call `wrapper.destroy()` at the end of your test to
 remove the rendered elements from the document and destroy the component instance.

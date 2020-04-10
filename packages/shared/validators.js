@@ -112,6 +112,14 @@ export function isPlainObject(c: any): boolean {
   return Object.prototype.toString.call(c) === '[object Object]'
 }
 
+export function isHTMLElement(c: any): boolean {
+  if (typeof HTMLElement === 'undefined') {
+    return false
+  }
+  // eslint-disable-next-line no-undef
+  return c instanceof HTMLElement
+}
+
 export function isRequiredComponent(name: string): boolean {
   return (
     name === 'KeepAlive' || name === 'Transition' || name === 'TransitionGroup'
