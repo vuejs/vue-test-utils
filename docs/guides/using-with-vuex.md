@@ -376,6 +376,14 @@ test('updates "evenOrOdd" getter when "increment" is committed', () => {
 
 Notice that we use `cloneDeep` to clone the store config before creating a store with it. This is because Vuex mutates the options object used to create the store. To make sure we have a clean store in each test, we need to clone the `storeConfig` object.
 
+However, `cloneDeep` is not "deep" enough to also clone store modules. If your `storeConfig` includes modules, you need to pass an object to `new Vuex.Store()`, like so:
+
+```
+import myModule from './myModule'
+...
+const store = new Vuex.Store({ modules: { myModule: cloneDeep(myModule) } })
+```
+
 ### Resources
 
 - [Example project for testing the components](https://github.com/eddyerburgh/vue-test-utils-vuex-example)
