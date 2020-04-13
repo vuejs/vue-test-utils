@@ -378,9 +378,9 @@ Notice that we use `cloneDeep` to clone the store config before creating a store
 
 However, `cloneDeep` is not "deep" enough to also clone store modules. If your `storeConfig` includes modules, you need to pass an object to `new Vuex.Store()`, like so:
 
-```
+```js
 import myModule from './myModule'
-...
+// ...
 const store = new Vuex.Store({ modules: { myModule: cloneDeep(myModule) } })
 ```
 
