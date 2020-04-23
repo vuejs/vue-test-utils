@@ -154,7 +154,7 @@ describeWithShallowAndMount('findAll', mountingMethod => {
   it('throws an error if findComponent selector is a CSS selector', () => {
     const wrapper = mountingMethod(Component)
     const message =
-      '[vue-test-utils]: wrapper.findAllComponents() must be passed a Vue constructor or valid find option object'
+      '[vue-test-utils]: findAllComponent requires a Vue constructor or valid find object. If you are searching for DOM nodes, use `find` instead'
     const fn = () => wrapper.findAllComponents('#foo')
     expect(fn)
       .to.throw()

@@ -24,24 +24,10 @@ export function getSelectorType(selector: Selector): string {
   return INVALID_SELECTOR
 }
 
-export function getComponentSelector(
+export default function getSelector(
   selector: Selector,
   methodName: string
 ): Object {
-  const type = getSelectorType(selector)
-  if (type === DOM_SELECTOR) {
-    throwError(
-      `wrapper.${methodName}() must be passed a Vue constructor or valid find option object`
-    )
-  }
-
-  return {
-    type,
-    value: selector
-  }
-}
-
-export function getSelector(selector: Selector, methodName: string): Object {
   const type = getSelectorType(selector)
   if (type === INVALID_SELECTOR) {
     throwError(

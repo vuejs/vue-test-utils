@@ -7,7 +7,7 @@ import {
   COMPONENT_SELECTOR,
   VUE_VERSION
 } from 'shared/consts'
-import { throwError, warn } from 'shared/util'
+import { throwError } from 'shared/util'
 import { matches } from './matches'
 
 export function findAllInstances(rootVm: any) {
@@ -50,11 +50,11 @@ function removeDuplicateNodes(vNodes: Array<VNode>): Array<VNode> {
   return vNodes.filter((vNode, index) => index === vNodeElms.indexOf(vNode.elm))
 }
 
-function checkInvalidFind(
+export default function find(
   root: VNode | Element,
   vm?: Component,
   selector: Selector
-) {
+): Array<VNode | Component> {
   if (root instanceof Element && selector.type !== DOM_SELECTOR) {
     throwError(
       `cannot find a Vue instance on a DOM node. The node ` +
@@ -74,6 +74,10 @@ function checkInvalidFind(
     )
   }
 
+  if (root instanceof Element) {
+    return findDOMNodes(root, selector.value)
+  }
+
   if (!root && selector.type !== DOM_SELECTOR) {
     throwError(
       `cannot find a Vue instance on a DOM node. The node ` +
@@ -84,47 +88,6 @@ function checkInvalidFind(
 
   if (!vm && selector.type === REF_SELECTOR) {
     throwError(`$ref selectors can only be used on Vue component ` + `wrappers`)
-  }
-}
-
-export function findComponent(
-  root: VNode | Element,
-  vm?: Component,
-  selector: Selector
-): Array<VNode | Component> {
-  if (vm && vm.$refs && selector.value.ref in vm.$refs) {
-    const refs = vm.$refs[selector.value.ref]
-    return Array.isArray(refs) ? refs : [refs]
-  }
-
-  const nodes = findAllVNodes(root, selector)
-  const dedupedNodes = removeDuplicateNodes(nodes)
-
-  if (nodes.length > 0 || selector.type !== DOM_SELECTOR) {
-    return dedupedNodes
-  }
-}
-
-export function find(
-  root: VNode | Element,
-  vm?: Component,
-  selector: Selector,
-  callee?: string
-): Array<VNode | Component> {
-  if (
-    ['get', 'find', 'findAll'].includes(callee) &&
-    [REF_SELECTOR, COMPONENT_SELECTOR].includes(selector.type)
-  ) {
-    warn(
-      'finding a component via `find`, `findAll` and `get` has been deprecated and will be removed in a future release. `find` now only works on DOM nodes.' +
-        ' Use `findComponent`, `findAllComponents` or `getComponent` to query for a component instead.'
-    )
-  }
-
-  checkInvalidFind(root, vm, selector)
-
-  if (root instanceof Element) {
-    return findDOMNodes(root, selector.value)
   }
 
   if (vm && vm.$refs && selector.value.ref in vm.$refs) {
