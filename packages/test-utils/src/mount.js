@@ -6,6 +6,7 @@ import { mergeOptions } from 'shared/merge-options'
 import config from './config'
 import warnIfNoWindow from './warn-if-no-window'
 import polyfill from './polyfill'
+import { warn } from 'shared/util'
 import createWrapper from './create-wrapper'
 import createLocalVue from './create-local-vue'
 import { validateOptions } from 'shared/validate-options'
@@ -22,6 +23,11 @@ export default function mount(component, options = {}) {
 
   const _Vue = createLocalVue(options.localVue)
 
+  if (Object.keys(config.methods).length) {
+    warn(
+      `config.methods has been deprecated. It will be removed in a future release`
+    )
+  }
   const mergedOptions = mergeOptions(options, config)
 
   validateOptions(mergedOptions, component)

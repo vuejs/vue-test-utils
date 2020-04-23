@@ -2,13 +2,13 @@
 
 import Vue from 'vue'
 import pretty from 'pretty'
-import getSelector from './get-selector'
+import { getComponentSelector, getSelector } from './get-selector'
 import { REF_SELECTOR, FUNCTIONAL_OPTIONS, VUE_VERSION } from 'shared/consts'
 import config from './config'
 import WrapperArray from './wrapper-array'
 import ErrorWrapper from './error-wrapper'
-import { throwError, getCheckedEvent, isPhantomJS } from 'shared/util'
-import find from './find'
+import { throwError, getCheckedEvent, isPhantomJS, warn } from 'shared/util'
+import { find, findComponent } from './find'
 import createWrapper from './create-wrapper'
 import { recursivelySetData } from './recursively-set-data'
 import { matches } from './matches'
@@ -117,6 +117,9 @@ export default class Wrapper implements BaseWrapper {
    * Checks if wrapper contains provided selector.
    */
   contains(rawSelector: Selector): boolean {
+    warn(
+      'contains is deprecated and will be removed in a future release. Use `wrapper.find`, `wrapper.findComponent` or `wrapper.get`'
+    )
     const selector = getSelector(rawSelector, 'contains')
     const nodes = find(this.rootNode, this.vm, selector)
     return nodes.length > 0
@@ -163,6 +166,9 @@ export default class Wrapper implements BaseWrapper {
    * Returns an Array containing custom events emitted by the Wrapper vm
    */
   emittedByOrder(): Array<{ name: string, args: Array<any> }> {
+    warn(
+      'emittedByOrder is deprecated and will be removed in a future release. Use `wrapper.emitted` instead'
+    )
     if (!this._emittedByOrder && !this.vm) {
       throwError(
         `wrapper.emittedByOrder() can only be called on a Vue instance`
@@ -190,7 +196,7 @@ export default class Wrapper implements BaseWrapper {
    * matches the provided selector.
    */
   get(rawSelector: Selector): Wrapper {
-    const found = this.find(rawSelector)
+    const found = this.find(rawSelector, 'get')
     if (found instanceof ErrorWrapper) {
       throw new Error(`Unable to find ${rawSelector} within: ${this.html()}`)
     }
@@ -198,12 +204,17 @@ export default class Wrapper implements BaseWrapper {
   }
 
   /**
-   * Finds first node in tree of the current wrapper that
+   * Finds first component in tree of the current wrapper that
    * matches the provided selector.
    */
-  find(rawSelector: Selector): Wrapper | ErrorWrapper {
-    const selector = getSelector(rawSelector, 'find')
-    const node = find(this.rootNode, this.vm, selector)[0]
+  findComponent(rawSelector: Selector): Wrapper | ErrorWrapper {
+    const selector = getComponentSelector(rawSelector, 'findComponent')
+    const node = findComponent(
+      this.rootNode,
+      this.vm,
+      selector,
+      'findComponent'
+    )[0]
 
     if (!node) {
       return new ErrorWrapper(rawSelector)
@@ -215,12 +226,49 @@ export default class Wrapper implements BaseWrapper {
   }
 
   /**
-   * Finds node in tree of the current wrapper that matches
+   * Finds first DOM node in tree of the current wrapper that
+   * matches the provided selector.
+   */
+  find(rawSelector: Selector, callee: string): Wrapper | ErrorWrapper {
+    const selector = getSelector(rawSelector, 'find')
+    const node = find(this.rootNode, this.vm, selector, callee || 'find')[0]
+
+    if (!node) {
+      return new ErrorWrapper(rawSelector)
+    }
+
+    const wrapper = createWrapper(node, this.options)
+    wrapper.selector = rawSelector
+    return wrapper
+  }
+
+  /**
+   * Finds DOM nodes in tree of the current wrapper that matches
    * the provided selector.
    */
   findAll(rawSelector: Selector): WrapperArray {
     const selector = getSelector(rawSelector, 'findAll')
-    const nodes = find(this.rootNode, this.vm, selector)
+    const nodes = find(this.rootNode, this.vm, selector, 'findAll')
+    const wrappers = nodes.map(node => {
+      // Using CSS Selector, returns a VueWrapper instance if the root element
+      // binds a Vue instance.
+      const wrapper = createWrapper(node, this.options)
+      wrapper.selector = rawSelector
+      return wrapper
+    })
+
+    const wrapperArray = new WrapperArray(wrappers)
+    wrapperArray.selector = rawSelector
+    return wrapperArray
+  }
+
+  /**
+   * Finds components in tree of the current wrapper that matches
+   * the provided selector.
+   */
+  findAllComponents(rawSelector: Selector): WrapperArray {
+    const selector = getComponentSelector(rawSelector, 'findAllComponents')
+    const nodes = find(this.rootNode, this.vm, selector, 'findAllComponents')
     const wrappers = nodes.map(node => {
       // Using CSS Selector, returns a VueWrapper instance if the root element
       // binds a Vue instance.
@@ -245,6 +293,9 @@ export default class Wrapper implements BaseWrapper {
    * Checks if node matches selector
    */
   is(rawSelector: Selector): boolean {
+    warn(
+      `is is deprecated and will be removed in a future release. Use element.tagName instead`
+    )
     const selector = getSelector(rawSelector, 'is')
 
     if (selector.type === REF_SELECTOR) {
@@ -258,6 +309,8 @@ export default class Wrapper implements BaseWrapper {
    * Checks if node is empty
    */
   isEmpty(): boolean {
+    warn(`isEmpty is deprecated and will be removed in a future release. 
+      Consider a custom matcher such as those provided in jest-dom: https://github.com/testing-library/jest-dom#tobeempty`)
     if (!this.vnode) {
       return this.element.innerHTML === ''
     }
@@ -282,6 +335,8 @@ export default class Wrapper implements BaseWrapper {
    * Checks if node is visible
    */
   isVisible(): boolean {
+    warn(`isEmpty is deprecated and will be removed in a future release. 
+      Consider a custom matcher such as those provided in jest-dom: https://github.com/testing-library/jest-dom#tobevisible`)
     let element = this.element
     while (element) {
       if (
@@ -302,6 +357,7 @@ export default class Wrapper implements BaseWrapper {
    * Checks if wrapper is a vue instance
    */
   isVueInstance(): boolean {
+    warn(`isVueInstance is deprecated and will be removed in a future release`)
     return !!this.vm
   }
 
@@ -430,6 +486,9 @@ export default class Wrapper implements BaseWrapper {
    * Checks radio button or checkbox element
    */
   setChecked(checked: boolean = true): void {
+    warn(
+      `setChecked has been renamed setValue. setChecked will be removed in a future release.`
+    )
     if (typeof checked !== 'boolean') {
       throwError('wrapper.setChecked() must be passed a boolean')
     }
@@ -477,6 +536,9 @@ export default class Wrapper implements BaseWrapper {
    * Selects <option></option> element
    */
   setSelected(): void {
+    warn(
+      `setSelected has been renamed setValue. setSelected will be removed in a future release.`
+    )
     const tagName = this.element.tagName
 
     if (tagName === 'SELECT') {
@@ -529,6 +591,7 @@ export default class Wrapper implements BaseWrapper {
    * Sets vm methods
    */
   setMethods(methods: Object): void {
+    warn(`setMethods is deprecated and will be removed in a future release`)
     if (!this.isVueInstance()) {
       throwError(`wrapper.setMethods() can only be called on a Vue instance`)
     }

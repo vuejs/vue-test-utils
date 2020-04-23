@@ -137,6 +137,21 @@ describeWithShallowAndMount('find', mountingMethod => {
     expect(wrapper.find(Component).vnode).to.be.an('object')
   })
 
+  it('returns Wrapper of Vue Components matching component using findComponent', () => {
+    const wrapper = mountingMethod(ComponentWithChild)
+    expect(wrapper.findComponent(Component).vnode).to.be.an('object')
+  })
+
+  it('throws an error if findComponent selector is a CSS selector', () => {
+    const wrapper = mountingMethod(Component)
+    const message =
+      '[vue-test-utils]: wrapper.findComponent() must be passed a Vue constructor or valid find option object'
+    const fn = () => wrapper.findComponent('#foo')
+    expect(fn)
+      .to.throw()
+      .with.property('message', message)
+  })
+
   itSkipIf(isRunningPhantomJS, 'returns Wrapper of class component', () => {
     const TestComponent = {
       template: `

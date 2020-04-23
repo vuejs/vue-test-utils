@@ -145,6 +145,22 @@ describeWithShallowAndMount('findAll', mountingMethod => {
     expect(componentArr.length).to.equal(1)
   })
 
+  it('returns an array of VueWrappers of Vue Components matching componentusing findAllComponents', () => {
+    const wrapper = mountingMethod(ComponentWithChild)
+    const componentArr = wrapper.findAllComponents(Component)
+    expect(componentArr.length).to.equal(1)
+  })
+
+  it('throws an error if findComponent selector is a CSS selector', () => {
+    const wrapper = mountingMethod(Component)
+    const message =
+      '[vue-test-utils]: wrapper.findAllComponents() must be passed a Vue constructor or valid find option object'
+    const fn = () => wrapper.findAllComponents('#foo')
+    expect(fn)
+      .to.throw()
+      .with.property('message', message)
+  })
+
   it('returns correct number of Vue Wrapper when component has a v-for', () => {
     const items = [{ id: 1 }, { id: 2 }, { id: 3 }]
     const wrapper = mountingMethod(ComponentWithVFor, { propsData: { items } })
