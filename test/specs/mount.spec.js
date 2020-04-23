@@ -2,6 +2,7 @@ import Vue from 'vue'
 import { compileToFunctions } from 'vue-template-compiler'
 import { mount, createLocalVue } from '@vue/test-utils'
 import Component from '~resources/components/component.vue'
+import CompositionAPI, { createElement } from '@vue/composition-api'
 import ComponentWithProps from '~resources/components/component-with-props.vue'
 import ComponentWithMixin from '~resources/components/component-with-mixin.vue'
 import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
@@ -411,6 +412,18 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
       localVue
     })
     expect(wrapper.findAll(ChildComponent).length).to.equal(1)
+  })
+
+  it('works with composition api plugin', () => {
+    const localVue = createLocalVue()
+    localVue.use(CompositionAPI)
+    const Comp = {
+      setup() {
+        return () => createElement('div', 'composition api')
+      }
+    }
+    const wrapper = mount(Comp, { localVue })
+    expect(wrapper.html()).to.equal('<div>composition api</div>')
   })
 
   it('handles nested components with extends', () => {

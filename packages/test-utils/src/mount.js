@@ -22,6 +22,10 @@ export default function mount(component, options = {}) {
 
   const _Vue = createLocalVue(options.localVue)
 
+  if (component.setup) {
+    component.render = component.setup()
+  }
+
   const mergedOptions = mergeOptions(options, config)
 
   validateOptions(mergedOptions, component)
