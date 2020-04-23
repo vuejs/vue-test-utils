@@ -118,7 +118,7 @@ export default class Wrapper implements BaseWrapper {
    */
   contains(rawSelector: Selector): boolean {
     warn(
-      'contains is deprecated and will be removed in a future release. Use `wrapper.find`, `wrapper.findComponent` or `wrapper.get`'
+      'contains is deprecated and will be removed in a future release. Use `wrapper.find`, `wrapper.findComponent` or `wrapper.get` instead'
     )
     const selector = getSelector(rawSelector, 'contains')
     const nodes = find(this.rootNode, this.vm, selector)
