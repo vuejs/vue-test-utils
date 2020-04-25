@@ -30,13 +30,13 @@ declare interface BaseWrapper {
   props(key?: string): { [name: string]: any } | any | void;
   text(): string | void;
   selector: Selector | void;
-  setData(data: Object): Promise<void>;
+  setData(data: Object): Promise<void> | void;
   setMethods(methods: Object): void;
-  setValue(value: any): Promise<void>;
-  setChecked(checked?: boolean): Promise<void>;
-  setSelected(): Promise<void>;
-  setProps(data: Object): Promise<void>;
-  trigger(type: string, options: Object): Promise<void>;
+  setValue(value: any): Promise<void> | void;
+  setChecked(checked?: boolean): Promise<void> | void;
+  setSelected(): Promise<void> | void;
+  setProps(data: Object): Promise<void> | void;
+  trigger(type: string, options: Object): Promise<void> | void;
   destroy(): void;
 }
 
