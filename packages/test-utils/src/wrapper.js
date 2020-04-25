@@ -510,7 +510,7 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Checks radio button or checkbox element
    */
-  setChecked(checked: boolean = true): void {
+  setChecked(checked: boolean = true): Promise<*> {
     if (typeof checked !== 'boolean') {
       throwError('wrapper.setChecked() must be passed a boolean')
     }
@@ -521,14 +521,13 @@ export default class Wrapper implements BaseWrapper {
 
     if (tagName === 'INPUT' && type === 'checkbox') {
       if (this.element.checked === checked) {
-        return
+        return Vue.nextTick()
       }
       if (event !== 'click' || isPhantomJS) {
         // $FlowIgnore
         this.element.checked = checked
       }
-      this.trigger(event)
-      return
+      return this.trigger(event)
     }
 
     if (tagName === 'INPUT' && type === 'radio') {
@@ -540,24 +539,24 @@ export default class Wrapper implements BaseWrapper {
       }
 
       if (this.element.checked === checked) {
-        return
+        return Vue.nextTick()
       }
 
       if (event !== 'click' || isPhantomJS) {
         // $FlowIgnore
         this.element.selected = true
       }
-      this.trigger(event)
-      return
+      return this.trigger(event)
     }
 
     throwError(`wrapper.setChecked() cannot be called on this element`)
+    return Vue.nextTick()
   }
 
   /**
    * Selects <option></option> element
    */
-  setSelected(): void {
+  setSelected(): Promise<void> {
     const tagName = this.element.tagName
 
     if (tagName === 'SELECT') {
@@ -567,34 +566,33 @@ export default class Wrapper implements BaseWrapper {
       )
     }
 
-    if (tagName === 'OPTION') {
-      if (this.element.selected) {
-        return
-      }
-
-      // $FlowIgnore
-      this.element.selected = true
-      // $FlowIgnore
-      let parentElement = this.element.parentElement
-
-      // $FlowIgnore
-      if (parentElement.tagName === 'OPTGROUP') {
-        // $FlowIgnore
-        parentElement = parentElement.parentElement
-      }
-
-      // $FlowIgnore
-      createWrapper(parentElement, this.options).trigger('change')
-      return
+    if (tagName !== 'OPTION') {
+      throwError(`wrapper.setSelected() cannot be called on this element`)
     }
 
-    throwError(`wrapper.setSelected() cannot be called on this element`)
+    if (this.element.selected) {
+      return Vue.nextTick()
+    }
+
+    // $FlowIgnore
+    this.element.selected = true
+    // $FlowIgnore
+    let parentElement = this.element.parentElement
+
+    // $FlowIgnore
+    if (parentElement.tagName === 'OPTGROUP') {
+      // $FlowIgnore
+      parentElement = parentElement.parentElement
+    }
+
+    // $FlowIgnore
+    return createWrapper(parentElement, this.options).trigger('change')
   }
 
   /**
    * Sets vm data
    */
-  setData(data: Object): void {
+  setData(data: Object): Promise<void> {
     if (this.isFunctionalComponent) {
       throwError(`wrapper.setData() cannot be called on a functional component`)
     }
@@ -604,6 +602,7 @@ export default class Wrapper implements BaseWrapper {
     }
 
     recursivelySetData(this.vm, this.vm, data)
+    return Vue.nextTick()
   }
 
   /**
@@ -630,7 +629,7 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Sets vm props
    */
-  setProps(data: Object): void {
+  setProps(data: Object): Promise<void> {
     // Validate the setProps method call
     if (this.isFunctionalComponent) {
       throwError(
@@ -670,7 +669,7 @@ export default class Wrapper implements BaseWrapper {
           if (VUE_VERSION > 2.3) {
             // $FlowIgnore : Problem with possibly null this.vm
             this.vm.$attrs[key] = data[key]
-            return
+            return Vue.nextTick()
           }
           throwError(
             `wrapper.setProps() called with ${key} property which ` +
@@ -685,6 +684,7 @@ export default class Wrapper implements BaseWrapper {
 
       // $FlowIgnore : Problem with possibly null this.vm
       this.vm.$forceUpdate()
+      return Vue.nextTick()
     } catch (err) {
       throw err
     } finally {
@@ -697,7 +697,7 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Sets element value and triggers input event
    */
-  setValue(value: any): void {
+  setValue(value: any): Promise<void> {
     const tagName = this.element.tagName
     // $FlowIgnore
     const type = this.attributes().type
@@ -740,9 +740,10 @@ export default class Wrapper implements BaseWrapper {
       ) {
         this.trigger('change')
       }
-    } else {
-      throwError(`wrapper.setValue() cannot be called on this element`)
+      return Vue.nextTick()
     }
+    throwError(`wrapper.setValue() cannot be called on this element`)
+    return Vue.nextTick()
   }
 
   /**
@@ -755,7 +756,7 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Dispatches a DOM event on wrapper
    */
-  trigger(type: string, options: Object = {}) {
+  trigger(type: string, options: Object = {}): Promise<void> {
     if (typeof type !== 'string') {
       throwError('wrapper.trigger() must be passed a string')
     }
@@ -787,10 +788,11 @@ export default class Wrapper implements BaseWrapper {
     const tagName = this.element.tagName
 
     if (this.attributes().disabled && supportedTags.indexOf(tagName) > -1) {
-      return
+      return Vue.nextTick()
     }
 
     const event = createDOMEvent(type, options)
     this.element.dispatchEvent(event)
+    return Vue.nextTick()
   }
 }

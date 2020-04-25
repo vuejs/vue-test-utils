@@ -16,6 +16,17 @@ describeWithShallowAndMount('trigger', mountingMethod => {
     sandbox.restore()
   })
 
+  it('returns a promise that when resolved, the component is updated', async () => {
+    const wrapper = mountingMethod(ComponentWithEvents)
+    const toggle = wrapper.find('.toggle')
+    expect(toggle.classes()).not.to.contain('active')
+    const response = toggle.trigger('click')
+    expect(toggle.classes()).not.to.contain('active')
+    expect(response instanceof Promise).to.eql(true)
+    await response
+    expect(toggle.classes()).to.contain('active')
+  })
+
   it('causes click handler to fire when wrapper.trigger("click") is called on a Component', () => {
     const clickHandler = sandbox.stub()
     const wrapper = mountingMethod(ComponentWithEvents, {
@@ -100,8 +111,7 @@ describeWithShallowAndMount('trigger', mountingMethod => {
     const wrapper = mountingMethod(ComponentWithEvents)
     const toggle = wrapper.find('.toggle')
     expect(toggle.classes()).not.to.contain('active')
-    toggle.trigger('click')
-    await Vue.nextTick()
+    await toggle.trigger('click')
     expect(toggle.classes()).to.contain('active')
   })
 
@@ -256,8 +266,8 @@ describeWithShallowAndMount('trigger', mountingMethod => {
       let lastEvent
       const TestComponent = {
         template: `
-        <div @click="updateLastEvent" />
-      `,
+          <div @click="updateLastEvent" />
+        `,
         methods: {
           updateLastEvent(event) {
             lastEvent = event
