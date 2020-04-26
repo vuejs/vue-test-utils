@@ -343,7 +343,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
       .with.property('message', message)
   })
 
-  it('throws error if passed a number for named slots', () => {
+  it('throws error if passed an array of numbers for named slots', () => {
     const TestComponent = {
       name: 'component-with-slots',
       functional: true,

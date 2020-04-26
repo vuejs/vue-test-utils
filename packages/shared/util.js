@@ -1,6 +1,7 @@
 // @flow
 import Vue from 'vue'
 import semver from 'semver'
+import { config } from '@vue/test-utils'
 
 export function throwError(msg: string): void {
   throw new Error(`[vue-test-utils]: ${msg}`)
@@ -84,4 +85,11 @@ export function getCheckedEvent() {
 
   // change is handler for version 2.0 - 2.1.8, and 2.5+
   return 'change'
+}
+
+export function warnDeprecated(method: string, fallback: string = '') {
+  if (!config.showDeprecationWarnings) return
+  let msg = `${method} is deprecated and will removed in the next major version`
+  if (fallback) msg += ` ${fallback}`
+  warn(msg)
 }

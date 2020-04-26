@@ -17,6 +17,7 @@ describeWithShallowAndMount('config', mountingMethod => {
   afterEach(() => {
     config.stubs = configStubsSave
     config.silent = configSilentSave
+    config.methods = {}
     sandbox.reset()
     sandbox.restore()
   })
@@ -98,5 +99,19 @@ describeWithShallowAndMount('config', mountingMethod => {
     wrapper.setData({ expanded: true })
     await wrapper.vm.$nextTick()
     expect(wrapper.find('[data-testid="expanded"]').exists()).to.equal(false)
+  })
+
+  it('allows control deprecation warnings visibility', () => {
+    config.showDeprecationWarnings = true
+    const Component = {
+      name: 'Foo',
+      template: '<div>Foo</div>'
+    }
+    const wrapper = mountingMethod(Component)
+    wrapper.name()
+    expect(console.error).to.be.calledWith(sandbox.match('name is deprecated'))
+    config.showDeprecationWarnings = false
+    wrapper.name()
+    expect(console.error).to.have.callCount(1)
   })
 })

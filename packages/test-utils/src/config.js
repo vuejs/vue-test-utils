@@ -6,5 +6,9 @@ export default {
   mocks: {},
   methods: {},
   provide: {},
-  silent: true
+  silent: true,
+  showDeprecationWarnings:
+    typeof process.env.SHOW_DEPRECATIONS !== 'undefined'
+      ? process.env.SHOW_DEPRECATIONS
+      : true
 }

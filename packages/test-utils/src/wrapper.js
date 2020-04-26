@@ -12,7 +12,12 @@ import {
 import config from './config'
 import WrapperArray from './wrapper-array'
 import ErrorWrapper from './error-wrapper'
-import { throwError, getCheckedEvent, isPhantomJS, warn } from 'shared/util'
+import {
+  throwError,
+  getCheckedEvent,
+  isPhantomJS,
+  warnDeprecated
+} from 'shared/util'
 import find from './find'
 import createWrapper from './create-wrapper'
 import { recursivelySetData } from './recursively-set-data'
@@ -122,8 +127,9 @@ export default class Wrapper implements BaseWrapper {
    * Checks if wrapper contains provided selector.
    */
   contains(rawSelector: Selector): boolean {
-    warn(
-      'contains is deprecated and will be removed in a future release. Use `wrapper.find`, `wrapper.findComponent` or `wrapper.get` instead'
+    warnDeprecated(
+      'contains',
+      'Use `wrapper.find`, `wrapper.findComponent` or `wrapper.get` instead'
     )
     const selector = getSelector(rawSelector, 'contains')
     const nodes = find(this.rootNode, this.vm, selector)
@@ -171,9 +177,7 @@ export default class Wrapper implements BaseWrapper {
    * Returns an Array containing custom events emitted by the Wrapper vm
    */
   emittedByOrder(): Array<{ name: string, args: Array<any> }> {
-    warn(
-      'emittedByOrder is deprecated and will be removed in a future release. Use `wrapper.emitted` instead'
-    )
+    warnDeprecated('emittedByOrder', 'Use `wrapper.emitted` instead')
     if (!this._emittedByOrder && !this.vm) {
       throwError(
         `wrapper.emittedByOrder() can only be called on a Vue instance`
@@ -201,9 +205,6 @@ export default class Wrapper implements BaseWrapper {
    * matches the provided selector.
    */
   get(rawSelector: Selector): Wrapper {
-    warn(
-      'get is deprecated and will be removed in a future release. Use `find` or `findComponent` instead'
-    )
     const found = this.find(rawSelector)
     if (found instanceof ErrorWrapper) {
       throw new Error(`Unable to find ${rawSelector} within: ${this.html()}`)
@@ -218,8 +219,9 @@ export default class Wrapper implements BaseWrapper {
   find(rawSelector: Selector): Wrapper | ErrorWrapper {
     const selector = getSelector(rawSelector, 'find')
     if (selector.type !== DOM_SELECTOR) {
-      warn(
-        'finding components with `find` is deprecated and will be removed in a future release. Use `findComponent` instead'
+      warnDeprecated(
+        'finding components with `find`',
+        'Use `findComponent` instead'
       )
     }
     const node = find(this.rootNode, this.vm, selector)[0]
@@ -240,8 +242,9 @@ export default class Wrapper implements BaseWrapper {
   findAll(rawSelector: Selector): WrapperArray {
     const selector = getSelector(rawSelector, 'findAll')
     if (selector.type !== DOM_SELECTOR) {
-      warn(
-        'finding components with `findAll` is deprecated and will be removed in a future release. Use `findAllComponents` instead'
+      warnDeprecated(
+        'finding components with `findAll`',
+        'Use `findAllComponents` instead'
       )
     }
     const nodes = find(this.rootNode, this.vm, selector)
@@ -316,9 +319,7 @@ export default class Wrapper implements BaseWrapper {
    * Checks if node matches selector
    */
   is(rawSelector: Selector): boolean {
-    warn(
-      `is is deprecated and will be removed in a future release. Use element.tagName instead`
-    )
+    warnDeprecated('is', 'Use element.tagName instead')
     const selector = getSelector(rawSelector, 'is')
 
     if (selector.type === REF_SELECTOR) {
@@ -332,9 +333,9 @@ export default class Wrapper implements BaseWrapper {
    * Checks if node is empty
    */
   isEmpty(): boolean {
-    warn(
-      `isEmpty is deprecated and will be removed in a future release. ` +
-        `Consider a custom matcher such as those provided in jest-dom: https://github.com/testing-library/jest-dom#tobeempty`
+    warnDeprecated(
+      'isEmpty',
+      'Consider a custom matcher such as those provided in jest-dom: https://github.com/testing-library/jest-dom#tobeempty'
     )
     if (!this.vnode) {
       return this.element.innerHTML === ''
@@ -360,8 +361,10 @@ export default class Wrapper implements BaseWrapper {
    * Checks if node is visible
    */
   isVisible(): boolean {
-    warn(`isEmpty is deprecated and will be removed in a future release.
-      Consider a custom matcher such as those provided in jest-dom: https://github.com/testing-library/jest-dom#tobevisible`)
+    warnDeprecated(
+      'isEmpty',
+      `Consider a custom matcher such as those provided in jest-dom: https://github.com/testing-library/jest-dom#tobevisible`
+    )
     let element = this.element
     while (element) {
       if (
@@ -382,7 +385,7 @@ export default class Wrapper implements BaseWrapper {
    * Checks if wrapper is a vue instance
    */
   isVueInstance(): boolean {
-    warn(`isVueInstance is deprecated and will be removed in a future release`)
+    warnDeprecated(`isVueInstance`)
     return !!this.vm
   }
 
@@ -390,6 +393,8 @@ export default class Wrapper implements BaseWrapper {
    * Returns name of component, or tag name if node is not a Vue component
    */
   name(): string {
+    warnDeprecated(`name`)
+
     if (this.vm) {
       return (
         this.vm.$options.name ||
@@ -410,6 +415,8 @@ export default class Wrapper implements BaseWrapper {
    * with useful information for debugging
    */
   overview(): void {
+    warnDeprecated(`overview`)
+
     if (!this.isVueInstance()) {
       throwError(`wrapper.overview() can only be called on a Vue instance`)
     }
@@ -511,6 +518,11 @@ export default class Wrapper implements BaseWrapper {
    * Checks radio button or checkbox element
    */
   setChecked(checked: boolean = true): void {
+    warnDeprecated(
+      `setChecked`,
+      'When you migrate to VTU 2, use setValue instead.'
+    )
+
     if (typeof checked !== 'boolean') {
       throwError('wrapper.setChecked() must be passed a boolean')
     }
@@ -558,6 +570,11 @@ export default class Wrapper implements BaseWrapper {
    * Selects <option></option> element
    */
   setSelected(): void {
+    warnDeprecated(
+      `setSelected`,
+      'When you migrate to VTU 2, use setValue instead.'
+    )
+
     const tagName = this.element.tagName
 
     if (tagName === 'SELECT') {
@@ -610,7 +627,8 @@ export default class Wrapper implements BaseWrapper {
    * Sets vm methods
    */
   setMethods(methods: Object): void {
-    warn(`setMethods is deprecated and will be removed in a future release`)
+    warnDeprecated(`setMethods`)
+
     if (!this.isVueInstance()) {
       throwError(`wrapper.setMethods() can only be called on a Vue instance`)
     }
