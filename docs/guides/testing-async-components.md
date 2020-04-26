@@ -27,8 +27,13 @@ it('button click should increment the count text', async () => {
 Awaiting the trigger above is the same as doing:
 
 ```js
-button.trigger('click')
-await Vue.nextTick()
+it('button click should increment the count text', async () => {
+  expect(wrapper.text()).toContain('0')
+  const button = wrapper.find('button')
+  button.trigger('click')
+  await Vue.nextTick()
+  expect(wrapper.text()).toContain('1')
+})
 ```
 
 Methods that can be awaited are:
