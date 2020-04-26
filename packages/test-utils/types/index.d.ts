@@ -60,15 +60,15 @@ interface BaseWrapper {
   isEmpty (): boolean
   isVueInstance (): boolean
 
-  setData (data: object): void
+  setData (data: object): Promise<void> | void
   setMethods (data: object): void
-  setProps (props: object): void
+  setProps (props: object): Promise<void> | void
 
-  setValue (value: any): void
-  setChecked (checked?: boolean): void
-  setSelected (): void
+  setValue (value: any): Promise<void> | void
+  setChecked (checked?: boolean): Promise<void> | void
+  setSelected (): Promise<void> | void
 
-  trigger (eventName: string, options?: object): void
+  trigger (eventName: string, options?: object): Promise<void> | void
   destroy (): void
   selector: Selector | void
 }
