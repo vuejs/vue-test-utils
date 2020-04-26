@@ -35,28 +35,27 @@ When using either the `mount` or `shallowMount` methods, you can expect your com
 
 Additionally, the component will not be automatically destroyed at the end of each spec, and it is up to the user to stub or manually clean up tasks that will continue to run (`setInterval` or `setTimeout`, for example) before the end of each spec.
 
-### Writing asynchronous tests using `nextTick` (new)
+### Writing asynchronous tests (new)
 
 By default, Vue batches updates to run asynchronously (on the next "tick"). This is to prevent unnecessary DOM re-renders, and watcher computations ([see the docs](https://vuejs.org/v2/guide/reactivity.html#Async-Update-Queue) for more details).
 
-This means you **must** wait for updates to run after you set a reactive property. You can wait for updates with `Vue.nextTick()`:
+This means that you **must** wait for updates to run after you change a reactive property. You can do that by awaiting mutation methods like `trigger`:
 
 ```js
 it('updates text', async () => {
   const wrapper = mount(Component)
-  wrapper.trigger('click')
-  await Vue.nextTick()
+  await wrapper.trigger('click')
   expect(wrapper.text()).toContain('updated')
+  await wrapper.trigger('click')
+  wrapper.text().toContain('some different text')
 })
 
 // Or if you're without async/await
 it('render text', done => {
   const wrapper = mount(TestComponent)
-  wrapper.trigger('click')
-  Vue.nextTick(() => {
-    wrapper.text().toContain('some text')
-    wrapper.trigger('click')
-    Vue.nextTick(() => {
+  wrapper.trigger('click').then(() => {
+    wrapper.text().toContain('updated')
+    wrapper.trigger('click').then(() => {
       wrapper.text().toContain('some different text')
       done()
     })
@@ -64,14 +63,7 @@ it('render text', done => {
 })
 ```
 
-The following methods often cause watcher updates that require you to wait for the next tick:
-
-- `setChecked`
-- `setData`
-- `setSelected`
-- `setProps`
-- `setValue`
-- `trigger`
+Learn more in the [Testing Asynchronous Behavior](../guides/README.md#testing-asynchronous-behavior)
 
 ### Asserting Emitted Events
 
@@ -213,16 +205,15 @@ test('should render Foo, then hide it', async () => {
   const wrapper = mount(Foo)
   expect(wrapper.text()).toMatch(/Foo/)
 
-  wrapper.setData({
+  await wrapper.setData({
     show: false
   })
-  await wrapper.vm.$nextTick()
 
   expect(wrapper.text()).not.toMatch(/Foo/)
 })
 ```
 
-In practice, although we are calling `setData` then waiting for the `nextTick` to ensure the DOM is updated, this test fails. This is an ongoing issue related to how Vue implements the `<transition>` component, that we would like to solve before version 1.0. For now, there are some workarounds:
+In practice, although we are calling and awaiting `setData` to ensure the DOM is updated, this test fails. This is an ongoing issue related to how Vue implements the `<transition>` component, that we would like to solve before version 1.0. For now, there are some workarounds:
 
 #### Using a `transitionStub` helper
 
@@ -241,10 +232,9 @@ test('should render Foo, then hide it', async () => {
   })
   expect(wrapper.text()).toMatch(/Foo/)
 
-  wrapper.setData({
+  await wrapper.setData({
     show: false
   })
-  await wrapper.vm.$nextTick()
 
   expect(wrapper.text()).not.toMatch(/Foo/)
 })

@@ -3,6 +3,7 @@
 Triggers an event asynchronously on the `Wrapper` DOM node.
 
 `trigger` takes an optional `options` object. The properties in the `options` object are added to the Event.
+`trigger` returns a Promise, which when resolved, guarantees the component is updated.
 
 - **Arguments:**
 
@@ -22,17 +23,15 @@ test('trigger demo', async () => {
     propsData: { clickHandler }
   })
 
-  wrapper.trigger('click')
+  await wrapper.trigger('click')
 
-  wrapper.trigger('click', {
+  await wrapper.trigger('click', {
     button: 0
   })
 
-  wrapper.trigger('click', {
+  await wrapper.trigger('click', {
     ctrlKey: true // For testing @click.ctrl handlers
   })
-
-  await wrapper.vm.$nextTick() // Wait until trigger events have been handled
 
   expect(clickHandler.called).toBe(true)
 })

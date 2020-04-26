@@ -122,30 +122,34 @@ it('button click should increment the count', () => {
 
 In order to test that the counter text has updated, we need to learn about `nextTick`.
 
-### Using `nextTick`
+### Using `nextTick` and awaiting actions
 
-Anytime you make a change (in computed, data, vuex state, etc) which updates the DOM (ex. show a component from v-if), you should await the `nextTick` function before running the test. This is because Vue batches pending DOM updates and _applies them asynchronously_ to prevent unnecessary re-renders caused by multiple data mutations.
+Anytime you make a change (in computed, data, vuex state, etc) which updates the DOM (ex. show a component from v-if or display dynamic text), you should await the `nextTick` function before running the assertion.
+This is because Vue batches pending DOM updates and _applies them asynchronously_ to prevent unnecessary re-renders caused by multiple data mutations.
 
 _You can read more about asynchronous updates in the [Vue docs](https://vuejs.org/v2/guide/reactivity.html#Async-Update-Queue)_
 
-We need to use `wrapper.vm.$nextTick` to wait until Vue has performed the DOM update after we set a reactive property. In the counter example, setting the `count` property schedules a DOM update to run on the next tick.
+After updating a reactive property we can await methods like `trigger` or `wrapper.vm.$nextTick` directly, until Vue has performed the DOM update. In the counter example, setting the `count` property schedules a DOM update to run on the next tick.
 
-We can `await` `wrapper.vm.$nextTick()` by writing the tests in an async function:
+Lets see how we can `await trigger()` by writing the tests in an async function:
 
 ```js
 it('button click should increment the count text', async () => {
   expect(wrapper.text()).toContain('0')
   const button = wrapper.find('button')
-  button.trigger('click')
-  await wrapper.vm.$nextTick()
+  await button.trigger('click')
   expect(wrapper.text()).toContain('1')
 })
 ```
 
-When you use `nextTick` in your test files, be aware that any errors thrown inside it may not be caught by your test runner as it uses promises internally. There are two approaches to fixing this: either you can set the `done` callback as Vue's global error handler at the start of the test, or you can call `nextTick` without an argument and return it as a promise:
+`trigger` returns a promise, which can be awaited as seen above or chained with `then` like a regular promise callback. Methods like `trigger` just return `Vue.nextTick` internally.
+You can read more in depth about [Testing Asynchronous Components](../guides/README.md#testing-async-components).
+
+If for some reason you choose to use `nextTick` instead in your test files, be aware that any errors thrown inside it may not be caught by your test runner as it uses promises internally. There are two approaches to fixing this:
+either you can set the `done` callback as Vue's global error handler at the start of the test, or you can call `nextTick` without an argument and return it as a promise:
 
 ```js
-// this will not be caught
+// errors will not be caught
 it('will time out', done => {
   Vue.nextTick(() => {
     expect(true).toBe(false)
@@ -174,7 +178,12 @@ it('will catch the error using async/await', async () => {
 })
 ```
 
+`Vue.nextTick` is equal to `component.vm.$nextTick`, where `component` can be the result of `mount` or `find`.
+
+As mentioned in the beginning, in most cases, awaiting `trigger` is the recommended way to go.
+
 ### What's Next
 
-- Integrate Vue Test Utils into your project by [choosing a test runner](./choosing-a-test-runner.md).
-- Learn more about [common techniques when writing tests](./common-tips.md).
+- Learn more about [common techniques when writing tests](./README.md#knowing-what-to-test).
+- Integrate Vue Test Utils into your project by [choosing a test runner](./README.md#choosing-a-test-runner).
+- Learn more about [Testing Asynchronous Behavior](./README.md#testing-asynchronous-behavior)
