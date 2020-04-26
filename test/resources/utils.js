@@ -28,6 +28,9 @@ export const functionalSFCsSupported = vueVersion > 2.4
 
 export const scopedSlotsSupported = vueVersion > 2
 
+export const isPromise = value =>
+  typeof value === 'object' && typeof value.then === 'function'
+
 const shallowAndMount =
   process.env.TEST_ENV === 'node' ? [] : [mount, shallowMount]
 const shallowMountAndRender =

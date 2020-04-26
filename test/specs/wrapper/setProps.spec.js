@@ -1,7 +1,11 @@
 import { compileToFunctions } from 'vue-template-compiler'
 import ComponentWithProps from '~resources/components/component-with-props.vue'
 import ComponentWithWatch from '~resources/components/component-with-watch.vue'
-import { describeWithShallowAndMount, vueVersion } from '~resources/utils'
+import {
+  describeWithShallowAndMount,
+  isPromise,
+  vueVersion
+} from '~resources/utils'
 import { itDoNotRunIf } from 'conditional-specs'
 import Vue from 'vue'
 
@@ -19,7 +23,7 @@ describeWithShallowAndMount('setProps', mountingMethod => {
   it('returns a promise, when resolved component is updated', async () => {
     const wrapper = mountingMethod(ComponentWithProps)
     const response = wrapper.setProps({ prop1: 'foo' })
-    expect(response instanceof Promise).to.eql(true)
+    expect(isPromise(response)).to.eql(true)
     expect(wrapper.find('.prop-1').text()).to.equal('')
     await response
     expect(wrapper.find('.prop-1').text()).to.equal('foo')

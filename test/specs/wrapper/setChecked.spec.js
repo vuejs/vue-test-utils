@@ -1,5 +1,5 @@
 import ComponentWithInput from '~resources/components/component-with-input.vue'
-import { describeWithShallowAndMount } from '~resources/utils'
+import { describeWithShallowAndMount, isPromise } from '~resources/utils'
 
 describeWithShallowAndMount('setChecked', mountingMethod => {
   it('returns a promise, when resolved the component is updated', async () => {
@@ -7,7 +7,7 @@ describeWithShallowAndMount('setChecked', mountingMethod => {
     const input = wrapper.find('input[type="checkbox"]')
 
     const response = input.setChecked()
-    expect(response instanceof Promise).to.eql(true)
+    expect(isPromise(response)).to.eql(true)
     expect(wrapper.text()).not.to.contain('checkbox checked')
     await response
     expect(wrapper.text()).to.contain('checkbox checked')

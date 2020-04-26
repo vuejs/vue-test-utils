@@ -1,7 +1,11 @@
 import { compileToFunctions } from 'vue-template-compiler'
 import ComponentWithVIf from '~resources/components/component-with-v-if.vue'
 import ComponentWithWatch from '~resources/components/component-with-watch.vue'
-import { describeWithShallowAndMount, vueVersion } from '~resources/utils'
+import {
+  describeWithShallowAndMount,
+  isPromise,
+  vueVersion
+} from '~resources/utils'
 
 describeWithShallowAndMount('setData', mountingMethod => {
   const sandbox = sinon.createSandbox()
@@ -20,7 +24,7 @@ describeWithShallowAndMount('setData', mountingMethod => {
     expect(wrapper.findAll('.child.ready').length).to.equal(0)
     const response = wrapper.setData({ ready: true })
     expect(wrapper.findAll('.child.ready').length).to.equal(0)
-    expect(response instanceof Promise).to.eql(true)
+    expect(isPromise(response)).to.eql(true)
     await response
     expect(wrapper.findAll('.child.ready').length).to.equal(1)
   })

@@ -3,7 +3,8 @@ import ComponentWithScopedSlots from '~resources/components/component-with-scope
 import {
   describeWithShallowAndMount,
   scopedSlotsSupported,
-  isRunningPhantomJS
+  isRunningPhantomJS,
+  isPromise
 } from '~resources/utils'
 import Vue from 'vue'
 import { itDoNotRunIf } from 'conditional-specs'
@@ -22,7 +23,7 @@ describeWithShallowAndMount('trigger', mountingMethod => {
     expect(toggle.classes()).not.to.contain('active')
     const response = toggle.trigger('click')
     expect(toggle.classes()).not.to.contain('active')
-    expect(response instanceof Promise).to.eql(true)
+    expect(isPromise(response)).to.eql(true)
     await response
     expect(toggle.classes()).to.contain('active')
   })

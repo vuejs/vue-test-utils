@@ -1,5 +1,5 @@
 import ComponentWithInput from '~resources/components/component-with-input.vue'
-import { describeWithShallowAndMount } from '~resources/utils'
+import { describeWithShallowAndMount, isPromise } from '~resources/utils'
 import { itDoNotRunIf } from 'conditional-specs'
 import { vueVersion } from '~resources/utils'
 
@@ -8,7 +8,7 @@ describeWithShallowAndMount('setValue', mountingMethod => {
     const wrapper = mountingMethod(ComponentWithInput)
     const input = wrapper.find('input[type="text"]')
     const response = input.setValue('foo')
-    expect(response instanceof Promise).to.eql(true)
+    expect(isPromise(response)).to.eql(true)
     expect(wrapper.text()).not.to.contain('foo')
     await response
     expect(wrapper.text()).to.contain('foo')
