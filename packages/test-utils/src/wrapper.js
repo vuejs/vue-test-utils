@@ -12,7 +12,13 @@ import {
 import config from './config'
 import WrapperArray from './wrapper-array'
 import ErrorWrapper from './error-wrapper'
-import { throwError, getCheckedEvent, isPhantomJS, warn } from 'shared/util'
+import {
+  throwError,
+  getCheckedEvent,
+  isPhantomJS,
+  warn,
+  nextTick
+} from 'shared/util'
 import find from './find'
 import createWrapper from './create-wrapper'
 import { recursivelySetData } from './recursively-set-data'
@@ -521,7 +527,7 @@ export default class Wrapper implements BaseWrapper {
 
     if (tagName === 'INPUT' && type === 'checkbox') {
       if (this.element.checked === checked) {
-        return Vue.nextTick()
+        return nextTick()
       }
       if (event !== 'click' || isPhantomJS) {
         // $FlowIgnore
@@ -539,7 +545,7 @@ export default class Wrapper implements BaseWrapper {
       }
 
       if (this.element.checked === checked) {
-        return Vue.nextTick()
+        return nextTick()
       }
 
       if (event !== 'click' || isPhantomJS) {
@@ -550,7 +556,7 @@ export default class Wrapper implements BaseWrapper {
     }
 
     throwError(`wrapper.setChecked() cannot be called on this element`)
-    return Vue.nextTick()
+    return nextTick()
   }
 
   /**
@@ -571,7 +577,7 @@ export default class Wrapper implements BaseWrapper {
     }
 
     if (this.element.selected) {
-      return Vue.nextTick()
+      return nextTick()
     }
 
     // $FlowIgnore
@@ -602,7 +608,7 @@ export default class Wrapper implements BaseWrapper {
     }
 
     recursivelySetData(this.vm, this.vm, data)
-    return Vue.nextTick()
+    return nextTick()
   }
 
   /**
@@ -669,7 +675,7 @@ export default class Wrapper implements BaseWrapper {
           if (VUE_VERSION > 2.3) {
             // $FlowIgnore : Problem with possibly null this.vm
             this.vm.$attrs[key] = data[key]
-            return Vue.nextTick()
+            return nextTick()
           }
           throwError(
             `wrapper.setProps() called with ${key} property which ` +
@@ -684,7 +690,7 @@ export default class Wrapper implements BaseWrapper {
 
       // $FlowIgnore : Problem with possibly null this.vm
       this.vm.$forceUpdate()
-      return Vue.nextTick()
+      return nextTick()
     } catch (err) {
       throw err
     } finally {
@@ -740,10 +746,10 @@ export default class Wrapper implements BaseWrapper {
       ) {
         this.trigger('change')
       }
-      return Vue.nextTick()
+      return nextTick()
     }
     throwError(`wrapper.setValue() cannot be called on this element`)
-    return Vue.nextTick()
+    return nextTick()
   }
 
   /**
@@ -788,11 +794,11 @@ export default class Wrapper implements BaseWrapper {
     const tagName = this.element.tagName
 
     if (this.attributes().disabled && supportedTags.indexOf(tagName) > -1) {
-      return Vue.nextTick()
+      return nextTick()
     }
 
     const event = createDOMEvent(type, options)
     this.element.dispatchEvent(event)
-    return Vue.nextTick()
+    return nextTick()
   }
 }
