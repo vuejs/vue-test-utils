@@ -98,7 +98,9 @@
     "cz-conventional-changelog": "^3.0.2",
     "husky": "^3.1.0",
     "lint-staged": "^9.5.0",
-    "prettier": "^1.16.0"
+    "prettier": "^1.16.0",
+    "rollup-plugin-delete": "^1.2.0",
+    "rollup-plugin-replace": "^2.2.0"
   },
   "config": {
     "commitizen": {

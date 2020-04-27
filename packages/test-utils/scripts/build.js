@@ -6,6 +6,8 @@ const nodeResolve = require('rollup-plugin-node-resolve')
 const commonjs = require('rollup-plugin-commonjs')
 const chalk = require('chalk')
 const json = require('rollup-plugin-json')
+const replace = require('rollup-plugin-replace')
+const del = require('rollup-plugin-delete')
 
 function success(text) {
   console.log(chalk.green(`${text} ✔`))
@@ -57,6 +59,10 @@ rollupOptions.forEach(options => {
     input: resolve('src/index.js'),
     external: ['vue', 'vue-template-compiler'],
     plugins: [
+      del({ targets: 'dist/*' }),
+      replace({
+        'process.env.SHOW_DEPRECATIONS': process.env.SHOW_DEPRECATIONS
+      }),
       flow(),
       json(),
       buble({

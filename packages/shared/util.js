@@ -2,6 +2,7 @@
 import Vue from 'vue'
 import semver from 'semver'
 import { VUE_VERSION } from './consts'
+import { config } from '@vue/test-utils'
 
 export function throwError(msg: string): void {
   throw new Error(`[vue-test-utils]: ${msg}`)
@@ -97,4 +98,11 @@ export function nextTick(): Promise<void> {
   return new Promise(resolve => {
     Vue.nextTick(resolve)
   })
+}
+
+export function warnDeprecated(method: string, fallback: string = '') {
+  if (!config.showDeprecationWarnings) return
+  let msg = `${method} is deprecated and will removed in the next major version`
+  if (fallback) msg += ` ${fallback}`
+  warn(msg)
 }
