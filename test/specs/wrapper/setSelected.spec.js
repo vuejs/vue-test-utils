@@ -1,14 +1,12 @@
 import ComponentWithInput from '~resources/components/component-with-input.vue'
 import { describeWithShallowAndMount } from '~resources/utils'
-import Vue from 'vue'
 
 describeWithShallowAndMount('setSelected', mountingMethod => {
   it('sets element selected true', async () => {
     const wrapper = mountingMethod(ComponentWithInput)
     const options = wrapper.find('select').findAll('option')
 
-    options.at(1).setSelected()
-    await Vue.nextTick()
+    await options.at(1).setSelected()
 
     expect(options.at(1).element.selected).to.equal(true)
   })
@@ -17,12 +15,10 @@ describeWithShallowAndMount('setSelected', mountingMethod => {
     const wrapper = mountingMethod(ComponentWithInput)
     const options = wrapper.find('select').findAll('option')
 
-    options.at(1).setSelected()
-    await Vue.nextTick()
+    await options.at(1).setSelected()
     expect(wrapper.text()).to.contain('selectB')
 
-    options.at(0).setSelected()
-    await Vue.nextTick()
+    await options.at(0).setSelected()
     expect(wrapper.text()).to.contain('selectA')
   })
 
@@ -30,12 +26,10 @@ describeWithShallowAndMount('setSelected', mountingMethod => {
     const wrapper = mountingMethod(ComponentWithInput)
     const options = wrapper.find('select.with-optgroups').findAll('option')
 
-    options.at(1).setSelected()
-    await Vue.nextTick()
+    await options.at(1).setSelected()
     expect(wrapper.text()).to.contain('selectB')
 
-    options.at(0).setSelected()
-    await Vue.nextTick()
+    await options.at(0).setSelected()
     expect(wrapper.text()).to.contain('selectA')
   })
 

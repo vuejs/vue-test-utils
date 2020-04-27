@@ -1,8 +1,17 @@
 import ComponentWithInput from '~resources/components/component-with-input.vue'
-import { describeWithShallowAndMount } from '~resources/utils'
-import Vue from 'vue'
+import { describeWithShallowAndMount, isPromise } from '~resources/utils'
 
 describeWithShallowAndMount('setChecked', mountingMethod => {
+  it('returns a promise, when resolved the component is updated', async () => {
+    const wrapper = mountingMethod(ComponentWithInput)
+    const input = wrapper.find('input[type="checkbox"]')
+
+    const response = input.setChecked()
+    expect(isPromise(response)).to.eql(true)
+    expect(wrapper.text()).not.to.contain('checkbox checked')
+    await response
+    expect(wrapper.text()).to.contain('checkbox checked')
+  })
   it('sets element checked true with no option passed', () => {
     const wrapper = mountingMethod(ComponentWithInput)
     const input = wrapper.find('input[type="checkbox"]')
@@ -26,12 +35,10 @@ describeWithShallowAndMount('setChecked', mountingMethod => {
     const wrapper = mountingMethod(ComponentWithInput)
     const input = wrapper.find('input[type="checkbox"]')
 
-    input.setChecked()
-    await Vue.nextTick()
+    await input.setChecked()
     expect(wrapper.text()).to.contain('checkbox checked')
 
-    input.setChecked(false)
-    await Vue.nextTick()
+    await input.setChecked(false)
     expect(wrapper.text()).to.not.contain('checkbox checked')
   })
 
@@ -39,18 +46,12 @@ describeWithShallowAndMount('setChecked', mountingMethod => {
     const wrapper = mountingMethod(ComponentWithInput)
     const input = wrapper.find('input[type="checkbox"]')
 
-    input.setChecked()
-    await Vue.nextTick()
-    input.setChecked(false)
-    await Vue.nextTick()
-    input.setChecked(false)
-    await Vue.nextTick()
-    input.setChecked(true)
-    await Vue.nextTick()
-    input.setChecked(false)
-    await Vue.nextTick()
-    input.setChecked(false)
-    await Vue.nextTick()
+    await input.setChecked()
+    await input.setChecked(false)
+    await input.setChecked(false)
+    await input.setChecked(true)
+    await input.setChecked(false)
+    await input.setChecked(false)
 
     expect(wrapper.find('.counter').text()).to.equal('4')
   })
@@ -95,12 +96,10 @@ describeWithShallowAndMount('setChecked', mountingMethod => {
   it('updates dom with radio v-model', async () => {
     const wrapper = mountingMethod(ComponentWithInput)
 
-    wrapper.find('#radioBar').setChecked()
-    await Vue.nextTick()
+    await wrapper.find('#radioBar').setChecked()
     expect(wrapper.text()).to.contain('radioBarResult')
 
-    wrapper.find('#radioFoo').setChecked()
-    await Vue.nextTick()
+    await wrapper.find('#radioFoo').setChecked()
     expect(wrapper.text()).to.contain('radioFooResult')
   })
 
@@ -109,20 +108,13 @@ describeWithShallowAndMount('setChecked', mountingMethod => {
     const radioBar = wrapper.find('#radioBar')
     const radioFoo = wrapper.find('#radioFoo')
 
-    radioBar.setChecked()
-    await Vue.nextTick()
-    radioBar.setChecked()
-    await Vue.nextTick()
-    radioFoo.setChecked()
-    await Vue.nextTick()
-    radioBar.setChecked()
-    await Vue.nextTick()
-    radioBar.setChecked()
-    await Vue.nextTick()
-    radioFoo.setChecked()
-    await Vue.nextTick()
-    radioFoo.setChecked()
-    await Vue.nextTick()
+    await radioBar.setChecked()
+    await radioBar.setChecked()
+    await radioFoo.setChecked()
+    await radioBar.setChecked()
+    await radioBar.setChecked()
+    await radioFoo.setChecked()
+    await radioFoo.setChecked()
     expect(wrapper.find('.counter').text()).to.equal('4')
   })
 

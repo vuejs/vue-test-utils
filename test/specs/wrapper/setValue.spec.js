@@ -1,10 +1,18 @@
 import ComponentWithInput from '~resources/components/component-with-input.vue'
-import { describeWithShallowAndMount } from '~resources/utils'
+import { describeWithShallowAndMount, isPromise } from '~resources/utils'
 import { itDoNotRunIf } from 'conditional-specs'
 import { vueVersion } from '~resources/utils'
-import Vue from 'vue'
 
 describeWithShallowAndMount('setValue', mountingMethod => {
+  it('returns a promise', async () => {
+    const wrapper = mountingMethod(ComponentWithInput)
+    const input = wrapper.find('input[type="text"]')
+    const response = input.setValue('foo')
+    expect(isPromise(response)).to.eql(true)
+    expect(wrapper.text()).not.to.contain('foo')
+    await response
+    expect(wrapper.text()).to.contain('foo')
+  })
   it('sets element of input value', () => {
     const wrapper = mountingMethod(ComponentWithInput)
     const input = wrapper.find('input[type="text"]')
@@ -24,8 +32,7 @@ describeWithShallowAndMount('setValue', mountingMethod => {
   it('updates dom with input v-model', async () => {
     const wrapper = mountingMethod(ComponentWithInput)
     const input = wrapper.find('input[type="text"]')
-    input.setValue('input text awesome binding')
-    await Vue.nextTick()
+    await input.setValue('input text awesome binding')
 
     expect(wrapper.text()).to.contain('input text awesome binding')
   })
@@ -36,8 +43,7 @@ describeWithShallowAndMount('setValue', mountingMethod => {
     async () => {
       const wrapper = mountingMethod(ComponentWithInput)
       const input = wrapper.find('input#lazy')
-      input.setValue('lazy')
-      await Vue.nextTick()
+      await input.setValue('lazy')
 
       expect(wrapper.text()).to.contain('lazy')
     }
@@ -54,8 +60,7 @@ describeWithShallowAndMount('setValue', mountingMethod => {
   it('updates dom with select v-model', async () => {
     const wrapper = mountingMethod(ComponentWithInput)
     const select = wrapper.find('select')
-    select.setValue('selectB')
-    await Vue.nextTick()
+    await select.setValue('selectB')
 
     expect(wrapper.text()).to.contain('selectB')
   })

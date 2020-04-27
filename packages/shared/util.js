@@ -1,6 +1,7 @@
 // @flow
 import Vue from 'vue'
 import semver from 'semver'
+import { VUE_VERSION } from './consts'
 import { config } from '@vue/test-utils'
 
 export function throwError(msg: string): void {
@@ -85,6 +86,18 @@ export function getCheckedEvent() {
 
   // change is handler for version 2.0 - 2.1.8, and 2.5+
   return 'change'
+}
+
+/**
+ * Normalize nextTick to return a promise for all Vue 2 versions.
+ * Vue < 2.1 does not return a Promise from nextTick
+ * @return {Promise<R>}
+ */
+export function nextTick(): Promise<void> {
+  if (VUE_VERSION > 2) return Vue.nextTick()
+  return new Promise(resolve => {
+    Vue.nextTick(resolve)
+  })
 }
 
 export function warnDeprecated(method: string, fallback: string = '') {

@@ -1,7 +1,11 @@
 import { compileToFunctions } from 'vue-template-compiler'
 import ComponentWithProps from '~resources/components/component-with-props.vue'
 import ComponentWithWatch from '~resources/components/component-with-watch.vue'
-import { describeWithShallowAndMount, vueVersion } from '~resources/utils'
+import {
+  describeWithShallowAndMount,
+  isPromise,
+  vueVersion
+} from '~resources/utils'
 import { itDoNotRunIf } from 'conditional-specs'
 import Vue from 'vue'
 
@@ -16,13 +20,21 @@ describeWithShallowAndMount('setProps', mountingMethod => {
     sandbox.restore()
   })
 
+  it('returns a promise, when resolved component is updated', async () => {
+    const wrapper = mountingMethod(ComponentWithProps)
+    const response = wrapper.setProps({ prop1: 'foo' })
+    expect(isPromise(response)).to.eql(true)
+    expect(wrapper.find('.prop-1').text()).to.equal('')
+    await response
+    expect(wrapper.find('.prop-1').text()).to.equal('foo')
+  })
+
   it('sets component props and updates DOM when called on Vue instance', async () => {
     const prop1 = 'prop 1'
     const prop2 = 'prop 2'
     const propsData = { prop1: 'a prop', prop2 }
     const wrapper = mountingMethod(ComponentWithProps, { propsData })
-    wrapper.setProps({ prop1 })
-    await Vue.nextTick()
+    await wrapper.setProps({ prop1 })
     expect(wrapper.find('.prop-1').element.textContent).to.equal(prop1)
     expect(wrapper.find('.prop-2').element.textContent).to.equal(prop2)
   })
@@ -37,14 +49,13 @@ describeWithShallowAndMount('setProps', mountingMethod => {
     }
     const wrapper = mountingMethod(TestComponent)
     obj.shouldRender = () => true
-    wrapper.setProps({ obj })
-    await Vue.nextTick()
+    await wrapper.setProps({ obj })
     expect(wrapper.is('div')).to.equal(true)
   })
 
   it('setProps and props getter are in sync', () => {
     const TestComponent = {
-      template: `<div/>`,
+      template: `<div />`,
       props: { prop1: { default: 'initial value' } }
     }
     const wrapper = mountingMethod(TestComponent)
@@ -57,8 +68,7 @@ describeWithShallowAndMount('setProps', mountingMethod => {
     const prop1 = 'prop 1'
     const prop2 = 'prop s'
     const wrapper = mountingMethod(ComponentWithProps)
-    wrapper.setProps({ prop1, prop2 })
-    await Vue.nextTick()
+    await wrapper.setProps({ prop1, prop2 })
     expect(wrapper.find('.prop-1').element.textContent).to.equal(prop1)
     expect(wrapper.find('.prop-2').element.textContent).to.equal(prop2)
   })
@@ -105,9 +115,11 @@ describeWithShallowAndMount('setProps', mountingMethod => {
 
     it('runs watchers correctly', async () => {
       const TestComponent = {
-        template: `<div id="app">
-      {{ stringified }}
-    </div>`,
+        template: `
+          <div id="app">
+            {{ stringified }}
+          </div>
+        `,
         props: ['collection'],
         data: () => ({
           data: ''
@@ -132,8 +144,7 @@ describeWithShallowAndMount('setProps', mountingMethod => {
       expect(wrapper.vm.stringified).to.equal('')
       expect(wrapper.vm.data).to.equal('')
 
-      wrapper.setProps({ collection: [1, 2, 3] })
-      await Vue.nextTick()
+      await wrapper.setProps({ collection: [1, 2, 3] })
       expect(wrapper.vm.stringified).to.equal('1,2,3')
       expect(wrapper.vm.data).to.equal('1,2,3')
 
@@ -146,11 +157,11 @@ describeWithShallowAndMount('setProps', mountingMethod => {
     it('should not run watchers if prop updated is null', async () => {
       const TestComponent = {
         template: `
-    <div>
-      <div v-if="!message">There is no message yet</div>
-      <div v-else>{{ reversedMessage }}</div>
-    </div>
-    `,
+          <div>
+            <div v-if="!message">There is no message yet</div>
+            <div v-else>{{ reversedMessage }}</div>
+          </div>
+        `,
         computed: {
           reversedMessage: function() {
             return this.message
@@ -166,16 +177,14 @@ describeWithShallowAndMount('setProps', mountingMethod => {
           message: 'message'
         }
       })
-      wrapper.setProps({ message: null })
-      await Vue.nextTick()
+      await wrapper.setProps({ message: null })
       expect(wrapper.text()).to.equal('There is no message yet')
     })
 
     it('runs watch function when prop is updated', async () => {
       const wrapper = mountingMethod(ComponentWithWatch)
       const prop1 = 'testest'
-      wrapper.setProps({ prop1 })
-      await Vue.nextTick()
+      await wrapper.setProps({ prop1 })
       expect(wrapper.vm.prop2).to.equal(prop1)
     })
   })
@@ -249,7 +258,7 @@ describeWithShallowAndMount('setProps', mountingMethod => {
       const wrapper = mountingMethod(
         {
           template: `
-            <div/>`,
+            <div />`,
           props: ['obj']
         },
         { propsData: { obj } }
