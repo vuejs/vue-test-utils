@@ -7,7 +7,7 @@ function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'defau
 var Vue = _interopDefault(require('vue'));
 var vueTemplateCompiler = require('vue-template-compiler');
 
-//
+// 
 
 function createVNodes(vm, slotValue, name) {
   var el = vueTemplateCompiler.compileToFunctions(
@@ -1703,7 +1703,7 @@ var semver_40 = semver.prerelease;
 var semver_41 = semver.intersects;
 var semver_42 = semver.coerce;
 
-//
+// 
 
 function throwError(msg) {
   throw new Error(("[vue-test-utils]: " + msg))
@@ -1786,7 +1786,7 @@ function getCheckedEvent() {
   return 'change'
 }
 
-//
+// 
 
 function addMocks(
   _Vue,
@@ -1813,7 +1813,7 @@ function addMocks(
   });
 }
 
-//
+// 
 
 function logEvents(
   vm,
@@ -1871,7 +1871,7 @@ function addStubs(_Vue, stubComponents) {
   _Vue.mixin(( obj = {}, obj[BEFORE_RENDER_LIFECYCLE_HOOK] = addStubComponentsMixin, obj ));
 }
 
-//
+// 
 
 function isDomSelector(selector) {
   if (typeof selector !== 'string') {
@@ -2024,7 +2024,7 @@ var isSVG = makeMap(
 
 var isReservedTag = function (tag) { return isHTMLTag(tag) || isSVG(tag); };
 
-//
+// 
 
 function compileTemplate(component) {
   if (component.template) {
@@ -2079,7 +2079,7 @@ function compileTemplateForSlots(slots) {
   });
 }
 
-//
+// 
 
 var MOUNTING_OPTIONS = [
   'attachToDocument',
@@ -2103,7 +2103,7 @@ function extractInstanceOptions(options) {
   return instanceOptions
 }
 
-//
+// 
 
 function isDestructuringSlotScope(slotScope) {
   return /^{.*}$/.test(slotScope)
@@ -2232,7 +2232,7 @@ function createScopedSlots(
   return scopedSlots
 }
 
-//
+// 
 
 function isVueComponentStub(comp) {
   return (comp && comp.template) || isVueComponent(comp)
@@ -2542,7 +2542,7 @@ function patchCreateElement(_Vue, stubs, stubAllComponents) {
   _Vue.mixin(( obj = {}, obj[BEFORE_RENDER_LIFECYCLE_HOOK] = patchCreateElementMixin, obj ));
 }
 
-//
+// 
 
 function createContext(options, scopedSlots) {
   var on = Object.assign({}, (options.context && options.context.on),
@@ -2656,7 +2656,7 @@ function createInstance(
   return new Parent()
 }
 
-//
+// 
 
 function createElement() {
   if (document) {
@@ -2669,7 +2669,7 @@ function createElement() {
   }
 }
 
-//
+// 
 
 function findDOMNodes(
   element,
@@ -2762,7 +2762,7 @@ function matches(node, selector) {
   return vmMatchesName(componentInstance, nameSelector)
 }
 
-//
+// 
 
 function findAllInstances(rootVm) {
   var instances = [rootVm];
@@ -2935,7 +2935,7 @@ function normalizeProvide(provide) {
   return provide
 }
 
-//
+// 
 
 function getOption(option, config) {
   if (option === false) {
@@ -2983,7 +2983,7 @@ var config = {
   silent: true
 };
 
-//
+// 
 
 function warnIfNoWindow() {
   if (typeof window === 'undefined') {
@@ -8398,7 +8398,7 @@ function ocd(str, options) {
     .replace(/>(\s*)(?=<!--\s*\/)/g, '> ');
 }
 
-//
+// 
 
 function getSelectorType(selector) {
   if (isDomSelector(selector)) { return DOM_SELECTOR }
@@ -8426,7 +8426,7 @@ function getSelector(
   }
 }
 
-//
+// 
 
 var WrapperArray = function WrapperArray(wrappers) {
   var length = wrappers.length;
@@ -8639,7 +8639,7 @@ WrapperArray.prototype.destroy = function destroy () {
   this.wrappers.forEach(function (wrapper) { return wrapper.destroy(); });
 };
 
-//
+// 
 
 var buildSelectorString = function (selector) {
   if (getSelectorType(selector) === REF_SELECTOR) {
@@ -10233,7 +10233,7 @@ function createDOMEvent(type, options) {
   return event
 }
 
-//
+// 
 
 var Wrapper = function Wrapper(
   node,
@@ -10864,7 +10864,7 @@ Wrapper.prototype.trigger = function trigger (type, options) {
   this.element.dispatchEvent(event);
 };
 
-//
+// 
 
 var VueWrapper = /*@__PURE__*/(function (Wrapper) {
   function VueWrapper(vm, options) {
@@ -10903,7 +10903,7 @@ var VueWrapper = /*@__PURE__*/(function (Wrapper) {
   return VueWrapper;
 }(Wrapper));
 
-//
+// 
 
 var isEnabled = false;
 var wrapperInstances = [];
@@ -10938,7 +10938,7 @@ function trackInstance(wrapper) {
   wrapperInstances.push(wrapper);
 }
 
-//
+// 
 
 function createWrapper(
   node,
@@ -13442,7 +13442,7 @@ function cloneDeep(value) {
 
 var cloneDeep_1 = cloneDeep;
 
-//
+// 
 
 function createLocalVue(_Vue) {
   if ( _Vue === void 0 ) _Vue = Vue;
@@ -13499,7 +13499,7 @@ function createLocalVue(_Vue) {
   return instance
 }
 
-//
+// 
 
 function isValidSlot(slot) {
   return isVueComponent(slot) || typeof slot === 'string'
@@ -13617,7 +13617,7 @@ function mount(component, options) {
   return createWrapper(root, wrapperOptions)
 }
 
-//
+// 
 
 
 function shallowMount(
@@ -13630,7 +13630,7 @@ function shallowMount(
     {shouldProxy: true}))
 }
 
-//
+// 
 var toTypes = [String, Object];
 var eventTypes = [String, Array];
 

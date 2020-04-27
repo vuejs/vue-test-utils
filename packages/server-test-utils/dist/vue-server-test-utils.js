@@ -11,7 +11,7 @@ var testUtils = require('@vue/test-utils');
 var testUtils__default = _interopDefault(testUtils);
 var cheerio = _interopDefault(require('cheerio'));
 
-//
+// 
 
 function createVNodes(vm, slotValue, name) {
   var el = vueTemplateCompiler.compileToFunctions(
@@ -1701,7 +1701,7 @@ var semver_40 = semver.prerelease;
 var semver_41 = semver.intersects;
 var semver_42 = semver.coerce;
 
-//
+// 
 
 function throwError(msg) {
   throw new Error(("[vue-test-utils]: " + msg))
@@ -1768,7 +1768,7 @@ var isPhantomJS = UA && UA.includes && UA.match(/phantomjs/i);
 var isEdge = UA && UA.indexOf('edge/') > 0;
 var isChrome = UA && /chrome\/\d+/.test(UA) && !isEdge;
 
-//
+// 
 
 function addMocks(
   _Vue,
@@ -1795,7 +1795,7 @@ function addMocks(
   });
 }
 
-//
+// 
 
 function logEvents(
   vm,
@@ -1844,7 +1844,7 @@ function addStubs(_Vue, stubComponents) {
   _Vue.mixin(( obj = {}, obj[BEFORE_RENDER_LIFECYCLE_HOOK] = addStubComponentsMixin, obj ));
 }
 
-//
+// 
 
 function isVueComponent(c) {
   if (isConstructor(c)) {
@@ -1951,7 +1951,7 @@ var isSVG = makeMap(
 
 var isReservedTag = function (tag) { return isHTMLTag(tag) || isSVG(tag); };
 
-//
+// 
 
 function compileTemplate(component) {
   if (component.template) {
@@ -2006,7 +2006,7 @@ function compileTemplateForSlots(slots) {
   });
 }
 
-//
+// 
 
 var MOUNTING_OPTIONS = [
   'attachToDocument',
@@ -2030,7 +2030,7 @@ function extractInstanceOptions(options) {
   return instanceOptions
 }
 
-//
+// 
 
 function isDestructuringSlotScope(slotScope) {
   return /^{.*}$/.test(slotScope)
@@ -2159,7 +2159,7 @@ function createScopedSlots(
   return scopedSlots
 }
 
-//
+// 
 
 function isVueComponentStub(comp) {
   return (comp && comp.template) || isVueComponent(comp)
@@ -2469,7 +2469,7 @@ function patchCreateElement(_Vue, stubs, stubAllComponents) {
   _Vue.mixin(( obj = {}, obj[BEFORE_RENDER_LIFECYCLE_HOOK] = patchCreateElementMixin, obj ));
 }
 
-//
+// 
 
 function createContext(options, scopedSlots) {
   var on = Object.assign({}, (options.context && options.context.on),
@@ -2614,7 +2614,7 @@ function normalizeProvide(provide) {
   return provide
 }
 
-//
+// 
 
 function getOption(option, config) {
   if (option === false) {
@@ -2656,7 +2656,7 @@ function mergeOptions(
 
 var config = testUtils.config;
 
-//
+// 
 
 function isValidSlot(slot) {
   return isVueComponent(slot) || typeof slot === 'string'
@@ -2736,7 +2736,7 @@ function validateOptions(options, component) {
   }
 }
 
-//
+// 
 
 Vue.config.productionTip = false;
 Vue.config.devtools = false;
@@ -2771,7 +2771,7 @@ function renderToString(
   return renderer.renderToString(vm)
 }
 
-//
+// 
 
 function render(
   component,
