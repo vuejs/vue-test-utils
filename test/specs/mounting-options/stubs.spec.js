@@ -630,6 +630,7 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
   )
 
   it('warns when passing a string', () => {
+    config.showDeprecationWarnings = true
     const StringComponent = '<div></div>'
     mountingMethod(ComponentWithChild, {
       stubs: {
@@ -638,9 +639,8 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
     })
 
     expect(console.error).calledWith(
-      sandbox.match(
-        '[vue-test-utils]: String stubs are deprecated and will be removed in future versions'
-      )
+      sandbox.match('[vue-test-utils]: Using a string for stubs is deprecated')
     )
+    config.showDeprecationWarnings = false
   })
 })

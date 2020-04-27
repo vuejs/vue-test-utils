@@ -150,7 +150,8 @@ interface VueTestUtilsConfigOptions {
   mocks?: Record<string, any>
   methods?: Record<string, Function>
   provide?: Record<string, any>,
-  silent?: Boolean
+  silent?: Boolean,
+  showDeprecationWarnings?: boolean
 }
 
 export declare function createLocalVue (): typeof Vue

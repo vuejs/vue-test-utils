@@ -7,7 +7,7 @@ import {
   capitalize,
   hyphenate,
   keys,
-  warn
+  warnDeprecated
 } from '../shared/util'
 import {
   componentNeedsCompiling,
@@ -159,7 +159,7 @@ export function createStubFromComponent(
 
 // DEPRECATED: converts string stub to template stub.
 function createStubFromString(templateString: string, name: string): Component {
-  warn('String stubs are deprecated and will be removed in future versions')
+  warnDeprecated('Using a string for stubs')
 
   if (templateContainsComponent(templateString, name)) {
     throwError('options.stub cannot contain a circular reference')

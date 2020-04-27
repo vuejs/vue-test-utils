@@ -1,6 +1,6 @@
 // @flow
 import { normalizeStubs, normalizeProvide } from './normalize'
-import { warn } from 'shared/util'
+import { warnDeprecated } from 'shared/util'
 
 function getOption(option, config?: Object): any {
   if (option === false) {
@@ -34,11 +34,8 @@ export function mergeOptions(
   const methods = (getOption(options.methods, config.methods): {
     [key: string]: Function
   })
-
-  if (config.methods && Object.keys(config.methods).length) {
-    warn(
-      `config.methods has been deprecated. It will be removed in a future release`
-    )
+  if (methods && Object.keys(methods).length) {
+    warnDeprecated('overwriting methods via the `methods` property')
   }
 
   const provide = (getOption(options.provide, config.provide): Object)

@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "build": "node scripts/build.js",
-    "build:test": "cross-env NODE_ENV=test node scripts/build.js"
+    "build:test": "cross-env NODE_ENV=test SHOW_DEPRECATIONS=false node scripts/build.js"
   },
   "repository": {
     "type": "git",
