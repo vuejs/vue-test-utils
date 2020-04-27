@@ -3,7 +3,8 @@ import ComponentWithScopedSlots from '~resources/components/component-with-scope
 import {
   describeWithShallowAndMount,
   scopedSlotsSupported,
-  isRunningPhantomJS
+  isRunningPhantomJS,
+  vueVersion
 } from '~resources/utils'
 import Vue from 'vue'
 import { itDoNotRunIf } from 'conditional-specs'
@@ -96,14 +97,18 @@ describeWithShallowAndMount('trigger', mountingMethod => {
     }
   })
 
-  it('causes DOM to update after clickHandler method that changes components data is called', async () => {
-    const wrapper = mountingMethod(ComponentWithEvents)
-    const toggle = wrapper.find('.toggle')
-    expect(toggle.classes()).not.to.contain('active')
-    toggle.trigger('click')
-    await Vue.nextTick()
-    expect(toggle.classes()).to.contain('active')
-  })
+  itDoNotRunIf(
+    vueVersion < 2.2,
+    'causes DOM to update after clickHandler method that changes components data is called',
+    async () => {
+      const wrapper = mountingMethod(ComponentWithEvents)
+      const toggle = wrapper.find('.toggle')
+      expect(toggle.classes()).not.to.contain('active')
+      toggle.trigger('click')
+      await Vue.nextTick()
+      expect(toggle.classes()).to.contain('active')
+    }
+  )
 
   it('adds options to event', () => {
     const clickHandler = sandbox.stub()
