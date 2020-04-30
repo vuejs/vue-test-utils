@@ -6,9 +6,9 @@ function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'defau
 
 var Vue = _interopDefault(require('vue'));
 var vueTemplateCompiler = require('vue-template-compiler');
-var vueServerRenderer = require('vue-server-renderer');
 var testUtils = require('@vue/test-utils');
 var testUtils__default = _interopDefault(testUtils);
+var vueServerRenderer = require('vue-server-renderer');
 var cheerio = _interopDefault(require('cheerio'));
 
 // 
@@ -1701,6 +1701,18 @@ var semver_40 = semver.prerelease;
 var semver_41 = semver.intersects;
 var semver_42 = semver.coerce;
 
+var VUE_VERSION = Number(
+  ((Vue.version.split('.')[0]) + "." + (Vue.version.split('.')[1]))
+);
+
+var BEFORE_RENDER_LIFECYCLE_HOOK = semver.gt(Vue.version, '2.1.8')
+  ? 'beforeCreate'
+  : 'beforeMount';
+
+var CREATE_ELEMENT_ALIAS = semver.gt(Vue.version, '2.1.5')
+  ? '_c'
+  : '_h';
+
 // 
 
 function throwError(msg) {
@@ -1768,6 +1780,15 @@ var isPhantomJS = UA && UA.includes && UA.match(/phantomjs/i);
 var isEdge = UA && UA.indexOf('edge/') > 0;
 var isChrome = UA && /chrome\/\d+/.test(UA) && !isEdge;
 
+function warnDeprecated(method, fallback) {
+  if ( fallback === void 0 ) fallback = '';
+
+  if (!testUtils.config.showDeprecationWarnings) { return }
+  var msg = method + " is deprecated and will removed in the next major version";
+  if (fallback) { msg += " " + fallback; }
+  warn(msg);
+}
+
 // 
 
 function addMocks(
@@ -1822,18 +1843,6 @@ function addEventLogger(_Vue) {
   });
 }
 
-var VUE_VERSION = Number(
-  ((Vue.version.split('.')[0]) + "." + (Vue.version.split('.')[1]))
-);
-
-var BEFORE_RENDER_LIFECYCLE_HOOK = semver.gt(Vue.version, '2.1.8')
-  ? 'beforeCreate'
-  : 'beforeMount';
-
-var CREATE_ELEMENT_ALIAS = semver.gt(Vue.version, '2.1.5')
-  ? '_c'
-  : '_h';
-
 function addStubs(_Vue, stubComponents) {
   var obj;
 
@@ -1845,6 +1854,33 @@ function addStubs(_Vue, stubComponents) {
 }
 
 // 
+
+function isDomSelector(selector) {
+  if (typeof selector !== 'string') {
+    return false
+  }
+
+  try {
+    if (typeof document === 'undefined') {
+      throwError(
+        "mount must be run in a browser environment like " +
+          "PhantomJS, jsdom or chrome"
+      );
+    }
+  } catch (error) {
+    throwError(
+      "mount must be run in a browser environment like " +
+        "PhantomJS, jsdom or chrome"
+    );
+  }
+
+  try {
+    document.querySelector(selector);
+    return true
+  } catch (error) {
+    return false
+  }
+}
 
 function isVueComponent(c) {
   if (isConstructor(c)) {
@@ -1909,6 +1945,14 @@ function templateContainsComponent(
 
 function isPlainObject(c) {
   return Object.prototype.toString.call(c) === '[object Object]'
+}
+
+function isHTMLElement(c) {
+  if (typeof HTMLElement === 'undefined') {
+    return false
+  }
+  // eslint-disable-next-line no-undef
+  return c instanceof HTMLElement
 }
 
 function makeMap(str, expectsLowerCase) {
@@ -2297,7 +2341,7 @@ function createStubFromComponent(
 
 // DEPRECATED: converts string stub to template stub.
 function createStubFromString(templateString, name) {
-  warn('String stubs are deprecated and will be removed in future versions');
+  warnDeprecated('Using a string for stubs');
 
   if (templateContainsComponent(templateString, name)) {
     throwError('options.stub cannot contain a circular reference');
@@ -2644,6 +2688,10 @@ function mergeOptions(
 ) {
   var mocks = (getOption(options.mocks, config.mocks));
   var methods = (getOption(options.methods, config.methods));
+  if (methods && Object.keys(methods).length) {
+    warnDeprecated('overwriting methods via the `methods` property');
+  }
+
   var provide = (getOption(options.provide, config.provide));
   var stubs = (getStubs(options.stubs, config.stubs));
   // $FlowIgnore
@@ -2702,6 +2750,20 @@ function vueExtendUnsupportedOption(option) {
 var UNSUPPORTED_VERSION_OPTIONS = ['mocks', 'stubs', 'localVue'];
 
 function validateOptions(options, component) {
+  if (
+    options.attachTo &&
+    !isHTMLElement(options.attachTo) &&
+    !isDomSelector(options.attachTo)
+  ) {
+    throwError(
+      "options.attachTo should be a valid HTMLElement or CSS selector string"
+    );
+  }
+  if ('attachToDocument' in options) {
+    warn(
+      "options.attachToDocument is deprecated in favor of options.attachTo and will be removed in a future release"
+    );
+  }
   if (options.parentComponent && !isPlainObject(options.parentComponent)) {
     throwError(
       "options.parentComponent should be a valid Vue component options object"
