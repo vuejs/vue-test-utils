@@ -237,14 +237,15 @@ export default class Wrapper implements BaseWrapper {
    */
   findComponent(rawSelector: Selector): Wrapper | ErrorWrapper {
     const selector = getSelector(rawSelector, 'findComponent')
-    if (selector.type === DOM_SELECTOR) {
-      throwError(
-        'findComponent requires a Vue constructor or valid find object. If you are searching for DOM nodes, use `find` instead'
-      )
-    }
     if (!this.vm) {
       throwError(
         'You cannot chain findComponent off a DOM element. It can only be used on Vue Components.'
+      )
+    }
+
+    if (selector.type === DOM_SELECTOR) {
+      throwError(
+        'findComponent requires a Vue constructor or valid find object. If you are searching for DOM nodes, use `find` instead'
       )
     }
 
