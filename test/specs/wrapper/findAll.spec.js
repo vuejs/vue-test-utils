@@ -145,17 +145,27 @@ describeWithShallowAndMount('findAll', mountingMethod => {
     expect(componentArr.length).to.equal(1)
   })
 
-  it('returns an array of VueWrappers of Vue Components matching componentusing findAllComponents', () => {
+  it('returns an array of VueWrappers of Vue Components matching components using findAllComponents', () => {
     const wrapper = mountingMethod(ComponentWithChild)
     const componentArr = wrapper.findAllComponents(Component)
     expect(componentArr.length).to.equal(1)
   })
 
-  it('throws an error if findComponent selector is a CSS selector', () => {
+  it('throws an error if findAllComponents selector is a CSS selector', () => {
     const wrapper = mountingMethod(Component)
     const message =
-      '[vue-test-utils]: findAllComponent requires a Vue constructor or valid find object. If you are searching for DOM nodes, use `find` instead'
+      '[vue-test-utils]: findAllComponents requires a Vue constructor or valid find object. If you are searching for DOM nodes, use `find` instead'
     const fn = () => wrapper.findAllComponents('#foo')
+    expect(fn)
+      .to.throw()
+      .with.property('message', message)
+  })
+
+  it('throws an error if chaining findAllComponents off a DOM element', () => {
+    const wrapper = mountingMethod(ComponentWithChild)
+    const message =
+      '[vue-test-utils]: You cannot chain findAllComponents off a DOM element. It can only be used on Vue Components.'
+    const fn = () => wrapper.find('span').findAllComponents('#foo')
     expect(fn)
       .to.throw()
       .with.property('message', message)

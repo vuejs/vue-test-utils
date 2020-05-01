@@ -126,6 +126,7 @@ export default class Wrapper implements BaseWrapper {
 
   /**
    * Checks if wrapper contains provided selector.
+   * @deprecated
    */
   contains(rawSelector: Selector): boolean {
     warnDeprecated(
@@ -176,6 +177,7 @@ export default class Wrapper implements BaseWrapper {
 
   /**
    * Returns an Array containing custom events emitted by the Wrapper vm
+   * @deprecated
    */
   emittedByOrder(): Array<{ name: string, args: Array<any> }> {
     warnDeprecated('emittedByOrder', 'Use `wrapper.emitted` instead')
@@ -225,6 +227,32 @@ export default class Wrapper implements BaseWrapper {
         'Use `findComponent` instead'
       )
     }
+
+    return this.__find(rawSelector, selector)
+  }
+
+  /**
+   * Finds first component in tree of the current wrapper that
+   * matches the provided selector.
+   */
+  findComponent(rawSelector: Selector): Wrapper | ErrorWrapper {
+    const selector = getSelector(rawSelector, 'findComponent')
+    if (!this.vm) {
+      throwError(
+        'You cannot chain findComponent off a DOM element. It can only be used on Vue Components.'
+      )
+    }
+
+    if (selector.type === DOM_SELECTOR) {
+      throwError(
+        'findComponent requires a Vue constructor or valid find object. If you are searching for DOM nodes, use `find` instead'
+      )
+    }
+
+    return this.__find(rawSelector, selector)
+  }
+
+  __find(rawSelector: Selector, selector: Object): Wrapper | ErrorWrapper {
     const node = find(this.rootNode, this.vm, selector)[0]
 
     if (!node) {
@@ -248,40 +276,7 @@ export default class Wrapper implements BaseWrapper {
         'Use `findAllComponents` instead'
       )
     }
-    const nodes = find(this.rootNode, this.vm, selector)
-    const wrappers = nodes.map(node => {
-      // Using CSS Selector, returns a VueWrapper instance if the root element
-      // binds a Vue instance.
-      const wrapper = createWrapper(node, this.options)
-      wrapper.selector = rawSelector
-      return wrapper
-    })
-
-    const wrapperArray = new WrapperArray(wrappers)
-    wrapperArray.selector = rawSelector
-    return wrapperArray
-  }
-
-  /**
-   * Finds first component in tree of the current wrapper that
-   * matches the provided selector.
-   */
-  findComponent(rawSelector: Selector): Wrapper | ErrorWrapper {
-    const selector = getSelector(rawSelector, 'findComponent')
-    if (selector.type === DOM_SELECTOR) {
-      throwError(
-        'findComponent requires a Vue constructor or valid find object. If you are searching for DOM nodes, use `find` instead'
-      )
-    }
-    const node = find(this.rootNode, this.vm, selector)[0]
-
-    if (!node) {
-      return new ErrorWrapper(rawSelector)
-    }
-
-    const wrapper = createWrapper(node, this.options)
-    wrapper.selector = rawSelector
-    return wrapper
+    return this.__findAll(rawSelector, selector)
   }
 
   /**
@@ -290,11 +285,20 @@ export default class Wrapper implements BaseWrapper {
    */
   findAllComponents(rawSelector: Selector): WrapperArray {
     const selector = getSelector(rawSelector, 'findAll')
-    if (selector.type === DOM_SELECTOR) {
+    if (!this.vm) {
       throwError(
-        'findAllComponent requires a Vue constructor or valid find object. If you are searching for DOM nodes, use `find` instead'
+        'You cannot chain findAllComponents off a DOM element. It can only be used on Vue Components.'
       )
     }
+    if (selector.type === DOM_SELECTOR) {
+      throwError(
+        'findAllComponents requires a Vue constructor or valid find object. If you are searching for DOM nodes, use `find` instead'
+      )
+    }
+    return this.__findAll(rawSelector, selector)
+  }
+
+  __findAll(rawSelector: Selector, selector: Object): WrapperArray {
     const nodes = find(this.rootNode, this.vm, selector)
     const wrappers = nodes.map(node => {
       // Using CSS Selector, returns a VueWrapper instance if the root element
@@ -318,6 +322,7 @@ export default class Wrapper implements BaseWrapper {
 
   /**
    * Checks if node matches selector
+   * @deprecated
    */
   is(rawSelector: Selector): boolean {
     warnDeprecated('is', 'Use element.tagName instead')
@@ -332,6 +337,7 @@ export default class Wrapper implements BaseWrapper {
 
   /**
    * Checks if node is empty
+   * @deprecated
    */
   isEmpty(): boolean {
     warnDeprecated(
@@ -360,6 +366,7 @@ export default class Wrapper implements BaseWrapper {
 
   /**
    * Checks if node is visible
+   * @deprecated
    */
   isVisible(): boolean {
     warnDeprecated(
@@ -384,6 +391,7 @@ export default class Wrapper implements BaseWrapper {
 
   /**
    * Checks if wrapper is a vue instance
+   * @deprecated
    */
   isVueInstance(): boolean {
     warnDeprecated(`isVueInstance`)
@@ -392,6 +400,7 @@ export default class Wrapper implements BaseWrapper {
 
   /**
    * Returns name of component, or tag name if node is not a Vue component
+   * @deprecated
    */
   name(): string {
     warnDeprecated(`name`)
@@ -414,6 +423,7 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Prints a simple overview of the wrapper current state
    * with useful information for debugging
+   * @deprecated
    */
   overview(): void {
     warnDeprecated(`overview`)
@@ -517,6 +527,7 @@ export default class Wrapper implements BaseWrapper {
 
   /**
    * Checks radio button or checkbox element
+   * @deprecated
    */
   setChecked(checked: boolean = true): Promise<*> {
     warnDeprecated(
@@ -568,6 +579,7 @@ export default class Wrapper implements BaseWrapper {
 
   /**
    * Selects <option></option> element
+   * @deprecated
    */
   setSelected(): Promise<void> {
     warnDeprecated(
@@ -625,6 +637,7 @@ export default class Wrapper implements BaseWrapper {
 
   /**
    * Sets vm methods
+   * @deprecated
    */
   setMethods(methods: Object): void {
     warnDeprecated(`setMethods`)
