@@ -225,6 +225,31 @@ export default class Wrapper implements BaseWrapper {
         'Use `findComponent` instead'
       )
     }
+
+    return this.__find(rawSelector, selector)
+  }
+
+  /**
+   * Finds first component in tree of the current wrapper that
+   * matches the provided selector.
+   */
+  findComponent(rawSelector: Selector): Wrapper | ErrorWrapper {
+    const selector = getSelector(rawSelector, 'findComponent')
+    if (selector.type === DOM_SELECTOR) {
+      throwError(
+        'findComponent requires a Vue constructor or valid find object. If you are searching for DOM nodes, use `find` instead'
+      )
+    }
+    if (!this.vm) {
+      throwError(
+        'You cannot chain findComponent off a DOM element. It can only be used on Vue Components.'
+      )
+    }
+
+    return this.__find(rawSelector, selector)
+  }
+
+  __find(rawSelector: Selector, selector: Object): Wrapper | ErrorWrapper {
     const node = find(this.rootNode, this.vm, selector)[0]
 
     if (!node) {
@@ -248,40 +273,7 @@ export default class Wrapper implements BaseWrapper {
         'Use `findAllComponents` instead'
       )
     }
-    const nodes = find(this.rootNode, this.vm, selector)
-    const wrappers = nodes.map(node => {
-      // Using CSS Selector, returns a VueWrapper instance if the root element
-      // binds a Vue instance.
-      const wrapper = createWrapper(node, this.options)
-      wrapper.selector = rawSelector
-      return wrapper
-    })
-
-    const wrapperArray = new WrapperArray(wrappers)
-    wrapperArray.selector = rawSelector
-    return wrapperArray
-  }
-
-  /**
-   * Finds first component in tree of the current wrapper that
-   * matches the provided selector.
-   */
-  findComponent(rawSelector: Selector): Wrapper | ErrorWrapper {
-    const selector = getSelector(rawSelector, 'findComponent')
-    if (selector.type === DOM_SELECTOR) {
-      throwError(
-        'findComponent requires a Vue constructor or valid find object. If you are searching for DOM nodes, use `find` instead'
-      )
-    }
-    const node = find(this.rootNode, this.vm, selector)[0]
-
-    if (!node) {
-      return new ErrorWrapper(rawSelector)
-    }
-
-    const wrapper = createWrapper(node, this.options)
-    wrapper.selector = rawSelector
-    return wrapper
+    return this.__findAll(rawSelector, selector)
   }
 
   /**
@@ -290,11 +282,20 @@ export default class Wrapper implements BaseWrapper {
    */
   findAllComponents(rawSelector: Selector): WrapperArray {
     const selector = getSelector(rawSelector, 'findAll')
-    if (selector.type === DOM_SELECTOR) {
+    if (!this.vm) {
       throwError(
-        'findAllComponent requires a Vue constructor or valid find object. If you are searching for DOM nodes, use `find` instead'
+        'You cannot chain findAllComponents off a DOM element. It can only be used on Vue Components.'
       )
     }
+    if (selector.type === DOM_SELECTOR) {
+      throwError(
+        'findAllComponents requires a Vue constructor or valid find object. If you are searching for DOM nodes, use `find` instead'
+      )
+    }
+    return this.__findAll(rawSelector, selector)
+  }
+
+  __findAll(rawSelector: Selector, selector: Object): WrapperArray {
     const nodes = find(this.rootNode, this.vm, selector)
     const wrappers = nodes.map(node => {
       // Using CSS Selector, returns a VueWrapper instance if the root element
