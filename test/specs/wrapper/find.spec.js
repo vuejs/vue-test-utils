@@ -152,6 +152,16 @@ describeWithShallowAndMount('find', mountingMethod => {
       .with.property('message', message)
   })
 
+  it('throws an error if findComponent is chained off a DOM element', () => {
+    const wrapper = mountingMethod(ComponentWithChild)
+    const message =
+      '[vue-test-utils]: You cannot chain findComponent off a DOM element. It can only be used on Vue Components.'
+    const fn = () => wrapper.find('span').findComponent('#foo')
+    expect(fn)
+      .to.throw()
+      .with.property('message', message)
+  })
+
   itSkipIf(isRunningPhantomJS, 'returns Wrapper of class component', () => {
     const TestComponent = {
       template: `
