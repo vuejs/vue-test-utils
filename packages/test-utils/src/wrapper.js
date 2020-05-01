@@ -126,6 +126,7 @@ export default class Wrapper implements BaseWrapper {
 
   /**
    * Checks if wrapper contains provided selector.
+   * @deprecated
    */
   contains(rawSelector: Selector): boolean {
     warnDeprecated(
@@ -176,6 +177,7 @@ export default class Wrapper implements BaseWrapper {
 
   /**
    * Returns an Array containing custom events emitted by the Wrapper vm
+   * @deprecated
    */
   emittedByOrder(): Array<{ name: string, args: Array<any> }> {
     warnDeprecated('emittedByOrder', 'Use `wrapper.emitted` instead')
@@ -319,6 +321,7 @@ export default class Wrapper implements BaseWrapper {
 
   /**
    * Checks if node matches selector
+   * @deprecated
    */
   is(rawSelector: Selector): boolean {
     warnDeprecated('is', 'Use element.tagName instead')
@@ -333,6 +336,7 @@ export default class Wrapper implements BaseWrapper {
 
   /**
    * Checks if node is empty
+   * @deprecated
    */
   isEmpty(): boolean {
     warnDeprecated(
@@ -361,6 +365,7 @@ export default class Wrapper implements BaseWrapper {
 
   /**
    * Checks if node is visible
+   * @deprecated
    */
   isVisible(): boolean {
     warnDeprecated(
@@ -385,6 +390,7 @@ export default class Wrapper implements BaseWrapper {
 
   /**
    * Checks if wrapper is a vue instance
+   * @deprecated
    */
   isVueInstance(): boolean {
     warnDeprecated(`isVueInstance`)
@@ -393,6 +399,7 @@ export default class Wrapper implements BaseWrapper {
 
   /**
    * Returns name of component, or tag name if node is not a Vue component
+   * @deprecated
    */
   name(): string {
     warnDeprecated(`name`)
@@ -415,6 +422,7 @@ export default class Wrapper implements BaseWrapper {
   /**
    * Prints a simple overview of the wrapper current state
    * with useful information for debugging
+   * @deprecated
    */
   overview(): void {
     warnDeprecated(`overview`)
@@ -518,6 +526,7 @@ export default class Wrapper implements BaseWrapper {
 
   /**
    * Checks radio button or checkbox element
+   * @deprecated
    */
   setChecked(checked: boolean = true): Promise<*> {
     warnDeprecated(
@@ -569,6 +578,7 @@ export default class Wrapper implements BaseWrapper {
 
   /**
    * Selects <option></option> element
+   * @deprecated
    */
   setSelected(): Promise<void> {
     warnDeprecated(
@@ -626,6 +636,7 @@ export default class Wrapper implements BaseWrapper {
 
   /**
    * Sets vm methods
+   * @deprecated
    */
   setMethods(methods: Object): void {
     warnDeprecated(`setMethods`)
