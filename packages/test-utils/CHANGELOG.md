@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0](https://github.com/vuejs/vue-test-utils/compare/v1.0.0-beta.33...v1.0.0) (2020-05-05)
+
+
+### Features
+
+* add support of arbitrary mounting point via attachTo option ([#1492](https://github.com/vuejs/vue-test-utils/issues/1492)) ([f3d0d3f](https://github.com/vuejs/vue-test-utils/commit/f3d0d3f1717fd3cc3e406d3ac3f4ace316967211))
+* Optionally hide deprecation errors ([#1518](https://github.com/vuejs/vue-test-utils/issues/1518)) ([7a0b7e0](https://github.com/vuejs/vue-test-utils/commit/7a0b7e0c695da901f22df2fea53f6fef5e4dadf7))
+* return nextTick from setters, fix [#1515](https://github.com/vuejs/vue-test-utils/issues/1515) ([#1517](https://github.com/vuejs/vue-test-utils/issues/1517)) ([aa7b76d](https://github.com/vuejs/vue-test-utils/commit/aa7b76d5996a24bfaca74989907c0982fdeaa013))
+* stub out transitions by default ([#1411](https://github.com/vuejs/vue-test-utils/issues/1411)) ([6f0a41a](https://github.com/vuejs/vue-test-utils/commit/6f0a41a8f0b643f2e695c68ead78f4980a2725c7))
+* **test-utils:** add 'overview' function ([#1491](https://github.com/vuejs/vue-test-utils/issues/1491)) ([4b0c5c9](https://github.com/vuejs/vue-test-utils/commit/4b0c5c94fb29885bb65e26fea64b8ca64960e301)), closes [#1461](https://github.com/vuejs/vue-test-utils/issues/1461)
+
+
+
+
+
 # [1.0.0-beta.33](https://github.com/vuejs/vue-test-utils/compare/v1.0.0-beta.32...v1.0.0-beta.33) (2020-04-08)
 
 
