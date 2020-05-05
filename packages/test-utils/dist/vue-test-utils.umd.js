@@ -1,8 +1,8 @@
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('vue'), require('vue-template-compiler')) :
-  typeof define === 'function' && define.amd ? define(['exports', 'vue', 'vue-template-compiler'], factory) :
-  (global = global || self, factory(global.VueTestUtils = {}, global.Vue, global.VueTemplateCompiler));
-}(this, (function (exports, Vue, vueTemplateCompiler) { 'use strict';
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('vue'), require('vue-template-compiler'), require('@vue/test-utils')) :
+  typeof define === 'function' && define.amd ? define(['exports', 'vue', 'vue-template-compiler', '@vue/test-utils'], factory) :
+  (global = global || self, factory(global.VueTestUtils = {}, global.Vue, global.VueTemplateCompiler, global.testUtils));
+}(this, (function (exports, Vue, vueTemplateCompiler, testUtils) { 'use strict';
 
   Vue = Vue && Vue.hasOwnProperty('default') ? Vue['default'] : Vue;
 
@@ -1702,6 +1702,27 @@
   var semver_41 = semver.intersects;
   var semver_42 = semver.coerce;
 
+  var NAME_SELECTOR = 'NAME_SELECTOR';
+  var COMPONENT_SELECTOR = 'COMPONENT_SELECTOR';
+  var REF_SELECTOR = 'REF_SELECTOR';
+  var DOM_SELECTOR = 'DOM_SELECTOR';
+  var INVALID_SELECTOR = 'INVALID_SELECTOR';
+
+  var VUE_VERSION = Number(
+    ((Vue.version.split('.')[0]) + "." + (Vue.version.split('.')[1]))
+  );
+
+  var FUNCTIONAL_OPTIONS =
+    VUE_VERSION >= 2.5 ? 'fnOptions' : 'functionalOptions';
+
+  var BEFORE_RENDER_LIFECYCLE_HOOK = semver.gt(Vue.version, '2.1.8')
+    ? 'beforeCreate'
+    : 'beforeMount';
+
+  var CREATE_ELEMENT_ALIAS = semver.gt(Vue.version, '2.1.5')
+    ? '_c'
+    : '_h';
+
   // 
 
   function throwError(msg) {
@@ -1785,6 +1806,27 @@
     return 'change'
   }
 
+  /**
+   * Normalize nextTick to return a promise for all Vue 2 versions.
+   * Vue < 2.1 does not return a Promise from nextTick
+   * @return {Promise<R>}
+   */
+  function nextTick() {
+    if (VUE_VERSION > 2) { return Vue.nextTick() }
+    return new Promise(function (resolve) {
+      Vue.nextTick(resolve);
+    })
+  }
+
+  function warnDeprecated(method, fallback) {
+    if ( fallback === void 0 ) fallback = '';
+
+    if (!testUtils.config.showDeprecationWarnings) { return }
+    var msg = method + " is deprecated and will removed in the next major version";
+    if (fallback) { msg += " " + fallback; }
+    warn(msg);
+  }
+
   // 
 
   function addMocks(
@@ -1838,27 +1880,6 @@
       }
     });
   }
-
-  var NAME_SELECTOR = 'NAME_SELECTOR';
-  var COMPONENT_SELECTOR = 'COMPONENT_SELECTOR';
-  var REF_SELECTOR = 'REF_SELECTOR';
-  var DOM_SELECTOR = 'DOM_SELECTOR';
-  var INVALID_SELECTOR = 'INVALID_SELECTOR';
-
-  var VUE_VERSION = Number(
-    ((Vue.version.split('.')[0]) + "." + (Vue.version.split('.')[1]))
-  );
-
-  var FUNCTIONAL_OPTIONS =
-    VUE_VERSION >= 2.5 ? 'fnOptions' : 'functionalOptions';
-
-  var BEFORE_RENDER_LIFECYCLE_HOOK = semver.gt(Vue.version, '2.1.8')
-    ? 'beforeCreate'
-    : 'beforeMount';
-
-  var CREATE_ELEMENT_ALIAS = semver.gt(Vue.version, '2.1.5')
-    ? '_c'
-    : '_h';
 
   function addStubs(_Vue, stubComponents) {
     var obj;
@@ -1981,6 +2002,14 @@
 
   function isPlainObject(c) {
     return Object.prototype.toString.call(c) === '[object Object]'
+  }
+
+  function isHTMLElement(c) {
+    if (typeof HTMLElement === 'undefined') {
+      return false
+    }
+    // eslint-disable-next-line no-undef
+    return c instanceof HTMLElement
   }
 
   function makeMap(str, expectsLowerCase) {
@@ -2369,7 +2398,7 @@
 
   // DEPRECATED: converts string stub to template stub.
   function createStubFromString(templateString, name) {
-    warn('String stubs are deprecated and will be removed in future versions');
+    warnDeprecated('Using a string for stubs');
 
     if (templateContainsComponent(templateString, name)) {
       throwError('options.stub cannot contain a circular reference');
@@ -2964,6 +2993,10 @@
   ) {
     var mocks = (getOption(options.mocks, config.mocks));
     var methods = (getOption(options.methods, config.methods));
+    if (methods && Object.keys(methods).length) {
+      warnDeprecated('overwriting methods via the `methods` property');
+    }
+
     var provide = (getOption(options.provide, config.provide));
     var stubs = (getStubs(options.stubs, config.stubs));
     // $FlowIgnore
@@ -2975,11 +3008,16 @@
   }
 
   var config = {
-    stubs: {},
+    stubs: {
+      transition: true,
+      'transition-group': true
+    },
     mocks: {},
     methods: {},
     provide: {},
-    silent: true
+    silent: true,
+    showDeprecationWarnings:
+       true
   };
 
   // 
@@ -8561,6 +8599,15 @@
     );
   };
 
+  WrapperArray.prototype.overview = function overview () {
+    this.throwErrorIfWrappersIsEmpty('overview()');
+
+    throwError(
+      "overview() must be called on a single wrapper, use at(i) " +
+        "to access a wrapper"
+    );
+  };
+
   WrapperArray.prototype.props = function props () {
     this.throwErrorIfWrappersIsEmpty('props');
 
@@ -8817,6 +8864,14 @@
       ("find did not return " + (buildSelectorString(
         this.selector
       )) + ", cannot call name() on empty Wrapper")
+    );
+  };
+
+  ErrorWrapper.prototype.overview = function overview () {
+    throwError(
+      ("find did not return " + (buildSelectorString(
+        this.selector
+      )) + ", cannot call overview() on empty Wrapper")
     );
   };
 
@@ -10325,8 +10380,13 @@
 
   /**
    * Checks if wrapper contains provided selector.
+   * @deprecated
    */
   Wrapper.prototype.contains = function contains (rawSelector) {
+    warnDeprecated(
+      'contains',
+      'Use `wrapper.find`, `wrapper.findComponent` or `wrapper.get` instead'
+    );
     var selector = getSelector(rawSelector, 'contains');
     var nodes = find(this.rootNode, this.vm, selector);
     return nodes.length > 0
@@ -10371,8 +10431,10 @@
 
   /**
    * Returns an Array containing custom events emitted by the Wrapper vm
+   * @deprecated
    */
   Wrapper.prototype.emittedByOrder = function emittedByOrder () {
+    warnDeprecated('emittedByOrder', 'Use `wrapper.emitted` instead');
     if (!this._emittedByOrder && !this.vm) {
       throwError(
         "wrapper.emittedByOrder() can only be called on a Vue instance"
@@ -10408,11 +10470,43 @@
   };
 
   /**
-   * Finds first node in tree of the current wrapper that
+   * Finds first DOM node in tree of the current wrapper that
    * matches the provided selector.
    */
-  Wrapper.prototype.find = function find$1 (rawSelector) {
+  Wrapper.prototype.find = function find (rawSelector) {
     var selector = getSelector(rawSelector, 'find');
+    if (selector.type !== DOM_SELECTOR) {
+      warnDeprecated(
+        'finding components with `find`',
+        'Use `findComponent` instead'
+      );
+    }
+
+    return this.__find(rawSelector, selector)
+  };
+
+  /**
+   * Finds first component in tree of the current wrapper that
+   * matches the provided selector.
+   */
+  Wrapper.prototype.findComponent = function findComponent (rawSelector) {
+    var selector = getSelector(rawSelector, 'findComponent');
+    if (!this.vm) {
+      throwError(
+        'You cannot chain findComponent off a DOM element. It can only be used on Vue Components.'
+      );
+    }
+
+    if (selector.type === DOM_SELECTOR) {
+      throwError(
+        'findComponent requires a Vue constructor or valid find object. If you are searching for DOM nodes, use `find` instead'
+      );
+    }
+
+    return this.__find(rawSelector, selector)
+  };
+
+  Wrapper.prototype.__find = function __find (rawSelector, selector) {
     var node = find(this.rootNode, this.vm, selector)[0];
 
     if (!node) {
@@ -10425,13 +10519,42 @@
   };
 
   /**
-   * Finds node in tree of the current wrapper that matches
+   * Finds DOM elements in tree of the current wrapper that matches
    * the provided selector.
    */
   Wrapper.prototype.findAll = function findAll (rawSelector) {
+    var selector = getSelector(rawSelector, 'findAll');
+    if (selector.type !== DOM_SELECTOR) {
+      warnDeprecated(
+        'finding components with `findAll`',
+        'Use `findAllComponents` instead'
+      );
+    }
+    return this.__findAll(rawSelector, selector)
+  };
+
+  /**
+   * Finds components in tree of the current wrapper that matches
+   * the provided selector.
+   */
+  Wrapper.prototype.findAllComponents = function findAllComponents (rawSelector) {
+    var selector = getSelector(rawSelector, 'findAll');
+    if (!this.vm) {
+      throwError(
+        'You cannot chain findAllComponents off a DOM element. It can only be used on Vue Components.'
+      );
+    }
+    if (selector.type === DOM_SELECTOR) {
+      throwError(
+        'findAllComponents requires a Vue constructor or valid find object. If you are searching for DOM nodes, use `find` instead'
+      );
+    }
+    return this.__findAll(rawSelector, selector)
+  };
+
+  Wrapper.prototype.__findAll = function __findAll (rawSelector, selector) {
       var this$1 = this;
 
-    var selector = getSelector(rawSelector, 'findAll');
     var nodes = find(this.rootNode, this.vm, selector);
     var wrappers = nodes.map(function (node) {
       // Using CSS Selector, returns a VueWrapper instance if the root element
@@ -10455,8 +10578,10 @@
 
   /**
    * Checks if node matches selector
+   * @deprecated
    */
   Wrapper.prototype.is = function is (rawSelector) {
+    warnDeprecated('is', 'Use element.tagName instead');
     var selector = getSelector(rawSelector, 'is');
 
     if (selector.type === REF_SELECTOR) {
@@ -10468,8 +10593,13 @@
 
   /**
    * Checks if node is empty
+   * @deprecated
    */
   Wrapper.prototype.isEmpty = function isEmpty () {
+    warnDeprecated(
+      'isEmpty',
+      'Consider a custom matcher such as those provided in jest-dom: https://github.com/testing-library/jest-dom#tobeempty'
+    );
     if (!this.vnode) {
       return this.element.innerHTML === ''
     }
@@ -10492,8 +10622,13 @@
 
   /**
    * Checks if node is visible
+   * @deprecated
    */
   Wrapper.prototype.isVisible = function isVisible () {
+    warnDeprecated(
+      'isEmpty',
+      "Consider a custom matcher such as those provided in jest-dom: https://github.com/testing-library/jest-dom#tobevisible"
+    );
     var element = this.element;
     while (element) {
       if (
@@ -10512,15 +10647,20 @@
 
   /**
    * Checks if wrapper is a vue instance
+   * @deprecated
    */
   Wrapper.prototype.isVueInstance = function isVueInstance () {
+    warnDeprecated("isVueInstance");
     return !!this.vm
   };
 
   /**
    * Returns name of component, or tag name if node is not a Vue component
+   * @deprecated
    */
   Wrapper.prototype.name = function name () {
+    warnDeprecated("name");
+
     if (this.vm) {
       return (
         this.vm.$options.name ||
@@ -10534,6 +10674,87 @@
     }
 
     return this.vnode.tag
+  };
+
+  /**
+   * Prints a simple overview of the wrapper current state
+   * with useful information for debugging
+   * @deprecated
+   */
+  Wrapper.prototype.overview = function overview () {
+      var this$1 = this;
+
+    warnDeprecated("overview");
+
+    if (!this.isVueInstance()) {
+      throwError("wrapper.overview() can only be called on a Vue instance");
+    }
+
+    var identation = 4;
+    var formatJSON = function (json, replacer) {
+          if ( replacer === void 0 ) replacer = null;
+
+          return JSON.stringify(json, replacer, identation).replace(/"/g, '');
+      };
+
+    var visibility = this.isVisible() ? 'Visible' : 'Not visible';
+
+    var html = this.html()
+      ? this.html().replace(/^(?!\s*$)/gm, ' '.repeat(identation)) + '\n'
+      : '';
+
+    // $FlowIgnore
+    var data = formatJSON(this.vm.$data);
+
+    /* eslint-disable operator-linebreak */
+    // $FlowIgnore
+    var computed = this.vm._computedWatchers
+      ? formatJSON.apply(
+          // $FlowIgnore
+          void 0, Object.keys(this.vm._computedWatchers).map(function (computedKey) {
+              var obj;
+
+              return (( obj = {}, obj[computedKey] = this$1.vm[computedKey], obj ));
+      })
+        )
+      : // $FlowIgnore
+      this.vm.$options.computed
+      ? formatJSON.apply(
+          // $FlowIgnore
+          void 0, Object.entries(this.vm.$options.computed).map(function (ref) {
+              var obj;
+
+              var key = ref[0];
+              var value = ref[1];
+              return (( obj = {}, obj[key] = value(), obj ));
+      })
+        )
+      : '{}';
+    /* eslint-enable operator-linebreak */
+
+    var emittedJSONReplacer = function (key, value) { return value instanceof Array
+        ? value.map(function (calledWith, index) {
+            var callParams = calledWith.map(function (param) { return typeof param === 'object'
+                ? JSON.stringify(param)
+                    .replace(/"/g, '')
+                    .replace(/,/g, ', ')
+                : param; }
+            );
+
+            return (index + ": [ " + (callParams.join(', ')) + " ]")
+          })
+        : value; };
+
+    var emitted = formatJSON(this.emitted(), emittedJSONReplacer);
+
+    console.log(
+      '\n' +
+        "Wrapper (" + visibility + "):\n\n" +
+        "Html:\n" + html + "\n" +
+        "Data: " + data + "\n\n" +
+        "Computed: " + computed + "\n\n" +
+        "Emitted: " + emitted + "\n"
+    );
   };
 
   /**
@@ -10571,9 +10792,15 @@
 
   /**
    * Checks radio button or checkbox element
+   * @deprecated
    */
   Wrapper.prototype.setChecked = function setChecked (checked) {
       if ( checked === void 0 ) checked = true;
+
+    warnDeprecated(
+      "setChecked",
+      'When you migrate to VTU 2, use setValue instead.'
+    );
 
     if (typeof checked !== 'boolean') {
       throwError('wrapper.setChecked() must be passed a boolean');
@@ -10585,14 +10812,13 @@
 
     if (tagName === 'INPUT' && type === 'checkbox') {
       if (this.element.checked === checked) {
-        return
+        return nextTick()
       }
       if (event !== 'click' || isPhantomJS) {
         // $FlowIgnore
         this.element.checked = checked;
       }
-      this.trigger(event);
-      return
+      return this.trigger(event)
     }
 
     if (tagName === 'INPUT' && type === 'radio') {
@@ -10604,24 +10830,30 @@
       }
 
       if (this.element.checked === checked) {
-        return
+        return nextTick()
       }
 
       if (event !== 'click' || isPhantomJS) {
         // $FlowIgnore
         this.element.selected = true;
       }
-      this.trigger(event);
-      return
+      return this.trigger(event)
     }
 
     throwError("wrapper.setChecked() cannot be called on this element");
+    return nextTick()
   };
 
   /**
    * Selects <option></option> element
+   * @deprecated
    */
   Wrapper.prototype.setSelected = function setSelected () {
+    warnDeprecated(
+      "setSelected",
+      'When you migrate to VTU 2, use setValue instead.'
+    );
+
     var tagName = this.element.tagName;
 
     if (tagName === 'SELECT') {
@@ -10631,28 +10863,27 @@
       );
     }
 
-    if (tagName === 'OPTION') {
-      if (this.element.selected) {
-        return
-      }
-
-      // $FlowIgnore
-      this.element.selected = true;
-      // $FlowIgnore
-      var parentElement = this.element.parentElement;
-
-      // $FlowIgnore
-      if (parentElement.tagName === 'OPTGROUP') {
-        // $FlowIgnore
-        parentElement = parentElement.parentElement;
-      }
-
-      // $FlowIgnore
-      createWrapper(parentElement, this.options).trigger('change');
-      return
+    if (tagName !== 'OPTION') {
+      throwError("wrapper.setSelected() cannot be called on this element");
     }
 
-    throwError("wrapper.setSelected() cannot be called on this element");
+    if (this.element.selected) {
+      return nextTick()
+    }
+
+    // $FlowIgnore
+    this.element.selected = true;
+    // $FlowIgnore
+    var parentElement = this.element.parentElement;
+
+    // $FlowIgnore
+    if (parentElement.tagName === 'OPTGROUP') {
+      // $FlowIgnore
+      parentElement = parentElement.parentElement;
+    }
+
+    // $FlowIgnore
+    return createWrapper(parentElement, this.options).trigger('change')
   };
 
   /**
@@ -10668,13 +10899,17 @@
     }
 
     recursivelySetData(this.vm, this.vm, data);
+    return nextTick()
   };
 
   /**
    * Sets vm methods
+   * @deprecated
    */
   Wrapper.prototype.setMethods = function setMethods (methods) {
       var this$1 = this;
+
+    warnDeprecated("setMethods");
 
     if (!this.isVueInstance()) {
       throwError("wrapper.setMethods() can only be called on a Vue instance");
@@ -10737,7 +10972,7 @@
           if (VUE_VERSION > 2.3) {
             // $FlowIgnore : Problem with possibly null this.vm
             this$1.vm.$attrs[key] = data[key];
-            return
+            return nextTick()
           }
           throwError(
             "wrapper.setProps() called with " + key + " property which " +
@@ -10752,6 +10987,7 @@
 
       // $FlowIgnore : Problem with possibly null this.vm
       this.vm.$forceUpdate();
+      return nextTick()
     } catch (err) {
       throw err
     } finally {
@@ -10807,9 +11043,10 @@
       ) {
         this.trigger('change');
       }
-    } else {
-      throwError("wrapper.setValue() cannot be called on this element");
+      return nextTick()
     }
+    throwError("wrapper.setValue() cannot be called on this element");
+    return nextTick()
   };
 
   /**
@@ -10856,11 +11093,12 @@
     var tagName = this.element.tagName;
 
     if (this.attributes().disabled && supportedTags.indexOf(tagName) > -1) {
-      return
+      return nextTick()
     }
 
     var event = createDOMEvent(type, options);
     this.element.dispatchEvent(event);
+    return nextTick()
   };
 
   // 
@@ -12896,9 +13134,9 @@
   var _DataView = DataView;
 
   /* Built-in method references that are verified to be native. */
-  var Promise = _getNative(_root, 'Promise');
+  var Promise$1 = _getNative(_root, 'Promise');
 
-  var _Promise = Promise;
+  var _Promise = Promise$1;
 
   /* Built-in method references that are verified to be native. */
   var Set$1 = _getNative(_root, 'Set');
@@ -13544,6 +13782,20 @@
   var UNSUPPORTED_VERSION_OPTIONS = ['mocks', 'stubs', 'localVue'];
 
   function validateOptions(options, component) {
+    if (
+      options.attachTo &&
+      !isHTMLElement(options.attachTo) &&
+      !isDomSelector(options.attachTo)
+    ) {
+      throwError(
+        "options.attachTo should be a valid HTMLElement or CSS selector string"
+      );
+    }
+    if ('attachToDocument' in options) {
+      warn(
+        "options.attachToDocument is deprecated in favor of options.attachTo and will be removed in a future release"
+      );
+    }
     if (options.parentComponent && !isPlainObject(options.parentComponent)) {
       throwError(
         "options.parentComponent should be a valid Vue component options object"
@@ -13598,7 +13850,8 @@
 
     var parentVm = createInstance(component, mergedOptions, _Vue);
 
-    var el = options.attachToDocument ? createElement() : undefined;
+    var el =
+      options.attachTo || (options.attachToDocument ? createElement() : undefined);
     var vm = parentVm.$mount(el);
 
     component._Ctor = {};
@@ -13606,7 +13859,7 @@
     throwIfInstancesThrew(vm);
 
     var wrapperOptions = {
-      attachedToDocument: !!mergedOptions.attachToDocument
+      attachedToDocument: !!el
     };
 
     var root = parentVm.$options._isFunctionalContainer
