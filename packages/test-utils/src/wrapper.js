@@ -142,7 +142,7 @@ export default class Wrapper implements BaseWrapper {
    * Calls destroy on vm
    */
   destroy(): void {
-    if (!this.isVueInstance() && !this.isFunctionalComponent) {
+    if (!this.vm && !this.isFunctionalComponent) {
       throwError(
         `wrapper.destroy() can only be called on a Vue instance or ` +
           `functional component.`
@@ -153,7 +153,7 @@ export default class Wrapper implements BaseWrapper {
       this.element.parentNode.removeChild(this.element)
     }
 
-    if (this.isVueInstance()) {
+    if (this.vm) {
       // $FlowIgnore
       this.vm.$destroy()
       throwIfInstancesThrew(this.vm)
@@ -370,7 +370,7 @@ export default class Wrapper implements BaseWrapper {
    */
   isVisible(): boolean {
     warnDeprecated(
-      'isEmpty',
+      'isVisible',
       `Consider a custom matcher such as those provided in jest-dom: https://github.com/testing-library/jest-dom#tobevisible`
     )
     let element = this.element
@@ -428,7 +428,7 @@ export default class Wrapper implements BaseWrapper {
   overview(): void {
     warnDeprecated(`overview`)
 
-    if (!this.isVueInstance()) {
+    if (!this.vm) {
       throwError(`wrapper.overview() can only be called on a Vue instance`)
     }
 
@@ -642,7 +642,7 @@ export default class Wrapper implements BaseWrapper {
   setMethods(methods: Object): void {
     warnDeprecated(`setMethods`)
 
-    if (!this.isVueInstance()) {
+    if (!this.vm) {
       throwError(`wrapper.setMethods() can only be called on a Vue instance`)
     }
     Object.keys(methods).forEach(key => {
