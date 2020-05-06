@@ -55,6 +55,7 @@ interface BaseWrapper {
   classes(className: string): boolean
   props(): { [name: string]: any }
   props(key: string): any | void
+  overview(): void
 
   is (selector: Selector): boolean
   isEmpty (): boolean
@@ -99,6 +100,18 @@ export interface Wrapper<V extends Vue | null> extends BaseWrapper {
   findAll (selector: RefSelector): WrapperArray<Vue>
   findAll (selector: NameSelector): WrapperArray<Vue>
 
+  findComponent<R extends Vue> (selector: VueClass<R>): Wrapper<R>
+  findComponent<R extends Vue> (selector: ComponentOptions<R>): Wrapper<R>
+  findComponent<Props = DefaultProps, PropDefs = PropsDefinition<Props>>(selector: FunctionalComponentOptions<Props, PropDefs>): Wrapper<Vue>
+  findComponent (selector: RefSelector): Wrapper<Vue>
+  findComponent (selector: NameSelector): Wrapper<Vue>
+
+  findAllComponents<R extends Vue> (selector: VueClass<R>): WrapperArray<R>
+  findAllComponents<R extends Vue> (selector: ComponentOptions<R>): WrapperArray<R>
+  findAllComponents<Props = DefaultProps, PropDefs = PropsDefinition<Props>>(selector: FunctionalComponentOptions<Props, PropDefs>): WrapperArray<Vue>
+  findAllComponents(selector: RefSelector): WrapperArray<Vue>
+  findAllComponents(selector: NameSelector): WrapperArray<Vue>
+
   html (): string
   text (): string
   name (): string
@@ -123,6 +136,7 @@ export interface WrapperArray<V extends Vue> extends BaseWrapper {
 }
 
 interface WrapperOptions {
+  attachTo?: Element | string
   attachedToDocument?: boolean
 }
 

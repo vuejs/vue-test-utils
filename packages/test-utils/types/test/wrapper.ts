@@ -36,6 +36,15 @@ wrapper.trigger('mousedown.enter', {
   button: 0
 })
 
+wrapper.findAllComponents({ name: 'foo' })
+wrapper.findComponent({ name: 'foo' })
+
+wrapper.findAllComponents({ ref: 'foo' })
+wrapper.findComponent({ ref: 'foo' })
+
+wrapper.findAllComponents(ClassComponent)
+wrapper.findComponent(ClassComponent)
+
 /**
  * Tests for Wrapper API
  */
