@@ -28,6 +28,7 @@ mount(ClassComponent, {
   mocks: {
     $store: store
   },
+  attachTo: '#el',
   parentComponent: normalOptions,
   slots: {
     default: `<div>Foo</div>`,
@@ -57,6 +58,7 @@ mount(functionalOptions, {
   context: {
     props: { foo: 'test' }
   },
+  attachTo: document.createElement('div'),
   stubs: ['child']
 })
 
@@ -100,6 +102,7 @@ config.provide['foo'] = {
   bar: {}
 }
 config.silent = true
+config.showDeprecationWarnings = false
 
 // Check we can use default export
 VueTestUtils.config.silent = false

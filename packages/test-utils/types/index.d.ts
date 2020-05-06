@@ -136,12 +136,12 @@ export interface WrapperArray<V extends Vue> extends BaseWrapper {
 }
 
 interface WrapperOptions {
-  attachTo?: Element | string
   attachedToDocument?: boolean
 }
 
 interface MountOptions<V extends Vue> extends ComponentOptions<V> {
   attachToDocument?: boolean
+  attachTo?: Element | string
   context?: VNodeData
   localVue?: typeof Vue
   mocks?: object | false
