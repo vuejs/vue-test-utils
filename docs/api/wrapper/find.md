@@ -31,9 +31,7 @@ expect(byId.element.id).toBe('bar')
   - You may chain `find` calls together:
 
 ```js
-let button
-
-button = wrapper.find({ ref: 'testButton' })
+const button = wrapper.find({ ref: 'testButton' })
 expect(button.find('.icon').exists()).toBe(true)
 ```
 
