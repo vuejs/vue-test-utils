@@ -1784,7 +1784,7 @@ function warnDeprecated(method, fallback) {
   if ( fallback === void 0 ) fallback = '';
 
   if (!testUtils.config.showDeprecationWarnings) { return }
-  var msg = method + " is deprecated and will removed in the next major version";
+  var msg = method + " is deprecated and will be removed in the next major version";
   if (fallback) { msg += " " + fallback; }
   warn(msg);
 }

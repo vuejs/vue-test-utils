@@ -1819,7 +1819,7 @@ var VueTestUtils = (function (exports, Vue, vueTemplateCompiler, testUtils) {
     if ( fallback === void 0 ) fallback = '';
 
     if (!testUtils.config.showDeprecationWarnings) { return }
-    var msg = method + " is deprecated and will removed in the next major version";
+    var msg = method + " is deprecated and will be removed in the next major version";
     if (fallback) { msg += " " + fallback; }
     warn(msg);
   }
@@ -10393,7 +10393,7 @@ var VueTestUtils = (function (exports, Vue, vueTemplateCompiler, testUtils) {
    * Calls destroy on vm
    */
   Wrapper.prototype.destroy = function destroy () {
-    if (!this.isVueInstance() && !this.isFunctionalComponent) {
+    if (!this.vm && !this.isFunctionalComponent) {
       throwError(
         "wrapper.destroy() can only be called on a Vue instance or " +
           "functional component."
@@ -10404,7 +10404,7 @@ var VueTestUtils = (function (exports, Vue, vueTemplateCompiler, testUtils) {
       this.element.parentNode.removeChild(this.element);
     }
 
-    if (this.isVueInstance()) {
+    if (this.vm) {
       // $FlowIgnore
       this.vm.$destroy();
       throwIfInstancesThrew(this.vm);
@@ -10623,7 +10623,7 @@ var VueTestUtils = (function (exports, Vue, vueTemplateCompiler, testUtils) {
    */
   Wrapper.prototype.isVisible = function isVisible () {
     warnDeprecated(
-      'isEmpty',
+      'isVisible',
       "Consider a custom matcher such as those provided in jest-dom: https://github.com/testing-library/jest-dom#tobevisible"
     );
     var element = this.element;
@@ -10683,7 +10683,7 @@ var VueTestUtils = (function (exports, Vue, vueTemplateCompiler, testUtils) {
 
     warnDeprecated("overview");
 
-    if (!this.isVueInstance()) {
+    if (!this.vm) {
       throwError("wrapper.overview() can only be called on a Vue instance");
     }
 
@@ -10794,11 +10794,6 @@ var VueTestUtils = (function (exports, Vue, vueTemplateCompiler, testUtils) {
   Wrapper.prototype.setChecked = function setChecked (checked) {
       if ( checked === void 0 ) checked = true;
 
-    warnDeprecated(
-      "setChecked",
-      'When you migrate to VTU 2, use setValue instead.'
-    );
-
     if (typeof checked !== 'boolean') {
       throwError('wrapper.setChecked() must be passed a boolean');
     }
@@ -10846,11 +10841,6 @@ var VueTestUtils = (function (exports, Vue, vueTemplateCompiler, testUtils) {
    * @deprecated
    */
   Wrapper.prototype.setSelected = function setSelected () {
-    warnDeprecated(
-      "setSelected",
-      'When you migrate to VTU 2, use setValue instead.'
-    );
-
     var tagName = this.element.tagName;
 
     if (tagName === 'SELECT') {
@@ -10908,7 +10898,7 @@ var VueTestUtils = (function (exports, Vue, vueTemplateCompiler, testUtils) {
 
     warnDeprecated("setMethods");
 
-    if (!this.isVueInstance()) {
+    if (!this.vm) {
       throwError("wrapper.setMethods() can only be called on a Vue instance");
     }
     Object.keys(methods).forEach(function (key) {
