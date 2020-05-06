@@ -530,11 +530,6 @@ export default class Wrapper implements BaseWrapper {
    * @deprecated
    */
   setChecked(checked: boolean = true): Promise<*> {
-    warnDeprecated(
-      `setChecked`,
-      'When you migrate to VTU 2, use setValue instead.'
-    )
-
     if (typeof checked !== 'boolean') {
       throwError('wrapper.setChecked() must be passed a boolean')
     }
@@ -582,11 +577,6 @@ export default class Wrapper implements BaseWrapper {
    * @deprecated
    */
   setSelected(): Promise<void> {
-    warnDeprecated(
-      `setSelected`,
-      'When you migrate to VTU 2, use setValue instead.'
-    )
-
     const tagName = this.element.tagName
 
     if (tagName === 'SELECT') {
