@@ -1,6 +1,6 @@
 ## findAllComponents
 
-Returns a [`WrapperArray`](../wrapper-array/).
+Returns a [`WrapperArray`](../wrapper-array/) of all matching Vue components.
 
 - **Arguments:**
 
