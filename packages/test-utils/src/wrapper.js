@@ -342,7 +342,8 @@ export default class Wrapper implements BaseWrapper {
   isEmpty(): boolean {
     warnDeprecated(
       'isEmpty',
-      'Consider a custom matcher such as those provided in jest-dom: https://github.com/testing-library/jest-dom#tobeempty'
+      'Consider a custom matcher such as those provided in jest-dom: https://github.com/testing-library/jest-dom#tobeempty. ' +
+        'When using with findComponent, access the DOM element with findComponent(Comp).element'
     )
     if (!this.vnode) {
       return this.element.innerHTML === ''
@@ -371,7 +372,8 @@ export default class Wrapper implements BaseWrapper {
   isVisible(): boolean {
     warnDeprecated(
       'isVisible',
-      `Consider a custom matcher such as those provided in jest-dom: https://github.com/testing-library/jest-dom#tobevisible`
+      'Consider a custom matcher such as those provided in jest-dom: https://github.com/testing-library/jest-dom#tobevisible. ' +
+        'When using with findComponent, access the DOM element with findComponent(Comp).element'
     )
     let element = this.element
     while (element) {
