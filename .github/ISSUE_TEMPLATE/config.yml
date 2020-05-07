@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Vue Issue Helper
+    url: https://new-issue.vuejs.org/?repo=vuejs/vue-test-utils
+    about: Please use link to create issues.
