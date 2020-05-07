@@ -302,8 +302,7 @@ remove the rendered elements from the document and destroy the component instanc
 
 ```js
 const Component = {
-  template: '<div>ABC</div>',
-  props: ['msg']
+  template: '<div>ABC</div>'
 }
 let wrapper = mount(Component, {
   attachTo: '#root'
