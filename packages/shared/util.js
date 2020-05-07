@@ -102,7 +102,7 @@ export function nextTick(): Promise<void> {
 
 export function warnDeprecated(method: string, fallback: string = '') {
   if (!config.showDeprecationWarnings) return
-  let msg = `${method} is deprecated and will be removed in the next major version`
-  if (fallback) msg += ` ${fallback}`
+  let msg = `${method} is deprecated and will be removed in the next major version.`
+  if (fallback) msg += ` ${fallback}.`
   warn(msg)
 }
