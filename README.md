@@ -1,9 +1,10 @@
 # Vue Test Utils [![Build Status](https://circleci.com/gh/vuejs/vue-test-utils/tree/dev.png?style=shield)](https://circleci.com/gh/vuejs/vue-test-utils)
 
+Vue Test Utils is the official testing library for Vue.js.
+
 ## Packages
 
-This repository provides the following two packages.  
-They are currently in beta.
+This repository provides the following two packages:
 
 - [Vue Test Utils](./packages/test-utils)
 - [Vue Server Test Utils](./packages/server-test-utils)
