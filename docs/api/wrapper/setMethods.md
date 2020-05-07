@@ -1,5 +1,9 @@
 ## setMethods
 
+::: warning
+`setMethods` is deprecated and will be removed in future releases.
+:::
+
 Sets `Wrapper` `vm` methods and forces update.
 
 **Note the Wrapper must contain a Vue instance.**

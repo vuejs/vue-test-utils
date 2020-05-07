@@ -432,26 +432,22 @@ When the options for `mount` and `shallowMount` contain the options other than t
 
 ```js
 const Component = {
-  template: '<div>{{ foo() }}{{ bar() }}{{ baz() }}</div>',
-  methods: {
-    foo() {
-      return 'a'
-    },
-    bar() {
-      return 'b'
+  template: '<div>{{ foo }}</div>',
+  data() {
+    return {
+      foo: 'fromComponent'
     }
   }
 }
 const options = {
-  methods: {
-    bar() {
-      return 'B'
-    },
-    baz() {
-      return 'C'
+  data() {
+    return {
+      foo: 'fromOptions'
     }
   }
 }
+
 const wrapper = mount(Component, options)
-expect(wrapper.text()).toBe('aBC')
+
+expect(wrapper.text()).toBe('fromOptions')
 ```
