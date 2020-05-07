@@ -322,7 +322,11 @@ wrapper.destroy()
 - type: `boolean`
 - default: `false`
 
-Like [`attachTo`](#attachto), but automatically creates a new `div` element for you and inserts it into the body. This is deprecated in favor of [`attachTo`](#attachto).
+::: warning
+`attachToDocument` is deprecated and will be removed in future releases. Use [`attachTo`](#attachto) instead.
+:::
+
+Like [`attachTo`](#attachto), but automatically creates a new `div` element for you and inserts it into the body.
 
 When attaching to the DOM, you should call `wrapper.destroy()` at the end of your test to
 remove the rendered elements from the document and destroy the component instance.
