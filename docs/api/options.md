@@ -302,8 +302,7 @@ remove the rendered elements from the document and destroy the component instanc
 
 ```js
 const Component = {
-  template: '<div>ABC</div>',
-  props: ['msg']
+  template: '<div>ABC</div>'
 }
 let wrapper = mount(Component, {
   attachTo: '#root'
@@ -323,7 +322,11 @@ wrapper.destroy()
 - type: `boolean`
 - default: `false`
 
-Like [`attachTo`](#attachto), but automatically creates a new `div` element for you and inserts it into the body. This is deprecated in favor of [`attachTo`](#attachto).
+::: warning
+`attachToDocument` is deprecated and will be removed in future releases. Use [`attachTo`](#attachto) instead.
+:::
+
+Like [`attachTo`](#attachto), but automatically creates a new `div` element for you and inserts it into the body.
 
 When attaching to the DOM, you should call `wrapper.destroy()` at the end of your test to
 remove the rendered elements from the document and destroy the component instance.
@@ -432,26 +435,22 @@ When the options for `mount` and `shallowMount` contain the options other than t
 
 ```js
 const Component = {
-  template: '<div>{{ foo() }}{{ bar() }}{{ baz() }}</div>',
-  methods: {
-    foo() {
-      return 'a'
-    },
-    bar() {
-      return 'b'
+  template: '<div>{{ foo }}</div>',
+  data() {
+    return {
+      foo: 'fromComponent'
     }
   }
 }
 const options = {
-  methods: {
-    bar() {
-      return 'B'
-    },
-    baz() {
-      return 'C'
+  data() {
+    return {
+      foo: 'fromOptions'
     }
   }
 }
+
 const wrapper = mount(Component, options)
-expect(wrapper.text()).toBe('aBC')
+
+expect(wrapper.text()).toBe('fromOptions')
 ```

@@ -1,5 +1,9 @@
 ## overview
 
+::: warning
+`overview` is deprecated and will be removed in future releases.
+:::
+
 Prints a simple overview of the `Wrapper`.
 
 - **Example:**

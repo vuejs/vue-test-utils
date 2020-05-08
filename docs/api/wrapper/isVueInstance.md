@@ -1,5 +1,9 @@
 ## isVueInstance
 
+::: warning
+`isVueInstance` is deprecated and will be removed in future releases.
+:::
+
 Assert `Wrapper` is Vue instance.
 
 - **Returns:** `{boolean}`

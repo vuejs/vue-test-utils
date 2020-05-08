@@ -1,5 +1,11 @@
 ## emittedByOrder
 
+::: warning
+`emittedByOrder` is deprecated and will be removed in future releases.
+
+Use `wrapper.emitted` instead.
+:::
+
 Return an Array containing custom events emitted by the `Wrapper` `vm`.
 
 - **Returns:** `Array<{ name: string, args: Array<any> }>`

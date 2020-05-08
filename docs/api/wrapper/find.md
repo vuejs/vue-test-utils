@@ -1,5 +1,9 @@
 ## find
 
+::: warning
+Using `find` to search for a Component is deprecated and will be removed. Use `findComponent` instead.
+:::
+
 Returns `Wrapper` of first DOM node or Vue component matching selector.
 
 Use any valid DOM selector (uses `querySelector` syntax).
