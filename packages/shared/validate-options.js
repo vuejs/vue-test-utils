@@ -7,7 +7,7 @@ import {
 } from './validators'
 import { VUE_VERSION } from './consts'
 import { compileTemplateForSlots } from './compile-template'
-import { throwError, warn } from './util'
+import { throwError, warnDeprecated } from './util'
 import { validateSlots } from './validate-slots'
 
 function vueExtendUnsupportedOption(option) {
@@ -34,7 +34,7 @@ export function validateOptions(options, component) {
     )
   }
   if ('attachToDocument' in options) {
-    warn(
+    warnDeprecated(
       `options.attachToDocument is deprecated in favor of options.attachTo and will be removed in a future release`
     )
   }
