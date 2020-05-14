@@ -1,6 +1,6 @@
 ## isVueInstance
 
-::: warning
+::: warning Deprecation warning
 `isVueInstance` is deprecated and will be removed in future releases.
 :::
 

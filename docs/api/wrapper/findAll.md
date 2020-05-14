@@ -1,6 +1,6 @@
 ## findAll
 
-::: warning
+::: warning Deprecation warning
 Using `findAll` to search for Components is deprecated and will be removed. Use `findAllComponents` instead.
 :::
 

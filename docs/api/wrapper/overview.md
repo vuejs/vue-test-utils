@@ -1,6 +1,6 @@
 ## overview
 
-::: warning
+::: warning Deprecation warning
 `overview` is deprecated and will be removed in future releases.
 :::
 

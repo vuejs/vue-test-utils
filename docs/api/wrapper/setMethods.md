@@ -1,6 +1,6 @@
 ## setMethods
 
-::: warning
+::: warning Deprecation warning
 `setMethods` is deprecated and will be removed in future releases.
 :::
 

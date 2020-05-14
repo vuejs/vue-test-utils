@@ -1,6 +1,6 @@
 ## find
 
-::: warning
+::: warning Deprecation warning
 Using `find` to search for a Component is deprecated and will be removed. Use `findComponent` instead.
 :::
 
