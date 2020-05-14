@@ -632,7 +632,10 @@ export default class Wrapper implements BaseWrapper {
    * @deprecated
    */
   setMethods(methods: Object): void {
-    warnDeprecated(`setMethods`)
+    warnDeprecated(
+      `setMethods`,
+      `There is no clear migration path for setMethods - Vue does not support arbitrarily replacement of methods, nor should VTU. If you need to stub out a method, extract it out and test it. Otherwise, the suggestion is to rethink those tests`
+    )
 
     if (!this.vm) {
       throwError(`wrapper.setMethods() can only be called on a Vue instance`)
