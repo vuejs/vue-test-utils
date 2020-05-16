@@ -5,7 +5,7 @@
 
 There's no clear path to replace `setMethods`, because it really depends on your previous usage. It easily leads to flaky tests that rely on implementation details, which [is discouraged](https://github.com/vuejs/rfcs/blob/668866fa71d70322f6a7689e88554ab27d349f9c/active-rfcs/0000-vtu-api.md#setmethods).
 
-We suggest rethinking those tests using the tools Vue Test Utils provides.
+We suggest rethinking those tests.
 
 To stub a complex method extract it from the component and test it in isolation. To assert that a method is called, use your test runner to spy on it.
 :::
