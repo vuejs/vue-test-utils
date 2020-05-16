@@ -3,9 +3,9 @@
 ::: warning Deprecation warning
 `isVueInstance` is deprecated and will be removed in future releases.
 
-Most of the times, tests relying on `isVueInstance` provide little to no-value so you could simply remove them.
+Tests relying on the `isVueInstance` assertion provide little to no value. We suggest replacing them with purposeful assertions.
 
-If you want to keep these tests, a valid replacement is to assert that `wrapper.find(...).vm` exists.
+To keep these tests, a valid replacement for `isVueInstance()` is a truthy assertion of `wrapper.find(...).vm`.
 :::
 
 Assert every `Wrapper` in `WrapperArray` is Vue instance.
