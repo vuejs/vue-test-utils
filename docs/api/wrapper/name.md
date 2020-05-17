@@ -1,6 +1,6 @@
 ## name
 
-::: warning
+::: warning Deprecation warning
 `name` is deprecated and will be removed in future releases.
 :::
 

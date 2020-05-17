@@ -144,4 +144,58 @@ describeWithShallowAndMount('config', mountingMethod => {
       )
     })
   })
+
+  describe('methods overriding deprecation warning', () => {
+    const expectedErrorMessage = `There is no clear migration path`
+    const Component = {
+      template: '<div></div>',
+      methods: {
+        foo() {}
+      }
+    }
+
+    it('should show warning for options.methods if config is enabled', () => {
+      config.showDeprecationWarnings = true
+
+      mountingMethod(Component, {
+        methods: { foo: () => {} }
+      })
+
+      expect(console.error).to.be.calledWith(
+        sandbox.match(expectedErrorMessage)
+      )
+    })
+
+    it('should not show warning for options.methods if config is disabled', () => {
+      config.showDeprecationWarnings = false
+
+      mountingMethod(Component, {
+        methods: { foo: () => {} }
+      })
+
+      expect(console.error).not.to.be.calledWith(
+        sandbox.match(expectedErrorMessage)
+      )
+    })
+
+    it('should show warning for setMethods if config is enabled', () => {
+      config.showDeprecationWarnings = true
+
+      mountingMethod(Component).setMethods({ foo: () => {} })
+
+      expect(console.error).to.be.calledWith(
+        sandbox.match(expectedErrorMessage)
+      )
+    })
+
+    it('should not show warning for setMethods if config is disabled', () => {
+      config.showDeprecationWarnings = false
+
+      mountingMethod(Component).setMethods({ foo: () => {} })
+
+      expect(console.error).not.to.be.calledWith(
+        sandbox.match(expectedErrorMessage)
+      )
+    })
+  })
 })
