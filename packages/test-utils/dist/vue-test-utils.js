@@ -1824,8 +1824,8 @@ function warnDeprecated(method, fallback) {
   if ( fallback === void 0 ) fallback = '';
 
   if (!testUtils.config.showDeprecationWarnings) { return }
-  var msg = method + " is deprecated and will be removed in the next major version";
-  if (fallback) { msg += " " + fallback; }
+  var msg = method + " is deprecated and will be removed in the next major version.";
+  if (fallback) { msg += " " + fallback + "."; }
   warn(msg);
 }
 
@@ -2996,7 +2996,10 @@ function mergeOptions(
   var mocks = (getOption(options.mocks, config.mocks));
   var methods = (getOption(options.methods, config.methods));
   if (methods && Object.keys(methods).length) {
-    warnDeprecated('overwriting methods via the `methods` property');
+    warnDeprecated(
+      'overwriting methods via the `methods` property',
+      'There is no clear migration path for the `methods` property - Vue does not support arbitrarily replacement of methods, nor should VTU. To stub a complex method extract it from the component and test it in isolation. Otherwise, the suggestion is to rethink those tests'
+    );
   }
 
   var provide = (getOption(options.provide, config.provide));
@@ -10600,7 +10603,8 @@ Wrapper.prototype.is = function is (rawSelector) {
 Wrapper.prototype.isEmpty = function isEmpty () {
   warnDeprecated(
     'isEmpty',
-    'Consider a custom matcher such as those provided in jest-dom: https://github.com/testing-library/jest-dom#tobeempty'
+    'Consider a custom matcher such as those provided in jest-dom: https://github.com/testing-library/jest-dom#tobeempty. ' +
+      'When using with findComponent, access the DOM element with findComponent(Comp).element'
   );
   if (!this.vnode) {
     return this.element.innerHTML === ''
@@ -10629,7 +10633,8 @@ Wrapper.prototype.isEmpty = function isEmpty () {
 Wrapper.prototype.isVisible = function isVisible () {
   warnDeprecated(
     'isVisible',
-    "Consider a custom matcher such as those provided in jest-dom: https://github.com/testing-library/jest-dom#tobevisible"
+    'Consider a custom matcher such as those provided in jest-dom: https://github.com/testing-library/jest-dom#tobevisible. ' +
+      'When using with findComponent, access the DOM element with findComponent(Comp).element'
   );
   var element = this.element;
   while (element) {
@@ -10901,7 +10906,10 @@ Wrapper.prototype.setData = function setData (data) {
 Wrapper.prototype.setMethods = function setMethods (methods) {
     var this$1 = this;
 
-  warnDeprecated("setMethods");
+  warnDeprecated(
+    "setMethods",
+    "There is no clear migration path for setMethods - Vue does not support arbitrarily replacement of methods, nor should VTU. To stub a complex method extract it from the component and test it in isolation. Otherwise, the suggestion is to rethink those tests"
+  );
 
   if (!this.vm) {
     throwError("wrapper.setMethods() can only be called on a Vue instance");
@@ -13784,7 +13792,7 @@ function validateOptions(options, component) {
     );
   }
   if ('attachToDocument' in options) {
-    warn(
+    warnDeprecated(
       "options.attachToDocument is deprecated in favor of options.attachTo and will be removed in a future release"
     );
   }
