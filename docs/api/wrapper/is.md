@@ -3,7 +3,7 @@
 ::: warning Deprecation warning
 Using `is` to assert that DOM node or `vm` matches selector is deprecated and will be removed.
 
-Consider a custom matcher such as those provided in jest-dom: https://github.com/testing-library/jest-dom#custom-matchers
+Consider a custom matcher such as those provided in [jest-dom](https://github.com/testing-library/jest-dom#custom-matchers).
 or for DOM element type assertion use native [`Element.tagName`](https://developer.mozilla.org/en-US/docs/Web/API/Element/tagName) instead.
 
 To keep these tests, a valid replacement for:
