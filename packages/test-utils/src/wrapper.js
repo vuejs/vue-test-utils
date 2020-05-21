@@ -747,8 +747,9 @@ export default class Wrapper implements BaseWrapper {
     } else if (tagName === 'SELECT') {
       if (Array.isArray(value)) {
         // $FlowIgnore
-        for (let i = 0; i < this.element.options.length; i++) {
-          const option = this.element.options[i]
+        const options = this.element.options
+        for (let i = 0; i < options.length; i++) {
+          const option = options[i]
           option.selected = value.indexOf(option.value) >= 0
         }
       } else {
