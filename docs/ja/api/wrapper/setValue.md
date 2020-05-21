@@ -19,6 +19,10 @@ textInput.setValue('some value')
 
 const select = wrapper.find('select')
 select.setValue('option value')
+
+// requires <select multiple>
+const multiselect = wrapper.find('select')
+multiselect.setValue(['value1', 'value3'])
 ```
 
 - **注:**

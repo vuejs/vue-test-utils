@@ -65,6 +65,37 @@ describeWithShallowAndMount('setValue', mountingMethod => {
     expect(wrapper.text()).to.contain('selectB')
   })
 
+  it('sets element of multiselect value when array', () => {
+    const wrapper = mountingMethod(ComponentWithInput)
+    const select = wrapper.find('select.multiselect')
+    select.setValue(['selectA', 'selectC'])
+
+    const selectedOptions = Array.from(select.element.selectedOptions).map(
+      o => o.value
+    )
+    expect(selectedOptions).to.deep.equal(['selectA', 'selectC'])
+  })
+
+  it('sets element of multiselect value when array overrides', () => {
+    const wrapper = mountingMethod(ComponentWithInput)
+    const select = wrapper.find('select.multiselect')
+    select.setValue(['selectA', 'selectC'])
+    select.setValue(['selectB'])
+
+    const selectedOptions = Array.from(select.element.selectedOptions).map(
+      o => o.value
+    )
+    expect(selectedOptions).to.deep.equal(['selectB'])
+  })
+
+  it('updates dom with multiselect v-model when array', async () => {
+    const wrapper = mountingMethod(ComponentWithInput)
+    const select = wrapper.find('select.multiselect')
+    await select.setValue(['selectA', 'selectC'])
+
+    expect(wrapper.text()).to.contain('["selectA","selectC"]')
+  })
+
   it('throws error if element is option', () => {
     const message =
       'wrapper.setValue() cannot be called on an <option> element. Use wrapper.setSelected() instead'
