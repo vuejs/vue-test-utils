@@ -2,7 +2,7 @@
 import Vue from 'vue'
 import semver from 'semver'
 import { VUE_VERSION } from './consts'
-import { config } from '@vue/test-utils'
+import { config } from '../test-utils/src'
 
 export function throwError(msg: string): void {
   throw new Error(`[vue-test-utils]: ${msg}`)
