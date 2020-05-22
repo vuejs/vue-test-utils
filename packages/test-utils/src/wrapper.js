@@ -744,27 +744,30 @@ export default class Wrapper implements BaseWrapper {
         `wrapper.setValue() cannot be called on a <input type="radio" /> ` +
           `element. Use wrapper.setChecked() instead`
       )
-    } else if (
-      tagName === 'INPUT' ||
-      tagName === 'TEXTAREA' ||
-      tagName === 'SELECT'
-    ) {
+    } else if (tagName === 'SELECT') {
+      if (Array.isArray(value)) {
+        // $FlowIgnore
+        const options = this.element.options
+        for (let i = 0; i < options.length; i++) {
+          const option = options[i]
+          option.selected = value.indexOf(option.value) >= 0
+        }
+      } else {
+        // $FlowIgnore
+        this.element.value = value
+      }
+
+      this.trigger('change')
+      return nextTick()
+    } else if (tagName === 'INPUT' || tagName === 'TEXTAREA') {
       // $FlowIgnore
       this.element.value = value
 
-      if (tagName === 'SELECT') {
-        this.trigger('change')
-      } else {
-        this.trigger('input')
-      }
+      this.trigger('input')
 
       // for v-model.lazy, we need to trigger a change event, too.
       // $FlowIgnore
-      if (
-        (tagName === 'INPUT' || tagName === 'TEXTAREA') &&
-        this.element._vModifiers &&
-        this.element._vModifiers.lazy
-      ) {
+      if (this.element._vModifiers && this.element._vModifiers.lazy) {
         this.trigger('change')
       }
       return nextTick()
