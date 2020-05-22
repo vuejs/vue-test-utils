@@ -76,7 +76,7 @@ describeWithShallowAndMount('setValue', mountingMethod => {
     expect(selectedOptions).to.deep.equal(['selectA', 'selectC'])
   })
 
-  it('sets element of multiselect value when array overrides', () => {
+  it('overrides elements of multiselect', () => {
     const wrapper = mountingMethod(ComponentWithInput)
     const select = wrapper.find('select.multiselect')
     select.setValue(['selectA', 'selectC'])
