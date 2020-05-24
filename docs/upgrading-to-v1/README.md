@@ -1,6 +1,6 @@
 ### Upgrading to V1.0
 
-After a long time in beta, Vue Test Utils finally released v1.0! Some APIs that made sense during beta but turned out to be not such a good idea were deprecated. This guide will help you migrate away from the deprecation warnings you may be seeing if you were using the beta heavily.
+After a long time in Beta, Vue Test Utils finally released v1.0! We deprecated some methods that were not helpful, so you might see several deprecation warnings after upgrading. This guide will help you migrate away from them.
 
 You can read the release notes for V1 [here](https://github.com/vuejs/vue-test-utils/releases) or the discussion around the deprecations [here](https://github.com/vuejs/rfcs/pull/161).
 
