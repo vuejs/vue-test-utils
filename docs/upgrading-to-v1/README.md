@@ -6,7 +6,7 @@ You can read the release notes for V1 [here](https://github.com/vuejs/vue-test-u
 
 ### `find`
 
-In the beta,`find` could be used to find both DOm nodes using the `querySelector` syntax, or a component via a component reference, a `ref` or a `name` option. This behavior is now split into two methods: `find` and `findComponent`.
+In beta,`find` could be used to find both DOM nodes (using the `querySelector` syntax) or a component (via a component reference, a `ref` or a `name` option). This behavior is now split into two methods: `find` and `findComponent`.
 
 If you were using this syntax:
 
