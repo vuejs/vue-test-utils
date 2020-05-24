@@ -49,6 +49,10 @@ module.exports = {
           {
             text: 'Guides',
             link: '/guides/'
+          },
+          {
+            text: 'Upgrading to V1',
+            link: '/upgrading-to-v1/'
           }
         ],
         sidebar: [

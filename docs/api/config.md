@@ -4,6 +4,18 @@ Vue Test Utils includes a config object to defined options used by Vue Test Util
 
 ### Vue Test Utils Config Options
 
+### `showDeprecationWarnings`
+
+Turn off deprecation warnings.
+
+Example:
+
+```js
+import { config } from `@vue/test-utils`
+
+config.showDeprecationWarnings = false
+```
+
 ### `stubs`
 
 - type: `{ [name: string]: Component | boolean | string }`
