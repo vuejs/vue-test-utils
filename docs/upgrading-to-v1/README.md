@@ -42,7 +42,11 @@ Asserting against `name` encourages testing implementation details, which is a b
 
 ### `setMethods` and `mountingOptions.methods`
 
-By using `setMethods`, you are mutating the Vue instance - this is nothing some Vue supports, and can often hide tests that would otherwise fail. There is no straight forward replacement for this, it depends on you use case. If you have a comlex method you would like to stub out, consider moving it another file and using your test runnner's stub or mock functionality. For example, you may want to avoid an API call:
+By using `setMethods`, you are mutating the Vue instance - this is not something Vue supports, and may lead to coupled, flaky tests.
+
+There is no straight forward replacement for this. If you have a complex method you would like to stub out, consider moving it another file and using your test runner's stub or mock functionality.
+
+For example, you may want to avoid an API call:
 
 ```js
 const Foo = {
