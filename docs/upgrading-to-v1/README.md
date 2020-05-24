@@ -14,7 +14,9 @@ If you were using this syntax:
 - `find({ name: 'foo' })`
 - `find({ ref: 'my-ref' })`
 
-You should change those instances to be `findComponent`. You may continue using `find` on DOM nodes using the `querySelector` syntax.
+Change them to be `findComponent`.
+
+You may continue using `find` on DOM nodes using the `querySelector` syntax.
 
 ### `isVueInstance`
 
