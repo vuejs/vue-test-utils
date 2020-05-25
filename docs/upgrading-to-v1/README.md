@@ -40,7 +40,7 @@ See `isEmpty` above. Consider using [toBeVisible](https://github.com/testing-lib
 
 ### `name`
 
-Asserting against `name` encourages testing implementation details, which is a bad practice. Avoid this is possible. If you need this feature, though, you can use `vm.$options.name` for Vue components or `element.tagName` for DOM nodes. Again, consider if you really need this test - it's likely you don't.
+Asserting against `name` encourages testing implementation details, which is a bad practice. If you need this feature, though, you can use `vm.$options.name` for Vue components or `element.tagName` for DOM nodes. Again, consider if you really need this test - it's likely you don't.
 
 ### `setMethods` and `mountingOptions.methods`
 
