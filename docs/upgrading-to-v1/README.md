@@ -24,7 +24,7 @@ This method was deprecated because it tends to encourage testing implementation 
 
 ### `contains`
 
-Tests using `contains` can be replaced with `find` or `findComponent` or `get`. For example, `expect(wrapper.contains('#el')).toBe(true)` may be written as `expect(wrapper.find('#el')).toBe(true)`.
+Tests using `contains` can be replaced with `find` or `findComponent` or `get`. For example, `expect(wrapper.contains('#el')).toBe(true)` may be written as `wrapper.get('#el')`, which will throw an error if the selector is not matched. Another way to write this using `find` is `expect(wrapper.find('#el').element).toBeTruthy()`.
 
 ### `is`
 
@@ -36,7 +36,18 @@ Finding out whether a DOM node is empty is not a Vue specific feature, and it is
 
 ### `isVisible`
 
-See `isEmpty` above. Consider using [toBeVisible](https://github.com/testing-library/jest-dom#tobevisible) from `jest-dom` if you are using Jest.
+See `isEmpty` above. Consider using [toBeVisible](https://github.com/testing-library/jest-dom#tobevisible) from `jest-dom` if you are using Jest. For example:
+
+```js
+// old assertion
+expect(wrapper.find('.selector').isVisible()).toBeTruthy()
+
+// new assertion
+// consider making this matcher globally availalbe in your tests!
+import '@testing-library/jest-dom'
+
+expect(wrapper.find('.selector').element).toBeVisible()
+```
 
 ### `name`
 
