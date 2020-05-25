@@ -76,3 +76,13 @@ mount(Foo, {
 Mock out the `axios` dependency. In Jest, for example, you can do `jest.mock('axios')`. This will prevent the API call, without mutating your Vue component.
 
 If you need more help migrating, you can join the [VueLand server](https://chat.vuejs.org/) on Discord.
+
+### Deprecation Warnings
+
+Deprecation warnings can be silenced.
+
+```js
+import { config } from '@vue/test-utils'
+
+config.showDeprecationWarnings = false
+```
