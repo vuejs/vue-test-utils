@@ -11,7 +11,7 @@ Turn off deprecation warnings.
 Example:
 
 ```js
-import { config } from `@vue/test-utils`
+import { config } from '@vue/test-utils'
 
 config.showDeprecationWarnings = false
 ```

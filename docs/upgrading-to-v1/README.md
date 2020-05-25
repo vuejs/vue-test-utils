@@ -70,7 +70,7 @@ mount(Foo, {
   methods: {
     getData: () => {}
   }
-}
+})
 ```
 
 Mock out the `axios` dependency. In Jest, for example, you can do `jest.mock('axios')`. This will prevent the API call, without mutating your Vue component.
