@@ -10,7 +10,7 @@ Jest is a test runner developed by Facebook, aiming to deliver a battery-include
 
 We will assume you are starting with a setup that already has webpack, vue-loader and Babel properly configured - e.g. the `webpack-simple` template scaffolded by `vue-cli`.
 
-> Alternatively, if you are using the Vue CLI rather than webpack to build your project, you can use the plugin [cli-plugin-unit-jest](https://cli.vuejs.org/core-plugins/unit-jest.html#injected-commands) to run Jest tests.
+> Alternatively, if you are using the Vue CLI to build your project, you can use the plugin [cli-plugin-unit-jest](https://cli.vuejs.org/core-plugins/unit-jest.html#injected-commands) to run Jest tests.
 >
 > Skip to and then follow the instructions from [Processing Single-File Components in Jest](#processing-single-file-components-in-jest) to process your Vue Single-File Components.
 >
