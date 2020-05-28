@@ -101,7 +101,7 @@ describeWithShallowAndMount('config', mountingMethod => {
     expect(wrapper.find('[data-testid="expanded"]').exists()).to.equal(false)
   })
 
-  it('allows control deprecation warnings visibility', () => {
+  it('allows control deprecation warnings visibility for name method', () => {
     config.showDeprecationWarnings = true
     const Component = {
       name: 'Foo',
@@ -113,5 +113,89 @@ describeWithShallowAndMount('config', mountingMethod => {
     config.showDeprecationWarnings = false
     wrapper.name()
     expect(console.error).to.have.callCount(1)
+  })
+
+  describe('attachToDocument deprecation warning', () => {
+    const Component = {
+      name: 'Foo',
+      template: '<div>Foo</div>'
+    }
+
+    it('should show warning if config is enabled', () => {
+      config.showDeprecationWarnings = true
+
+      mountingMethod(Component, {
+        attachToDocument: true
+      })
+      expect(console.error).to.be.calledWith(
+        sandbox.match('attachToDocument is deprecated')
+      )
+    })
+
+    it('should not show warning if config is disabled', () => {
+      config.showDeprecationWarnings = false
+
+      mountingMethod(Component, {
+        attachToDocument: true
+      })
+
+      expect(console.error).not.to.be.calledWith(
+        sandbox.match('attachToDocument is deprecated')
+      )
+    })
+  })
+
+  describe('methods overriding deprecation warning', () => {
+    const expectedErrorMessage = `There is no clear migration path`
+    const Component = {
+      template: '<div></div>',
+      methods: {
+        foo() {}
+      }
+    }
+
+    it('should show warning for options.methods if config is enabled', () => {
+      config.showDeprecationWarnings = true
+
+      mountingMethod(Component, {
+        methods: { foo: () => {} }
+      })
+
+      expect(console.error).to.be.calledWith(
+        sandbox.match(expectedErrorMessage)
+      )
+    })
+
+    it('should not show warning for options.methods if config is disabled', () => {
+      config.showDeprecationWarnings = false
+
+      mountingMethod(Component, {
+        methods: { foo: () => {} }
+      })
+
+      expect(console.error).not.to.be.calledWith(
+        sandbox.match(expectedErrorMessage)
+      )
+    })
+
+    it('should show warning for setMethods if config is enabled', () => {
+      config.showDeprecationWarnings = true
+
+      mountingMethod(Component).setMethods({ foo: () => {} })
+
+      expect(console.error).to.be.calledWith(
+        sandbox.match(expectedErrorMessage)
+      )
+    })
+
+    it('should not show warning for setMethods if config is disabled', () => {
+      config.showDeprecationWarnings = false
+
+      mountingMethod(Component).setMethods({ foo: () => {} })
+
+      expect(console.error).not.to.be.calledWith(
+        sandbox.match(expectedErrorMessage)
+      )
+    })
   })
 })

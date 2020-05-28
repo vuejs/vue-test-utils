@@ -322,7 +322,7 @@ wrapper.destroy()
 - type: `boolean`
 - default: `false`
 
-::: warning
+::: warning Deprecation warning
 `attachToDocument` is deprecated and will be removed in future releases. Use [`attachTo`](#attachto) instead.
 :::
 

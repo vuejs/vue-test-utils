@@ -1,6 +1,6 @@
 ## emittedByOrder
 
-::: warning
+::: warning Deprecation warning
 `emittedByOrder` is deprecated and will be removed in future releases.
 
 Use `wrapper.emitted` instead.

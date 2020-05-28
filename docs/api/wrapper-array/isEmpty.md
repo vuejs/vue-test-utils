@@ -1,6 +1,6 @@
 ## isEmpty
 
-::: warning
+::: warning Deprecation warning
 `isEmpty` is deprecated and will be removed in future releases.
 
 Consider a custom matcher such as those provided in [jest-dom](https://github.com/testing-library/jest-dom#tobeempty).

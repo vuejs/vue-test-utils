@@ -20,6 +20,11 @@
       <option value="selectB"></option>
       <option value="selectC"></option>
     </select>
+    <select v-model="multiselectVal" class="multiselect" multiple>
+      <option value="selectA"></option>
+      <option value="selectB"></option>
+      <option value="selectC"></option>
+    </select>
     <select v-model="selectVal" class="with-optgroups">
       <optgroup label="Group1">
         <option value="selectA"></option>
@@ -35,6 +40,7 @@
     <span class="counter">{{ counter }}</span>
     {{ textVal }}
     {{ selectVal }}
+    {{ JSON.stringify(multiselectVal) }}
     {{ radioVal }}
     <input id="lazy" type="text" v-model.lazy="lazy" />
     {{ lazy }}
@@ -52,6 +58,7 @@ export default {
       textareaVal: undefined,
       radioVal: undefined,
       selectVal: undefined,
+      multiselectVal: [],
       counter: 0
     }
   },

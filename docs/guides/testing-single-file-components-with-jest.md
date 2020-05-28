@@ -10,6 +10,12 @@ Jest is a test runner developed by Facebook, aiming to deliver a battery-include
 
 We will assume you are starting with a setup that already has webpack, vue-loader and Babel properly configured - e.g. the `webpack-simple` template scaffolded by `vue-cli`.
 
+> Alternatively, if you are using the Vue CLI to build your project, you can use the plugin [cli-plugin-unit-jest](https://cli.vuejs.org/core-plugins/unit-jest.html#injected-commands) to run Jest tests.
+>
+> Skip to and then follow the instructions from [Processing Single-File Components in Jest](#processing-single-file-components-in-jest) to process your Vue Single-File Components.
+>
+> If you are transpiling with Babel (the default configuration when creating a new project), you will also need to add the JavaScript transform to the Jest config in your package.json as described in the section [Configuring Babel for Jest](#configuring-babel-for-fest), but then you should skip the rest of that section.
+
 The first thing to do is install Jest and Vue Test Utils:
 
 ```bash
