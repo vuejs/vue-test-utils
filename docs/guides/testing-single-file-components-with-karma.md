@@ -136,13 +136,13 @@ Install `karma-coverage`, `babel-plugin-istanbul`, and `cross-env`:
 npm install --save-dev karma-coverage cross-env
 ```
 
-We're going to use `cross-env` to set a `BABEL_ENV` environment variable. This way we can use `babel-plugin-istanbul` when we're compiling for our tests—we don't want to include `babel-plugin-istanbul` when we compile our production code:
+We're going to use `cross-env` to set a `NODE_ENV` environment variable. This way we can use `babel-plugin-istanbul` when we're compiling for our tests—we don't want to include `babel-plugin-istanbul` when we compile our production code:
 
 ```
 npm install --save-dev babel-plugin-istanbul
 ```
 
-Update your `.babelrc` file to use `babel-plugin-istanbul` when `BABEL_ENV` is set to test:
+Update your `.babelrc` file to use `babel-plugin-istanbul` when `NODE_ENV` is set to test:
 
 ```json
 {
@@ -174,13 +174,13 @@ module.exports = function(config) {
 }
 ```
 
-And update the `test` script to set the `BABEL_ENV`:
+And update the `test` script to set the `NODE_ENV`:
 
 ```json
 // package.json
 {
   "scripts": {
-    "test": "cross-env BABEL_ENV=test karma start --single-run"
+    "test": "cross-env NODE_ENV=test karma start --single-run"
   }
 }
 ```
