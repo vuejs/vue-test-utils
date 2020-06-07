@@ -10,11 +10,13 @@
 :::
 
 - [`context`](#context)
+- [`data`](#data)
 - [`slots`](#slots)
 - [`scopedSlots`](#scopedslots)
 - [`stubs`](#stubs)
 - [`mocks`](#mocks)
 - [`localVue`](#localvue)
+- [`attachTo`](#attachto)
 - [`attachToDocument`](#attachtodocument)
 - [`propsData`](#propsdata)
 - [`attrs`](#attrs)
@@ -44,6 +46,43 @@ const wrapper = mount(Component, {
 expect(wrapper.is(Component)).toBe(true)
 ```
 
+## data
+
+- 类型：`Function`
+
+向一个组件传入数据。这将会合并到现有的 `data` 函数中。
+
+示例：
+
+```js
+const Component = {
+  template: `
+    <div>
+      <span id="foo">{{ foo }}</span>
+      <span id="bar">{{ bar }}</span>
+    </div>
+  `,
+
+  data() {
+    return {
+      foo: 'foo',
+      bar: 'bar'
+    }
+  }
+}
+
+const wrapper = mount(Component, {
+  data() {
+    return {
+      bar: 'my-override'
+    }
+  }
+})
+
+wrapper.find('#foo').text() // 'foo'
+wrapper.find('#bar').text() // 'my-override'
+```
+
 ## slots
 
 - 类型：`{ [name: string]: Array<Component>|Component|string }`
@@ -54,10 +93,23 @@ expect(wrapper.is(Component)).toBe(true)
 
 ```js
 import Foo from './Foo.vue'
+import MyComponent from './MyComponent.vue'
 
 const bazComponent = {
   name: 'baz-component',
   template: '<p>baz</p>'
+}
+
+const yourComponent = {
+  props: {
+    foo: {
+      type: String,
+      required: true
+    }
+  },
+  render(h) {
+    return h('p', this.foo)
+  }
 }
 
 const wrapper = shallowMount(Component, {
@@ -67,7 +119,17 @@ const wrapper = shallowMount(Component, {
     foo: '<div />',
     bar: 'bar',
     baz: bazComponent,
-    qux: '<my-component />'
+    qux: '<my-component />',
+    quux: '<your-component foo="lorem"/><your-component :foo="yourProperty"/>'
+  },
+  stubs: {
+    // 用来注册自定义组件
+    'my-component': MyComponent,
+    'your-component': yourComponent
+  },
+  mocks: {
+    // 用来向渲染上下文添加 property
+    yourProperty: 'ipsum'
   }
 })
 
@@ -124,11 +186,36 @@ shallowMount(Component, {
 })
 ```
 
+::: warning 必备根元素
+由于该特性内部实现的原因，这里的插槽内容不得不返回一个根元素，即使一个作用域插槽是允许返回一个元素数组的。
+
+如果你在测试中有这方面的需要，推荐的变通方式是把被测试的组件包裹在另一个组件里，然后挂载那个组件：
+:::
+
+```javascript
+const WrapperComp = {
+  template: `
+  <ComponentUnderTest v-slot="props">
+    <p>Using the {{props.a}}</p>
+    <p>Using the {{props.a}}</p>
+  </ComponentUnderTest>
+  `,
+  components: {
+    ComponentUnderTest
+  }
+}
+const wrapper = mount(WrapperComp).find(ComponentUnderTest)
+```
+
 ## stubs
 
-- 类型：`{ [name: string]: Component | boolean } | Array<string>`
+- 类型：`{ [name: string]: Component | string | boolean } | Array<string>`
 
 将子组件存根。可以是一个要存根的组件名的数组或对象。如果 `stubs` 是一个数组，则每个存根都是一个 `<${component name}-stub>`。
+
+**废弃通知：**
+
+当对组件存根时，提供一个字符串的方式 (`ComponentToStub: '<div class="stubbed" />`) 已经不再被支持。
 
 示例：
 
@@ -169,6 +256,10 @@ const wrapper = shallowMount(Component, {
 expect(wrapper.vm.$route.path).toBe($route.path)
 ```
 
+::: tip
+如果想要伪造 `$root` 请换用[这里](https://github.com/vuejs/vue-test-utils/issues/481#issuecomment-423716430)描述的 `parentComponent` 选项。
+:::
+
 ## localVue
 
 - 类型：`Vue`
@@ -198,12 +289,43 @@ const wrapper = mount(Component, {
 expect(wrapper.vm.$route).toBeInstanceOf(Object)
 ```
 
+## attachTo
+
+- 类型：`HTMLElement | string`
+- 默认值：`null`
+
+指定一个 HTMLElement 或定位到一个 HTML Element 的 CSS 选择器字符串，组件将会被完全挂载到文档中的这个元素。
+
+remove the rendered elements from the document and destroy the component instance.
+当挂载到这个 DOM 时，你需要在测试的结尾调用 `wrapper.destroy()` 以将该元素从文档中移除，并销毁该组件实例。
+
+```js
+const Component = {
+  template: '<div>ABC</div>'
+}
+let wrapper = mount(Component, {
+  attachTo: '#root'
+})
+expect(wrapper.vm.$el.parentNode).to.not.be.null
+wrapper.destroy()
+
+wrapper = mount(Component, {
+  attachTo: document.getElementById('root')
+})
+expect(wrapper.vm.$el.parentNode).to.not.be.null
+wrapper.destroy()
+```
+
 ## attachToDocument
 
 - 类型：`boolean`
 - 默认值：`false`
 
-当设为 `true` 时，组件在渲染时将会挂载到 DOM 上。
+::: warning 废弃警告
+`attachToDocument` 已经被废弃并且将会在未来的发布中被移除。请换用 [`attachTo`](#attachto)。
+:::
+
+像 [`attachTo`](#attachto) 一样，不过会自动创建一个新的 `div` 元素并将其插入到 body 里。
 
 如果添加到了 DOM 上，你应该在测试的最后调用 `wrapper.destroy()` 将元素从文档中移除并销毁组件实例。
 
@@ -243,6 +365,23 @@ expect(wrapper.text()).toBe('aBC')
 - 类型：`Object`
 
 设置组件实例的 `$listeners` 对象。
+
+示例：
+
+```js
+const Component = {
+  template: '<button v-on:click="$emit(\'click\')"></button>'
+}
+const onClick = jest.fn()
+const wrapper = mount(Component, {
+  listeners: {
+    click: onClick
+  }
+})
+
+wrapper.trigger('click')
+expect(onClick).toHaveBeenCalled()
+```
 
 ## parentComponent
 
@@ -292,26 +431,22 @@ expect(wrapper.text()).toBe('fooValue')
 
 ```js
 const Component = {
-  template: '<div>{{ foo() }}{{ bar() }}{{ baz() }}</div>',
-  methods: {
-    foo() {
-      return 'a'
-    },
-    bar() {
-      return 'b'
+  template: '<div>{{ foo }}</div>',
+  data() {
+    return {
+      foo: 'fromComponent'
     }
   }
 }
 const options = {
-  methods: {
-    bar() {
-      return 'B'
-    },
-    baz() {
-      return 'C'
+  data() {
+    return {
+      foo: 'fromOptions'
     }
   }
 }
+
 const wrapper = mount(Component, options)
-expect(wrapper.text()).toBe('aBC')
+
+expect(wrapper.text()).toBe('fromOptions')
 ```

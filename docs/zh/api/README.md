@@ -8,3 +8,4 @@
 !!!include(docs/zh/api/createLocalVue.md)!!!
 !!!include(docs/zh/api/createWrapper.md)!!!
 !!!include(docs/zh/api/config.md)!!!
+!!!include(docs/zh/api/enableAutoDestroy.md)!!!
