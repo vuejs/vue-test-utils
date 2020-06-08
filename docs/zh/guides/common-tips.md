@@ -29,32 +29,33 @@ wrapper.vm // 挂载的 Vue 实例
 
 ### 生命周期钩子
 
+<div class="vueschool" style="margin-top:1em;"><a href="https://vueschool.io/lessons/learn-how-to-test-vuejs-lifecycle-methods?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to use Vue Test Utils to test Vue.js Lifecycle Hooks with Vue School">在 Vue School 学习如何测试生命周期方法及其区间</a></div>
+
 在使用 `mount` 或 `shallowMount` 方法时，你可以期望你的组件响应 Vue 所有生命周期事件。但是请务必注意的是，除非使用 `Wrapper.destory()`，否则 `beforeDestroy` 和 `destroyed` _将不会触发_。
 
-此外组件在每个测试规范结束时并不会被自动销毁，并且将由用户来决定是否要存根或手动清理那些在测试规范结束前继续运行的任务（ 例如 `setInterval` 或者 `setTimeout`）。
+此外组件在每个测试规范结束时并不会被自动销毁，并且将由用户来决定是否要存根或手动清理那些在测试规范结束前继续运行的任务 (例如 `setInterval` 或者 `setTimeout`)。
 
 ### 使用 `nextTick` 编写异步测试代码 (新)
 
-默认情况下 Vue 会异步地批量执行更新（在下一轮 tick），以避免不必要的 DOM 重绘或者是观察者计算（[查看文档](https://cn.vuejs.org/v2/guide/reactivity.html#异步更新队列) 了解更多信息）。
+默认情况下 Vue 会异步地批量执行更新 (在下一轮 tick)，以避免不必要的 DOM 重绘或者是观察者计算 ([查看文档](https://cn.vuejs.org/v2/guide/reactivity.html#异步更新队列) 了解更多信息)。
 
 这意味着你在更新会引发 DOM 变化的属性后**必须**等待一下。你可以使用 `Vue.nextTick()`：
 
 ```js
 it('updates text', async () => {
   const wrapper = mount(Component)
-  wrapper.trigger('click')
-  await Vue.nextTick()
+  await wrapper.trigger('click')
   expect(wrapper.text()).toContain('updated')
+  await wrapper.trigger('click')
+  wrapper.text().toContain('some different text')
 })
 
-// 或者你不希望使用async/await
+// 或者你不希望使用 async/await
 it('render text', done => {
   const wrapper = mount(TestComponent)
-  wrapper.trigger('click')
-  Vue.nextTick(() => {
-    wrapper.text().toContain('some text')
-    wrapper.trigger('click')
-    Vue.nextTick(() => {
+  wrapper.trigger('click').then(() => {
+    wrapper.text().toContain('updated')
+    wrapper.trigger('click').then(() => {
       wrapper.text().toContain('some different text')
       done()
     })
@@ -62,14 +63,8 @@ it('render text', done => {
 })
 ```
 
-下面的方法通常会导致观察者更新，你需要等待下一轮 tick：
+可以在[测试异步行为](../guides/README.md#测试异步行为)了解更多。
 
-- `setChecked`
-- `setData`
-- `setSelected`
-- `setProps`
-- `setValue`
-- `trigger`
 
 ### 断言触发的事件
 
@@ -139,13 +134,13 @@ expect(wrapper.emitted().foo[1]).toEqual([123])
 **测试代码**
 
 ```js
-import { shallowMount } from '@vue/test-utils'
+import { mount } from '@vue/test-utils'
 import ParentComponent from '@/components/ParentComponent'
 import ChildComponent from '@/components/ChildComponent'
 
 describe('ParentComponent', () => {
   it("displays 'Emitted!' when custom event is emitted", () => {
-    const wrapper = shallowMount(ParentComponent)
+    const wrapper = mount(ParentComponent)
     wrapper.find(ChildComponent).vm.$emit('custom')
     expect(wrapper.html()).toContain('Emitted!')
   })
@@ -182,7 +177,7 @@ _想查阅所有选项的完整列表，请移步该文档的[挂载选项](../a
 
 ### 仿造 Transitions
 
-尽管在大多数情况下使用 `await Vue.nextTick（）` 效果很好，但是在某些情况下还需要一些额外的工作。这些问题将在 `vue-test-utils` 移出 beta 版本之前解决。其中一个例子是 Vue 提供的带有 `<transition>` 包装器的单元测试组件。
+尽管在大多数情况下使用 `await Vue.nextTick()` 效果很好，但是在某些情况下还需要一些额外的工作。这些问题将在 `vue-test-utils` 移出 beta 版本之前解决。其中一个例子是 Vue 提供的带有 `<transition>` 包装器的单元测试组件。
 
 ```vue
 <template>
@@ -252,7 +247,7 @@ test('should render Foo, then hide it', async () => {
 
 #### 避免 `setData`
 
-另一种选择是通过编写两个测试来简单地避免使用 `setData`，这要求我们在使用 `mount` 或者 `shallowMount` 时需要指定一些  选项：
+另一种选择是通过编写两个测试来简单地避免使用 `setData`，这要求我们在使用 `mount` 或者 `shallowMount` 时需要指定一些选项：
 
 ```js
 test('should render Foo', async () => {
@@ -287,7 +282,7 @@ test('should not render Foo', async () => {
 如果你在为一个特定的应用撰写组件，你可以在你的测试入口处一次性设置相同的全局插件和混入。但是有些情况下，比如测试一个可能会跨越不同应用共享的普通的组件套件的时候，最好还是在一个更加隔离的设置中测试你的组件，不对全局的 `Vue` 构造函数注入任何东西。我们可以使用 [`createLocalVue`](../api/createLocalVue.md) 方法来存档它们：
 
 ```js
-import { createLocalVue } from '@vue/test-utils'
+import { createLocalVue, mount } from '@vue/test-utils'
 
 // 创建一个扩展的 `Vue` 构造函数
 const localVue = createLocalVue()

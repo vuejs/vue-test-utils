@@ -4,16 +4,16 @@
 
 另一个测试单文件组件的策略是通过 webpack 编译所有的测试文件然后在测试运行器中运行。这样做的好处是可以完全支持所有 webpack 和 `vue-loader` 的功能，所以我们不必对我们的源代码做任何妥协。
 
-从技术的角度讲，你可以使用任何喜欢的测试运行器并把所有的东西都手动串联起来，但是我们已经找到了 [`mocha-webpack`](https://github.com/zinserjan/mocha-webpack) 能够为这项特殊任务提供非常流畅的体验。
+从技术的角度讲，你可以使用任何喜欢的测试运行器并把所有的东西都手动串联起来，但是我们已经找到了 [`mochapack`](https://github.com/sysgears/mochapack) 能够为这项特殊任务提供非常流畅的体验。
 
-### 设置 `mocha-webpack`
+### 设置 `mochapack`
 
 我们假定你在一开始已经安装并配置好了 webpack、vue-loader 和 Babel——例如通过 `vue-cli` 创建了 `webpack-simple` 模板脚手架。
 
 首先要做的是安装测试依赖：
 
 ```bash
-npm install --save-dev @vue/test-utils mocha mocha-webpack
+npm install --save-dev @vue/test-utils mocha mochapack
 ```
 
 接下来我们需要在 `package.json` 中定义一个测试脚本。
@@ -22,7 +22,7 @@ npm install --save-dev @vue/test-utils mocha mocha-webpack
 // package.json
 {
   "scripts": {
-    "test": "mocha-webpack --webpack-config webpack.config.js --require test/setup.js test/**/*.spec.js"
+    "test": "mochapack --webpack-config webpack.config.js --require test/setup.js test/**/*.spec.js"
   }
 }
 ```
@@ -53,7 +53,7 @@ module.exports = {
 
 #### 源码表
 
-源码表在 `mocha-webpack` 中需要通过内联的方式获取。推荐配置为：
+源码表在 `mochapack` 中需要通过内联的方式获取。推荐配置为：
 
 ```js
 module.exports = {
@@ -150,6 +150,7 @@ global.expect = require('expect')
 然后创建一个名为 `test/Counter.spec.js` 的测试文件并写入如下代码：
 
 ```js
+import Vue from 'vue'
 import { shallowMount } from '@vue/test-utils'
 import Counter from '../src/Counter.vue'
 
@@ -173,13 +174,13 @@ npm run test
 
 ### 测试覆盖率
 
-如果想设置 `mocha-webpack` 的测试覆盖率，请参照 [`mocha-webpack` 测试覆盖率指南](https://github.com/zinserjan/mocha-webpack/blob/master/docs/guides/code-coverage.md)。
+如果想设置 `mochapack` 的测试覆盖率，请参照 [`mochapack` 测试覆盖率指南](https://github.com/sysgears/mochapack/blob/master/docs/guides/code-coverage.md)。
 
 ### 相关资料
 
 - [该设置的示例工程](https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-unit-mocha)
 - [Mocha](https://mochajs.org/)
-- [mocha-webpack](http://zinserjan.github.io/mocha-webpack/)
+- [mochapack](https://github.com/sysgears/mochapack/)
 - [Chai](http://chaijs.com/)
 - [Sinon](http://sinonjs.org/)
 - [jest/expect](https://jestjs.io/docs/zh-Hans/expect)
