@@ -1,26 +1,24 @@
-<!-- todo: translation -->
-## Usage Without a Build Step
+## 不经过构建而使用
 
-While it is common to build Vue applications using tools [Webpack](https://webpack.js.org/) to bundle the application, `vue-loader` to leverage Single File Components, and [Jest](https://jestjs.io/) to write expressive tests, it is possible to use Vue Test Utils with much less. The minimal requirements for Vue Test Utils, aside from the library itself are:
+在我们习惯于使用工具，诸如 [Webpack](https://webpack.js.org/) 打包 Vue 应用、`vue-loader` 处理单文件组件、[Jest](https://jestjs.io/) 转写富于表现力测试的同时，使用 Vue Test Utils 其实不需要引入这么多。除了本库之外，使用 Vue Test Utils 最低要求是：
 
 - Vue
 - vue-template-compiler
-- a DOM (be it [jsdom](https://github.com/jsdom/jsdom) in a Node environment, or the DOM in a real browser)
+- DOM (可以是 Node 环境下的 [jsdom](https://github.com/jsdom/jsdom) 或真实浏览器)
 
-In this example, we will demonstrate how to write a simple test using nothing but the minimal dependencies described above. The final code can be found [here](https://github.com/lmiller1990/vue-test-utils-node-basic).
+在这个示例中，我们会展示如何仅使用上述最小化的依赖撰写一个简单的测试。最终的代码可以在[这里](https://github.com/lmiller1990/vue-test-utils-node-basic)找到。
 
-## Installing the Dependencies
+## 安装依赖
 
-We need to install some dependencies, as explained above: `npm install vue vue-template-compiler jsdom jsdom-global @vue/test-utils`. No test runner or bundler is needed for this example.
+我们需要安装一些依赖，如上所述：`npm install vue vue-template-compiler jsdom jsdom-global @vue/test-utils`。该示例不需要测试运行器或打包工具。
 
-## Requiring the Libraries
+## 引入库
 
-Now we need to require the libraries. There is a slight caveat, explained in a comment, and in depth below the snippet.
+现在我们需要引入这些库。这里有一些轻微的注意事项并解释在了如下代码片段的注释中。
 
 ```js
-// jsdom-global must be required before vue-test-utils,
-// because vue-test-utils expects a DOM (real DOM, or JSDOM)
-// to exist.
+// `jsdon-global` 必须在 `@vue/test-utils` 之前被引入，
+// 因为 `@vue/test-utils` 需要一个已经存在的 DOM 环境 (真实的 DOM 或 JSDOM)
 require('jsdom-global')()
 
 const assert = require('assert')
@@ -29,11 +27,11 @@ const Vue = require('vue')
 const VueTestUtils = require('@vue/test-utils')
 ```
 
-As the comment says, `jsdom-global` must be required before `@vue/test-utils`. This is because Vue Test Utils expects a DOM to be present to render the Vue components. If you are running the tests in a real browser, you will not need `jsdom` at all. `Vue` must also be required before `@vue/test-utils` for obvious reasons - Vue Test Utils expects to be available, as well. We also require `assert` from the node standard library. Normally we would use the matchers provided by a test runner, often in the format of an `expect(...).toEqual(...)` assertion, but `assert` will serve this purpose for this example.
+如注释中所述，`jsdom-global` 必须优先于 `@vue/test-utils` 被引入。因为 Vue Test Utils 需要一个 DOM 环境来渲染 Vue 组件。如果你在一个真实的浏览器中运行测试，你就完全不需要 `jsdom` 了。`Vue` 也必须在 `@vue/test-utils` 之前被引入，原因很明显——Vue Test Utils 也需要可以正常工作。我们还从 Node 标准库中引入了 `assert`。一般我们会使用测试运行器提供的方法，通常形如 `expect(...).toEqual(...)`，但在这个示例中 `assert` 就可以用来做这件事。
 
-## Writing a Test
+## 撰写一个测试
 
-Now everything is set up, all we need is a component and a test. To keep things simple, we will just render some text and assert it is present in the rendered component.
+现在万事俱备，我们需要一个待测试的组件。为了保持简介，我们之渲染一些文本并断言该组件的渲染结果。
 
 ```js
 const App = Vue.component('app', {
@@ -53,4 +51,4 @@ const wrapper = VueTestUtils.shallowMount(App)
 assert.strictEqual('Hello Vue Test Utils', wrapper.text())
 ```
 
-It's as simple as it looks. Since we do not have a build step, we cannot use Single File Components. There is nothing to stop us using Vue in the same style you would when including it from a CDN via a `<script>` tag, however.
+如你所见的一样简单。不过因为我们没有构建步骤，我们无法使用单文件组件。且没有什么可以阻止我们通过 `<script>` 标签从 CDN 引入并以同样的方式使用 Vue。

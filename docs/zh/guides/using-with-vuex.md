@@ -377,8 +377,7 @@ test('updates "evenOrOdd" getter when "increment" is committed', () => {
 
 注意我们在创建一个 store 之前使用了 `cloneDeep` 来克隆 store 配置。这是因为 Vuex 会改变用来创建 store 的选项对象。为了确保我们能为每一个测试都提供一个干净的 store，我们需要克隆 `storeConfig` 对象。
 
-<!-- todo: translation -->
-However, `cloneDeep` is not "deep" enough to also clone store modules. If your `storeConfig` includes modules, you need to pass an object to `new Vuex.Store()`, like so:
+然而，`cloneDeep` 不足以 `deep` 到克隆 store 的模块。如果你的 `storeConfig` 包含模块，你需要向 `new Vue.Store()` 传入一个对象，例如：
 
 ```js
 import myModule from './myModule'

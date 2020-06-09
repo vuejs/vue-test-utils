@@ -11,12 +11,7 @@ Vue 会异步的将未生效的 DOM 批量更新，避免因数据反复变化�
 
 _你可以阅读[Vue 文档](https://cn.vuejs.org/v2/guide/reactivity.html#异步更新队列)了解更多关于异步指更新的信息。_
 
-在实践中，往往意味着你在更新会引发 DOM 变化的属性后必须使用 `Vue.nextTick（）` 来等待 Vue 完成 DOM 更新。
-
-<!-- todo: translation -->
-<!-- 使用 `Vue.nextTick()` 最简单的方法是在你的测试代码中使用异步函数： -->
-In practice, this means that after mutating a reactive property, to assert that change your test has to wait while Vue is performing updates.
-One way is to use `await Vue.nextTick()`, but an easier and cleaner way is to just `await` the method that you mutated the state with, like `trigger`.
+在实践中，这意味着变更一个响应式 property 之后，为了断言这个变化，你的测试需要等待 Vue 完成更新。其中一种办法是使用 `await Vue.nextTick()`，一个更简单且清晰的方式则是 `await` 那个你变更状态的方法，例如 `trigger`。
 
 ```js
 // 在测试框架中，编写一个测试用例
@@ -139,11 +134,8 @@ it('fetches async when a button is clicked', async () => {
 
 相同的技术细节也可以应用在处理 Vue Actions 上，默认情况下，它也会返回一个 Promise。
 
-<!-- todo: translation -->
-#### Why not just `await button.trigger()` ?
+#### 为什么不使用 `await button.trigger()`？
 
-As explained above, there is a difference between the time it takes for Vue to update its components,
-and the time it takes for a Promise, like the one from `axios` to resolve.
+如之前所解释的，Vue 更新其组件的时机会不同，这个时间被带入了一个 Promise 对象，如 `axios` 解析出的那个。
 
-A nice rule to follow is to always `await` on mutations like `trigger` or `setProps`.
-If your code relies on something async, like calling `axios`, add an await to the `flushPromises` call as well.
+一个易于遵循的规则是在诸如 `trigger` 或 `setProps` 的变更时始终使用 `await`。如果你的代码依赖一些诸如 `axios` 的异步操作，也要为 `flushPromises` 加入一个 await。
