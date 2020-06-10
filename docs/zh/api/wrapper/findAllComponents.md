@@ -1,6 +1,6 @@
 ## findAllComponents
 
-未所有匹配的 Vue 组件返回一个 [`WrapperArray`](../wrapper-array/)。
+为所有匹配的 Vue 组件返回一个 [`WrapperArray`](../wrapper-array/)。
 
 - **参数：**
 
