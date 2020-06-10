@@ -6,7 +6,10 @@ Vue Test Utils includes a config object to defined options used by Vue Test Util
 
 ### `showDeprecationWarnings`
 
-Turn off deprecation warnings.
+- type: `Boolean`
+- default: `true`
+
+Control whether or not to show deprecation warnings. When set to `true`, all deprecation warnings are visible in the console.
 
 Example:
 
