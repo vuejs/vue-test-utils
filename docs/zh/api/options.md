@@ -187,7 +187,7 @@ shallowMount(Component, {
 ```
 
 ::: warning 必备根元素
-由于该特性内部实现的原因，这里的插槽内容不得不返回一个根元素，即使一个作用域插槽是允许返回一个元素数组的。
+由于该特性内部实现的原因，这里的插槽内容必须返回一个根元素，即使一个作用域插槽是允许返回一个元素数组的。
 
 如果你在测试中有这方面的需要，推荐的变通方式是把被测试的组件包裹在另一个组件里，然后挂载那个组件：
 :::
@@ -294,10 +294,9 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 - 类型：`HTMLElement | string`
 - 默认值：`null`
 
-指定一个 HTMLElement 或定位到一个 HTML Element 的 CSS 选择器字符串，组件将会被完全挂载到文档中的这个元素。
+指定一个 `HTMLElement` 或定位到一个 HTML 元素的 CSS 选择器字符串，组件将会被完全挂载到文档中的这个元素。
 
-remove the rendered elements from the document and destroy the component instance.
-当挂载到这个 DOM 时，你需要在测试的结尾调用 `wrapper.destroy()` 以将该元素从文档中移除，并销毁该组件实例。
+当要挂载到 DOM 时，你需要在测试的结尾调用 `wrapper.destroy()` 以将该元素从文档中移除，并销毁该组件实例。
 
 ```js
 const Component = {
