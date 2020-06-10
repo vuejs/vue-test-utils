@@ -122,11 +122,11 @@ it('button click should increment the count', () => {
 
 为了测试计数器中的文本是否已经更新，我们需要了解 `nextTick`。
 
-### 使用 `nextTick` 和 await 行动
+### 使用 `nextTick` 与 await
 
-任何导致操作 DOM 的改变都应该在断言之前 await `nextTick` 函数。因为 Vue 会异步地将未生效的 DOM 批量_异步更新_，避免因数据反复变化而导致不必要的渲染。
+任何导致操作 DOM 的改变都应该在断言之前 await `nextTick` 函数。因为 Vue 会对未生效的 DOM 进行批量*异步更新*，避免因数据反复变化而导致不必要的渲染。
 
-_你可以阅读[Vue 文档](https://cn.vuejs.org/v2/guide/reactivity.html#异步更新队列)了解更多关于异步指更新的信息。_
+*你可以阅读[Vue 文档](https://cn.vuejs.org/v2/guide/reactivity.html#异步更新队列)了解更多关于异步指更新的信息。*
 
 在更新响应式 property 之后，我们可以直接 await 类似 `trigger` 或 `trigger.vm.$nextTick` 方法，等待 Vue 完成 DOM 更新。在这个计数器的示例中，设置 `count` property 会在运行下一个 tick 之后引发 DOM 变化。
 
@@ -178,6 +178,6 @@ it('will catch the error using async/await', async () => {
 ### 接下来
 
 
-- 移步[撰写测试的常见技巧](./README.md#明白要测试的是什么)以学习更多。
+- 移步[编写测试的常见技巧](./README.md#明白要测试的是什么)以学习更多。
 - [选择一个测试运行器](./README.md#选择一个测试运行器)以把 Vue Test Utils 集成到你的工程里。
 - 学习更多[异步测试行为](./README.md#异步测试行为)
