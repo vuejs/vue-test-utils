@@ -23,7 +23,7 @@ it('button click should increment the count text', async () => {
 })
 ```
 
-Awaiting the trigger above is the same as doing:
+和等待上述触发等价：
 
 ```js
 it('button click should increment the count text', async () => {
@@ -35,7 +35,7 @@ it('button click should increment the count text', async () => {
 })
 ```
 
-Methods that can be awaited are:
+可以被 await 的方法有：
 
 - [setData](../api/wrapper/README.md#setdata)
 - [setValue](../api/wrapper/README.md#setvalue)
