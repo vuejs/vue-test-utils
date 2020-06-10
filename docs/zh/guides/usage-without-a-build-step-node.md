@@ -1,6 +1,6 @@
 ## 不经过构建而使用
 
-在我们习惯于使用工具，诸如 [Webpack](https://webpack.js.org/) 打包 Vue 应用、`vue-loader` 处理单文件组件、[Jest](https://jestjs.io/) 转写富于表现力测试的同时，使用 Vue Test Utils 其实不需要引入这么多。除了本库之外，使用 Vue Test Utils 最低要求是：
+在我们习惯于使用工具，诸如 [webpack](https://webpack.js.org/) 打包 Vue 应用、Vue Loader 处理单文件组件、[Jest](https://jestjs.io/) 转写富于表现力测试的同时，使用 Vue Test Utils 其实不需要引入这么多。除了本库之外，使用 Vue Test Utils 最低要求是：
 
 - Vue
 - vue-template-compiler
@@ -51,4 +51,4 @@ const wrapper = VueTestUtils.shallowMount(App)
 assert.strictEqual('Hello Vue Test Utils', wrapper.text())
 ```
 
-如你所见的一样简单。不过因为我们没有构建步骤，我们无法使用单文件组件。且没有什么可以阻止我们通过 `<script>` 标签从 CDN 引入并以同样的方式使用 Vue。
+如你所见的一样简单。不过因为我们没有构建步骤，我们无法使用单文件组件。但没有什么可以阻止我们通过 `<script>` 标签从 CDN 引入并以同样的方式使用 Vue。
