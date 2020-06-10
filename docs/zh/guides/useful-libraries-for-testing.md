@@ -4,7 +4,7 @@ Vue Test Utils 提供了测试 Vue 组件的实用方法。同时我们的社区
 
 ### `vuex-mock-store`
 
-[`vuex-mock-store`](https://github.com/posva/vuex-mock-store) 提供了一个简单直接的伪造 store 来简化消费 Vuex store 的组件的测试。
+[`vuex-mock-store`](https://github.com/posva/vuex-mock-store) 提供了一个简单直接的伪造 store 来简化使用 Vuex store 的组件的测试。
 
 ### `jest-matcher-vue-test-utils`
 
