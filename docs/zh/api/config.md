@@ -6,7 +6,10 @@ Vue Test Utils 包含了一个定义其选项的配置对象。
 
 ### `showDeprecationWarnings`
 
-关闭废弃警告。
+- 类型：`Boolean`
+- 默认值：`true`
+
+控制是否展示废弃警告。当设置为 `true` 时，所有的废弃警告都将会在控制台中打印出来。
 
 示例：
 
