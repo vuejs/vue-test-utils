@@ -4,6 +4,21 @@ Vue Test Utils 包含了一个定义其选项的配置对象。
 
 ### Vue Test Utils 配置选项
 
+### `showDeprecationWarnings`
+
+- 类型：`Boolean`
+- 默认值：`true`
+
+控制是否展示废弃警告。当设置为 `true` 时，所有的废弃警告都将会在控制台中打印出来。
+
+示例：
+
+```js
+import { config } from '@vue/test-utils'
+
+config.showDeprecationWarnings = false
+```
+
 ### `stubs`
 
 - 类型：`{ [name: string]: Component | boolean | string }`
@@ -46,7 +61,7 @@ config.mocks['$store'] = {
 - 类型：`{ [name: string]: Function }`
 - 默认值：`{}`
 
-你可以使用 `config` 对象配置默认的方法。它可以用于为组件注入方法的插件，例如 [VeeValidate](https://vee-validate.logaretm.com/)。你可以通过在挂载选项中传入 `methods` 来覆写 `config` 中的方法集合。
+你可以使用 `config` 对象配置默认的方法。它可以用于为组件注入方法的插件，例如 [VeeValidate](https://logaretm.github.io/vee-validate/)。你可以通过在挂载选项中传入 `methods` 来覆写 `config` 中的方法集合。
 
 示例：
 

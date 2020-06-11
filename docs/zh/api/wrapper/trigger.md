@@ -1,8 +1,8 @@
 ## trigger
 
-在该 `Wrapper` DOM 节点上触发一个事件。
+在该 `Wrapper` DOM 节点上异步触发一个事件。
 
-`trigger` 带有一个可选的 `options` 对象。`options` 对象内的属性会被添加到事件上。
+`trigger` 带有一个可选的 `options` 对象。`options` 对象内的属性会被添加到事件上。`trigger` 会返回一个 Promise，当这个 Promise 被解决时，会确保组件已经被更新。
 
 - **参数：**
 
@@ -22,17 +22,15 @@ test('trigger demo', async () => {
     propsData: { clickHandler }
   })
 
-  wrapper.trigger('click')
+  await wrapper.trigger('click')
 
-  wrapper.trigger('click', {
+  await wrapper.trigger('click', {
     button: 0
   })
 
-  wrapper.trigger('click', {
+  await wrapper.trigger('click', {
     ctrlKey: true // 用于测试 @click.ctrl 处理函数
   })
-
-  await wrapper.vm.$nextTick() // 等待事件处理完成
 
   expect(clickHandler.called).toBe(true)
 })

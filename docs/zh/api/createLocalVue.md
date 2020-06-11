@@ -12,9 +12,11 @@
 
 ```js
 import { createLocalVue, shallowMount } from '@vue/test-utils'
+import MyPlugin from 'my-plugin'
 import Foo from './Foo.vue'
 
 const localVue = createLocalVue()
+localVue.use(MyPlugin)
 const wrapper = shallowMount(Foo, {
   localVue,
   mocks: { foo: true }

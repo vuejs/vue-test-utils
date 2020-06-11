@@ -2,6 +2,8 @@
 
 Vue Test Utils 是 Vue.js 官方的单元测试实用工具库。
 
+<div class="vueschool"><a href="https://vueschool.io/courses/learn-how-to-test-vuejs-components?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to use Vue Test Utils to test Vue.js Components with Vue School">在 Vue School 学习如何测试 Vue.js 组件</a></div>
+
 - [教程](guides/)
   - [起步](guides/getting-started.md)
   - [常用技巧](guides/common-tips.md)
@@ -10,10 +12,12 @@ Vue Test Utils 是 Vue.js 官方的单元测试实用工具库。
   - [用 Jest 测试单文件组件](guides/testing-single-file-components-with-jest.md)
   - [用 Mocha 和 webpack 测试单文件组件](guides/testing-single-file-components-with-mocha-webpack.md)
   - [用 Karma 测试单文件组件](guides/testing-single-file-components-with-karma.md)
+  - [无需构建在 Node.js 中测试](guides/usage-without-a-build-step-node.md)
   - [测试异步行为](guides/testing-async-components.md)
   - [配合 TypeScript 使用](guides/using-with-typescript.md)
   - [配合 Vue Router 使用](guides/using-with-vue-router.md)
   - [配合 Vuex 使用](guides/using-with-vuex.md)
+  - [有用的测试库](guides/useful-libraries-for-testing.md)
 - [API](api/)
   - [mount](api/mount.md)
   - [shallowMount](api/shallowMount.md)
@@ -43,6 +47,7 @@ Vue Test Utils 是 Vue.js 官方的单元测试实用工具库。
     - [destroy](api/wrapper/destroy.md)
     - [find](api/wrapper/find.md)
     - [findAll](api/wrapper/findAll.md)
+    - [get](api/wrapper/get.md)
     - [html](api/wrapper/html.md)
     - [is](api/wrapper/is.md)
     - [isEmpty](api/wrapper/isEmpty.md)

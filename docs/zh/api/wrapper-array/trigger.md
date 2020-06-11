@@ -1,6 +1,6 @@
 ## trigger
 
-为 `WrapperArray` 的每个 `Wrapper` DOM 节点都触发一个事件。
+为 `WrapperArray` 的每个 `Wrapper` DOM 节点都触发一个[事件](../../guides/dom-events.md#触发事件)。
 
 **注意：该包裹器必须包含一个 Vue 实例。**
 

@@ -55,10 +55,13 @@ import Foo from './Foo.vue'
 
 describe('Foo', () => {
   it('renders a div', () => {
+    const div = document.createElement('div')
+    document.body.appendChild(div)
     const wrapper = mount(Foo, {
-      attachToDocument: true
+      attachTo: true
     })
     expect(wrapper.contains('div')).toBe(true)
+    wrapper.destroy()
   })
 })
 ```
@@ -116,9 +119,9 @@ describe('Foo', () => {
   it('renders a div', () => {
     const wrapper = mount(Foo, {
       stubs: {
-        Bar: '<div class="stubbed" />',
         BarFoo: true,
-        FooBar: Faz
+        FooBar: Faz,
+        Bar: { template: '<div class="stubbed" />' }
       }
     })
     expect(wrapper.contains('.stubbed')).toBe(true)
@@ -126,5 +129,9 @@ describe('Foo', () => {
   })
 })
 ```
+
+**废弃通知：**
+
+当对组件存根时，提供一个字符串的方式 (`ComponentToStub: '<div class="stubbed" />`) 已经不再被支持。
 
 - **延伸阅读：**[`Wrapper`](wrapper/)
