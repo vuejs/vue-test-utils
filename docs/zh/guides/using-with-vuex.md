@@ -2,6 +2,8 @@
 
 在本教程中，我们将会看到如何用 Vue Test Utils 测试组件中的 Vuex，以及如何测试一个 Vuex store。
 
+<div class="vueschool"><a href="https://vueschool.io/lessons/how-to-test-vuejs-component-with-vuex-store?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to test that a Vuex Store is injected into a component with a free video lesson on Vue School">在 Vue School 学习如何测试一个被注入到组件中的 Vuex Store</a></div>
+
 ## 在组件中测试 Vuex
 
 ### 伪造 Action
@@ -374,6 +376,14 @@ test('updates "evenOrOdd" getter when "increment" is committed', () => {
 ```
 
 注意我们在创建一个 store 之前使用了 `cloneDeep` 来克隆 store 配置。这是因为 Vuex 会改变用来创建 store 的选项对象。为了确保我们能为每一个测试都提供一个干净的 store，我们需要克隆 `storeConfig` 对象。
+
+然而，`cloneDeep` 不足以“deep”到克隆 store 的模块。如果你的 `storeConfig` 包含模块，你需要向 `new Vue.Store()` 传入一个对象，例如：
+
+```js
+import myModule from './myModule'
+// ...
+const store = new Vuex.Store({ modules: { myModule: cloneDeep(myModule) } })
+```
 
 ### 相关资料
 

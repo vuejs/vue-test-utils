@@ -136,13 +136,13 @@ Woohoo，我们的测试跑起来了！
 npm install --save-dev karma-coverage cross-env
 ```
 
-我们会使用 `cross-env` 来设置一个 `BABEL_ENV` 环境变量。这样我们就可以在编译测试的时候使用 `babel-plugin-istanbul`——因为我们不想在生产环境下引入 `babel-plugin-istanbul`：
+我们会使用 `cross-env` 来设置一个 `NODE_ENV` 环境变量。这样我们就可以在编译测试的时候使用 `babel-plugin-istanbul`——因为我们不想在生产环境下引入 `babel-plugin-istanbul`：
 
 ```
 npm install --save-dev babel-plugin-istanbul
 ```
 
-更新你的 `.babelrc` 文件，在因测试设置了 `BABEL_ENV` 时使用 `babel-plugin-istanbul`：
+更新你的 `.babelrc` 文件，在因测试设置了 `NODE_ENV` 时使用 `babel-plugin-istanbul`：
 
 ```json
 {
@@ -174,13 +174,13 @@ module.exports = function(config) {
 }
 ```
 
-然后更新 `test` 脚本来设置 `BABEL_ENV`：
+然后更新 `test` 脚本来设置 `NODE_ENV`：
 
 ```json
 // package.json
 {
   "scripts": {
-    "test": "cross-env BABEL_ENV=test karma start --single-run"
+    "test": "cross-env NODE_ENV=test karma start --single-run"
   }
 }
 ```

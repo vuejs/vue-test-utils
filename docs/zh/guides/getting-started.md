@@ -1,5 +1,7 @@
 ## 起步
 
+<div class="vueschool"><a href="https://vueschool.io/lessons/installing-vue-test-utils?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to get started with Vue Test Utils, Jest, and testing Vue Components with Vue School">学习如何用 Vue Test Utils、Jest 起步并测试 Vue 组件</a></div>
+
 ### 安装
 
 快速尝鲜 Vue Test Utils 的办法就是克隆我们的 demo 仓库再加上基本的设置和依赖安装。
@@ -8,6 +10,22 @@
 git clone https://github.com/vuejs/vue-test-utils-getting-started
 cd vue-test-utils-getting-started
 npm install
+```
+
+如果你已经有一个通过 [Vue CLI](https://cli.vuejs.org/zh/) 创建的工程并想支持其测试，则可以运行：
+
+```bash
+# unit testing
+vue add @vue/unit-jest
+
+# or:
+vue add @vue/unit-mocha
+
+# end-to-end
+vue add @vue/e2e-cypress
+
+# or:
+vue add @vue/e2e-nightwatch
 ```
 
 你会发现该工程包含了一个简单的组件 `counter.js`：
@@ -104,30 +122,31 @@ it('button click should increment the count', () => {
 
 为了测试计数器中的文本是否已经更新，我们需要了解 `nextTick`。
 
-### 使用 `nextTick`
+### 使用 `nextTick` 与 await
 
-Vue 会异步的将未生效的 DOM 批量更新，避免因数据反复变化而导致不必要的渲染。
+任何导致操作 DOM 的改变都应该在断言之前 await `nextTick` 函数。因为 Vue 会对未生效的 DOM 进行批量*异步更新*，避免因数据反复变化而导致不必要的渲染。
 
-_你可以阅读[Vue 文档](https://cn.vuejs.org/v2/guide/reactivity.html#异步更新队列)了解更多关于异步指更新的信息。_
+*你可以阅读[Vue 文档](https://cn.vuejs.org/v2/guide/reactivity.html#异步更新队列)了解更多关于异步指更新的信息。*
 
-更新会引发 DOM 变化的属性后，我们需要使用 `Vue.nextTick()` 等待 Vue 完成 DOM 更新。
+在更新响应式 property 之后，我们可以直接 await 类似 `trigger` 或 `trigger.vm.$nextTick` 方法，等待 Vue 完成 DOM 更新。在这个计数器的示例中，设置 `count` property 会在运行下一个 tick 之后引发 DOM 变化。
 
-在编写测试代码时，我们可以在异步函数里使用`await` `Vue.nextTick()`：
+我们看看如何在测试中撰写一个 async 函数并 `await trigger()`：
 
 ```js
 it('button click should increment the count text', async () => {
   expect(wrapper.text()).toContain('0')
   const button = wrapper.find('button')
-  button.trigger('click')
-  await Vue.nextTick()
+  await button.trigger('click')
   expect(wrapper.text()).toContain('1')
 })
 ```
 
+`trigger` 返回一个可以像上述示例一样被 await 或像普通 Promise 回调一样被 `then` 链式调用的 Promise。诸如 `trigger` 的方法内部仅仅返回 `Vue.nextTick`。你可以在[测试异步组件](../guides/README.md#测试异步组件)了解更多。
+
 当你在测试代码中使用 `nextTick` 时，请注意任何在其内部被抛出的错误可能都不会被测试运行器捕获，因为其内部使用了 Promise。关于这个问题有两个建议：要么你可以在测试的一开始将 Vue 的全局错误处理器设置为 `done` 回调，要么你可以在调用 `nextTick` 时不带参数让其作为一个 Promise 返回：
 
 ```js
-// 这不会被捕获
+// 错误不会被捕获
 it('will time out', done => {
   Vue.nextTick(() => {
     expect(true).toBe(false)
@@ -156,7 +175,9 @@ it('will catch the error using async/await', async () => {
 })
 ```
 
-### 下一步是什么
+### 接下来
 
-- [选择一个测试运行器](./choosing-a-test-runner.md)以把 Vue Test Utils 集成到你的工程里。
-- 移步[撰写测试的常见技巧](./common-tips.md)以学习更多。
+
+- 移步[编写测试的常见技巧](./README.md#明白要测试的是什么)以学习更多。
+- [选择一个测试运行器](./README.md#选择一个测试运行器)以把 Vue Test Utils 集成到你的工程里。
+- 学习更多[异步测试行为](./README.md#异步测试行为)

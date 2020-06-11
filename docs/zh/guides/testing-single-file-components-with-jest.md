@@ -4,9 +4,17 @@
 
 Jest 是一个由 Facebook 开发的测试运行器，致力于提供一个“bettery-included”单元测试解决方案。你可以在其[官方文档](https://jestjs.io/)学习到更多 Jest 的知识。
 
+<div class="vueschool"><a href="https://vueschool.io/courses/learn-how-to-test-vuejs-components?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to use Jest and Vue Test Utils to test Single File Components with Vue School">在 Vue School 学习如何使用 Jest 测试单文件组件</a></div>
+
 ### 安装 Jest
 
 我们假定你在一开始已经安装并配置好了 webpack、vue-loader 和 Babel——例如通过 `vue-cli` 创建了 `webpack-simple` 模板脚手架。
+
+> 另一种方案，如果你在使用 Vue CLI 构建你的工程也可以使用 [cli-plugin-unit-jest](https://cli.vuejs.org/core-plugins/unit-jest.html#injected-commands) 插件来运行 Jest 测试。
+>
+> 跳到[在 Jest 中处理单文件组件](#在 Jest 中处理单文件组件)并遵循其指示以处理你的 Vue 单文件组件。
+>
+> 如果你在使用 Babel 进行转译 (这是创建新工程的默认配置)，你也需要在项目中的 `package.json` 配置 Jest 的 JavaScript 转换，参考[为 Jest 配置 Babel](#为-jest-配置-babel)，不过这样你应该跳过该章节其余的部分。
 
 我们要做的第一件事就是安装 Jest 和 Vue Test Utils：
 
@@ -54,6 +62,8 @@ npm install --save-dev vue-jest
 ```
 
 > **注意：**`vue-jest` 目前并不支持 `vue-loader` 所有的功能，比如自定义块和样式加载。额外的，诸如代码分隔等 webpack 特有的功能也是不支持的。如果要使用这些不支持的特性，你需要用 Mocha 取代 Jest 来运行你的测试，同时用 webpack 来编译你的组件。想知道如何起步，请阅读教程里的[用 Mocha + webpack 测试单文件组件](./testing-single-file-components-with-mocha-webpack.md)。
+
+> **注意：**如果你使用了 Babel 7 或更高版本，你需要在你的 `devDependencies` 里添加 [babel-bridge](https://github.com/babel/babel-bridge) (`$ npm install --save-dev babel-core@^7.0.0-bridge.0`)。
 
 ### 处理 webpack 别名
 

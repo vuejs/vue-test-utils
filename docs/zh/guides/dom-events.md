@@ -1,5 +1,7 @@
 ## 测试键盘、鼠标等其它 DOM 事件
 
+<div class="vueschool"><a href="https://vueschool.io/lessons/traversing-the-dom?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn to traverse and interact with the DOM with a free video lesson from Vue School">在 Vue School 免费学习如何遍历 DOM 并与其互动的课程</a></div>
+
 ### 触发事件
 
 `Wrapper` 暴露了一个 `trigger` 方法。它可以用来触发 DOM 事件。
@@ -207,7 +209,3 @@ describe('Key event tests', () => {
 | home      | 36       |
 | pageup    | 33       |
 | pagedown  | 34       |
-
-### 重要事项
-
-Vue Test Utils 是同步触发事件。因此 `Vue.nextTick` 不是必须的。
