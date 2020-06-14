@@ -323,7 +323,7 @@ wrapper.destroy()
 - default: `false`
 
 ::: warning Deprecation warning
-`attachToDocument` is deprecated and will be removed in future releases. Use [`attachTo`](#attachto) instead. Example:
+`attachToDocument` is deprecated and will be removed in future releases. Use [`attachTo`](#attachto) instead. For example, if you need to attach the component to the document.body:
 
 ```js
 const elem = document.createElement('div')
