@@ -93,7 +93,7 @@
   "devDependencies": {
     "@commitlint/cli": "^8.2.0",
     "@commitlint/config-conventional": "^8.2.0",
-    "@vue/composition-api": "^0.3.2",
+    "@vue/composition-api": "^0.6.4",
     "commitizen": "^4.0.3",
     "cz-conventional-changelog": "^3.0.2",
     "husky": "^3.1.0",

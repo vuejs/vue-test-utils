@@ -1860,12 +1860,12 @@
     source-map "^0.5.6"
     vue-template-es2015-compiler "^1.6.0"
 
-"@vue/composition-api@^0.3.2":
-  version "0.3.2"
-  resolved "https://registry.yarnpkg.com/@vue/composition-api/-/composition-api-0.3.2.tgz#2d797028e489bf7812f08c7bb33ffd03ef23c617"
-  integrity sha512-fD4dn9cJX62QSP2TMFLXCOQOa+Bu2o7kWDjrU/FNLkNqPPcCKBLxCH/Lc+gNCRBKdEUGyI3arjAw7j0Yz1hnvw==
+"@vue/composition-api@^0.6.4":
+  version "0.6.4"
+  resolved "https://registry.yarnpkg.com/@vue/composition-api/-/composition-api-0.6.4.tgz#b12a85183eecdbb18453efae28853edb77b4a625"
+  integrity sha512-WQUqp61c1WH5pAmbUM5xUBYZYWh3TV48h1jLl2pofidXGglTS9+bvCfHKTk0bsA/U5ZbzfUMa1IpQGUGdYZYeA==
   dependencies:
-    tslib "^1.9.3"
+    tslib "^2.0.0"
 
 "@webassemblyjs/ast@1.4.3":
   version "1.4.3"
@@ -12404,10 +12404,15 @@ trough@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/trough/-/trough-1.0.1.tgz#a9fd8b0394b0ae8fff82e0633a0a36ccad5b5f86"
 
-tslib@^1.9.0, tslib@^1.9.3:
+tslib@^1.9.0:
   version "1.10.0"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.10.0.tgz#c3c19f95973fb0a62973fb09d90d961ee43e5c8a"
   integrity sha512-qOebF53frne81cf0S9B41ByenJ3/IuH8yJKngAX35CmiZySA0khhkovshKK+jGCaMnVomla7gVlIcc3EvKPbTQ==
+
+tslib@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.0.0.tgz#18d13fc2dce04051e20f074cc8387fd8089ce4f3"
+  integrity sha512-lTqkx847PI7xEDYJntxZH89L2/aXInsyF2luSafe/+0fHOMjlBNXdH6th7f70qxLDhul7KZK0zC8V5ZIyHl0/g==
 
 tty-browserify@0.0.0:
   version "0.0.0"

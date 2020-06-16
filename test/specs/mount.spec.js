@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import { compileToFunctions } from 'vue-template-compiler'
 import { mount, createLocalVue } from '@vue/test-utils'
+import CompositionAPI, { createElement } from '@vue/composition-api'
 import Component from '~resources/components/component.vue'
 import ComponentWithProps from '~resources/components/component-with-props.vue'
 import ComponentWithMixin from '~resources/components/component-with-mixin.vue'
@@ -437,6 +438,18 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     mount(TestComponent, {
       localVue
     })
+  })
+
+  it('works with composition api plugin', () => {
+    const localVue = createLocalVue()
+    localVue.use(CompositionAPI)
+    const Comp = {
+      setup() {
+        return () => createElement('div', 'composition api')
+      }
+    }
+    const wrapper = mount(Comp, { localVue })
+    expect(wrapper.html()).to.equal('<div>composition api</div>')
   })
 
   itDoNotRunIf.skip(
