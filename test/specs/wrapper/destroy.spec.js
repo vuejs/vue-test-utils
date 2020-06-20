@@ -37,7 +37,7 @@ describeWithShallowAndMount('destroy', mountingMethod => {
     )
     expect(wrapper.vm.$el.parentNode).toEqual(document.body)
     wrapper.destroy()
-    expect(wrapper.vm.$el.parentNode).to.be.null
+    expect(wrapper.vm.$el.parentNode).toBeNull()
   })
 
   it('removes functional component element from document.body', () => {
@@ -52,7 +52,7 @@ describeWithShallowAndMount('destroy', mountingMethod => {
     )
     expect(wrapper.element.parentNode).toEqual(document.body)
     wrapper.destroy()
-    expect(wrapper.element.parentNode).to.be.null
+    expect(wrapper.element.parentNode).toBeNull()
   })
 
   it('throws if component throws during destroy', () => {
