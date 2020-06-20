@@ -54,8 +54,8 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
         ChildComponent: Stub
       }
     })
-    expect(wrapper.findAll('.stub').length).to.equal(1)
-    expect(wrapper.findAll(Component).length).to.equal(1)
+    expect(wrapper.findAll('.stub').length).toEqual(1)
+    expect(wrapper.findAll(Component).length).toEqual(1)
   })
 
   it('replaces component with a component', () => {
@@ -69,7 +69,7 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
         ChildComponent: Stub
       }
     })
-    expect(wrapper.findAll(Stub).length).to.equal(1)
+    expect(wrapper.findAll(Stub).length).toEqual(1)
     expect(mounted).calledOnce
   })
 
@@ -114,10 +114,10 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
           ChildComponent: '<div />'
         }
       })
-      expect(wrapper.findAll(Component).length).to.equal(0)
+      expect(wrapper.findAll(Component).length).toEqual(0)
 
       const mountedWrapper = mountingMethod(ComponentWithNestedChildren)
-      expect(mountedWrapper.findAll(Component).length).to.equal(1)
+      expect(mountedWrapper.findAll(Component).length).toEqual(1)
     }
   )
 
@@ -372,7 +372,7 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
           }
         }
       )
-      expect(wrapper.find('time').exists()).to.equal(false)
+      expect(wrapper.find('time').exists()).toEqual(false)
     }
   )
 
@@ -592,7 +592,7 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
     })
     const result = wrapper.find(ChildComponent)
     expect(result.exists()).to.be.true
-    expect(result.props().propA).to.equal('A')
+    expect(result.props().propA).toEqual('A')
     delete Vue.options.components['child-component']
   })
 

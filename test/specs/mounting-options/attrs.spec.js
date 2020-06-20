@@ -20,8 +20,8 @@ describeWithShallowAndMount('options.attrs', mountingMethod => {
           anAttr: 'an attribute'
         }
       })
-      expect(wrapper.vm.$attrs.anAttr).to.equal('an attribute')
-      expect(wrapper.vm.$attrs.anAttr).to.equal('an attribute')
+      expect(wrapper.vm.$attrs.anAttr).toEqual('an attribute')
+      expect(wrapper.vm.$attrs.anAttr).toEqual('an attribute')
     }
   )
 

@@ -7,14 +7,14 @@ describeWithShallowAndMount('isEmpty', mountingMethod => {
     const compiled = compileToFunctions('<div><p /></div>')
     const wrapper = mountingMethod(compiled)
 
-    expect(wrapper.findAll('p').isEmpty()).to.equal(true)
+    expect(wrapper.findAll('p').isEmpty()).toEqual(true)
   })
 
   it('returns false if node contains other nodes', () => {
     const compiled = compileToFunctions('<div><span><p><p/></span></div>')
     const wrapper = mountingMethod(compiled)
 
-    expect(wrapper.findAll('span').isEmpty()).to.equal(false)
+    expect(wrapper.findAll('span').isEmpty()).toEqual(false)
   })
 
   it('throws error if wrapper array contains no items', () => {

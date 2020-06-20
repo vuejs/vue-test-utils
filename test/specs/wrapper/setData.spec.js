@@ -21,19 +21,19 @@ describeWithShallowAndMount('setData', mountingMethod => {
 
   it('sets component data and returns a promise', async () => {
     const wrapper = mountingMethod(ComponentWithVIf)
-    expect(wrapper.findAll('.child.ready').length).to.equal(0)
+    expect(wrapper.findAll('.child.ready').length).toEqual(0)
     const response = wrapper.setData({ ready: true })
-    expect(wrapper.findAll('.child.ready').length).to.equal(0)
+    expect(wrapper.findAll('.child.ready').length).toEqual(0)
     expect(isPromise(response)).to.eql(true)
     await response
-    expect(wrapper.findAll('.child.ready').length).to.equal(1)
+    expect(wrapper.findAll('.child.ready').length).toEqual(1)
   })
 
   it('sets component data and updates nested vm nodes when called on Vue instance', async () => {
     const wrapper = mountingMethod(ComponentWithVIf)
-    expect(wrapper.findAll('.child.ready').length).to.equal(0)
+    expect(wrapper.findAll('.child.ready').length).toEqual(0)
     await wrapper.setData({ ready: true })
-    expect(wrapper.findAll('.child.ready').length).to.equal(1)
+    expect(wrapper.findAll('.child.ready').length).toEqual(1)
   })
 
   it('keeps element in sync with vnode', async () => {
@@ -47,7 +47,7 @@ describeWithShallowAndMount('setData', mountingMethod => {
     }
     const wrapper = mountingMethod(Component)
     await wrapper.setData({ show: true })
-    expect(wrapper.element).to.equal(wrapper.vm.$el)
+    expect(wrapper.element).toEqual(wrapper.vm.$el)
     expect(wrapper.classes()).to.contain('some-class')
   })
 
@@ -55,14 +55,14 @@ describeWithShallowAndMount('setData', mountingMethod => {
     const wrapper = mountingMethod(ComponentWithWatch)
     const data1 = 'testest'
     await wrapper.setData({ data1 })
-    expect(wrapper.vm.data2).to.equal(data1)
+    expect(wrapper.vm.data2).toEqual(data1)
   })
 
   it('runs watch function after all props are updated', async () => {
     const wrapper = mountingMethod(ComponentWithWatch)
     const data1 = 'testest'
     await wrapper.setData({ data2: 'newProp', data1 })
-    expect(console.info.args[0][0]).to.equal(data1)
+    expect(console.info.args[0][0]).toEqual(data1)
   })
 
   it('throws error if node is not a Vue instance', () => {
@@ -129,7 +129,7 @@ describeWithShallowAndMount('setData', mountingMethod => {
     const wrapper = mountingMethod(TestComponent)
 
     await wrapper.setData({ text: 'hello' })
-    expect(wrapper.vm.basket[0]).to.equal('hello')
+    expect(wrapper.vm.basket[0]).toEqual('hello')
   })
 
   it('should not run watcher if data is null', async () => {
@@ -154,7 +154,7 @@ describeWithShallowAndMount('setData', mountingMethod => {
     }
     const wrapper = mountingMethod(TestComponent)
     await wrapper.setData({ message: null })
-    expect(wrapper.text()).to.equal('There is no message yet')
+    expect(wrapper.text()).toEqual('There is no message yet')
   })
 
   it('updates an existing property in a data object', () => {
@@ -177,8 +177,8 @@ describeWithShallowAndMount('setData', mountingMethod => {
         }
       }
     })
-    expect(wrapper.vm.anObject.propB).to.equal('b')
-    expect(wrapper.vm.anObject.propA.prop1).to.equal('c')
+    expect(wrapper.vm.anObject.propB).toEqual('b')
+    expect(wrapper.vm.anObject.propA.prop1).toEqual('c')
   })
 
   it('should append a new property to an object without removing existing properties', () => {
@@ -201,8 +201,8 @@ describeWithShallowAndMount('setData', mountingMethod => {
         }
       }
     })
-    expect(wrapper.vm.anObject.propA.prop1).to.equal('a')
-    expect(wrapper.vm.anObject.propA.prop2).to.equal('b')
+    expect(wrapper.vm.anObject.propA.prop1).toEqual('a')
+    expect(wrapper.vm.anObject.propA.prop2).toEqual('b')
   })
 
   it('handles undefined values', async () => {
@@ -249,7 +249,7 @@ describeWithShallowAndMount('setData', mountingMethod => {
         }
       }
     })
-    expect(wrapper.vm.nullProperty.another.obj).to.equal(true)
+    expect(wrapper.vm.nullProperty.another.obj).toEqual(true)
   })
 
   it('does not merge arrays', async () => {
@@ -276,7 +276,7 @@ describeWithShallowAndMount('setData', mountingMethod => {
         }
       }
     })
-    expect(wrapper.text()).to.equal('10')
+    expect(wrapper.text()).toEqual('10')
     expect(wrapper.vm.nested.nested.nestedArray).to.deep.equal([10])
   })
 
@@ -301,11 +301,11 @@ describeWithShallowAndMount('setData', mountingMethod => {
         propC: 'c'
       }
     })
-    expect(wrapper.vm.anObject.propA).to.equal('a')
-    expect(wrapper.vm.anObject.propB).to.equal('b')
-    expect(wrapper.vm.anObject.propC).to.equal('c')
-    expect(wrapper.vm.anObjectKeys).to.equal('propA,propB,propC')
-    expect(wrapper.html()).to.equal('<div>propA,propB,propC</div>')
+    expect(wrapper.vm.anObject.propA).toEqual('a')
+    expect(wrapper.vm.anObject.propB).toEqual('b')
+    expect(wrapper.vm.anObject.propC).toEqual('c')
+    expect(wrapper.vm.anObjectKeys).toEqual('propA,propB,propC')
+    expect(wrapper.html()).toEqual('<div>propA,propB,propC</div>')
   })
 
   it('allows setting data of type Date synchronously', () => {
@@ -322,6 +322,6 @@ describeWithShallowAndMount('setData', mountingMethod => {
     const testDate = new Date()
     const wrapper = mountingMethod(TestComponent)
     wrapper.setData({ selectedDate: testDate })
-    expect(wrapper.vm.selectedDate).to.equal(testDate)
+    expect(wrapper.vm.selectedDate).toEqual(testDate)
   })
 })

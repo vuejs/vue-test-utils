@@ -5,7 +5,7 @@ import { itDoNotRunIf } from 'conditional-specs'
 describe('createDOMEvent', () => {
   itDoNotRunIf(isRunningPhantomJS, 'returns cancelable event', () => {
     const event = createDOMEvent('click', {})
-    expect(event.bubbles).to.equal(true)
-    expect(event.cancelable).to.equal(true)
+    expect(event.bubbles).toEqual(true)
+    expect(event.cancelable).toEqual(true)
   })
 })

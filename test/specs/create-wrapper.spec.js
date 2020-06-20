@@ -8,14 +8,14 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     const Constructor = Vue.extend(Component)
     const vm = new Constructor().$mount()
     const wrapper = createWrapper(vm)
-    expect(wrapper.is(Component)).to.equal(true)
+    expect(wrapper.is(Component)).toEqual(true)
     expect(wrapper).instanceof(Wrapper)
     expect(wrapper.findAll('div')).instanceof(WrapperArray)
   })
 
   it('handles HTMLElement', () => {
     const wrapper = createWrapper(document.createElement('div'))
-    expect(wrapper.is('div')).to.equal(true)
+    expect(wrapper.is('div')).toEqual(true)
   })
 
   it('handles options', () => {
@@ -24,6 +24,6 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     const wrapper = createWrapper(vm, {
       attachToDocument: true
     })
-    expect(wrapper.options.attachToDocument).to.equal(true)
+    expect(wrapper.options.attachToDocument).toEqual(true)
   })
 })

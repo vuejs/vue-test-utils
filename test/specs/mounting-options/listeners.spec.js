@@ -23,7 +23,7 @@ describeWithShallowAndMount('options.listeners', mountingMethod => {
         }
       )
 
-      expect(wrapper.vm.$listeners.aListener.fns).to.equal(aListener)
+      expect(wrapper.vm.$listeners.aListener.fns).toEqual(aListener)
     }
   )
 

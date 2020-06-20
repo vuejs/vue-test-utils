@@ -17,7 +17,7 @@ describeWithShallowAndMount('setChecked', mountingMethod => {
     const input = wrapper.find('input[type="checkbox"]')
     input.setChecked()
 
-    expect(input.element.checked).to.equal(true)
+    expect(input.element.checked).toEqual(true)
   })
 
   it('sets element checked equal to param passed', () => {
@@ -25,10 +25,10 @@ describeWithShallowAndMount('setChecked', mountingMethod => {
     const input = wrapper.find('input[type="checkbox"]')
 
     input.setChecked(true)
-    expect(input.element.checked).to.equal(true)
+    expect(input.element.checked).toEqual(true)
 
     input.setChecked(false)
-    expect(input.element.checked).to.equal(false)
+    expect(input.element.checked).toEqual(false)
   })
 
   it('updates dom with checkbox v-model', async () => {
@@ -53,7 +53,7 @@ describeWithShallowAndMount('setChecked', mountingMethod => {
     await input.setChecked(false)
     await input.setChecked(false)
 
-    expect(wrapper.find('.counter').text()).to.equal('4')
+    expect(wrapper.find('.counter').text()).toEqual('4')
   })
 
   it('triggers a change event when called on a checkbox', () => {
@@ -115,7 +115,7 @@ describeWithShallowAndMount('setChecked', mountingMethod => {
     await radioBar.setChecked()
     await radioFoo.setChecked()
     await radioFoo.setChecked()
-    expect(wrapper.find('.counter').text()).to.equal('4')
+    expect(wrapper.find('.counter').text()).toEqual('4')
   })
 
   it('triggers a change event when called on a radio button', () => {

@@ -5,7 +5,7 @@ import { describeWithShallowAndMount } from '~resources/utils'
 describeWithShallowAndMount('name', mountingMethod => {
   it('returns the name of the component it was called on', () => {
     const wrapper = mountingMethod(Component)
-    expect(wrapper.name()).to.equal('test-component')
+    expect(wrapper.name()).toEqual('test-component')
   })
 
   it('returns the name of the tag if there is no vnode', () => {
@@ -19,12 +19,12 @@ describeWithShallowAndMount('name', mountingMethod => {
       }
     }
     const wrapper = mountingMethod(TestComponent)
-    expect(wrapper.find('svg').name()).to.equal('svg')
+    expect(wrapper.find('svg').name()).toEqual('svg')
   })
 
   it('returns the tag name of the element if it is not a Vue component', () => {
     const compiled = compileToFunctions('<div><p /></div>')
     const wrapper = mountingMethod(compiled)
-    expect(wrapper.find('p').name()).to.equal('p')
+    expect(wrapper.find('p').name()).toEqual('p')
   })
 })

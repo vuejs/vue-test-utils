@@ -7,10 +7,10 @@ describeWithShallowAndMount('setData', mountingMethod => {
   it('sets component data and updates nested vm nodes', async () => {
     const wrapper = mountingMethod(ComponentWithVIf)
     const componentArr = wrapper.findAll(ComponentWithVIf)
-    expect(componentArr.at(0).findAll('.child.ready').length).to.equal(0)
+    expect(componentArr.at(0).findAll('.child.ready').length).toEqual(0)
     componentArr.setData({ ready: true })
     await Vue.nextTick()
-    expect(componentArr.at(0).findAll('.child.ready').length).to.equal(1)
+    expect(componentArr.at(0).findAll('.child.ready').length).toEqual(1)
   })
 
   it('throws an error if node is not a Vue instance', () => {

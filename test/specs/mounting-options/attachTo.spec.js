@@ -27,8 +27,8 @@ describeWithShallowAndMount('options.attachTo', mountingMethod => {
     expect(wrapper.vm.$el.parentNode).to.not.be.null
     expect(root).to.be.null
     expect(rendered).to.not.be.null
-    expect(rendered.outerHTML).to.equal(outerHTML)
-    expect(wrapper.options.attachedToDocument).to.equal(true)
+    expect(rendered.outerHTML).toEqual(outerHTML)
+    expect(wrapper.options.attachedToDocument).toEqual(true)
     wrapper.destroy()
     expect(document.getElementById('attach-to')).to.be.null
   })
@@ -47,8 +47,8 @@ describeWithShallowAndMount('options.attachTo', mountingMethod => {
     expect(wrapper.vm.$el.parentNode).to.not.be.null
     expect(root).to.be.null
     expect(rendered).to.not.be.null
-    expect(rendered.outerHTML).to.equal(outerHTML)
-    expect(wrapper.options.attachedToDocument).to.equal(true)
+    expect(rendered.outerHTML).toEqual(outerHTML)
+    expect(wrapper.options.attachedToDocument).toEqual(true)
     wrapper.destroy()
     expect(document.getElementById('attach-to')).to.be.null
   })
@@ -61,7 +61,7 @@ describeWithShallowAndMount('options.attachTo', mountingMethod => {
     div.setAttribute('data-server-rendered', 'true')
     div.innerHTML = innerHTML
     document.body.appendChild(div)
-    expect(div.outerHTML).to.equal(ssrHTML)
+    expect(div.outerHTML).toEqual(ssrHTML)
     const wrapper = mountingMethod(TestComponent, {
       attachTo: '#attach-to'
     })
@@ -69,8 +69,8 @@ describeWithShallowAndMount('options.attachTo', mountingMethod => {
     const rendered = document.getElementById('attach-to')
     expect(wrapper.vm.$el.parentNode).to.not.be.null
     expect(rendered).to.not.be.null
-    expect(rendered.outerHTML).to.equal(outerHTML)
-    expect(wrapper.options.attachedToDocument).to.equal(true)
+    expect(rendered.outerHTML).toEqual(outerHTML)
+    expect(wrapper.options.attachedToDocument).toEqual(true)
     wrapper.destroy()
     expect(document.getElementById('attach-to')).to.be.null
   })

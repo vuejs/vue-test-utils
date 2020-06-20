@@ -39,7 +39,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     }
 
     const wrapper = mount(TestComponent)
-    expect(wrapper.findAll('p').length).to.equal(2)
+    expect(wrapper.findAll('p').length).toEqual(2)
   })
 
   it('returns new VueWrapper with correct props data', () => {
@@ -47,9 +47,9 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     const wrapper = mount(ComponentWithProps, { propsData: { prop1 } })
     expect(wrapper.vm).to.be.an('object')
     if (wrapper.vm.$props) {
-      expect(wrapper.vm.$props.prop1).to.equal(prop1)
+      expect(wrapper.vm.$props.prop1).toEqual(prop1)
     } else {
-      expect(wrapper.vm.$options.propsData.prop1).to.equal(prop1)
+      expect(wrapper.vm.$options.propsData.prop1).toEqual(prop1)
     }
   })
 
@@ -76,7 +76,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
       extends: BaseComponent
     }
     const wrapper = mount(TestComponent)
-    expect(wrapper.findAll('div').length).to.equal(1)
+    expect(wrapper.findAll('div').length).toEqual(1)
   })
 
   it('handles nested uncompiled extended Vue component', () => {
@@ -96,7 +96,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
       extends: TestComponentC
     }
     const wrapper = mount(TestComponentD)
-    expect(wrapper.findAll('div').length).to.equal(1)
+    expect(wrapper.findAll('div').length).toEqual(1)
   })
 
   itSkipIf(
@@ -123,7 +123,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
       } catch (err) {
       } finally {
         delete Vue.options.components['child-component']
-        expect(wrapper.find(ChildComponent).exists()).to.equal(true)
+        expect(wrapper.find(ChildComponent).exists()).toEqual(true)
       }
     }
   )
@@ -131,11 +131,11 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
   it('does not use cached component', () => {
     sandbox.stub(ComponentWithMixin.methods, 'someMethod')
     mount(ComponentWithMixin)
-    expect(ComponentWithMixin.methods.someMethod.callCount).to.equal(1)
+    expect(ComponentWithMixin.methods.someMethod.callCount).toEqual(1)
     ComponentWithMixin.methods.someMethod.restore()
     sandbox.stub(ComponentWithMixin.methods, 'someMethod')
     mount(ComponentWithMixin)
-    expect(ComponentWithMixin.methods.someMethod.callCount).to.equal(1)
+    expect(ComponentWithMixin.methods.someMethod.callCount).toEqual(1)
   })
 
   it('throws an error if window is undefined', () => {
@@ -159,7 +159,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
       template: `<div>foo</div>`
     })
     expect(wrapper.vm).to.be.an('object')
-    expect(wrapper.html()).to.equal(`<div>foo</div>`)
+    expect(wrapper.html()).toEqual(`<div>foo</div>`)
   })
 
   itDoNotRunIf(
@@ -175,7 +175,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
         template: '#foo'
       })
       expect(wrapper.vm).to.be.an('object')
-      expect(wrapper.html()).to.equal(`<div>foo</div>`)
+      expect(wrapper.html()).toEqual(`<div>foo</div>`)
 
       window.body.removeChild(template)
     }
@@ -231,7 +231,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
       template: '<div></div>'
     })
     const wrapper = mount(TestComponent)
-    expect(wrapper.html()).to.equal(`<div></div>`)
+    expect(wrapper.html()).toEqual(`<div></div>`)
   })
 
   itDoNotRunIf(
@@ -246,7 +246,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
       }
       const wrapper = mount(TestComponent)
       setTimeout(() => {
-        expect(wrapper.find(Component).exists()).to.equal(true)
+        expect(wrapper.find(Component).exists()).toEqual(true)
         done()
       })
     }
@@ -281,19 +281,19 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
       }
     )
     if (injectSupported) {
-      expect(typeof wrapper.vm.$options.provide).to.equal(
+      expect(typeof wrapper.vm.$options.provide).toEqual(
         vueVersion < 2.5 ? 'function' : 'object'
       )
     }
 
-    expect(wrapper.vm.$options.attachToDocument).to.equal(undefined)
-    expect(wrapper.vm.$options.mocks).to.equal(undefined)
-    expect(wrapper.vm.$options.slots).to.equal(undefined)
-    expect(wrapper.vm.$options.localVue).to.equal(undefined)
-    expect(wrapper.vm.$options.stubs).to.equal(undefined)
-    expect(wrapper.vm.$options.context).to.equal(undefined)
-    expect(wrapper.vm.$options.attrs).to.equal(undefined)
-    expect(wrapper.vm.$options.listeners).to.equal(undefined)
+    expect(wrapper.vm.$options.attachToDocument).toEqual(undefined)
+    expect(wrapper.vm.$options.mocks).toEqual(undefined)
+    expect(wrapper.vm.$options.slots).toEqual(undefined)
+    expect(wrapper.vm.$options.localVue).toEqual(undefined)
+    expect(wrapper.vm.$options.stubs).toEqual(undefined)
+    expect(wrapper.vm.$options.context).toEqual(undefined)
+    expect(wrapper.vm.$options.attrs).toEqual(undefined)
+    expect(wrapper.vm.$options.listeners).toEqual(undefined)
     wrapper.destroy()
   })
 
@@ -362,7 +362,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
       expect(wrapper.vm.$attrs).to.eql({ height: '50px', extra: 'attr' })
     }
 
-    expect(wrapper.html()).to.equal(
+    expect(wrapper.html()).toEqual(
       '<div height="50px" extra="attr">\n' +
         '  <p class="prop-1">prop1</p>\n' +
         '  <p class="prop-2"></p>\n' +
@@ -394,7 +394,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
       }
     }
     const wrapper = mount(Component, options)
-    expect(wrapper.text()).to.equal('aBC')
+    expect(wrapper.text()).toEqual('aBC')
   })
 
   it('handles inline components', () => {
@@ -411,7 +411,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     const wrapper = mount(TestComponent, {
       localVue
     })
-    expect(wrapper.findAll(ChildComponent).length).to.equal(1)
+    expect(wrapper.findAll(ChildComponent).length).toEqual(1)
   })
 
   it('handles nested components with extends', () => {
@@ -449,7 +449,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
       }
     }
     const wrapper = mount(Comp, { localVue })
-    expect(wrapper.html()).to.equal('<div>composition api</div>')
+    expect(wrapper.html()).toEqual('<div>composition api</div>')
   })
 
   itDoNotRunIf.skip(

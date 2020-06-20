@@ -43,7 +43,7 @@ describeWithShallowAndMount('ErrorWrapper', mountingMethod => {
       const message = `[vue-test-utils]: find did not return ${selector}, cannot call ${method}() on empty Wrapper`
       const wrapper = mountingMethod(TestComponent)
       const error = wrapper.find(selector)
-      expect(error.constructor.name).to.equal('ErrorWrapper')
+      expect(error.constructor.name).toEqual('ErrorWrapper')
       expect(() => error[method]())
         .to.throw()
         .with.property('message', message)

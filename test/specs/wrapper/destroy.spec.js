@@ -16,7 +16,7 @@ describeWithShallowAndMount('destroy', mountingMethod => {
         stub()
       }
     }).destroy()
-    expect(stub.calledOnce).to.equal(true)
+    expect(stub.calledOnce).toEqual(true)
   })
 
   it('triggers destroy ', () => {
@@ -27,7 +27,7 @@ describeWithShallowAndMount('destroy', mountingMethod => {
         stub()
       }
     }).destroy()
-    expect(stub.calledOnce).to.equal(true)
+    expect(stub.calledOnce).toEqual(true)
   })
 
   it('removes element from document.body', () => {
@@ -35,7 +35,7 @@ describeWithShallowAndMount('destroy', mountingMethod => {
       { template: '<div />' },
       { attachToDocument: true }
     )
-    expect(wrapper.vm.$el.parentNode).to.equal(document.body)
+    expect(wrapper.vm.$el.parentNode).toEqual(document.body)
     wrapper.destroy()
     expect(wrapper.vm.$el.parentNode).to.be.null
   })
@@ -50,7 +50,7 @@ describeWithShallowAndMount('destroy', mountingMethod => {
       },
       { attachToDocument: true }
     )
-    expect(wrapper.element.parentNode).to.equal(document.body)
+    expect(wrapper.element.parentNode).toEqual(document.body)
     wrapper.destroy()
     expect(wrapper.element.parentNode).to.be.null
   })

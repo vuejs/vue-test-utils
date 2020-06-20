@@ -40,8 +40,8 @@ describeWithShallowAndMount('config', mountingMethod => {
       t
     })
 
-    expect(wrapper.vm.$t).to.equal('mock value')
-    expect(wrapper.text()).to.equal('mock value')
+    expect(wrapper.vm.$t).toEqual('mock value')
+    expect(wrapper.text()).toEqual('mock value')
 
     localVue.prototype.$t = undefined
   })
@@ -57,8 +57,8 @@ describeWithShallowAndMount('config', mountingMethod => {
 
     const wrapper = mountingMethod(testComponent)
 
-    expect(wrapper.vm.val()).to.equal('method')
-    expect(wrapper.text()).to.equal('method')
+    expect(wrapper.vm.val()).toEqual('method')
+    expect(wrapper.text()).toEqual('method')
   })
 
   it("doesn't throw Vue warning when silent is set to true", () => {
@@ -70,7 +70,7 @@ describeWithShallowAndMount('config', mountingMethod => {
       },
       localVue
     })
-    expect(wrapper.vm.prop1).to.equal('example')
+    expect(wrapper.vm.prop1).toEqual('example')
     wrapper.setProps({
       prop1: 'new value'
     })
@@ -86,7 +86,7 @@ describeWithShallowAndMount('config', mountingMethod => {
       },
       localVue
     })
-    expect(wrapper.vm.prop1).to.equal('example')
+    expect(wrapper.vm.prop1).toEqual('example')
     wrapper.setProps({
       prop1: 'new value'
     })
@@ -95,10 +95,10 @@ describeWithShallowAndMount('config', mountingMethod => {
 
   it('stubs out transitions by default', async () => {
     const wrapper = mountingMethod(ComponentWithTransitions)
-    expect(wrapper.find('[data-testid="expanded"]').exists()).to.equal(true)
+    expect(wrapper.find('[data-testid="expanded"]').exists()).toEqual(true)
     wrapper.setData({ expanded: true })
     await wrapper.vm.$nextTick()
-    expect(wrapper.find('[data-testid="expanded"]').exists()).to.equal(false)
+    expect(wrapper.find('[data-testid="expanded"]').exists()).toEqual(false)
   })
 
   it('allows control deprecation warnings visibility for name method', () => {

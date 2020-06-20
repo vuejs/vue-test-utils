@@ -12,7 +12,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
     const wrapper = mountingMethod(ComponentWithSlots, {
       slots: { default: Component }
     })
-    expect(wrapper.contains(Component)).to.equal(true)
+    expect(wrapper.contains(Component)).toEqual(true)
   })
 
   itDoNotRunIf(
@@ -33,7 +33,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
         },
         localVue
       })
-      expect(wrapper.contains('time')).to.equal(true)
+      expect(wrapper.contains('time')).toEqual(true)
     }
   )
 
@@ -41,7 +41,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
     const wrapper = mountingMethod(ComponentWithSlots, {
       slots: { default: [Component] }
     })
-    expect(wrapper.contains(Component)).to.equal(true)
+    expect(wrapper.contains(Component)).toEqual(true)
   })
 
   it('mounts component with default slot if passed compiled options in slot object', () => {
@@ -49,7 +49,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
     const wrapper = mountingMethod(ComponentWithSlots, {
       slots: { default: [compiled] }
     })
-    expect(wrapper.contains('#div')).to.equal(true)
+    expect(wrapper.contains('#div')).toEqual(true)
   })
 
   itDoNotRunIf(
@@ -59,7 +59,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
       const wrapper = mountingMethod(ComponentWithSlots, {
         slots: { default: '<span />' }
       })
-      expect(wrapper.contains('span')).to.equal(true)
+      expect(wrapper.contains('span')).toEqual(true)
     }
   )
 
@@ -70,7 +70,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
       const wrapper = mountingMethod(ComponentAsAClass, {
         slots: { default: '<span />' }
       })
-      expect(wrapper.contains('span')).to.equal(true)
+      expect(wrapper.contains('span')).toEqual(true)
     }
   )
 
@@ -84,7 +84,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
       const wrapper = mountingMethod(ComponentWithSlots, {
         slots: { default: [Component] }
       })
-      expect(wrapper.contains(Component)).to.equal(true)
+      expect(wrapper.contains(Component)).toEqual(true)
       window = windowSave // eslint-disable-line no-native-reassign
     }
   )
@@ -127,7 +127,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
       const wrapper = mountingMethod(ComponentWithSlots, {
         slots: { default: ['<span />'] }
       })
-      expect(wrapper.contains('span')).to.equal(true)
+      expect(wrapper.contains('span')).toEqual(true)
     }
   )
 
@@ -168,7 +168,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
         footer: [Component]
       }
     })
-    expect(wrapper.findAll(Component).length).to.equal(2)
+    expect(wrapper.findAll(Component).length).toEqual(2)
   })
 
   it('mounts component with default and named slots', () => {
@@ -214,8 +214,8 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
         header: Component
       }
     })
-    expect(wrapper.findAll(Component).length).to.equal(1)
-    expect(Array.isArray(wrapper.vm.$slots.header)).to.equal(true)
+    expect(wrapper.findAll(Component).length).toEqual(1)
+    expect(Array.isArray(wrapper.vm.$slots.header)).toEqual(true)
   })
 
   it('mounts functional component with default slot if passed component in slot object', () => {
@@ -227,7 +227,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
     const wrapper = mountingMethod(TestComponent, {
       slots: { default: Component }
     })
-    expect(wrapper.contains(Component)).to.equal(true)
+    expect(wrapper.contains(Component)).toEqual(true)
   })
 
   it('mounts component with default slot if passed component in slot object', () => {
@@ -239,7 +239,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
     const wrapper = mountingMethod(TestComponent, {
       slots: { default: [Component] }
     })
-    expect(wrapper.contains(Component)).to.equal(true)
+    expect(wrapper.contains(Component)).toEqual(true)
   })
 
   it('mounts component with default slot if passed object with template prop in slot object', () => {
@@ -252,7 +252,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
     const wrapper = mountingMethod(TestComponent, {
       slots: { default: [compiled] }
     })
-    expect(wrapper.contains('#div')).to.equal(true)
+    expect(wrapper.contains('#div')).toEqual(true)
   })
 
   itDoNotRunIf(
@@ -267,7 +267,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
       const wrapper = mountingMethod(TestComponent, {
         slots: { default: '<span />' }
       })
-      expect(wrapper.contains('span')).to.equal(true)
+      expect(wrapper.contains('span')).toEqual(true)
     }
   )
 
@@ -277,7 +277,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
         default: ['<time /><time />']
       }
     })
-    expect(wrapper.findAll('time').length).to.equal(2)
+    expect(wrapper.findAll('time').length).toEqual(2)
   })
 
   itDoNotRunIf(
@@ -291,7 +291,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
       const wrapper = mountingMethod(TestComponent, {
         slots: { named: Component }
       })
-      expect(wrapper.contains(Component)).to.equal(true)
+      expect(wrapper.contains(Component)).toEqual(true)
     }
   )
 
@@ -303,7 +303,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
     const wrapper = mountingMethod(TestComponent, {
       slots: { named: [Component] }
     })
-    expect(wrapper.contains(Component)).to.equal(true)
+    expect(wrapper.contains(Component)).toEqual(true)
   })
 
   it('mounts component with named slot if passed string in slot object in array', () => {
@@ -314,7 +314,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
     const wrapper = mountingMethod(TestComponent, {
       slots: { named: '<span />' }
     })
-    expect(wrapper.contains('span')).to.equal(true)
+    expect(wrapper.contains('span')).toEqual(true)
   })
 
   it('mounts component with named slot if passed string in slot object in array', () => {
@@ -325,7 +325,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
     const wrapper = mountingMethod(TestComponent, {
       slots: { named: ['<span />'] }
     })
-    expect(wrapper.contains('span')).to.equal(true)
+    expect(wrapper.contains('span')).toEqual(true)
   })
 
   it('throws error if passed false for named slots', () => {
@@ -449,14 +449,14 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
     const wrapper = mountingMethod(ComponentWithSlots, {
       slots: { default: ComponentAsAClass }
     })
-    expect(wrapper.contains(ComponentAsAClass)).to.equal(true)
+    expect(wrapper.contains(ComponentAsAClass)).toEqual(true)
   })
 
   it('mounts component with default slot if passed class component in array in slot object', () => {
     const wrapper = mountingMethod(ComponentWithSlots, {
       slots: { default: [ComponentAsAClass] }
     })
-    expect(wrapper.contains(ComponentAsAClass)).to.equal(true)
+    expect(wrapper.contains(ComponentAsAClass)).toEqual(true)
   })
 
   it('sets a component which can access the parent component and the child component', () => {
@@ -486,14 +486,14 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
         localVue
       }
     )
-    expect(ParentComponent.vm.childComponentName).to.equal(childComponentName)
-    expect(ParentComponent.vm.$children.length).to.equal(2)
+    expect(ParentComponent.vm.childComponentName).toEqual(childComponentName)
+    expect(ParentComponent.vm.$children.length).toEqual(2)
     expect(
       ParentComponent.vm.$children.every(
         c => c.$options.name === childComponentName
       )
-    ).to.equal(true)
-    expect(ParentComponent.html()).to.equal(
+    ).toEqual(true)
+    expect(ParentComponent.html()).toEqual(
       '<div>\n' +
         '  <div><span baz="qux">FOO,quux</span></div>\n' +
         '  <div><span baz="qux">FOO,quux</span></div>\n' +
@@ -522,14 +522,14 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
         }
       }
     )
-    expect(ParentComponent.vm.childComponentName).to.equal(childComponentName)
-    expect(ParentComponent.vm.$children.length).to.equal(1)
+    expect(ParentComponent.vm.childComponentName).toEqual(childComponentName)
+    expect(ParentComponent.vm.$children.length).toEqual(1)
     expect(
       ParentComponent.vm.$children.every(
         c => c.$options.name === childComponentName
       )
-    ).to.equal(true)
-    expect(ParentComponent.html()).to.equal(
+    ).toEqual(true)
+    expect(ParentComponent.html()).toEqual(
       '<div>\n' + '  <p>1234</p>\n' + '</div>'
     )
   })

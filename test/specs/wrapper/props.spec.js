@@ -46,7 +46,7 @@ describeWithShallowAndMount('props', mountingMethod => {
       }
     }
     const wrapper = mountingMethod(TestComponent)
-    expect(wrapper.props().message).to.equal('hello')
+    expect(wrapper.props().message).toEqual('hello')
   })
 
   itSkipIf(

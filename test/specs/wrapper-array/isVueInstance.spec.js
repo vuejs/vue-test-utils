@@ -6,13 +6,13 @@ import { describeWithShallowAndMount } from '~resources/utils'
 describeWithShallowAndMount('isVueInstance', mountingMethod => {
   it('returns true if wrapper is Vue instance', () => {
     const wrapper = mountingMethod(ComponentWithChild)
-    expect(wrapper.findAll(Component).isVueInstance()).to.equal(true)
+    expect(wrapper.findAll(Component).isVueInstance()).toEqual(true)
   })
 
   it('returns the tag name of the element if it is not a Vue component', () => {
     const compiled = compileToFunctions('<div><p /></div>')
     const wrapper = mountingMethod(compiled)
-    expect(wrapper.findAll('p').isVueInstance()).to.equal(false)
+    expect(wrapper.findAll('p').isVueInstance()).toEqual(false)
   })
 
   it('throws error if wrapper array contains no items', () => {

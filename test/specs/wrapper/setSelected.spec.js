@@ -8,7 +8,7 @@ describeWithShallowAndMount('setSelected', mountingMethod => {
 
     await options.at(1).setSelected()
 
-    expect(options.at(1).element.selected).to.equal(true)
+    expect(options.at(1).element.selected).toEqual(true)
   })
 
   it('updates dom with select v-model', async () => {

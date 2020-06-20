@@ -34,12 +34,12 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
 
   it('returns class with length equal to length of wrappers passed in constructor', () => {
     const wrapperArray = getWrapperArray()
-    expect(wrapperArray.length).to.equal(3)
+    expect(wrapperArray.length).toEqual(3)
   })
 
   it('returns wrapper at index 0 when at(0) is called', () => {
     const wrapperArray = getWrapperArray()
-    expect(wrapperArray.at(0).text()).to.equal('1')
+    expect(wrapperArray.at(0).text()).toEqual('1')
   })
 
   it('returns filtered wrapper when filter is called', () => {
@@ -48,7 +48,7 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
       wrapperArray.filter(w => {
         return w.text() !== '2'
       }).length
-    ).to.equal(2)
+    ).toEqual(2)
   })
 
   const methods = [
@@ -120,14 +120,14 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
   it('exists returns true if it has every existing wrappers', () => {
     const wrapperArray = getWrapperArray()
     wrapperArray.wrappers.forEach(w => {
-      expect(w.exists()).to.equal(true)
+      expect(w.exists()).toEqual(true)
     })
-    expect(wrapperArray.exists()).to.equal(true)
+    expect(wrapperArray.exists()).toEqual(true)
   })
 
   it('exists returns false if it does not have existing wrappers', () => {
     const wrapperArray = getWrapperArray([])
-    expect(wrapperArray.exists()).to.equal(false)
+    expect(wrapperArray.exists()).toEqual(false)
   })
 
   it('exists returns false if it has not existing wrappers', () => {
@@ -142,7 +142,7 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
       }
     }
     const wrapperArray = getWrapperArray([wrapper1, wrapper2])
-    expect(wrapperArray.exists()).to.equal(false)
+    expect(wrapperArray.exists()).toEqual(false)
   })
 
   it('contains returns true if every wrapper.contains() returns true', () => {
@@ -150,7 +150,7 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
     const contains = sandbox.stub()
     contains.withArgs(selector).returns(true)
     const wrapperArray = getWrapperArray([{ contains }, { contains }])
-    expect(wrapperArray.contains(selector)).to.equal(true)
+    expect(wrapperArray.contains(selector)).toEqual(true)
   })
 
   it('contains returns false if not every wrapper.contains() returns true', () => {
@@ -158,7 +158,7 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
       { contains: () => true },
       { contains: () => false }
     ])
-    expect(wrapperArray.contains()).to.equal(false)
+    expect(wrapperArray.contains()).toEqual(false)
   })
 
   it('is returns true if every wrapper.is() returns true', () => {
@@ -166,7 +166,7 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
     const is = sandbox.stub()
     is.withArgs(selector).returns(true)
     const wrapperArray = getWrapperArray([{ is }, { is }])
-    expect(wrapperArray.is(selector)).to.equal(true)
+    expect(wrapperArray.is(selector)).toEqual(true)
   })
 
   it('is returns false if not every wrapper.is() returns true', () => {
@@ -174,7 +174,7 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
       { is: () => true },
       { is: () => false }
     ])
-    expect(wrapperArray.is('selector')).to.equal(false)
+    expect(wrapperArray.is('selector')).toEqual(false)
   })
 
   it('isEmpty returns true if every wrapper.isEmpty() returns true', () => {
@@ -182,7 +182,7 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
       { isEmpty: () => true },
       { isEmpty: () => true }
     ])
-    expect(wrapperArray.isEmpty()).to.equal(true)
+    expect(wrapperArray.isEmpty()).toEqual(true)
   })
 
   it('isEmpty returns false if not every wrapper.isEmpty() returns true', () => {
@@ -190,7 +190,7 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
       { isEmpty: () => true },
       { isEmpty: () => false }
     ])
-    expect(wrapperArray.isEmpty()).to.equal(false)
+    expect(wrapperArray.isEmpty()).toEqual(false)
   })
 
   it('isVisible returns true if every wrapper.isVisible() returns true', () => {
@@ -198,7 +198,7 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
       { isVisible: () => true },
       { isVisible: () => true }
     ])
-    expect(wrapperArray.isVisible()).to.equal(true)
+    expect(wrapperArray.isVisible()).toEqual(true)
   })
 
   it('isVisible returns false if not every wrapper.isVisible() returns true', () => {
@@ -206,7 +206,7 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
       { isVisible: () => true },
       { isVisible: () => false }
     ])
-    expect(wrapperArray.isVisible()).to.equal(false)
+    expect(wrapperArray.isVisible()).toEqual(false)
   })
 
   it('isVueInstance returns true if every wrapper.isVueInstance() returns true', () => {
@@ -214,7 +214,7 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
       { isVueInstance: () => true },
       { isVueInstance: () => true }
     ])
-    expect(wrapperArray.isVueInstance()).to.equal(true)
+    expect(wrapperArray.isVueInstance()).toEqual(true)
   })
 
   it('isVueInstance returns false if not every wrapper.isVueInstance() returns true', () => {
@@ -222,7 +222,7 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
       { isVueInstance: () => true },
       { isVueInstance: () => false }
     ])
-    expect(wrapperArray.isVueInstance()).to.equal(false)
+    expect(wrapperArray.isVueInstance()).toEqual(false)
   })
 
   it('setMethods calls setMethods on each wrapper', () => {
@@ -230,8 +230,8 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
     const methods = {}
     const wrapperArray = getWrapperArray([{ setMethods }, { setMethods }])
     wrapperArray.setMethods(methods)
-    expect(setMethods.calledTwice).to.equal(true)
-    expect(setMethods.calledWith(methods)).to.equal(true)
+    expect(setMethods.calledTwice).toEqual(true)
+    expect(setMethods.calledWith(methods)).toEqual(true)
   })
 
   it('setData calls setData on each wrapper', () => {
@@ -239,8 +239,8 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
     const data = {}
     const wrapperArray = getWrapperArray([{ setData }, { setData }])
     wrapperArray.setData(data)
-    expect(setData.calledTwice).to.equal(true)
-    expect(setData.calledWith(data)).to.equal(true)
+    expect(setData.calledTwice).toEqual(true)
+    expect(setData.calledWith(data)).toEqual(true)
   })
 
   it('setProps calls setProps on each wrapper', () => {
@@ -248,8 +248,8 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
     const props = {}
     const wrapperArray = getWrapperArray([{ setProps }, { setProps }])
     wrapperArray.setProps(props)
-    expect(setProps.calledTwice).to.equal(true)
-    expect(setProps.calledWith(props)).to.equal(true)
+    expect(setProps.calledTwice).toEqual(true)
+    expect(setProps.calledWith(props)).toEqual(true)
   })
 
   it('trigger calls trigger on each wrapper', () => {
@@ -258,14 +258,14 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
     const options = {}
     const wrapperArray = getWrapperArray([{ trigger }, { trigger }])
     wrapperArray.trigger(event, options)
-    expect(trigger.calledTwice).to.equal(true)
-    expect(trigger.calledWith(event, options)).to.equal(true)
+    expect(trigger.calledTwice).toEqual(true)
+    expect(trigger.calledWith(event, options)).toEqual(true)
   })
 
   it('destroy calls destroy on each wrapper', () => {
     const destroy = sandbox.stub()
     const wrapperArray = getWrapperArray([{ destroy }, { destroy }])
     wrapperArray.destroy()
-    expect(destroy.calledTwice).to.equal(true)
+    expect(destroy.calledTwice).toEqual(true)
   })
 })

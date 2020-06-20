@@ -138,9 +138,9 @@ describeWithShallowAndMount('options.mocks', mountingMethod => {
         $store
       }
     })
-    expect(wrapper.vm.$store).to.equal($store)
+    expect(wrapper.vm.$store).toEqual($store)
     const freshWrapper = mountingMethod(Component)
-    expect(typeof freshWrapper.vm.$store).to.equal('undefined')
+    expect(typeof freshWrapper.vm.$store).toEqual('undefined')
   })
 
   it('logs that a property cannot be overwritten if there are problems writing', () => {
