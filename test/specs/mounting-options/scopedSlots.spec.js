@@ -5,15 +5,6 @@ import { itDoNotRunIf } from 'conditional-specs'
 import Vue from 'vue'
 
 describeWithShallowAndMount('scopedSlots', mountingMethod => {
-  const sandbox = sinon.createSandbox()
-  const windowSave = window
-
-  afterEach(() => {
-    window = windowSave // eslint-disable-line no-native-reassign
-    sandbox.reset()
-    sandbox.restore()
-  })
-
   itDoNotRunIf(vueVersion < 2.1, 'handles templates as the root node', () => {
     const wrapper = mountingMethod(
       {
@@ -270,14 +261,14 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
           return this.$scopedSlots.default(this.val)
         }
       }
-      const stub = sandbox.stub()
+      const stub = jest.fn()
       mountingMethod(TestComponent, {
         scopedSlots: {
           default: stub
         }
       })
       await Vue.nextTick()
-      expect(stub).calledWith(123)
+      expect(stub).toHaveBeenCalledWith(123)
     }
   )
 
