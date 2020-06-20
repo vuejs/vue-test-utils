@@ -2,7 +2,8 @@
   "globals": {
     "wrapper": true,
     "expect": true,
-    "Element": true
+    "Element": true,
+    "jest": true
   },
   "root": true,
   "plugins": [
