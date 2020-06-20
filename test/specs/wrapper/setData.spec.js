@@ -83,7 +83,7 @@ describeWithShallowAndMount('setData', mountingMethod => {
     const fn = () =>
       mountingMethod(AFunctionalComponent).setData({ data1: 'data' })
     expect(fn)
-      .to.throw()
+      .toThrow()
       .with.property('message', message)
     // find on functional components isn't supported in Vue < 2.3
     if (vueVersion < 2.3) {
@@ -100,7 +100,7 @@ describeWithShallowAndMount('setData', mountingMethod => {
         .find(AFunctionalComponent)
         .setData({ data1: 'data' })
     expect(fn2)
-      .to.throw()
+      .toThrow()
       .with.property('message', message)
   })
 

@@ -33,7 +33,7 @@ describeWithShallowAndMount('options.context', mountingMethod => {
       '[vue-test-utils]: mount.context can only be used when mounting a functional component'
     const fn = () => mountingMethod(Component, { context })
     expect(fn)
-      .to.throw()
+      .toThrow()
       .with.property('message', message)
   })
 
@@ -45,7 +45,7 @@ describeWithShallowAndMount('options.context', mountingMethod => {
     const context = {}
     const fn = () =>
       mountingMethod(Component, { context, stubs: false, mocks: false })
-    expect(fn).not.to.throw()
+    expect(fn).not.toThrow()
   })
 
   it('throws error if context option is not an object', () => {
@@ -57,7 +57,7 @@ describeWithShallowAndMount('options.context', mountingMethod => {
     const message = '[vue-test-utils]: mount.context must be an object'
     const fn = () => mountingMethod(Component, { context })
     expect(fn)
-      .to.throw()
+      .toThrow()
       .with.property('message', message)
   })
 

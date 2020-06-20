@@ -39,7 +39,7 @@ describeWithShallowAndMount('emittedByOrder', mountingMethod => {
 
     const fn = () => wrapper.find('p').emittedByOrder()
     expect(fn)
-      .to.throw()
+      .toThrow()
       .with.property('message', message)
   })
 

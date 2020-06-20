@@ -108,7 +108,7 @@ describeWithShallowAndMount('find', mountingMethod => {
       '[vue-test-utils]: wrapper.find() must be passed a valid CSS selector, Vue constructor, or valid find option object'
     const fn = () => wrapper.find('[href=&6"/"]')
     expect(fn)
-      .to.throw()
+      .toThrow()
       .with.property('message', message)
   })
 
@@ -148,7 +148,7 @@ describeWithShallowAndMount('find', mountingMethod => {
       '[vue-test-utils]: findComponent requires a Vue constructor or valid find object. If you are searching for DOM nodes, use `find` instead'
     const fn = () => wrapper.findComponent('#foo')
     expect(fn)
-      .to.throw()
+      .toThrow()
       .with.property('message', message)
   })
 
@@ -158,7 +158,7 @@ describeWithShallowAndMount('find', mountingMethod => {
       '[vue-test-utils]: You cannot chain findComponent off a DOM element. It can only be used on Vue Components.'
     const fn = () => wrapper.find('span').findComponent('#foo')
     expect(fn)
-      .to.throw()
+      .toThrow()
       .with.property('message', message)
   })
 
@@ -258,7 +258,7 @@ describeWithShallowAndMount('find', mountingMethod => {
         '[vue-test-utils]: find for functional components is not supported in Vue < 2.3'
       const fn = () => wrapper.find(TestFunctionalComponent)
       expect(fn)
-        .to.throw()
+        .toThrow()
         .with.property('message', message)
     } else {
       expect(wrapper.find(TestFunctionalComponent).exists()).toEqual(true)
@@ -282,7 +282,7 @@ describeWithShallowAndMount('find', mountingMethod => {
         '[vue-test-utils]: find for functional components is not supported in Vue < 2.3'
       const fn = () => wrapper.find(TestFunctionalComponent)
       expect(fn)
-        .to.throw()
+        .toThrow()
         .with.property('message', message)
     } else {
       expect(wrapper.find(TestFunctionalComponent).exists()).toEqual(true)
@@ -325,7 +325,7 @@ describeWithShallowAndMount('find', mountingMethod => {
     const message =
       '[vue-test-utils]: cannot find a Vue instance on a DOM node. The node you are calling find on does not exist in the VDom. Are you adding the node as innerHTML?'
     expect(fn)
-      .to.throw()
+      .toThrow()
       .with.property('message', message)
   })
 
@@ -346,7 +346,7 @@ describeWithShallowAndMount('find', mountingMethod => {
     const message =
       '[vue-test-utils]: cannot find a Vue instance on a DOM node. The node you are calling find on does not exist in the VDom. Are you adding the node as innerHTML?'
     expect(fn)
-      .to.throw()
+      .toThrow()
       .with.property('message', message)
   })
 
@@ -508,7 +508,7 @@ describeWithShallowAndMount('find', mountingMethod => {
       '[vue-test-utils]: $ref selectors can only be used on Vue component wrappers'
     const fn = () => a.find({ ref: 'foo' })
     expect(fn)
-      .to.throw()
+      .toThrow()
       .with.property('message', message)
   })
 
@@ -564,7 +564,7 @@ describeWithShallowAndMount('find', mountingMethod => {
         '[vue-test-utils]: wrapper.find() must be passed a valid CSS selector, Vue constructor, or valid find option object'
       const fn = () => wrapper.find(invalidSelector)
       expect(fn)
-        .to.throw()
+        .toThrow()
         .with.property('message', message)
     })
   })

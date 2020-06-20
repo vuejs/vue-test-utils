@@ -6,7 +6,7 @@ describeWithShallowAndMount('get', mountingMethod => {
     const compiled = compileToFunctions('<div/>')
     const wrapper = mountingMethod(compiled)
     expect(() => wrapper.get('.does-not-exist'))
-      .to.throw()
+      .toThrow()
       .with.property(
         'message',
         'Unable to find .does-not-exist within: <div></div>'

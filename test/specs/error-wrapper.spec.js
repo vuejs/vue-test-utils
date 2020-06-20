@@ -45,7 +45,7 @@ describeWithShallowAndMount('ErrorWrapper', mountingMethod => {
       const error = wrapper.find(selector)
       expect(error.constructor.name).toEqual('ErrorWrapper')
       expect(() => error[method]())
-        .to.throw()
+        .toThrow()
         .with.property('message', message)
     })
   })

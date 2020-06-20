@@ -107,7 +107,7 @@ describeWithShallowAndMount('is', mountingMethod => {
       '[vue-test-utils]: $ref selectors can not be used with wrapper.is()'
     const fn = () => wrapper.is({ ref: 'foo' })
     expect(fn)
-      .to.throw()
+      .toThrow()
       .with.property('message', message)
   })
 
@@ -133,7 +133,7 @@ describeWithShallowAndMount('is', mountingMethod => {
         '[vue-test-utils]: wrapper.is() must be passed a valid CSS selector, Vue constructor, or valid find option object'
       const fn = () => wrapper.is(invalidSelector)
       expect(fn)
-        .to.throw()
+        .toThrow()
         .with.property('message', message)
     })
   })

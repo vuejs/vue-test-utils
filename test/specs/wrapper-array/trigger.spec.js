@@ -60,7 +60,7 @@ describeWithShallowAndMount('trigger', mountingMethod => {
         '[vue-test-utils]: wrapper.trigger() must be passed a string'
       const fn = () => wrapper.trigger(invalidSelector)
       expect(fn)
-        .to.throw()
+        .toThrow()
         .with.property('message', message)
     })
   })
@@ -73,7 +73,7 @@ describeWithShallowAndMount('trigger', mountingMethod => {
         .findAll('p')
         .trigger('p')
     expect(fn)
-      .to.throw()
+      .toThrow()
       .with.property('message', message)
   })
 })

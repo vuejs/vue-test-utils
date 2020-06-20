@@ -311,7 +311,7 @@ describeWithShallowAndMount('setProps', mountingMethod => {
               .find(AFunctionalComponent)
               .setProps({ prop1: 'prop' })
           expect(fn2)
-            .to.throw()
+            .toThrow()
             .with.property('message', errors.FUNCTIONAL_COMPONENT_ERROR)
         }
       )

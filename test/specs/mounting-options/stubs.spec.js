@@ -256,7 +256,7 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
           stubs: [invalidValue]
         })
       expect(fn)
-        .to.throw()
+        .toThrow()
         .with.property('message', error)
     })
   })
@@ -281,7 +281,7 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
       })
     try {
       expect(fn)
-        .to.throw()
+        .toThrow()
         .with.property('message', message)
     } catch (err) {
       require.cache[
@@ -446,7 +446,7 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
             }
           })
         expect(fn)
-          .to.throw()
+          .toThrow()
           .with.property('message', error)
       })
       validValues.forEach(validValue => {
@@ -471,7 +471,7 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
           }
         })
       expect(fn)
-        .to.throw()
+        .toThrow()
         .with.property('message', error)
     })
   })
@@ -495,7 +495,7 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
           mocks: false
         })
       expect(fn)
-        .to.throw()
+        .toThrow()
         .with.property('message', message)
     }
   )

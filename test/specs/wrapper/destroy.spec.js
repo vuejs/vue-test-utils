@@ -66,6 +66,6 @@ describeWithShallowAndMount('destroy', mountingMethod => {
       })
     }
     const wrapper = mountingMethod(TestComponent)
-    expect(() => wrapper.destroy()).to.throw()
+    expect(() => wrapper.destroy()).toThrow()
   })
 })

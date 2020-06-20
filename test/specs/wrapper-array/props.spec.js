@@ -11,7 +11,7 @@ describeWithShallowAndMount('props', mountingMethod => {
         .findAll('p')
         .props('p')
     )
-      .to.throw()
+      .toThrow()
       .with.property('message', message)
   })
 
@@ -22,7 +22,7 @@ describeWithShallowAndMount('props', mountingMethod => {
       '[vue-test-utils]: props must be called on a single wrapper, use at(i) to access a wrapper'
     const fn = () => wrapper.findAll('div').props()
     expect(fn)
-      .to.throw()
+      .toThrow()
       .with.property('message', message)
   })
 })

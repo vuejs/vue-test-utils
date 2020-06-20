@@ -532,7 +532,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
           throw new Error('Error')
         }
       })
-    ).to.throw()
+    ).toThrow()
   })
 
   it('stubs dynamic components', () => {

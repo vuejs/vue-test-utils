@@ -9,7 +9,7 @@ describeWithShallowAndMount('VueWrapper', mountingMethod => {
       expect(() => {
         wrapper[property] = 'foo'
       })
-        .to.throw()
+        .toThrow()
         .with.property('message', message)
     })
   })

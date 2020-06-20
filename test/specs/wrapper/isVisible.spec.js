@@ -139,7 +139,7 @@ describeWithShallowAndMount('isVisible', mountingMethod => {
     await Vue.nextTick()
 
     const fn = () => wrapper.find('.child.ready').isVisible()
-    expect(fn).to.throw()
+    expect(fn).toThrow()
   })
 
   it('returns true if one element is present', async () => {

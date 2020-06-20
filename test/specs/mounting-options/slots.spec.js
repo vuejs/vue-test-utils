@@ -108,7 +108,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
       })
     try {
       expect(fn)
-        .to.throw()
+        .toThrow()
         .with.property('message', message)
     } catch (err) {
       require.cache[
@@ -148,7 +148,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
       })
     try {
       expect(fn)
-        .to.throw()
+        .toThrow()
         .with.property('message', message)
     } catch (err) {
       require.cache[
@@ -339,7 +339,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
     const message =
       '[vue-test-utils]: slots[key] must be a Component, string or an array of Components'
     expect(fn)
-      .to.throw()
+      .toThrow()
       .with.property('message', message)
   })
 
@@ -353,7 +353,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
     const message =
       '[vue-test-utils]: slots[key] must be a Component, string or an array of Components'
     expect(fn)
-      .to.throw()
+      .toThrow()
       .with.property('message', message)
   })
 
@@ -367,7 +367,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
     const message =
       '[vue-test-utils]: slots[key] must be a Component, string or an array of Components'
     expect(fn)
-      .to.throw()
+      .toThrow()
       .with.property('message', message)
   })
 
@@ -381,7 +381,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
     const message =
       '[vue-test-utils]: slots[key] must be a Component, string or an array of Components'
     expect(fn)
-      .to.throw()
+      .toThrow()
       .with.property('message', message)
   })
 
@@ -404,7 +404,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
     }
     try {
       expect(fn)
-        .to.throw()
+        .toThrow()
         .with.property('message', message)
     } catch (err) {
       require.cache[

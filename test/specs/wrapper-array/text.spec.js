@@ -10,7 +10,7 @@ describeWithShallowAndMount('text', mountingMethod => {
       '[vue-test-utils]: text must be called on a single wrapper, use at(i) to access a wrapper'
     const fn = () => wrapper.findAll('div').text()
     expect(fn)
-      .to.throw()
+      .toThrow()
       .with.property('message', message)
   })
 
@@ -22,7 +22,7 @@ describeWithShallowAndMount('text', mountingMethod => {
         .findAll('p')
         .text('p')
     expect(fn)
-      .to.throw()
+      .toThrow()
       .with.property('message', message)
   })
 })

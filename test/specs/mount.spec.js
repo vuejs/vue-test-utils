@@ -150,7 +150,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     window = undefined // eslint-disable-line no-native-reassign
 
     expect(() => mount(compileToFunctions('<div />')))
-      .to.throw()
+      .toThrow()
       .with.property('message', message)
   })
 
@@ -323,7 +323,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     }
 
     const fn = () => mount(TestComponent)
-    expect(fn).to.throw('Error in mounted')
+    expect(fn).toThrow('Error in mounted')
   })
 
   it('propagates errors when they are thrown by a nested component', () => {
@@ -343,7 +343,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
       mount(rootComponent)
     }
 
-    expect(fn).to.throw('Error in mounted')
+    expect(fn).toThrow('Error in mounted')
   })
 
   it('adds unused propsData as attributes', () => {
@@ -469,7 +469,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
       const fn = () => {
         wrapper.vm.a = 2
       }
-      expect(fn).to.throw()
+      expect(fn).toThrow()
       wrapper.destroy()
     }
   )

@@ -19,7 +19,7 @@ describeWithShallowAndMount('overview', mountingMethod => {
       '[vue-test-utils]: wrapper.overview() can only be called on a Vue instance'
 
     expect(() => nonVueWrapper.overview())
-      .to.throw()
+      .toThrow()
       .with.property('message', message)
   })
 

@@ -57,7 +57,7 @@ describeWithShallowAndMount('emitted', mountingMethod => {
 
     const fn = () => wrapper.find('p').emitted()
     expect(fn)
-      .to.throw()
+      .toThrow()
       .with.property('message', message)
   })
 
