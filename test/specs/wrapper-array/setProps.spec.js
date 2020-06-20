@@ -11,8 +11,8 @@ describeWithShallowAndMount('setProps', mountingMethod => {
     const wrapper = mountingMethod(ComponentWithProps, { propsData })
     wrapper.findAll(ComponentWithProps).setProps({ prop1 })
     await Vue.nextTick()
-    expect(wrapper.find('.prop-1').element.textContent).to.equal(prop1)
-    expect(wrapper.find('.prop-2').element.textContent).to.equal(prop2)
+    expect(wrapper.find('.prop-1').element.textContent).toEqual(prop1)
+    expect(wrapper.find('.prop-2').element.textContent).toEqual(prop2)
   })
 
   it('sets component props when propsData was not initially passed', async () => {
@@ -21,8 +21,8 @@ describeWithShallowAndMount('setProps', mountingMethod => {
     const wrapper = mountingMethod(ComponentWithProps)
     wrapper.findAll(ComponentWithProps).setProps({ prop1, prop2 })
     await Vue.nextTick()
-    expect(wrapper.find('.prop-1').element.textContent).to.equal(prop1)
-    expect(wrapper.find('.prop-2').element.textContent).to.equal(prop2)
+    expect(wrapper.find('.prop-1').element.textContent).toEqual(prop1)
+    expect(wrapper.find('.prop-2').element.textContent).toEqual(prop2)
   })
 
   it('throws an error if node is not a Vue instance', () => {

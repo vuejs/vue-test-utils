@@ -18,7 +18,7 @@ describeWithShallowAndMount('setValue', mountingMethod => {
     const input = wrapper.find('input[type="text"]')
     input.setValue('foo')
 
-    expect(input.element.value).to.equal('foo')
+    expect(input.element.value).toEqual('foo')
   })
 
   it('sets element of textarea value', () => {
@@ -26,7 +26,7 @@ describeWithShallowAndMount('setValue', mountingMethod => {
     const textarea = wrapper.find('textarea')
     textarea.setValue('foo')
 
-    expect(textarea.element.value).to.equal('foo')
+    expect(textarea.element.value).toEqual('foo')
   })
 
   it('updates dom with input v-model', async () => {
@@ -54,7 +54,7 @@ describeWithShallowAndMount('setValue', mountingMethod => {
     const select = wrapper.find('select')
     select.setValue('selectB')
 
-    expect(select.element.value).to.equal('selectB')
+    expect(select.element.value).toEqual('selectB')
   })
 
   it('updates dom with select v-model', async () => {

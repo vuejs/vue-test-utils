@@ -7,7 +7,7 @@ describeWithShallowAndMount('Wrapper', mountingMethod => {
       const wrapper = mountingMethod({ template: '<div><p></p></div>' }).find(
         'p'
       )
-      expect(wrapper.constructor.name).to.equal('Wrapper')
+      expect(wrapper.constructor.name).toEqual('Wrapper')
       const message = `[vue-test-utils]: wrapper.${property} is read-only`
       expect(() => {
         wrapper[property] = 'foo'

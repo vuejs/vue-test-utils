@@ -18,7 +18,7 @@ describeWithShallowAndMount('trigger', mountingMethod => {
     const buttonArr = wrapper.findAll('.click')
     buttonArr.trigger('click')
 
-    expect(clickHandler.calledOnce).to.equal(true)
+    expect(clickHandler.calledOnce).toEqual(true)
   })
 
   it('causes keydown handler to fire when wrapper.trigger("keydown") is fired on a Component', () => {
@@ -28,7 +28,7 @@ describeWithShallowAndMount('trigger', mountingMethod => {
     })
     wrapper.findAll('.keydown').trigger('keydown')
 
-    expect(keydownHandler.calledOnce).to.equal(true)
+    expect(keydownHandler.calledOnce).toEqual(true)
   })
 
   it('causes keydown handler to fire when wrapper.trigger("keydown.enter") is fired on a Component', () => {
@@ -38,7 +38,7 @@ describeWithShallowAndMount('trigger', mountingMethod => {
     })
     wrapper.findAll('.keydown-enter').trigger('keydown.enter')
 
-    expect(keydownHandler.calledOnce).to.equal(true)
+    expect(keydownHandler.calledOnce).toEqual(true)
   })
 
   it('throws an error if type is not a string', () => {

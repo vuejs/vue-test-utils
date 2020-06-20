@@ -9,7 +9,7 @@ describeWithShallowAndMount('setMethods', mountingMethod => {
     const wrapper = mountingMethod(ComponentWithMethods)
     const someMethod = () => {}
     wrapper.setMethods({ someMethod })
-    expect(wrapper.vm.someMethod).to.equal(someMethod)
+    expect(wrapper.vm.someMethod).toEqual(someMethod)
   })
 
   it('throws an error if node is not a Vue instance', () => {
@@ -17,7 +17,7 @@ describeWithShallowAndMount('setMethods', mountingMethod => {
     const compiled = compileToFunctions('<div><p></p></div>')
     const wrapper = mountingMethod(compiled)
     const p = wrapper.find('p')
-    expect(() => p.setMethods({ ready: true })).throw(Error, message)
+    expect(() => p.setMethods({ ready: true })).toThrow(Error, message)
   })
 
   itDoNotRunIf(
@@ -25,14 +25,14 @@ describeWithShallowAndMount('setMethods', mountingMethod => {
     'should replace methods when tied to an event',
     () => {
       const wrapper = mountingMethod(ComponentWithEvents)
-      expect(wrapper.vm.isActive).to.be.false
+      expect(wrapper.vm.isActive).toBe(false)
       wrapper.find('.toggle').trigger('click')
-      expect(wrapper.vm.isActive).to.be.true
+      expect(wrapper.vm.isActive).toBe(true)
       // Replace the toggle function so that the data supposedly won't change
       const toggleActive = () => {}
       wrapper.setMethods({ toggleActive })
       wrapper.find('.toggle').trigger('click')
-      expect(wrapper.vm.isActive).to.be.true
+      expect(wrapper.vm.isActive).toBe(true)
     }
   )
 })

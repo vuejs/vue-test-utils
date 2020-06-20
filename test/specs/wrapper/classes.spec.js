@@ -13,7 +13,7 @@ describeWithShallowAndMount('classes', mountingMethod => {
   it('returns empty array if wrapper has no classes', () => {
     const compiled = compileToFunctions('<div />')
     const wrapper = mountingMethod(compiled)
-    expect(wrapper.classes().length).to.equal(0)
+    expect(wrapper.classes().length).toEqual(0)
   })
 
   it('returns original class names when element mapped in css modules', () => {

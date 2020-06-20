@@ -40,23 +40,23 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
   it('returns new VueWrapper of Vue localVue if no options are passed', () => {
     const compiled = compileToFunctions('<div><input /></div>')
     const wrapper = shallowMount(compiled)
-    expect(wrapper.isVueInstance()).to.equal(true)
+    expect(wrapper.isVueInstance()).toEqual(true)
     expect(wrapper.vm).to.be.an('object')
   })
 
   it('returns new VueWrapper with all children stubbed', () => {
     const wrapper = shallowMount(ComponentWithNestedChildren)
-    expect(wrapper.isVueInstance()).to.equal(true)
-    expect(wrapper.findAll(Component).length).to.equal(0)
-    expect(wrapper.findAll(ComponentWithChild).length).to.equal(1)
+    expect(wrapper.isVueInstance()).toEqual(true)
+    expect(wrapper.findAll(Component).length).toEqual(0)
+    expect(wrapper.findAll(ComponentWithChild).length).toEqual(1)
   })
 
   it('does not modify component directly', () => {
     const wrapper = shallowMount(ComponentWithNestedChildren)
-    expect(wrapper.findAll(Component).length).to.equal(0)
+    expect(wrapper.findAll(Component).length).toEqual(0)
     const mountedWrapper = mount(ComponentWithNestedChildren)
 
-    expect(mountedWrapper.findAll(Component).length).to.equal(1)
+    expect(mountedWrapper.findAll(Component).length).toEqual(1)
   })
 
   it('stubs globally registered components when options.localVue is provided', () => {
@@ -69,7 +69,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
     localVue.component('registered-component', ComponentWithLifecycleHooks)
     mount(TestComponent, { localVue })
 
-    expect(console.info.callCount).to.equal(4)
+    expect(console.info.callCount).toEqual(4)
   })
 
   it('renders children', () => {
@@ -83,7 +83,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
     const wrapper = shallowMount(TestComponent, {
       localVue
     })
-    expect(wrapper.html()).to.equal('<child-stub>Hello</child-stub>')
+    expect(wrapper.html()).toEqual('<child-stub>Hello</child-stub>')
   })
 
   it('renders named slots', () => {
@@ -102,7 +102,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
     const wrapper = shallowMount(TestComponent, {
       localVue
     })
-    expect(wrapper.html()).to.equal(
+    expect(wrapper.html()).toEqual(
       '<child-stub>\n' +
         '  <p>Hello</p>\n' +
         '  <p>World</p>\n' +
@@ -113,9 +113,9 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
   it('renders SFC with named slots with v-slot syntax', () => {
     const wrapper = shallowMount(ComponentWithVSlotSyntax)
 
-    expect(wrapper.find(ComponentWithVSlot).exists()).to.equal(true)
-    expect(wrapper.find('.new-example').exists()).to.equal(true)
-    expect(wrapper.html()).to.equal(
+    expect(wrapper.find(ComponentWithVSlot).exists()).toEqual(true)
+    expect(wrapper.find('.new-example').exists()).toEqual(true)
+    expect(wrapper.html()).toEqual(
       '<componentwithvslot-stub>\n' +
         '  <p class="new-example">new slot syntax</p>\n' +
         '</componentwithvslot-stub>'
@@ -139,9 +139,9 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
     const wrapper = shallowMount(TestComponent, {
       localVue
     })
-    expect(wrapper.find({ name: 'Foo' }).exists()).to.equal(true)
-    expect(wrapper.find('.new-example').exists()).to.equal(true)
-    expect(wrapper.html()).to.equal(
+    expect(wrapper.find({ name: 'Foo' }).exists()).toEqual(true)
+    expect(wrapper.find('.new-example').exists()).toEqual(true)
+    expect(wrapper.html()).toEqual(
       '<foo-stub>\n' + '  <p class="new-example">text</p>\n' + '</foo-stub>'
     )
   })
@@ -152,7 +152,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
       components: { Child: {} }
     }
     const wrapper = shallowMount(TestComponent)
-    expect(wrapper.html()).to.equal('<child-stub></child-stub>')
+    expect(wrapper.html()).toEqual('<child-stub></child-stub>')
   })
 
   it('renders children for functional components', () => {
@@ -167,7 +167,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
     const wrapper = shallowMount(TestComponent, {
       localVue
     })
-    expect(wrapper.html()).to.equal('<child-stub>Hello</child-stub>')
+    expect(wrapper.html()).toEqual('<child-stub>Hello</child-stub>')
   })
 
   it('stubs globally registered components', () => {
@@ -178,7 +178,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
     shallowMount(Component)
     mount(Component)
 
-    expect(console.info.callCount).to.equal(4)
+    expect(console.info.callCount).toEqual(4)
   })
 
   itDoNotRunIf(
@@ -313,7 +313,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
 
   it('does not call stubbed children lifecycle hooks', () => {
     shallowMount(ComponentWithNestedChildren)
-    expect(console.info.called).to.equal(false)
+    expect(console.info.called).toEqual(false)
   })
 
   it('stubs extended components', () => {
@@ -336,8 +336,8 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
     }
 
     const wrapper = shallowMount(TestComponent)
-    expect(wrapper.find(ComponentWithPTag).exists()).to.equal(true)
-    expect(wrapper.find('p').exists()).to.equal(false)
+    expect(wrapper.find(ComponentWithPTag).exists()).toEqual(true)
+    expect(wrapper.find('p').exists()).toEqual(false)
   })
 
   it('stubs nested extended components', () => {
@@ -364,8 +364,8 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
     }
 
     const wrapper = shallowMount(TestComponent)
-    expect(wrapper.find(ComponentWithPTag).exists()).to.equal(true)
-    expect(wrapper.find('p').exists()).to.equal(false)
+    expect(wrapper.find(ComponentWithPTag).exists()).toEqual(true)
+    expect(wrapper.find('p').exists()).toEqual(false)
   })
 
   it('stubs components that receive props through mixin', () => {
@@ -396,14 +396,14 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
       }
     }
     const wrapper = shallowMount(TestComponent)
-    expect(wrapper.find(ChildComponent).props('a')).to.equal('val')
-    expect(wrapper.find(ChildComponentExtended).props('a')).to.equal('val')
+    expect(wrapper.find(ChildComponent).props('a')).toEqual('val')
+    expect(wrapper.find(ChildComponentExtended).props('a')).toEqual('val')
   })
 
   itDoNotRunIf(vueVersion < 2.3, 'stubs Vue class component children', () => {
     const wrapper = shallowMount(ComponentAsAClassWithChild)
-    expect(wrapper.find(Component).exists()).to.equal(true)
-    expect(wrapper.findAll('div').length).to.equal(1)
+    expect(wrapper.find(Component).exists()).toEqual(true)
+    expect(wrapper.findAll('div').length).toEqual(1)
   })
 
   it('works correctly with find, contains, findAll, and is on unnamed components', () => {
@@ -418,9 +418,9 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
       }
     }
     const wrapper = shallowMount(TestComponent)
-    expect(wrapper.contains(ComponentWithoutName)).to.equal(true)
-    expect(wrapper.find(ComponentWithoutName).exists()).to.equal(true)
-    expect(wrapper.findAll(ComponentWithoutName).length).to.equal(1)
+    expect(wrapper.contains(ComponentWithoutName)).toEqual(true)
+    expect(wrapper.find(ComponentWithoutName).exists()).toEqual(true)
+    expect(wrapper.findAll(ComponentWithoutName).length).toEqual(1)
   })
 
   it('works correctly with find, contains, findAll, and is on named components', () => {
@@ -435,9 +435,9 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
       }
     }
     const wrapper = shallowMount(TestComponent)
-    expect(wrapper.contains(Component)).to.equal(true)
-    expect(wrapper.find(Component).exists()).to.equal(true)
-    expect(wrapper.findAll(Component).length).to.equal(1)
+    expect(wrapper.contains(Component)).toEqual(true)
+    expect(wrapper.find(Component).exists()).toEqual(true)
+    expect(wrapper.findAll(Component).length).toEqual(1)
   })
 
   it('works correctly with find on recursive components', () => {
@@ -449,7 +449,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
       }
     })
 
-    expect(wrapper.findAll(RecursiveComponent).length).to.equal(3)
+    expect(wrapper.findAll(RecursiveComponent).length).toEqual(3)
   })
 
   it('handles extended stubs', () => {
@@ -465,7 +465,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
       stubs: ['child-component']
     })
 
-    expect(wrapper.find(ChildComponent).vm.propA).to.equal('hey')
+    expect(wrapper.find(ChildComponent).vm.propA).toEqual('hey')
   })
 
   it('does not stub unregistered components', () => {
@@ -474,7 +474,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
     }
     const wrapper = shallowMount(TestComponent)
 
-    expect(wrapper.html()).to.equal('<custom-element></custom-element>')
+    expect(wrapper.html()).toEqual('<custom-element></custom-element>')
   })
 
   it('stubs lazily registered components', () => {
@@ -489,8 +489,8 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
     }
     const wrapper = shallowMount(TestComponent)
 
-    expect(wrapper.findAll('p').length).to.equal(0)
-    expect(wrapper.findAll(Child).length).to.equal(1)
+    expect(wrapper.findAll('p').length).toEqual(0)
+    expect(wrapper.findAll(Child).length).toEqual(1)
   })
 
   itDoNotRunIf(
@@ -569,7 +569,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
       }
     }
     const wrapper = shallowMount(TestComponent)
-    expect(wrapper.html()).to.equal(
+    expect(wrapper.html()).toEqual(
       '<div>\n' +
         '  <childcomponent-stub></childcomponent-stub>\n' +
         '  <anonymous-stub></anonymous-stub>\n' +
@@ -627,6 +627,6 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
       components: { ChildComponent }
     }
     const wrapper = shallowMount(TestComponent)
-    expect(wrapper.find(ChildComponent).vm.a).to.equal('123')
+    expect(wrapper.find(ChildComponent).vm.a).toEqual('123')
   })
 })

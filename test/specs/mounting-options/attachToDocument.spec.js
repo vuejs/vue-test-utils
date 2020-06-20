@@ -10,7 +10,7 @@ describeWithShallowAndMount('options.attachToDocument', mountingMethod => {
       attachToDocument: true
     })
     expect(document.querySelector('.attached')).to.not.equal(null)
-    expect(wrapper.options.attachedToDocument).to.equal(true)
+    expect(wrapper.options.attachedToDocument).toEqual(true)
   })
 })
 

@@ -8,14 +8,14 @@ describeWithShallowAndMount('contains', mountingMethod => {
     }
     const wrapper = mountingMethod(TestComponent)
     const divArr = wrapper.findAll('div')
-    expect(divArr.contains('p')).to.equal(true)
+    expect(divArr.contains('p')).toEqual(true)
   })
 
   it('returns false if any Wrapper does not contain element', () => {
     const TestComponent = { template: '<div><div></div><div><p /></div></div>' }
     const wrapper = mountingMethod(TestComponent)
     const divArr = wrapper.findAll('div')
-    expect(divArr.contains('p')).to.equal(false)
+    expect(divArr.contains('p')).toEqual(false)
   })
 
   it('throws error if wrapper array contains no items', () => {

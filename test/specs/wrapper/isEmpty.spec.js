@@ -10,13 +10,13 @@ describeWithShallowAndMount('isEmpty', mountingMethod => {
     const compiled = compileToFunctions('<div></div>')
     const wrapper = mountingMethod(compiled)
 
-    expect(wrapper.isEmpty()).to.equal(true)
+    expect(wrapper.isEmpty()).toEqual(true)
   })
 
   it('returns true if node contains comment', () => {
     const compiled = compileToFunctions('<div><div v-if="false"></div></div>')
     const wrapper = mountingMethod(compiled)
-    expect(wrapper.isEmpty()).to.equal(true)
+    expect(wrapper.isEmpty()).toEqual(true)
   })
 
   itDoNotRunIf(
@@ -39,7 +39,7 @@ describeWithShallowAndMount('isEmpty', mountingMethod => {
         }
       }
       const wrapper = mountingMethod(TestComponent)
-      expect(wrapper.isEmpty()).to.equal(true)
+      expect(wrapper.isEmpty()).toEqual(true)
     }
   )
 
@@ -63,7 +63,7 @@ describeWithShallowAndMount('isEmpty', mountingMethod => {
         }
       }
       const wrapper = mountingMethod(TestComponent)
-      expect(wrapper.isEmpty()).to.equal(false)
+      expect(wrapper.isEmpty()).toEqual(false)
     }
   )
 
@@ -78,7 +78,7 @@ describeWithShallowAndMount('isEmpty', mountingMethod => {
       }
     }
     const wrapper = mountingMethod(TestComponent)
-    expect(wrapper.find('svg').isEmpty()).to.equal(true)
+    expect(wrapper.find('svg').isEmpty()).toEqual(true)
   })
 
   it('returns false if innerHTML is not empty', () => {
@@ -92,20 +92,20 @@ describeWithShallowAndMount('isEmpty', mountingMethod => {
       }
     }
     const wrapper = mountingMethod(TestComponent)
-    expect(wrapper.find('svg').isEmpty()).to.equal(false)
+    expect(wrapper.find('svg').isEmpty()).toEqual(false)
   })
 
   it('returns true contains empty slot', () => {
     const compiled = compileToFunctions('<div><slot></slot></div>')
     const wrapper = mountingMethod(compiled)
 
-    expect(wrapper.isEmpty()).to.equal(true)
+    expect(wrapper.isEmpty()).toEqual(true)
   })
 
   it('returns false if node contains other nodes', () => {
     const compiled = compileToFunctions('<div><p /></div>')
     const wrapper = mountingMethod(compiled)
 
-    expect(wrapper.isEmpty()).to.equal(false)
+    expect(wrapper.isEmpty()).toEqual(false)
   })
 })

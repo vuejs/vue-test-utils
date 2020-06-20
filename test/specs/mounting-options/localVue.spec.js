@@ -137,7 +137,7 @@ describeWithShallowAndMount('options.localVue', mountingMethod => {
         localVue
       }
     )
-    expect(localVue.options.created).to.equal(undefined)
+    expect(localVue.options.created).toEqual(undefined)
   })
 
   it('handles merging Vue instances', () => {
@@ -197,7 +197,7 @@ describeWithShallowAndMount('options.localVue', mountingMethod => {
       if (mountingMethod.name === 'renderToString') {
         return
       }
-      expect(wrapper.findAll(ChildComponent).length).to.equal(1)
+      expect(wrapper.findAll(ChildComponent).length).toEqual(1)
     }
   )
 

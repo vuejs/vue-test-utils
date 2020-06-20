@@ -54,8 +54,8 @@ describeWithShallowAndMount('options.provide', mountingMethod => {
         }
       })
 
-      expect(wrapper.vm.foo).to.equal('from parent')
-      expect(wrapper.vm.foo2).to.equal('from config')
+      expect(wrapper.vm.foo).toEqual('from parent')
+      expect(wrapper.vm.foo2).toEqual('from config')
     }
   )
 
@@ -81,8 +81,8 @@ describeWithShallowAndMount('options.provide', mountingMethod => {
         }
       })
 
-      expect(wrapper.vm.foo).to.equal('from parent')
-      expect(wrapper.vm.foo2).to.equal('from config')
+      expect(wrapper.vm.foo).toEqual('from parent')
+      expect(wrapper.vm.foo2).toEqual('from config')
     }
   )
 
@@ -108,7 +108,7 @@ describeWithShallowAndMount('options.provide', mountingMethod => {
         }
       })
 
-      expect(wrapper.vm.foo).to.equal('from config')
+      expect(wrapper.vm.foo).toEqual('from config')
     }
   )
 
@@ -137,7 +137,7 @@ describeWithShallowAndMount('options.provide', mountingMethod => {
         provide: { fromMount: '_' }
       })
 
-      expect(wrapper.vm.setInBeforeCreate).to.equal('created')
+      expect(wrapper.vm.setInBeforeCreate).toEqual('created')
     }
   )
 
@@ -154,7 +154,7 @@ describeWithShallowAndMount('options.provide', mountingMethod => {
         localVue
       })
 
-      expect(wrapper.vm.setInSetup).to.equal('created')
+      expect(wrapper.vm.setInSetup).toEqual('created')
     }
   )
 

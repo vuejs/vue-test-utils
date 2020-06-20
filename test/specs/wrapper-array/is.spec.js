@@ -7,19 +7,19 @@ describeWithShallowAndMount('is', mountingMethod => {
   it('returns true if ech item matches selector', () => {
     const compiled = compileToFunctions('<div><div></div></div>')
     const wrapper = mountingMethod(compiled)
-    expect(wrapper.findAll('div').is('div')).to.equal(true)
+    expect(wrapper.findAll('div').is('div')).toEqual(true)
   })
 
   it('returns true if each item matches Vue Component selector', () => {
     const wrapper = mountingMethod(ComponentWithChild)
     const component = wrapper.findAll(Component).at(0)
-    expect(component.is(Component)).to.equal(true)
+    expect(component.is(Component)).toEqual(true)
   })
 
   it('returns false if each item is not a Vue Component', () => {
     const wrapper = mountingMethod(ComponentWithChild)
     const input = wrapper.findAll('span').at(0)
-    expect(input.is(Component)).to.equal(false)
+    expect(input.is(Component)).toEqual(false)
   })
 
   it('returns false if each item does not match tag selector', () => {
@@ -27,7 +27,7 @@ describeWithShallowAndMount('is', mountingMethod => {
       '<div><div class="a-class"></div><div></div></div>'
     )
     const wrapper = mountingMethod(compiled)
-    expect(wrapper.findAll('div').is('.a-class')).to.equal(false)
+    expect(wrapper.findAll('div').is('.a-class')).toEqual(false)
   })
 
   it('throws error if wrapper array contains no items', () => {

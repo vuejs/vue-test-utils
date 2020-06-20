@@ -9,7 +9,7 @@ describeDoNotRunIf(process.env.TEST_ENV !== 'node', 'render', () => {
     }
     const wrapper = await render(TestComponent)
     expect(wrapper).to.be.an.instanceof(Cheerio)
-    expect(wrapper.find('h2').text()).to.equal('Test')
-    expect(wrapper.find('p').length).to.equal(2)
+    expect(wrapper.find('h2').text()).toEqual('Test')
+    expect(wrapper.find('p').length).toEqual(2)
   })
 })

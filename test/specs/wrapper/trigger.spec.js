@@ -37,7 +37,7 @@ describeWithShallowAndMount('trigger', mountingMethod => {
     const button = wrapper.find('.click')
     button.trigger('click')
 
-    expect(clickHandler.calledOnce).to.equal(true)
+    expect(clickHandler.calledOnce).toEqual(true)
   })
 
   it('causes keydown handler to fire when wrapper.trigger("keydown") is fired on a Component', () => {
@@ -47,7 +47,7 @@ describeWithShallowAndMount('trigger', mountingMethod => {
     })
     wrapper.find('.keydown').trigger('keydown')
 
-    expect(keydownHandler.calledOnce).to.equal(true)
+    expect(keydownHandler.calledOnce).toEqual(true)
   })
 
   describe('causes keydown handler to fire with the appropriate keyCode when wrapper.trigger("keydown", { keyCode: 65 }) is fired on a Component', () => {
@@ -62,11 +62,11 @@ describeWithShallowAndMount('trigger', mountingMethod => {
 
     // Unfortunately, JSDom will give different types than PhantomJS for keyCodes (string vs number), so we have to use parseInt to normalize the types.
     it('contains the keyCode', () => {
-      expect(parseInt(keyboardEvent.keyCode, 10)).to.equal(65)
+      expect(parseInt(keyboardEvent.keyCode, 10)).toEqual(65)
     })
 
     itDoNotRunIf(isRunningPhantomJS, 'contains the code', () => {
-      expect(parseInt(keyboardEvent.code, 10)).to.equal(65)
+      expect(parseInt(keyboardEvent.code, 10)).toEqual(65)
     })
   })
 
@@ -77,7 +77,7 @@ describeWithShallowAndMount('trigger', mountingMethod => {
     })
     wrapper.find('.keydown-enter').trigger('keydown.enter')
 
-    expect(keydownHandler.calledOnce).to.equal(true)
+    expect(keydownHandler.calledOnce).toEqual(true)
   })
 
   it('convert a registered key name to a key code', () => {
@@ -105,7 +105,7 @@ describeWithShallowAndMount('trigger', mountingMethod => {
     for (const keyName in modifiers) {
       const keyCode = modifiers[keyName]
       wrapper.find('.keydown').trigger(`keyup.${keyName}`)
-      expect(keyupHandler.lastCall.args[0].keyCode).to.equal(keyCode)
+      expect(keyupHandler.lastCall.args[0].keyCode).toEqual(keyCode)
     }
   })
 
@@ -134,7 +134,7 @@ describeWithShallowAndMount('trigger', mountingMethod => {
     button.trigger('mousedown', {
       button: 0
     })
-    expect(clickHandler.calledOnce).to.equal(true)
+    expect(clickHandler.calledOnce).toEqual(true)
   })
 
   it('adds custom data to events', () => {
@@ -169,7 +169,7 @@ describeWithShallowAndMount('trigger', mountingMethod => {
       }
     })
     buttonWrapper.trigger('click')
-    expect(clickHandler.called).to.equal(false)
+    expect(clickHandler.called).toEqual(false)
 
     const changeHandler = sandbox.stub()
     const InputComponent = {
@@ -182,7 +182,7 @@ describeWithShallowAndMount('trigger', mountingMethod => {
       }
     })
     inputWrapper.trigger('change')
-    expect(changeHandler.called).to.equal(false)
+    expect(changeHandler.called).toEqual(false)
   })
 
   it('fires on invalid disabled elements', () => {
@@ -197,7 +197,7 @@ describeWithShallowAndMount('trigger', mountingMethod => {
       }
     })
     linkWrapper.trigger('click')
-    expect(clickHandler.called).to.equal(true)
+    expect(clickHandler.called).toEqual(true)
   })
 
   it('handles .prevent', () => {
