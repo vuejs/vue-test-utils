@@ -58,7 +58,7 @@ describeWithShallowAndMount('options.listeners', mountingMethod => {
     'defines listeners as empty object even when not passed',
     () => {
       const wrapper = mountingMethod({ template: '<p />' })
-      expect(wrapper.vm.$listeners).to.deep.equal({})
+      expect(wrapper.vm.$listeners).toEqual({})
     }
   )
 })

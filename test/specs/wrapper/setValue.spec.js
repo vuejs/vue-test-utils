@@ -73,7 +73,7 @@ describeWithShallowAndMount('setValue', mountingMethod => {
     const selectedOptions = Array.from(select.element.selectedOptions).map(
       o => o.value
     )
-    expect(selectedOptions).to.deep.equal(['selectA', 'selectC'])
+    expect(selectedOptions).toEqual(['selectA', 'selectC'])
   })
 
   it('overrides elements of multiselect', () => {
@@ -85,7 +85,7 @@ describeWithShallowAndMount('setValue', mountingMethod => {
     const selectedOptions = Array.from(select.element.selectedOptions).map(
       o => o.value
     )
-    expect(selectedOptions).to.deep.equal(['selectB'])
+    expect(selectedOptions).toEqual(['selectB'])
   })
 
   it('updates dom with multiselect v-model when array', async () => {

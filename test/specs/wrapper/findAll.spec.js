@@ -272,7 +272,7 @@ describeWithShallowAndMount('findAll', mountingMethod => {
     const wrapper = mountingMethod(Component)
     const preArray = wrapper.findAll('pre')
     expect(preArray.length).toEqual(0)
-    expect(preArray.wrappers).to.deep.equal([])
+    expect(preArray.wrappers).toEqual([])
   })
 
   it('returns an array of Wrapper of elements matching a component name in options object', () => {
@@ -321,7 +321,7 @@ describeWithShallowAndMount('findAll', mountingMethod => {
     const wrapper = mountingMethod(Component)
     const preArray = wrapper.findAll({ ref: 'foo' })
     expect(preArray.length).toEqual(0)
-    expect(preArray.wrappers).to.deep.equal([])
+    expect(preArray.wrappers).toEqual([])
   })
 
   it('throws an error if selector is not a valid selector', () => {
