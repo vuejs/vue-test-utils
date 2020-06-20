@@ -247,7 +247,7 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
       const message =
         '[vue-test-utils]: the scopedSlots option is only supported in vue@2.1+.'
       expect(fn)
-        .to.throw()
+        .toThrow()
         .with.property('message', message)
     }
   )

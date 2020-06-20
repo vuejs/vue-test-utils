@@ -8,7 +8,7 @@ describeWithShallowAndMount('overview', mountingMethod => {
     const message = '[vue-test-utils]: overview() cannot be called on 0 items'
 
     expect(() => wrapper.findAll('p').overview())
-      .to.throw()
+      .toThrow()
       .with.property('message', message)
   })
 
@@ -18,7 +18,7 @@ describeWithShallowAndMount('overview', mountingMethod => {
       '[vue-test-utils]: overview() must be called on a single wrapper, use at(i) to access a wrapper'
 
     expect(() => wrapper.findAll('div').overview())
-      .to.throw()
+      .toThrow()
       .with.property('message', message)
   })
 })

@@ -9,7 +9,7 @@ describeWithShallowAndMount('name', mountingMethod => {
     const message =
       '[vue-test-utils]: name must be called on a single wrapper, use at(i) to access a wrapper'
     expect(() => wrapper.findAll('div').name())
-      .to.throw()
+      .toThrow()
       .with.property('message', message)
   })
 
@@ -21,7 +21,7 @@ describeWithShallowAndMount('name', mountingMethod => {
         .findAll('p')
         .name('p')
     expect(fn)
-      .to.throw()
+      .toThrow()
       .with.property('message', message)
   })
 })

@@ -104,7 +104,7 @@ describeWithShallowAndMount('findAll', mountingMethod => {
       '[vue-test-utils]: wrapper.findAll() must be passed a valid CSS selector, Vue constructor, or valid find option object'
     const fn = () => wrapper.findAll('[href=&6"/"]')
     expect(fn)
-      .to.throw()
+      .toThrow()
       .with.property('message', message)
   })
 
@@ -157,7 +157,7 @@ describeWithShallowAndMount('findAll', mountingMethod => {
       '[vue-test-utils]: findAllComponents requires a Vue constructor or valid find object. If you are searching for DOM nodes, use `find` instead'
     const fn = () => wrapper.findAllComponents('#foo')
     expect(fn)
-      .to.throw()
+      .toThrow()
       .with.property('message', message)
   })
 
@@ -167,7 +167,7 @@ describeWithShallowAndMount('findAll', mountingMethod => {
       '[vue-test-utils]: You cannot chain findAllComponents off a DOM element. It can only be used on Vue Components.'
     const fn = () => wrapper.find('span').findAllComponents('#foo')
     expect(fn)
-      .to.throw()
+      .toThrow()
       .with.property('message', message)
   })
 
@@ -297,7 +297,7 @@ describeWithShallowAndMount('findAll', mountingMethod => {
       '[vue-test-utils]: $ref selectors can only be used on Vue component wrappers'
     const fn = () => a.findAll({ ref: 'foo' })
     expect(fn)
-      .to.throw()
+      .toThrow()
       .with.property('message', message)
   })
 
@@ -345,7 +345,7 @@ describeWithShallowAndMount('findAll', mountingMethod => {
         '[vue-test-utils]: wrapper.findAll() must be passed a valid CSS selector, Vue constructor, or valid find option object'
       const fn = () => wrapper.findAll(invalidSelector)
       expect(fn)
-        .to.throw()
+        .toThrow()
         .with.property('message', message)
     })
   })

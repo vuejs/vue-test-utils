@@ -24,7 +24,7 @@ describeWithShallowAndMount('isVueInstance', mountingMethod => {
         .findAll('p')
         .isVueInstance('p')
     expect(fn)
-      .to.throw()
+      .toThrow()
       .with.property('message', message)
   })
 })

@@ -12,7 +12,7 @@ describeWithShallowAndMount('Wrapper', mountingMethod => {
       expect(() => {
         wrapper[property] = 'foo'
       })
-        .to.throw()
+        .toThrow()
         .with.property('message', message)
     })
   })
@@ -50,7 +50,7 @@ describeWithShallowAndMount('Wrapper', mountingMethod => {
 
       enableAutoDestroy(noop)
 
-      expect(() => enableAutoDestroy(noop)).to.throw()
+      expect(() => enableAutoDestroy(noop)).toThrow()
     })
   })
 })

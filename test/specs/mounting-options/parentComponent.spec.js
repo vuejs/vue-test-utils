@@ -28,7 +28,7 @@ describeWithShallowAndMount('options.parentComponent', mountingMethod => {
       const message =
         '[vue-test-utils]: options.parentComponent should be a valid Vue component options object'
       expect(fn)
-        .to.throw()
+        .toThrow()
         .with.property('message', message)
     })
   })

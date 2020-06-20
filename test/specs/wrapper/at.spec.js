@@ -8,7 +8,7 @@ describeWithShallowAndMount('at', mountingMethod => {
     const message = '[vue-test-utils]: at() must be called on a WrapperArray'
     const fn = () => wrapper.at()
     expect(fn)
-      .to.throw()
+      .toThrow()
       .with.property('message', message)
   })
 })

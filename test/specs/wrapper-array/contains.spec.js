@@ -26,7 +26,7 @@ describeWithShallowAndMount('contains', mountingMethod => {
         .findAll('p')
         .contains('p')
     )
-      .to.throw()
+      .toThrow()
       .with.property('message', message)
   })
 
@@ -51,7 +51,7 @@ describeWithShallowAndMount('contains', mountingMethod => {
       const message =
         '[vue-test-utils]: wrapper.contains() must be passed a valid CSS selector, Vue constructor, or valid find option object'
       expect(() => pArr.contains(invalidSelector))
-        .to.throw()
+        .toThrow()
         .with.property('message', message)
     })
   })

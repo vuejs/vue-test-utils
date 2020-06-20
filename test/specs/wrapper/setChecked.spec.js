@@ -159,7 +159,7 @@ describeWithShallowAndMount('setChecked', mountingMethod => {
     const input = wrapper.find('input[type="checkbox"]')
     const fn = () => input.setChecked('asd')
     expect(fn)
-      .to.throw()
+      .toThrow()
       .with.property('message', '[vue-test-utils]: ' + message)
   })
 
@@ -170,7 +170,7 @@ describeWithShallowAndMount('setChecked', mountingMethod => {
     const input = wrapper.find('#radioFoo')
     const fn = () => input.setChecked(false)
     expect(fn)
-      .to.throw()
+      .toThrow()
       .with.property('message', '[vue-test-utils]: ' + message)
   })
 })

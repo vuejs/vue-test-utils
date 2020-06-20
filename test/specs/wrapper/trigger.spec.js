@@ -238,7 +238,7 @@ describeWithShallowAndMount('trigger', mountingMethod => {
     const message =
       '[vue-test-utils]: you cannot set the target value of an event. See the notes section of the docs for more details—https://vue-test-utils.vuejs.org/api/wrapper/trigger.html'
     expect(fn)
-      .to.throw()
+      .toThrow()
       .with.property('message', message)
   })
 
@@ -261,7 +261,7 @@ describeWithShallowAndMount('trigger', mountingMethod => {
         '[vue-test-utils]: wrapper.trigger() must be passed a string'
       const fn = () => wrapper.trigger(invalidSelector)
       expect(fn)
-        .to.throw()
+        .toThrow()
         .with.property('message', message)
     })
   })

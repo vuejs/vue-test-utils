@@ -208,6 +208,6 @@ describeWithShallowAndMount('options.provide', mountingMethod => {
       mountingMethod(ComponentWithInject, {
         provide: { fromMount: '_' }
       })
-    }).to.throw()
+    }).toThrow()
   })
 })

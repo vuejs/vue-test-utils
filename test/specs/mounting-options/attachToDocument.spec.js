@@ -9,7 +9,7 @@ describeWithShallowAndMount('options.attachToDocument', mountingMethod => {
     const wrapper = mountingMethod(TestComponent, {
       attachToDocument: true
     })
-    expect(document.querySelector('.attached')).to.not.equal(null)
+    expect(document.querySelector('.attached')).not.toEqual(null)
     expect(wrapper.options.attachedToDocument).toEqual(true)
   })
 })
@@ -27,7 +27,7 @@ describe('options.attachToDocument with renderToString', () => {
     const message =
       '[vue-test-utils]: you cannot use attachToDocument with renderToString'
     expect(fn)
-      .to.throw()
+      .toThrow()
       .with.property('message', message)
   })
 })

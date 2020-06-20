@@ -38,7 +38,7 @@ describeWithShallowAndMount('is', mountingMethod => {
         .findAll('p')
         .is('p')
     expect(fn)
-      .to.throw()
+      .toThrow()
       .with.property('message', message)
   })
 
@@ -63,7 +63,7 @@ describeWithShallowAndMount('is', mountingMethod => {
         '[vue-test-utils]: wrapper.is() must be passed a valid CSS selector, Vue constructor, or valid find option object'
       const fn = () => wrapper.findAll('div').is(invalidSelector)
       expect(fn)
-        .to.throw()
+        .toThrow()
         .with.property('message', message)
     })
   })

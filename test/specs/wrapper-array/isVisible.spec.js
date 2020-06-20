@@ -36,7 +36,7 @@ describeWithShallowAndMount('isVisible', mountingMethod => {
         .findAll('p')
         .isVisible('p')
     expect(fn)
-      .to.throw()
+      .toThrow()
       .with.property('message', message)
   })
 })

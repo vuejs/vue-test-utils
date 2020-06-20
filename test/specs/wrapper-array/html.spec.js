@@ -11,7 +11,7 @@ describeWithShallowAndMount('html', mountingMethod => {
         .findAll('p')
         .html('p')
     )
-      .to.throw()
+      .toThrow()
       .with.property('message', message)
   })
 
@@ -22,7 +22,7 @@ describeWithShallowAndMount('html', mountingMethod => {
       '[vue-test-utils]: html must be called on a single wrapper, use at(i) to access a wrapper'
     const fn = () => wrapper.findAll('div').html()
     expect(fn)
-      .to.throw()
+      .toThrow()
       .with.property('message', message)
   })
 })

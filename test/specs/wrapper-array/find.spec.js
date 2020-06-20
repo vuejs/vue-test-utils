@@ -12,7 +12,7 @@ describeWithShallowAndMount('find', mountingMethod => {
         .findAll('p')
         .find('p')
     )
-      .to.throw()
+      .toThrow()
       .with.property('message', message)
   })
 
@@ -24,7 +24,7 @@ describeWithShallowAndMount('find', mountingMethod => {
     const message =
       '[vue-test-utils]: find must be called on a single wrapper, use at(i) to access a wrapper'
     expect(() => wrapper.findAll('div').find('div'))
-      .to.throw()
+      .toThrow()
       .with.property('message', message)
   })
 })

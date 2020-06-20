@@ -37,7 +37,7 @@ describeWithShallowAndMount('at', mountingMethod => {
         .findAll('p')
         .at(index)
     )
-      .to.throw()
+      .toThrow()
       .with.property('message', message)
   })
 
@@ -52,7 +52,7 @@ describeWithShallowAndMount('at', mountingMethod => {
         .findAll('p')
         .at(index)
     )
-      .to.throw()
+      .toThrow()
       .with.property('message', message)
   })
 })

@@ -33,7 +33,7 @@ describeWithShallowAndMount('setProps', mountingMethod => {
     const p = wrapper.findAll('p')
     const fn = () => p.setProps({ ready: true })
     expect(fn)
-      .to.throw()
+      .toThrow()
       .with.property('message', message)
   })
 
@@ -45,7 +45,7 @@ describeWithShallowAndMount('setProps', mountingMethod => {
         .findAll('p')
         .setProps('p')
     expect(fn)
-      .to.throw()
+      .toThrow()
       .with.property('message', message)
   })
 })

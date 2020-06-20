@@ -25,7 +25,7 @@ describeWithShallowAndMount('isEmpty', mountingMethod => {
         .findAll('p')
         .isEmpty('p')
     expect(fn)
-      .to.throw()
+      .toThrow()
       .with.property('message', message)
   })
 })

@@ -79,7 +79,7 @@ describeWithShallowAndMount('setSelected', mountingMethod => {
 
     const fn = () => input.setSelected('value')
     expect(fn)
-      .to.throw()
+      .toThrow()
       .with.property('message', '[vue-test-utils]: ' + message)
   })
 })

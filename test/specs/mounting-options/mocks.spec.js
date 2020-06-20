@@ -196,7 +196,7 @@ describeWithShallowAndMount('options.mocks', mountingMethod => {
           stubs: false
         })
       expect(fn)
-        .to.throw()
+        .toThrow()
         .with.property('message', message)
     }
   )

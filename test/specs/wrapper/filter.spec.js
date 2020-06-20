@@ -9,7 +9,7 @@ describeWithShallowAndMount('filter', mountingMethod => {
       '[vue-test-utils]: filter() must be called on a WrapperArray'
     const fn = () => wrapper.filter()
     expect(fn)
-      .to.throw()
+      .toThrow()
       .with.property('message', message)
   })
 })

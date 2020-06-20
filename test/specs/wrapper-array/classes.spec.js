@@ -12,7 +12,7 @@ describeWithShallowAndMount('classes', mountingMethod => {
         .findAll('p')
         .classes('p')
     )
-      .to.throw()
+      .toThrow()
       .with.property('message', message)
   })
 
@@ -25,7 +25,7 @@ describeWithShallowAndMount('classes', mountingMethod => {
       '[vue-test-utils]: classes must be called on a single wrapper, use at(i) to access a wrapper'
     const fn = () => wrapper.findAll('div').classes()
     expect(fn)
-      .to.throw()
+      .toThrow()
       .with.property('message', message)
   })
 })

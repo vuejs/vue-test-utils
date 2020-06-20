@@ -27,7 +27,7 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
       expect(() => {
         wrapperArray[property] = 'foo'
       })
-        .to.throw()
+        .toThrow()
         .with.property('message', message)
     })
   })
@@ -85,7 +85,7 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
       const wrapperArray = getWrapperArray([])
       const message = `[vue-test-utils]: ${method} cannot be called on 0 items`
       expect(() => wrapperArray[method]())
-        .to.throw()
+        .toThrow()
         .with.property('message', message)
     })
 
@@ -112,7 +112,7 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
       const wrapperArray = getWrapperArray([1, 2, 3])
       const message = `[vue-test-utils]: ${method} must be called on a single wrapper, use at(i) to access a wrapper`
       expect(() => wrapperArray[method]())
-        .to.throw()
+        .toThrow()
         .with.property('message', message)
     })
   })
