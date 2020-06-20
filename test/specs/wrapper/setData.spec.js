@@ -268,7 +268,7 @@ describeWithShallowAndMount('setData', mountingMethod => {
     wrapper.setData({
       items: [3]
     })
-    expect(wrapper.vm.items).to.deep.equal([3])
+    expect(wrapper.vm.items).toEqual([3])
     await wrapper.setData({
       nested: {
         nested: {
@@ -277,7 +277,7 @@ describeWithShallowAndMount('setData', mountingMethod => {
       }
     })
     expect(wrapper.text()).toEqual('10')
-    expect(wrapper.vm.nested.nested.nestedArray).to.deep.equal([10])
+    expect(wrapper.vm.nested.nested.nestedArray).toEqual([10])
   })
 
   it('should set property in existing data object', async () => {
