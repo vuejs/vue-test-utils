@@ -64,7 +64,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
           prop1
         }
       })
-      expect(wrapper.text()).to.contain(prop1)
+      expect(wrapper.text()).toContain(prop1)
     }
   )
 

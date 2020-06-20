@@ -9,9 +9,9 @@ describeWithShallowAndMount('setValue', mountingMethod => {
     const input = wrapper.find('input[type="text"]')
     const response = input.setValue('foo')
     expect(isPromise(response)).to.eql(true)
-    expect(wrapper.text()).not.to.contain('foo')
+    expect(wrapper.text()).not.toContain('foo')
     await response
-    expect(wrapper.text()).to.contain('foo')
+    expect(wrapper.text()).toContain('foo')
   })
   it('sets element of input value', () => {
     const wrapper = mountingMethod(ComponentWithInput)
@@ -34,7 +34,7 @@ describeWithShallowAndMount('setValue', mountingMethod => {
     const input = wrapper.find('input[type="text"]')
     await input.setValue('input text awesome binding')
 
-    expect(wrapper.text()).to.contain('input text awesome binding')
+    expect(wrapper.text()).toContain('input text awesome binding')
   })
 
   itDoNotRunIf(
@@ -45,7 +45,7 @@ describeWithShallowAndMount('setValue', mountingMethod => {
       const input = wrapper.find('input#lazy')
       await input.setValue('lazy')
 
-      expect(wrapper.text()).to.contain('lazy')
+      expect(wrapper.text()).toContain('lazy')
     }
   )
 
@@ -62,7 +62,7 @@ describeWithShallowAndMount('setValue', mountingMethod => {
     const select = wrapper.find('select')
     await select.setValue('selectB')
 
-    expect(wrapper.text()).to.contain('selectB')
+    expect(wrapper.text()).toContain('selectB')
   })
 
   it('sets element of multiselect value', () => {
@@ -93,7 +93,7 @@ describeWithShallowAndMount('setValue', mountingMethod => {
     const select = wrapper.find('select.multiselect')
     await select.setValue(['selectA', 'selectC'])
 
-    expect(wrapper.text()).to.contain('["selectA","selectC"]')
+    expect(wrapper.text()).toContain('["selectA","selectC"]')
   })
 
   it('throws error if element is option', () => {

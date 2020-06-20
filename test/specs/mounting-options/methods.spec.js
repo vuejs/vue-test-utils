@@ -28,6 +28,6 @@ describeWithShallowAndMount('options.methods', mountingMethod => {
       }
     })
 
-    expect(wrapper.html()).to.contain('methodFromOptions')
+    expect(wrapper.html()).toContain('methodFromOptions')
   })
 })

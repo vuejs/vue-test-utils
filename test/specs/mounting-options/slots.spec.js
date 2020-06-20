@@ -178,8 +178,8 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
         footer: '<p>world</p>'
       }
     })
-    expect(wrapper.html()).to.contain('<span>hello</span>')
-    expect(wrapper.html()).to.contain('<p>world</p>')
+    expect(wrapper.html()).toContain('<span>hello</span>')
+    expect(wrapper.html()).toContain('<p>world</p>')
   })
 
   it('mounts component with default and named text slot', () => {
@@ -189,7 +189,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
         default: 'hello,'
       }
     })
-    expect(wrapper.text()).to.contain('hello, world')
+    expect(wrapper.text()).toContain('hello, world')
   })
 
   it('mounts functional component with text slot', () => {
@@ -205,7 +205,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
         header: 'world'
       }
     })
-    expect(wrapper.text()).to.contain('hello,world')
+    expect(wrapper.text()).toContain('hello,world')
   })
 
   it('mounts component with named slot if passed component in slot object', () => {

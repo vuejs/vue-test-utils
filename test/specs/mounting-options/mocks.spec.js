@@ -83,10 +83,10 @@ describeWithShallowAndMount('options.mocks', mountingMethod => {
         mocks: { $reactiveMock }
       }
     )
-    expect(wrapper.text()).to.contain('value')
+    expect(wrapper.text()).toContain('value')
     $reactiveMock.value = 'changed value'
     await Vue.nextTick()
-    expect(wrapper.text()).to.contain('changed value')
+    expect(wrapper.text()).toContain('changed value')
   })
 
   itDoNotRunIf(
@@ -176,7 +176,7 @@ describeWithShallowAndMount('options.mocks', mountingMethod => {
         $global: 'locallyMockedValue'
       }
     })
-    expect(wrapper.html()).to.contain('locallyMockedValue')
+    expect(wrapper.html()).toContain('locallyMockedValue')
   })
 
   itRunIf(

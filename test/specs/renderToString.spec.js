@@ -11,7 +11,7 @@ describeDoNotRunIf(process.env.TEST_ENV !== 'node', 'renderToString', () => {
         return { val: '123' }
       }
     })
-    expect(str).to.contain('123')
+    expect(str).toContain('123')
   })
 
   it('mounts functional component with a defined context when no context object passed in options', async () => {
@@ -27,7 +27,7 @@ describeDoNotRunIf(process.env.TEST_ENV !== 'node', 'renderToString', () => {
       render: (h, { props }) => h('div', props.testProp)
     }
     const str = await renderToString(Component)
-    expect(str).to.contain(defaultValue)
+    expect(str).toContain(defaultValue)
   })
 
   it('mounts component using passed localVue as base Vue', async () => {
@@ -39,7 +39,7 @@ describeDoNotRunIf(process.env.TEST_ENV !== 'node', 'renderToString', () => {
     const str = await renderToString(TestComponent, {
       localVue: localVue
     })
-    expect(str).to.contain('some value')
+    expect(str).toContain('some value')
   })
 
   it('adds variables to vm when passed', async () => {
@@ -75,7 +75,7 @@ describeDoNotRunIf(process.env.TEST_ENV !== 'node', 'renderToString', () => {
     const str = await renderToString(TestComponent, {
       parentComponent: Parent
     })
-    expect(str).to.contain('Parent Name')
+    expect(str).toContain('Parent Name')
   })
 
   it('replaces component with template string ', async () => {
@@ -85,6 +85,6 @@ describeDoNotRunIf(process.env.TEST_ENV !== 'node', 'renderToString', () => {
       }
     })
 
-    expect(str).to.contain('"stub"')
+    expect(str).toContain('"stub"')
   })
 })

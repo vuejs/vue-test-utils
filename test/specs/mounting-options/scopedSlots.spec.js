@@ -352,7 +352,7 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
         localVue
       })
 
-      expect(wrapper.html()).to.contain('span')
+      expect(wrapper.html()).toContain('span')
     }
   )
 

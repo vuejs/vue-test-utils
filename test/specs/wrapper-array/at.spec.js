@@ -10,7 +10,7 @@ describeWithShallowAndMount('at', mountingMethod => {
       .findAll('p')
       .at(1)
     expect(p.vnode).to.be.an('object')
-    expect(p.classes()).to.contain('index-1')
+    expect(p.classes()).toContain('index-1')
   })
 
   it('returns Wrapper at index from the end when index is negative', () => {
@@ -21,9 +21,9 @@ describeWithShallowAndMount('at', mountingMethod => {
     const last = all.at(-1)
     const first = all.at(-2)
     expect(last.vnode).to.be.an('object')
-    expect(last.classes()).to.contain('index-last')
+    expect(last.classes()).toContain('index-last')
     expect(first.vnode).to.be.an('object')
-    expect(first.classes()).to.contain('index-first')
+    expect(first.classes()).toContain('index-first')
   })
 
   it('throws error if no item exists at index', () => {

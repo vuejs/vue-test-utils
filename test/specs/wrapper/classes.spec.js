@@ -6,8 +6,8 @@ describeWithShallowAndMount('classes', mountingMethod => {
   it('returns array of class names if wrapper has class names', () => {
     const compiled = compileToFunctions('<div class="a-class b-class" />')
     const wrapper = mountingMethod(compiled)
-    expect(wrapper.classes()).to.contain('a-class')
-    expect(wrapper.classes()).to.contain('b-class')
+    expect(wrapper.classes()).toContain('a-class')
+    expect(wrapper.classes()).toContain('b-class')
   })
 
   it('returns empty array if wrapper has no classes', () => {
@@ -26,9 +26,9 @@ describeWithShallowAndMount('classes', mountingMethod => {
       '<svg class="a-class b-class"><text class="c-class"/></svg>'
     )
     const wrapper = mountingMethod(compiled)
-    expect(wrapper.classes()).to.contain('a-class')
-    expect(wrapper.classes()).to.contain('b-class')
-    expect(wrapper.find('text').classes()).to.contain('c-class')
+    expect(wrapper.classes()).toContain('a-class')
+    expect(wrapper.classes()).toContain('b-class')
+    expect(wrapper.find('text').classes()).toContain('c-class')
   })
 
   it('returns true if the element has the class', () => {

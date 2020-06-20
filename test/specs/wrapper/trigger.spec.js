@@ -21,12 +21,12 @@ describeWithShallowAndMount('trigger', mountingMethod => {
   it('returns a promise that when resolved, the component is updated', async () => {
     const wrapper = mountingMethod(ComponentWithEvents)
     const toggle = wrapper.find('.toggle')
-    expect(toggle.classes()).not.to.contain('active')
+    expect(toggle.classes()).not.toContain('active')
     const response = toggle.trigger('click')
-    expect(toggle.classes()).not.to.contain('active')
+    expect(toggle.classes()).not.toContain('active')
     expect(isPromise(response)).to.eql(true)
     await response
-    expect(toggle.classes()).to.contain('active')
+    expect(toggle.classes()).toContain('active')
   })
 
   it('causes click handler to fire when wrapper.trigger("click") is called on a Component', () => {
@@ -115,10 +115,10 @@ describeWithShallowAndMount('trigger', mountingMethod => {
     async () => {
       const wrapper = mountingMethod(ComponentWithEvents)
       const toggle = wrapper.find('.toggle')
-      expect(toggle.classes()).not.to.contain('active')
+      expect(toggle.classes()).not.toContain('active')
       toggle.trigger('click')
       await Vue.nextTick()
-      expect(toggle.classes()).to.contain('active')
+      expect(toggle.classes()).toContain('active')
     }
   )
 
