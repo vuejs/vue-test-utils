@@ -26,8 +26,6 @@ describe('options.attachToDocument with renderToString', () => {
     const fn = () => renderToString(TestComponent, { attachToDocument: true })
     const message =
       '[vue-test-utils]: you cannot use attachToDocument with renderToString'
-    expect(fn)
-      .toThrow()
-      .with.property('message', message)
+    expect(fn).toThrow({ message })
   })
 })
