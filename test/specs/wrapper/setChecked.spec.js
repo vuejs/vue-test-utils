@@ -8,9 +8,9 @@ describeWithShallowAndMount('setChecked', mountingMethod => {
 
     const response = input.setChecked()
     expect(isPromise(response)).to.eql(true)
-    expect(wrapper.text()).not.to.contain('checkbox checked')
+    expect(wrapper.text()).not.toContain('checkbox checked')
     await response
-    expect(wrapper.text()).to.contain('checkbox checked')
+    expect(wrapper.text()).toContain('checkbox checked')
   })
   it('sets element checked true with no option passed', () => {
     const wrapper = mountingMethod(ComponentWithInput)
@@ -36,10 +36,10 @@ describeWithShallowAndMount('setChecked', mountingMethod => {
     const input = wrapper.find('input[type="checkbox"]')
 
     await input.setChecked()
-    expect(wrapper.text()).to.contain('checkbox checked')
+    expect(wrapper.text()).toContain('checkbox checked')
 
     await input.setChecked(false)
-    expect(wrapper.text()).to.not.contain('checkbox checked')
+    expect(wrapper.text()).not.toContain('checkbox checked')
   })
 
   it('changes state the right amount of times with checkbox v-model', async () => {
@@ -97,10 +97,10 @@ describeWithShallowAndMount('setChecked', mountingMethod => {
     const wrapper = mountingMethod(ComponentWithInput)
 
     await wrapper.find('#radioBar').setChecked()
-    expect(wrapper.text()).to.contain('radioBarResult')
+    expect(wrapper.text()).toContain('radioBarResult')
 
     await wrapper.find('#radioFoo').setChecked()
-    expect(wrapper.text()).to.contain('radioFooResult')
+    expect(wrapper.text()).toContain('radioFooResult')
   })
 
   it('changes state the right amount of times with radio v-model', async () => {

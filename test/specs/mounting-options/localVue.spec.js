@@ -21,7 +21,7 @@ describeWithShallowAndMount('options.localVue', mountingMethod => {
       const wrapper = mountingMethod(TestComponent, {
         localVue: localVue
       })
-      expect(wrapper.html()).to.contain('some value')
+      expect(wrapper.html()).toContain('some value')
     }
   )
 
@@ -52,9 +52,9 @@ describeWithShallowAndMount('options.localVue', mountingMethod => {
     const HTML =
       mountingMethod.name === 'renderToString' ? wrapper : wrapper.html()
     if (mountingMethod.name === 'shallowMount') {
-      expect(HTML).to.not.contain('2')
+      expect(HTML).not.toContain('2')
     } else {
-      expect(HTML).to.contain('2')
+      expect(HTML).toContain('2')
     }
   })
 
@@ -216,7 +216,7 @@ describeWithShallowAndMount('options.localVue', mountingMethod => {
       localVue.use(Vuex)
       shallowMount(TestComponent, { localVue })
       const wrapper = mount(TestComponent, { localVue })
-      expect(wrapper.html()).to.contain('span')
+      expect(wrapper.html()).toContain('span')
     }
   )
 })

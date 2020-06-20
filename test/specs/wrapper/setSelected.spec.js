@@ -16,10 +16,10 @@ describeWithShallowAndMount('setSelected', mountingMethod => {
     const options = wrapper.find('select').findAll('option')
 
     await options.at(1).setSelected()
-    expect(wrapper.text()).to.contain('selectB')
+    expect(wrapper.text()).toContain('selectB')
 
     await options.at(0).setSelected()
-    expect(wrapper.text()).to.contain('selectA')
+    expect(wrapper.text()).toContain('selectA')
   })
 
   it('updates dom with select v-model for select with optgroups', async () => {
@@ -27,10 +27,10 @@ describeWithShallowAndMount('setSelected', mountingMethod => {
     const options = wrapper.find('select.with-optgroups').findAll('option')
 
     await options.at(1).setSelected()
-    expect(wrapper.text()).to.contain('selectB')
+    expect(wrapper.text()).toContain('selectB')
 
     await options.at(0).setSelected()
-    expect(wrapper.text()).to.contain('selectA')
+    expect(wrapper.text()).toContain('selectA')
   })
 
   it('triggers a change event on the parent select', () => {

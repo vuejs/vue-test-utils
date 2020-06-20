@@ -214,7 +214,7 @@ describeWithShallowAndMount('find', mountingMethod => {
       const wrappers = wrapper.findAll('div').wrappers
       const expectedClasses = ['1', '1a', '1aa', '1b', '2', '3']
       wrappers.forEach((w, i) =>
-        expect(w.classes()).to.contain(expectedClasses[i])
+        expect(w.classes()).toContain(expectedClasses[i])
       )
     }
   )

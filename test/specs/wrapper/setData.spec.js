@@ -48,7 +48,7 @@ describeWithShallowAndMount('setData', mountingMethod => {
     const wrapper = mountingMethod(Component)
     await wrapper.setData({ show: true })
     expect(wrapper.element).toEqual(wrapper.vm.$el)
-    expect(wrapper.classes()).to.contain('some-class')
+    expect(wrapper.classes()).toContain('some-class')
   })
 
   it('runs watch function when data is updated', async () => {
@@ -222,7 +222,7 @@ describeWithShallowAndMount('setData', mountingMethod => {
         foo: 'baz'
       }
     })
-    expect(wrapper.text()).to.contain('baz')
+    expect(wrapper.text()).toContain('baz')
   })
 
   it('handles null values', async () => {
@@ -241,7 +241,7 @@ describeWithShallowAndMount('setData', mountingMethod => {
         another: null
       }
     })
-    expect(wrapper.text()).to.contain('bar')
+    expect(wrapper.text()).toContain('bar')
     wrapper.setData({
       nullProperty: {
         another: {

@@ -91,10 +91,10 @@ describeWithShallowAndMount('createLocalVue', mountingMethod => {
       const wrapper = mountingMethod(ComponentWithRouter, { localVue, router })
       expect(wrapper.vm.$route).to.be.an('object')
 
-      expect(wrapper.text()).to.contain('home')
+      expect(wrapper.text()).toContain('home')
 
       wrapper.find('a').trigger('click')
-      expect(wrapper.text()).to.contain('foo')
+      expect(wrapper.text()).toContain('foo')
 
       const freshWrapper = mountingMethod(Component)
       expect(typeof freshWrapper.vm.$route).toEqual('undefined')

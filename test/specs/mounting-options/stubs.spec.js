@@ -130,7 +130,7 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
         'registered-component': Component
       }
     })
-    expect(wrapper.html()).to.contain('</div>')
+    expect(wrapper.html()).toContain('</div>')
   })
 
   it('stubs components with place holder when passed as an array', () => {
@@ -140,7 +140,7 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
     const wrapper = mountingMethod(ComponentWithGlobalComponent, {
       stubs: ['registered-component']
     })
-    expect(wrapper.html()).to.contain('<registered-component-stub>')
+    expect(wrapper.html()).toContain('<registered-component-stub>')
   })
 
   itDoNotRunIf(
@@ -161,7 +161,7 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
       const wrapper = mountingMethod(TestComponent, {
         stubs: ['grand-child-component']
       })
-      expect(wrapper.html()).not.to.contain('<span>')
+      expect(wrapper.html()).not.toContain('<span>')
     }
   )
 
@@ -186,7 +186,7 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
           'grand-child-component': true
         }
       })
-      expect(wrapper.html()).not.to.contain('<span>')
+      expect(wrapper.html()).not.toContain('<span>')
       delete Vue.options.components['child-component']
       delete Vue.options.components['grand-child-component']
     }
@@ -210,7 +210,7 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
       const wrapper = mountingMethod(Vue.extend(TestComponent), {
         stubs: ['grand-child-component']
       })
-      expect(wrapper.html()).not.to.contain('<span>')
+      expect(wrapper.html()).not.toContain('<span>')
     }
   )
 
@@ -227,7 +227,7 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
     const wrapper = mountingMethod(TestComponent, {
       stubs: ['child-component', 'stub-with-child']
     })
-    expect(wrapper.html()).to.contain('<child-component-stub>')
+    expect(wrapper.html()).toContain('<child-component-stub>')
   })
 
   it('stubs components with place holder which has name when passed a boolean', () => {
@@ -240,7 +240,7 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
         'registered-component': true
       }
     })
-    expect(wrapper.html()).to.contain('<registered-component-stub>')
+    expect(wrapper.html()).toContain('<registered-component-stub>')
   })
 
   it('stubs components with place holder when passed as an array', () => {
@@ -303,7 +303,7 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
           ChildComponent: false
         }
       })
-      expect(wrapper.html()).to.contain('<span><div></div></span>')
+      expect(wrapper.html()).toContain('<span><div></div></span>')
     }
   )
 
@@ -330,8 +330,8 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
       },
       localVue
     })
-    expect(wrapper.html()).to.contain('<br>')
-    expect(wrapper.html()).to.contain('<p>')
+    expect(wrapper.html()).toContain('<br>')
+    expect(wrapper.html()).toContain('<p>')
   })
 
   it('prioritize mounting options over config', () => {
@@ -351,7 +351,7 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
       },
       localVue
     })
-    expect(wrapper.html()).to.contain('<span>')
+    expect(wrapper.html()).toContain('<span>')
   })
 
   itDoNotRunIf(
@@ -393,7 +393,7 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
       localVue
     })
 
-    expect(wrapper.html()).to.contain('</p>')
+    expect(wrapper.html()).toContain('</p>')
   })
 
   it('handles components without a render function', () => {
@@ -523,9 +523,9 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
         DynamicHello3: StubComponent
       }
     })
-    expect(wrapper.html()).to.contain('span')
-    expect(wrapper.html()).to.contain('dynamichello2-stub')
-    expect(wrapper.html()).to.contain('h1')
+    expect(wrapper.html()).toContain('span')
+    expect(wrapper.html()).toContain('dynamichello2-stub')
+    expect(wrapper.html()).toContain('h1')
   })
 
   it('maintains refs to components', () => {

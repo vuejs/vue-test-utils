@@ -28,7 +28,7 @@ describeWithShallowAndMount('options.provide', mountingMethod => {
       const wrapper = mountingMethod(ComponentWithInject, {
         provide: { fromMount: 'objectValue' }
       })
-      expect(wrapper.html()).to.contain('objectValue')
+      expect(wrapper.html()).toContain('objectValue')
     }
   )
 
@@ -123,7 +123,7 @@ describeWithShallowAndMount('options.provide', mountingMethod => {
           }
         }
       })
-      expect(wrapper.html()).to.contain('functionValue')
+      expect(wrapper.html()).toContain('functionValue')
     }
   )
 
@@ -168,7 +168,7 @@ describeWithShallowAndMount('options.provide', mountingMethod => {
       config.provide['fromMount'] = 'globalConfig'
 
       const wrapper = mountingMethod(ComponentWithInject)
-      expect(wrapper.html()).to.contain('globalConfig')
+      expect(wrapper.html()).toContain('globalConfig')
     }
   )
 
@@ -182,7 +182,7 @@ describeWithShallowAndMount('options.provide', mountingMethod => {
         provide: { fromMount: '_' }
       })
 
-      expect(wrapper.html()).to.contain('_')
+      expect(wrapper.html()).toContain('_')
     }
   )
 
@@ -197,7 +197,7 @@ describeWithShallowAndMount('options.provide', mountingMethod => {
         localVue
       })
 
-      expect(wrapper.html()).to.contain('_')
+      expect(wrapper.html()).toContain('_')
     }
   )
 

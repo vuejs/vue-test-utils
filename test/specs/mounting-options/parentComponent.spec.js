@@ -13,7 +13,7 @@ describeWithShallowAndMount('options.parentComponent', mountingMethod => {
     const wrapper = mountingMethod(TestComponent, {
       parentComponent: Parent
     })
-    expect(wrapper.html()).to.contain('Parent Name')
+    expect(wrapper.html()).toContain('Parent Name')
   })
 
   it('validates parentComponent option', () => {
