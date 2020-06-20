@@ -6,19 +6,15 @@ import { describeWithShallowAndMount, vueVersion } from '~resources/utils'
 import { itDoNotRunIf, itSkipIf, itRunIf } from 'conditional-specs'
 
 describeWithShallowAndMount('options.mocks', mountingMethod => {
-  const sandbox = sinon.createSandbox()
-  let configMocksSave
+  let originalConsoleError
 
   beforeEach(() => {
-    configMocksSave = config.mocks
-    config.mocks = {}
-    sandbox.stub(console, 'error').callThrough()
+    originalConsoleError = console.error
+    console.error = jest.fn()
   })
 
   afterEach(() => {
-    config.mocks = configMocksSave
-    sandbox.reset()
-    sandbox.restore()
+    console.error = originalConsoleError
   })
 
   it('adds variables to vm when passed', () => {
@@ -38,8 +34,8 @@ describeWithShallowAndMount('options.mocks', mountingMethod => {
         $route
       }
     })
-    expect(wrapper.html()).contains('true')
-    expect(wrapper.html()).contains('http://test.com')
+    expect(wrapper.html()).toContain('true')
+    expect(wrapper.html()).toContain('http://test.com')
   })
 
   itSkipIf(vueVersion < 2.3, 'adds variables to extended components', () => {
@@ -59,11 +55,10 @@ describeWithShallowAndMount('options.mocks', mountingMethod => {
         $route
       }
     })
-    expect(wrapper.html()).contains('http://test.com')
+    expect(wrapper.html()).toContain('http://test.com')
   })
 
   it('adds variables as reactive properties to vm when passed', async () => {
-    const stub = sandbox.stub()
     const $reactiveMock = { value: 'value' }
     const wrapper = mountingMethod(
       {
@@ -71,11 +66,6 @@ describeWithShallowAndMount('options.mocks', mountingMethod => {
         computed: {
           value() {
             return this.$reactiveMock.value
-          }
-        },
-        watch: {
-          value() {
-            stub()
           }
         }
       },
@@ -105,7 +95,7 @@ describeWithShallowAndMount('options.mocks', mountingMethod => {
           mocks: { $store: { state: { count, foo: {} } } }
         }
       )
-      expect(wrapper.html()).contains(count)
+      expect(wrapper.html()).toContain(count)
     }
   )
 
@@ -127,7 +117,7 @@ describeWithShallowAndMount('options.mocks', mountingMethod => {
           localVue
         }
       )
-      expect(wrapper.html()).contains(count)
+      expect(wrapper.html()).toContain(count)
     }
   )
 
@@ -159,7 +149,7 @@ describeWithShallowAndMount('options.mocks', mountingMethod => {
       `[vue-test-utils]: could not overwrite property $store, this ` +
       `is usually caused by a plugin that has added the property as ` +
       `a read-only value`
-    expect(console.error).calledWith(msg)
+    expect(console.error).toHaveBeenCalledWith(msg)
   })
 
   it('prioritize mounting options over config', () => {
