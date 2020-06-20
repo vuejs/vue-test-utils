@@ -30,7 +30,7 @@ describeWithShallowAndMount('options.attrs', mountingMethod => {
     'defines attrs as empty object even when not passed',
     () => {
       const wrapper = mountingMethod({ template: '<p />' })
-      expect(wrapper.vm.$attrs).to.deep.equal({})
+      expect(wrapper.vm.$attrs).toEqual({})
     }
   )
 })
