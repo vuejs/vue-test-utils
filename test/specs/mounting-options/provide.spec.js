@@ -1,11 +1,12 @@
-import { config } from '@vue/test-utils'
+import Vue from 'vue'
+import { config, mount } from '@vue/test-utils'
 import { createLocalVue } from '@vue/test-utils'
 import ComponentWithInject from '~resources/components/component-with-inject.vue'
 import CompositionComponentWithInject from '~resources/components/component-with-inject-composition.vue'
 import { injectSupported } from '~resources/utils'
 import { describeWithShallowAndMount } from '~resources/utils'
 import { itDoNotRunIf, itSkipIf } from 'conditional-specs'
-import VueCompositionApi from '@vue/composition-api'
+import VueCompositionApi, { inject } from '@vue/composition-api'
 
 describeWithShallowAndMount('options.provide', mountingMethod => {
   let configProvideSave
@@ -200,6 +201,33 @@ describeWithShallowAndMount('options.provide', mountingMethod => {
       expect(wrapper.html()).to.contain('_')
     }
   )
+
+  it('provides with a symbol', () => {
+    const localVue = createLocalVue()
+    localVue.use(VueCompositionApi)
+    Vue.config.errorHandler = null
+    const key = Symbol('auth')
+    const Comp = {
+      template: `<div>{{ auth.username }}</div>`,
+      setup() {
+        const auth = inject(key)
+        return {
+          auth
+        }
+      }
+    }
+
+    const wrapper = mount(Comp, {
+      localVue,
+      provide: {
+        [key]: {
+          username: 'foo'
+        }
+      }
+    })
+
+    expect(wrapper.html()).to.contain('foo')
+  })
 
   it('config with function throws', () => {
     config.provide = () => {}
