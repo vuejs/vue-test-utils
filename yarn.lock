@@ -195,7 +195,7 @@
     levenary "^1.1.1"
     semver "^5.5.0"
 
-"@babel/helper-create-class-features-plugin@^7.10.1":
+"@babel/helper-create-class-features-plugin@^7.10.1", "@babel/helper-create-class-features-plugin@^7.10.3":
   version "7.10.3"
   resolved "https://registry.yarnpkg.com/@babel/helper-create-class-features-plugin/-/helper-create-class-features-plugin-7.10.3.tgz#2783daa6866822e3d5ed119163b50f0fc3ae4b35"
   integrity sha512-iRT9VwqtdFmv7UheJWthGc/h2s7MqoweBF9RUj77NFZsg9VfISvBTum3k6coAhJ8RWv2tj3yUjA03HxPd0vfpQ==
@@ -642,6 +642,15 @@
     "@babel/helper-plugin-utils" "7.0.0-beta.47"
     "@babel/plugin-syntax-decorators" "7.0.0-beta.47"
 
+"@babel/plugin-proposal-decorators@^7.10.3":
+  version "7.10.3"
+  resolved "https://registry.yarnpkg.com/@babel/plugin-proposal-decorators/-/plugin-proposal-decorators-7.10.3.tgz#2fc6b5696028adccfcd14bc826c184c578b857f8"
+  integrity sha512-Rzwn5tcYFTdWWK3IrhMZkMDjzFQLIGYqHvv9XuzNnEB91Y6gHr/JjazYV1Yec9g0yMLhy1p/21eiW1P7f5UN4A==
+  dependencies:
+    "@babel/helper-create-class-features-plugin" "^7.10.3"
+    "@babel/helper-plugin-utils" "^7.10.3"
+    "@babel/plugin-syntax-decorators" "^7.10.1"
+
 "@babel/plugin-proposal-dynamic-import@^7.10.1":
   version "7.10.1"
   resolved "https://registry.yarnpkg.com/@babel/plugin-proposal-dynamic-import/-/plugin-proposal-dynamic-import-7.10.1.tgz#e36979dc1dc3b73f6d6816fc4951da2363488ef0"
@@ -804,6 +813,13 @@
   resolved "https://registry.yarnpkg.com/@babel/plugin-syntax-decorators/-/plugin-syntax-decorators-7.0.0-beta.47.tgz#a42f10fcd651940bc475d93b3ac23432b4a8a293"
   dependencies:
     "@babel/helper-plugin-utils" "7.0.0-beta.47"
+
+"@babel/plugin-syntax-decorators@^7.10.1":
+  version "7.10.1"
+  resolved "https://registry.yarnpkg.com/@babel/plugin-syntax-decorators/-/plugin-syntax-decorators-7.10.1.tgz#16b869c4beafc9a442565147bda7ce0967bd4f13"
+  integrity sha512-a9OAbQhKOwSle1Vr0NJu/ISg1sPfdEkfRKWpgPuzhnWWzForou2gIeUIIwjAMHRekhhpJ7eulZlYs0H14Cbi+g==
+  dependencies:
+    "@babel/helper-plugin-utils" "^7.10.1"
 
 "@babel/plugin-syntax-dynamic-import@7.0.0-beta.47":
   version "7.0.0-beta.47"
@@ -14998,9 +15014,10 @@ void-elements@^2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/void-elements/-/void-elements-2.0.1.tgz#c066afb582bb1cb4128d60ea92392e94d5e9dbec"
 
-vue-class-component@^6.1.2:
-  version "6.2.0"
-  resolved "https://registry.yarnpkg.com/vue-class-component/-/vue-class-component-6.2.0.tgz#7adb1daa9a868c75f30f97f33f4f1b94aee62089"
+vue-class-component@^8.0.0-alpha.6:
+  version "8.0.0-alpha.6"
+  resolved "https://registry.yarnpkg.com/vue-class-component/-/vue-class-component-8.0.0-alpha.6.tgz#395ec86e58001680306278fcef60e1ffe705a5bd"
+  integrity sha512-bxugtly8bzgt0du09LjJnK6X5v8nhMi5ABw4KKy50Rv/UdaAZDCrThp6kBbtBXocMf4EnhlfRVf/N4g4CPDc/Q==
 
 vue-hot-reload-api@^2.2.0, vue-hot-reload-api@^2.3.0:
   version "2.3.0"
