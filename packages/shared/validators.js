@@ -45,6 +45,10 @@ export function isVueComponent(c: any): boolean {
     return true
   }
 
+  if (typeof c.setup === 'function' && !c.render) {
+    return true
+  }
+
   return typeof c.render === 'function'
 }
 
