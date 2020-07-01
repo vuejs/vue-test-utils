@@ -31,6 +31,8 @@ vue-test-utils はラッパベースの API です。
 !!!include(docs/ja/api/wrapper/exists.md)!!!
 !!!include(docs/ja/api/wrapper/find.md)!!!
 !!!include(docs/ja/api/wrapper/findAll.md)!!!
+!!!include(docs/ja/api/wrapper/findComponent.md)!!!
+!!!include(docs/ja/api/wrapper/findAllComponents.md)!!!
 !!!include(docs/ja/api/wrapper/html.md)!!!
 !!!include(docs/ja/api/wrapper/is.md)!!!
 !!!include(docs/ja/api/wrapper/isEmpty.md)!!!
