@@ -1,6 +1,6 @@
 ## findAllComponents
 
-一致するすべてのVueコンポーネントの `WrapperArray` を返します。
+一致するすべての Vue コンポーネントの `WrapperArray` を返します。
 
 - **引数:**
 

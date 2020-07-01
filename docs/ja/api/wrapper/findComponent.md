@@ -1,6 +1,6 @@
 ## findComponent
 
-最初に一致したVueコンポーネントの `Wrapper` を返します。
+最初に一致した Vue コンポーネントの `Wrapper` を返します。
 
 - **引数:**
 
