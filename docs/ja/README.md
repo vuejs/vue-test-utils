@@ -43,6 +43,8 @@
     - [destroy](api/wrapper/destroy.md)
     - [find](api/wrapper/find.md)
     - [findAll](api/wrapper/findAll.md)
+    - [findComponent](api/wrapper/findComponent.md)
+    - [findAllComponents](api/wrapper/findAllComponents.md)
     - [html](api/wrapper/html.md)
     - [is](api/wrapper/is.md)
     - [isEmpty](api/wrapper/isEmpty.md)
