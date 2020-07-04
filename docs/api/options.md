@@ -301,6 +301,10 @@ When attaching to the DOM, you should call `wrapper.destroy()` at the end of you
 remove the rendered elements from the document and destroy the component instance.
 
 ```js
+const div = document.createElement('div')
+div.id = 'root'
+document.body.appendChild(div)
+
 const Component = {
   template: '<div>ABC</div>'
 }
