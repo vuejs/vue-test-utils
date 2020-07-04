@@ -17,7 +17,7 @@
 现在我们需要引入这些库。这里有一些轻微的注意事项并解释在了如下代码片段的注释中。
 
 ```js
-// `jsdon-global` 必须在 `@vue/test-utils` 之前被引入，
+// `jsdom-global` 必须在 `@vue/test-utils` 之前被引入，
 // 因为 `@vue/test-utils` 需要一个已经存在的 DOM 环境 (真实的 DOM 或 JSDOM)
 require('jsdom-global')()
 
