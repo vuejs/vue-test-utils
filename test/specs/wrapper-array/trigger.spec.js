@@ -11,7 +11,7 @@ describeWithShallowAndMount('trigger', mountingMethod => {
   })
 
   it('causes click handler to fire when wrapper.trigger("click") is called on a Component', () => {
-    const clickHandler = sandbox.stub()
+    const clickHandler = jest.fn()()
     const wrapper = mountingMethod(ComponentWithEvents, {
       propsData: { clickHandler }
     })
@@ -22,7 +22,7 @@ describeWithShallowAndMount('trigger', mountingMethod => {
   })
 
   it('causes keydown handler to fire when wrapper.trigger("keydown") is fired on a Component', () => {
-    const keydownHandler = sandbox.stub()
+    const keydownHandler = jest.fn()()
     const wrapper = mountingMethod(ComponentWithEvents, {
       propsData: { keydownHandler }
     })
@@ -32,7 +32,7 @@ describeWithShallowAndMount('trigger', mountingMethod => {
   })
 
   it('causes keydown handler to fire when wrapper.trigger("keydown.enter") is fired on a Component', () => {
-    const keydownHandler = sandbox.stub()
+    const keydownHandler = jest.fn()()
     const wrapper = mountingMethod(ComponentWithEvents, {
       propsData: { keydownHandler }
     })
@@ -59,9 +59,7 @@ describeWithShallowAndMount('trigger', mountingMethod => {
       const message =
         '[vue-test-utils]: wrapper.trigger() must be passed a string'
       const fn = () => wrapper.trigger(invalidSelector)
-      expect(fn)
-        .toThrow()
-        .with.property('message', message)
+      expect(fn).toThrow(message)
     })
   })
 
@@ -72,8 +70,6 @@ describeWithShallowAndMount('trigger', mountingMethod => {
       mountingMethod(compiled)
         .findAll('p')
         .trigger('p')
-    expect(fn)
-      .toThrow()
-      .with.property('message', message)
+    expect(fn).toThrow(message)
   })
 })

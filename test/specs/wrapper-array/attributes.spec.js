@@ -11,9 +11,7 @@ describeWithShallowAndMount('attributes', mountingMethod => {
       mountingMethod(TestComponent)
         .findAll('p')
         .attributes('p')
-    )
-      .toThrow()
-      .with.property('message', message)
+    ).toThrow(message)
   })
 
   it('throws error when called on a WrapperArray', () => {
@@ -24,8 +22,6 @@ describeWithShallowAndMount('attributes', mountingMethod => {
     const message =
       '[vue-test-utils]: attributes must be called on a single wrapper, use at(i) to access a wrapper'
     const fn = () => wrapper.findAll('div').attributes()
-    expect(fn)
-      .toThrow()
-      .with.property('message', message)
+    expect(fn).toThrow(message)
   })
 })

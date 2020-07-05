@@ -16,7 +16,7 @@ describeWithShallowAndMount('classes', mountingMethod => {
     expect(wrapper.classes().length).toEqual(0)
   })
 
-  it('returns original class names when element mapped in css modules', () => {
+  it.skip('returns original class names when element mapped in css modules', () => {
     const wrapper = mountingMethod(ComponentWithCssModules)
     expect(wrapper.classes()).toEqual(['extension', 'color-red'])
   })

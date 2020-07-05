@@ -11,7 +11,9 @@ describeWithShallowAndMount('config', mountingMethod => {
   beforeEach(() => {
     configStubsSave = config.stubs
     configSilentSave = config.silent
-    sandbox.stub(console, 'error').callThrough()
+    jest
+      .fn()(console, 'error')
+      .callThrough()
   })
 
   afterEach(() => {

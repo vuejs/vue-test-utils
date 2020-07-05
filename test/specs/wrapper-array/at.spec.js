@@ -9,7 +9,7 @@ describeWithShallowAndMount('at', mountingMethod => {
     const p = mountingMethod(TestComponent)
       .findAll('p')
       .at(1)
-    expect(p.vnode).to.be.an('object')
+    expect(p.vnode).toBeTruthy()
     expect(p.classes()).toContain('index-1')
   })
 
@@ -20,9 +20,9 @@ describeWithShallowAndMount('at', mountingMethod => {
     const all = mountingMethod(TestComponent).findAll('p')
     const last = all.at(-1)
     const first = all.at(-2)
-    expect(last.vnode).to.be.an('object')
+    expect(last.vnode).toBeTruthy()
     expect(last.classes()).toContain('index-last')
-    expect(first.vnode).to.be.an('object')
+    expect(first.vnode).toBeTruthy()
     expect(first.classes()).toContain('index-first')
   })
 
@@ -36,9 +36,7 @@ describeWithShallowAndMount('at', mountingMethod => {
       mountingMethod(TestComponent)
         .findAll('p')
         .at(index)
-    )
-      .toThrow()
-      .with.property('message', message)
+    ).toThrow(message)
   })
 
   it('throws error if no item exists at negative index', () => {
@@ -51,8 +49,6 @@ describeWithShallowAndMount('at', mountingMethod => {
       mountingMethod(TestComponent)
         .findAll('p')
         .at(index)
-    )
-      .toThrow()
-      .with.property('message', message)
+    ).toThrow(message)
   })
 })

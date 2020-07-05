@@ -87,9 +87,7 @@ describeWithShallowAndMount('props', mountingMethod => {
     const message =
       '[vue-test-utils]: wrapper.props() must be called on a Vue instance'
     const fn = () => p.props()
-    expect(fn)
-      .toThrow()
-      .with.property('message', message)
+    expect(fn).toThrow(message)
   })
 
   it('returns the given prop if a key is provided', () => {

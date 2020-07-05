@@ -19,9 +19,7 @@ describeWithShallowAndMount('setData', mountingMethod => {
     const compiled = compileToFunctions('<div><p></p></div>')
     const wrapper = mountingMethod(compiled)
     const fn = () => wrapper.findAll('p').setData({ ready: true })
-    expect(fn)
-      .toThrow()
-      .with.property('message', message)
+    expect(fn).toThrow(message)
   })
 
   it('throws error if wrapper array contains no items', () => {
@@ -31,8 +29,6 @@ describeWithShallowAndMount('setData', mountingMethod => {
       mountingMethod(compiled)
         .findAll('p')
         .setData('p')
-    expect(fn)
-      .toThrow()
-      .with.property('message', message)
+    expect(fn).toThrow(message)
   })
 })

@@ -38,9 +38,7 @@ describeWithShallowAndMount('emittedByOrder', mountingMethod => {
       '[vue-test-utils]: wrapper.emittedByOrder() can only be called on a Vue instance'
 
     const fn = () => wrapper.find('p').emittedByOrder()
-    expect(fn)
-      .toThrow()
-      .with.property('message', message)
+    expect(fn).toThrow(message)
   })
 
   it('captures in lifecycle hooks emitted events in order', () => {

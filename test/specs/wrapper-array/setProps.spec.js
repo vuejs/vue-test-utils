@@ -32,9 +32,7 @@ describeWithShallowAndMount('setProps', mountingMethod => {
     const wrapper = mountingMethod(compiled)
     const p = wrapper.findAll('p')
     const fn = () => p.setProps({ ready: true })
-    expect(fn)
-      .toThrow()
-      .with.property('message', message)
+    expect(fn).toThrow(message)
   })
 
   it('throws error if wrapper array contains no items', () => {
@@ -44,8 +42,6 @@ describeWithShallowAndMount('setProps', mountingMethod => {
       mountingMethod(compiled)
         .findAll('p')
         .setProps('p')
-    expect(fn)
-      .toThrow()
-      .with.property('message', message)
+    expect(fn).toThrow(message)
   })
 })

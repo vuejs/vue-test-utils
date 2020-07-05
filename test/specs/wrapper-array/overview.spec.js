@@ -7,9 +7,7 @@ describeWithShallowAndMount('overview', mountingMethod => {
     const wrapper = mountingMethod(compileToFunctions('<div />'))
     const message = '[vue-test-utils]: overview() cannot be called on 0 items'
 
-    expect(() => wrapper.findAll('p').overview())
-      .toThrow()
-      .with.property('message', message)
+    expect(() => wrapper.findAll('p').overview()).toThrow(message)
   })
 
   it('throws error when called on a WrapperArray', () => {
@@ -17,8 +15,6 @@ describeWithShallowAndMount('overview', mountingMethod => {
     const message =
       '[vue-test-utils]: overview() must be called on a single wrapper, use at(i) to access a wrapper'
 
-    expect(() => wrapper.findAll('div').overview())
-      .toThrow()
-      .with.property('message', message)
+    expect(() => wrapper.findAll('div').overview()).toThrow(message)
   })
 })

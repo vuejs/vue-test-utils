@@ -26,9 +26,7 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
       const message = `[vue-test-utils]: wrapperArray.${property} is read-only`
       expect(() => {
         wrapperArray[property] = 'foo'
-      })
-        .toThrow()
-        .with.property('message', message)
+      }).toThrow(message)
     })
   })
 
@@ -84,9 +82,7 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
       }
       const wrapperArray = getWrapperArray([])
       const message = `[vue-test-utils]: ${method} cannot be called on 0 items`
-      expect(() => wrapperArray[method]())
-        .toThrow()
-        .with.property('message', message)
+      expect(() => wrapperArray[method]()).toThrow(message)
     })
 
     it(`${method} throws error if called when there are items in wrapper array`, () => {
@@ -111,9 +107,7 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
       }
       const wrapperArray = getWrapperArray([1, 2, 3])
       const message = `[vue-test-utils]: ${method} must be called on a single wrapper, use at(i) to access a wrapper`
-      expect(() => wrapperArray[method]())
-        .toThrow()
-        .with.property('message', message)
+      expect(() => wrapperArray[method]()).toThrow(message)
     })
   })
 
@@ -147,7 +141,7 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
 
   it('contains returns true if every wrapper.contains() returns true', () => {
     const selector = 'selector'
-    const contains = sandbox.stub()
+    const contains = jest.fn()()
     contains.withArgs(selector).returns(true)
     const wrapperArray = getWrapperArray([{ contains }, { contains }])
     expect(wrapperArray.contains(selector)).toEqual(true)
@@ -163,7 +157,7 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
 
   it('is returns true if every wrapper.is() returns true', () => {
     const selector = 'selector'
-    const is = sandbox.stub()
+    const is = jest.fn()()
     is.withArgs(selector).returns(true)
     const wrapperArray = getWrapperArray([{ is }, { is }])
     expect(wrapperArray.is(selector)).toEqual(true)
@@ -226,7 +220,7 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
   })
 
   it('setMethods calls setMethods on each wrapper', () => {
-    const setMethods = sandbox.stub()
+    const setMethods = jest.fn()()
     const methods = {}
     const wrapperArray = getWrapperArray([{ setMethods }, { setMethods }])
     wrapperArray.setMethods(methods)
@@ -235,7 +229,7 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
   })
 
   it('setData calls setData on each wrapper', () => {
-    const setData = sandbox.stub()
+    const setData = jest.fn()()
     const data = {}
     const wrapperArray = getWrapperArray([{ setData }, { setData }])
     wrapperArray.setData(data)
@@ -244,7 +238,7 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
   })
 
   it('setProps calls setProps on each wrapper', () => {
-    const setProps = sandbox.stub()
+    const setProps = jest.fn()()
     const props = {}
     const wrapperArray = getWrapperArray([{ setProps }, { setProps }])
     wrapperArray.setProps(props)
@@ -253,7 +247,7 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
   })
 
   it('trigger calls trigger on each wrapper', () => {
-    const trigger = sandbox.stub()
+    const trigger = jest.fn()()
     const event = 'click'
     const options = {}
     const wrapperArray = getWrapperArray([{ trigger }, { trigger }])
@@ -263,7 +257,7 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
   })
 
   it('destroy calls destroy on each wrapper', () => {
-    const destroy = sandbox.stub()
+    const destroy = jest.fn()()
     const wrapperArray = getWrapperArray([{ destroy }, { destroy }])
     wrapperArray.destroy()
     expect(destroy.calledTwice).toEqual(true)
