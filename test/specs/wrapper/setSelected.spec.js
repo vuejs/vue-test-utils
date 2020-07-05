@@ -34,7 +34,7 @@ describeWithShallowAndMount('setSelected', mountingMethod => {
   })
 
   it('triggers a change event on the parent select', () => {
-    const change = sinon.spy()
+    const change = jest.fn()
 
     mountingMethod({
       template: `
@@ -53,7 +53,7 @@ describeWithShallowAndMount('setSelected', mountingMethod => {
   })
 
   it('does not trigger an event if called on already selected option', () => {
-    const change = sinon.spy()
+    const change = jest.fn()
 
     mountingMethod({
       template: `
