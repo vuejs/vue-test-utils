@@ -1,33 +1,26 @@
 import { describeWithShallowAndMount } from '~resources/utils'
 
 describeWithShallowAndMount('destroy', mountingMethod => {
-  const sandbox = sinon.createSandbox()
-
-  afterEach(() => {
-    sandbox.reset()
-    sandbox.restore()
-  })
-
   it('triggers beforeDestroy ', () => {
-    const stub = sandbox.stub()
+    const stub = jest.fn()
     mountingMethod({
       render: () => {},
       beforeDestroy() {
         stub()
       }
     }).destroy()
-    expect(stub.calledOnce).toEqual(true)
+    expect(stub).toHaveBeenCalled()
   })
 
   it('triggers destroy ', () => {
-    const stub = sandbox.stub()
+    const stub = jest.fn()
     mountingMethod({
       render: () => {},
       destroyed() {
         stub()
       }
     }).destroy()
-    expect(stub.calledOnce).toEqual(true)
+    expect(stub).toHaveBeenCalled()
   })
 
   it('removes element from document.body', () => {

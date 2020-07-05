@@ -11,9 +11,7 @@ describeWithShallowAndMount('Wrapper', mountingMethod => {
       const message = `[vue-test-utils]: wrapper.${property} is read-only`
       expect(() => {
         wrapper[property] = 'foo'
-      })
-        .toThrow()
-        .with.property('message', message)
+      }).toThrow(message)
     })
   })
 

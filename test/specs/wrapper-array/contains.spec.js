@@ -25,9 +25,7 @@ describeWithShallowAndMount('contains', mountingMethod => {
       mountingMethod(TestComponent)
         .findAll('p')
         .contains('p')
-    )
-      .toThrow()
-      .with.property('message', message)
+    ).toThrow(message)
   })
 
   it('throws error if selector is not a valid selector', () => {
@@ -50,9 +48,7 @@ describeWithShallowAndMount('contains', mountingMethod => {
     invalidSelectors.forEach(invalidSelector => {
       const message =
         '[vue-test-utils]: wrapper.contains() must be passed a valid CSS selector, Vue constructor, or valid find option object'
-      expect(() => pArr.contains(invalidSelector))
-        .toThrow()
-        .with.property('message', message)
+      expect(() => pArr.contains(invalidSelector)).toThrow(message)
     })
   })
 })

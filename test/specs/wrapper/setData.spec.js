@@ -11,7 +11,9 @@ describeWithShallowAndMount('setData', mountingMethod => {
   const sandbox = sinon.createSandbox()
 
   beforeEach(() => {
-    sandbox.stub(console, 'info').callThrough()
+    jest
+      .fn()(console, 'info')
+      .callThrough()
   })
 
   afterEach(() => {
@@ -82,9 +84,7 @@ describeWithShallowAndMount('setData', mountingMethod => {
       '[vue-test-utils]: wrapper.setData() cannot be called on a functional component'
     const fn = () =>
       mountingMethod(AFunctionalComponent).setData({ data1: 'data' })
-    expect(fn)
-      .toThrow()
-      .with.property('message', message)
+    expect(fn).toThrow(message)
     // find on functional components isn't supported in Vue < 2.3
     if (vueVersion < 2.3) {
       return
@@ -99,9 +99,7 @@ describeWithShallowAndMount('setData', mountingMethod => {
       mountingMethod(TestComponent)
         .find(AFunctionalComponent)
         .setData({ data1: 'data' })
-    expect(fn2)
-      .toThrow()
-      .with.property('message', message)
+    expect(fn2).toThrow(message)
   })
 
   it('updates watchers if computed is updated', async () => {

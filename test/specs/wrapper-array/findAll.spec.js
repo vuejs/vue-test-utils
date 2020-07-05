@@ -10,9 +10,7 @@ describeWithShallowAndMount('findAll', mountingMethod => {
       mountingMethod(compiled)
         .findAll('p')
         .findAll('p')
-    )
-      .toThrow()
-      .with.property('message', message)
+    ).toThrow(message)
   })
 
   it('throws an error when called on a WrapperArray', () => {
@@ -22,8 +20,6 @@ describeWithShallowAndMount('findAll', mountingMethod => {
     const wrapper = mountingMethod(compiled)
     const message =
       '[vue-test-utils]: findAll must be called on a single wrapper, use at(i) to access a wrapper'
-    expect(() => wrapper.findAll('div').findAll('div'))
-      .toThrow()
-      .with.property('message', message)
+    expect(() => wrapper.findAll('div').findAll('div')).toThrow(message)
   })
 })

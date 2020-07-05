@@ -14,7 +14,7 @@ describeWithShallowAndMount('emitted', mountingMethod => {
     expect(wrapper.emitted('foo').length).toEqual(1)
     expect(wrapper.emitted('foo')[0]).toEqual([])
 
-    expect(wrapper.emitted('bar')).nottoBeTruthy()
+    expect(wrapper.emitted('bar')).toBeFalsy()
     wrapper.vm.$emit('bar', 1, 2, 3)
     expect(wrapper.emitted('bar')).toBeTruthy()
     expect(wrapper.emitted('bar').length).toEqual(1)
@@ -36,7 +36,7 @@ describeWithShallowAndMount('emitted', mountingMethod => {
     expect(wrapper.emitted().foo.length).toEqual(1)
     expect(wrapper.emitted().foo[0]).toEqual([])
 
-    expect(wrapper.emitted().bar).nottoBeTruthy()
+    expect(wrapper.emitted().bar).toBeFalsy()
     wrapper.vm.$emit('bar', 1, 2, 3)
     expect(wrapper.emitted().bar).toBeTruthy()
     expect(wrapper.emitted().bar.length).toEqual(1)
@@ -56,9 +56,7 @@ describeWithShallowAndMount('emitted', mountingMethod => {
       '[vue-test-utils]: wrapper.emitted() can only be called on a Vue instance'
 
     const fn = () => wrapper.find('p').emitted()
-    expect(fn)
-      .toThrow()
-      .with.property('message', message)
+    expect(fn).toThrow(message)
   })
 
   it('captures all events thrown after beforeCreate lifecycle hook', () => {

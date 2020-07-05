@@ -12,7 +12,9 @@ import Vue from 'vue'
 describeWithShallowAndMount('setProps', mountingMethod => {
   const sandbox = sinon.createSandbox()
   beforeEach(() => {
-    sandbox.stub(console, 'info').callThrough()
+    jest
+      .fn()(console, 'info')
+      .callThrough()
   })
 
   afterEach(() => {

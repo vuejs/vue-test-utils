@@ -10,9 +10,7 @@ describeWithShallowAndMount('html', mountingMethod => {
       mountingMethod(compiled)
         .findAll('p')
         .html('p')
-    )
-      .toThrow()
-      .with.property('message', message)
+    ).toThrow(message)
   })
 
   it('throws error when called on a WrapperArray', () => {
@@ -21,8 +19,6 @@ describeWithShallowAndMount('html', mountingMethod => {
     const message =
       '[vue-test-utils]: html must be called on a single wrapper, use at(i) to access a wrapper'
     const fn = () => wrapper.findAll('div').html()
-    expect(fn)
-      .toThrow()
-      .with.property('message', message)
+    expect(fn).toThrow(message)
   })
 })

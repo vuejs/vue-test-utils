@@ -171,9 +171,7 @@ describeWithShallowAndMount('options.localVue', mountingMethod => {
           stubs: false,
           mocks: false
         })
-      expect(fn)
-        .toThrow()
-        .with.property('message', message)
+      expect(fn).toThrow(message)
     }
   )
 

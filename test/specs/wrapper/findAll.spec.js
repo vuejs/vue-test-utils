@@ -103,9 +103,7 @@ describeWithShallowAndMount('findAll', mountingMethod => {
     const message =
       '[vue-test-utils]: wrapper.findAll() must be passed a valid CSS selector, Vue constructor, or valid find option object'
     const fn = () => wrapper.findAll('[href=&6"/"]')
-    expect(fn)
-      .toThrow()
-      .with.property('message', message)
+    expect(fn).toThrow(message)
   })
 
   it('returns an array of Wrappers of elements matching selector when descendant combinator passed', () => {
@@ -156,9 +154,7 @@ describeWithShallowAndMount('findAll', mountingMethod => {
     const message =
       '[vue-test-utils]: findAllComponents requires a Vue constructor or valid find object. If you are searching for DOM nodes, use `find` instead'
     const fn = () => wrapper.findAllComponents('#foo')
-    expect(fn)
-      .toThrow()
-      .with.property('message', message)
+    expect(fn).toThrow(message)
   })
 
   it('throws an error if chaining findAllComponents off a DOM element', () => {
@@ -166,9 +162,7 @@ describeWithShallowAndMount('findAll', mountingMethod => {
     const message =
       '[vue-test-utils]: You cannot chain findAllComponents off a DOM element. It can only be used on Vue Components.'
     const fn = () => wrapper.find('span').findAllComponents('#foo')
-    expect(fn)
-      .toThrow()
-      .with.property('message', message)
+    expect(fn).toThrow(message)
   })
 
   it('returns correct number of Vue Wrapper when component has a v-for', () => {
@@ -296,9 +290,7 @@ describeWithShallowAndMount('findAll', mountingMethod => {
     const message =
       '[vue-test-utils]: $ref selectors can only be used on Vue component wrappers'
     const fn = () => a.findAll({ ref: 'foo' })
-    expect(fn)
-      .toThrow()
-      .with.property('message', message)
+    expect(fn).toThrow(message)
   })
 
   it('returns an array of Wrapper of elements matching the ref in options object if they are nested in a transition', () => {
@@ -344,9 +336,7 @@ describeWithShallowAndMount('findAll', mountingMethod => {
       const message =
         '[vue-test-utils]: wrapper.findAll() must be passed a valid CSS selector, Vue constructor, or valid find option object'
       const fn = () => wrapper.findAll(invalidSelector)
-      expect(fn)
-        .toThrow()
-        .with.property('message', message)
+      expect(fn).toThrow(message)
     })
   })
 

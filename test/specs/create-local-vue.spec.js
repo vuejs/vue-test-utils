@@ -21,7 +21,7 @@ describeWithShallowAndMount('createLocalVue', mountingMethod => {
       }
     })
     const wrapper = mountingMethod(Component, { localVue, store })
-    expect(wrapper.vm.$store).to.be.an('object')
+    expect(wrapper.vm.$store).toBeTruthy()
     const freshWrapper = mountingMethod(Component)
     expect(typeof freshWrapper.vm.$store).toEqual('undefined')
   })
@@ -45,7 +45,7 @@ describeWithShallowAndMount('createLocalVue', mountingMethod => {
       }
     })
     const wrapper = mountingMethod(ComponentWithVuex, { localVue, store })
-    expect(wrapper.vm.$store).to.be.an('object')
+    expect(wrapper.vm.$store).toBeTruthy()
     expect(wrapper.text()).toEqual('0 1')
     wrapper.trigger('click')
     await Vue.nextTick()
@@ -60,7 +60,7 @@ describeWithShallowAndMount('createLocalVue', mountingMethod => {
       routes
     })
     const wrapper = mountingMethod(Component, { localVue, router })
-    expect(wrapper.vm.$route).to.be.an('object')
+    expect(wrapper.vm.$route).toBeTruthy()
     const freshWrapper = mountingMethod(Component)
     expect(typeof freshWrapper.vm.$route).toEqual('undefined')
   })
@@ -89,7 +89,7 @@ describeWithShallowAndMount('createLocalVue', mountingMethod => {
         routes
       })
       const wrapper = mountingMethod(ComponentWithRouter, { localVue, router })
-      expect(wrapper.vm.$route).to.be.an('object')
+      expect(wrapper.vm.$route).toBeTruthy()
 
       expect(wrapper.text()).toContain('home')
 

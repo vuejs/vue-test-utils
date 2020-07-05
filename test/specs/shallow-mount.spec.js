@@ -17,8 +17,12 @@ import { describeRunIf, itDoNotRunIf } from 'conditional-specs'
 describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
   const sandbox = sinon.createSandbox()
   beforeEach(() => {
-    sandbox.stub(console, 'info').callThrough()
-    sandbox.stub(console, 'error').callThrough()
+    jest
+      .fn()(console, 'info')
+      .callThrough()
+    jest
+      .fn()(console, 'error')
+      .callThrough()
   })
 
   afterEach(() => {
@@ -41,7 +45,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
     const compiled = compileToFunctions('<div><input /></div>')
     const wrapper = shallowMount(compiled)
     expect(wrapper.isVueInstance()).toEqual(true)
-    expect(wrapper.vm).to.be.an('object')
+    expect(wrapper.vm).toBeTruthy()
   })
 
   it('returns new VueWrapper with all children stubbed', () => {

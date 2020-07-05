@@ -8,9 +8,7 @@ describeWithShallowAndMount('name', mountingMethod => {
     const wrapper = mountingMethod(compiled)
     const message =
       '[vue-test-utils]: name must be called on a single wrapper, use at(i) to access a wrapper'
-    expect(() => wrapper.findAll('div').name())
-      .toThrow()
-      .with.property('message', message)
+    expect(() => wrapper.findAll('div').name()).toThrow(message)
   })
 
   it('throws error if wrapper array contains no items', () => {
@@ -20,8 +18,6 @@ describeWithShallowAndMount('name', mountingMethod => {
       mountingMethod(compiled)
         .findAll('p')
         .name('p')
-    expect(fn)
-      .toThrow()
-      .with.property('message', message)
+    expect(fn).toThrow(message)
   })
 })

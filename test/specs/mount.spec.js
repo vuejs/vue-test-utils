@@ -15,7 +15,9 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
   const windowSave = window
 
   beforeEach(() => {
-    sandbox.stub(console, 'error').callThrough()
+    jest
+      .fn()(console, 'error')
+      .callThrough()
   })
 
   afterEach(() => {
@@ -27,7 +29,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
   it('returns new VueWrapper with mounted Vue instance if no options are passed', () => {
     const compiled = compileToFunctions('<div><input /></div>')
     const wrapper = mount(compiled)
-    expect(wrapper.vm).to.be.an('object')
+    expect(wrapper.vm).toBeTruthy()
   })
 
   it('handles root functional component', () => {
@@ -45,7 +47,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
   it('returns new VueWrapper with correct props data', () => {
     const prop1 = { test: 'TEST' }
     const wrapper = mount(ComponentWithProps, { propsData: { prop1 } })
-    expect(wrapper.vm).to.be.an('object')
+    expect(wrapper.vm).toBeTruthy()
     if (wrapper.vm.$props) {
       expect(wrapper.vm.$props.prop1).toEqual(prop1)
     } else {
@@ -129,11 +131,11 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
   )
 
   it('does not use cached component', () => {
-    sandbox.stub(ComponentWithMixin.methods, 'someMethod')
+    jest.fn()(ComponentWithMixin.methods, 'someMethod')
     mount(ComponentWithMixin)
     expect(ComponentWithMixin.methods.someMethod.callCount).toEqual(1)
     ComponentWithMixin.methods.someMethod.restore()
-    sandbox.stub(ComponentWithMixin.methods, 'someMethod')
+    jest.fn()(ComponentWithMixin.methods, 'someMethod')
     mount(ComponentWithMixin)
     expect(ComponentWithMixin.methods.someMethod.callCount).toEqual(1)
   })
@@ -149,16 +151,14 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
       '[vue-test-utils]: window is undefined, vue-test-utils needs to be run in a browser environment.\n You can run the tests in node using JSDOM'
     window = undefined // eslint-disable-line no-native-reassign
 
-    expect(() => mount(compileToFunctions('<div />')))
-      .toThrow()
-      .with.property('message', message)
+    expect(() => mount(compileToFunctions('<div />'))).toThrow(message)
   })
 
   it('compiles inline templates', () => {
     const wrapper = mount({
       template: `<div>foo</div>`
     })
-    expect(wrapper.vm).to.be.an('object')
+    expect(wrapper.vm).toBeTruthy()
     expect(wrapper.html()).toEqual(`<div>foo</div>`)
   })
 
@@ -174,7 +174,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
       const wrapper = mount({
         template: '#foo'
       })
-      expect(wrapper.vm).to.be.an('object')
+      expect(wrapper.vm).toBeTruthy()
       expect(wrapper.html()).toEqual(`<div>foo</div>`)
 
       window.body.removeChild(template)
@@ -182,7 +182,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
   )
 
   itDoNotRunIf(vueVersion < 2.3, 'overrides methods', () => {
-    const stub = sandbox.stub()
+    const stub = jest.fn()()
     const TestComponent = Vue.extend({
       template: '<div />',
       methods: {

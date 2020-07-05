@@ -11,9 +11,7 @@ describeWithShallowAndMount('classes', mountingMethod => {
       mountingMethod(TestComponent)
         .findAll('p')
         .classes('p')
-    )
-      .toThrow()
-      .with.property('message', message)
+    ).toThrow(message)
   })
 
   it('throws error when called on a WrapperArray', () => {
@@ -24,8 +22,6 @@ describeWithShallowAndMount('classes', mountingMethod => {
     const message =
       '[vue-test-utils]: classes must be called on a single wrapper, use at(i) to access a wrapper'
     const fn = () => wrapper.findAll('div').classes()
-    expect(fn)
-      .toThrow()
-      .with.property('message', message)
+    expect(fn).toThrow(message)
   })
 })

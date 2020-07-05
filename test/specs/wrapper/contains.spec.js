@@ -74,9 +74,7 @@ describeWithShallowAndMount('contains', mountingMethod => {
     const message =
       '[vue-test-utils]: $ref selectors can only be used on Vue component wrappers'
     const fn = () => a.contains({ ref: 'foo' })
-    expect(fn)
-      .toThrow()
-      .with.property('message', message)
+    expect(fn).toThrow(message)
   })
 
   it('returns true when wrapper contains root element', () => {
@@ -158,9 +156,7 @@ describeWithShallowAndMount('contains', mountingMethod => {
       const message =
         '[vue-test-utils]: wrapper.contains() must be passed a valid CSS selector, Vue constructor, or valid find option object'
       const fn = () => wrapper.contains(invalidSelector)
-      expect(fn)
-        .toThrow()
-        .with.property('message', message)
+      expect(fn).toThrow(message)
     })
   })
 })
