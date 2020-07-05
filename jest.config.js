@@ -1,6 +1,7 @@
 module.exports = {
   moduleNameMapper: {
-    '^~(.*)$': '<rootDir>/test/$1'
+    '^~(.*)$': '<rootDir>/test/$1',
+    '\\.(css|less|scss|sass)$': 'identity-obj-proxy'
   },
   transform: {
     '.*\\.(vue)$': 'vue-jest',

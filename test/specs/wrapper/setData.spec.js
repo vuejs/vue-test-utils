@@ -8,19 +8,6 @@ import {
 } from '~resources/utils'
 
 describeWithShallowAndMount('setData', mountingMethod => {
-  const sandbox = sinon.createSandbox()
-
-  beforeEach(() => {
-    jest
-      .fn()(console, 'info')
-      .callThrough()
-  })
-
-  afterEach(() => {
-    sandbox.reset()
-    sandbox.restore()
-  })
-
   it('sets component data and returns a promise', async () => {
     const wrapper = mountingMethod(ComponentWithVIf)
     expect(wrapper.findAll('.child.ready').length).toEqual(0)
