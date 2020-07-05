@@ -65,10 +65,10 @@ describeWithShallowAndMount('setValue', mountingMethod => {
     expect(wrapper.text()).toContain('selectB')
   })
 
-  it('sets element of multiselect value', () => {
+  it.only('sets element of multiselect value', async () => {
     const wrapper = mountingMethod(ComponentWithInput)
     const select = wrapper.find('select.multiselect')
-    select.setValue(['selectA', 'selectC'])
+    await select.setValue(['selectA', 'selectC'])
 
     const selectedOptions = Array.from(select.element.selectedOptions).map(
       o => o.value

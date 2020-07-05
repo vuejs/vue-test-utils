@@ -10,18 +10,6 @@ import { itDoNotRunIf } from 'conditional-specs'
 import Vue from 'vue'
 
 describeWithShallowAndMount('setProps', mountingMethod => {
-  const sandbox = sinon.createSandbox()
-  beforeEach(() => {
-    jest
-      .fn()(console, 'info')
-      .callThrough()
-  })
-
-  afterEach(() => {
-    sandbox.reset()
-    sandbox.restore()
-  })
-
   it('returns a promise, when resolved component is updated', async () => {
     const wrapper = mountingMethod(ComponentWithProps)
     const response = wrapper.setProps({ prop1: 'foo' })
@@ -294,7 +282,7 @@ describeWithShallowAndMount('setProps', mountingMethod => {
       it('throws error when called on functional vnode', () => {
         const fn = () =>
           mountingMethod(AFunctionalComponent).setProps({ prop1: 'prop' })
-        expect(fn).throw(Error, errors.FUNCTIONAL_COMPONENT_ERROR)
+        expect(fn).toThrow(errors.FUNCTIONAL_COMPONENT_ERROR)
       })
 
       // find on functional components isn't supported in Vue < 2.3
@@ -312,9 +300,7 @@ describeWithShallowAndMount('setProps', mountingMethod => {
             mountingMethod(TestComponent)
               .find(AFunctionalComponent)
               .setProps({ prop1: 'prop' })
-          expect(fn2)
-            .toThrow()
-            .with.property('message', errors.FUNCTIONAL_COMPONENT_ERROR)
+          expect(fn2).toThrow(errors.FUNCTIONAL_COMPONENT_ERROR)
         }
       )
 
@@ -325,7 +311,7 @@ describeWithShallowAndMount('setProps', mountingMethod => {
           const fn = () =>
             mountingMethod({ template: '<div/>' }).setProps({ prop1: 'prop' })
 
-          expect(fn).throw(Error, errors.WRONG_PROP_ERROR)
+          expect(fn).toThrow(errors.WRONG_PROP_ERROR)
         }
       )
     })
@@ -342,15 +328,14 @@ describeWithShallowAndMount('setProps', mountingMethod => {
       )
 
       const fn = () => wrapper.setProps({ obj })
-      expect(fn).throw(Error, errors.SAME_REFERENCE_ERROR)
+      expect(fn).toThrow(errors.SAME_REFERENCE_ERROR)
     })
 
     it('throws an error if node is not a Vue instance', () => {
       const compiled = compileToFunctions('<div><p></p></div>')
       const wrapper = mountingMethod(compiled)
       const p = wrapper.find('p')
-      expect(() => p.setProps({ ready: true })).throw(
-        Error,
+      expect(() => p.setProps({ ready: true })).toThrow(
         errors.INVALID_NODE_ERROR
       )
     })

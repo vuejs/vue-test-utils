@@ -8,6 +8,17 @@ import {
 } from '~resources/utils'
 
 describeWithShallowAndMount('setData', mountingMethod => {
+  let consoleInfoSave = console.info
+
+  beforeEach(() => {
+    consoleInfoSave = console.info
+    console.info = jest.fn()
+  })
+
+  afterEach(() => {
+    console.info = consoleInfoSave
+  })
+
   it('sets component data and returns a promise', async () => {
     const wrapper = mountingMethod(ComponentWithVIf)
     expect(wrapper.findAll('.child.ready').length).toEqual(0)
@@ -51,7 +62,7 @@ describeWithShallowAndMount('setData', mountingMethod => {
     const wrapper = mountingMethod(ComponentWithWatch)
     const data1 = 'testest'
     await wrapper.setData({ data2: 'newProp', data1 })
-    expect(console.info.args[0][0]).toEqual(data1)
+    expect(console.info).toHaveBeenCalledWith(data1)
   })
 
   it('throws error if node is not a Vue instance', () => {
@@ -59,7 +70,7 @@ describeWithShallowAndMount('setData', mountingMethod => {
     const compiled = compileToFunctions('<div><p></p></div>')
     const wrapper = mountingMethod(compiled)
     const p = wrapper.find('p')
-    expect(() => p.setData({ ready: true })).throw(Error, message)
+    expect(() => p.setData({ ready: true })).toThrow(message)
   })
 
   it('throws error when called on functional vnode', () => {
