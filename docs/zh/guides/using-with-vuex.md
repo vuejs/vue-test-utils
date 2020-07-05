@@ -281,7 +281,7 @@ export default {
 
 Getter、mutation 和 action 全部是 JavaScript 函数，所以我们可以不通过 Vue Test Utils 和 Vuex 测试它们。
 
-分别测试 getter、mutation 和 action 的好处是你的单元测试是非常详细的。当它们失败时，你完全知道你代码的问题是什么。当然另外一方面你需要伪造诸如 `commit` 和 `dispatch` 的 Vuex 函数。这会导致在一些情况下你伪造错了东西，导致单元测试通过，生产环境的代码缺失败了。
+分别测试 getter、mutation 和 action 的好处是你的单元测试是非常详细的。当它们失败时，你完全知道你代码的问题是什么。当然另外一方面你需要伪造诸如 `commit` 和 `dispatch` 的 Vuex 函数。这会导致在一些情况下你伪造错了东西，导致单元测试通过，生产环境的代码却失败了。
 
 我们会创建两个测试文件：`mutations.spec.js` 和 `getters.spec.js`：
 

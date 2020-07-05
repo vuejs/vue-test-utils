@@ -156,6 +156,18 @@ describeWithShallowAndMount('find', mountingMethod => {
     expect(fn).toThrow(message)
   })
 
+  it('allows using findComponent on functional component', () => {
+    const FuncComponentWithChildren = {
+      functional: true,
+      components: {
+        ChildComponent: Component
+      },
+      render: h => h('div', {}, [h(Component)])
+    }
+    const wrapper = mountingMethod(FuncComponentWithChildren)
+    expect(wrapper.findComponent(Component).exists()).to.be.true
+  })
+
   itSkipIf(isRunningPhantomJS, 'returns Wrapper of class component', () => {
     const TestComponent = {
       template: `

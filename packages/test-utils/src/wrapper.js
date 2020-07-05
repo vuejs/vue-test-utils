@@ -237,7 +237,7 @@ export default class Wrapper implements BaseWrapper {
    */
   findComponent(rawSelector: Selector): Wrapper | ErrorWrapper {
     const selector = getSelector(rawSelector, 'findComponent')
-    if (!this.vm) {
+    if (!this.vm && !this.isFunctionalComponent) {
       throwError(
         'You cannot chain findComponent off a DOM element. It can only be used on Vue Components.'
       )
