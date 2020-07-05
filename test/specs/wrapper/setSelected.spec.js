@@ -49,7 +49,7 @@ describeWithShallowAndMount('setSelected', mountingMethod => {
       .at(1)
       .setSelected()
 
-    expect(change).to.have.been.called
+    expect(change).toHaveBeenCalled()
   })
 
   it('does not trigger an event if called on already selected option', () => {
@@ -68,7 +68,7 @@ describeWithShallowAndMount('setSelected', mountingMethod => {
       .at(1)
       .setSelected()
 
-    expect(change).not.to.have.been.called
+    expect(change).not.toHaveBeenCalled()
   })
 
   it('throws error if element is not valid', () => {
@@ -78,8 +78,6 @@ describeWithShallowAndMount('setSelected', mountingMethod => {
     const input = wrapper.find('#label-el')
 
     const fn = () => input.setSelected('value')
-    expect(fn)
-      .toThrow()
-      .with.property('message', '[vue-test-utils]: ' + message)
+    expect(fn).toThrow('[vue-test-utils]: ' + message)
   })
 })

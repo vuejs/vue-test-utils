@@ -124,8 +124,6 @@ describeWithShallowAndMount('setValue', mountingMethod => {
     const input = wrapper.find(selector)
 
     const fn = () => input.setValue('')
-    expect(fn)
-      .toThrow()
-      .with.property('message', '[vue-test-utils]: ' + message)
+    expect(fn).toThrow('[vue-test-utils]: ' + message)
   }
 })
