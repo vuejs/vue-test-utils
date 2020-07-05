@@ -2,13 +2,6 @@ import { Wrapper, WrapperArray } from '@vue/test-utils'
 import { describeWithShallowAndMount } from '~resources/utils'
 
 describeWithShallowAndMount('WrapperArray', mountingMethod => {
-  const sandbox = sinon.createSandbox()
-
-  afterEach(() => {
-    sandbox.reset()
-    sandbox.restore()
-  })
-
   function getWrapperArray(wrappers) {
     if (!wrappers) {
       wrappers = [1, 2, 3].map(v => {
@@ -141,8 +134,7 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
 
   it('contains returns true if every wrapper.contains() returns true', () => {
     const selector = 'selector'
-    const contains = jest.fn()()
-    contains.withArgs(selector).returns(true)
+    const contains = jest.fn(() => true)
     const wrapperArray = getWrapperArray([{ contains }, { contains }])
     expect(wrapperArray.contains(selector)).toEqual(true)
   })
@@ -157,8 +149,7 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
 
   it('is returns true if every wrapper.is() returns true', () => {
     const selector = 'selector'
-    const is = jest.fn()()
-    is.withArgs(selector).returns(true)
+    const is = jest.fn(() => true)
     const wrapperArray = getWrapperArray([{ is }, { is }])
     expect(wrapperArray.is(selector)).toEqual(true)
   })
@@ -220,46 +211,46 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
   })
 
   it('setMethods calls setMethods on each wrapper', () => {
-    const setMethods = jest.fn()()
+    const setMethods = jest.fn()
     const methods = {}
     const wrapperArray = getWrapperArray([{ setMethods }, { setMethods }])
     wrapperArray.setMethods(methods)
-    expect(setMethods.calledTwice).toEqual(true)
-    expect(setMethods.calledWith(methods)).toEqual(true)
+    expect(setMethods).toHaveBeenCalledTimes(2)
+    expect(setMethods).toHaveBeenCalledWith(methods)
   })
 
   it('setData calls setData on each wrapper', () => {
-    const setData = jest.fn()()
+    const setData = jest.fn()
     const data = {}
     const wrapperArray = getWrapperArray([{ setData }, { setData }])
     wrapperArray.setData(data)
-    expect(setData.calledTwice).toEqual(true)
-    expect(setData.calledWith(data)).toEqual(true)
+    expect(setData).toHaveBeenCalledTimes(2)
+    expect(setData).toHaveBeenCalledWith(data)
   })
 
   it('setProps calls setProps on each wrapper', () => {
-    const setProps = jest.fn()()
+    const setProps = jest.fn()
     const props = {}
     const wrapperArray = getWrapperArray([{ setProps }, { setProps }])
     wrapperArray.setProps(props)
-    expect(setProps.calledTwice).toEqual(true)
-    expect(setProps.calledWith(props)).toEqual(true)
+    expect(setProps).toHaveBeenCalledTimes(2)
+    expect(setProps).toHaveBeenCalledWith(props)
   })
 
   it('trigger calls trigger on each wrapper', () => {
-    const trigger = jest.fn()()
+    const trigger = jest.fn()
     const event = 'click'
     const options = {}
     const wrapperArray = getWrapperArray([{ trigger }, { trigger }])
     wrapperArray.trigger(event, options)
-    expect(trigger.calledTwice).toEqual(true)
-    expect(trigger.calledWith(event, options)).toEqual(true)
+    expect(trigger).toHaveBeenCalledTimes(2)
+    expect(trigger).toHaveBeenCalledWith(event, options)
   })
 
   it('destroy calls destroy on each wrapper', () => {
-    const destroy = jest.fn()()
+    const destroy = jest.fn()
     const wrapperArray = getWrapperArray([{ destroy }, { destroy }])
     wrapperArray.destroy()
-    expect(destroy.calledTwice).toEqual(true)
+    expect(destroy).toHaveBeenCalledTimes(2)
   })
 })

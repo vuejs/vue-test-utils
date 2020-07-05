@@ -16,8 +16,6 @@ describeWithShallowAndMount('Wrapper', mountingMethod => {
   })
 
   describe('enableAutoDestroy', () => {
-    const sandbox = sinon.createSandbox()
-
     beforeEach(() => {
       resetAutoDestroyState()
     })

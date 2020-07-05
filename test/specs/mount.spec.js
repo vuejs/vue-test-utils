@@ -11,19 +11,10 @@ import { describeRunIf, itDoNotRunIf, itSkipIf } from 'conditional-specs'
 import Vuex from 'vuex'
 
 describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
-  const sandbox = sinon.createSandbox()
   const windowSave = window
-
-  beforeEach(() => {
-    jest
-      .fn()(console, 'error')
-      .callThrough()
-  })
 
   afterEach(() => {
     window = windowSave // eslint-disable-line no-native-reassign
-    sandbox.reset()
-    sandbox.restore()
   })
 
   it('returns new VueWrapper with mounted Vue instance if no options are passed', () => {
@@ -182,7 +173,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
   )
 
   itDoNotRunIf(vueVersion < 2.3, 'overrides methods', () => {
-    const stub = jest.fn()()
+    const stub = jest.fn()
     const TestComponent = Vue.extend({
       template: '<div />',
       methods: {
