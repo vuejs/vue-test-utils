@@ -24,7 +24,7 @@ describeWithShallowAndMount('trigger', mountingMethod => {
     expect(toggle.classes()).not.toContain('active')
     const response = toggle.trigger('click')
     expect(toggle.classes()).not.toContain('active')
-    expect(isPromise(response)).to.eql(true)
+    expect(isPromise(response)).toEqual(true)
     await response
     expect(toggle.classes()).toContain('active')
   })

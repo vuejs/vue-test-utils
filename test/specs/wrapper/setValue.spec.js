@@ -8,7 +8,7 @@ describeWithShallowAndMount('setValue', mountingMethod => {
     const wrapper = mountingMethod(ComponentWithInput)
     const input = wrapper.find('input[type="text"]')
     const response = input.setValue('foo')
-    expect(isPromise(response)).to.eql(true)
+    expect(isPromise(response)).toEqual(true)
     expect(wrapper.text()).not.toContain('foo')
     await response
     expect(wrapper.text()).toContain('foo')

@@ -7,7 +7,7 @@ describeWithShallowAndMount('setChecked', mountingMethod => {
     const input = wrapper.find('input[type="checkbox"]')
 
     const response = input.setChecked()
-    expect(isPromise(response)).to.eql(true)
+    expect(isPromise(response)).toEqual(true)
     expect(wrapper.text()).not.toContain('checkbox checked')
     await response
     expect(wrapper.text()).toContain('checkbox checked')

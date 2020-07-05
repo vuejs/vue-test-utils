@@ -12,7 +12,7 @@ describeWithShallowAndMount('emittedByOrder', mountingMethod => {
     wrapper.vm.$emit('foo', 2, 3, 4)
 
     if (Vue.version === '2.0.8') {
-      expect(wrapper.emittedByOrder()).to.eql([
+      expect(wrapper.emittedByOrder()).toEqual([
         { name: 'hook:beforeCreate', args: [] },
         { name: 'hook:created', args: [] },
         { name: 'hook:beforeMount', args: [] },
@@ -22,7 +22,7 @@ describeWithShallowAndMount('emittedByOrder', mountingMethod => {
         { name: 'foo', args: [2, 3, 4] }
       ])
     } else {
-      expect(wrapper.emittedByOrder()).to.eql([
+      expect(wrapper.emittedByOrder()).toEqual([
         { name: 'foo', args: [] },
         { name: 'bar', args: [1, 2, 3] },
         { name: 'foo', args: [2, 3, 4] }
@@ -58,7 +58,7 @@ describeWithShallowAndMount('emittedByOrder', mountingMethod => {
     })
 
     if (Vue.version === '2.0.8') {
-      expect(wrapper.emittedByOrder()).to.eql([
+      expect(wrapper.emittedByOrder()).toEqual([
         { name: 'foo', args: [] },
         { name: 'hook:beforeCreate', args: [] },
         { name: 'bar', args: [1, 2, 3] },
@@ -68,7 +68,7 @@ describeWithShallowAndMount('emittedByOrder', mountingMethod => {
         { name: 'hook:mounted', args: [] }
       ])
     } else {
-      expect(wrapper.emittedByOrder()).to.eql([
+      expect(wrapper.emittedByOrder()).toEqual([
         { name: 'foo', args: [] },
         { name: 'bar', args: [1, 2, 3] },
         { name: 'foo', args: [2, 3, 4] }
