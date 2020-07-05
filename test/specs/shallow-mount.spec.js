@@ -15,21 +15,6 @@ import { vueVersion } from '~resources/utils'
 import { describeRunIf, itDoNotRunIf } from 'conditional-specs'
 
 describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
-  const sandbox = sinon.createSandbox()
-  beforeEach(() => {
-    jest
-      .fn()(console, 'info')
-      .callThrough()
-    jest
-      .fn()(console, 'error')
-      .callThrough()
-  })
-
-  afterEach(() => {
-    sandbox.reset()
-    sandbox.restore()
-  })
-
   it('renders dynamic class of functional child', () => {
     const wrapper = shallowMount(ComponentWithFunctionalChild)
     expect(wrapper.find('functional-component-stub').classes()).toContain(

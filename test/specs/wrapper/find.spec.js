@@ -165,7 +165,7 @@ describeWithShallowAndMount('find', mountingMethod => {
       render: h => h('div', {}, [h(Component)])
     }
     const wrapper = mountingMethod(FuncComponentWithChildren)
-    expect(wrapper.findComponent(Component).exists()).to.be.true
+    expect(wrapper.findComponent(Component).exists()).toBe(true)
   })
 
   itSkipIf(isRunningPhantomJS, 'returns Wrapper of class component', () => {

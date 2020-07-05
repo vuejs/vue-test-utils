@@ -4,24 +4,18 @@ import { config, createLocalVue } from '@vue/test-utils'
 import ComponentWithTransitions from '~resources/components/component-with-transitions.vue'
 
 describeWithShallowAndMount('config', mountingMethod => {
-  const sandbox = sinon.createSandbox()
   let configStubsSave
   let configSilentSave
 
   beforeEach(() => {
     configStubsSave = config.stubs
     configSilentSave = config.silent
-    jest
-      .fn()(console, 'error')
-      .callThrough()
   })
 
   afterEach(() => {
     config.stubs = configStubsSave
     config.silent = configSilentSave
     config.methods = {}
-    sandbox.reset()
-    sandbox.restore()
   })
 
   it('mocks a global variable', () => {
