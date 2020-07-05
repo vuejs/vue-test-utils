@@ -64,9 +64,6 @@ export default {
   },
 
   watch: {
-    multiselectVal(newVal) {
-      console.log(newVal)
-    },
     checkboxVal() {
       this.counter++
     },
