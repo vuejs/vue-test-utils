@@ -13,13 +13,13 @@ describeWithShallowAndMount('props', mountingMethod => {
     const wrapper = mountingMethod(ComponentWithProps, {
       propsData: { prop1, prop2 }
     })
-    expect(wrapper.props()).to.eql({ prop1: {}, prop2: 'string val' })
+    expect(wrapper.props()).toEqual({ prop1: {}, prop2: 'string val' })
   })
 
   it('returns an empty object if wrapper does not have props', () => {
     const compiled = compileToFunctions('<div />')
     const wrapper = mountingMethod(compiled)
-    expect(wrapper.props()).to.eql({})
+    expect(wrapper.props()).toEqual({})
   })
 
   it('should update after setProps', () => {
@@ -29,11 +29,11 @@ describeWithShallowAndMount('props', mountingMethod => {
       propsData: { prop1, prop2 }
     })
 
-    expect(wrapper.props()).to.eql({ prop1: {}, prop2: 'val1' })
+    expect(wrapper.props()).toEqual({ prop1: {}, prop2: 'val1' })
     // setProps
     wrapper.setProps({ prop2: 'val2' })
-    expect(wrapper.vm.prop2).to.eql('val2') // pass
-    expect(wrapper.props()).to.eql({ prop1: {}, prop2: 'val2' }) // fail
+    expect(wrapper.vm.prop2).toEqual('val2') // pass
+    expect(wrapper.props()).toEqual({ prop1: {}, prop2: 'val2' }) // fail
   })
 
   it('returns default props', () => {
@@ -98,8 +98,8 @@ describeWithShallowAndMount('props', mountingMethod => {
     const wrapper = mountingMethod(ComponentWithProps, {
       propsData: { prop1, prop2 }
     })
-    expect(wrapper.props('prop1')).to.eql({})
-    expect(wrapper.props('prop2')).to.eql('string val')
+    expect(wrapper.props('prop1')).toEqual({})
+    expect(wrapper.props('prop2')).toEqual('string val')
   })
 
   it('returns undefined if the given key is not found', () => {
@@ -108,6 +108,6 @@ describeWithShallowAndMount('props', mountingMethod => {
     const wrapper = mountingMethod(ComponentWithProps, {
       propsData: { prop1, prop2 }
     })
-    expect(wrapper.props('propNotHere')).to.eql(undefined)
+    expect(wrapper.props('propNotHere')).toEqual(undefined)
   })
 })

@@ -359,7 +359,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     })
 
     if (vueVersion > 2.3) {
-      expect(wrapper.vm.$attrs).to.eql({ height: '50px', extra: 'attr' })
+      expect(wrapper.vm.$attrs).toEqual({ height: '50px', extra: 'attr' })
     }
 
     expect(wrapper.html()).toEqual(

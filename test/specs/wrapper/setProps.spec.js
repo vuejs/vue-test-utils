@@ -23,7 +23,7 @@ describeWithShallowAndMount('setProps', mountingMethod => {
   it('returns a promise, when resolved component is updated', async () => {
     const wrapper = mountingMethod(ComponentWithProps)
     const response = wrapper.setProps({ prop1: 'foo' })
-    expect(isPromise(response)).to.eql(true)
+    expect(isPromise(response)).toEqual(true)
     expect(wrapper.find('.prop-1').text()).toEqual('')
     await response
     expect(wrapper.find('.prop-1').text()).toEqual('foo')

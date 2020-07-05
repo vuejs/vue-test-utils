@@ -24,7 +24,7 @@ describeWithShallowAndMount('setData', mountingMethod => {
     expect(wrapper.findAll('.child.ready').length).toEqual(0)
     const response = wrapper.setData({ ready: true })
     expect(wrapper.findAll('.child.ready').length).toEqual(0)
-    expect(isPromise(response)).to.eql(true)
+    expect(isPromise(response)).toEqual(true)
     await response
     expect(wrapper.findAll('.child.ready').length).toEqual(1)
   })
