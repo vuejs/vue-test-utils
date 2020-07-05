@@ -107,9 +107,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
         slots: { default: '<span />' }
       })
     try {
-      expect(fn)
-        .toThrow()
-        .with.property('message', message)
+      expect(fn).toThrow(message)
     } catch (err) {
       require.cache[
         require.resolve('vue-template-compiler')
@@ -147,9 +145,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
         slots: { default: ['<span />'] }
       })
     try {
-      expect(fn)
-        .toThrow()
-        .with.property('message', message)
+      expect(fn).toThrow(message)
     } catch (err) {
       require.cache[
         require.resolve('vue-template-compiler')
@@ -338,9 +334,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
       mountingMethod(TestComponent, { slots: { named: [false] } })
     const message =
       '[vue-test-utils]: slots[key] must be a Component, string or an array of Components'
-    expect(fn)
-      .toThrow()
-      .with.property('message', message)
+    expect(fn).toThrow(message)
   })
 
   it('throws error if passed an array of numbers for named slots', () => {
@@ -352,9 +346,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
     const fn = () => mountingMethod(TestComponent, { slots: { named: [1] } })
     const message =
       '[vue-test-utils]: slots[key] must be a Component, string or an array of Components'
-    expect(fn)
-      .toThrow()
-      .with.property('message', message)
+    expect(fn).toThrow(message)
   })
 
   it('throws error if passed false for named slots', () => {
@@ -366,9 +358,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
     const fn = () => mountingMethod(TestComponent, { slots: { named: false } })
     const message =
       '[vue-test-utils]: slots[key] must be a Component, string or an array of Components'
-    expect(fn)
-      .toThrow()
-      .with.property('message', message)
+    expect(fn).toThrow(message)
   })
 
   it('throws error if passed a number for named slots', () => {
@@ -380,9 +370,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
     const fn = () => mountingMethod(TestComponent, { slots: { named: 1 } })
     const message =
       '[vue-test-utils]: slots[key] must be a Component, string or an array of Components'
-    expect(fn)
-      .toThrow()
-      .with.property('message', message)
+    expect(fn).toThrow(message)
   })
 
   it('throws error if passed string in default slot array when vue-template-compiler is undefined', () => {
@@ -403,9 +391,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
       })
     }
     try {
-      expect(fn)
-        .toThrow()
-        .with.property('message', message)
+      expect(fn).toThrow(message)
     } catch (err) {
       require.cache[
         require.resolve('vue-template-compiler')
