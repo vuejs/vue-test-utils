@@ -6,16 +6,20 @@ import ComponentWithTransitions from '~resources/components/component-with-trans
 describeWithShallowAndMount('config', mountingMethod => {
   let configStubsSave
   let configSilentSave
+  let consoleErrorSave
 
   beforeEach(() => {
     configStubsSave = config.stubs
     configSilentSave = config.silent
+    consoleErrorSave = console.error
+    console.error = jest.fn()
   })
 
   afterEach(() => {
     config.stubs = configStubsSave
     config.silent = configSilentSave
     config.methods = {}
+    console.error = consoleErrorSave
   })
 
   it('mocks a global variable', () => {
@@ -70,7 +74,7 @@ describeWithShallowAndMount('config', mountingMethod => {
     wrapper.setProps({
       prop1: 'new value'
     })
-    expect(console.error).not.calledWith(sandbox.match('[Vue warn]'))
+    expect(console.error).not.toHaveBeenCalled()
   })
 
   it('does throw Vue warning when silent is set to false', () => {
@@ -86,7 +90,9 @@ describeWithShallowAndMount('config', mountingMethod => {
     wrapper.setProps({
       prop1: 'new value'
     })
-    expect(console.error).calledWith(sandbox.match('[Vue warn]'))
+    expect(console.error).toHaveBeenCalledWith(
+      expect.stringMatching(/[Vue warn]/)
+    )
   })
 
   it('stubs out transitions by default', async () => {
@@ -105,10 +111,12 @@ describeWithShallowAndMount('config', mountingMethod => {
     }
     const wrapper = mountingMethod(Component)
     wrapper.name()
-    expect(console.error).to.be.calledWith(sandbox.match('name is deprecated'))
+    expect(console.error).toHaveBeenCalledWith(
+      expect.stringMatching(/name is deprecated/)
+    )
     config.showDeprecationWarnings = false
     wrapper.name()
-    expect(console.error).to.have.callCount(1)
+    expect(console.error).toHaveBeenCalledTimes(1)
   })
 
   describe('attachToDocument deprecation warning', () => {
@@ -123,8 +131,9 @@ describeWithShallowAndMount('config', mountingMethod => {
       mountingMethod(Component, {
         attachToDocument: true
       })
-      expect(console.error).to.be.calledWith(
-        sandbox.match('attachToDocument is deprecated')
+
+      expect(console.error).toHaveBeenCalledWith(
+        expect.stringMatching(/attachToDocument is deprecated/)
       )
     })
 
@@ -135,8 +144,8 @@ describeWithShallowAndMount('config', mountingMethod => {
         attachToDocument: true
       })
 
-      expect(console.error).not.to.be.calledWith(
-        sandbox.match('attachToDocument is deprecated')
+      expect(console.error).not.toHaveBeenCalledWith(
+        expect.stringMatching(/attachToDocument is deprecated/)
       )
     })
   })
@@ -157,8 +166,8 @@ describeWithShallowAndMount('config', mountingMethod => {
         methods: { foo: () => {} }
       })
 
-      expect(console.error).to.be.calledWith(
-        sandbox.match(expectedErrorMessage)
+      expect(console.error).toHaveBeenCalledWith(
+        expect.stringMatching(expectedErrorMessage)
       )
     })
 
@@ -169,8 +178,8 @@ describeWithShallowAndMount('config', mountingMethod => {
         methods: { foo: () => {} }
       })
 
-      expect(console.error).not.to.be.calledWith(
-        sandbox.match(expectedErrorMessage)
+      expect(console.error).not.toHaveBeenCalledWith(
+        expect.stringMatching(expectedErrorMessage)
       )
     })
 
@@ -179,8 +188,8 @@ describeWithShallowAndMount('config', mountingMethod => {
 
       mountingMethod(Component).setMethods({ foo: () => {} })
 
-      expect(console.error).to.be.calledWith(
-        sandbox.match(expectedErrorMessage)
+      expect(console.error).toHaveBeenCalledWith(
+        expect.stringMatching(expectedErrorMessage)
       )
     })
 
@@ -189,8 +198,8 @@ describeWithShallowAndMount('config', mountingMethod => {
 
       mountingMethod(Component).setMethods({ foo: () => {} })
 
-      expect(console.error).not.to.be.calledWith(
-        sandbox.match(expectedErrorMessage)
+      expect(console.error).not.toHaveBeenCalledWith(
+        expect.stringMatching(expectedErrorMessage)
       )
     })
   })
