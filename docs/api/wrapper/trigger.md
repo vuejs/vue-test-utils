@@ -4,6 +4,7 @@ Triggers an event asynchronously on the `Wrapper` DOM node.
 
 `trigger` takes an optional `options` object. The properties in the `options` object are added to the Event.
 `trigger` returns a Promise, which when resolved, guarantees the component is updated.
+`trigger` only works with native DOM events. To emit a custom event, use `wrapper.vm.$emit('myCustomEvent')`
 
 - **Arguments:**
 
