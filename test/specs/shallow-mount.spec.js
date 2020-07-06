@@ -15,6 +15,21 @@ import { vueVersion } from '~resources/utils'
 import { describeRunIf, itDoNotRunIf } from 'conditional-specs'
 
 describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
+  let consoleInfoSave = console.info
+  let consoleErrorSave = console.error
+
+  beforeEach(() => {
+    consoleInfoSave = console.info
+    consoleErrorSave = console.error
+    console.info = jest.fn()
+    console.error = jest.fn()
+  })
+
+  afterEach(() => {
+    console.info = consoleInfoSave
+    console.error = consoleErrorSave
+  })
+
   it('renders dynamic class of functional child', () => {
     const wrapper = shallowMount(ComponentWithFunctionalChild)
     expect(wrapper.find('functional-component-stub').classes()).toContain(
@@ -58,7 +73,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
     localVue.component('registered-component', ComponentWithLifecycleHooks)
     mount(TestComponent, { localVue })
 
-    expect(console.info.callCount).toEqual(4)
+    expect(console.info).toHaveBeenCalledTimes(4)
   })
 
   it('renders children', () => {
@@ -167,7 +182,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
     shallowMount(Component)
     mount(Component)
 
-    expect(console.info.callCount).toEqual(4)
+    expect(console.info).toHaveBeenCalledTimes(4)
   })
 
   itDoNotRunIf(
@@ -192,7 +207,9 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
         }
       }
       shallowMount(TestComponent)
-      expect(console.error).not.calledWith(sandbox.match('[Vue warn]'))
+      expect(console.error).not.toHaveBeenCalledWith(
+        expect.stringMatching('[Vue warn]')
+      )
     }
   )
 
@@ -297,12 +314,14 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
     }
     const wrapper = shallowMount(TestComponent)
     expect(wrapper.html()).toContain('<test-component-stub>')
-    expect(console.error).not.calledWith('[Vue warn]')
+    expect(console.error).not.toHaveBeenCalledWith(
+      expect.stringMatching('[Vue warn]')
+    )
   })
 
   it('does not call stubbed children lifecycle hooks', () => {
     shallowMount(ComponentWithNestedChildren)
-    expect(console.info.called).toEqual(false)
+    expect(console.info).not.toHaveBeenCalled()
   })
 
   it('stubs extended components', () => {
@@ -591,8 +610,8 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
       }
       shallowMount(TestComponent)
       mount(TestComponent)
-      expect(console.error).not.calledWith(
-        sandbox.match('Unknown custom element')
+      expect(console.error).not.toHaveBeenCalledWith(
+        expect.stringMatching('Unknown custom element')
       )
     }
   )

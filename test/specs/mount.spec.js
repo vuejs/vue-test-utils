@@ -122,13 +122,12 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
   )
 
   it('does not use cached component', () => {
-    jest.fn()(ComponentWithMixin.methods, 'someMethod')
+    ComponentWithMixin.methods.someMethod = jest.fn()
     mount(ComponentWithMixin)
-    expect(ComponentWithMixin.methods.someMethod.callCount).toEqual(1)
-    ComponentWithMixin.methods.someMethod.restore()
-    jest.fn()(ComponentWithMixin.methods, 'someMethod')
+    expect(ComponentWithMixin.methods.someMethod).toHaveBeenCalledTimes(1)
+    ComponentWithMixin.methods.someMethod = jest.fn()
     mount(ComponentWithMixin)
-    expect(ComponentWithMixin.methods.someMethod.callCount).toEqual(1)
+    expect(ComponentWithMixin.methods.someMethod).toHaveBeenCalledTimes(1)
   })
 
   it('throws an error if window is undefined', () => {
@@ -188,32 +187,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
       }
     }).vm.callStub()
 
-    expect(stub).not.called
-  })
-
-  it.skip('overrides component prototype', () => {
-    const mountSpy = sandbox.spy()
-    const destroySpy = sandbox.spy()
-    const Component = Vue.extend({})
-    const {
-      $mount: originalMount,
-      $destroy: originalDestroy
-    } = Component.prototype
-    Component.prototype.$mount = function(...args) {
-      originalMount.apply(this, args)
-      mountSpy()
-      return this
-    }
-    Component.prototype.$destroy = function() {
-      originalDestroy.apply(this)
-      destroySpy()
-    }
-
-    const wrapper = mount(Component)
-    expect(mountSpy).called
-    expect(destroySpy).not.called
-    wrapper.destroy()
-    expect(destroySpy).called
+    expect(stub).not.toHaveBeenCalled()
   })
 
   // Problems accessing options of twice extended components in Vue < 2.3

@@ -9,8 +9,8 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     const vm = new Constructor().$mount()
     const wrapper = createWrapper(vm)
     expect(wrapper.is(Component)).toEqual(true)
-    expect(wrapper).instanceof(Wrapper)
-    expect(wrapper.findAll('div')).instanceof(WrapperArray)
+    expect(wrapper).toBeInstanceOf(Wrapper)
+    expect(wrapper.findAll('div')).toBeInstanceOf(WrapperArray)
   })
 
   it('handles HTMLElement', () => {
