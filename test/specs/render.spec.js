@@ -8,7 +8,7 @@ describeDoNotRunIf(process.env.TEST_ENV !== 'node', 'render', () => {
       template: '<div><h2>Test</h2><p></p><p></p></div>'
     }
     const wrapper = await render(TestComponent)
-    expect(wrapper).to.be.an.instanceof(Cheerio)
+    expect(wrapper).toBeAnInstanceof(Cheerio)
     expect(wrapper.find('h2').text()).toEqual('Test')
     expect(wrapper.find('p').length).toEqual(2)
   })
