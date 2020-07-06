@@ -59,8 +59,8 @@ describeDoNotRunIf(process.env.TEST_ENV !== 'node', 'renderToString', () => {
         $route
       }
     })
-    expect(str).contains('true')
-    expect(str).contains('http://test.com')
+    expect(str).toContain('true')
+    expect(str).toContain('http://test.com')
   })
 
   it('mounts component with $parent set to options.parentComponent', async () => {

@@ -21,11 +21,11 @@ describeWithShallowAndMount('Wrapper', mountingMethod => {
     })
 
     it('calls the hook function', () => {
-      const hookSpy = sandbox.spy()
+      const hookSpy = jest.fn()
 
       enableAutoDestroy(hookSpy)
 
-      expect(hookSpy).calledOnce
+      expect(hookSpy).toHaveBeenCalled()
     })
 
     it('uses the hook function to destroy wrappers', () => {
@@ -34,11 +34,11 @@ describeWithShallowAndMount('Wrapper', mountingMethod => {
         hookCallback = callback
       })
       const wrapper = mountingMethod({ template: '<p>con tent</p>' })
-      sandbox.spy(wrapper, 'destroy')
+      jest.spyOn(wrapper, 'destroy')
 
       hookCallback()
 
-      expect(wrapper.destroy).calledOnce
+      expect(wrapper.destroy).toHaveBeenCalled()
     })
 
     it('cannot be called twice', () => {
