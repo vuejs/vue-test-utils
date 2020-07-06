@@ -72,9 +72,7 @@ describeWithShallowAndMount('props', mountingMethod => {
         const message =
           '[vue-test-utils]: wrapper.props() cannot be called on a mounted functional component.'
         const fn = () => wrapper.find(FunctionalComponent).props()
-        expect(fn)
-          .toThrow()
-          .with.property('message', message)
+        expect(fn).toThrow(message)
       }
     }
   )
