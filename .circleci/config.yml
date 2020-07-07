@@ -42,15 +42,6 @@ jobs:
       - run:
           name: yarn bootstrap
           command: yarn bootstrap
-  build_test:
-    <<: *defaults
-    steps:
-      - attach_workspace:
-          at: ~/repo
-      - *restore_node_modules
-      - run:
-          name: yarn build:test
-          command: yarn build:test
   test:
     <<: *defaults
     steps:
@@ -58,15 +49,8 @@ jobs:
           at: ~/repo
       - *restore_node_modules
       - run:
-          name: yarn test
-          command: yarn test
-  test_compat:
-    <<: *defaults
-    steps:
-      - attach_workspace:
-          at: ~/repo
-      - *restore_node_modules
-      - run: yarn test:compat
+          name: yarn test:unit
+          command: yarn test:unit
 workflows:
   version: 2
   install-tests:

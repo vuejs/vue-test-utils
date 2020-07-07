@@ -6,22 +6,7 @@
   ],
   "scripts": {
     "bootstrap": "lerna bootstrap",
-    "build": "lerna run build",
-    "build:test": "lerna run build:test",
-    "clean": "lerna clean --yes",
-    "commit": "git-cz",
-    "docs": "vuepress dev docs",
-    "docs:build": "vuepress build docs",
-    "flow": "flow check",
-    "lint": "eslint --ext js,vue .",
-    "lint:docs": "eslint --ext js,vue,md docs --ignore-path .gitignore",
-    "lint:fix": "yarn lint -- --fix",
-    "format": "prettier --write \"**/*.{js,json,vue,md}\"",
-    "format:check": "prettier --check \"**/*.{js,json,vue,md}\"",
-    "release": "yarn build && yarn test:unit:only && lerna publish --conventional-commits -m \"chore(release): publish %s\"",
-    "test": "yarn format:check && yarn lint && yarn lint:docs && yarn flow && yarn test:types && yarn test:unit && yarn test:unit:karma && yarn test:unit:node",
-    "test:compat": "scripts/test-compat.sh",
-    "test:unit": "yarn build:test && yarn test:unit:only",
+    "test:unit": "cross-env TARGET=dev yarn jest",
     "test:types": "tsc -p packages/test-utils/types && tsc -p packages/server-test-utils/types"
   },
   "dependencies": {
