@@ -57,6 +57,7 @@ module.exports = {
         ],
         sidebar: [
           '/',
+          '/installation/',
           '/guides/',
           '/api/',
           '/api/wrapper/',

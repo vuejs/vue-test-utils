@@ -4,56 +4,9 @@
 
 ### Setup
 
-To get a quick taste of using Vue Test Utils, clone our demo repository with basic setup and install the dependencies:
+If you already have a project that was created with the [Vue CLI](https://cli.vuejs.org/), you might want to add and configure the [core Jest plugin](https://cli.vuejs.org/core-plugins/unit-jest.html) or the [core Mocha plugin](https://cli.vuejs.org/core-plugins/unit-mocha.html).
 
-```bash
-git clone https://github.com/vuejs/vue-test-utils-getting-started
-cd vue-test-utils-getting-started
-npm install
-```
-
-If you already have a project that was created with the [Vue CLI](https://cli.vuejs.org/) and want to add testing capabilities you may run:
-
-```bash
-# unit testing
-vue add @vue/unit-jest
-
-# or:
-vue add @vue/unit-mocha
-
-# end-to-end
-vue add @vue/e2e-cypress
-
-# or:
-vue add @vue/e2e-nightwatch
-```
-
-You will see that the project includes a simple component, `counter.js`:
-
-```js
-// counter.js
-
-export default {
-  template: `
-    <div>
-      <span class="count">{{ count }}</span>
-      <button @click="increment">Increment</button>
-    </div>
-  `,
-
-  data() {
-    return {
-      count: 0
-    }
-  },
-
-  methods: {
-    increment() {
-      this.count++
-    }
-  }
-}
-```
+If needed, check out the [Installation guides](../installation/README.md) for further details.
 
 ### Mounting Components
 

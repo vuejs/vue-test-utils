@@ -188,7 +188,7 @@ When you mount a component with Vue Test Utils, you get access to the root HTML 
 ```js
 test('renders correctly', () => {
   const wrapper = mount(Component)
-  expect(wrapper.element).toMatchSnapshot()
+  expect(wrapper.html()).toMatchSnapshot()
 })
 ```
 
