@@ -1,5 +1,8 @@
 import { describeWithShallowAndMount } from '~resources/utils'
-import { enableAutoDestroy, resetAutoDestroyState } from '@vue/test-utils'
+import {
+  enableAutoDestroy,
+  resetAutoDestroyState
+} from 'packages/test-utils/src'
 
 describeWithShallowAndMount('Wrapper', mountingMethod => {
   ;['vnode', 'element', 'vm', 'options'].forEach(property => {

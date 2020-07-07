@@ -1,4 +1,4 @@
-import { createLocalVue, mount } from '@vue/test-utils'
+import { createLocalVue, mount } from 'packages/test-utils/src'
 import VeeValidate from 'vee-validate'
 import { describeWithShallowAndMount } from '~resources/utils'
 

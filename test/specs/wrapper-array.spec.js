@@ -1,4 +1,4 @@
-import { Wrapper, WrapperArray } from '@vue/test-utils'
+import { Wrapper, WrapperArray } from 'packages/test-utils/src'
 import { describeWithShallowAndMount } from '~resources/utils'
 
 describeWithShallowAndMount('WrapperArray', mountingMethod => {

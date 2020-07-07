@@ -1,4 +1,4 @@
-import { render } from '@vue/server-test-utils'
+import { render } from 'packages/server-test-utils/src'
 import Cheerio from 'cheerio'
 import { describeDoNotRunIf } from 'conditional-specs'
 
