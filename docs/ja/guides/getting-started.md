@@ -139,5 +139,5 @@ it('will catch the error using a promise', () => {
 
 ### 次は何をするのか
 
-- [テストランナを選ぶ](./choosing-a-test-runner.md)で `vue-test-utils` をプロジェクトに組み込む
+- [**テストランナを選ぶ**](../installation/choosing-a-test-runner.md)で `vue-test-utils` をプロジェクトに組み込む
 - [テストを書くときの一般的なヒント](./common-tips.md)についてもっと知る
