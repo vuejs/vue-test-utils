@@ -4,15 +4,16 @@ Vue Test Utils 是 Vue.js 官方的单元测试实用工具库。
 
 <div class="vueschool"><a href="https://vueschool.io/courses/learn-how-to-test-vuejs-components?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to use Vue Test Utils to test Vue.js Components with Vue School">在 Vue School 学习如何测试 Vue.js 组件</a></div>
 
+- [安装](installation/)
+  - [选择一个测试运行器](installation/choosing-a-test-runner.md)
+  - [用 Jest 测试单文件组件](installation/testing-single-file-components-with-jest.md)
+  - [用 Mocha 和 webpack 测试单文件组件](installation/testing-single-file-components-with-mocha-webpack.md)
+  - [用 Karma 测试单文件组件](installation/testing-single-file-components-with-karma.md)
+  - [无需构建在 Node.js 中测试](installation/usage-without-a-build-step-node.md)
 - [教程](guides/)
   - [起步](guides/getting-started.md)
   - [常用技巧](guides/common-tips.md)
   - [鼠标、键盘以及其它 DOM 事件](guides/dom-events.md)
-  - [选择一个测试运行器](guides/choosing-a-test-runner.md)
-  - [用 Jest 测试单文件组件](guides/testing-single-file-components-with-jest.md)
-  - [用 Mocha 和 webpack 测试单文件组件](guides/testing-single-file-components-with-mocha-webpack.md)
-  - [用 Karma 测试单文件组件](guides/testing-single-file-components-with-karma.md)
-  - [无需构建在 Node.js 中测试](guides/usage-without-a-build-step-node.md)
   - [测试异步行为](guides/testing-async-components.md)
   - [配合 TypeScript 使用](guides/using-with-typescript.md)
   - [配合 Vue Router 使用](guides/using-with-vue-router.md)
