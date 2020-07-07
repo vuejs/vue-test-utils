@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import { compileToFunctions } from 'vue-template-compiler'
-import { mount, createLocalVue } from '@vue/test-utils'
+import { mount, createLocalVue } from 'packages/test-utils/src'
 import CompositionAPI, { createElement } from '@vue/composition-api'
 import Component from '~resources/components/component.vue'
 import ComponentWithProps from '~resources/components/component-with-props.vue'

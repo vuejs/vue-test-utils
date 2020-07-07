@@ -1,5 +1,5 @@
-import { renderToString } from '@vue/server-test-utils'
-import { createLocalVue } from '@vue/test-utils'
+import { renderToString } from 'packages/server-test-utils/src'
+import { createLocalVue } from 'packages/test-utils/src'
 import ComponentWithChild from '~resources/components/component-with-child.vue'
 import { describeDoNotRunIf } from 'conditional-specs'
 

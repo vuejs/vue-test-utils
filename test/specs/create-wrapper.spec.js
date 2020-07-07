@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { createWrapper, Wrapper, WrapperArray } from '@vue/test-utils'
+import { createWrapper, Wrapper, WrapperArray } from 'packages/test-utils/src'
 import Component from '~resources/components/component.vue'
 import { describeRunIf } from 'conditional-specs'
 
