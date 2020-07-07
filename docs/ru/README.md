@@ -2,14 +2,15 @@
 
 Vue Test Utils — официальная библиотека модульного тестирования для Vue.js.
 
+- [сборка](installation/)
+  - [Чем запускать тесты](installation/choosing-a-test-runner.md)
+  - [Тестирование однофайловых компонентов с Jest](installation/testing-single-file-components-with-jest.md)
+  - [Тестирование однофайловых компонентов с Mocha + webpack](installation/testing-single-file-components-with-mocha-webpack.md)
+  - [Testing однофайловых компонентов с Karma](installation/testing-single-file-components-with-karma.md)
 - [Руководства](guides/)
   - [Введение](guides/getting-started.md)
   - [Общие советы](guides/common-tips.md)
   - [Мышь, клавиши и другие события DOM](guides/dom-events.md)
-  - [Чем запускать тесты](guides/choosing-a-test-runner.md)
-  - [Тестирование однофайловых компонентов с Jest](guides/testing-single-file-components-with-jest.md)
-  - [Тестирование однофайловых компонентов с Mocha + webpack](guides/testing-single-file-components-with-mocha-webpack.md)
-  - [Testing однофайловых компонентов с Karma](guides/testing-single-file-components-with-karma.md)
   - [Тестирование асинхронной логики](guides/testing-async-components.md)
   - [Использование с TypeScript](guides/using-with-typescript.md)
   - [Использование с Vue Router](guides/using-with-vue-router.md)
