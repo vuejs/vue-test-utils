@@ -9,20 +9,22 @@ These options will be merged with the component's existing options when mounted 
 [See other options for examples](#other-options)
 :::
 
-- [`context`](#context)
-- [`data`](#data)
-- [`slots`](#slots)
-- [`scopedSlots`](#scopedslots)
-- [`stubs`](#stubs)
-- [`mocks`](#mocks)
-- [`localVue`](#localvue)
-- [`attachTo`](#attachto)
-- [`attachToDocument`](#attachtodocument)
-- [`propsData`](#propsdata)
-- [`attrs`](#attrs)
-- [`listeners`](#listeners)
-- [`parentComponent`](#parentcomponent)
-- [`provide`](#provide)
+- [Mounting Options](#mounting-options)
+  - [context](#context)
+  - [data](#data)
+  - [slots](#slots)
+  - [scopedSlots](#scopedslots)
+  - [stubs](#stubs)
+  - [mocks](#mocks)
+  - [localVue](#localvue)
+  - [attachTo](#attachto)
+  - [attachToDocument](#attachtodocument)
+  - [attrs](#attrs)
+  - [propsData](#propsdata)
+  - [listeners](#listeners)
+  - [parentComponent](#parentcomponent)
+  - [provide](#provide)
+  - [Other options](#other-options)
 
 ## context
 
@@ -327,7 +329,18 @@ wrapper.destroy()
 - default: `false`
 
 ::: warning Deprecation warning
-`attachToDocument` is deprecated and will be removed in future releases. Use [`attachTo`](#attachto) instead.
+`attachToDocument` is deprecated and will be removed in future releases. Use [`attachTo`](#attachto) instead. For example, if you need to attach the component to the document.body:
+
+```js
+const elem = document.createElement('div')
+if (document.body) {
+  document.body.appendChild(elem)
+}
+wrapper = mount(Component, {
+  attachTo: elem
+})
+```
+
 :::
 
 Like [`attachTo`](#attachto), but automatically creates a new `div` element for you and inserts it into the body.
