@@ -4,15 +4,11 @@ Vue Test Utils is the official unit testing utility library for Vue.js.
 
 <div class="vueschool"><a href="https://vueschool.io/courses/learn-how-to-test-vuejs-components?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to use Vue Test Utils to test Vue.js Components with Vue School">Learn how to test Vue.js components with Vue School</a></div>
 
+- [Installation](./installation/)
 - [Guides](./guides/)
   - [Getting Started](./guides/getting-started.md)
   - [Common Tips](guides/common-tips.md)
   - [Mouse, Key and other DOM Events](guides/dom-events.md)
-  - [Choosing a test runner](guides/choosing-a-test-runner.md)
-  - [Testing Single-File Components with Jest](guides/testing-single-file-components-with-jest.md)
-  - [Testing Single-File Components with Mocha + webpack](guides/testing-single-file-components-with-mocha-webpack.md)
-  - [Testing Single-File Components with Karma](guides/testing-single-file-components-with-karma.md)
-  - [Testing in Node.js Without a Build Step](guides/usage-without-a-build-step-node.md)
   - [Testing Asynchronous Behavior](guides/testing-async-components.md)
   - [Using with TypeScript](guides/using-with-typescript.md)
   - [Using with Vue Router](guides/using-with-vue-router.md)

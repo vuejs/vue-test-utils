@@ -57,6 +57,7 @@ module.exports = {
         ],
         sidebar: [
           '/',
+          '/installation/',
           '/guides/',
           '/api/',
           '/api/wrapper/',
@@ -81,6 +82,7 @@ module.exports = {
         ],
         sidebar: [
           '/zh/',
+          '/zh/installation/',
           '/zh/guides/',
           '/zh/api/',
           '/zh/api/wrapper/',
@@ -105,6 +107,7 @@ module.exports = {
         ],
         sidebar: [
           '/ja/',
+          '/ja/installation/',
           '/ja/guides/',
           '/ja/api/',
           '/ja/api/wrapper/',
@@ -129,6 +132,7 @@ module.exports = {
         ],
         sidebar: [
           '/ru/',
+          '/ru/installation/',
           '/ru/guides/',
           '/ru/api/',
           '/ru/api/wrapper/',
