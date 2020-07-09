@@ -1,5 +1,5 @@
 import { describeWithShallowAndMount, isRunningJSDOM } from '~resources/utils'
-import { renderToString } from '@vue/server-test-utils'
+import { renderToString } from 'packages/server-test-utils/src'
 
 describeWithShallowAndMount('options.attachToDocument', mountingMethod => {
   it('attaches root node to document', () => {
