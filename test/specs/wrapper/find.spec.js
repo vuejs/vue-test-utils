@@ -1,5 +1,5 @@
 import { compileToFunctions } from 'vue-template-compiler'
-import { createLocalVue } from '@vue/test-utils'
+import { createLocalVue } from 'packages/test-utils/src'
 import Vue from 'vue'
 import ComponentWithChild from '~resources/components/component-with-child.vue'
 import ComponentWithoutName from '~resources/components/component-without-name.vue'

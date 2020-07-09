@@ -1,4 +1,4 @@
-import { createLocalVue, config } from '@vue/test-utils'
+import { createLocalVue, config } from 'packages/test-utils/src'
 import Vue from 'vue'
 import Component from '~resources/components/component.vue'
 import ComponentWithVuex from '~resources/components/component-with-vuex.vue'

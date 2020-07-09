@@ -1,5 +1,5 @@
 import { describeWithShallowAndMount, vueVersion } from '~resources/utils'
-import { createLocalVue } from '@vue/test-utils'
+import { createLocalVue } from 'packages/test-utils/src'
 import ComponentWithScopedSlots from '~resources/components/component-with-scoped-slots.vue'
 import { itDoNotRunIf } from 'conditional-specs'
 import Vue from 'vue'

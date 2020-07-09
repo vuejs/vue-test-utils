@@ -1,6 +1,6 @@
 import { describeWithShallowAndMount } from '~resources/utils'
 import { compileToFunctions } from 'vue-template-compiler'
-import '@vue/test-utils'
+import 'packages/test-utils/src'
 
 describeWithShallowAndMount('isVisible', mountingMethod => {
   it('returns true if node has no inline style', () => {

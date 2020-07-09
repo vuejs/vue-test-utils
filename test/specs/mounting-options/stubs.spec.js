@@ -3,8 +3,8 @@ import ComponentWithNestedChildren from '~resources/components/component-with-ne
 import Component from '~resources/components/component.vue'
 import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
 import ComponentWithNestedChildrenAndAttributes from '~resources/components/component-with-nested-childern-and-attributes.vue'
-import { createLocalVue, config } from '@vue/test-utils'
-import { config as serverConfig } from '@vue/server-test-utils'
+import { createLocalVue, config } from 'packages/test-utils/src'
+import { config as serverConfig } from 'packages/server-test-utils/src'
 import Vue from 'vue'
 import { describeWithShallowAndMount, vueVersion } from '~resources/utils'
 import { itDoNotRunIf, itSkipIf, itRunIf } from 'conditional-specs'
@@ -13,10 +13,13 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
   let configStubsSave
   let serverConfigSave
   let consoleErrorSave
+  let consoleInfoSave
 
   beforeEach(() => {
     consoleErrorSave = console.error
+    consoleInfoSave = console.info
     console.error = jest.fn()
+    console.info = jest.fn()
     configStubsSave = config.stubs
     serverConfigSave = serverConfig.stubs
     config.stubs = {}
@@ -27,6 +30,7 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
     config.stubs = configStubsSave
     serverConfig.stubs = serverConfigSave
     console.error = consoleErrorSave
+    console.info = consoleInfoSave
   })
 
   it('accepts valid component stubs', () => {
@@ -266,9 +270,11 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
     require.cache[
       require.resolve('vue-template-compiler')
     ].exports.compileToFunctions = undefined
-    delete require.cache[require.resolve('@vue/test-utils')]
-    delete require.cache[require.resolve('@vue/server-test-utils')]
-    const mountingMethodFresh = require('@vue/test-utils')[mountingMethod.name]
+    delete require.cache[require.resolve('packages/test-utils/src')]
+    delete require.cache[require.resolve('packages/server-test-utils/src')]
+    const mountingMethodFresh = require('packages/test-utils/src')[
+      mountingMethod.name
+    ]
     const message =
       '[vue-test-utils]: vueTemplateCompiler is undefined, you must pass precompiled components if vue-template-compiler is undefined'
     const fn = () =>

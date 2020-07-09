@@ -4,7 +4,7 @@ import {
   isRunningPhantomJS,
   vueVersion
 } from '~resources/utils'
-import { createLocalVue, shallowMount, mount } from '@vue/test-utils'
+import { createLocalVue, shallowMount, mount } from 'packages/test-utils/src'
 import { itSkipIf, itRunIf, itDoNotRunIf } from 'conditional-specs'
 import Vuex from 'vuex'
 
