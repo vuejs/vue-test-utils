@@ -27,6 +27,8 @@ const wrapper = shallowMount(Component)
 
 Like [mount](../api/#mount), it creates a [Wrapper](../api/wrapper) that contains the mounted and rendered Vue component, but with stubbed child components.
 
+Notice that using `shallowMount` will make the component under testing different from the component you run in your application – some of its parts won't be rendered! This is why it is not the suggested way of testing components unless you face performance issues or need to simplify test arrangements.
+
 ### Lifecycle Hooks
 
 <div class="vueschool" style="margin-top:1em;"><a href="https://vueschool.io/lessons/learn-how-to-test-vuejs-lifecycle-methods?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to use Vue Test Utils to test Vue.js Lifecycle Hooks with Vue School">Learn how to test lifecycle methods and intervals with Vue School</a></div>
