@@ -6,26 +6,26 @@ For UI components, we don't recommend aiming for complete line-based coverage, b
 
 Instead, we recommend writing tests that assert your component's public interface, and treat its internals as a black box. A single test case would assert that some input (user interaction or change of props) provided to the component results in the expected output (render result or emitted custom events).
 
-For example, for the `Counter` component which increments a display counter by 1 each time a button is clicked, its test case would simulate the click and assert that the rendered output has increased by 1. The test doesn't care about how the `Counter` increments the value, it only cares about the input and the output.
+For example, imagine a `Counter` component which increments a display counter by 1 each time a button is clicked. Its test case would simulate the click and assert that the rendered output has increased by 1. The test should not care about how the `Counter` increments the value – it only cares about the input and the output.
 
 The benefit of this approach is that as long as your component's public interface remains the same, your tests will pass no matter how the component's internal implementation changes over time.
 
 This topic is discussed with more details in a [great presentation by Matt O'Connell](https://www.youtube.com/watch?v=OIpfWTThrK8).
 
-### Shallow Rendering
+### Shallow mounting
 
-In unit tests, we typically want to focus on the component being tested as an isolated unit and avoid indirectly asserting the behavior of its child components.
+Sometimes, mounting a whole component with all its all dependencies might become slow or cumbersome. For example, components that contain many child components.
 
-In addition, for components that contain many child components, the entire rendered tree can get really big. Repeatedly rendering all child components could slow down our tests.
-
-Vue Test Utils allows you to mount a component without rendering its child components (by stubbing them) with the `shallowMount` method:
+Vue Test Utils allows you to mount a component without rendering its child components (by stubbing them) with the [`shallowMount`](../api/#shallowmount) method.
 
 ```js
 import { shallowMount } from '@vue/test-utils'
+import Component from '../Component.vue'
 
 const wrapper = shallowMount(Component)
-wrapper.vm // the mounted Vue instance
 ```
+
+Like [mount](../api/#mount), it creates a [Wrapper](../api/wrapper) that contains the mounted and rendered Vue component, but with stubbed child components.
 
 ### Lifecycle Hooks
 
