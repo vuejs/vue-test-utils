@@ -21,7 +21,7 @@ const MessageComponent = {
 test('displays message', () => {
   // mount() returns a wrapped Vue component we can interact with
   const wrapper = mount(MessageComponent, {
-    props: {
+    propsData: {
       msg: 'Hello world'
     }
   })
