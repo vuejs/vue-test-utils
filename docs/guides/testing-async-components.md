@@ -5,7 +5,7 @@ There are two types of asynchronous behavior you will encounter in your tests:
 1. Updates applied by Vue
 2. Asynchronous behavior outside of Vue
 
-## Updates applied by Vue
+### Updates applied by Vue
 
 Vue batches pending DOM updates and applies them asynchronously to prevent unnecessary re-renders caused by multiple data mutations.
 
@@ -45,7 +45,7 @@ Methods that can be awaited are:
 - [setProps](../api/wrapper/README.md#setprops)
 - [trigger](../api/wrapper/README.md#trigger)
 
-## Asynchronous behavior outside of Vue
+### Asynchronous behavior outside of Vue
 
 One of the most common asynchronous behaviors outside of Vue is API calls in Vuex actions. The following examples shows how to test a method that makes an API call. This example uses Jest to run the test and to mock the HTTP library `axios`. More about Jest manual mocks can be found [here](https://jestjs.io/docs/en/manual-mocks.html#content).
 
