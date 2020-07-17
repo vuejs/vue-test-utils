@@ -11,7 +11,7 @@ import {
   CREATE_ELEMENT_ALIAS
 } from 'shared/consts'
 
-const isWhitelisted = (el, whitelist) => resolveComponent(el, whitelist)
+const isAllowlisted = (el, allowlist) => resolveComponent(el, allowlist)
 const isAlreadyStubbed = (el, stubs) => stubs.has(el)
 
 function shouldExtend(component, _Vue) {
@@ -36,10 +36,10 @@ function createStubIfNeeded(shouldStub, component, _Vue, el) {
   }
 }
 
-function shouldNotBeStubbed(el, whitelist, modifiedComponents) {
+function shouldNotBeStubbed(el, allowlist, modifiedComponents) {
   return (
     (typeof el === 'string' && isReservedTag(el)) ||
-    isWhitelisted(el, whitelist) ||
+    isAllowlisted(el, allowlist) ||
     isAlreadyStubbed(el, modifiedComponents)
   )
 }

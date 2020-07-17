@@ -133,7 +133,7 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
     expect(wrapper.html()).to.contain('</div>')
   })
 
-  it('stubs components with dummy when passed as an array', () => {
+  it('stubs components with place holder when passed as an array', () => {
     const ComponentWithGlobalComponent = {
       render: h => h('div', [h('registered-component')])
     }
@@ -230,7 +230,7 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
     expect(wrapper.html()).to.contain('<child-component-stub>')
   })
 
-  it('stubs components with dummy which has name when passed a boolean', () => {
+  it('stubs components with place holder which has name when passed a boolean', () => {
     const ComponentWithGlobalComponent = {
       render: h => h('div', [h('registered-component')])
     }
@@ -243,7 +243,7 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
     expect(wrapper.html()).to.contain('<registered-component-stub>')
   })
 
-  it('stubs components with dummy when passed as an array', () => {
+  it('stubs components with place holder when passed as an array', () => {
     const ComponentWithGlobalComponent = {
       render: h => h('registered-component')
     }
