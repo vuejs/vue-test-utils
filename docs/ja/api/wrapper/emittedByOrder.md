@@ -1,5 +1,11 @@
 ## emittedByOrder()
 
+::: warning Deprecation warning
+`emittedByOrder` は非推奨となり、将来のリリースで削除される予定です。
+
+代わりに `wrapper.emitted` を使用してください。
+:::
+
 `Wrapper` `vm` によって生成されたカスタムイベントを含む配列を返します。
 
 - **戻り値:** `Array<{ name: string, args: Array<any> }>`

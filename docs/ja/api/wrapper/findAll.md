@@ -1,5 +1,9 @@
 ## findAll(selector)
 
+::: warning Deprecation warning
+`findAll` を使用してコンポーネントを検索することは非推奨となり、削除される予定です。代わりに `findAllComponents` を使用してください。
+:::
+
 [`WrapperArray`](../wrapper-array/)を返します。
 
 有効な[セレクタ](../selectors.md)を使用してください。
