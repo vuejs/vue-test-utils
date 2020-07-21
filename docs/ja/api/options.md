@@ -192,6 +192,23 @@ expect(wrapper.vm.$route).toBeInstanceOf(Object)
 - 型: `boolean`
 - デフォルト: `false`
 
+::: warning Deprecation warning
+`attachToDocument` は非推奨となり、将来のリリースで削除される予定です。
+
+代わりに [attachTo](#attachto) を使用してください。たとえば、コンポーネントを document.body にアタッチする必要がある場合は：
+
+```js
+const elem = document.createElement('div')
+if (document.body) {
+  document.body.appendChild(elem)
+}
+wrapper = mount(Component, {
+  attachTo: elem
+})
+```
+
+:::
+
 `true` に設定されている場合、描画時にコンポーネントは DOM にアタッチされます。
 
 DOM にアタッチされた際に、テストの最後で `wrapper.destroy()` を呼び出さなければなりません。レンダリングされた要素をドキュメントから取り除いて、コンポーネントインスタンスを壊さなければならないからです。
