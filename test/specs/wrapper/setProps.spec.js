@@ -187,6 +187,81 @@ describeWithShallowAndMount('setProps', mountingMethod => {
       await wrapper.setProps({ prop1 })
       expect(wrapper.vm.prop2).to.equal(prop1)
     })
+
+    it('invokes watchers with immediate set to "true"', async () => {
+      const callback = sinon.spy()
+      const TestComponent = {
+        template: '<div />',
+        props: ['propA'],
+        mounted() {
+          this.$watch(
+            'propA',
+            function() {
+              callback()
+            },
+            { immediate: true }
+          )
+        }
+      }
+      const wrapper = mountingMethod(TestComponent, {
+        propsData: { propA: 'none' }
+      })
+
+      expect(callback.calledOnce)
+      callback.resetHistory()
+
+      await wrapper.setProps({ propA: 'value' })
+      expect(wrapper.props().propA).to.equal('value')
+      expect(callback.calledOnce)
+    })
+
+    it('invokes watchers with immediate set to "true" with deep objects', async () => {
+      const callback = sinon.spy()
+      const TestComponent = {
+        template: '<div />',
+        props: ['propA'],
+        mounted() {
+          this.$watch(
+            'propA',
+            function() {
+              callback()
+            },
+            { immediate: true }
+          )
+        }
+      }
+      const wrapper = mountingMethod(TestComponent, {
+        propsData: {
+          propA: {
+            key: {
+              nestedKey: 'value'
+            },
+            key2: 'value2'
+          }
+        }
+      })
+
+      expect(callback.calledOnce)
+      callback.resetHistory()
+
+      await wrapper.setProps({
+        propA: {
+          key: {
+            nestedKey: 'newValue',
+            anotherNestedKey: 'value'
+          },
+          key2: 'value2'
+        }
+      })
+      expect(wrapper.props().propA).to.deep.equal({
+        key: {
+          nestedKey: 'newValue',
+          anotherNestedKey: 'value'
+        },
+        key2: 'value2'
+      })
+      expect(callback.calledOnce)
+    })
   })
 
   it('props and setProps should return the same reference when called with same object', () => {
