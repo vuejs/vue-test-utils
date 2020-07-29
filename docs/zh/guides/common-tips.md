@@ -31,7 +31,7 @@ wrapper.vm // 挂载的 Vue 实例
 
 <div class="vueschool" style="margin-top:1em;"><a href="https://vueschool.io/lessons/learn-how-to-test-vuejs-lifecycle-methods?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to use Vue Test Utils to test Vue.js Lifecycle Hooks with Vue School">在 Vue School 学习如何测试生命周期方法及其区间</a></div>
 
-在使用 `mount` 或 `shallowMount` 方法时，你可以期望你的组件响应 Vue 所有生命周期事件。但是请务必注意的是，除非使用 `Wrapper.destory()`，否则 `beforeDestroy` 和 `destroyed` _将不会触发_。
+在使用 `mount` 或 `shallowMount` 方法时，你可以期望你的组件响应 Vue 所有生命周期事件。但是请务必注意的是，除非使用 `Wrapper.destroy()`，否则 `beforeDestroy` 和 `destroyed` _将不会触发_。
 
 此外组件在每个测试规范结束时并不会被自动销毁，并且将由用户来决定是否要存根或手动清理那些在测试规范结束前继续运行的任务 (例如 `setInterval` 或者 `setTimeout`)。
 
