@@ -50,7 +50,7 @@ jobs:
       - *restore_node_modules
       - run:
           name: yarn test:unit
-          command: yarn test:unit
+          command: yarn test:unit -w 1
 workflows:
   version: 2
   install-tests:
