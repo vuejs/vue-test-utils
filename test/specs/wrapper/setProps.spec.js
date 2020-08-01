@@ -179,7 +179,7 @@ describeWithShallowAndMount('setProps', mountingMethod => {
     })
 
     it('invokes watchers with immediate set to "true"', async () => {
-      const callback = sinon.spy()
+      const callback = jest.fn()
       const TestComponent = {
         template: '<div />',
         props: ['propA'],
@@ -197,16 +197,15 @@ describeWithShallowAndMount('setProps', mountingMethod => {
         propsData: { propA: 'none' }
       })
 
-      expect(callback.calledOnce)
-      callback.resetHistory()
+      expect(callback).toHaveBeenCalledTimes(1)
 
       await wrapper.setProps({ propA: 'value' })
-      expect(wrapper.props().propA).to.equal('value')
-      expect(callback.calledOnce)
+      expect(wrapper.props().propA).toEqual('value')
+      expect(callback).toHaveBeenCalledTimes(2)
     })
 
     it('invokes watchers with immediate set to "true" with deep objects', async () => {
-      const callback = sinon.spy()
+      const callback = jest.fn()
       const TestComponent = {
         template: '<div />',
         props: ['propA'],
@@ -231,8 +230,7 @@ describeWithShallowAndMount('setProps', mountingMethod => {
         }
       })
 
-      expect(callback.calledOnce)
-      callback.resetHistory()
+      expect(callback).toHaveBeenCalledTimes(1)
 
       await wrapper.setProps({
         propA: {
@@ -243,14 +241,14 @@ describeWithShallowAndMount('setProps', mountingMethod => {
           key2: 'value2'
         }
       })
-      expect(wrapper.props().propA).to.deep.equal({
+      expect(wrapper.props().propA).toEqual({
         key: {
           nestedKey: 'newValue',
           anotherNestedKey: 'value'
         },
         key2: 'value2'
       })
-      expect(callback.calledOnce)
+      expect(callback).toHaveBeenCalledTimes(2)
     })
   })
 
