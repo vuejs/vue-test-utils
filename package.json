@@ -6,6 +6,8 @@
   ],
   "scripts": {
     "bootstrap": "lerna bootstrap",
+    "docs": "vuepress dev docs",
+    "docs:build": "vuepress build docs",
     "test:unit": "cross-env TARGET=dev yarn jest",
     "test:types": "tsc -p packages/test-utils/types && tsc -p packages/server-test-utils/types"
   },
