@@ -711,7 +711,7 @@ export default class Wrapper implements BaseWrapper {
 
       // $FlowIgnore : Problem with possibly null this.vm
       this.vm.$forceUpdate()
-      return new Promise((resolve, reject) => {
+      return new Promise(resolve => {
         nextTick().then(() => {
           const isUpdated = Object.keys(data).some(key => {
             return (
