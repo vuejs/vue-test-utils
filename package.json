@@ -20,7 +20,6 @@
     "@babel/plugin-transform-flow-strip-types": "^7.0.0",
     "@babel/plugin-proposal-class-properties": "^7.0.0",
     "@babel/plugin-syntax-flow": "^7.0.0",
-    "@babel/polyfill": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
     "chalk": "^2.4.2",
     "conditional-specs": "^1.0.1",
