@@ -6,7 +6,7 @@ module.exports = function(config) {
     frameworks: ['mocha', 'sinon-chai'],
     reporters: ['spec'],
     files: [
-      '../../node_modules/babel-polyfill/dist/polyfill.js',
+      '../../node_modules/@babel/polyfill/dist/polyfill.js',
       './polyfills.js',
       'load-tests.js'
     ],

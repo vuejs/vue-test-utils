@@ -18,5 +18,11 @@
     "space-before-function-paren": 0,
     "object-curly-spacing": 0,
     "indent": 0
+  },
+  "parserOptions": {
+    "parser": "babel-eslint",
+    "ecmaFeatures": {
+      "legacyDecorators": true
+    }
   }
 }
