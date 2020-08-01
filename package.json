@@ -85,7 +85,7 @@
     "vue-router": "^3.0.1",
     "vue-server-renderer": "^2.6.11",
     "vue-template-compiler": "^2.6.11",
-    "vuepress": "^0.14.2",
+    "vuepress": "^0.14.8",
     "vuepress-theme-vue": "^1.0.3",
     "vuex": "^3.0.1",
     "webpack": "^3.0.1",
