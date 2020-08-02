@@ -14,7 +14,9 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
   const windowSave = window
 
   afterEach(() => {
-    window = windowSave // eslint-disable-line no-native-reassign
+    if (process.env.TEST_ENV !== 'browser') {
+      window = windowSave // eslint-disable-line no-native-reassign
+    }
   })
 
   it('returns new VueWrapper with mounted Vue instance if no options are passed', () => {

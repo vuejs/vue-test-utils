@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import {
   describeWithShallowAndMount,
-  isRunningPhantomJS,
+  isRunningChrome,
   vueVersion
 } from '~resources/utils'
 import { createLocalVue, shallowMount, mount } from 'packages/test-utils/src'
@@ -10,7 +10,7 @@ import Vuex from 'vuex'
 
 describeWithShallowAndMount('options.localVue', mountingMethod => {
   itSkipIf(
-    isRunningPhantomJS,
+    isRunningChrome,
     'mounts component using passed localVue as base Vue',
     () => {
       const TestComponent = {

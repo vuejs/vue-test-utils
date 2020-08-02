@@ -460,7 +460,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
     expect(wrapper.findAll(RecursiveComponent).length).toEqual(3)
   })
 
-  it('handles extended stubs', () => {
+  itDoNotRunIf(vueVersion < 2.4, 'handles extended stubs', () => {
     const ChildComponent = Vue.extend({
       template: '<div />',
       props: ['propA']

@@ -9,7 +9,7 @@ import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
 import {
   functionalSFCsSupported,
   describeWithShallowAndMount,
-  isRunningPhantomJS
+  isRunningChrome
 } from '~resources/utils'
 import { itDoNotRunIf, itSkipIf } from 'conditional-specs'
 
@@ -36,7 +36,7 @@ describeWithShallowAndMount('findAll', mountingMethod => {
   })
 
   itDoNotRunIf(
-    isRunningPhantomJS,
+    isRunningChrome,
     'returns nodes matching class selector inside a slot',
     () => {
       const wrapper = mountingMethod(ComponentWithSlots, {
@@ -227,7 +227,7 @@ describeWithShallowAndMount('findAll', mountingMethod => {
     expect(wrapper.findAll(ComponentWithoutName).length).toEqual(3)
   })
 
-  itSkipIf(isRunningPhantomJS, 'returns Wrapper of class component', () => {
+  itSkipIf(isRunningChrome, 'returns Wrapper of class component', () => {
     const TestComponent = {
       template: `
         <div>

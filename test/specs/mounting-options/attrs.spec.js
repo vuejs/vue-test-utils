@@ -1,14 +1,14 @@
 import { attrsSupported } from '~resources/utils'
 import {
   describeWithShallowAndMount,
-  isRunningPhantomJS,
+  isRunningChrome,
   vueVersion
 } from '~resources/utils'
 import { itSkipIf, itDoNotRunIf } from 'conditional-specs'
 
 describeWithShallowAndMount('options.attrs', mountingMethod => {
   itDoNotRunIf(
-    vueVersion < 2.4 || isRunningPhantomJS,
+    vueVersion < 2.4 || isRunningChrome,
     'handles inherit attrs',
     () => {
       if (!attrsSupported) return

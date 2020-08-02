@@ -3,7 +3,7 @@ import ComponentWithScopedSlots from '~resources/components/component-with-scope
 import {
   describeWithShallowAndMount,
   scopedSlotsSupported,
-  isRunningPhantomJS,
+  isRunningChrome,
   isPromise,
   vueVersion
 } from '~resources/utils'
@@ -58,7 +58,7 @@ describeWithShallowAndMount('trigger', mountingMethod => {
       expect(parseInt(keyboardEvent.keyCode, 10)).toEqual(65)
     })
 
-    itDoNotRunIf(isRunningPhantomJS, 'contains the code', () => {
+    itDoNotRunIf(isRunningChrome, 'contains the code', () => {
       expect(parseInt(keyboardEvent.code, 10)).toEqual(65)
     })
   })
@@ -256,7 +256,7 @@ describeWithShallowAndMount('trigger', mountingMethod => {
   })
 
   itDoNotRunIf(
-    isRunningPhantomJS,
+    isRunningChrome,
     'trigger should create events with correct interface',
     () => {
       let lastEvent

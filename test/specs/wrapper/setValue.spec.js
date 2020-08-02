@@ -65,16 +65,18 @@ describeWithShallowAndMount('setValue', mountingMethod => {
     expect(wrapper.text()).toContain('selectB')
   })
 
-  it.only('sets element of multiselect value', async () => {
-    const wrapper = mountingMethod(ComponentWithInput)
-    const select = wrapper.find('select.multiselect')
-    await select.setValue(['selectA', 'selectC'])
+  if (process.env.TEST_ENV !== 'browser') {
+    it.only('sets element of multiselect value', async () => {
+      const wrapper = mountingMethod(ComponentWithInput)
+      const select = wrapper.find('select.multiselect')
+      await select.setValue(['selectA', 'selectC'])
 
-    const selectedOptions = Array.from(select.element.selectedOptions).map(
-      o => o.value
-    )
-    expect(selectedOptions).toEqual(['selectA', 'selectC'])
-  })
+      const selectedOptions = Array.from(select.element.selectedOptions).map(
+        o => o.value
+      )
+      expect(selectedOptions).toEqual(['selectA', 'selectC'])
+    })
+  }
 
   it('overrides elements of multiselect', () => {
     const wrapper = mountingMethod(ComponentWithInput)

@@ -6,7 +6,7 @@ import {
   isPromise,
   vueVersion
 } from '~resources/utils'
-import { itDoNotRunIf } from 'conditional-specs'
+import { itDoNotRunIf, itSkipIf } from 'conditional-specs'
 import Vue from 'vue'
 
 describeWithShallowAndMount('setProps', mountingMethod => {
@@ -80,28 +80,32 @@ describeWithShallowAndMount('setProps', mountingMethod => {
   })
 
   describe('watchers', () => {
-    it('updates watched prop', () => {
-      const TestComponent = {
-        template: '<div />',
-        props: ['propA'],
-        mounted() {
-          this.$watch(
-            'propA',
-            function() {
-              this.propA
-            },
-            { immediate: true }
-          )
+    itSkipIf(
+      vueVersion < 2.3 && process.env.TEST_ENV === 'browser',
+      'updates watched prop',
+      async () => {
+        const TestComponent = {
+          template: '<div />',
+          props: ['propA'],
+          mounted() {
+            this.$watch(
+              'propA',
+              function() {
+                this.propA
+              },
+              { immediate: true }
+            )
+          }
         }
-      }
-      const wrapper = mountingMethod(TestComponent, {
-        propsData: { propA: 'none' }
-      })
+        const wrapper = mountingMethod(TestComponent, {
+          propsData: { propA: 'none' }
+        })
 
-      wrapper.setProps({ propA: 'value' })
-      expect(wrapper.props().propA).toEqual('value')
-      expect(wrapper.vm.propA).toEqual('value')
-    })
+        await wrapper.setProps({ propA: 'value' })
+        expect(wrapper.props().propA).toEqual('value')
+        expect(wrapper.vm.propA).toEqual('value')
+      }
+    )
 
     it('runs watchers correctly', async () => {
       const TestComponent = {
@@ -177,79 +181,85 @@ describeWithShallowAndMount('setProps', mountingMethod => {
       await wrapper.setProps({ prop1 })
       expect(wrapper.vm.prop2).toEqual(prop1)
     })
-
-    it('invokes watchers with immediate set to "true"', async () => {
-      const callback = jest.fn()
-      const TestComponent = {
-        template: '<div />',
-        props: ['propA'],
-        mounted() {
-          this.$watch(
-            'propA',
-            function() {
-              callback()
-            },
-            { immediate: true }
-          )
+    itSkipIf(
+      vueVersion < 2.3 && process.env.TEST_ENV === 'browser',
+      'invokes watchers with immediate set to "true"',
+      async () => {
+        const callback = jest.fn()
+        const TestComponent = {
+          template: '<div />',
+          props: ['propA'],
+          mounted() {
+            this.$watch(
+              'propA',
+              function() {
+                callback()
+              },
+              { immediate: true }
+            )
+          }
         }
+        const wrapper = mountingMethod(TestComponent, {
+          propsData: { propA: 'none' }
+        })
+
+        expect(callback).toHaveBeenCalledTimes(1)
+
+        await wrapper.setProps({ propA: 'value' })
+        expect(wrapper.props().propA).toEqual('value')
+        expect(callback).toHaveBeenCalledTimes(2)
       }
-      const wrapper = mountingMethod(TestComponent, {
-        propsData: { propA: 'none' }
-      })
-
-      expect(callback).toHaveBeenCalledTimes(1)
-
-      await wrapper.setProps({ propA: 'value' })
-      expect(wrapper.props().propA).toEqual('value')
-      expect(callback).toHaveBeenCalledTimes(2)
-    })
-
-    it('invokes watchers with immediate set to "true" with deep objects', async () => {
-      const callback = jest.fn()
-      const TestComponent = {
-        template: '<div />',
-        props: ['propA'],
-        mounted() {
-          this.$watch(
-            'propA',
-            function() {
-              callback()
-            },
-            { immediate: true }
-          )
+    )
+    itSkipIf(
+      vueVersion < 2.3 && process.env.TEST_ENV === 'browser',
+      'invokes watchers with immediate set to "true" with deep objects',
+      async () => {
+        const callback = jest.fn()
+        const TestComponent = {
+          template: '<div />',
+          props: ['propA'],
+          mounted() {
+            this.$watch(
+              'propA',
+              function() {
+                callback()
+              },
+              { immediate: true }
+            )
+          }
         }
-      }
-      const wrapper = mountingMethod(TestComponent, {
-        propsData: {
+        const wrapper = mountingMethod(TestComponent, {
+          propsData: {
+            propA: {
+              key: {
+                nestedKey: 'value'
+              },
+              key2: 'value2'
+            }
+          }
+        })
+
+        expect(callback).toHaveBeenCalledTimes(1)
+
+        await wrapper.setProps({
           propA: {
             key: {
-              nestedKey: 'value'
+              nestedKey: 'newValue',
+              anotherNestedKey: 'value'
             },
             key2: 'value2'
           }
-        }
-      })
-
-      expect(callback).toHaveBeenCalledTimes(1)
-
-      await wrapper.setProps({
-        propA: {
+        })
+        expect(wrapper.props().propA).toEqual({
           key: {
             nestedKey: 'newValue',
             anotherNestedKey: 'value'
           },
           key2: 'value2'
-        }
-      })
-      expect(wrapper.props().propA).toEqual({
-        key: {
-          nestedKey: 'newValue',
-          anotherNestedKey: 'value'
-        },
-        key2: 'value2'
-      })
-      expect(callback).toHaveBeenCalledTimes(2)
-    })
+        })
+        expect(callback).toHaveBeenCalledTimes(2)
+      }
+    )
   })
 
   it('props and setProps should return the same reference when called with same object', () => {

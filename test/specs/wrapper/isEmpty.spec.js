@@ -1,8 +1,5 @@
 import { compileToFunctions } from 'vue-template-compiler'
-import {
-  describeWithShallowAndMount,
-  isRunningPhantomJS
-} from '~resources/utils'
+import { describeWithShallowAndMount, isRunningChrome } from '~resources/utils'
 import { itSkipIf, itDoNotRunIf } from 'conditional-specs'
 
 describeWithShallowAndMount('isEmpty', mountingMethod => {
@@ -67,7 +64,7 @@ describeWithShallowAndMount('isEmpty', mountingMethod => {
     }
   )
 
-  itSkipIf(isRunningPhantomJS, 'returns true if innerHTML is empty', () => {
+  itSkipIf(isRunningChrome, 'returns true if innerHTML is empty', () => {
     const TestComponent = {
       render(createElement) {
         return createElement('div', {
@@ -81,7 +78,7 @@ describeWithShallowAndMount('isEmpty', mountingMethod => {
     expect(wrapper.find('svg').isEmpty()).toEqual(true)
   })
 
-  it('returns false if innerHTML is not empty', () => {
+  itSkipIf(isRunningChrome, 'returns false if innerHTML is not empty', () => {
     const TestComponent = {
       render(createElement) {
         return createElement('div', {

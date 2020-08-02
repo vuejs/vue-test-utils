@@ -1,14 +1,16 @@
 import { listenersSupported } from '~resources/utils'
 import {
   describeWithShallowAndMount,
-  isRunningPhantomJS,
+  isRunningChrome,
   vueVersion
 } from '~resources/utils'
 import { itDoNotRunIf } from 'conditional-specs'
 
 describeWithShallowAndMount('options.listeners', mountingMethod => {
+  it.skip('placeholder for potentially empty test describe', () => {})
+
   itDoNotRunIf(
-    isRunningPhantomJS || !listenersSupported,
+    isRunningChrome || !listenersSupported,
     'handles inherit listeners',
     () => {
       const aListener = () => {}
@@ -28,7 +30,7 @@ describeWithShallowAndMount('options.listeners', mountingMethod => {
   )
 
   itDoNotRunIf(
-    isRunningPhantomJS || !listenersSupported,
+    isRunningChrome || !listenersSupported,
     'passes listeners to functional components',
     () => {
       const TestComponent = {

@@ -12,7 +12,7 @@ import {
   functionalSFCsSupported,
   vueVersion,
   describeWithShallowAndMount,
-  isRunningPhantomJS
+  isRunningChrome
 } from '~resources/utils'
 import { itDoNotRunIf, itSkipIf } from 'conditional-specs'
 
@@ -38,7 +38,7 @@ describeWithShallowAndMount('find', mountingMethod => {
   })
 
   itDoNotRunIf(
-    isRunningPhantomJS,
+    isRunningChrome,
     'returns an array of Wrapper of elements matching class selector passed if they are declared inside a slot',
     () => {
       const wrapper = mountingMethod(ComponentWithSlots, {
@@ -168,7 +168,7 @@ describeWithShallowAndMount('find', mountingMethod => {
     expect(wrapper.findComponent(Component).exists()).toBe(true)
   })
 
-  itSkipIf(isRunningPhantomJS, 'returns Wrapper of class component', () => {
+  itSkipIf(isRunningChrome, 'returns Wrapper of class component', () => {
     const TestComponent = {
       template: `
         <div>
