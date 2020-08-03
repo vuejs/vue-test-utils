@@ -403,7 +403,7 @@ expect(wrapper.vm.$parent.$options.name).toBe('foo')
 
 - 类型：`Object`
 
-为组件传递用于注入的属性。可查阅 [provie/inject](https://cn.vuejs.org/v2/api/#provide-inject) 了解更多。
+为组件传递用于注入的属性。可查阅 [provide/inject](https://cn.vuejs.org/v2/api/#provide-inject) 了解更多。
 
 示例：
 
