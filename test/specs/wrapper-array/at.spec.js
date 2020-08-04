@@ -26,33 +26,12 @@ describeWithShallowAndMount('at', mountingMethod => {
     expect(first.classes()).to.contain('index-first')
   })
 
-  it('throws error if no item exists at index', () => {
-    const index = 2
+  it('returns ErrorWrapper at index when not found', () => {
     const TestComponent = {
-      template: '<div><p /><p class="index-1"/></div>'
+      template: '<div></div>'
     }
-    const message = `[vue-test-utils]: no item exists at ${index}`
-    expect(() =>
-      mountingMethod(TestComponent)
-        .findAll('p')
-        .at(index)
-    )
-      .to.throw()
-      .with.property('message', message)
-  })
-
-  it('throws error if no item exists at negative index', () => {
-    const index = -3
-    const TestComponent = {
-      template: '<div><p /><p class="index-1"/></div>'
-    }
-    const message = `[vue-test-utils]: no item exists at -3 (normalized to -1)`
-    expect(() =>
-      mountingMethod(TestComponent)
-        .findAll('p')
-        .at(index)
-    )
-      .to.throw()
-      .with.property('message', message)
+    const all = mountingMethod(TestComponent).findAll('p')
+    const nonExistent = all.at(0)
+    expect(nonExistent.exists()).to.equal(false)
   })
 })

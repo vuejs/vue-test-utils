@@ -3,6 +3,7 @@
 import type Wrapper from './wrapper'
 import type VueWrapper from './vue-wrapper'
 import { throwError } from 'shared/util'
+import ErrorWrapper from './error-wrapper'
 
 export default class WrapperArray implements BaseWrapper {
   +wrappers: Array<Wrapper | VueWrapper>
@@ -23,14 +24,9 @@ export default class WrapperArray implements BaseWrapper {
     })
   }
 
-  at(index: number): Wrapper | VueWrapper {
+  at(index: number): Wrapper | VueWrapper | ErrorWrapper {
     const normalizedIndex = index < 0 ? this.length + index : index
-    if (normalizedIndex > this.length - 1 || normalizedIndex < 0) {
-      let error = `no item exists at ${index}`
-      error += index < 0 ? ` (normalized to ${normalizedIndex})` : ''
-      throwError(error)
-    }
-    return this.wrappers[normalizedIndex]
+    return this.wrappers[normalizedIndex] || new ErrorWrapper('')
   }
 
   attributes(): void {
