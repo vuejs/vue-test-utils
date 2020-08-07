@@ -10,8 +10,8 @@
     "flowtype"
   ],
   "extends": [
-    "plugin:vue-libs/recommended",
-    "plugin:flowtype/recommended"
+    "plugin:flowtype/recommended",
+    "plugin:vue-libs/recommended"
   ],
   "rules": {
     "template-curly-spacing" : "off",
