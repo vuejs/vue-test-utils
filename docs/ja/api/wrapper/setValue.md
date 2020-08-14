@@ -12,17 +12,19 @@ text コントロールの input 要素の 値をセットします。そして�
 import { mount } from '@vue/test-utils'
 import Foo from './Foo.vue'
 
-const wrapper = mount(Foo)
+test('setValue demo', async () => {
+  const wrapper = mount(Foo)
 
-const textInput = wrapper.find('input[type="text"]')
-textInput.setValue('some value')
+  const textInput = wrapper.find('input[type="text"]')
+  await textInput.setValue('some value')
 
-const select = wrapper.find('select')
-select.setValue('option value')
+  const select = wrapper.find('select')
+  await select.setValue('option value')
 
-// requires <select multiple>
-const multiselect = wrapper.find('select')
-multiselect.setValue(['value1', 'value3'])
+  // requires <select multiple>
+  const multiselect = wrapper.find('select')
+  await multiselect.setValue(['value1', 'value3'])
+})
 ```
 
 - **注:**
