@@ -63,9 +63,11 @@ expect(wrapper.emitted().foo[1]).toEqual([123])
 ラッパの `setData` メソッドまたは `setProps` メソッドを使って、コンポーネントの状態を直接操作することができます。:
 
 ```js
-wrapper.setData({ count: 10 })
+it('manipulates state', async () => {
+  await wrapper.setData({ count: 10 })
 
-wrapper.setProps({ foo: 'bar' })
+  await wrapper.setProps({ foo: 'bar' })
+})
 ```
 
 ### プロパティをモックする

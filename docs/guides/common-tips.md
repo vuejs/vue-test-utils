@@ -153,9 +153,11 @@ describe('ParentComponent', () => {
 You can directly manipulate the state of the component using the `setData` or `setProps` method on the wrapper:
 
 ```js
-wrapper.setData({ count: 10 })
+it('manipulates state', async () => {
+  await wrapper.setData({ count: 10 })
 
-wrapper.setProps({ foo: 'bar' })
+  await wrapper.setProps({ foo: 'bar' })
+})
 ```
 
 ### Mocking Props
