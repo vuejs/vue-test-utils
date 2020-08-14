@@ -8,10 +8,12 @@
 import { mount } from '@vue/test-utils'
 import Foo from './Foo.vue'
 
-const wrapper = mount(Foo)
-const options = wrapper.find('select').findAll('option')
+test('setSelected demo', async () => {
+  const wrapper = mount(Foo)
+  const options = wrapper.find('select').findAll('option')
 
-options.at(1).setSelected()
+  await options.at(1).setSelected()
+})
 ```
 
 - **Примечание:**
