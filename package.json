@@ -30,7 +30,7 @@
     "conditional-specs": "^1.0.1",
     "conventional-changelog": "^3.1.12",
     "cross-env": "^5.0.0",
-    "flow-bin": "^0.66.0",
+    "flow-bin": "^0.131.0",
     "lerna": "^3.20.2",
     "markdown-it-include": "^1.0.0",
     "rollup": "1",

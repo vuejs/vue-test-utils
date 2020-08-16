@@ -39,6 +39,7 @@ function hasOwnProperty(obj, prop) {
 }
 
 export function keys<T: string>(obj: any): Array<T> {
+  // $FlowIgnore
   return Object.keys(obj)
 }
 
