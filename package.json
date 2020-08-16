@@ -69,7 +69,7 @@
     "babel-jest": "^26.0.1",
     "babel-loader": "^8.1.0",
     "commitizen": "^4.0.3",
-    "core-js": "2",
+    "core-js": "^3.6.5",
     "css-loader": "^4.2.0",
     "cz-conventional-changelog": "^3.0.2",
     "eslint": "^7.6.0",
