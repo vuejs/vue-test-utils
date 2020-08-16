@@ -19,7 +19,7 @@ module.exports = config => {
           }
         }
       : {}),
-    singleRun: !!process.env.CI,
+    singleRun: true,
     plugins: [
       'karma-webpack',
       'karma-jasmine',
