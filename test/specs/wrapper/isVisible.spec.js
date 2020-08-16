@@ -11,7 +11,7 @@ describeWithShallowAndMount('isVisible', mountingMethod => {
     )
     const wrapper = mountingMethod(compiled)
     const element = wrapper.find('.visible')
-    expect(element.isVisible()).to.equal(true)
+    expect(element.isVisible()).toEqual(true)
   })
 
   it('returns false if element has inline style display: none', () => {
@@ -20,7 +20,7 @@ describeWithShallowAndMount('isVisible', mountingMethod => {
     )
     const wrapper = mountingMethod(compiled)
     const element = wrapper.find('.visible')
-    expect(element.isVisible()).to.equal(false)
+    expect(element.isVisible()).toEqual(false)
   })
 
   it('returns false if element has inline style visibility: hidden', () => {
@@ -29,7 +29,7 @@ describeWithShallowAndMount('isVisible', mountingMethod => {
     )
     const wrapper = mountingMethod(compiled)
     const element = wrapper.find('.visible')
-    expect(element.isVisible()).to.equal(false)
+    expect(element.isVisible()).toEqual(false)
   })
 
   it('returns false if element has hidden attribute', () => {
@@ -38,7 +38,7 @@ describeWithShallowAndMount('isVisible', mountingMethod => {
     )
     const wrapper = mountingMethod(compiled)
     const element = wrapper.find('.visible')
-    expect(element.isVisible()).to.equal(false)
+    expect(element.isVisible()).toEqual(false)
   })
 
   it('returns true if element has v-show true', async () => {
@@ -47,10 +47,10 @@ describeWithShallowAndMount('isVisible', mountingMethod => {
     await Vue.nextTick()
 
     const notReadyElement = wrapper.find('.not-ready')
-    expect(notReadyElement.isVisible()).to.equal(false)
+    expect(notReadyElement.isVisible()).toEqual(false)
 
     const readyElement = wrapper.find('.parent.ready')
-    expect(readyElement.isVisible()).to.equal(true)
+    expect(readyElement.isVisible()).toEqual(true)
   })
 
   it('returns false if element has v-show true', async () => {
@@ -59,10 +59,10 @@ describeWithShallowAndMount('isVisible', mountingMethod => {
     await Vue.nextTick()
 
     const notReadyElement = wrapper.find('.not-ready')
-    expect(notReadyElement.isVisible()).to.equal(false)
+    expect(notReadyElement.isVisible()).toEqual(false)
 
     const readyElement = wrapper.find('.parent.ready')
-    expect(readyElement.isVisible()).to.equal(true)
+    expect(readyElement.isVisible()).toEqual(true)
   })
 
   it('returns true if parent element has v-show true', async () => {
@@ -71,10 +71,10 @@ describeWithShallowAndMount('isVisible', mountingMethod => {
     await Vue.nextTick()
 
     const notReadyElement = wrapper.find('.not-ready')
-    expect(notReadyElement.isVisible()).to.equal(false)
+    expect(notReadyElement.isVisible()).toEqual(false)
 
     const readyChildElement = wrapper.find('.child.ready')
-    expect(readyChildElement.isVisible()).to.equal(true)
+    expect(readyChildElement.isVisible()).toEqual(true)
   })
 
   it('returns false if parent element has v-show false', async () => {
@@ -83,10 +83,10 @@ describeWithShallowAndMount('isVisible', mountingMethod => {
     await Vue.nextTick()
 
     const notReadyElement = wrapper.find('.not-ready')
-    expect(notReadyElement.isVisible()).to.equal(false)
+    expect(notReadyElement.isVisible()).toEqual(false)
 
     const readyChildElement = wrapper.find('.child.ready')
-    expect(readyChildElement.isVisible()).to.equal(true)
+    expect(readyChildElement.isVisible()).toEqual(true)
   })
 
   it('returns false if root element has v-show false and parent has v-show true', async () => {
@@ -95,10 +95,10 @@ describeWithShallowAndMount('isVisible', mountingMethod => {
     wrapper.vm.$set(wrapper.vm, 'rootReady', false)
     await Vue.nextTick()
     const notReadyElement = wrapper.find('.not-ready')
-    expect(notReadyElement.isVisible()).to.equal(false)
+    expect(notReadyElement.isVisible()).toEqual(false)
 
     const readyChildElement = wrapper.find('.child.ready')
-    expect(readyChildElement.isVisible()).to.equal(false)
+    expect(readyChildElement.isVisible()).toEqual(false)
   })
 
   it('returns false if root element has v-show true and parent has v-show false', async () => {
@@ -107,10 +107,10 @@ describeWithShallowAndMount('isVisible', mountingMethod => {
     wrapper.vm.$set(wrapper.vm, 'rootReady', true)
     await Vue.nextTick()
     const notReadyElement = wrapper.find('.not-ready')
-    expect(notReadyElement.isVisible()).to.equal(true)
+    expect(notReadyElement.isVisible()).toEqual(true)
 
     const readyChildElement = wrapper.find('.child.ready')
-    expect(readyChildElement.isVisible()).to.equal(false)
+    expect(readyChildElement.isVisible()).toEqual(false)
   })
 
   it('returns true if all elements are visible', async () => {
@@ -120,7 +120,7 @@ describeWithShallowAndMount('isVisible', mountingMethod => {
     await Vue.nextTick()
     const readyChildElement = wrapper.find('.ready')
 
-    expect(readyChildElement.isVisible()).to.equal(true)
+    expect(readyChildElement.isVisible()).toEqual(true)
   })
 
   it('returns false if one element is not visible', async () => {
@@ -130,7 +130,7 @@ describeWithShallowAndMount('isVisible', mountingMethod => {
     await Vue.nextTick()
     const readyChildElement = wrapper.find('.ready, .not-ready')
 
-    expect(readyChildElement.isVisible()).to.equal(false)
+    expect(readyChildElement.isVisible()).toEqual(false)
   })
 
   it('fails if one element is absent', async () => {
@@ -139,7 +139,7 @@ describeWithShallowAndMount('isVisible', mountingMethod => {
     await Vue.nextTick()
 
     const fn = () => wrapper.find('.child.ready').isVisible()
-    expect(fn).to.throw()
+    expect(fn).toThrow()
   })
 
   it('returns true if one element is present', async () => {
@@ -147,6 +147,6 @@ describeWithShallowAndMount('isVisible', mountingMethod => {
     wrapper.vm.$set(wrapper.vm, 'ready', true)
     await Vue.nextTick()
 
-    expect(wrapper.find('.child.ready').isVisible()).to.equal(true)
+    expect(wrapper.find('.child.ready').isVisible()).toEqual(true)
   })
 })

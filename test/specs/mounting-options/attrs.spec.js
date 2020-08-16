@@ -1,14 +1,14 @@
 import { attrsSupported } from '~resources/utils'
 import {
   describeWithShallowAndMount,
-  isRunningPhantomJS,
+  isRunningChrome,
   vueVersion
 } from '~resources/utils'
 import { itSkipIf, itDoNotRunIf } from 'conditional-specs'
 
 describeWithShallowAndMount('options.attrs', mountingMethod => {
   itDoNotRunIf(
-    vueVersion < 2.4 || isRunningPhantomJS,
+    vueVersion < 2.4 || isRunningChrome,
     'handles inherit attrs',
     () => {
       if (!attrsSupported) return
@@ -20,8 +20,8 @@ describeWithShallowAndMount('options.attrs', mountingMethod => {
           anAttr: 'an attribute'
         }
       })
-      expect(wrapper.vm.$attrs.anAttr).to.equal('an attribute')
-      expect(wrapper.vm.$attrs.anAttr).to.equal('an attribute')
+      expect(wrapper.vm.$attrs.anAttr).toEqual('an attribute')
+      expect(wrapper.vm.$attrs.anAttr).toEqual('an attribute')
     }
   )
 
@@ -30,7 +30,7 @@ describeWithShallowAndMount('options.attrs', mountingMethod => {
     'defines attrs as empty object even when not passed',
     () => {
       const wrapper = mountingMethod({ template: '<p />' })
-      expect(wrapper.vm.$attrs).to.deep.equal({})
+      expect(wrapper.vm.$attrs).toEqual({})
     }
   )
 })

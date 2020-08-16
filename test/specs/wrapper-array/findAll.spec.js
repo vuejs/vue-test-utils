@@ -1,6 +1,6 @@
 import { describeWithShallowAndMount } from '~resources/utils'
 import { compileToFunctions } from 'vue-template-compiler'
-import '@vue/test-utils'
+import 'packages/test-utils/src'
 
 describeWithShallowAndMount('findAll', mountingMethod => {
   it('throws error if wrapper array contains no items', () => {
@@ -10,9 +10,7 @@ describeWithShallowAndMount('findAll', mountingMethod => {
       mountingMethod(compiled)
         .findAll('p')
         .findAll('p')
-    )
-      .to.throw()
-      .with.property('message', message)
+    ).toThrow(message)
   })
 
   it('throws an error when called on a WrapperArray', () => {
@@ -22,8 +20,6 @@ describeWithShallowAndMount('findAll', mountingMethod => {
     const wrapper = mountingMethod(compiled)
     const message =
       '[vue-test-utils]: findAll must be called on a single wrapper, use at(i) to access a wrapper'
-    expect(() => wrapper.findAll('div').findAll('div'))
-      .to.throw()
-      .with.property('message', message)
+    expect(() => wrapper.findAll('div').findAll('div')).toThrow(message)
   })
 })

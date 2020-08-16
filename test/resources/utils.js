@@ -1,8 +1,8 @@
 /* global describe */
 
 import Vue from 'vue'
-import { shallowMount, mount } from '@vue/test-utils'
-import { renderToString } from '@vue/server-test-utils'
+import { shallowMount, mount } from 'packages/test-utils/src'
+import { renderToString } from 'packages/server-test-utils/src'
 
 export const vueVersion = Number(
   `${Vue.version.split('.')[0]}.${Vue.version.split('.')[1]}`
@@ -13,10 +13,10 @@ export const isRunningJSDOM =
   navigator.userAgent.includes &&
   navigator.userAgent.includes('jsdom')
 
-export const isRunningPhantomJS =
+export const isRunningChrome =
   typeof navigator !== 'undefined' &&
   navigator.userAgent.includes &&
-  navigator.userAgent.match(/PhantomJS/i)
+  navigator.userAgent.match(/Chrome/i)
 
 export const injectSupported = vueVersion > 2.2
 

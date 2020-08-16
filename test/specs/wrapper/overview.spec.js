@@ -18,9 +18,7 @@ describeWithShallowAndMount('overview', mountingMethod => {
     const message =
       '[vue-test-utils]: wrapper.overview() can only be called on a Vue instance'
 
-    expect(() => nonVueWrapper.overview())
-      .to.throw()
-      .with.property('message', message)
+    expect(() => nonVueWrapper.overview()).toThrow(message)
   })
 
   if (vueVersion > 2) {
@@ -72,7 +70,7 @@ describeWithShallowAndMount('overview', mountingMethod => {
         ''
       ]
       wrapper.overview()
-      expect(consoleOutput).to.have.ordered.members(expectedConsoleOutput)
+      expect(consoleOutput).toEqual(expectedConsoleOutput)
     })
 
     describe('vibility', () => {
@@ -96,7 +94,7 @@ describeWithShallowAndMount('overview', mountingMethod => {
 
         wrapper.isVisible = () => true
         wrapper.overview()
-        expect(consoleOutput).to.have.ordered.members(expectedConsoleOutput)
+        expect(consoleOutput).toEqual(expectedConsoleOutput)
       })
 
       it('prints "Not Visible" when the wrapper is not visible', () => {
@@ -119,7 +117,7 @@ describeWithShallowAndMount('overview', mountingMethod => {
 
         wrapper.isVisible = () => false
         wrapper.overview()
-        expect(consoleOutput).to.have.ordered.members(expectedConsoleOutput)
+        expect(consoleOutput).toEqual(expectedConsoleOutput)
       })
     })
 
@@ -142,7 +140,7 @@ describeWithShallowAndMount('overview', mountingMethod => {
         ]
 
         wrapper.overview()
-        expect(consoleOutput).to.have.ordered.members(expectedConsoleOutput)
+        expect(consoleOutput).toEqual(expectedConsoleOutput)
       })
     })
 
@@ -183,7 +181,7 @@ describeWithShallowAndMount('overview', mountingMethod => {
           ''
         ]
         wrapper.overview()
-        expect(consoleOutput).to.have.ordered.members(expectedConsoleOutput)
+        expect(consoleOutput).toEqual(expectedConsoleOutput)
       })
     })
 
@@ -219,7 +217,7 @@ describeWithShallowAndMount('overview', mountingMethod => {
           ''
         ]
         wrapper.overview()
-        expect(consoleOutput).to.have.ordered.members(expectedConsoleOutput)
+        expect(consoleOutput).toEqual(expectedConsoleOutput)
       })
     })
 
@@ -244,7 +242,7 @@ describeWithShallowAndMount('overview', mountingMethod => {
           ''
         ]
         wrapper.overview()
-        expect(consoleOutput).to.have.ordered.members(expectedConsoleOutput)
+        expect(consoleOutput).toEqual(expectedConsoleOutput)
       })
 
       it('prints an empty array in Emitted arrays of calls when emit was empty', () => {
@@ -275,7 +273,7 @@ describeWithShallowAndMount('overview', mountingMethod => {
           ''
         ]
         wrapper.overview()
-        expect(consoleOutput).to.have.ordered.members(expectedConsoleOutput)
+        expect(consoleOutput).toEqual(expectedConsoleOutput)
       })
 
       it('prints inline formated object in Emitted arrays of calls when an object has been emitted', () => {
@@ -314,7 +312,7 @@ describeWithShallowAndMount('overview', mountingMethod => {
           ''
         ]
         wrapper.overview()
-        expect(consoleOutput).to.have.ordered.members(expectedConsoleOutput)
+        expect(consoleOutput).toEqual(expectedConsoleOutput)
       })
     })
 
@@ -349,7 +347,7 @@ describeWithShallowAndMount('overview', mountingMethod => {
 
         wrapper.isVisible = () => true
         wrapper.overview()
-        expect(consoleOutput).to.have.ordered.members(expectedConsoleOutput)
+        expect(consoleOutput).toEqual(expectedConsoleOutput)
       })
 
       it('does not print child component data or computed', () => {
@@ -401,7 +399,7 @@ describeWithShallowAndMount('overview', mountingMethod => {
         ]
 
         wrapper.overview()
-        expect(consoleOutput).to.have.ordered.members(expectedConsoleOutput)
+        expect(consoleOutput).toEqual(expectedConsoleOutput)
       })
     })
   }

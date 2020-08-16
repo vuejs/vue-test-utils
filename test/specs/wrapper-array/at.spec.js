@@ -1,5 +1,5 @@
 import { describeWithShallowAndMount } from '~resources/utils'
-import '@vue/test-utils'
+import 'packages/test-utils/src'
 
 describeWithShallowAndMount('at', mountingMethod => {
   it('returns Wrapper at index', () => {
@@ -9,8 +9,8 @@ describeWithShallowAndMount('at', mountingMethod => {
     const p = mountingMethod(TestComponent)
       .findAll('p')
       .at(1)
-    expect(p.vnode).to.be.an('object')
-    expect(p.classes()).to.contain('index-1')
+    expect(p.vnode).toBeTruthy()
+    expect(p.classes()).toContain('index-1')
   })
 
   it('returns Wrapper at index from the end when index is negative', () => {
@@ -20,10 +20,10 @@ describeWithShallowAndMount('at', mountingMethod => {
     const all = mountingMethod(TestComponent).findAll('p')
     const last = all.at(-1)
     const first = all.at(-2)
-    expect(last.vnode).to.be.an('object')
-    expect(last.classes()).to.contain('index-last')
-    expect(first.vnode).to.be.an('object')
-    expect(first.classes()).to.contain('index-first')
+    expect(last.vnode).toBeTruthy()
+    expect(last.classes()).toContain('index-last')
+    expect(first.vnode).toBeTruthy()
+    expect(first.classes()).toContain('index-first')
   })
 
   it('throws error if no item exists at index', () => {
@@ -36,9 +36,7 @@ describeWithShallowAndMount('at', mountingMethod => {
       mountingMethod(TestComponent)
         .findAll('p')
         .at(index)
-    )
-      .to.throw()
-      .with.property('message', message)
+    ).toThrow(message)
   })
 
   it('throws error if no item exists at negative index', () => {
@@ -51,8 +49,6 @@ describeWithShallowAndMount('at', mountingMethod => {
       mountingMethod(TestComponent)
         .findAll('p')
         .at(index)
-    )
-      .to.throw()
-      .with.property('message', message)
+    ).toThrow(message)
   })
 })

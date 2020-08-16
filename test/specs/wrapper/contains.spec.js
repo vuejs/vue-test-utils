@@ -6,7 +6,7 @@ import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
 import {
   functionalSFCsSupported,
   describeWithShallowAndMount,
-  isRunningPhantomJS
+  isRunningChrome
 } from '~resources/utils'
 import { itSkipIf } from 'conditional-specs'
 import ComponentWithoutName from '~resources/components/component-without-name.vue'
@@ -15,17 +15,17 @@ describeWithShallowAndMount('contains', mountingMethod => {
   it('returns true if wrapper contains element', () => {
     const compiled = compileToFunctions('<div><input /></div>')
     const wrapper = mountingMethod(compiled)
-    expect(wrapper.contains('input')).to.equal(true)
+    expect(wrapper.contains('input')).toEqual(true)
   })
 
   it('returns true if wrapper contains Vue component', () => {
     const wrapper = mountingMethod(ComponentWithChild)
-    expect(wrapper.contains(Component)).to.equal(true)
+    expect(wrapper.contains(Component)).toEqual(true)
   })
 
   it('returns true if wrapper contains functional Vue component', () => {
     if (!functionalSFCsSupported) {
-      return false
+      return
     }
     const TestComponent = {
       template: `
@@ -39,11 +39,11 @@ describeWithShallowAndMount('contains', mountingMethod => {
     }
 
     const wrapper = mountingMethod(TestComponent)
-    expect(wrapper.contains(FunctionalComponent)).to.equal(true)
+    expect(wrapper.contains(FunctionalComponent)).toEqual(true)
   })
 
   itSkipIf(
-    isRunningPhantomJS,
+    isRunningChrome,
     'returns true if wrapper contains Vue class component',
     () => {
       const TestComponent = {
@@ -57,14 +57,14 @@ describeWithShallowAndMount('contains', mountingMethod => {
         }
       }
       const wrapper = mountingMethod(TestComponent)
-      expect(wrapper.contains(ComponentAsAClass)).to.equal(true)
+      expect(wrapper.contains(ComponentAsAClass)).toEqual(true)
     }
   )
 
   it('returns true if wrapper contains element specified by ref selector', () => {
     const compiled = compileToFunctions('<div><input ref="foo" /></div>')
     const wrapper = mountingMethod(compiled)
-    expect(wrapper.contains({ ref: 'foo' })).to.equal(true)
+    expect(wrapper.contains({ ref: 'foo' })).toEqual(true)
   })
 
   it('throws an error when ref selector is called on a wrapper that is not a Vue component', () => {
@@ -74,21 +74,19 @@ describeWithShallowAndMount('contains', mountingMethod => {
     const message =
       '[vue-test-utils]: $ref selectors can only be used on Vue component wrappers'
     const fn = () => a.contains({ ref: 'foo' })
-    expect(fn)
-      .to.throw()
-      .with.property('message', message)
+    expect(fn).toThrow(message)
   })
 
   it('returns true when wrapper contains root element', () => {
     const compiled = compileToFunctions('<div><input /></div>')
     const wrapper = mountingMethod(compiled)
-    expect(wrapper.contains('doesntexist')).to.equal(false)
+    expect(wrapper.contains('doesntexist')).toEqual(false)
   })
 
   it('returns true if wrapper root element matches contains', () => {
     const compiled = compileToFunctions('<div><input /></div>')
     const wrapper = mountingMethod(compiled)
-    expect(wrapper.contains('doesntexist')).to.equal(false)
+    expect(wrapper.contains('doesntexist')).toEqual(false)
   })
 
   it('returns true if wrapper root Component matches selector', () => {
@@ -103,24 +101,24 @@ describeWithShallowAndMount('contains', mountingMethod => {
       }
     }
     const wrapper = mountingMethod(TestComponent)
-    expect(wrapper.contains(ComponentWithoutName)).to.equal(true)
+    expect(wrapper.contains(ComponentWithoutName)).toEqual(true)
   })
 
   it('returns true if wrapper root Component matches selector', () => {
     const wrapper = mountingMethod(Component)
-    expect(wrapper.contains(Component)).to.equal(true)
+    expect(wrapper.contains(Component)).toEqual(true)
   })
 
   it('returns false if wrapper does not contain element', () => {
     const compiled = compileToFunctions('<div></div>')
     const wrapper = mountingMethod(compiled)
-    expect(wrapper.contains('div')).to.equal(true)
+    expect(wrapper.contains('div')).toEqual(true)
   })
 
   it('returns false if wrapper does not contain element specified by ref selector', () => {
     const compiled = compileToFunctions('<div><input ref="bar" /></div>')
     const wrapper = mountingMethod(compiled)
-    expect(wrapper.contains({ ref: 'foo' })).to.equal(false)
+    expect(wrapper.contains({ ref: 'foo' })).toEqual(false)
   })
 
   it('works correctly with innerHTML', () => {
@@ -134,8 +132,8 @@ describeWithShallowAndMount('contains', mountingMethod => {
       }
     }
     const wrapper = mountingMethod(TestComponent)
-    expect(wrapper.contains('svg')).to.equal(true)
-    expect(wrapper.find('svg').contains('svg')).to.equal(true)
+    expect(wrapper.contains('svg')).toEqual(true)
+    expect(wrapper.find('svg').contains('svg')).toEqual(true)
   })
 
   it('throws an error if selector is not a valid selector', () => {
@@ -158,9 +156,7 @@ describeWithShallowAndMount('contains', mountingMethod => {
       const message =
         '[vue-test-utils]: wrapper.contains() must be passed a valid CSS selector, Vue constructor, or valid find option object'
       const fn = () => wrapper.contains(invalidSelector)
-      expect(fn)
-        .to.throw()
-        .with.property('message', message)
+      expect(fn).toThrow(message)
     })
   })
 })

@@ -716,7 +716,9 @@ export default class Wrapper implements BaseWrapper {
           const isUpdated = Object.keys(data).some(key => {
             return (
               // $FlowIgnore : Problem with possibly null this.vm
-              this.vm[key] === data[key] || this.vm.$attrs[key] === data[key]
+              this.vm[key] === data[key] ||
+              // $FlowIgnore : Problem with possibly null this.vm
+              (this.vm.$attrs && this.vm.$attrs[key] === data[key])
             )
           })
           return !isUpdated ? this.setProps(data).then(resolve()) : resolve()

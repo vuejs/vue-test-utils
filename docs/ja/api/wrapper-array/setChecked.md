@@ -31,9 +31,9 @@ const wrapper = mount({
 })
 
 const wrapperArray = wrapper.findAll('.foo')
-expect(wrapper.vm.t1).to.equal(false)
-expect(wrapper.vm.t2).to.equal('')
+expect(wrapper.vm.t1).toEqual(false)
+expect(wrapper.vm.t2).toEqual('')
 wrapperArray.setChecked()
-expect(wrapper.vm.t1).to.equal(true)
-expect(wrapper.vm.t2).to.equal('foo')
+expect(wrapper.vm.t1).toEqual(true)
+expect(wrapper.vm.t2).toEqual('foo')
 ```

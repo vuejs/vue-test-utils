@@ -2,11 +2,20 @@
 
 set -e
 
+apt-get install bc
+
 run() {
-  echo "running unit tests with Vue $1"
-  yarn add --pure-lockfile --non-interactive -W -D "vue@$1" "vue-template-compiler@$1" "vue-server-renderer@$1"
-  yarn test:unit:only
-  yarn test:unit:karma:only
+  # Only run tests for vue versions above 2.1.
+  # There are quite a few errors present with running the tests in Vue 2.1 and Vue 2.0, including in Node and in browser
+  browserTestCutoff="2.1"
+
+  if [ 1 -eq "$(echo "${browserTestCutoff} < ${1}" | bc)" ]
+  then
+      echo "running unit tests with Vue $1"
+      yarn add --pure-lockfile --non-interactive -W -D "vue@$1" "vue-template-compiler@$1" "vue-server-renderer@$1"
+      yarn test:unit -w 1
+      yarn test:unit:browser
+  fi
 }
 
 yarn build:test

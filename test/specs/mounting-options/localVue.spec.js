@@ -1,16 +1,16 @@
 import Vue from 'vue'
 import {
   describeWithShallowAndMount,
-  isRunningPhantomJS,
+  isRunningChrome,
   vueVersion
 } from '~resources/utils'
-import { createLocalVue, shallowMount, mount } from '@vue/test-utils'
+import { createLocalVue, shallowMount, mount } from 'packages/test-utils/src'
 import { itSkipIf, itRunIf, itDoNotRunIf } from 'conditional-specs'
 import Vuex from 'vuex'
 
 describeWithShallowAndMount('options.localVue', mountingMethod => {
   itSkipIf(
-    isRunningPhantomJS,
+    isRunningChrome,
     'mounts component using passed localVue as base Vue',
     () => {
       const TestComponent = {
@@ -21,7 +21,7 @@ describeWithShallowAndMount('options.localVue', mountingMethod => {
       const wrapper = mountingMethod(TestComponent, {
         localVue: localVue
       })
-      expect(wrapper.html()).to.contain('some value')
+      expect(wrapper.html()).toContain('some value')
     }
   )
 
@@ -52,9 +52,9 @@ describeWithShallowAndMount('options.localVue', mountingMethod => {
     const HTML =
       mountingMethod.name === 'renderToString' ? wrapper : wrapper.html()
     if (mountingMethod.name === 'shallowMount') {
-      expect(HTML).to.not.contain('2')
+      expect(HTML).not.toContain('2')
     } else {
-      expect(HTML).to.contain('2')
+      expect(HTML).toContain('2')
     }
   })
 
@@ -137,7 +137,7 @@ describeWithShallowAndMount('options.localVue', mountingMethod => {
         localVue
       }
     )
-    expect(localVue.options.created).to.equal(undefined)
+    expect(localVue.options.created).toEqual(undefined)
   })
 
   it('handles merging Vue instances', () => {
@@ -171,9 +171,7 @@ describeWithShallowAndMount('options.localVue', mountingMethod => {
           stubs: false,
           mocks: false
         })
-      expect(fn)
-        .to.throw()
-        .with.property('message', message)
+      expect(fn).toThrow(message)
     }
   )
 
@@ -197,7 +195,7 @@ describeWithShallowAndMount('options.localVue', mountingMethod => {
       if (mountingMethod.name === 'renderToString') {
         return
       }
-      expect(wrapper.findAll(ChildComponent).length).to.equal(1)
+      expect(wrapper.findAll(ChildComponent).length).toEqual(1)
     }
   )
 
@@ -216,7 +214,7 @@ describeWithShallowAndMount('options.localVue', mountingMethod => {
       localVue.use(Vuex)
       shallowMount(TestComponent, { localVue })
       const wrapper = mount(TestComponent, { localVue })
-      expect(wrapper.html()).to.contain('span')
+      expect(wrapper.html()).toContain('span')
     }
   )
 })

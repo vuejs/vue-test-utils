@@ -1,4 +1,4 @@
-import { config } from '@vue/test-utils'
+import { config } from 'packages/test-utils/src'
 import { describeWithShallowAndMount } from '~resources/utils'
 
 describeWithShallowAndMount('options.methods', mountingMethod => {
@@ -28,6 +28,6 @@ describeWithShallowAndMount('options.methods', mountingMethod => {
       }
     })
 
-    expect(wrapper.html()).to.contain('methodFromOptions')
+    expect(wrapper.html()).toContain('methodFromOptions')
   })
 })

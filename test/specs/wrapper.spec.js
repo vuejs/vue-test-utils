@@ -1,5 +1,8 @@
 import { describeWithShallowAndMount } from '~resources/utils'
-import { enableAutoDestroy, resetAutoDestroyState } from '@vue/test-utils'
+import {
+  enableAutoDestroy,
+  resetAutoDestroyState
+} from 'packages/test-utils/src'
 
 describeWithShallowAndMount('Wrapper', mountingMethod => {
   ;['vnode', 'element', 'vm', 'options'].forEach(property => {
@@ -7,29 +10,25 @@ describeWithShallowAndMount('Wrapper', mountingMethod => {
       const wrapper = mountingMethod({ template: '<div><p></p></div>' }).find(
         'p'
       )
-      expect(wrapper.constructor.name).to.equal('Wrapper')
+      expect(wrapper.constructor.name).toEqual('Wrapper')
       const message = `[vue-test-utils]: wrapper.${property} is read-only`
       expect(() => {
         wrapper[property] = 'foo'
-      })
-        .to.throw()
-        .with.property('message', message)
+      }).toThrow(message)
     })
   })
 
   describe('enableAutoDestroy', () => {
-    const sandbox = sinon.createSandbox()
-
     beforeEach(() => {
       resetAutoDestroyState()
     })
 
     it('calls the hook function', () => {
-      const hookSpy = sandbox.spy()
+      const hookSpy = jest.fn()
 
       enableAutoDestroy(hookSpy)
 
-      expect(hookSpy).calledOnce
+      expect(hookSpy).toHaveBeenCalled()
     })
 
     it('uses the hook function to destroy wrappers', () => {
@@ -38,11 +37,11 @@ describeWithShallowAndMount('Wrapper', mountingMethod => {
         hookCallback = callback
       })
       const wrapper = mountingMethod({ template: '<p>con tent</p>' })
-      sandbox.spy(wrapper, 'destroy')
+      jest.spyOn(wrapper, 'destroy')
 
       hookCallback()
 
-      expect(wrapper.destroy).calledOnce
+      expect(wrapper.destroy).toHaveBeenCalled()
     })
 
     it('cannot be called twice', () => {
@@ -50,7 +49,7 @@ describeWithShallowAndMount('Wrapper', mountingMethod => {
 
       enableAutoDestroy(noop)
 
-      expect(() => enableAutoDestroy(noop)).to.throw()
+      expect(() => enableAutoDestroy(noop)).toThrow()
     })
   })
 })

@@ -2,7 +2,8 @@
   "globals": {
     "wrapper": true,
     "expect": true,
-    "Element": true
+    "Element": true,
+    "jest": true
   },
   "root": true,
   "plugins": [
@@ -13,6 +14,7 @@
     "plugin:flowtype/recommended"
   ],
   "rules": {
+    "template-curly-spacing" : "off",
     "no-debugger": 2,
     "no-proto": 0,
     "space-before-function-paren": 0,

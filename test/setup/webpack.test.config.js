@@ -2,6 +2,8 @@
 
 const nodeExternals = require('webpack-node-externals')
 const webpack = require('webpack')
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
+
 const browser = process.env.TARGET === 'browser'
 const path = require('path')
 
@@ -10,12 +12,23 @@ const projectRoot = path.resolve(__dirname, '../../')
 const rules = [].concat(
   {
     test: /\.vue$/,
-    loader: 'vue-loader'
+    use: 'vue-loader'
   },
   {
     test: /\.js$/,
-    loader: 'babel-loader',
+    use: 'babel-loader',
     exclude: /node_modules/
+  },
+  {
+    test: /\.css$/,
+    use: [
+      {
+        loader: 'vue-style-loader'
+      },
+      {
+        loader: 'css-loader'
+      }
+    ]
   }
 )
 const externals = nodeExternals({
@@ -29,14 +42,17 @@ const externals = nodeExternals({
 })
 // define the default aliases
 let aliasedFiles = {}
-if (process.env.TARGET === 'dev') {
+if (process.env.TARGET === 'browser') {
   // if we are in dev test mode, we want to alias all files to the src file, not dist
   aliasedFiles = {
     '@vue/server-test-utils': `@vue/server-test-utils/src/index.js`,
     '@vue/test-utils': `@vue/test-utils/src/index.js`
   }
 }
+
 module.exports = {
+  // since NODE_ENV is used heavily in the testing suite, using `production` mode in CI will cause side effects
+  mode: 'development',
   module: {
     rules
   },
@@ -44,7 +60,8 @@ module.exports = {
   resolve: {
     alias: {
       ...aliasedFiles,
-      '~resources': `${projectRoot}/test/resources`
+      '~resources': `${projectRoot}/test/resources`,
+      packages: path.resolve(projectRoot, 'packages')
     }
   },
   output: {
@@ -56,5 +73,5 @@ module.exports = {
     fs: 'empty',
     module: 'empty'
   },
-  plugins: [new webpack.EnvironmentPlugin(['TEST_ENV'])]
+  plugins: [new webpack.EnvironmentPlugin(['TEST_ENV']), new VueLoaderPlugin()]
 }

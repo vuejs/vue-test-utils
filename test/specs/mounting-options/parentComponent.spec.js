@@ -13,7 +13,7 @@ describeWithShallowAndMount('options.parentComponent', mountingMethod => {
     const wrapper = mountingMethod(TestComponent, {
       parentComponent: Parent
     })
-    expect(wrapper.html()).to.contain('Parent Name')
+    expect(wrapper.html()).toContain('Parent Name')
   })
 
   it('validates parentComponent option', () => {
@@ -27,9 +27,7 @@ describeWithShallowAndMount('options.parentComponent', mountingMethod => {
         })
       const message =
         '[vue-test-utils]: options.parentComponent should be a valid Vue component options object'
-      expect(fn)
-        .to.throw()
-        .with.property('message', message)
+      expect(fn).toThrow({ message })
     })
   })
 })

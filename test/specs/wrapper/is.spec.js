@@ -13,35 +13,35 @@ describeWithShallowAndMount('is', mountingMethod => {
   it('returns true if root node matches tag selector', () => {
     const compiled = compileToFunctions('<input />')
     const wrapper = mountingMethod(compiled)
-    expect(wrapper.is('input')).to.equal(true)
+    expect(wrapper.is('input')).toEqual(true)
   })
 
   it('returns true if root node matches class selector', () => {
     const compiled = compileToFunctions('<div class="div" />')
     const wrapper = mountingMethod(compiled)
-    expect(wrapper.is('.div')).to.equal(true)
+    expect(wrapper.is('.div')).toEqual(true)
   })
 
   it('returns true if root node matches id selector', () => {
     const compiled = compileToFunctions('<div id="div" />')
     const wrapper = mountingMethod(compiled)
-    expect(wrapper.is('#div')).to.equal(true)
+    expect(wrapper.is('#div')).toEqual(true)
   })
 
   it('returns true if root node matches Vue Component selector', () => {
     const wrapper = mountingMethod(ComponentWithChild)
     const component = wrapper.findAll(Component).at(0)
-    expect(component.is(Component)).to.equal(true)
+    expect(component.is(Component)).toEqual(true)
   })
 
   it('returns true if root node matches Component', () => {
     const wrapper = mountingMethod(Component)
-    expect(wrapper.is(Component)).to.equal(true)
+    expect(wrapper.is(Component)).toEqual(true)
   })
 
   it('returns true if root node matches Component without a name', () => {
     const wrapper = mountingMethod(ComponentWithoutName)
-    expect(wrapper.is(ComponentWithoutName)).to.equal(true)
+    expect(wrapper.is(ComponentWithoutName)).toEqual(true)
   })
 
   it('works correctly with innerHTML', () => {
@@ -55,7 +55,7 @@ describeWithShallowAndMount('is', mountingMethod => {
       }
     }
     const wrapper = mountingMethod(TestComponent)
-    expect(wrapper.find('svg').is('svg')).to.equal(true)
+    expect(wrapper.find('svg').is('svg')).toEqual(true)
   })
 
   it('returns true if root node matches functional Component', () => {
@@ -63,7 +63,7 @@ describeWithShallowAndMount('is', mountingMethod => {
       return
     }
     const wrapper = mountingMethod(FunctionalComponent)
-    expect(wrapper.is(FunctionalComponent)).to.equal(true)
+    expect(wrapper.is(FunctionalComponent)).toEqual(true)
   })
 
   it('returns true if root node matches Component extending class component', () => {
@@ -72,31 +72,31 @@ describeWithShallowAndMount('is', mountingMethod => {
       stubs: false
     })
 
-    expect(wrapper.is(ComponentAsAClass)).to.equal(true)
+    expect(wrapper.is(ComponentAsAClass)).toEqual(true)
   })
 
   it('returns false if root node is not a Vue Component', () => {
     const wrapper = mountingMethod(ComponentWithChild)
     const input = wrapper.findAll('span').at(0)
-    expect(input.is(Component)).to.equal(false)
+    expect(input.is(Component)).toEqual(false)
   })
 
   it('returns false if root node does not match tag selector', () => {
     const compiled = compileToFunctions('<div />')
     const wrapper = mountingMethod(compiled)
-    expect(wrapper.is('p')).to.equal(false)
+    expect(wrapper.is('p')).toEqual(false)
   })
 
   it('returns false if root node does not match class selector', () => {
     const compiled = compileToFunctions('<div />')
     const wrapper = mountingMethod(compiled)
-    expect(wrapper.is('.p')).to.equal(false)
+    expect(wrapper.is('.p')).toEqual(false)
   })
 
   it('returns false if root node does not match id selector', () => {
     const compiled = compileToFunctions('<div />')
     const wrapper = mountingMethod(compiled)
-    expect(wrapper.is('#p')).to.equal(false)
+    expect(wrapper.is('#p')).toEqual(false)
   })
 
   it('throws error if ref options object is passed', () => {
@@ -106,9 +106,7 @@ describeWithShallowAndMount('is', mountingMethod => {
     const message =
       '[vue-test-utils]: $ref selectors can not be used with wrapper.is()'
     const fn = () => wrapper.is({ ref: 'foo' })
-    expect(fn)
-      .to.throw()
-      .with.property('message', message)
+    expect(fn).toThrow(message)
   })
 
   it('throws an error if selector is not a valid selector', () => {
@@ -132,9 +130,7 @@ describeWithShallowAndMount('is', mountingMethod => {
       const message =
         '[vue-test-utils]: wrapper.is() must be passed a valid CSS selector, Vue constructor, or valid find option object'
       const fn = () => wrapper.is(invalidSelector)
-      expect(fn)
-        .to.throw()
-        .with.property('message', message)
+      expect(fn).toThrow(message)
     })
   })
 })

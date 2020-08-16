@@ -7,7 +7,7 @@ describeWithShallowAndMount('text', mountingMethod => {
     const compiled = compileToFunctions(`<div>${text}</div>`)
     const wrapper = mountingMethod(compiled)
 
-    expect(wrapper.text()).to.equal(text)
+    expect(wrapper.text()).toEqual(text)
   })
 
   it('returns trimmed text content of wrapper node', () => {
@@ -18,6 +18,6 @@ describeWithShallowAndMount('text', mountingMethod => {
     </div>`)
     const wrapper = mountingMethod(compiled)
 
-    expect(wrapper.text()).to.equal(text)
+    expect(wrapper.text()).toEqual(text)
   })
 })

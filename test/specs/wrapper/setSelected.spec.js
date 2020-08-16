@@ -8,7 +8,7 @@ describeWithShallowAndMount('setSelected', mountingMethod => {
 
     await options.at(1).setSelected()
 
-    expect(options.at(1).element.selected).to.equal(true)
+    expect(options.at(1).element.selected).toEqual(true)
   })
 
   it('updates dom with select v-model', async () => {
@@ -16,10 +16,10 @@ describeWithShallowAndMount('setSelected', mountingMethod => {
     const options = wrapper.find('select').findAll('option')
 
     await options.at(1).setSelected()
-    expect(wrapper.text()).to.contain('selectB')
+    expect(wrapper.text()).toContain('selectB')
 
     await options.at(0).setSelected()
-    expect(wrapper.text()).to.contain('selectA')
+    expect(wrapper.text()).toContain('selectA')
   })
 
   it('updates dom with select v-model for select with optgroups', async () => {
@@ -27,14 +27,14 @@ describeWithShallowAndMount('setSelected', mountingMethod => {
     const options = wrapper.find('select.with-optgroups').findAll('option')
 
     await options.at(1).setSelected()
-    expect(wrapper.text()).to.contain('selectB')
+    expect(wrapper.text()).toContain('selectB')
 
     await options.at(0).setSelected()
-    expect(wrapper.text()).to.contain('selectA')
+    expect(wrapper.text()).toContain('selectA')
   })
 
   it('triggers a change event on the parent select', () => {
-    const change = sinon.spy()
+    const change = jest.fn()
 
     mountingMethod({
       template: `
@@ -49,11 +49,11 @@ describeWithShallowAndMount('setSelected', mountingMethod => {
       .at(1)
       .setSelected()
 
-    expect(change).to.have.been.called
+    expect(change).toHaveBeenCalled()
   })
 
   it('does not trigger an event if called on already selected option', () => {
-    const change = sinon.spy()
+    const change = jest.fn()
 
     mountingMethod({
       template: `
@@ -68,7 +68,7 @@ describeWithShallowAndMount('setSelected', mountingMethod => {
       .at(1)
       .setSelected()
 
-    expect(change).not.to.have.been.called
+    expect(change).not.toHaveBeenCalled()
   })
 
   it('throws error if element is not valid', () => {
@@ -78,8 +78,6 @@ describeWithShallowAndMount('setSelected', mountingMethod => {
     const input = wrapper.find('#label-el')
 
     const fn = () => input.setSelected('value')
-    expect(fn)
-      .to.throw()
-      .with.property('message', '[vue-test-utils]: ' + message)
+    expect(fn).toThrow('[vue-test-utils]: ' + message)
   })
 })

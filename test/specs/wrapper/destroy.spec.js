@@ -1,33 +1,26 @@
 import { describeWithShallowAndMount } from '~resources/utils'
 
 describeWithShallowAndMount('destroy', mountingMethod => {
-  const sandbox = sinon.createSandbox()
-
-  afterEach(() => {
-    sandbox.reset()
-    sandbox.restore()
-  })
-
   it('triggers beforeDestroy ', () => {
-    const stub = sandbox.stub()
+    const stub = jest.fn()
     mountingMethod({
       render: () => {},
       beforeDestroy() {
         stub()
       }
     }).destroy()
-    expect(stub.calledOnce).to.equal(true)
+    expect(stub).toHaveBeenCalled()
   })
 
   it('triggers destroy ', () => {
-    const stub = sandbox.stub()
+    const stub = jest.fn()
     mountingMethod({
       render: () => {},
       destroyed() {
         stub()
       }
     }).destroy()
-    expect(stub.calledOnce).to.equal(true)
+    expect(stub).toHaveBeenCalled()
   })
 
   it('removes element from document.body', () => {
@@ -35,9 +28,9 @@ describeWithShallowAndMount('destroy', mountingMethod => {
       { template: '<div />' },
       { attachToDocument: true }
     )
-    expect(wrapper.vm.$el.parentNode).to.equal(document.body)
+    expect(wrapper.vm.$el.parentNode).toEqual(document.body)
     wrapper.destroy()
-    expect(wrapper.vm.$el.parentNode).to.be.null
+    expect(wrapper.vm.$el.parentNode).toBeNull()
   })
 
   it('removes functional component element from document.body', () => {
@@ -50,9 +43,9 @@ describeWithShallowAndMount('destroy', mountingMethod => {
       },
       { attachToDocument: true }
     )
-    expect(wrapper.element.parentNode).to.equal(document.body)
+    expect(wrapper.element.parentNode).toEqual(document.body)
     wrapper.destroy()
-    expect(wrapper.element.parentNode).to.be.null
+    expect(wrapper.element.parentNode).toBeNull()
   })
 
   it('throws if component throws during destroy', () => {
@@ -66,6 +59,6 @@ describeWithShallowAndMount('destroy', mountingMethod => {
       })
     }
     const wrapper = mountingMethod(TestComponent)
-    expect(() => wrapper.destroy()).to.throw()
+    expect(() => wrapper.destroy()).toThrow()
   })
 })

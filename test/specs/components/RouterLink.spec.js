@@ -1,4 +1,4 @@
-import { RouterLinkStub } from '@vue/test-utils'
+import RouterLinkStub from '../.././../packages/test-utils/src/components/RouterLinkStub'
 import { describeWithShallowAndMount } from '~resources/utils'
 
 describeWithShallowAndMount('RouterLinkStub', mountingMethod => {
@@ -26,14 +26,14 @@ describeWithShallowAndMount('RouterLinkStub', mountingMethod => {
     })
 
     const routerLink = wrapper.find(RouterLinkStub)
-    expect(routerLink.props().to).to.equal('to1')
-    expect(routerLink.props().tag).to.equal('a')
-    expect(routerLink.props().exact).to.equal(true)
-    expect(routerLink.props().append).to.equal(true)
-    expect(routerLink.props().replace).to.equal(true)
-    expect(routerLink.props().activeClass).to.equal('activeClass1')
-    expect(routerLink.props().exactActiveClass).to.equal('exactActiveClass1')
-    expect(routerLink.props().event).to.equal('event1')
+    expect(routerLink.props().to).toEqual('to1')
+    expect(routerLink.props().tag).toEqual('a')
+    expect(routerLink.props().exact).toEqual(true)
+    expect(routerLink.props().append).toEqual(true)
+    expect(routerLink.props().replace).toEqual(true)
+    expect(routerLink.props().activeClass).toEqual('activeClass1')
+    expect(routerLink.props().exactActiveClass).toEqual('exactActiveClass1')
+    expect(routerLink.props().event).toEqual('event1')
   })
 
   it('renders slot content', () => {
@@ -49,6 +49,6 @@ describeWithShallowAndMount('RouterLinkStub', mountingMethod => {
         RouterLink: RouterLinkStub
       }
     })
-    expect(wrapper.find(RouterLinkStub).text()).to.equal('some text')
+    expect(wrapper.find(RouterLinkStub).text()).toEqual('some text')
   })
 })

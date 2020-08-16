@@ -7,17 +7,17 @@ describeWithShallowAndMount('setChecked', mountingMethod => {
     const input = wrapper.find('input[type="checkbox"]')
 
     const response = input.setChecked()
-    expect(isPromise(response)).to.eql(true)
-    expect(wrapper.text()).not.to.contain('checkbox checked')
+    expect(isPromise(response)).toEqual(true)
+    expect(wrapper.text()).not.toContain('checkbox checked')
     await response
-    expect(wrapper.text()).to.contain('checkbox checked')
+    expect(wrapper.text()).toContain('checkbox checked')
   })
   it('sets element checked true with no option passed', () => {
     const wrapper = mountingMethod(ComponentWithInput)
     const input = wrapper.find('input[type="checkbox"]')
     input.setChecked()
 
-    expect(input.element.checked).to.equal(true)
+    expect(input.element.checked).toEqual(true)
   })
 
   it('sets element checked equal to param passed', () => {
@@ -25,10 +25,10 @@ describeWithShallowAndMount('setChecked', mountingMethod => {
     const input = wrapper.find('input[type="checkbox"]')
 
     input.setChecked(true)
-    expect(input.element.checked).to.equal(true)
+    expect(input.element.checked).toEqual(true)
 
     input.setChecked(false)
-    expect(input.element.checked).to.equal(false)
+    expect(input.element.checked).toEqual(false)
   })
 
   it('updates dom with checkbox v-model', async () => {
@@ -36,10 +36,10 @@ describeWithShallowAndMount('setChecked', mountingMethod => {
     const input = wrapper.find('input[type="checkbox"]')
 
     await input.setChecked()
-    expect(wrapper.text()).to.contain('checkbox checked')
+    expect(wrapper.text()).toContain('checkbox checked')
 
     await input.setChecked(false)
-    expect(wrapper.text()).to.not.contain('checkbox checked')
+    expect(wrapper.text()).not.toContain('checkbox checked')
   })
 
   it('changes state the right amount of times with checkbox v-model', async () => {
@@ -53,11 +53,11 @@ describeWithShallowAndMount('setChecked', mountingMethod => {
     await input.setChecked(false)
     await input.setChecked(false)
 
-    expect(wrapper.find('.counter').text()).to.equal('4')
+    expect(wrapper.find('.counter').text()).toEqual('4')
   })
 
   it('triggers a change event when called on a checkbox', () => {
-    const listener = sinon.spy()
+    const listener = jest.fn()
 
     mountingMethod({
       // For compatibility with earlier versions of Vue that use the `click`
@@ -72,11 +72,11 @@ describeWithShallowAndMount('setChecked', mountingMethod => {
       methods: { listener }
     }).setChecked()
 
-    expect(listener).to.have.been.called
+    expect(listener).toHaveBeenCalled()
   })
 
   it('does not trigger a change event if the checkbox is already checked', () => {
-    const listener = sinon.spy()
+    const listener = jest.fn()
 
     mountingMethod({
       template: `
@@ -90,17 +90,17 @@ describeWithShallowAndMount('setChecked', mountingMethod => {
       methods: { listener }
     }).setChecked()
 
-    expect(listener).not.to.have.been.called
+    expect(listener).not.toHaveBeenCalled()
   })
 
   it('updates dom with radio v-model', async () => {
     const wrapper = mountingMethod(ComponentWithInput)
 
     await wrapper.find('#radioBar').setChecked()
-    expect(wrapper.text()).to.contain('radioBarResult')
+    expect(wrapper.text()).toContain('radioBarResult')
 
     await wrapper.find('#radioFoo').setChecked()
-    expect(wrapper.text()).to.contain('radioFooResult')
+    expect(wrapper.text()).toContain('radioFooResult')
   })
 
   it('changes state the right amount of times with radio v-model', async () => {
@@ -115,11 +115,11 @@ describeWithShallowAndMount('setChecked', mountingMethod => {
     await radioBar.setChecked()
     await radioFoo.setChecked()
     await radioFoo.setChecked()
-    expect(wrapper.find('.counter').text()).to.equal('4')
+    expect(wrapper.find('.counter').text()).toEqual('4')
   })
 
   it('triggers a change event when called on a radio button', () => {
-    const listener = sinon.spy()
+    const listener = jest.fn()
 
     mountingMethod({
       template: `
@@ -132,11 +132,11 @@ describeWithShallowAndMount('setChecked', mountingMethod => {
       methods: { listener }
     }).setChecked()
 
-    expect(listener).to.have.been.called
+    expect(listener).toHaveBeenCalled()
   })
 
   it('does not trigger a change event if the radio button is already checked', () => {
-    const listener = sinon.spy()
+    const listener = jest.fn()
 
     mountingMethod({
       template: `
@@ -150,7 +150,7 @@ describeWithShallowAndMount('setChecked', mountingMethod => {
       methods: { listener }
     }).setChecked()
 
-    expect(listener).not.to.have.been.called
+    expect(listener).not.toHaveBeenCalled()
   })
 
   it('throws error if checked param is not boolean', () => {
@@ -158,9 +158,7 @@ describeWithShallowAndMount('setChecked', mountingMethod => {
     const wrapper = mountingMethod(ComponentWithInput)
     const input = wrapper.find('input[type="checkbox"]')
     const fn = () => input.setChecked('asd')
-    expect(fn)
-      .to.throw()
-      .with.property('message', '[vue-test-utils]: ' + message)
+    expect(fn).toThrow('[vue-test-utils]: ' + message)
   })
 
   it('throws error if checked param is false on radio element', () => {
@@ -169,8 +167,6 @@ describeWithShallowAndMount('setChecked', mountingMethod => {
     const wrapper = mountingMethod(ComponentWithInput)
     const input = wrapper.find('#radioFoo')
     const fn = () => input.setChecked(false)
-    expect(fn)
-      .to.throw()
-      .with.property('message', '[vue-test-utils]: ' + message)
+    expect(fn).toThrow('[vue-test-utils]: ' + message)
   })
 })

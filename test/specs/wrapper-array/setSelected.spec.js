@@ -18,8 +18,6 @@ describeWithShallowAndMount('setSelected', mountingMethod => {
     const fn = () => wrapperArray.setSelected()
     const message =
       '[vue-test-utils]: setSelected must be called on a single wrapper, use at(i) to access a wrapper'
-    expect(fn)
-      .to.throw()
-      .with.property('message', message)
+    expect(fn).toThrow(message)
   })
 })

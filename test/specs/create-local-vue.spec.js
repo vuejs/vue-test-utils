@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import VueRouter from 'vue-router'
-import { createLocalVue } from '@vue/test-utils'
+import { createLocalVue } from 'packages/test-utils/src'
 import Component from '~resources/components/component.vue'
 import ComponentWithVuex from '~resources/components/component-with-vuex.vue'
 import ComponentWithRouter from '~resources/components/component-with-router.vue'
@@ -21,9 +21,9 @@ describeWithShallowAndMount('createLocalVue', mountingMethod => {
       }
     })
     const wrapper = mountingMethod(Component, { localVue, store })
-    expect(wrapper.vm.$store).to.be.an('object')
+    expect(wrapper.vm.$store).toBeTruthy()
     const freshWrapper = mountingMethod(Component)
-    expect(typeof freshWrapper.vm.$store).to.equal('undefined')
+    expect(typeof freshWrapper.vm.$store).toEqual('undefined')
   })
 
   it('Vuex should work properly with local Vue', async () => {
@@ -45,11 +45,11 @@ describeWithShallowAndMount('createLocalVue', mountingMethod => {
       }
     })
     const wrapper = mountingMethod(ComponentWithVuex, { localVue, store })
-    expect(wrapper.vm.$store).to.be.an('object')
-    expect(wrapper.text()).to.equal('0 1')
+    expect(wrapper.vm.$store).toBeTruthy()
+    expect(wrapper.text()).toEqual('0 1')
     wrapper.trigger('click')
     await Vue.nextTick()
-    expect(wrapper.text()).to.equal('1 1')
+    expect(wrapper.text()).toEqual('1 1')
   })
 
   it('installs Router without polluting global Vue', () => {
@@ -60,9 +60,9 @@ describeWithShallowAndMount('createLocalVue', mountingMethod => {
       routes
     })
     const wrapper = mountingMethod(Component, { localVue, router })
-    expect(wrapper.vm.$route).to.be.an('object')
+    expect(wrapper.vm.$route).toBeTruthy()
     const freshWrapper = mountingMethod(Component)
-    expect(typeof freshWrapper.vm.$route).to.equal('undefined')
+    expect(typeof freshWrapper.vm.$route).toEqual('undefined')
   })
 
   itDoNotRunIf(
@@ -89,15 +89,15 @@ describeWithShallowAndMount('createLocalVue', mountingMethod => {
         routes
       })
       const wrapper = mountingMethod(ComponentWithRouter, { localVue, router })
-      expect(wrapper.vm.$route).to.be.an('object')
+      expect(wrapper.vm.$route).toBeTruthy()
 
-      expect(wrapper.text()).to.contain('home')
+      expect(wrapper.text()).toContain('home')
 
       wrapper.find('a').trigger('click')
-      expect(wrapper.text()).to.contain('foo')
+      expect(wrapper.text()).toContain('foo')
 
       const freshWrapper = mountingMethod(Component)
-      expect(typeof freshWrapper.vm.$route).to.equal('undefined')
+      expect(typeof freshWrapper.vm.$route).toEqual('undefined')
     }
   )
 
@@ -106,7 +106,7 @@ describeWithShallowAndMount('createLocalVue', mountingMethod => {
     const pluginOptions = { foo: 'bar' }
     const plugin = {
       install: function(_Vue, options) {
-        expect(options).to.equal(pluginOptions)
+        expect(options).toEqual(pluginOptions)
       }
     }
     localVue.use(plugin, pluginOptions)
@@ -118,7 +118,7 @@ describeWithShallowAndMount('createLocalVue', mountingMethod => {
     class Plugin {}
     Plugin.install = function(_Vue) {
       if (_Vue._installedPlugins) {
-        expect(_Vue._installedPlugins.indexOf(Plugin)).to.equal(-1)
+        expect(_Vue._installedPlugins.indexOf(Plugin)).toEqual(-1)
       }
       installCount++
     }
@@ -128,8 +128,8 @@ describeWithShallowAndMount('createLocalVue', mountingMethod => {
     localVue.use(Plugin)
 
     if (localVue._installedPlugins) {
-      expect(localVue._installedPlugins.indexOf(Plugin)).to.equal(0)
+      expect(localVue._installedPlugins.indexOf(Plugin)).toEqual(0)
     }
-    expect(installCount).to.equal(2)
+    expect(installCount).toEqual(2)
   })
 })

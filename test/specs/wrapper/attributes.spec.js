@@ -7,13 +7,13 @@ describeWithShallowAndMount('attributes', mountingMethod => {
     const value = 'value'
     const compiled = compileToFunctions(`<div ${attribute}=${value}></div>`)
     const wrapper = mountingMethod(compiled)
-    expect(wrapper.attributes()).to.eql({ attribute: value })
+    expect(wrapper.attributes()).toEqual({ attribute: value })
   })
 
   it('returns empty object if wrapper does not contain any attributes', () => {
     const compiled = compileToFunctions('<div />')
     const wrapper = mountingMethod(compiled)
-    expect(wrapper.attributes()).to.eql({})
+    expect(wrapper.attributes()).toEqual({})
   })
 
   it('returns the given attribute if wrapper contains attribute matching value', () => {
@@ -21,7 +21,7 @@ describeWithShallowAndMount('attributes', mountingMethod => {
     const value = 'value'
     const compiled = compileToFunctions(`<div ${attribute}=${value}></div>`)
     const wrapper = mountingMethod(compiled)
-    expect(wrapper.attributes('attribute')).to.eql(value)
+    expect(wrapper.attributes('attribute')).toEqual(value)
   })
 
   it('returns undefined if the wrapper does not contain the matching value', () => {
@@ -29,6 +29,6 @@ describeWithShallowAndMount('attributes', mountingMethod => {
     const value = 'value'
     const compiled = compileToFunctions(`<div ${attribute}=${value}></div>`)
     const wrapper = mountingMethod(compiled)
-    expect(wrapper.attributes('fake')).to.eql(undefined)
+    expect(wrapper.attributes('fake')).toEqual(undefined)
   })
 })

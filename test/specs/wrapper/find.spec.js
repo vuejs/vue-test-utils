@@ -1,5 +1,5 @@
 import { compileToFunctions } from 'vue-template-compiler'
-import { createLocalVue } from '@vue/test-utils'
+import { createLocalVue } from 'packages/test-utils/src'
 import Vue from 'vue'
 import ComponentWithChild from '~resources/components/component-with-child.vue'
 import ComponentWithoutName from '~resources/components/component-without-name.vue'
@@ -12,7 +12,7 @@ import {
   functionalSFCsSupported,
   vueVersion,
   describeWithShallowAndMount,
-  isRunningPhantomJS
+  isRunningChrome
 } from '~resources/utils'
 import { itDoNotRunIf, itSkipIf } from 'conditional-specs'
 
@@ -20,25 +20,25 @@ describeWithShallowAndMount('find', mountingMethod => {
   it('returns a Wrapper matching tag selector passed', () => {
     const compiled = compileToFunctions('<div><p></p><p></p></div>')
     const wrapper = mountingMethod(compiled)
-    expect(wrapper.find('p').vnode).to.be.an('object')
-    expect(wrapper.find('p').vm).to.equal(undefined)
+    expect(wrapper.find('p').vnode).toBeTruthy()
+    expect(wrapper.find('p').vm).toEqual(undefined)
   })
 
   it('returns Wrapper matching class selector passed', () => {
     const compiled = compileToFunctions('<div><div class="foo" /></div>')
     const wrapper = mountingMethod(compiled)
-    expect(wrapper.find('.foo').vnode).to.be.an('object')
-    expect(wrapper.find('.foo').vm).to.equal(undefined)
+    expect(wrapper.find('.foo').vnode).toBeTruthy()
+    expect(wrapper.find('.foo').vm).toEqual(undefined)
   })
 
   it('returns Wrapper matching class selector passed if nested in a transition', () => {
     const compiled = compileToFunctions('<transition><div /></transition>')
     const wrapper = mountingMethod(compiled)
-    expect(wrapper.find('div').vnode).to.be.an('object')
+    expect(wrapper.find('div').vnode).toBeTruthy()
   })
 
   itDoNotRunIf(
-    isRunningPhantomJS,
+    isRunningChrome,
     'returns an array of Wrapper of elements matching class selector passed if they are declared inside a slot',
     () => {
       const wrapper = mountingMethod(ComponentWithSlots, {
@@ -46,7 +46,7 @@ describeWithShallowAndMount('find', mountingMethod => {
           default: '<div class="foo"></div>'
         }
       })
-      expect(wrapper.find('.foo').vnode).to.be.an('object')
+      expect(wrapper.find('.foo').vnode).toBeTruthy()
     }
   )
 
@@ -71,13 +71,13 @@ describeWithShallowAndMount('find', mountingMethod => {
     const wrapper = mountingMethod(TestComponent, {
       context
     })
-    expect(wrapper.find('.foo').vnode).to.be.an('object')
+    expect(wrapper.find('.foo').vnode).toBeTruthy()
   })
 
   it('returns Wrapper of elements matching id selector passed', () => {
     const compiled = compileToFunctions('<div><div id="foo" /></div>')
     const wrapper = mountingMethod(compiled)
-    expect(wrapper.find('#foo').vnode).to.be.an('object')
+    expect(wrapper.find('#foo').vnode).toBeTruthy()
   })
 
   it('returns matching extended component', () => {
@@ -92,13 +92,13 @@ describeWithShallowAndMount('find', mountingMethod => {
     }
     const wrapper = mountingMethod(TestComponent)
 
-    expect(wrapper.find(ChildComponent).name()).to.equal('child-component')
+    expect(wrapper.find(ChildComponent).name()).toEqual('child-component')
   })
 
   it('returns Wrapper of elements matching attribute selector passed', () => {
     const compiled = compileToFunctions('<div><a href="/"></a></div>')
     const wrapper = mountingMethod(compiled)
-    expect(wrapper.find('[href="/"]').vnode).to.be.an('object')
+    expect(wrapper.find('[href="/"]').vnode).toBeTruthy()
   })
 
   it('throws an error when passed an invalid DOM selector', () => {
@@ -107,9 +107,7 @@ describeWithShallowAndMount('find', mountingMethod => {
     const message =
       '[vue-test-utils]: wrapper.find() must be passed a valid CSS selector, Vue constructor, or valid find option object'
     const fn = () => wrapper.find('[href=&6"/"]')
-    expect(fn)
-      .to.throw()
-      .with.property('message', message)
+    expect(fn).toThrow(message)
   })
 
   it('returns Wrapper of elements matching selector when descendant combinator passed', () => {
@@ -117,29 +115,29 @@ describeWithShallowAndMount('find', mountingMethod => {
       '<div><ul><li>list</li>item<li></li></ul></div>'
     )
     const wrapper = mountingMethod(compiled)
-    expect(wrapper.find('div li').vnode).to.be.an('object')
+    expect(wrapper.find('div li').vnode).toBeTruthy()
   })
 
   it('returns Wrapper of elements matching selector with direct descendant combinator passed', () => {
     const compiled = compileToFunctions('<div><ul><ul></ul></ul></div>')
     const wrapper = mountingMethod(compiled)
-    expect(wrapper.find('div > ul').vnode).to.be.an('object')
+    expect(wrapper.find('div > ul').vnode).toBeTruthy()
   })
 
   it('returns Wrapper of elements matching pseudo selector', () => {
     const compiled = compileToFunctions('<div><p></p><p></p></div>')
     const wrapper = mountingMethod(compiled)
-    expect(wrapper.find('p:first-of-type').vnode).to.be.an('object')
+    expect(wrapper.find('p:first-of-type').vnode).toBeTruthy()
   })
 
   it('returns Wrapper of Vue Components matching component', () => {
     const wrapper = mountingMethod(ComponentWithChild)
-    expect(wrapper.find(Component).vnode).to.be.an('object')
+    expect(wrapper.find(Component).vnode).toBeTruthy()
   })
 
   it('returns Wrapper of Vue Components matching component using findComponent', () => {
     const wrapper = mountingMethod(ComponentWithChild)
-    expect(wrapper.findComponent(Component).vnode).to.be.an('object')
+    expect(wrapper.findComponent(Component).vnode).toBeTruthy()
   })
 
   it('throws an error if findComponent selector is a CSS selector', () => {
@@ -147,9 +145,7 @@ describeWithShallowAndMount('find', mountingMethod => {
     const message =
       '[vue-test-utils]: findComponent requires a Vue constructor or valid find object. If you are searching for DOM nodes, use `find` instead'
     const fn = () => wrapper.findComponent('#foo')
-    expect(fn)
-      .to.throw()
-      .with.property('message', message)
+    expect(fn).toThrow(message)
   })
 
   it('throws an error if findComponent is chained off a DOM element', () => {
@@ -157,9 +153,7 @@ describeWithShallowAndMount('find', mountingMethod => {
     const message =
       '[vue-test-utils]: You cannot chain findComponent off a DOM element. It can only be used on Vue Components.'
     const fn = () => wrapper.find('span').findComponent('#foo')
-    expect(fn)
-      .to.throw()
-      .with.property('message', message)
+    expect(fn).toThrow(message)
   })
 
   it('allows using findComponent on functional component', () => {
@@ -171,10 +165,10 @@ describeWithShallowAndMount('find', mountingMethod => {
       render: h => h('div', {}, [h(Component)])
     }
     const wrapper = mountingMethod(FuncComponentWithChildren)
-    expect(wrapper.findComponent(Component).exists()).to.be.true
+    expect(wrapper.findComponent(Component).exists()).toBe(true)
   })
 
-  itSkipIf(isRunningPhantomJS, 'returns Wrapper of class component', () => {
+  itSkipIf(isRunningChrome, 'returns Wrapper of class component', () => {
     const TestComponent = {
       template: `
         <div>
@@ -187,7 +181,7 @@ describeWithShallowAndMount('find', mountingMethod => {
     }
     const wrapper = mountingMethod(TestComponent)
 
-    expect(wrapper.find(ComponentAsAClass).vnode).to.be.an('object')
+    expect(wrapper.find(ComponentAsAClass).vnode).toBeTruthy()
   })
 
   itDoNotRunIf(
@@ -214,7 +208,7 @@ describeWithShallowAndMount('find', mountingMethod => {
       const wrappers = wrapper.findAll('div').wrappers
       const expectedClasses = ['1', '1a', '1aa', '1b', '2', '3']
       wrappers.forEach((w, i) =>
-        expect(w.classes()).to.contain(expectedClasses[i])
+        expect(w.classes()).toContain(expectedClasses[i])
       )
     }
   )
@@ -236,8 +230,8 @@ describeWithShallowAndMount('find', mountingMethod => {
 
     const wrapper = mountingMethod(TestComponent)
 
-    expect(wrapper.find(FunctionalComponent).vnode).to.be.an('object')
-    expect(wrapper.find(FunctionalComponent).vm).to.equal(undefined)
+    expect(wrapper.find(FunctionalComponent).vnode).toBeTruthy()
+    expect(wrapper.find(FunctionalComponent).vm).toEqual(undefined)
   })
 
   it('returns functional component with name', () => {
@@ -257,11 +251,9 @@ describeWithShallowAndMount('find', mountingMethod => {
       const message =
         '[vue-test-utils]: find for functional components is not supported in Vue < 2.3'
       const fn = () => wrapper.find(TestFunctionalComponent)
-      expect(fn)
-        .to.throw()
-        .with.property('message', message)
+      expect(fn).toThrow(message)
     } else {
-      expect(wrapper.find(TestFunctionalComponent).exists()).to.equal(true)
+      expect(wrapper.find(TestFunctionalComponent).exists()).toEqual(true)
     }
   })
 
@@ -281,11 +273,9 @@ describeWithShallowAndMount('find', mountingMethod => {
       const message =
         '[vue-test-utils]: find for functional components is not supported in Vue < 2.3'
       const fn = () => wrapper.find(TestFunctionalComponent)
-      expect(fn)
-        .to.throw()
-        .with.property('message', message)
+      expect(fn).toThrow(message)
     } else {
-      expect(wrapper.find(TestFunctionalComponent).exists()).to.equal(true)
+      expect(wrapper.find(TestFunctionalComponent).exists()).toEqual(true)
     }
   })
 
@@ -305,7 +295,7 @@ describeWithShallowAndMount('find', mountingMethod => {
         .find('svg')
         .find('svg')
         .exists()
-    ).to.equal(true)
+    ).toEqual(true)
   })
 
   it('throws errror when searching for a component on an element Wrapper', () => {
@@ -324,9 +314,7 @@ describeWithShallowAndMount('find', mountingMethod => {
         .find(Component)
     const message =
       '[vue-test-utils]: cannot find a Vue instance on a DOM node. The node you are calling find on does not exist in the VDom. Are you adding the node as innerHTML?'
-    expect(fn)
-      .to.throw()
-      .with.property('message', message)
+    expect(fn).toThrow(message)
   })
 
   it('throws errror when using ref selector on an element Wrapper', () => {
@@ -345,21 +333,19 @@ describeWithShallowAndMount('find', mountingMethod => {
         .find({ ref: 'some-ref' })
     const message =
       '[vue-test-utils]: cannot find a Vue instance on a DOM node. The node you are calling find on does not exist in the VDom. Are you adding the node as innerHTML?'
-    expect(fn)
-      .to.throw()
-      .with.property('message', message)
+    expect(fn).toThrow(message)
   })
 
   it('returns correct number of Vue Wrappers when component has a v-for', () => {
     const items = [{ id: 1 }, { id: 2 }, { id: 3 }]
     const wrapper = mountingMethod(ComponentWithVFor, { propsData: { items } })
-    expect(wrapper.find(Component).vnode).to.be.an('object')
+    expect(wrapper.find(Component).vnode).toBeTruthy()
   })
 
   it('returns Wrapper matching selector using Wrapper as reference', () => {
     const wrapper = mountingMethod(ComponentWithChild)
     const div = wrapper.find('span')
-    expect(div.find(Component).vnode).to.be.an('object')
+    expect(div.find(Component).vnode).toBeTruthy()
   })
 
   it('selector works between mounts', () => {
@@ -372,7 +358,7 @@ describeWithShallowAndMount('find', mountingMethod => {
     }
     const wrapper = mountingMethod(TestComponent)
     mountingMethod(ChildComponent)
-    expect(wrapper.find(ChildComponent).vnode).to.be.an('object')
+    expect(wrapper.find(ChildComponent).vnode).toBeTruthy()
   })
 
   it('returns error Wrapper if Vue component is below Wrapper', () => {
@@ -392,28 +378,28 @@ describeWithShallowAndMount('find', mountingMethod => {
     }
     const wrapper = mountingMethod(TestComponent, { localVue })
     const span = wrapper.find('span')
-    expect(span.find(AComponent).exists()).to.equal(false)
+    expect(span.find(AComponent).exists()).toEqual(false)
   })
 
   it('returns empty Wrapper with error if no nodes are found', () => {
     const wrapper = mountingMethod(Component)
     const selector = 'pre'
     const error = wrapper.find(selector)
-    expect(error.exists()).to.equal(false)
-    expect(error.selector).to.equal(selector)
+    expect(error.exists()).toEqual(false)
+    expect(error.selector).toEqual(selector)
   })
 
   it('returns empty Wrapper with error if no nodes are found when passed a component', () => {
     const wrapper = mountingMethod(Component)
     const error = wrapper.find(ComponentWithChild)
-    expect(error.exists()).to.equal(false)
-    expect(error.selector).to.equal(ComponentWithChild)
+    expect(error.exists()).toEqual(false)
+    expect(error.selector).toEqual(ComponentWithChild)
   })
 
   it('returns Wrapper of elements matching the ref in options object', () => {
     const compiled = compileToFunctions('<div><p ref="foo"></p></div>')
     const wrapper = mountingMethod(compiled)
-    expect(wrapper.find({ ref: 'foo' })).to.be.an('object')
+    expect(wrapper.find({ ref: 'foo' })).toBeTruthy()
   })
 
   itSkipIf(vueVersion < 2.3, 'returns functional extended component', () => {
@@ -428,7 +414,7 @@ describeWithShallowAndMount('find', mountingMethod => {
       }
     }
     const wrapper = mountingMethod(TestComponent)
-    expect(wrapper.find(FunctionalExtendedComponent).exists()).to.equal(true)
+    expect(wrapper.find(FunctionalExtendedComponent).exists()).toEqual(true)
   })
 
   it('returns Wrapper of Vue Component matching the extended component', () => {
@@ -443,8 +429,8 @@ describeWithShallowAndMount('find', mountingMethod => {
       name: 'test-component'
     }
     const wrapper = mountingMethod(TestComponent)
-    expect(wrapper.find(TestComponent).exists()).to.equal(true)
-    expect(wrapper.find(TestComponent).isVueInstance()).to.equal(true)
+    expect(wrapper.find(TestComponent).exists()).toEqual(true)
+    expect(wrapper.find(TestComponent).isVueInstance()).toEqual(true)
   })
 
   it('works for extended child components', () => {
@@ -458,12 +444,12 @@ describeWithShallowAndMount('find', mountingMethod => {
       }
     }
     const wrapper = mountingMethod(TestComponent)
-    expect(wrapper.find(ChildComponent).exists()).to.equal(true)
+    expect(wrapper.find(ChildComponent).exists()).toEqual(true)
   })
 
   it('returns a Wrapper matching a component name in options object', () => {
     const wrapper = mountingMethod(ComponentWithChild)
-    expect(wrapper.find({ name: 'test-component' }).name()).to.equal(
+    expect(wrapper.find({ name: 'test-component' }).name()).toEqual(
       'test-component'
     )
   })
@@ -474,7 +460,7 @@ describeWithShallowAndMount('find', mountingMethod => {
       render: h => h('div')
     }
     const wrapper = mountingMethod(component)
-    expect(wrapper.find({ name: 'camelCase' }).name()).to.equal('CamelCase')
+    expect(wrapper.find({ name: 'camelCase' }).name()).toEqual('CamelCase')
   })
 
   it('returns a Wrapper matching a kebab-case name option and a Pascal Case component name ', () => {
@@ -483,7 +469,7 @@ describeWithShallowAndMount('find', mountingMethod => {
       render: h => h('div')
     }
     const wrapper = mountingMethod(component)
-    expect(wrapper.find({ name: 'camel-case' }).name()).to.equal('CamelCase')
+    expect(wrapper.find({ name: 'camel-case' }).name()).toEqual('CamelCase')
   })
 
   it('returns a Wrapper matching a Pascal Case name option and a kebab-casecomponent name ', () => {
@@ -492,12 +478,12 @@ describeWithShallowAndMount('find', mountingMethod => {
       render: h => h('div')
     }
     const wrapper = mountingMethod(component)
-    expect(wrapper.find({ name: 'CamelCase' }).name()).to.equal('camel-case')
+    expect(wrapper.find({ name: 'CamelCase' }).name()).toEqual('camel-case')
   })
 
   it('returns Wrapper of Vue Component matching the ref in options object', () => {
     const wrapper = mountingMethod(ComponentWithChild)
-    expect(wrapper.find({ ref: 'child' }).isVueInstance()).to.equal(true)
+    expect(wrapper.find({ ref: 'child' }).isVueInstance()).toEqual(true)
   })
 
   it('throws an error when ref selector is called on a wrapper that is not a Vue component', () => {
@@ -507,9 +493,7 @@ describeWithShallowAndMount('find', mountingMethod => {
     const message =
       '[vue-test-utils]: $ref selectors can only be used on Vue component wrappers'
     const fn = () => a.find({ ref: 'foo' })
-    expect(fn)
-      .to.throw()
-      .with.property('message', message)
+    expect(fn).toThrow(message)
   })
 
   it('returns Wrapper matching ref selector in options object passed if nested in a transition', () => {
@@ -517,15 +501,15 @@ describeWithShallowAndMount('find', mountingMethod => {
       '<transition><div ref="foo"/></transition>'
     )
     const wrapper = mountingMethod(compiled)
-    expect(wrapper.find({ ref: 'foo' })).to.be.an('object')
+    expect(wrapper.find({ ref: 'foo' })).toBeTruthy()
   })
 
   it('returns empty Wrapper with error if no nodes are found via ref in options object', () => {
     const wrapper = mountingMethod(Component)
     const selector = { ref: 'foo' }
     const error = wrapper.find(selector)
-    expect(error.exists()).to.equal(false)
-    expect(error.selector).to.equal(selector)
+    expect(error.exists()).toEqual(false)
+    expect(error.selector).toEqual(selector)
   })
 
   it('returns Wrapper matching component that has no name property', () => {
@@ -540,7 +524,7 @@ describeWithShallowAndMount('find', mountingMethod => {
       }
     }
     const wrapper = mountingMethod(TestComponent)
-    expect(wrapper.find(ComponentWithoutName).exists()).to.equal(true)
+    expect(wrapper.find(ComponentWithoutName).exists()).toEqual(true)
   })
 
   it('throws an error if selector is not a valid selector', () => {
@@ -563,9 +547,7 @@ describeWithShallowAndMount('find', mountingMethod => {
       const message =
         '[vue-test-utils]: wrapper.find() must be passed a valid CSS selector, Vue constructor, or valid find option object'
       const fn = () => wrapper.find(invalidSelector)
-      expect(fn)
-        .to.throw()
-        .with.property('message', message)
+      expect(fn).toThrow(message)
     })
   })
 
@@ -584,10 +566,10 @@ describeWithShallowAndMount('find', mountingMethod => {
     }
     const wrapper = mountingMethod(TestComponent)
 
-    expect(wrapper.find(ChildComponent).vnode).to.be.undefined
+    expect(wrapper.find(ChildComponent).vnode).toBeUndefined()
     wrapper.vm.renderChild = true
     await Vue.nextTick()
-    expect(wrapper.find(ChildComponent).vnode).to.be.an('object')
+    expect(wrapper.find(ChildComponent).vnode).toBeTruthy()
   })
 
   itDoNotRunIf(
@@ -603,8 +585,8 @@ describeWithShallowAndMount('find', mountingMethod => {
         template: '<div><child-component /></div>',
         components: { childComponent }
       })
-      expect(wrapper.find('div').vm.$options.name).to.equal('foo')
-      expect(wrapper.find('p').vm.$options.name).to.equal('bar')
+      expect(wrapper.find('div').vm.$options.name).toEqual('foo')
+      expect(wrapper.find('p').vm.$options.name).toEqual('bar')
     }
   )
 
@@ -613,7 +595,7 @@ describeWithShallowAndMount('find', mountingMethod => {
     const wrapper = mountingMethod(compiled)
     const selector = 'p'
     const result = wrapper.find(selector)
-    expect(result.selector).to.equal(selector)
+    expect(result.selector).toEqual(selector)
   })
 
   it('stores ref selector', () => {
@@ -621,20 +603,20 @@ describeWithShallowAndMount('find', mountingMethod => {
     const wrapper = mountingMethod(compiled)
     const selector = { ref: 'foo' }
     const result = wrapper.find(selector)
-    expect(result.selector).to.equal(selector)
+    expect(result.selector).toEqual(selector)
   })
 
   it('stores component selector', () => {
     const wrapper = mountingMethod(ComponentWithChild)
     const selector = Component
     const result = wrapper.find(selector)
-    expect(result.selector).to.equal(selector)
+    expect(result.selector).toEqual(selector)
   })
 
   it('stores name selector', () => {
     const wrapper = mountingMethod(ComponentWithChild)
     const selector = { name: 'test-component' }
     const result = wrapper.find(selector)
-    expect(result.selector).to.equal(selector)
+    expect(result.selector).toEqual(selector)
   })
 })

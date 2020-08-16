@@ -7,10 +7,10 @@ describeWithShallowAndMount('setData', mountingMethod => {
   it('sets component data and updates nested vm nodes', async () => {
     const wrapper = mountingMethod(ComponentWithVIf)
     const componentArr = wrapper.findAll(ComponentWithVIf)
-    expect(componentArr.at(0).findAll('.child.ready').length).to.equal(0)
+    expect(componentArr.at(0).findAll('.child.ready').length).toEqual(0)
     componentArr.setData({ ready: true })
     await Vue.nextTick()
-    expect(componentArr.at(0).findAll('.child.ready').length).to.equal(1)
+    expect(componentArr.at(0).findAll('.child.ready').length).toEqual(1)
   })
 
   it('throws an error if node is not a Vue instance', () => {
@@ -19,9 +19,7 @@ describeWithShallowAndMount('setData', mountingMethod => {
     const compiled = compileToFunctions('<div><p></p></div>')
     const wrapper = mountingMethod(compiled)
     const fn = () => wrapper.findAll('p').setData({ ready: true })
-    expect(fn)
-      .to.throw()
-      .with.property('message', message)
+    expect(fn).toThrow(message)
   })
 
   it('throws error if wrapper array contains no items', () => {
@@ -31,8 +29,6 @@ describeWithShallowAndMount('setData', mountingMethod => {
       mountingMethod(compiled)
         .findAll('p')
         .setData('p')
-    expect(fn)
-      .to.throw()
-      .with.property('message', message)
+    expect(fn).toThrow(message)
   })
 })

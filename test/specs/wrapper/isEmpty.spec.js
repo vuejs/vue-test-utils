@@ -1,8 +1,5 @@
 import { compileToFunctions } from 'vue-template-compiler'
-import {
-  describeWithShallowAndMount,
-  isRunningPhantomJS
-} from '~resources/utils'
+import { describeWithShallowAndMount, isRunningChrome } from '~resources/utils'
 import { itSkipIf, itDoNotRunIf } from 'conditional-specs'
 
 describeWithShallowAndMount('isEmpty', mountingMethod => {
@@ -10,13 +7,13 @@ describeWithShallowAndMount('isEmpty', mountingMethod => {
     const compiled = compileToFunctions('<div></div>')
     const wrapper = mountingMethod(compiled)
 
-    expect(wrapper.isEmpty()).to.equal(true)
+    expect(wrapper.isEmpty()).toEqual(true)
   })
 
   it('returns true if node contains comment', () => {
     const compiled = compileToFunctions('<div><div v-if="false"></div></div>')
     const wrapper = mountingMethod(compiled)
-    expect(wrapper.isEmpty()).to.equal(true)
+    expect(wrapper.isEmpty()).toEqual(true)
   })
 
   itDoNotRunIf(
@@ -39,7 +36,7 @@ describeWithShallowAndMount('isEmpty', mountingMethod => {
         }
       }
       const wrapper = mountingMethod(TestComponent)
-      expect(wrapper.isEmpty()).to.equal(true)
+      expect(wrapper.isEmpty()).toEqual(true)
     }
   )
 
@@ -63,11 +60,11 @@ describeWithShallowAndMount('isEmpty', mountingMethod => {
         }
       }
       const wrapper = mountingMethod(TestComponent)
-      expect(wrapper.isEmpty()).to.equal(false)
+      expect(wrapper.isEmpty()).toEqual(false)
     }
   )
 
-  itSkipIf(isRunningPhantomJS, 'returns true if innerHTML is empty', () => {
+  itSkipIf(isRunningChrome, 'returns true if innerHTML is empty', () => {
     const TestComponent = {
       render(createElement) {
         return createElement('div', {
@@ -78,10 +75,10 @@ describeWithShallowAndMount('isEmpty', mountingMethod => {
       }
     }
     const wrapper = mountingMethod(TestComponent)
-    expect(wrapper.find('svg').isEmpty()).to.equal(true)
+    expect(wrapper.find('svg').isEmpty()).toEqual(true)
   })
 
-  it('returns false if innerHTML is not empty', () => {
+  itSkipIf(isRunningChrome, 'returns false if innerHTML is not empty', () => {
     const TestComponent = {
       render(createElement) {
         return createElement('div', {
@@ -92,20 +89,20 @@ describeWithShallowAndMount('isEmpty', mountingMethod => {
       }
     }
     const wrapper = mountingMethod(TestComponent)
-    expect(wrapper.find('svg').isEmpty()).to.equal(false)
+    expect(wrapper.find('svg').isEmpty()).toEqual(false)
   })
 
   it('returns true contains empty slot', () => {
     const compiled = compileToFunctions('<div><slot></slot></div>')
     const wrapper = mountingMethod(compiled)
 
-    expect(wrapper.isEmpty()).to.equal(true)
+    expect(wrapper.isEmpty()).toEqual(true)
   })
 
   it('returns false if node contains other nodes', () => {
     const compiled = compileToFunctions('<div><p /></div>')
     const wrapper = mountingMethod(compiled)
 
-    expect(wrapper.isEmpty()).to.equal(false)
+    expect(wrapper.isEmpty()).toEqual(false)
   })
 })

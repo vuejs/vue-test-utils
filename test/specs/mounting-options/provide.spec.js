@@ -1,5 +1,5 @@
-import { config } from '@vue/test-utils'
-import { createLocalVue } from '@vue/test-utils'
+import { config } from 'packages/test-utils/src'
+import { createLocalVue } from 'packages/test-utils/src'
 import ComponentWithInject from '~resources/components/component-with-inject.vue'
 import CompositionComponentWithInject from '~resources/components/component-with-inject-composition.vue'
 import { injectSupported } from '~resources/utils'
@@ -28,7 +28,7 @@ describeWithShallowAndMount('options.provide', mountingMethod => {
       const wrapper = mountingMethod(ComponentWithInject, {
         provide: { fromMount: 'objectValue' }
       })
-      expect(wrapper.html()).to.contain('objectValue')
+      expect(wrapper.html()).toContain('objectValue')
     }
   )
 
@@ -54,8 +54,8 @@ describeWithShallowAndMount('options.provide', mountingMethod => {
         }
       })
 
-      expect(wrapper.vm.foo).to.equal('from parent')
-      expect(wrapper.vm.foo2).to.equal('from config')
+      expect(wrapper.vm.foo).toEqual('from parent')
+      expect(wrapper.vm.foo2).toEqual('from config')
     }
   )
 
@@ -81,8 +81,8 @@ describeWithShallowAndMount('options.provide', mountingMethod => {
         }
       })
 
-      expect(wrapper.vm.foo).to.equal('from parent')
-      expect(wrapper.vm.foo2).to.equal('from config')
+      expect(wrapper.vm.foo).toEqual('from parent')
+      expect(wrapper.vm.foo2).toEqual('from config')
     }
   )
 
@@ -108,7 +108,7 @@ describeWithShallowAndMount('options.provide', mountingMethod => {
         }
       })
 
-      expect(wrapper.vm.foo).to.equal('from config')
+      expect(wrapper.vm.foo).toEqual('from config')
     }
   )
 
@@ -123,7 +123,7 @@ describeWithShallowAndMount('options.provide', mountingMethod => {
           }
         }
       })
-      expect(wrapper.html()).to.contain('functionValue')
+      expect(wrapper.html()).toContain('functionValue')
     }
   )
 
@@ -137,7 +137,7 @@ describeWithShallowAndMount('options.provide', mountingMethod => {
         provide: { fromMount: '_' }
       })
 
-      expect(wrapper.vm.setInBeforeCreate).to.equal('created')
+      expect(wrapper.vm.setInBeforeCreate).toEqual('created')
     }
   )
 
@@ -154,7 +154,7 @@ describeWithShallowAndMount('options.provide', mountingMethod => {
         localVue
       })
 
-      expect(wrapper.vm.setInSetup).to.equal('created')
+      expect(wrapper.vm.setInSetup).toEqual('created')
     }
   )
 
@@ -168,7 +168,7 @@ describeWithShallowAndMount('options.provide', mountingMethod => {
       config.provide['fromMount'] = 'globalConfig'
 
       const wrapper = mountingMethod(ComponentWithInject)
-      expect(wrapper.html()).to.contain('globalConfig')
+      expect(wrapper.html()).toContain('globalConfig')
     }
   )
 
@@ -182,7 +182,7 @@ describeWithShallowAndMount('options.provide', mountingMethod => {
         provide: { fromMount: '_' }
       })
 
-      expect(wrapper.html()).to.contain('_')
+      expect(wrapper.html()).toContain('_')
     }
   )
 
@@ -197,7 +197,7 @@ describeWithShallowAndMount('options.provide', mountingMethod => {
         localVue
       })
 
-      expect(wrapper.html()).to.contain('_')
+      expect(wrapper.html()).toContain('_')
     }
   )
 
@@ -208,6 +208,6 @@ describeWithShallowAndMount('options.provide', mountingMethod => {
       mountingMethod(ComponentWithInject, {
         provide: { fromMount: '_' }
       })
-    }).to.throw()
+    }).toThrow()
   })
 })

@@ -3,30 +3,34 @@ import ComponentWithNestedChildren from '~resources/components/component-with-ne
 import Component from '~resources/components/component.vue'
 import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
 import ComponentWithNestedChildrenAndAttributes from '~resources/components/component-with-nested-childern-and-attributes.vue'
-import { createLocalVue, config } from '@vue/test-utils'
-import { config as serverConfig } from '@vue/server-test-utils'
+import { createLocalVue, config } from 'packages/test-utils/src'
+import { config as serverConfig } from 'packages/server-test-utils/src'
 import Vue from 'vue'
 import { describeWithShallowAndMount, vueVersion } from '~resources/utils'
 import { itDoNotRunIf, itSkipIf, itRunIf } from 'conditional-specs'
 
 describeWithShallowAndMount('options.stub', mountingMethod => {
-  const sandbox = sinon.createSandbox()
   let configStubsSave
   let serverConfigSave
+  let consoleErrorSave
+  let consoleInfoSave
 
   beforeEach(() => {
+    consoleErrorSave = console.error
+    consoleInfoSave = console.info
+    console.error = jest.fn()
+    console.info = jest.fn()
     configStubsSave = config.stubs
     serverConfigSave = serverConfig.stubs
     config.stubs = {}
     serverConfig.stubs = {}
-    sandbox.stub(console, 'error').callThrough()
   })
 
   afterEach(() => {
-    sandbox.reset()
-    sandbox.restore()
     config.stubs = configStubsSave
     serverConfig.stubs = serverConfigSave
+    console.error = consoleErrorSave
+    console.info = consoleInfoSave
   })
 
   it('accepts valid component stubs', () => {
@@ -54,12 +58,12 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
         ChildComponent: Stub
       }
     })
-    expect(wrapper.findAll('.stub').length).to.equal(1)
-    expect(wrapper.findAll(Component).length).to.equal(1)
+    expect(wrapper.findAll('.stub').length).toEqual(1)
+    expect(wrapper.findAll(Component).length).toEqual(1)
   })
 
   it('replaces component with a component', () => {
-    const mounted = sandbox.stub()
+    const mounted = jest.fn()
     const Stub = {
       template: '<div />',
       mounted
@@ -69,8 +73,8 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
         ChildComponent: Stub
       }
     })
-    expect(wrapper.findAll(Stub).length).to.equal(1)
-    expect(mounted).calledOnce
+    expect(wrapper.findAll(Stub).length).toEqual(1)
+    expect(mounted).toHaveBeenCalled()
   })
 
   it('does not error if component to stub contains no components', () => {
@@ -101,7 +105,7 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
           ToStubComponent: { template: '<time />' }
         }
       })
-      expect(wrapper.html()).contains('<time')
+      expect(wrapper.html()).toContain('<time')
     }
   )
 
@@ -114,10 +118,10 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
           ChildComponent: '<div />'
         }
       })
-      expect(wrapper.findAll(Component).length).to.equal(0)
+      expect(wrapper.findAll(Component).length).toEqual(0)
 
       const mountedWrapper = mountingMethod(ComponentWithNestedChildren)
-      expect(mountedWrapper.findAll(Component).length).to.equal(1)
+      expect(mountedWrapper.findAll(Component).length).toEqual(1)
     }
   )
 
@@ -130,7 +134,7 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
         'registered-component': Component
       }
     })
-    expect(wrapper.html()).to.contain('</div>')
+    expect(wrapper.html()).toContain('</div>')
   })
 
   it('stubs components with place holder when passed as an array', () => {
@@ -140,7 +144,7 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
     const wrapper = mountingMethod(ComponentWithGlobalComponent, {
       stubs: ['registered-component']
     })
-    expect(wrapper.html()).to.contain('<registered-component-stub>')
+    expect(wrapper.html()).toContain('<registered-component-stub>')
   })
 
   itDoNotRunIf(
@@ -161,7 +165,7 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
       const wrapper = mountingMethod(TestComponent, {
         stubs: ['grand-child-component']
       })
-      expect(wrapper.html()).not.to.contain('<span>')
+      expect(wrapper.html()).not.toContain('<span>')
     }
   )
 
@@ -186,7 +190,7 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
           'grand-child-component': true
         }
       })
-      expect(wrapper.html()).not.to.contain('<span>')
+      expect(wrapper.html()).not.toContain('<span>')
       delete Vue.options.components['child-component']
       delete Vue.options.components['grand-child-component']
     }
@@ -210,7 +214,7 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
       const wrapper = mountingMethod(Vue.extend(TestComponent), {
         stubs: ['grand-child-component']
       })
-      expect(wrapper.html()).not.to.contain('<span>')
+      expect(wrapper.html()).not.toContain('<span>')
     }
   )
 
@@ -227,7 +231,7 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
     const wrapper = mountingMethod(TestComponent, {
       stubs: ['child-component', 'stub-with-child']
     })
-    expect(wrapper.html()).to.contain('<child-component-stub>')
+    expect(wrapper.html()).toContain('<child-component-stub>')
   })
 
   it('stubs components with place holder which has name when passed a boolean', () => {
@@ -240,7 +244,7 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
         'registered-component': true
       }
     })
-    expect(wrapper.html()).to.contain('<registered-component-stub>')
+    expect(wrapper.html()).toContain('<registered-component-stub>')
   })
 
   it('stubs components with place holder when passed as an array', () => {
@@ -255,9 +259,7 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
         mountingMethod(ComponentWithGlobalComponent, {
           stubs: [invalidValue]
         })
-      expect(fn)
-        .to.throw()
-        .with.property('message', error)
+      expect(fn).toThrow(error)
     })
   })
 
@@ -268,9 +270,11 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
     require.cache[
       require.resolve('vue-template-compiler')
     ].exports.compileToFunctions = undefined
-    delete require.cache[require.resolve('@vue/test-utils')]
-    delete require.cache[require.resolve('@vue/server-test-utils')]
-    const mountingMethodFresh = require('@vue/test-utils')[mountingMethod.name]
+    delete require.cache[require.resolve('packages/test-utils/src')]
+    delete require.cache[require.resolve('packages/server-test-utils/src')]
+    const mountingMethodFresh = require('packages/test-utils/src')[
+      mountingMethod.name
+    ]
     const message =
       '[vue-test-utils]: vueTemplateCompiler is undefined, you must pass precompiled components if vue-template-compiler is undefined'
     const fn = () =>
@@ -280,9 +284,7 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
         }
       })
     try {
-      expect(fn)
-        .to.throw()
-        .with.property('message', message)
+      expect(fn).toThrow(message)
     } catch (err) {
       require.cache[
         require.resolve('vue-template-compiler')
@@ -303,7 +305,7 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
           ChildComponent: false
         }
       })
-      expect(wrapper.html()).to.contain('<span><div></div></span>')
+      expect(wrapper.html()).toContain('<span><div></div></span>')
     }
   )
 
@@ -330,8 +332,8 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
       },
       localVue
     })
-    expect(wrapper.html()).to.contain('<br>')
-    expect(wrapper.html()).to.contain('<p>')
+    expect(wrapper.html()).toContain('<br>')
+    expect(wrapper.html()).toContain('<p>')
   })
 
   it('prioritize mounting options over config', () => {
@@ -351,7 +353,7 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
       },
       localVue
     })
-    expect(wrapper.html()).to.contain('<span>')
+    expect(wrapper.html()).toContain('<span>')
   })
 
   itDoNotRunIf(
@@ -372,7 +374,7 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
           }
         }
       )
-      expect(wrapper.find('time').exists()).to.equal(false)
+      expect(wrapper.find('time').exists()).toEqual(false)
     }
   )
 
@@ -393,7 +395,7 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
       localVue
     })
 
-    expect(wrapper.html()).to.contain('</p>')
+    expect(wrapper.html()).toContain('</p>')
   })
 
   it('handles components without a render function', () => {
@@ -416,7 +418,7 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
         'stub-component': StubComponent
       }
     })
-    expect(wrapper.html()).contains('No render function')
+    expect(wrapper.html()).toContain('No render function')
   })
 
   it('throws an error when passed a circular reference for string stubs', () => {
@@ -445,9 +447,7 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
               ChildComponent: invalidValue.replace(/NAME/g, name)
             }
           })
-        expect(fn)
-          .to.throw()
-          .with.property('message', error)
+        expect(fn).toThrow(error)
       })
       validValues.forEach(validValue => {
         mountingMethod(ComponentWithChild, {
@@ -470,9 +470,7 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
             ChildComponent: invalidValue
           }
         })
-      expect(fn)
-        .to.throw()
-        .with.property('message', error)
+      expect(fn).toThrow(error)
     })
   })
 
@@ -494,9 +492,7 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
           },
           mocks: false
         })
-      expect(fn)
-        .to.throw()
-        .with.property('message', message)
+      expect(fn).toThrow(message)
     }
   )
 
@@ -523,9 +519,9 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
         DynamicHello3: StubComponent
       }
     })
-    expect(wrapper.html()).to.contain('span')
-    expect(wrapper.html()).to.contain('dynamichello2-stub')
-    expect(wrapper.html()).to.contain('h1')
+    expect(wrapper.html()).toContain('span')
+    expect(wrapper.html()).toContain('dynamichello2-stub')
+    expect(wrapper.html()).toContain('h1')
   })
 
   it('maintains refs to components', () => {
@@ -548,8 +544,8 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
     }
 
     const wrapper = mountingMethod(TestComponent)
-    expect(wrapper.vm.$refs.normalChild).to.exist
-    expect(wrapper.vm.$refs.functionalChild).to.exist
+    expect(wrapper.vm.$refs.normalChild).toBeTruthy()
+    expect(wrapper.vm.$refs.functionalChild).toBeTruthy()
   })
 
   it('uses original component stub', () => {
@@ -570,8 +566,8 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
         ToStub: Stub
       }
     })
-    expect(wrapper.find(ToStub).exists()).to.be.false
-    expect(wrapper.find(Stub).exists()).to.be.true
+    expect(wrapper.find(ToStub).exists()).toBe(false)
+    expect(wrapper.find(Stub).exists()).toBe(true)
   })
 
   it('stubs globally registered components', () => {
@@ -591,8 +587,8 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
       }
     })
     const result = wrapper.find(ChildComponent)
-    expect(result.exists()).to.be.true
-    expect(result.props().propA).to.equal('A')
+    expect(result.exists()).toBe(true)
+    expect(result.props().propA).toEqual('A')
     delete Vue.options.components['child-component']
   })
 
@@ -612,17 +608,17 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
         }
       })
 
-      expect(wrapper.find('#component-stub').attributes()).to.eql({
+      expect(wrapper.find('#component-stub').attributes()).toEqual({
         id: 'component-stub',
         prop1: 'foobar',
         prop2: 'fizzbuzz'
       })
-      expect(wrapper.find('#string-stub').attributes()).to.eql({
+      expect(wrapper.find('#string-stub').attributes()).toEqual({
         id: 'string-stub',
         prop1: 'foobar',
         prop2: 'fizzbuzz'
       })
-      expect(wrapper.find('originalcomponent-stub').attributes()).to.eql({
+      expect(wrapper.find('originalcomponent-stub').attributes()).toEqual({
         prop1: 'foobar',
         prop2: 'fizzbuzz'
       })
@@ -638,8 +634,8 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
       }
     })
 
-    expect(console.error).calledWith(
-      sandbox.match('[vue-test-utils]: Using a string for stubs is deprecated')
+    expect(console.error.mock.calls[0][0]).toContain(
+      '[vue-test-utils]: Using a string for stubs is deprecated'
     )
     config.showDeprecationWarnings = false
   })

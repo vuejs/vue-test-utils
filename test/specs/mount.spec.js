@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import { compileToFunctions } from 'vue-template-compiler'
-import { mount, createLocalVue } from '@vue/test-utils'
+import { mount, createLocalVue } from 'packages/test-utils/src'
 import CompositionAPI, { createElement } from '@vue/composition-api'
 import Component from '~resources/components/component.vue'
 import ComponentWithProps from '~resources/components/component-with-props.vue'
@@ -11,23 +11,18 @@ import { describeRunIf, itDoNotRunIf, itSkipIf } from 'conditional-specs'
 import Vuex from 'vuex'
 
 describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
-  const sandbox = sinon.createSandbox()
   const windowSave = window
 
-  beforeEach(() => {
-    sandbox.stub(console, 'error').callThrough()
-  })
-
   afterEach(() => {
-    window = windowSave // eslint-disable-line no-native-reassign
-    sandbox.reset()
-    sandbox.restore()
+    if (process.env.TEST_ENV !== 'browser') {
+      window = windowSave // eslint-disable-line no-native-reassign
+    }
   })
 
   it('returns new VueWrapper with mounted Vue instance if no options are passed', () => {
     const compiled = compileToFunctions('<div><input /></div>')
     const wrapper = mount(compiled)
-    expect(wrapper.vm).to.be.an('object')
+    expect(wrapper.vm).toBeTruthy()
   })
 
   it('handles root functional component', () => {
@@ -39,17 +34,17 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     }
 
     const wrapper = mount(TestComponent)
-    expect(wrapper.findAll('p').length).to.equal(2)
+    expect(wrapper.findAll('p').length).toEqual(2)
   })
 
   it('returns new VueWrapper with correct props data', () => {
     const prop1 = { test: 'TEST' }
     const wrapper = mount(ComponentWithProps, { propsData: { prop1 } })
-    expect(wrapper.vm).to.be.an('object')
+    expect(wrapper.vm).toBeTruthy()
     if (wrapper.vm.$props) {
-      expect(wrapper.vm.$props.prop1).to.equal(prop1)
+      expect(wrapper.vm.$props.prop1).toEqual(prop1)
     } else {
-      expect(wrapper.vm.$options.propsData.prop1).to.equal(prop1)
+      expect(wrapper.vm.$options.propsData.prop1).toEqual(prop1)
     }
   })
 
@@ -64,7 +59,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
           prop1
         }
       })
-      expect(wrapper.text()).to.contain(prop1)
+      expect(wrapper.text()).toContain(prop1)
     }
   )
 
@@ -76,7 +71,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
       extends: BaseComponent
     }
     const wrapper = mount(TestComponent)
-    expect(wrapper.findAll('div').length).to.equal(1)
+    expect(wrapper.findAll('div').length).toEqual(1)
   })
 
   it('handles nested uncompiled extended Vue component', () => {
@@ -96,7 +91,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
       extends: TestComponentC
     }
     const wrapper = mount(TestComponentD)
-    expect(wrapper.findAll('div').length).to.equal(1)
+    expect(wrapper.findAll('div').length).toEqual(1)
   })
 
   itSkipIf(
@@ -123,19 +118,18 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
       } catch (err) {
       } finally {
         delete Vue.options.components['child-component']
-        expect(wrapper.find(ChildComponent).exists()).to.equal(true)
+        expect(wrapper.find(ChildComponent).exists()).toEqual(true)
       }
     }
   )
 
   it('does not use cached component', () => {
-    sandbox.stub(ComponentWithMixin.methods, 'someMethod')
+    ComponentWithMixin.methods.someMethod = jest.fn()
     mount(ComponentWithMixin)
-    expect(ComponentWithMixin.methods.someMethod.callCount).to.equal(1)
-    ComponentWithMixin.methods.someMethod.restore()
-    sandbox.stub(ComponentWithMixin.methods, 'someMethod')
+    expect(ComponentWithMixin.methods.someMethod).toHaveBeenCalledTimes(1)
+    ComponentWithMixin.methods.someMethod = jest.fn()
     mount(ComponentWithMixin)
-    expect(ComponentWithMixin.methods.someMethod.callCount).to.equal(1)
+    expect(ComponentWithMixin.methods.someMethod).toHaveBeenCalledTimes(1)
   })
 
   it('throws an error if window is undefined', () => {
@@ -149,17 +143,15 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
       '[vue-test-utils]: window is undefined, vue-test-utils needs to be run in a browser environment.\n You can run the tests in node using JSDOM'
     window = undefined // eslint-disable-line no-native-reassign
 
-    expect(() => mount(compileToFunctions('<div />')))
-      .to.throw()
-      .with.property('message', message)
+    expect(() => mount(compileToFunctions('<div />'))).toThrow(message)
   })
 
   it('compiles inline templates', () => {
     const wrapper = mount({
       template: `<div>foo</div>`
     })
-    expect(wrapper.vm).to.be.an('object')
-    expect(wrapper.html()).to.equal(`<div>foo</div>`)
+    expect(wrapper.vm).toBeTruthy()
+    expect(wrapper.html()).toEqual(`<div>foo</div>`)
   })
 
   itDoNotRunIf(
@@ -174,15 +166,15 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
       const wrapper = mount({
         template: '#foo'
       })
-      expect(wrapper.vm).to.be.an('object')
-      expect(wrapper.html()).to.equal(`<div>foo</div>`)
+      expect(wrapper.vm).toBeTruthy()
+      expect(wrapper.html()).toEqual(`<div>foo</div>`)
 
       window.body.removeChild(template)
     }
   )
 
   itDoNotRunIf(vueVersion < 2.3, 'overrides methods', () => {
-    const stub = sandbox.stub()
+    const stub = jest.fn()
     const TestComponent = Vue.extend({
       template: '<div />',
       methods: {
@@ -197,32 +189,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
       }
     }).vm.callStub()
 
-    expect(stub).not.called
-  })
-
-  it.skip('overrides component prototype', () => {
-    const mountSpy = sandbox.spy()
-    const destroySpy = sandbox.spy()
-    const Component = Vue.extend({})
-    const {
-      $mount: originalMount,
-      $destroy: originalDestroy
-    } = Component.prototype
-    Component.prototype.$mount = function(...args) {
-      originalMount.apply(this, args)
-      mountSpy()
-      return this
-    }
-    Component.prototype.$destroy = function() {
-      originalDestroy.apply(this)
-      destroySpy()
-    }
-
-    const wrapper = mount(Component)
-    expect(mountSpy).called
-    expect(destroySpy).not.called
-    wrapper.destroy()
-    expect(destroySpy).called
+    expect(stub).not.toHaveBeenCalled()
   })
 
   // Problems accessing options of twice extended components in Vue < 2.3
@@ -231,7 +198,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
       template: '<div></div>'
     })
     const wrapper = mount(TestComponent)
-    expect(wrapper.html()).to.equal(`<div></div>`)
+    expect(wrapper.html()).toEqual(`<div></div>`)
   })
 
   itDoNotRunIf(
@@ -246,7 +213,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
       }
       const wrapper = mount(TestComponent)
       setTimeout(() => {
-        expect(wrapper.find(Component).exists()).to.equal(true)
+        expect(wrapper.find(Component).exists()).toEqual(true)
         done()
       })
     }
@@ -281,19 +248,19 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
       }
     )
     if (injectSupported) {
-      expect(typeof wrapper.vm.$options.provide).to.equal(
+      expect(typeof wrapper.vm.$options.provide).toEqual(
         vueVersion < 2.5 ? 'function' : 'object'
       )
     }
 
-    expect(wrapper.vm.$options.attachToDocument).to.equal(undefined)
-    expect(wrapper.vm.$options.mocks).to.equal(undefined)
-    expect(wrapper.vm.$options.slots).to.equal(undefined)
-    expect(wrapper.vm.$options.localVue).to.equal(undefined)
-    expect(wrapper.vm.$options.stubs).to.equal(undefined)
-    expect(wrapper.vm.$options.context).to.equal(undefined)
-    expect(wrapper.vm.$options.attrs).to.equal(undefined)
-    expect(wrapper.vm.$options.listeners).to.equal(undefined)
+    expect(wrapper.vm.$options.attachToDocument).toEqual(undefined)
+    expect(wrapper.vm.$options.mocks).toEqual(undefined)
+    expect(wrapper.vm.$options.slots).toEqual(undefined)
+    expect(wrapper.vm.$options.localVue).toEqual(undefined)
+    expect(wrapper.vm.$options.stubs).toEqual(undefined)
+    expect(wrapper.vm.$options.context).toEqual(undefined)
+    expect(wrapper.vm.$options.attrs).toEqual(undefined)
+    expect(wrapper.vm.$options.listeners).toEqual(undefined)
     wrapper.destroy()
   })
 
@@ -323,7 +290,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     }
 
     const fn = () => mount(TestComponent)
-    expect(fn).to.throw('Error in mounted')
+    expect(fn).toThrow('Error in mounted')
   })
 
   it('propagates errors when they are thrown by a nested component', () => {
@@ -343,7 +310,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
       mount(rootComponent)
     }
 
-    expect(fn).to.throw('Error in mounted')
+    expect(fn).toThrow('Error in mounted')
   })
 
   it('adds unused propsData as attributes', () => {
@@ -359,10 +326,10 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     })
 
     if (vueVersion > 2.3) {
-      expect(wrapper.vm.$attrs).to.eql({ height: '50px', extra: 'attr' })
+      expect(wrapper.vm.$attrs).toEqual({ height: '50px', extra: 'attr' })
     }
 
-    expect(wrapper.html()).to.equal(
+    expect(wrapper.html()).toEqual(
       '<div height="50px" extra="attr">\n' +
         '  <p class="prop-1">prop1</p>\n' +
         '  <p class="prop-2"></p>\n' +
@@ -394,7 +361,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
       }
     }
     const wrapper = mount(Component, options)
-    expect(wrapper.text()).to.equal('aBC')
+    expect(wrapper.text()).toEqual('aBC')
   })
 
   it('handles inline components', () => {
@@ -411,7 +378,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     const wrapper = mount(TestComponent, {
       localVue
     })
-    expect(wrapper.findAll(ChildComponent).length).to.equal(1)
+    expect(wrapper.findAll(ChildComponent).length).toEqual(1)
   })
 
   it('handles nested components with extends', () => {
@@ -449,7 +416,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
       }
     }
     const wrapper = mount(Comp, { localVue })
-    expect(wrapper.html()).to.equal('<div>composition api</div>')
+    expect(wrapper.html()).toEqual('<div>composition api</div>')
   })
 
   itDoNotRunIf.skip(
@@ -469,7 +436,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
       const fn = () => {
         wrapper.vm.a = 2
       }
-      expect(fn).to.throw()
+      expect(fn).toThrow()
       wrapper.destroy()
     }
   )

@@ -1,20 +1,20 @@
 import { describeWithShallowAndMount } from '~resources/utils'
 import { compileToFunctions } from 'vue-template-compiler'
-import '@vue/test-utils'
+import 'packages/test-utils/src'
 
 describeWithShallowAndMount('isEmpty', mountingMethod => {
   it('returns true if node is empty', () => {
     const compiled = compileToFunctions('<div><p /></div>')
     const wrapper = mountingMethod(compiled)
 
-    expect(wrapper.findAll('p').isEmpty()).to.equal(true)
+    expect(wrapper.findAll('p').isEmpty()).toEqual(true)
   })
 
   it('returns false if node contains other nodes', () => {
     const compiled = compileToFunctions('<div><span><p><p/></span></div>')
     const wrapper = mountingMethod(compiled)
 
-    expect(wrapper.findAll('span').isEmpty()).to.equal(false)
+    expect(wrapper.findAll('span').isEmpty()).toEqual(false)
   })
 
   it('throws error if wrapper array contains no items', () => {
@@ -24,8 +24,6 @@ describeWithShallowAndMount('isEmpty', mountingMethod => {
       mountingMethod(compiled)
         .findAll('p')
         .isEmpty('p')
-    expect(fn)
-      .to.throw()
-      .with.property('message', message)
+    expect(fn).toThrow(message)
   })
 })

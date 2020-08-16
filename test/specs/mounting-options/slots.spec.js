@@ -5,14 +5,14 @@ import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
 import ComponentWithParentName from '~resources/components/component-with-parent-name.vue'
 import { describeWithShallowAndMount, vueVersion } from '~resources/utils'
 import { itDoNotRunIf } from 'conditional-specs'
-import { mount, createLocalVue } from '@vue/test-utils'
+import { mount, createLocalVue } from 'packages/test-utils/src'
 
 describeWithShallowAndMount('options.slots', mountingMethod => {
   it('mounts component with default slot if passed component in slot object', () => {
     const wrapper = mountingMethod(ComponentWithSlots, {
       slots: { default: Component }
     })
-    expect(wrapper.contains(Component)).to.equal(true)
+    expect(wrapper.contains(Component)).toEqual(true)
   })
 
   itDoNotRunIf(
@@ -33,7 +33,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
         },
         localVue
       })
-      expect(wrapper.contains('time')).to.equal(true)
+      expect(wrapper.contains('time')).toEqual(true)
     }
   )
 
@@ -41,7 +41,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
     const wrapper = mountingMethod(ComponentWithSlots, {
       slots: { default: [Component] }
     })
-    expect(wrapper.contains(Component)).to.equal(true)
+    expect(wrapper.contains(Component)).toEqual(true)
   })
 
   it('mounts component with default slot if passed compiled options in slot object', () => {
@@ -49,7 +49,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
     const wrapper = mountingMethod(ComponentWithSlots, {
       slots: { default: [compiled] }
     })
-    expect(wrapper.contains('#div')).to.equal(true)
+    expect(wrapper.contains('#div')).toEqual(true)
   })
 
   itDoNotRunIf(
@@ -59,7 +59,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
       const wrapper = mountingMethod(ComponentWithSlots, {
         slots: { default: '<span />' }
       })
-      expect(wrapper.contains('span')).to.equal(true)
+      expect(wrapper.contains('span')).toEqual(true)
     }
   )
 
@@ -70,7 +70,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
       const wrapper = mountingMethod(ComponentAsAClass, {
         slots: { default: '<span />' }
       })
-      expect(wrapper.contains('span')).to.equal(true)
+      expect(wrapper.contains('span')).toEqual(true)
     }
   )
 
@@ -84,7 +84,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
       const wrapper = mountingMethod(ComponentWithSlots, {
         slots: { default: [Component] }
       })
-      expect(wrapper.contains(Component)).to.equal(true)
+      expect(wrapper.contains(Component)).toEqual(true)
       window = windowSave // eslint-disable-line no-native-reassign
     }
   )
@@ -107,9 +107,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
         slots: { default: '<span />' }
       })
     try {
-      expect(fn)
-        .to.throw()
-        .with.property('message', message)
+      expect(fn).toThrow(message)
     } catch (err) {
       require.cache[
         require.resolve('vue-template-compiler')
@@ -127,7 +125,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
       const wrapper = mountingMethod(ComponentWithSlots, {
         slots: { default: ['<span />'] }
       })
-      expect(wrapper.contains('span')).to.equal(true)
+      expect(wrapper.contains('span')).toEqual(true)
     }
   )
 
@@ -138,8 +136,10 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
     require.cache[
       require.resolve('vue-template-compiler')
     ].exports.compileToFunctions = undefined
-    delete require.cache[require.resolve('@vue/test-utils')]
-    const mountingMethodFresh = require('@vue/test-utils')[mountingMethod.name]
+    delete require.cache[require.resolve('packages/test-utils/src')]
+    const mountingMethodFresh = require('packages/test-utils/src')[
+      mountingMethod.name
+    ]
     const message =
       '[vue-test-utils]: vueTemplateCompiler is undefined, you must pass precompiled components if vue-template-compiler is undefined'
     const fn = () =>
@@ -147,9 +147,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
         slots: { default: ['<span />'] }
       })
     try {
-      expect(fn)
-        .to.throw()
-        .with.property('message', message)
+      expect(fn).toThrow(message)
     } catch (err) {
       require.cache[
         require.resolve('vue-template-compiler')
@@ -168,7 +166,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
         footer: [Component]
       }
     })
-    expect(wrapper.findAll(Component).length).to.equal(2)
+    expect(wrapper.findAll(Component).length).toEqual(2)
   })
 
   it('mounts component with default and named slots', () => {
@@ -178,8 +176,8 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
         footer: '<p>world</p>'
       }
     })
-    expect(wrapper.html()).to.contain('<span>hello</span>')
-    expect(wrapper.html()).to.contain('<p>world</p>')
+    expect(wrapper.html()).toContain('<span>hello</span>')
+    expect(wrapper.html()).toContain('<p>world</p>')
   })
 
   it('mounts component with default and named text slot', () => {
@@ -189,7 +187,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
         default: 'hello,'
       }
     })
-    expect(wrapper.text()).to.contain('hello, world')
+    expect(wrapper.text()).toContain('hello, world')
   })
 
   it('mounts functional component with text slot', () => {
@@ -205,7 +203,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
         header: 'world'
       }
     })
-    expect(wrapper.text()).to.contain('hello,world')
+    expect(wrapper.text()).toContain('hello,world')
   })
 
   it('mounts component with named slot if passed component in slot object', () => {
@@ -214,8 +212,8 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
         header: Component
       }
     })
-    expect(wrapper.findAll(Component).length).to.equal(1)
-    expect(Array.isArray(wrapper.vm.$slots.header)).to.equal(true)
+    expect(wrapper.findAll(Component).length).toEqual(1)
+    expect(Array.isArray(wrapper.vm.$slots.header)).toEqual(true)
   })
 
   it('mounts functional component with default slot if passed component in slot object', () => {
@@ -227,7 +225,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
     const wrapper = mountingMethod(TestComponent, {
       slots: { default: Component }
     })
-    expect(wrapper.contains(Component)).to.equal(true)
+    expect(wrapper.contains(Component)).toEqual(true)
   })
 
   it('mounts component with default slot if passed component in slot object', () => {
@@ -239,7 +237,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
     const wrapper = mountingMethod(TestComponent, {
       slots: { default: [Component] }
     })
-    expect(wrapper.contains(Component)).to.equal(true)
+    expect(wrapper.contains(Component)).toEqual(true)
   })
 
   it('mounts component with default slot if passed object with template prop in slot object', () => {
@@ -252,7 +250,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
     const wrapper = mountingMethod(TestComponent, {
       slots: { default: [compiled] }
     })
-    expect(wrapper.contains('#div')).to.equal(true)
+    expect(wrapper.contains('#div')).toEqual(true)
   })
 
   itDoNotRunIf(
@@ -267,7 +265,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
       const wrapper = mountingMethod(TestComponent, {
         slots: { default: '<span />' }
       })
-      expect(wrapper.contains('span')).to.equal(true)
+      expect(wrapper.contains('span')).toEqual(true)
     }
   )
 
@@ -277,7 +275,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
         default: ['<time /><time />']
       }
     })
-    expect(wrapper.findAll('time').length).to.equal(2)
+    expect(wrapper.findAll('time').length).toEqual(2)
   })
 
   itDoNotRunIf(
@@ -291,7 +289,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
       const wrapper = mountingMethod(TestComponent, {
         slots: { named: Component }
       })
-      expect(wrapper.contains(Component)).to.equal(true)
+      expect(wrapper.contains(Component)).toEqual(true)
     }
   )
 
@@ -303,7 +301,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
     const wrapper = mountingMethod(TestComponent, {
       slots: { named: [Component] }
     })
-    expect(wrapper.contains(Component)).to.equal(true)
+    expect(wrapper.contains(Component)).toEqual(true)
   })
 
   it('mounts component with named slot if passed string in slot object in array', () => {
@@ -314,7 +312,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
     const wrapper = mountingMethod(TestComponent, {
       slots: { named: '<span />' }
     })
-    expect(wrapper.contains('span')).to.equal(true)
+    expect(wrapper.contains('span')).toEqual(true)
   })
 
   it('mounts component with named slot if passed string in slot object in array', () => {
@@ -325,7 +323,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
     const wrapper = mountingMethod(TestComponent, {
       slots: { named: ['<span />'] }
     })
-    expect(wrapper.contains('span')).to.equal(true)
+    expect(wrapper.contains('span')).toEqual(true)
   })
 
   it('throws error if passed false for named slots', () => {
@@ -338,9 +336,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
       mountingMethod(TestComponent, { slots: { named: [false] } })
     const message =
       '[vue-test-utils]: slots[key] must be a Component, string or an array of Components'
-    expect(fn)
-      .to.throw()
-      .with.property('message', message)
+    expect(fn).toThrow(message)
   })
 
   it('throws error if passed an array of numbers for named slots', () => {
@@ -352,9 +348,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
     const fn = () => mountingMethod(TestComponent, { slots: { named: [1] } })
     const message =
       '[vue-test-utils]: slots[key] must be a Component, string or an array of Components'
-    expect(fn)
-      .to.throw()
-      .with.property('message', message)
+    expect(fn).toThrow(message)
   })
 
   it('throws error if passed false for named slots', () => {
@@ -366,9 +360,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
     const fn = () => mountingMethod(TestComponent, { slots: { named: false } })
     const message =
       '[vue-test-utils]: slots[key] must be a Component, string or an array of Components'
-    expect(fn)
-      .to.throw()
-      .with.property('message', message)
+    expect(fn).toThrow(message)
   })
 
   it('throws error if passed a number for named slots', () => {
@@ -380,9 +372,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
     const fn = () => mountingMethod(TestComponent, { slots: { named: 1 } })
     const message =
       '[vue-test-utils]: slots[key] must be a Component, string or an array of Components'
-    expect(fn)
-      .to.throw()
-      .with.property('message', message)
+    expect(fn).toThrow(message)
   })
 
   it('throws error if passed string in default slot array when vue-template-compiler is undefined', () => {
@@ -393,8 +383,10 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
       require.resolve('vue-template-compiler')
     ].exports.compileToFunctions = undefined
 
-    delete require.cache[require.resolve('@vue/test-utils')]
-    const mountingMethodFresh = require('@vue/test-utils')[mountingMethod.name]
+    delete require.cache[require.resolve('packages/test-utils/src')]
+    const mountingMethodFresh = require('packages/test-utils/src')[
+      mountingMethod.name
+    ]
     const message =
       '[vue-test-utils]: vueTemplateCompiler is undefined, you must pass precompiled components if vue-template-compiler is undefined'
     const fn = () => {
@@ -403,9 +395,7 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
       })
     }
     try {
-      expect(fn)
-        .to.throw()
-        .with.property('message', message)
+      expect(fn).toThrow(message)
     } catch (err) {
       require.cache[
         require.resolve('vue-template-compiler')
@@ -449,14 +439,14 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
     const wrapper = mountingMethod(ComponentWithSlots, {
       slots: { default: ComponentAsAClass }
     })
-    expect(wrapper.contains(ComponentAsAClass)).to.equal(true)
+    expect(wrapper.contains(ComponentAsAClass)).toEqual(true)
   })
 
   it('mounts component with default slot if passed class component in array in slot object', () => {
     const wrapper = mountingMethod(ComponentWithSlots, {
       slots: { default: [ComponentAsAClass] }
     })
-    expect(wrapper.contains(ComponentAsAClass)).to.equal(true)
+    expect(wrapper.contains(ComponentAsAClass)).toEqual(true)
   })
 
   it('sets a component which can access the parent component and the child component', () => {
@@ -486,14 +476,14 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
         localVue
       }
     )
-    expect(ParentComponent.vm.childComponentName).to.equal(childComponentName)
-    expect(ParentComponent.vm.$children.length).to.equal(2)
+    expect(ParentComponent.vm.childComponentName).toEqual(childComponentName)
+    expect(ParentComponent.vm.$children.length).toEqual(2)
     expect(
       ParentComponent.vm.$children.every(
         c => c.$options.name === childComponentName
       )
-    ).to.equal(true)
-    expect(ParentComponent.html()).to.equal(
+    ).toEqual(true)
+    expect(ParentComponent.html()).toEqual(
       '<div>\n' +
         '  <div><span baz="qux">FOO,quux</span></div>\n' +
         '  <div><span baz="qux">FOO,quux</span></div>\n' +
@@ -522,14 +512,14 @@ describeWithShallowAndMount('options.slots', mountingMethod => {
         }
       }
     )
-    expect(ParentComponent.vm.childComponentName).to.equal(childComponentName)
-    expect(ParentComponent.vm.$children.length).to.equal(1)
+    expect(ParentComponent.vm.childComponentName).toEqual(childComponentName)
+    expect(ParentComponent.vm.$children.length).toEqual(1)
     expect(
       ParentComponent.vm.$children.every(
         c => c.$options.name === childComponentName
       )
-    ).to.equal(true)
-    expect(ParentComponent.html()).to.equal(
+    ).toEqual(true)
+    expect(ParentComponent.html()).toEqual(
       '<div>\n' + '  <p>1234</p>\n' + '</div>'
     )
   })

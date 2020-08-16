@@ -30,9 +30,9 @@ const wrapper = mount({
 })
 
 const wrapperArray = wrapper.findAll('.foo')
-expect(wrapper.vm.t1).to.equal('')
-expect(wrapper.vm.t2).to.equal('')
+expect(wrapper.vm.t1).toEqual('')
+expect(wrapper.vm.t2).toEqual('')
 wrapperArray.setValue('foo')
-expect(wrapper.vm.t1).to.equal('foo')
-expect(wrapper.vm.t2).to.equal('foo')
+expect(wrapper.vm.t1).toEqual('foo')
+expect(wrapper.vm.t2).toEqual('foo')
 ```

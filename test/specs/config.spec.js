@@ -1,25 +1,25 @@
 import { describeWithShallowAndMount } from '~resources/utils'
 import ComponentWithProps from '~resources/components/component-with-props.vue'
-import { config, createLocalVue } from '@vue/test-utils'
+import { config, createLocalVue } from 'packages/test-utils/src'
 import ComponentWithTransitions from '~resources/components/component-with-transitions.vue'
 
 describeWithShallowAndMount('config', mountingMethod => {
-  const sandbox = sinon.createSandbox()
   let configStubsSave
   let configSilentSave
+  let consoleErrorSave
 
   beforeEach(() => {
     configStubsSave = config.stubs
     configSilentSave = config.silent
-    sandbox.stub(console, 'error').callThrough()
+    consoleErrorSave = console.error
+    console.error = jest.fn()
   })
 
   afterEach(() => {
     config.stubs = configStubsSave
     config.silent = configSilentSave
     config.methods = {}
-    sandbox.reset()
-    sandbox.restore()
+    console.error = consoleErrorSave
   })
 
   it('mocks a global variable', () => {
@@ -40,8 +40,8 @@ describeWithShallowAndMount('config', mountingMethod => {
       t
     })
 
-    expect(wrapper.vm.$t).to.equal('mock value')
-    expect(wrapper.text()).to.equal('mock value')
+    expect(wrapper.vm.$t).toEqual('mock value')
+    expect(wrapper.text()).toEqual('mock value')
 
     localVue.prototype.$t = undefined
   })
@@ -57,8 +57,8 @@ describeWithShallowAndMount('config', mountingMethod => {
 
     const wrapper = mountingMethod(testComponent)
 
-    expect(wrapper.vm.val()).to.equal('method')
-    expect(wrapper.text()).to.equal('method')
+    expect(wrapper.vm.val()).toEqual('method')
+    expect(wrapper.text()).toEqual('method')
   })
 
   it("doesn't throw Vue warning when silent is set to true", () => {
@@ -70,11 +70,11 @@ describeWithShallowAndMount('config', mountingMethod => {
       },
       localVue
     })
-    expect(wrapper.vm.prop1).to.equal('example')
+    expect(wrapper.vm.prop1).toEqual('example')
     wrapper.setProps({
       prop1: 'new value'
     })
-    expect(console.error).not.calledWith(sandbox.match('[Vue warn]'))
+    expect(console.error).not.toHaveBeenCalled()
   })
 
   it('does throw Vue warning when silent is set to false', () => {
@@ -86,19 +86,21 @@ describeWithShallowAndMount('config', mountingMethod => {
       },
       localVue
     })
-    expect(wrapper.vm.prop1).to.equal('example')
+    expect(wrapper.vm.prop1).toEqual('example')
     wrapper.setProps({
       prop1: 'new value'
     })
-    expect(console.error).calledWith(sandbox.match('[Vue warn]'))
+    expect(console.error).toHaveBeenCalledWith(
+      expect.stringMatching(/[Vue warn]/)
+    )
   })
 
   it('stubs out transitions by default', async () => {
     const wrapper = mountingMethod(ComponentWithTransitions)
-    expect(wrapper.find('[data-testid="expanded"]').exists()).to.equal(true)
+    expect(wrapper.find('[data-testid="expanded"]').exists()).toEqual(true)
     wrapper.setData({ expanded: true })
     await wrapper.vm.$nextTick()
-    expect(wrapper.find('[data-testid="expanded"]').exists()).to.equal(false)
+    expect(wrapper.find('[data-testid="expanded"]').exists()).toEqual(false)
   })
 
   it('allows control deprecation warnings visibility for name method', () => {
@@ -109,10 +111,12 @@ describeWithShallowAndMount('config', mountingMethod => {
     }
     const wrapper = mountingMethod(Component)
     wrapper.name()
-    expect(console.error).to.be.calledWith(sandbox.match('name is deprecated'))
+    expect(console.error).toHaveBeenCalledWith(
+      expect.stringMatching(/name is deprecated/)
+    )
     config.showDeprecationWarnings = false
     wrapper.name()
-    expect(console.error).to.have.callCount(1)
+    expect(console.error).toHaveBeenCalledTimes(1)
   })
 
   describe('attachToDocument deprecation warning', () => {
@@ -127,8 +131,9 @@ describeWithShallowAndMount('config', mountingMethod => {
       mountingMethod(Component, {
         attachToDocument: true
       })
-      expect(console.error).to.be.calledWith(
-        sandbox.match('attachToDocument is deprecated')
+
+      expect(console.error).toHaveBeenCalledWith(
+        expect.stringMatching(/attachToDocument is deprecated/)
       )
     })
 
@@ -139,8 +144,8 @@ describeWithShallowAndMount('config', mountingMethod => {
         attachToDocument: true
       })
 
-      expect(console.error).not.to.be.calledWith(
-        sandbox.match('attachToDocument is deprecated')
+      expect(console.error).not.toHaveBeenCalledWith(
+        expect.stringMatching(/attachToDocument is deprecated/)
       )
     })
   })
@@ -161,8 +166,8 @@ describeWithShallowAndMount('config', mountingMethod => {
         methods: { foo: () => {} }
       })
 
-      expect(console.error).to.be.calledWith(
-        sandbox.match(expectedErrorMessage)
+      expect(console.error).toHaveBeenCalledWith(
+        expect.stringMatching(expectedErrorMessage)
       )
     })
 
@@ -173,8 +178,8 @@ describeWithShallowAndMount('config', mountingMethod => {
         methods: { foo: () => {} }
       })
 
-      expect(console.error).not.to.be.calledWith(
-        sandbox.match(expectedErrorMessage)
+      expect(console.error).not.toHaveBeenCalledWith(
+        expect.stringMatching(expectedErrorMessage)
       )
     })
 
@@ -183,8 +188,8 @@ describeWithShallowAndMount('config', mountingMethod => {
 
       mountingMethod(Component).setMethods({ foo: () => {} })
 
-      expect(console.error).to.be.calledWith(
-        sandbox.match(expectedErrorMessage)
+      expect(console.error).toHaveBeenCalledWith(
+        expect.stringMatching(expectedErrorMessage)
       )
     })
 
@@ -193,8 +198,8 @@ describeWithShallowAndMount('config', mountingMethod => {
 
       mountingMethod(Component).setMethods({ foo: () => {} })
 
-      expect(console.error).not.to.be.calledWith(
-        sandbox.match(expectedErrorMessage)
+      expect(console.error).not.toHaveBeenCalledWith(
+        expect.stringMatching(expectedErrorMessage)
       )
     })
   })

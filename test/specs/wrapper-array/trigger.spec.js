@@ -3,42 +3,35 @@ import ComponentWithEvents from '~resources/components/component-with-events.vue
 import { describeWithShallowAndMount } from '~resources/utils'
 
 describeWithShallowAndMount('trigger', mountingMethod => {
-  const sandbox = sinon.createSandbox()
-
-  afterEach(() => {
-    sandbox.reset()
-    sandbox.restore()
-  })
-
   it('causes click handler to fire when wrapper.trigger("click") is called on a Component', () => {
-    const clickHandler = sandbox.stub()
+    const clickHandler = jest.fn()
     const wrapper = mountingMethod(ComponentWithEvents, {
       propsData: { clickHandler }
     })
     const buttonArr = wrapper.findAll('.click')
     buttonArr.trigger('click')
 
-    expect(clickHandler.calledOnce).to.equal(true)
+    expect(clickHandler).toHaveBeenCalled()
   })
 
   it('causes keydown handler to fire when wrapper.trigger("keydown") is fired on a Component', () => {
-    const keydownHandler = sandbox.stub()
+    const keydownHandler = jest.fn()
     const wrapper = mountingMethod(ComponentWithEvents, {
       propsData: { keydownHandler }
     })
     wrapper.findAll('.keydown').trigger('keydown')
 
-    expect(keydownHandler.calledOnce).to.equal(true)
+    expect(keydownHandler).toHaveBeenCalled()
   })
 
   it('causes keydown handler to fire when wrapper.trigger("keydown.enter") is fired on a Component', () => {
-    const keydownHandler = sandbox.stub()
+    const keydownHandler = jest.fn()
     const wrapper = mountingMethod(ComponentWithEvents, {
       propsData: { keydownHandler }
     })
     wrapper.findAll('.keydown-enter').trigger('keydown.enter')
 
-    expect(keydownHandler.calledOnce).to.equal(true)
+    expect(keydownHandler).toHaveBeenCalled()
   })
 
   it('throws an error if type is not a string', () => {
@@ -59,9 +52,7 @@ describeWithShallowAndMount('trigger', mountingMethod => {
       const message =
         '[vue-test-utils]: wrapper.trigger() must be passed a string'
       const fn = () => wrapper.trigger(invalidSelector)
-      expect(fn)
-        .to.throw()
-        .with.property('message', message)
+      expect(fn).toThrow(message)
     })
   })
 
@@ -72,8 +63,6 @@ describeWithShallowAndMount('trigger', mountingMethod => {
       mountingMethod(compiled)
         .findAll('p')
         .trigger('p')
-    expect(fn)
-      .to.throw()
-      .with.property('message', message)
+    expect(fn).toThrow(message)
   })
 })

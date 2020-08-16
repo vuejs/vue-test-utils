@@ -32,9 +32,7 @@ describeWithShallowAndMount('options.context', mountingMethod => {
     const message =
       '[vue-test-utils]: mount.context can only be used when mounting a functional component'
     const fn = () => mountingMethod(Component, { context })
-    expect(fn)
-      .to.throw()
-      .with.property('message', message)
+    expect(fn).toThrow(message)
   })
 
   it('does not throw error if functional component with Vue.extend', () => {
@@ -45,7 +43,7 @@ describeWithShallowAndMount('options.context', mountingMethod => {
     const context = {}
     const fn = () =>
       mountingMethod(Component, { context, stubs: false, mocks: false })
-    expect(fn).not.to.throw()
+    expect(fn).not.toThrow()
   })
 
   it('throws error if context option is not an object', () => {
@@ -56,9 +54,7 @@ describeWithShallowAndMount('options.context', mountingMethod => {
     const context = 'string'
     const message = '[vue-test-utils]: mount.context must be an object'
     const fn = () => mountingMethod(Component, { context })
-    expect(fn)
-      .to.throw()
-      .with.property('message', message)
+    expect(fn).toThrow(message)
   })
 
   it('mounts functional component with a defined context when no context object passed in options', () => {
@@ -74,7 +70,7 @@ describeWithShallowAndMount('options.context', mountingMethod => {
       render: (h, { props }) => h('div', props.testProp)
     }
     const wrapper = mountingMethod(Component)
-    expect(wrapper.html()).to.contain(defaultValue)
+    expect(wrapper.html()).toContain(defaultValue)
   })
 
   it('mounts functional component with a defined context.children text', () => {
@@ -89,7 +85,7 @@ describeWithShallowAndMount('options.context', mountingMethod => {
         children: ['render text']
       }
     })
-    expect(wrapper.html()).to.contain('render text')
+    expect(wrapper.html()).toContain('render text')
   })
 
   it('mounts functional component with a defined context.children element', () => {
@@ -104,6 +100,6 @@ describeWithShallowAndMount('options.context', mountingMethod => {
         children: [h => h('div', 'render component')]
       }
     })
-    expect(wrapper.html()).to.contain('render component')
+    expect(wrapper.html()).toContain('render component')
   })
 })

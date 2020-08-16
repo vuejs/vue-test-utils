@@ -8,17 +8,17 @@ describeWithShallowAndMount('setValue', mountingMethod => {
     const wrapper = mountingMethod(ComponentWithInput)
     const input = wrapper.find('input[type="text"]')
     const response = input.setValue('foo')
-    expect(isPromise(response)).to.eql(true)
-    expect(wrapper.text()).not.to.contain('foo')
+    expect(isPromise(response)).toEqual(true)
+    expect(wrapper.text()).not.toContain('foo')
     await response
-    expect(wrapper.text()).to.contain('foo')
+    expect(wrapper.text()).toContain('foo')
   })
   it('sets element of input value', () => {
     const wrapper = mountingMethod(ComponentWithInput)
     const input = wrapper.find('input[type="text"]')
     input.setValue('foo')
 
-    expect(input.element.value).to.equal('foo')
+    expect(input.element.value).toEqual('foo')
   })
 
   it('sets element of textarea value', () => {
@@ -26,7 +26,7 @@ describeWithShallowAndMount('setValue', mountingMethod => {
     const textarea = wrapper.find('textarea')
     textarea.setValue('foo')
 
-    expect(textarea.element.value).to.equal('foo')
+    expect(textarea.element.value).toEqual('foo')
   })
 
   it('updates dom with input v-model', async () => {
@@ -34,7 +34,7 @@ describeWithShallowAndMount('setValue', mountingMethod => {
     const input = wrapper.find('input[type="text"]')
     await input.setValue('input text awesome binding')
 
-    expect(wrapper.text()).to.contain('input text awesome binding')
+    expect(wrapper.text()).toContain('input text awesome binding')
   })
 
   itDoNotRunIf(
@@ -45,7 +45,7 @@ describeWithShallowAndMount('setValue', mountingMethod => {
       const input = wrapper.find('input#lazy')
       await input.setValue('lazy')
 
-      expect(wrapper.text()).to.contain('lazy')
+      expect(wrapper.text()).toContain('lazy')
     }
   )
 
@@ -54,7 +54,7 @@ describeWithShallowAndMount('setValue', mountingMethod => {
     const select = wrapper.find('select')
     select.setValue('selectB')
 
-    expect(select.element.value).to.equal('selectB')
+    expect(select.element.value).toEqual('selectB')
   })
 
   it('updates dom with select v-model', async () => {
@@ -62,19 +62,21 @@ describeWithShallowAndMount('setValue', mountingMethod => {
     const select = wrapper.find('select')
     await select.setValue('selectB')
 
-    expect(wrapper.text()).to.contain('selectB')
+    expect(wrapper.text()).toContain('selectB')
   })
 
-  it('sets element of multiselect value', () => {
-    const wrapper = mountingMethod(ComponentWithInput)
-    const select = wrapper.find('select.multiselect')
-    select.setValue(['selectA', 'selectC'])
+  if (process.env.TEST_ENV !== 'browser') {
+    it.only('sets element of multiselect value', async () => {
+      const wrapper = mountingMethod(ComponentWithInput)
+      const select = wrapper.find('select.multiselect')
+      await select.setValue(['selectA', 'selectC'])
 
-    const selectedOptions = Array.from(select.element.selectedOptions).map(
-      o => o.value
-    )
-    expect(selectedOptions).to.deep.equal(['selectA', 'selectC'])
-  })
+      const selectedOptions = Array.from(select.element.selectedOptions).map(
+        o => o.value
+      )
+      expect(selectedOptions).toEqual(['selectA', 'selectC'])
+    })
+  }
 
   it('overrides elements of multiselect', () => {
     const wrapper = mountingMethod(ComponentWithInput)
@@ -85,7 +87,7 @@ describeWithShallowAndMount('setValue', mountingMethod => {
     const selectedOptions = Array.from(select.element.selectedOptions).map(
       o => o.value
     )
-    expect(selectedOptions).to.deep.equal(['selectB'])
+    expect(selectedOptions).toEqual(['selectB'])
   })
 
   it('updates dom with multiselect v-model when array', async () => {
@@ -93,7 +95,7 @@ describeWithShallowAndMount('setValue', mountingMethod => {
     const select = wrapper.find('select.multiselect')
     await select.setValue(['selectA', 'selectC'])
 
-    expect(wrapper.text()).to.contain('["selectA","selectC"]')
+    expect(wrapper.text()).toContain('["selectA","selectC"]')
   })
 
   it('throws error if element is option', () => {
@@ -124,8 +126,6 @@ describeWithShallowAndMount('setValue', mountingMethod => {
     const input = wrapper.find(selector)
 
     const fn = () => input.setValue('')
-    expect(fn)
-      .to.throw()
-      .with.property('message', '[vue-test-utils]: ' + message)
+    expect(fn).toThrow('[vue-test-utils]: ' + message)
   }
 })

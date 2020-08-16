@@ -1,4 +1,4 @@
-import { createLocalVue, createWrapper } from '@vue/test-utils'
+import { createLocalVue, createWrapper } from 'packages/test-utils/src'
 import { describeWithShallowAndMount, vueVersion } from '~resources/utils'
 import { itDoNotRunIf } from 'conditional-specs'
 import Vue from 'vue'
@@ -10,20 +10,20 @@ describeWithShallowAndMount('emitted', mountingMethod => {
     })
 
     wrapper.vm.$emit('foo')
-    expect(wrapper.emitted('foo')).to.exist
-    expect(wrapper.emitted('foo').length).to.equal(1)
-    expect(wrapper.emitted('foo')[0]).to.eql([])
+    expect(wrapper.emitted('foo')).toBeTruthy()
+    expect(wrapper.emitted('foo').length).toEqual(1)
+    expect(wrapper.emitted('foo')[0]).toEqual([])
 
-    expect(wrapper.emitted('bar')).not.to.exist
+    expect(wrapper.emitted('bar')).toBeFalsy()
     wrapper.vm.$emit('bar', 1, 2, 3)
-    expect(wrapper.emitted('bar')).to.exist
-    expect(wrapper.emitted('bar').length).to.equal(1)
-    expect(wrapper.emitted('bar')[0]).to.eql([1, 2, 3])
+    expect(wrapper.emitted('bar')).toBeTruthy()
+    expect(wrapper.emitted('bar').length).toEqual(1)
+    expect(wrapper.emitted('bar')[0]).toEqual([1, 2, 3])
 
     wrapper.vm.$emit('foo', 2, 3, 4)
-    expect(wrapper.emitted('foo')).to.exist
-    expect(wrapper.emitted('foo').length).to.equal(2)
-    expect(wrapper.emitted('foo')[1]).to.eql([2, 3, 4])
+    expect(wrapper.emitted('foo')).toBeTruthy()
+    expect(wrapper.emitted('foo').length).toEqual(2)
+    expect(wrapper.emitted('foo')[1]).toEqual([2, 3, 4])
   })
 
   it('captures emitted events', () => {
@@ -32,20 +32,20 @@ describeWithShallowAndMount('emitted', mountingMethod => {
     })
 
     wrapper.vm.$emit('foo')
-    expect(wrapper.emitted().foo).to.exist
-    expect(wrapper.emitted().foo.length).to.equal(1)
-    expect(wrapper.emitted().foo[0]).to.eql([])
+    expect(wrapper.emitted().foo).toBeTruthy()
+    expect(wrapper.emitted().foo.length).toEqual(1)
+    expect(wrapper.emitted().foo[0]).toEqual([])
 
-    expect(wrapper.emitted().bar).not.to.exist
+    expect(wrapper.emitted().bar).toBeFalsy()
     wrapper.vm.$emit('bar', 1, 2, 3)
-    expect(wrapper.emitted().bar).to.exist
-    expect(wrapper.emitted().bar.length).to.equal(1)
-    expect(wrapper.emitted().bar[0]).to.eql([1, 2, 3])
+    expect(wrapper.emitted().bar).toBeTruthy()
+    expect(wrapper.emitted().bar.length).toEqual(1)
+    expect(wrapper.emitted().bar[0]).toEqual([1, 2, 3])
 
     wrapper.vm.$emit('foo', 2, 3, 4)
-    expect(wrapper.emitted().foo).to.exist
-    expect(wrapper.emitted().foo.length).to.equal(2)
-    expect(wrapper.emitted().foo[1]).to.eql([2, 3, 4])
+    expect(wrapper.emitted().foo).toBeTruthy()
+    expect(wrapper.emitted().foo.length).toEqual(2)
+    expect(wrapper.emitted().foo[1]).toEqual([2, 3, 4])
   })
 
   it('throws error when called on non VueWrapper', () => {
@@ -56,9 +56,7 @@ describeWithShallowAndMount('emitted', mountingMethod => {
       '[vue-test-utils]: wrapper.emitted() can only be called on a Vue instance'
 
     const fn = () => wrapper.find('p').emitted()
-    expect(fn)
-      .to.throw()
-      .with.property('message', message)
+    expect(fn).toThrow(message)
   })
 
   it('captures all events thrown after beforeCreate lifecycle hook', () => {
@@ -72,8 +70,8 @@ describeWithShallowAndMount('emitted', mountingMethod => {
       render: () => {}
     })
 
-    expect(wrapper.emitted().foo).to.eql([[]])
-    expect(wrapper.emitted().bar).to.eql([[1, 2]])
+    expect(wrapper.emitted().foo).toEqual([[]])
+    expect(wrapper.emitted().bar).toEqual([[1, 2]])
   })
 
   it('captures only events from its component without side effects on localVue', () => {
@@ -99,10 +97,10 @@ describeWithShallowAndMount('emitted', mountingMethod => {
       { localVue }
     )
 
-    expect(wrapper1.emitted().foo).to.eql([[]])
-    expect(wrapper1.emitted().bar).to.eql(undefined)
-    expect(wrapper2.emitted().foo).to.eql(undefined)
-    expect(wrapper2.emitted().bar).to.eql([[]])
+    expect(wrapper1.emitted().foo).toEqual([[]])
+    expect(wrapper1.emitted().bar).toEqual(undefined)
+    expect(wrapper2.emitted().foo).toEqual(undefined)
+    expect(wrapper2.emitted().bar).toEqual([[]])
   })
 
   itDoNotRunIf(
@@ -129,7 +127,7 @@ describeWithShallowAndMount('emitted', mountingMethod => {
         }
       })
 
-      expect(wrapper.find({ name: 'bar' }).emitted('foo')).to.exist
+      expect(wrapper.find({ name: 'bar' }).emitted('foo')).toBeTruthy()
     }
   )
 
@@ -159,7 +157,7 @@ describeWithShallowAndMount('emitted', mountingMethod => {
         }
       })
 
-      expect(wrapper.find({ name: 'bar' }).emitted('foo')).to.exist
+      expect(wrapper.find({ name: 'bar' }).emitted('foo')).toBeTruthy()
     }
   )
 
@@ -170,6 +168,6 @@ describeWithShallowAndMount('emitted', mountingMethod => {
 
     wrapper.vm.$root.$emit('foo')
     const rootWrapper = createWrapper(wrapper.vm.$root)
-    expect(rootWrapper.emitted('foo')).to.exist
+    expect(rootWrapper.emitted('foo')).toBeTruthy()
   })
 })

@@ -1,5 +1,5 @@
 import { describeWithShallowAndMount } from '~resources/utils'
-import '@vue/test-utils'
+import 'packages/test-utils/src'
 
 describeWithShallowAndMount('contains', mountingMethod => {
   it('returns true if every Wrapper contains element', () => {
@@ -8,14 +8,14 @@ describeWithShallowAndMount('contains', mountingMethod => {
     }
     const wrapper = mountingMethod(TestComponent)
     const divArr = wrapper.findAll('div')
-    expect(divArr.contains('p')).to.equal(true)
+    expect(divArr.contains('p')).toEqual(true)
   })
 
   it('returns false if any Wrapper does not contain element', () => {
     const TestComponent = { template: '<div><div></div><div><p /></div></div>' }
     const wrapper = mountingMethod(TestComponent)
     const divArr = wrapper.findAll('div')
-    expect(divArr.contains('p')).to.equal(false)
+    expect(divArr.contains('p')).toEqual(false)
   })
 
   it('throws error if wrapper array contains no items', () => {
@@ -25,9 +25,7 @@ describeWithShallowAndMount('contains', mountingMethod => {
       mountingMethod(TestComponent)
         .findAll('p')
         .contains('p')
-    )
-      .to.throw()
-      .with.property('message', message)
+    ).toThrow(message)
   })
 
   it('throws error if selector is not a valid selector', () => {
@@ -50,9 +48,7 @@ describeWithShallowAndMount('contains', mountingMethod => {
     invalidSelectors.forEach(invalidSelector => {
       const message =
         '[vue-test-utils]: wrapper.contains() must be passed a valid CSS selector, Vue constructor, or valid find option object'
-      expect(() => pArr.contains(invalidSelector))
-        .to.throw()
-        .with.property('message', message)
+      expect(() => pArr.contains(invalidSelector)).toThrow(message)
     })
   })
 })

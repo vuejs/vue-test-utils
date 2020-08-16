@@ -1,13 +1,13 @@
 import { describeWithShallowAndMount } from '~resources/utils'
 import { compileToFunctions } from 'vue-template-compiler'
-import '@vue/test-utils'
+import 'packages/test-utils/src'
 
 describeWithShallowAndMount('isVisible', mountingMethod => {
   it('returns true if node has no inline style', () => {
     const compiled = compileToFunctions('<div><p /></div>')
     const wrapper = mountingMethod(compiled)
 
-    expect(wrapper.findAll('p').isVisible()).to.equal(true)
+    expect(wrapper.findAll('p').isVisible()).toEqual(true)
   })
 
   it('returns false if node has inline style display: none', () => {
@@ -16,7 +16,7 @@ describeWithShallowAndMount('isVisible', mountingMethod => {
     )
     const wrapper = mountingMethod(compiled)
 
-    expect(wrapper.findAll('p').isVisible()).to.equal(false)
+    expect(wrapper.findAll('p').isVisible()).toEqual(false)
   })
 
   it('returns false if node has visibility: hidden', () => {
@@ -25,7 +25,7 @@ describeWithShallowAndMount('isVisible', mountingMethod => {
     )
     const wrapper = mountingMethod(compiled)
 
-    expect(wrapper.findAll('p').isVisible()).to.equal(false)
+    expect(wrapper.findAll('p').isVisible()).toEqual(false)
   })
 
   it('throws error if wrapper array contains no items', () => {
@@ -35,8 +35,6 @@ describeWithShallowAndMount('isVisible', mountingMethod => {
       mountingMethod(compiled)
         .findAll('p')
         .isVisible('p')
-    expect(fn)
-      .to.throw()
-      .with.property('message', message)
+    expect(fn).toThrow(message)
   })
 })

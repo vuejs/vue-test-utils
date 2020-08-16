@@ -7,7 +7,7 @@ describeWithShallowAndMount('html', mountingMethod => {
   it('returns a VueWrappers HTML as a string', () => {
     const expectedHtml = '<div></div>'
     const wrapper = mountingMethod(Component)
-    expect(wrapper.html()).to.equal(expectedHtml)
+    expect(wrapper.html()).toEqual(expectedHtml)
   })
 
   it('returns a VueWrappers HTML as a string when component has no render function', () => {
@@ -21,7 +21,7 @@ describeWithShallowAndMount('html', mountingMethod => {
       }
     })
     const expectedHtml = '<div>1<div class="tester">test</div>\n' + '</div>'
-    expect(wrapper.html()).to.equal(expectedHtml)
+    expect(wrapper.html()).toEqual(expectedHtml)
   })
 
   it('handles class component', () => {
@@ -29,7 +29,7 @@ describeWithShallowAndMount('html', mountingMethod => {
       return
     }
     const wrapper = mountingMethod(ComponentAsAClass)
-    expect(wrapper.html()).to.equal('<div></div>')
+    expect(wrapper.html()).toEqual('<div></div>')
   })
 
   it('returns a Wrappers HTML as a pretty printed string', () => {
@@ -45,6 +45,6 @@ describeWithShallowAndMount('html', mountingMethod => {
 
     const compiled = compileToFunctions(expectedHtml)
     const wrapper = mountingMethod(compiled)
-    expect(wrapper.html()).to.equal(expectedHtml)
+    expect(wrapper.html()).toEqual(expectedHtml)
   })
 })

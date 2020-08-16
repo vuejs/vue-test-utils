@@ -31,6 +31,6 @@ describeWithShallowAndMount('options.watch', mountingMethod => {
     wrapper.setProps({ someProp: 'some-new-val' })
     await wrapper.vm.$nextTick()
 
-    expect(wrapper.text()).to.equal('bar')
+    expect(wrapper.text()).toEqual('bar')
   })
 })
