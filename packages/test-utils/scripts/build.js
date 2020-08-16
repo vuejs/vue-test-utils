@@ -1,12 +1,12 @@
 const rollup = require('rollup').rollup
 const flow = require('rollup-plugin-flow-no-whitespace')
 const resolve = require('path').resolve
-const buble = require('rollup-plugin-buble')
-const nodeResolve = require('rollup-plugin-node-resolve')
-const commonjs = require('rollup-plugin-commonjs')
+const buble = require('@rollup/plugin-buble')
+const nodeResolve = require('@rollup/plugin-node-resolve').nodeResolve
+const commonjs = require('@rollup/plugin-commonjs')
 const chalk = require('chalk')
-const json = require('rollup-plugin-json')
-const replace = require('rollup-plugin-replace')
+const json = require('@rollup/plugin-json')
+const replace = require('@rollup/plugin-replace')
 const del = require('rollup-plugin-delete')
 
 function success(text) {
