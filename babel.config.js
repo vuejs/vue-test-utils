@@ -29,8 +29,7 @@ module.exports = api => {
         [
           '@babel/preset-env',
           {
-            // currently, there are dependency resolution issues with older versions of vuepress. Once vuepress is upgraded, core-js can be moved to version 3
-            corejs: 2,
+            corejs: 3,
             useBuiltIns: 'entry'
           }
         ],

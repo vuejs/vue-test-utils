@@ -21,12 +21,12 @@ module.exports = {
       description: 'Библиотека для тестирования Vue-компонентов'
     }
   },
-  serviceWorker: true,
+  plugins: ['@vuepress/pwa'],
   head: [
     ['link', { rel: 'icon', href: '/favicon.png' }],
     ['link', { rel: 'stylesheet', href: '/vueschool.css' }]
   ],
-  theme: 'vue',
+  theme: '@vuepress/vue',
   themeConfig: {
     algolia: {
       apiKey: 'ee1b8516c9e5a5be9b6c25684eafc42f',
@@ -143,10 +143,8 @@ module.exports = {
       }
     }
   },
-  markdown: {
-    config: md => {
-      // use more markdown-it plugins!
-      md.use(require('markdown-it-include'))
-    }
+  extendMarkdown: md => {
+    // use more markdown-it plugins!
+    md.use(require('markdown-it-include'))
   }
 }

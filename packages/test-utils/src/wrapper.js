@@ -378,7 +378,9 @@ export default class Wrapper implements BaseWrapper {
     let element = this.element
     while (element) {
       if (
+        // $FlowIgnore
         element.hidden ||
+        // $FlowIgnore
         (element.style &&
           (element.style.visibility === 'hidden' ||
             element.style.display === 'none'))
@@ -541,6 +543,7 @@ export default class Wrapper implements BaseWrapper {
     const event = getCheckedEvent()
 
     if (tagName === 'INPUT' && type === 'checkbox') {
+      // $FlowIgnore
       if (this.element.checked === checked) {
         return nextTick()
       }
@@ -559,6 +562,7 @@ export default class Wrapper implements BaseWrapper {
         )
       }
 
+      // $FlowIgnore
       if (this.element.checked === checked) {
         return nextTick()
       }
@@ -592,6 +596,7 @@ export default class Wrapper implements BaseWrapper {
       throwError(`wrapper.setSelected() cannot be called on this element`)
     }
 
+    // $FlowIgnore
     if (this.element.selected) {
       return nextTick()
     }
