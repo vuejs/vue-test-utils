@@ -18,7 +18,7 @@
     "lint:fix": "yarn lint -- --fix",
     "format": "prettier --write \"**/*.{js,json,vue,md}\"",
     "format:check": "prettier --check \"**/*.{js,json,vue,md}\"",
-    "release": "yarn build && yarn test:unit:only && lerna publish --conventional-commits -m \"chore(release): publish %s\"",
+    "release": "yarn build && yarn test:unit && lerna publish --conventional-commits -m \"chore(release): publish %s\"",
     "test": "yarn format:check && yarn lint && yarn lint:docs && yarn flow && yarn test:types && yarn test:unit -w 1 && yarn test:unit:browser",
     "test:compat": "scripts/test-compat.sh",
     "test:unit": "cross-env TARGET=dev yarn jest",
