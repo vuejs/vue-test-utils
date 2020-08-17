@@ -181,7 +181,7 @@ describeWithShallowAndMount('options.localVue', mountingMethod => {
     () => {
       const ChildComponent = Vue.extend({
         render(h) {
-          h('p', this.$route.params)
+          return h('p', this.$route.params)
         }
       })
       const TestComponent = {
