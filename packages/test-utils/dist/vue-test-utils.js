@@ -6,7 +6,6 @@ function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'defau
 
 var Vue = _interopDefault(require('vue'));
 var vueTemplateCompiler = require('vue-template-compiler');
-var testUtils = require('@vue/test-utils');
 
 // 
 
@@ -1823,7 +1822,7 @@ function nextTick() {
 function warnDeprecated(method, fallback) {
   if ( fallback === void 0 ) fallback = '';
 
-  if (!testUtils.config.showDeprecationWarnings) { return }
+  if (!config.showDeprecationWarnings) { return }
   var msg = method + " is deprecated and will be removed in the next major version.";
   if (fallback) { msg += " " + fallback + "."; }
   warn(msg);
@@ -2471,7 +2470,7 @@ function createStubsFromStubsObject(
   }, {})
 }
 
-var isWhitelisted = function (el, whitelist) { return resolveComponent(el, whitelist); };
+var isAllowlisted = function (el, allowlist) { return resolveComponent(el, allowlist); };
 var isAlreadyStubbed = function (el, stubs) { return stubs.has(el); };
 
 function shouldExtend(component, _Vue) {
@@ -2496,10 +2495,10 @@ function createStubIfNeeded(shouldStub, component, _Vue, el) {
   }
 }
 
-function shouldNotBeStubbed(el, whitelist, modifiedComponents) {
+function shouldNotBeStubbed(el, allowlist, modifiedComponents) {
   return (
     (typeof el === 'string' && isReservedTag(el)) ||
-    isWhitelisted(el, whitelist) ||
+    isAllowlisted(el, allowlist) ||
     isAlreadyStubbed(el, modifiedComponents)
   )
 }
@@ -10496,7 +10495,7 @@ Wrapper.prototype.find = function find (rawSelector) {
  */
 Wrapper.prototype.findComponent = function findComponent (rawSelector) {
   var selector = getSelector(rawSelector, 'findComponent');
-  if (!this.vm) {
+  if (!this.vm && !this.isFunctionalComponent) {
     throwError(
       'You cannot chain findComponent off a DOM element. It can only be used on Vue Components.'
     );
@@ -10987,7 +10986,19 @@ Wrapper.prototype.setProps = function setProps (data) {
 
     // $FlowIgnore : Problem with possibly null this.vm
     this.vm.$forceUpdate();
-    return nextTick()
+    return new Promise(function (resolve) {
+      nextTick().then(function () {
+        var isUpdated = Object.keys(data).some(function (key) {
+          return (
+            // $FlowIgnore : Problem with possibly null this.vm
+            this$1.vm[key] === data[key] ||
+            // $FlowIgnore : Problem with possibly null this.vm
+            (this$1.vm.$attrs && this$1.vm.$attrs[key] === data[key])
+          )
+        });
+        return !isUpdated ? this$1.setProps(data).then(resolve()) : resolve()
+      });
+    })
   } catch (err) {
     throw err
   } finally {
@@ -11020,27 +11031,30 @@ Wrapper.prototype.setValue = function setValue (value) {
       "wrapper.setValue() cannot be called on a <input type=\"radio\" /> " +
         "element. Use wrapper.setChecked() instead"
     );
-  } else if (
-    tagName === 'INPUT' ||
-    tagName === 'TEXTAREA' ||
-    tagName === 'SELECT'
-  ) {
+  } else if (tagName === 'SELECT') {
+    if (Array.isArray(value)) {
+      // $FlowIgnore
+      var options = this.element.options;
+      for (var i = 0; i < options.length; i++) {
+        var option = options[i];
+        option.selected = value.indexOf(option.value) >= 0;
+      }
+    } else {
+      // $FlowIgnore
+      this.element.value = value;
+    }
+
+    this.trigger('change');
+    return nextTick()
+  } else if (tagName === 'INPUT' || tagName === 'TEXTAREA') {
     // $FlowIgnore
     this.element.value = value;
 
-    if (tagName === 'SELECT') {
-      this.trigger('change');
-    } else {
-      this.trigger('input');
-    }
+    this.trigger('input');
 
     // for v-model.lazy, we need to trigger a change event, too.
     // $FlowIgnore
-    if (
-      (tagName === 'INPUT' || tagName === 'TEXTAREA') &&
-      this.element._vModifiers &&
-      this.element._vModifiers.lazy
-    ) {
+    if (this.element._vModifiers && this.element._vModifiers.lazy) {
       this.trigger('change');
     }
     return nextTick()
