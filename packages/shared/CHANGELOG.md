@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.4](https://github.com/vuejs/vue-test-utils/compare/v1.0.3...v1.0.4) (2020-08-17)
+
+
+### Bug Fixes
+
+* fix iife build ([#1555](https://github.com/vuejs/vue-test-utils/issues/1555)) ([2858f24](https://github.com/vuejs/vue-test-utils/commit/2858f247e958a2d2f255e210910ba41ec07d4d84))
+
+
+
+
+
 ## [1.0.2](https://github.com/vuejs/vue-test-utils/compare/v1.0.1...v1.0.2) (2020-05-06)
 
 **Note:** Version bump only for package shared

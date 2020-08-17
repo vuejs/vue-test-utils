@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.4](https://github.com/vuejs/vue-test-utils/compare/v1.0.3...v1.0.4) (2020-08-17)
+
+
+### Bug Fixes
+
+* **setprops:** allowed for setProps to be synced with nextTick intervals ([#1618](https://github.com/vuejs/vue-test-utils/issues/1618)) ([9a3e6f9](https://github.com/vuejs/vue-test-utils/commit/9a3e6f96d71cba790cb2e7f9b918548c00758341)), closes [#1419](https://github.com/vuejs/vue-test-utils/issues/1419)
+* allow using findComponent on a functional component ([#1593](https://github.com/vuejs/vue-test-utils/issues/1593)) ([2d6b497](https://github.com/vuejs/vue-test-utils/commit/2d6b49780c7e1d663b877ddf5d6492ed7b510379))
+
+
+
+
+
 ## [1.0.2](https://github.com/vuejs/vue-test-utils/compare/v1.0.1...v1.0.2) (2020-05-06)
 
 **Note:** Version bump only for package @vue/test-utils
