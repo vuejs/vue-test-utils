@@ -246,6 +246,14 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
     expect(setValue).toHaveBeenCalledWith(value)
   })
 
+  it('setChecked calls setChecked on each wrapper', async () => {
+    const setChecked = jest.fn().mockResolvedValue()
+    const wrapperArray = getWrapperArray([{ setChecked }, { setChecked }])
+    await wrapperArray.setChecked()
+    expect(setChecked).toHaveBeenCalledTimes(2)
+    expect(setChecked).toHaveBeenCalledWith(true)
+  })
+
   it('trigger calls trigger on each wrapper', () => {
     const trigger = jest.fn()
     const event = 'click'

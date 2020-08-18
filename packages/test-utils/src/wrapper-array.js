@@ -200,10 +200,12 @@ export default class WrapperArray implements BaseWrapper {
     return Promise.all(this.wrappers.map(wrapper => wrapper.setValue(value)))
   }
 
-  setChecked(checked: boolean = true): void {
+  setChecked(checked: boolean = true): Promise<any> {
     this.throwErrorIfWrappersIsEmpty('setChecked')
 
-    this.wrappers.forEach(wrapper => wrapper.setChecked(checked))
+    return Promise.all(
+      this.wrappers.map(wrapper => wrapper.setChecked(checked))
+    )
   }
 
   setSelected(): void {
