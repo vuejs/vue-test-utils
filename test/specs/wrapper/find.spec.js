@@ -148,12 +148,16 @@ describeWithShallowAndMount('find', mountingMethod => {
     expect(fn).toThrow(message)
   })
 
-  it('throws an error if findComponent is chained off a DOM element', () => {
+  it('returns Wrapper of Vue Components matching component using findComponent chained off find', () => {
     const wrapper = mountingMethod(ComponentWithChild)
-    const message =
-      '[vue-test-utils]: You cannot chain findComponent off a DOM element. It can only be used on Vue Components.'
-    const fn = () => wrapper.find('span').findComponent('#foo')
-    expect(fn).toThrow(message)
+    expect(wrapper.find('span').findComponent(Component).vnode).toBeTruthy()
+  })
+
+  it('returns Wrapper of Vue Components matching component name using findComponent chained off find', () => {
+    const wrapper = mountingMethod(ComponentWithChild)
+    expect(
+      wrapper.find('span').findComponent({ name: 'test-component' }).vnode
+    ).toBeTruthy()
   })
 
   it('allows using findComponent on functional component', () => {

@@ -157,12 +157,31 @@ describeWithShallowAndMount('findAll', mountingMethod => {
     expect(fn).toThrow(message)
   })
 
-  it('throws an error if chaining findAllComponents off a DOM element', () => {
+  it('returns an array of VueWrappers of Vue Components matching component using findAllComponents chained off find', () => {
     const wrapper = mountingMethod(ComponentWithChild)
-    const message =
-      '[vue-test-utils]: You cannot chain findAllComponents off a DOM element. It can only be used on Vue Components.'
-    const fn = () => wrapper.find('span').findAllComponents('#foo')
-    expect(fn).toThrow(message)
+    const componentArr = wrapper.find('span').findAllComponents(Component)
+    expect(componentArr.length).toEqual(1)
+  })
+
+  it('returns an array of VueWrappers of Vue Components matching component name using findAllComponents chained off find', () => {
+    const wrapper = mountingMethod(ComponentWithChild)
+    const componentArr = wrapper
+      .find('span')
+      .findAllComponents({ name: 'test-component' })
+    expect(componentArr.length).toEqual(1)
+  })
+
+  it('allows using findAllComponents on a functional component', () => {
+    const FuncComponentWithChildren = {
+      functional: true,
+      components: {
+        ChildComponent: Component
+      },
+      render: h => h('div', {}, [h(Component)])
+    }
+    const wrapper = mountingMethod(FuncComponentWithChildren)
+    const componentArr = wrapper.findAllComponents(Component)
+    expect(componentArr.length).toEqual(1)
   })
 
   it('returns correct number of Vue Wrapper when component has a v-for', () => {

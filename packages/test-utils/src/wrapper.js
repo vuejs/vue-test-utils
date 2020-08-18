@@ -237,11 +237,6 @@ export default class Wrapper implements BaseWrapper {
    */
   findComponent(rawSelector: Selector): Wrapper | ErrorWrapper {
     const selector = getSelector(rawSelector, 'findComponent')
-    if (!this.vm && !this.isFunctionalComponent) {
-      throwError(
-        'You cannot chain findComponent off a DOM element. It can only be used on Vue Components.'
-      )
-    }
 
     if (selector.type === DOM_SELECTOR) {
       throwError(
@@ -285,11 +280,6 @@ export default class Wrapper implements BaseWrapper {
    */
   findAllComponents(rawSelector: Selector): WrapperArray {
     const selector = getSelector(rawSelector, 'findAll')
-    if (!this.vm) {
-      throwError(
-        'You cannot chain findAllComponents off a DOM element. It can only be used on Vue Components.'
-      )
-    }
     if (selector.type === DOM_SELECTOR) {
       throwError(
         'findAllComponents requires a Vue constructor or valid find object. If you are searching for DOM nodes, use `find` instead'
