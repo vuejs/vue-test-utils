@@ -15,12 +15,14 @@ import { mount } from '@vue/test-utils'
 import sinon from 'sinon'
 import Foo from './Foo.vue'
 
-const clickHandler = sinon.stub()
-const wrapper = mount(Foo, {
-  propsData: { clickHandler }
-})
+test('trigger demo', async () => {
+  const clickHandler = sinon.stub()
+  const wrapper = mount(Foo, {
+    propsData: { clickHandler }
+  })
 
-const divArray = wrapper.findAll('div')
-divArray.trigger('click')
-expect(clickHandler.called).toBe(true)
+  const divArray = wrapper.findAll('div')
+  await divArray.trigger('click')
+  expect(clickHandler.called).toBe(true)
+})
 ```

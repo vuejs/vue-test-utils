@@ -217,10 +217,12 @@ export default class WrapperArray implements BaseWrapper {
     )
   }
 
-  trigger(event: string, options: Object): void {
+  trigger(event: string, options: Object): Promise<any> {
     this.throwErrorIfWrappersIsEmpty('trigger')
 
-    this.wrappers.forEach(wrapper => wrapper.trigger(event, options))
+    return Promise.all(
+      this.wrappers.map(wrapper => wrapper.trigger(event, options))
+    )
   }
 
   destroy(): void {

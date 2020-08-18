@@ -254,12 +254,12 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
     expect(setChecked).toHaveBeenCalledWith(true)
   })
 
-  it('trigger calls trigger on each wrapper', () => {
-    const trigger = jest.fn()
+  it('trigger calls trigger on each wrapper', async () => {
+    const trigger = jest.fn().mockResolvedValue()
     const event = 'click'
     const options = {}
     const wrapperArray = getWrapperArray([{ trigger }, { trigger }])
-    wrapperArray.trigger(event, options)
+    await wrapperArray.trigger(event, options)
     expect(trigger).toHaveBeenCalledTimes(2)
     expect(trigger).toHaveBeenCalledWith(event, options)
   })
