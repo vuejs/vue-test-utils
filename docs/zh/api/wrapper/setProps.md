@@ -16,7 +16,9 @@ import Foo from './Foo.vue'
 
 test('setProps demo', async () => {
   const wrapper = mount(Foo)
+
   await wrapper.setProps({ foo: 'bar' })
+
   expect(wrapper.vm.foo).toBe('bar')
 })
 ```
