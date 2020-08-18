@@ -237,6 +237,15 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
     expect(setProps).toHaveBeenCalledWith(props)
   })
 
+  it('setValue calls setValue on each wrapper', async () => {
+    const setValue = jest.fn().mockResolvedValue()
+    const value = {}
+    const wrapperArray = getWrapperArray([{ setValue }, { setValue }])
+    await wrapperArray.setValue(value)
+    expect(setValue).toHaveBeenCalledTimes(2)
+    expect(setValue).toHaveBeenCalledWith(value)
+  })
+
   it('trigger calls trigger on each wrapper', () => {
     const trigger = jest.fn()
     const event = 'click'
