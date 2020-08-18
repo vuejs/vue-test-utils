@@ -228,11 +228,11 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
     expect(setData).toHaveBeenCalledWith(data)
   })
 
-  it('setProps calls setProps on each wrapper', () => {
-    const setProps = jest.fn()
+  it('setProps calls setProps on each wrapper', async () => {
+    const setProps = jest.fn().mockResolvedValue()
     const props = {}
     const wrapperArray = getWrapperArray([{ setProps }, { setProps }])
-    wrapperArray.setProps(props)
+    await wrapperArray.setProps(props)
     expect(setProps).toHaveBeenCalledTimes(2)
     expect(setProps).toHaveBeenCalledWith(props)
   })
