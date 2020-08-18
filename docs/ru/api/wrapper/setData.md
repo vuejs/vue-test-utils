@@ -20,7 +20,9 @@ import Foo from './Foo.vue'
 
 test('setData demo', async () => {
   const wrapper = mount(Foo)
+
   await wrapper.setData({ foo: 'bar' })
+
   expect(wrapper.vm.foo).toBe('bar')
 })
 ```
