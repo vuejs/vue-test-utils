@@ -14,7 +14,10 @@ import Foo from './Foo.vue'
 test('setChecked demo', async () => {
   const wrapper = mount(Foo)
   const radioInput = wrapper.find('input[type="radio"]')
+
   await radioInput.setChecked()
+
+  expect(radioInput.element.checked).toBeTruthy()
 })
 ```
 
