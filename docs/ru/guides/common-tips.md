@@ -113,9 +113,11 @@ describe('ParentComponent', () => {
 Вы можете напрямую манипулировать состоянием компонента с помощью методов `setData` или `setProps` на обёртке:
 
 ```js
-wrapper.setData({ count: 10 })
+it('manipulates state', async () => {
+  await wrapper.setData({ count: 10 })
 
-wrapper.setProps({ foo: 'bar' })
+  await wrapper.setProps({ foo: 'bar' })
+})
 ```
 
 ### Моки входных параметров

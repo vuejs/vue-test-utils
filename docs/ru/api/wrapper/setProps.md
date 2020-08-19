@@ -14,9 +14,13 @@
 import { mount } from '@vue/test-utils'
 import Foo from './Foo.vue'
 
-const wrapper = mount(Foo)
-wrapper.setProps({ foo: 'bar' })
-expect(wrapper.vm.foo).toBe('bar')
+test('setProps demo', async () => {
+  const wrapper = mount(Foo)
+
+  await wrapper.setProps({ foo: 'bar' })
+
+  expect(wrapper.vm.foo).toBe('bar')
+})
 ```
 
 Вы также можете передать объект `propsData`, который инициализирует экземпляр Vue с переданными значениями.

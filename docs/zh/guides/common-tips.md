@@ -151,9 +151,11 @@ describe('ParentComponent', () => {
 你可以在包裹器上用 `setData` 或 `setProps` 方法直接操作组件状态：
 
 ```js
-wrapper.setData({ count: 10 })
+it('manipulates state', async () => {
+  await wrapper.setData({ count: 10 })
 
-wrapper.setProps({ foo: 'bar' })
+  await wrapper.setProps({ foo: 'bar' })
+})
 ```
 
 ### 仿造 Prop

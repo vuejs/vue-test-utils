@@ -14,9 +14,13 @@ Sets `Wrapper` `vm` props and forces update.
 import { mount } from '@vue/test-utils'
 import Foo from './Foo.vue'
 
-const wrapper = mount(Foo)
-wrapper.setProps({ foo: 'bar' })
-expect(wrapper.vm.foo).toBe('bar')
+test('setProps demo', async () => {
+  const wrapper = mount(Foo)
+
+  await wrapper.setProps({ foo: 'bar' })
+
+  expect(wrapper.vm.foo).toBe('bar')
+})
 ```
 
 You can also pass a `propsData` object, which will initialize the Vue instance with passed values.
