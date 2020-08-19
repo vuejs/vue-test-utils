@@ -176,10 +176,10 @@ export default class WrapperArray implements BaseWrapper {
     }
   }
 
-  setData(data: Object): void {
+  setData(data: Object): Promise<any> {
     this.throwErrorIfWrappersIsEmpty('setData')
 
-    this.wrappers.forEach(wrapper => wrapper.setData(data))
+    return Promise.all(this.wrappers.map(wrapper => wrapper.setData(data)))
   }
 
   setMethods(props: Object): void {
@@ -188,22 +188,24 @@ export default class WrapperArray implements BaseWrapper {
     this.wrappers.forEach(wrapper => wrapper.setMethods(props))
   }
 
-  setProps(props: Object): void {
+  setProps(props: Object): Promise<any> {
     this.throwErrorIfWrappersIsEmpty('setProps')
 
-    this.wrappers.forEach(wrapper => wrapper.setProps(props))
+    return Promise.all(this.wrappers.map(wrapper => wrapper.setProps(props)))
   }
 
-  setValue(value: any): void {
+  setValue(value: any): Promise<any> {
     this.throwErrorIfWrappersIsEmpty('setValue')
 
-    this.wrappers.forEach(wrapper => wrapper.setValue(value))
+    return Promise.all(this.wrappers.map(wrapper => wrapper.setValue(value)))
   }
 
-  setChecked(checked: boolean = true): void {
+  setChecked(checked: boolean = true): Promise<any> {
     this.throwErrorIfWrappersIsEmpty('setChecked')
 
-    this.wrappers.forEach(wrapper => wrapper.setChecked(checked))
+    return Promise.all(
+      this.wrappers.map(wrapper => wrapper.setChecked(checked))
+    )
   }
 
   setSelected(): void {
@@ -215,10 +217,12 @@ export default class WrapperArray implements BaseWrapper {
     )
   }
 
-  trigger(event: string, options: Object): void {
+  trigger(event: string, options: Object): Promise<any> {
     this.throwErrorIfWrappersIsEmpty('trigger')
 
-    this.wrappers.forEach(wrapper => wrapper.trigger(event, options))
+    return Promise.all(
+      this.wrappers.map(wrapper => wrapper.trigger(event, options))
+    )
   }
 
   destroy(): void {

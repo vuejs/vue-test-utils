@@ -29,10 +29,12 @@ const wrapper = mount({
     </div>`
 })
 
-const wrapperArray = wrapper.findAll('.foo')
-expect(wrapper.vm.t1).toEqual('')
-expect(wrapper.vm.t2).toEqual('')
-wrapperArray.setValue('foo')
-expect(wrapper.vm.t1).toEqual('foo')
-expect(wrapper.vm.t2).toEqual('foo')
+test('setValue demo', async () => {
+  const wrapperArray = wrapper.findAll('.foo')
+  expect(wrapper.vm.t1).toEqual('')
+  expect(wrapper.vm.t2).toEqual('')
+  await wrapperArray.setValue('foo')
+  expect(wrapper.vm.t1).toEqual('foo')
+  expect(wrapper.vm.t2).toEqual('foo')
+})
 ```

@@ -219,30 +219,47 @@ describeWithShallowAndMount('WrapperArray', mountingMethod => {
     expect(setMethods).toHaveBeenCalledWith(methods)
   })
 
-  it('setData calls setData on each wrapper', () => {
-    const setData = jest.fn()
+  it('setData calls setData on each wrapper', async () => {
+    const setData = jest.fn().mockResolvedValue()
     const data = {}
     const wrapperArray = getWrapperArray([{ setData }, { setData }])
-    wrapperArray.setData(data)
+    await wrapperArray.setData(data)
     expect(setData).toHaveBeenCalledTimes(2)
     expect(setData).toHaveBeenCalledWith(data)
   })
 
-  it('setProps calls setProps on each wrapper', () => {
-    const setProps = jest.fn()
+  it('setProps calls setProps on each wrapper', async () => {
+    const setProps = jest.fn().mockResolvedValue()
     const props = {}
     const wrapperArray = getWrapperArray([{ setProps }, { setProps }])
-    wrapperArray.setProps(props)
+    await wrapperArray.setProps(props)
     expect(setProps).toHaveBeenCalledTimes(2)
     expect(setProps).toHaveBeenCalledWith(props)
   })
 
-  it('trigger calls trigger on each wrapper', () => {
-    const trigger = jest.fn()
+  it('setValue calls setValue on each wrapper', async () => {
+    const setValue = jest.fn().mockResolvedValue()
+    const value = {}
+    const wrapperArray = getWrapperArray([{ setValue }, { setValue }])
+    await wrapperArray.setValue(value)
+    expect(setValue).toHaveBeenCalledTimes(2)
+    expect(setValue).toHaveBeenCalledWith(value)
+  })
+
+  it('setChecked calls setChecked on each wrapper', async () => {
+    const setChecked = jest.fn().mockResolvedValue()
+    const wrapperArray = getWrapperArray([{ setChecked }, { setChecked }])
+    await wrapperArray.setChecked()
+    expect(setChecked).toHaveBeenCalledTimes(2)
+    expect(setChecked).toHaveBeenCalledWith(true)
+  })
+
+  it('trigger calls trigger on each wrapper', async () => {
+    const trigger = jest.fn().mockResolvedValue()
     const event = 'click'
     const options = {}
     const wrapperArray = getWrapperArray([{ trigger }, { trigger }])
-    wrapperArray.trigger(event, options)
+    await wrapperArray.trigger(event, options)
     expect(trigger).toHaveBeenCalledTimes(2)
     expect(trigger).toHaveBeenCalledWith(event, options)
   })
