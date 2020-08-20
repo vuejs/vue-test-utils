@@ -14,7 +14,7 @@ This topic is discussed with more details in a [great presentation by Matt O'Con
 
 ### Shallow mounting
 
-Sometimes, mounting a whole component with all its all dependencies might become slow or cumbersome. For example, components that contain many child components.
+Sometimes, mounting a whole component with all its dependencies might become slow or cumbersome. For example, components that contain many child components.
 
 Vue Test Utils allows you to mount a component without rendering its child components (by stubbing them) with the [`shallowMount`](../api/#shallowmount) method.
 
