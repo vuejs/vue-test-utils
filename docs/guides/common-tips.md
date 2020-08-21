@@ -56,9 +56,9 @@ it('updates text', async () => {
 it('render text', done => {
   const wrapper = mount(TestComponent)
   wrapper.trigger('click').then(() => {
-    wrapper.text().toContain('updated')
+    expect(wrapper.text()).toContain('updated')
     wrapper.trigger('click').then(() => {
-      wrapper.text().toContain('some different text')
+      expect(wrapper.text()).toContain('some different text')
       done()
     })
   })
