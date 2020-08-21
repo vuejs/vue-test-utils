@@ -419,6 +419,24 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     expect(wrapper.html()).toEqual('<div>composition api</div>')
   })
 
+  it('allows accessing $root with composition api plugin', () => {
+    const localVue = createLocalVue()
+    localVue.use(Vuex)
+    localVue.use(CompositionAPI)
+    const store = new Vuex.Store({
+      state: {
+        msg: 'msg'
+      }
+    })
+    const Comp = {
+      setup(props, ctx) {
+        return () => createElement('div', ctx.root.$store.state.msg)
+      }
+    }
+    const wrapper = mount(Comp, { localVue, store })
+    expect(wrapper.html()).toEqual('<div>msg</div>')
+  })
+
   itDoNotRunIf.skip(
     vueVersion >= 2.5,
     'throws if component throws during update',
