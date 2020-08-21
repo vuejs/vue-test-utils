@@ -8,7 +8,7 @@ function errorHandler(errorOrString, vm) {
   if (vm) {
     vm._error = error
   }
-  
+
   throw error
 }
 
