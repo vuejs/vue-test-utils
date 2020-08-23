@@ -95,7 +95,7 @@ function resolveOptions(component, _Vue) {
 function getScopedSlotRenderFunctions(ctx: any): Array<string> {
   // In Vue 2.6+ a new v-slot syntax was introduced
   // scopedSlots are now saved in parent._vnode.data.scopedSlots
-  // We filter out the _normalized and $stable key
+  // We filter out _normalized, $stable and $key keys
   if (
     ctx &&
     ctx.$options &&
@@ -105,7 +105,9 @@ function getScopedSlotRenderFunctions(ctx: any): Array<string> {
     ctx.$options.parent._vnode.data.scopedSlots
   ) {
     const slotKeys: Array<string> = ctx.$options.parent._vnode.data.scopedSlots
-    return keys(slotKeys).filter(x => x !== '_normalized' && x !== '$stable')
+    return keys(slotKeys).filter(
+      x => x !== '_normalized' && x !== '$stable' && x !== '$key'
+    )
   }
 
   return []
