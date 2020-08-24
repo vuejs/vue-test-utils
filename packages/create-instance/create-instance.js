@@ -123,7 +123,13 @@ export default function createInstance(
       createChildren(this, h, options)
     )
   }
-  const Parent = _Vue.extend(parentComponentOptions)
+
+  // options  "propsData" can only be used during instance creation with the `new` keyword
+  const { propsData, ...rest } = options // eslint-disable-line
+  const Parent = _Vue.extend({
+    ...rest,
+    ...parentComponentOptions
+  })
 
   return new Parent()
 }
