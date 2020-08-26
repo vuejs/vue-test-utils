@@ -1,7 +1,7 @@
 import shallowMount from './shallow-mount'
 import mount from './mount'
 import { enableAutoDestroy, resetAutoDestroyState } from './auto-destroy'
-import createLocalVue from 'shared/create-local-vue'
+import _createLocalVue from 'shared/create-local-vue'
 import RouterLinkStub from './components/RouterLinkStub'
 import createWrapper from './create-wrapper'
 import Wrapper from './wrapper'
@@ -18,7 +18,7 @@ function shallow(component, options) {
 }
 
 export {
-  createLocalVue,
+  _createLocalVue as createLocalVue,
   createWrapper,
   config,
   enableAutoDestroy,

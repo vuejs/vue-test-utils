@@ -3,7 +3,7 @@
 import Vue from 'vue'
 import cloneDeep from 'lodash/cloneDeep'
 
-function createLocalVue(_Vue: Component = Vue): Component {
+function _createLocalVue(_Vue: Component = Vue): Component {
   const instance = _Vue.extend()
 
   // clone global APIs
@@ -53,4 +53,4 @@ function createLocalVue(_Vue: Component = Vue): Component {
   return instance
 }
 
-export default createLocalVue
+export default _createLocalVue

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import VueRouter from 'vue-router'
-import createLocalVue from 'packages/shared/create-local-vue'
+import _createLocalVue from 'packages/shared/create-local-vue'
 import Component from '~resources/components/component.vue'
 import ComponentWithVuex from '~resources/components/component-with-vuex.vue'
 import ComponentWithRouter from '~resources/components/component-with-router.vue'
@@ -10,7 +10,7 @@ import { itDoNotRunIf } from 'conditional-specs'
 
 describeWithShallowAndMount('createLocalVue', mountingMethod => {
   it('installs Vuex without polluting global Vue', () => {
-    const localVue = createLocalVue()
+    const localVue = _createLocalVue()
     localVue.use(Vuex)
     const store = new Vuex.Store({
       state: {
@@ -27,7 +27,7 @@ describeWithShallowAndMount('createLocalVue', mountingMethod => {
   })
 
   it('Vuex should work properly with local Vue', async () => {
-    const localVue = createLocalVue()
+    const localVue = _createLocalVue()
     localVue.use(Vuex)
     const store = new Vuex.Store({
       state: {
@@ -53,7 +53,7 @@ describeWithShallowAndMount('createLocalVue', mountingMethod => {
   })
 
   it('installs Router without polluting global Vue', () => {
-    const localVue = createLocalVue()
+    const localVue = _createLocalVue()
     localVue.use(VueRouter)
     const routes = [{ path: '/foo', component: Component }]
     const router = new VueRouter({
@@ -69,7 +69,7 @@ describeWithShallowAndMount('createLocalVue', mountingMethod => {
     mountingMethod.name === 'shallowMount',
     'Router should work properly with local Vue',
     () => {
-      const localVue = createLocalVue()
+      const localVue = _createLocalVue()
       localVue.use(VueRouter)
       const routes = [
         {
@@ -102,7 +102,7 @@ describeWithShallowAndMount('createLocalVue', mountingMethod => {
   )
 
   it('use can take additional arguments', () => {
-    const localVue = createLocalVue()
+    const localVue = _createLocalVue()
     const pluginOptions = { foo: 'bar' }
     const plugin = {
       install: function(_Vue, options) {
@@ -124,7 +124,7 @@ describeWithShallowAndMount('createLocalVue', mountingMethod => {
     }
 
     Vue.use(Plugin)
-    const localVue = createLocalVue()
+    const localVue = _createLocalVue()
     localVue.use(Plugin)
 
     if (localVue._installedPlugins) {
