@@ -31,7 +31,38 @@ Then, you need to tell Jest to transform `.vue` files using `vue-jest`. You can 
 }
 ```
 
-> **Note:** If you are using Babel 7 or higher, you will need to add [babel-bridge](https://github.com/babel/babel-bridge) to your devDependencies (`$ npm install --save-dev babel-core@^7.0.0-bridge.0`).
+### Using with Babel
+
+If you are goind to use `babel` and import vue single file components with `.vue` extension inside your tests, you will need to install babel and transform `.js` files with `babel-jest` .
+
+```bash
+npm install --save-dev babel-jest @babel/core @babel/preset-env babel-core@^7.0.0-bridge.0
+```
+
+Then, you need to tell Jest to transform `.js` files using `babel-jest`. You can do so by adding the following configuration in `package.json` or in a standalone [Jest config file](https://jestjs.io/docs/en/configuration):
+
+```json
+{
+  "jest": {
+    ...
+    "transform": {
+      ...
+      // process `*.js` files with `babel-jest`
+      ".*\\.(js)$": "babel-jest"
+    }
+  }
+}
+```
+
+Then you need to create babel config using [babel.config.json](https://babeljs.io/docs/en/configuration#babelconfigjson), [.babelrc.json](https://babeljs.io/docs/en/configuration#babelrcjson) or inside `package.json`,
+
+```json
+{
+  "babel": {
+    "presets": ["@babel/preset-env"]
+  }
+}
+```
 
 ### Handling webpack Aliases
 
