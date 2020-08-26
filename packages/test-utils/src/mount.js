@@ -7,7 +7,7 @@ import config from './config'
 import warnIfNoWindow from './warn-if-no-window'
 import polyfill from './polyfill'
 import createWrapper from './create-wrapper'
-import createLocalVue from './create-local-vue'
+import createLocalVue from 'shared/create-local-vue'
 import { validateOptions } from 'shared/validate-options'
 
 Vue.config.productionTip = false

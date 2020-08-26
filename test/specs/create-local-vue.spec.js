@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import VueRouter from 'vue-router'
-import { createLocalVue } from 'packages/test-utils/src'
+import createLocalVue from 'packages/shared/create-local-vue'
 import Component from '~resources/components/component.vue'
 import ComponentWithVuex from '~resources/components/component-with-vuex.vue'
 import ComponentWithRouter from '~resources/components/component-with-router.vue'

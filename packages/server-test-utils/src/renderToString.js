@@ -6,7 +6,7 @@ import { throwError } from 'shared/util'
 import { createRenderer } from 'vue-server-renderer'
 import { mergeOptions } from 'shared/merge-options'
 import config from './config'
-import testUtils from '@vue/test-utils'
+import createLocalVue from 'shared/create-local-vue'
 import { validateOptions } from 'shared/validate-options'
 
 Vue.config.productionTip = false
@@ -34,7 +34,7 @@ export default function renderToString(
   const vm = createInstance(
     component,
     mergedOptions,
-    testUtils.createLocalVue(options.localVue)
+    createLocalVue(options.localVue)
   )
 
   return renderer.renderToString(vm)
