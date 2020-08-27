@@ -1,13 +1,30 @@
 import { warn } from 'shared/util'
-import { findAllInstances } from './find'
+import { findAllInstances, findAllParentInstances } from './find'
 
-function errorHandler(errorOrString, vm) {
+function errorHandler(errorOrString, vm, info) {
   const error =
     typeof errorOrString === 'object' ? errorOrString : new Error(errorOrString)
+
+  // If a user defined errorHandler was register via createLocalVue
+  // find and call the user defined errorHandler
+  const instancedErrorHandlers = findAllParentInstances(vm)
+    .filter(
+      _vm =>
+        _vm.$options.localVue &&
+        _vm.$options.localVue.config &&
+        _vm.$options.localVue.config.errorHandler
+    )
+    .map(_vm => _vm.$options.localVue.config.errorHandler)
 
   if (vm) {
     vm._error = error
   }
+
+  // should be one error handler, as only once can be registered with local vue
+  // regardless, if more exist (for whatever reason), invoke the other user defined error handlers
+  instancedErrorHandlers.forEach(instancedErrorHandler => {
+    instancedErrorHandler(error, vm, info)
+  })
 
   throw error
 }
