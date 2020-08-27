@@ -3,7 +3,10 @@
 import Vue from 'vue'
 import cloneDeep from 'lodash/cloneDeep'
 
-function _createLocalVue(_Vue: Component = Vue): Component {
+function _createLocalVue(
+  _Vue: Component = Vue,
+  config: VueConfig = {}
+): Component {
   const instance = _Vue.extend()
 
   // clone global APIs
@@ -25,7 +28,8 @@ function _createLocalVue(_Vue: Component = Vue): Component {
   // config is not enumerable
   instance.config = cloneDeep(Vue.config)
 
-  instance.config.errorHandler = Vue.config.errorHandler
+  // if a user defined errorHandler is defined by a localVue instance via createLocalVue, register it
+  instance.config.errorHandler = config.errorHandler || Vue.config.errorHandler
 
   // option merge strategies need to be exposed by reference
   // so that merge strats registered by plugins can work properly
