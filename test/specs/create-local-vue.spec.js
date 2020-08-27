@@ -1,16 +1,18 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import VueRouter from 'vue-router'
-import _createLocalVue from 'packages/shared/create-local-vue'
+import { createLocalVue } from 'packages/test-utils/src'
 import Component from '~resources/components/component.vue'
 import ComponentWithVuex from '~resources/components/component-with-vuex.vue'
 import ComponentWithRouter from '~resources/components/component-with-router.vue'
+import ComponentWithSyncError from '~resources/components/component-with-sync-error.vue'
+import ComponentWithAsyncError from '~resources/components/component-with-async-error.vue'
 import { describeWithShallowAndMount } from '~resources/utils'
-import { itDoNotRunIf } from 'conditional-specs'
+import { itDoNotRunIf, itSkipIf } from 'conditional-specs'
 
 describeWithShallowAndMount('createLocalVue', mountingMethod => {
   it('installs Vuex without polluting global Vue', () => {
-    const localVue = _createLocalVue()
+    const localVue = createLocalVue()
     localVue.use(Vuex)
     const store = new Vuex.Store({
       state: {
@@ -27,7 +29,7 @@ describeWithShallowAndMount('createLocalVue', mountingMethod => {
   })
 
   it('Vuex should work properly with local Vue', async () => {
-    const localVue = _createLocalVue()
+    const localVue = createLocalVue()
     localVue.use(Vuex)
     const store = new Vuex.Store({
       state: {
@@ -53,7 +55,7 @@ describeWithShallowAndMount('createLocalVue', mountingMethod => {
   })
 
   it('installs Router without polluting global Vue', () => {
-    const localVue = _createLocalVue()
+    const localVue = createLocalVue()
     localVue.use(VueRouter)
     const routes = [{ path: '/foo', component: Component }]
     const router = new VueRouter({
@@ -69,7 +71,7 @@ describeWithShallowAndMount('createLocalVue', mountingMethod => {
     mountingMethod.name === 'shallowMount',
     'Router should work properly with local Vue',
     () => {
-      const localVue = _createLocalVue()
+      const localVue = createLocalVue()
       localVue.use(VueRouter)
       const routes = [
         {
@@ -102,7 +104,7 @@ describeWithShallowAndMount('createLocalVue', mountingMethod => {
   )
 
   it('use can take additional arguments', () => {
-    const localVue = _createLocalVue()
+    const localVue = createLocalVue()
     const pluginOptions = { foo: 'bar' }
     const plugin = {
       install: function(_Vue, options) {
@@ -124,7 +126,7 @@ describeWithShallowAndMount('createLocalVue', mountingMethod => {
     }
 
     Vue.use(Plugin)
-    const localVue = _createLocalVue()
+    const localVue = createLocalVue()
     localVue.use(Plugin)
 
     if (localVue._installedPlugins) {
@@ -132,4 +134,36 @@ describeWithShallowAndMount('createLocalVue', mountingMethod => {
     }
     expect(installCount).toEqual(2)
   })
+
+  it('Calls `errorHandler` when an error is thrown synchronously', () => {
+    const errorHandler = jest.fn()
+    const localVue = createLocalVue({
+      errorHandler
+    })
+    try {
+      mountingMethod(ComponentWithSyncError, { localVue })
+    } catch (e) {
+      // asserting arguments is a bit difficult due to multiple Vue version support. Please see https://vuejs.org/v2/api/#errorHandler for more details
+      expect(errorHandler).toHaveBeenCalledTimes(1)
+    }
+  })
+
+  itSkipIf(
+    process.env.TEST_ENV === 'browser',
+    'Calls `errorHandler` when an error is thrown asynchronously',
+    async () => {
+      const errorHandler = jest.fn()
+      const localVue = createLocalVue({
+        errorHandler
+      })
+
+      mountingMethod(ComponentWithAsyncError, { localVue })
+
+      await Vue.nextTick()
+      await setTimeout()
+
+      // asserting arguments is a bit difficult due to multiple Vue version support. Please see https://vuejs.org/v2/api/#errorHandler for more details
+      expect(errorHandler).toHaveBeenCalledTimes(1)
+    }
+  )
 })
