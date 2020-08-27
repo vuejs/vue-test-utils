@@ -20,7 +20,10 @@ export default function mount(component, options = {}) {
 
   addGlobalErrorHandler(Vue)
 
-  const _Vue = _createLocalVue(options.localVue)
+  const _Vue = _createLocalVue(
+    options.localVue,
+    options.localVue ? options.localVue.config : undefined
+  )
 
   const mergedOptions = mergeOptions(options, config)
 
