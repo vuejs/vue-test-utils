@@ -135,18 +135,22 @@ describeWithShallowAndMount('createLocalVue', mountingMethod => {
     expect(installCount).toEqual(2)
   })
 
-  it('Calls `errorHandler` when an error is thrown synchronously', () => {
-    const errorHandler = jest.fn()
-    const localVue = createLocalVue({
-      errorHandler
-    })
-    try {
-      mountingMethod(ComponentWithSyncError, { localVue })
-    } catch (e) {
-      // asserting arguments is a bit difficult due to multiple Vue version support. Please see https://vuejs.org/v2/api/#errorHandler for more details
-      expect(errorHandler).toHaveBeenCalledTimes(1)
+  itSkipIf(
+    vueVersion < 2.4,
+    'Calls `errorHandler` when an error is thrown synchronously',
+    () => {
+      const errorHandler = jest.fn()
+      const localVue = createLocalVue({
+        errorHandler
+      })
+      try {
+        mountingMethod(ComponentWithSyncError, { localVue })
+      } catch (e) {
+        // asserting arguments is a bit difficult due to multiple Vue version support. Please see https://vuejs.org/v2/api/#errorHandler for more details
+        expect(errorHandler).toHaveBeenCalledTimes(1)
+      }
     }
-  })
+  )
 
   itSkipIf(
     process.env.TEST_ENV === 'browser' || vueVersion < 2.6,
