@@ -157,13 +157,15 @@ describeWithShallowAndMount('createLocalVue', mountingMethod => {
         errorHandler
       })
 
-      mountingMethod(ComponentWithAsyncError, { localVue })
+      try {
+        mountingMethod(ComponentWithAsyncError, { localVue })
 
-      await Vue.nextTick()
-      await setTimeout()
-
-      // asserting arguments is a bit difficult due to multiple Vue version support. Please see https://vuejs.org/v2/api/#errorHandler for more details
-      expect(errorHandler).toHaveBeenCalledTimes(1)
+        await Vue.nextTick()
+        await setTimeout()
+      } finally {
+        // asserting arguments is a bit difficult due to multiple Vue version support. Please see https://vuejs.org/v2/api/#errorHandler for more details
+        expect(errorHandler).toHaveBeenCalledTimes(1)
+      }
     }
   )
 })
