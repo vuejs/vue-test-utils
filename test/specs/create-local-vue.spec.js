@@ -7,7 +7,7 @@ import ComponentWithVuex from '~resources/components/component-with-vuex.vue'
 import ComponentWithRouter from '~resources/components/component-with-router.vue'
 import ComponentWithSyncError from '~resources/components/component-with-sync-error.vue'
 import ComponentWithAsyncError from '~resources/components/component-with-async-error.vue'
-import { describeWithShallowAndMount } from '~resources/utils'
+import { describeWithShallowAndMount, vueVersion } from '~resources/utils'
 import { itDoNotRunIf, itSkipIf } from 'conditional-specs'
 
 describeWithShallowAndMount('createLocalVue', mountingMethod => {
@@ -149,7 +149,7 @@ describeWithShallowAndMount('createLocalVue', mountingMethod => {
   })
 
   itSkipIf(
-    process.env.TEST_ENV === 'browser',
+    process.env.TEST_ENV === 'browser' || vueVersion < 2.6,
     'Calls `errorHandler` when an error is thrown asynchronously',
     async () => {
       const errorHandler = jest.fn()
