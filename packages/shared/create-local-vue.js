@@ -3,6 +3,13 @@
 import Vue from 'vue'
 import cloneDeep from 'lodash/cloneDeep'
 
+/**
+ * Used internally by vue-server-test-utils and test-utils to propagate/create vue instances.
+ * This method is wrapped by createLocalVue in test-utils to provide a different public API signature
+ * @param {Component} _Vue
+ * @param {VueConfig} config
+ * @returns {Component}
+ */
 function _createLocalVue(
   _Vue: Component = Vue,
   config: VueConfig = {}
