@@ -19,7 +19,7 @@ export function findAllParentInstances(childVm: any) {
   const instances = [childVm]
 
   function getParent(_vm) {
-    if (_vm.$parent) {
+    if (_vm && _vm.$parent) {
       instances.push(_vm.$parent)
       return getParent(_vm.$parent)
     }

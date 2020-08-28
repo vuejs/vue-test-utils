@@ -10,6 +10,8 @@ function errorHandler(errorOrString, vm, info) {
   const instancedErrorHandlers = findAllParentInstances(vm)
     .filter(
       _vm =>
+        _vm &&
+        _vm.$options &&
         _vm.$options.localVue &&
         _vm.$options.localVue.config &&
         _vm.$options.localVue.config.errorHandler
