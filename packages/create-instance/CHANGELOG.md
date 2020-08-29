@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.5](https://github.com/vuejs/vue-test-utils/compare/v1.0.4...v1.0.5) (2020-08-29)
+
+
+### Bug Fixes
+
+* extend Vue parent with options to support accessing root. with VCA ([#1661](https://github.com/vuejs/vue-test-utils/issues/1661)) ([f78f817](https://github.com/vuejs/vue-test-utils/commit/f78f817306e2e228319092e3d3de55fc4356aa93))
+* handle shallowMount on components with v-if and scoped slots ([#1663](https://github.com/vuejs/vue-test-utils/issues/1663)) ([41f2b2b](https://github.com/vuejs/vue-test-utils/commit/41f2b2b18cb0d557bf36a5a28cf769a02dba931f))
+
+
+
+
+
 ## [1.0.4](https://github.com/vuejs/vue-test-utils/compare/v1.0.3...v1.0.4) (2020-08-17)
 
 **Note:** Version bump only for package create-instance
