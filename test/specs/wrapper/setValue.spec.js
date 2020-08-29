@@ -13,18 +13,18 @@ describeWithShallowAndMount('setValue', mountingMethod => {
     await response
     expect(wrapper.text()).toContain('foo')
   })
-  it('sets element of input value', () => {
+  it('sets element of input value', async () => {
     const wrapper = mountingMethod(ComponentWithInput)
     const input = wrapper.find('input[type="text"]')
-    input.setValue('foo')
+    await input.setValue('foo')
 
     expect(input.element.value).toEqual('foo')
   })
 
-  it('sets element of textarea value', () => {
+  it('sets element of textarea value', async () => {
     const wrapper = mountingMethod(ComponentWithInput)
     const textarea = wrapper.find('textarea')
-    textarea.setValue('foo')
+    await textarea.setValue('foo')
 
     expect(textarea.element.value).toEqual('foo')
   })
@@ -49,10 +49,10 @@ describeWithShallowAndMount('setValue', mountingMethod => {
     }
   )
 
-  it('sets element of select value', () => {
+  it('sets element of select value', async () => {
     const wrapper = mountingMethod(ComponentWithInput)
     const select = wrapper.find('select')
-    select.setValue('selectB')
+    await select.setValue('selectB')
 
     expect(select.element.value).toEqual('selectB')
   })
@@ -78,11 +78,11 @@ describeWithShallowAndMount('setValue', mountingMethod => {
     })
   }
 
-  it('overrides elements of multiselect', () => {
+  it('overrides elements of multiselect', async () => {
     const wrapper = mountingMethod(ComponentWithInput)
     const select = wrapper.find('select.multiselect')
-    select.setValue(['selectA', 'selectC'])
-    select.setValue(['selectB'])
+    await select.setValue(['selectA', 'selectC'])
+    await select.setValue(['selectB'])
 
     const selectedOptions = Array.from(select.element.selectedOptions).map(
       o => o.value

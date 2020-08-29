@@ -33,10 +33,10 @@ describeWithShallowAndMount('setSelected', mountingMethod => {
     expect(wrapper.text()).toContain('selectA')
   })
 
-  it('triggers a change event on the parent select', () => {
+  it('triggers a change event on the parent select', async () => {
     const change = jest.fn()
 
-    mountingMethod({
+    await mountingMethod({
       template: `
         <select @change="change">
           <option />
@@ -52,10 +52,10 @@ describeWithShallowAndMount('setSelected', mountingMethod => {
     expect(change).toHaveBeenCalled()
   })
 
-  it('does not trigger an event if called on already selected option', () => {
+  it('does not trigger an event if called on already selected option', async () => {
     const change = jest.fn()
 
-    mountingMethod({
+    await mountingMethod({
       template: `
         <select @change="change">
           <option />

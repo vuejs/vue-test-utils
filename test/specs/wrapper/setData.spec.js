@@ -153,7 +153,7 @@ describeWithShallowAndMount('setData', mountingMethod => {
     expect(wrapper.text()).toEqual('There is no message yet')
   })
 
-  it('updates an existing property in a data object', () => {
+  it('updates an existing property in a data object', async () => {
     const TestComponent = {
       data: () => ({
         anObject: {
@@ -166,7 +166,7 @@ describeWithShallowAndMount('setData', mountingMethod => {
       render: () => {}
     }
     const wrapper = mountingMethod(TestComponent)
-    wrapper.setData({
+    await wrapper.setData({
       anObject: {
         propA: {
           prop1: 'c'
@@ -177,7 +177,7 @@ describeWithShallowAndMount('setData', mountingMethod => {
     expect(wrapper.vm.anObject.propA.prop1).toEqual('c')
   })
 
-  it('should append a new property to an object without removing existing properties', () => {
+  it('should append a new property to an object without removing existing properties', async () => {
     const TestComponent = {
       data: () => ({
         anObject: {
@@ -190,7 +190,7 @@ describeWithShallowAndMount('setData', mountingMethod => {
       render: () => {}
     }
     const wrapper = mountingMethod(TestComponent)
-    wrapper.setData({
+    await wrapper.setData({
       anObject: {
         propA: {
           prop2: 'b'
@@ -238,7 +238,7 @@ describeWithShallowAndMount('setData', mountingMethod => {
       }
     })
     expect(wrapper.text()).toContain('bar')
-    wrapper.setData({
+    await wrapper.setData({
       nullProperty: {
         another: {
           obj: true
@@ -261,7 +261,7 @@ describeWithShallowAndMount('setData', mountingMethod => {
       })
     }
     const wrapper = mountingMethod(TestComponent)
-    wrapper.setData({
+    await wrapper.setData({
       items: [3]
     })
     expect(wrapper.vm.items).toEqual([3])
@@ -304,7 +304,7 @@ describeWithShallowAndMount('setData', mountingMethod => {
     expect(wrapper.html()).toEqual('<div>propA,propB,propC</div>')
   })
 
-  it('allows setting data of type Date synchronously', () => {
+  it('allows setting data of type Date synchronously', async () => {
     const TestComponent = {
       template: `
         <div>
@@ -317,7 +317,7 @@ describeWithShallowAndMount('setData', mountingMethod => {
     }
     const testDate = new Date()
     const wrapper = mountingMethod(TestComponent)
-    wrapper.setData({ selectedDate: testDate })
+    await wrapper.setData({ selectedDate: testDate })
     expect(wrapper.vm.selectedDate).toEqual(testDate)
   })
 })

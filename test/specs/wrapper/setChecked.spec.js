@@ -12,22 +12,22 @@ describeWithShallowAndMount('setChecked', mountingMethod => {
     await response
     expect(wrapper.text()).toContain('checkbox checked')
   })
-  it('sets element checked true with no option passed', () => {
+  it('sets element checked true with no option passed', async () => {
     const wrapper = mountingMethod(ComponentWithInput)
     const input = wrapper.find('input[type="checkbox"]')
-    input.setChecked()
+    await input.setChecked()
 
     expect(input.element.checked).toEqual(true)
   })
 
-  it('sets element checked equal to param passed', () => {
+  it('sets element checked equal to param passed', async () => {
     const wrapper = mountingMethod(ComponentWithInput)
     const input = wrapper.find('input[type="checkbox"]')
 
-    input.setChecked(true)
+    await input.setChecked(true)
     expect(input.element.checked).toEqual(true)
 
-    input.setChecked(false)
+    await input.setChecked(false)
     expect(input.element.checked).toEqual(false)
   })
 
@@ -56,10 +56,10 @@ describeWithShallowAndMount('setChecked', mountingMethod => {
     expect(wrapper.find('.counter').text()).toEqual('4')
   })
 
-  it('triggers a change event when called on a checkbox', () => {
+  it('triggers a change event when called on a checkbox', async () => {
     const listener = jest.fn()
 
-    mountingMethod({
+    await mountingMethod({
       // For compatibility with earlier versions of Vue that use the `click`
       // event for updating `v-model`.
       template: `
@@ -75,10 +75,10 @@ describeWithShallowAndMount('setChecked', mountingMethod => {
     expect(listener).toHaveBeenCalled()
   })
 
-  it('does not trigger a change event if the checkbox is already checked', () => {
+  it('does not trigger a change event if the checkbox is already checked', async () => {
     const listener = jest.fn()
 
-    mountingMethod({
+    await mountingMethod({
       template: `
         <input
           type="checkbox"
@@ -118,10 +118,10 @@ describeWithShallowAndMount('setChecked', mountingMethod => {
     expect(wrapper.find('.counter').text()).toEqual('4')
   })
 
-  it('triggers a change event when called on a radio button', () => {
+  it('triggers a change event when called on a radio button', async () => {
     const listener = jest.fn()
 
-    mountingMethod({
+    await mountingMethod({
       template: `
         <input
           type="radio"
@@ -135,10 +135,10 @@ describeWithShallowAndMount('setChecked', mountingMethod => {
     expect(listener).toHaveBeenCalled()
   })
 
-  it('does not trigger a change event if the radio button is already checked', () => {
+  it('does not trigger a change event if the radio button is already checked', async () => {
     const listener = jest.fn()
 
-    mountingMethod({
+    await mountingMethod({
       template: `
         <input
           type="radio"
