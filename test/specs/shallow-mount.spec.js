@@ -150,6 +150,30 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
     )
   })
 
+  it('renders named slots when they are located inside component with v-if', () => {
+    const localVue = createLocalVue()
+    localVue.component('Foo', {
+      template: '<div><slot name="newSyntax" /></div>'
+    })
+    const TestComponent = {
+      template: `
+        <Foo v-if="true">
+          <template v-slot:newSyntax>
+            <p class="new-example">text</p>
+          </template>
+        </Foo>
+      `
+    }
+    const wrapper = shallowMount(TestComponent, {
+      localVue
+    })
+    expect(wrapper.find({ name: 'Foo' }).exists()).toEqual(true)
+    expect(wrapper.find('.new-example').exists()).toEqual(true)
+    expect(wrapper.html()).toEqual(
+      '<foo-stub>\n' + '  <p class="new-example">text</p>\n' + '</foo-stub>'
+    )
+  })
+
   it('renders no children if none supplied', () => {
     const TestComponent = {
       template: '<child />',
