@@ -33,7 +33,7 @@ Then, you need to tell Jest to transform `.vue` files using `vue-jest`. You can 
 
 ### Using with Babel
 
-If you are goind to use `babel` and import vue single file components with `.vue` extension inside your tests, you will need to install babel and transform `.js` files with `babel-jest` .
+If you are going to use `babel` and import vue single file components with `.vue` extension inside your tests, you will need to install babel and transform `.js` files with `babel-jest` .
 
 ```bash
 npm install --save-dev babel-jest @babel/core @babel/preset-env babel-core@^7.0.0-bridge.0
@@ -44,9 +44,7 @@ Then, you need to tell Jest to transform `.js` files using `babel-jest`. You can
 ```json
 {
   "jest": {
-    ...
     "transform": {
-      ...
       // process `*.js` files with `babel-jest`
       ".*\\.(js)$": "babel-jest"
     }
