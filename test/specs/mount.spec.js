@@ -437,6 +437,31 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
     expect(wrapper.html()).toEqual('<div>msg</div>')
   })
 
+  itSkipIf(
+    vueVersion < 2.6,
+    'supports components returning render function from setup as stubs',
+    () => {
+      const localVue = createLocalVue()
+      localVue.use(CompositionAPI)
+      const Parent = {
+        setup(props, { slots }) {
+          return () => createElement('div', slots.default())
+        }
+      }
+      const Child = {
+        setup() {
+          return () => createElement('div', 'child')
+        }
+      }
+      const wrapper = mount(Parent, {
+        localVue,
+        stubs: { child: Child },
+        slots: { default: [`<child />`] }
+      })
+      expect(wrapper.html()).toEqual('<div>\n  <div>child</div>\n</div>')
+    }
+  )
+
   itDoNotRunIf.skip(
     vueVersion >= 2.5,
     'throws if component throws during update',
