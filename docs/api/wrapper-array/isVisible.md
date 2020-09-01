@@ -2,7 +2,7 @@
 
 Assert every `Wrapper` in `WrapperArray` is visible.
 
-Returns `false` if at least one ancestor element has `display: none` or `visibility: hidden` style.
+Returns `false` if at least one ancestor element has `display: none`, `visibility: hidden`, `opacity :0` style, is located inside collapsed `<details>` tag or has `hidden` attribute.
 
 This can be used to assert that a component is hidden by `v-show`.
 

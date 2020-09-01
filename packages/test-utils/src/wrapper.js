@@ -19,6 +19,7 @@ import {
   nextTick,
   warnDeprecated
 } from 'shared/util'
+import { isElementVisible } from 'shared/is-visible'
 import find from './find'
 import createWrapper from './create-wrapper'
 import { recursivelySetData } from './recursively-set-data'
@@ -367,30 +368,9 @@ export default class Wrapper implements BaseWrapper {
 
   /**
    * Checks if node is visible
-   * @deprecated
    */
   isVisible(): boolean {
-    warnDeprecated(
-      'isVisible',
-      'Consider a custom matcher such as those provided in jest-dom: https://github.com/testing-library/jest-dom#tobevisible. ' +
-        'When using with findComponent, access the DOM element with findComponent(Comp).element'
-    )
-    let element = this.element
-    while (element) {
-      if (
-        // $FlowIgnore
-        element.hidden ||
-        // $FlowIgnore
-        (element.style &&
-          (element.style.visibility === 'hidden' ||
-            element.style.display === 'none'))
-      ) {
-        return false
-      }
-      element = element.parentElement
-    }
-
-    return true
+    return isElementVisible(this.element)
   }
 
   /**
