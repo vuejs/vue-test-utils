@@ -1,4 +1,5 @@
 import { compileToFunctions } from 'vue-template-compiler'
+import { config } from 'packages/test-utils/src'
 import ComponentWithChild from '~resources/components/component-with-child.vue'
 import Component from '~resources/components/component.vue'
 import ComponentWithoutName from '~resources/components/component-without-name.vue'
@@ -10,6 +11,17 @@ import {
 } from '~resources/utils'
 
 describeWithShallowAndMount('is', mountingMethod => {
+  let consoleErrorSave
+
+  beforeEach(() => {
+    consoleErrorSave = console.error
+    console.error = jest.fn()
+  })
+
+  afterEach(() => {
+    console.error = consoleErrorSave
+  })
+
   it('returns true if root node matches tag selector', () => {
     const compiled = compileToFunctions('<input />')
     const wrapper = mountingMethod(compiled)
@@ -132,5 +144,26 @@ describeWithShallowAndMount('is', mountingMethod => {
       const fn = () => wrapper.is(invalidSelector)
       expect(fn).toThrow(message)
     })
+  })
+
+  it('warns when passing a string', () => {
+    const wrapper = mountingMethod(Component)
+
+    config.showDeprecationWarnings = true
+    wrapper.is('div')
+
+    expect(console.error.mock.calls[0][0]).toContain(
+      '[vue-test-utils]: checking tag name with `is` is deprecated'
+    )
+    config.showDeprecationWarnings = false
+  })
+
+  it('does not warn when passing a component definition', () => {
+    const wrapper = mountingMethod(Component)
+
+    config.showDeprecationWarnings = true
+    wrapper.is(Component)
+
+    expect(console.error).not.toHaveBeenCalled()
   })
 })
