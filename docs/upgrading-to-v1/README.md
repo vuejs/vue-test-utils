@@ -34,21 +34,6 @@ You may rewrite tests using `is` to use `element.tagName` instead. For example, 
 
 Finding out whether a DOM node is empty is not a Vue specific feature, and it is something that is difficult to get right. Rather than re-invent the wheel, we have decided it's better to delegate to an existing, well tested solution by default. Consider the excellent `toBeEmpty` matchers from [jest-dom](https://github.com/testing-library/jest-dom#tobeempty), for example, if you are using Jest.
 
-### `isVisible`
-
-See `isEmpty` above. Consider using [toBeVisible](https://github.com/testing-library/jest-dom#tobevisible) from `jest-dom` if you are using Jest. For example:
-
-```js
-// old assertion
-expect(wrapper.find('.selector').isVisible()).toBeTruthy()
-
-// new assertion
-// consider making this matcher globally availalbe in your tests!
-import '@testing-library/jest-dom'
-
-expect(wrapper.find('.selector').element).toBeVisible()
-```
-
 ### `name`
 
 Asserting against `name` encourages testing implementation details, which is a bad practice. If you need this feature, though, you can use `vm.$options.name` for Vue components or `element.tagName` for DOM nodes. Again, consider if you really need this test - it's likely you don't.

@@ -127,7 +127,7 @@ describeWithShallowAndMount('overview', mountingMethod => {
 
         const expectedConsoleOutput = [
           '',
-          'Wrapper (Visible):',
+          'Wrapper (Not visible):',
           '',
           'Html:',
           '',

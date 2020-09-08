@@ -32,6 +32,33 @@ describeWithShallowAndMount('isVisible', mountingMethod => {
     expect(element.isVisible()).toEqual(false)
   })
 
+  it('returns false if element has inline style opacity: 0', () => {
+    const compiled = compileToFunctions(
+      '<div><div><span style="opacity: 0;" class="visible"></span></div></div>'
+    )
+    const wrapper = mountingMethod(compiled)
+    const element = wrapper.find('.visible')
+    expect(element.isVisible()).toEqual(false)
+  })
+
+  it('returns false if element is inside closed details tag', () => {
+    const compiled = compileToFunctions(
+      '<div><details><summary>Summary</summary><span class="visible"></span></details></div>'
+    )
+    const wrapper = mountingMethod(compiled)
+    const element = wrapper.find('.visible')
+    expect(element.isVisible()).toEqual(false)
+  })
+
+  it('returns true if element is inside opened details tag', () => {
+    const compiled = compileToFunctions(
+      '<div><details open><summary>Summary</summary><span class="visible"></span></details></div>'
+    )
+    const wrapper = mountingMethod(compiled)
+    const element = wrapper.find('.visible')
+    expect(element.isVisible()).toEqual(true)
+  })
+
   it('returns false if element has hidden attribute', () => {
     const compiled = compileToFunctions(
       '<div><div><span class="visible" hidden></span></div></div>'
