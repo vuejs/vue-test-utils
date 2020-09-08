@@ -321,12 +321,17 @@ export default class Wrapper implements BaseWrapper {
   }
 
   /**
-   * Checks if node matches selector
-   * @deprecated
+   * Checks if node matches selector or component definition
    */
   is(rawSelector: Selector): boolean {
-    warnDeprecated('is', 'Use element.tagName instead')
     const selector = getSelector(rawSelector, 'is')
+
+    if (selector.type === DOM_SELECTOR) {
+      warnDeprecated(
+        'checking tag name with `is`',
+        'Use `element.tagName` instead'
+      )
+    }
 
     if (selector.type === REF_SELECTOR) {
       throwError('$ref selectors can not be used with wrapper.is()')
