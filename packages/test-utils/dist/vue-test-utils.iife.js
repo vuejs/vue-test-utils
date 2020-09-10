@@ -1905,6 +1905,10 @@ var VueTestUtils = (function (exports, Vue, vueTemplateCompiler) {
       return true
     }
 
+    if (typeof c.setup === 'function' && !c.render) {
+      return true
+    }
+
     return typeof c.render === 'function'
   }
 
@@ -2770,6 +2774,26 @@ var VueTestUtils = (function (exports, Vue, vueTemplateCompiler) {
 
   // 
 
+  /**
+   * Traverses a vue instance for its parents and returns them in an array format
+   * @param {Component} vm
+   * @returns {Component[]} The component and its corresponding parents, in order from left to right
+   */
+  function findAllParentInstances(childVm) {
+    var instances = [childVm];
+
+    function getParent(_vm) {
+      if (_vm && _vm.$parent) {
+        instances.push(_vm.$parent);
+        return getParent(_vm.$parent)
+      }
+      return _vm
+    }
+
+    getParent(childVm);
+    return instances
+  }
+
   function findAllInstances(rootVm) {
     var instances = [rootVm];
     var i = 0;
@@ -2867,13 +2891,31 @@ var VueTestUtils = (function (exports, Vue, vueTemplateCompiler) {
     return findDOMNodes(root.elm, selector.value)
   }
 
-  function errorHandler(errorOrString, vm) {
+  function errorHandler(errorOrString, vm, info) {
     var error =
       typeof errorOrString === 'object' ? errorOrString : new Error(errorOrString);
+
+    // If a user defined errorHandler was register via createLocalVue
+    // find and call the user defined errorHandler
+    var instancedErrorHandlers = findAllParentInstances(vm)
+      .filter(
+        function (_vm) { return _vm &&
+          _vm.$options &&
+          _vm.$options.localVue &&
+          _vm.$options.localVue.config &&
+          _vm.$options.localVue.config.errorHandler; }
+      )
+      .map(function (_vm) { return _vm.$options.localVue.config.errorHandler; });
 
     if (vm) {
       vm._error = error;
     }
+
+    // should be one error handler, as only once can be registered with local vue
+    // regardless, if more exist (for whatever reason), invoke the other user defined error handlers
+    instancedErrorHandlers.forEach(function (instancedErrorHandler) {
+      instancedErrorHandler(error, vm, info);
+    });
 
     throw error
   }
@@ -8945,6 +8987,44 @@ var VueTestUtils = (function (exports, Vue, vueTemplateCompiler) {
     );
   };
 
+  /*!
+   * isElementVisible
+   * Ported from https://github.com/testing-library/jest-dom
+   * Licensed under the MIT License.
+   */
+
+  function isStyleVisible(element) {
+    var ref = element.style;
+    var display = ref.display;
+    var visibility = ref.visibility;
+    var opacity = ref.opacity;
+    return (
+      display !== 'none' &&
+      visibility !== 'hidden' &&
+      visibility !== 'collapse' &&
+      opacity !== '0' &&
+      opacity !== 0
+    )
+  }
+
+  function isAttributeVisible(element, previousElement) {
+    return (
+      !element.hasAttribute('hidden') &&
+      (element.nodeName === 'DETAILS' && previousElement.nodeName !== 'SUMMARY'
+        ? element.hasAttribute('open')
+        : true)
+    )
+  }
+
+  function isElementVisible(element, previousElement) {
+    return (
+      element.nodeName !== '#comment' &&
+      isStyleVisible(element) &&
+      isAttributeVisible(element, previousElement) &&
+      (!element.parentElement || isElementVisible(element.parentElement, element))
+    )
+  }
+
   function recursivelySetData(vm, target, data) {
     Object.keys(data).forEach(function (key) {
       var val = data[key];
@@ -10559,12 +10639,17 @@ var VueTestUtils = (function (exports, Vue, vueTemplateCompiler) {
   };
 
   /**
-   * Checks if node matches selector
-   * @deprecated
+   * Checks if node matches selector or component definition
    */
   Wrapper.prototype.is = function is (rawSelector) {
-    warnDeprecated('is', 'Use element.tagName instead');
     var selector = getSelector(rawSelector, 'is');
+
+    if (selector.type === DOM_SELECTOR) {
+      warnDeprecated(
+        'checking tag name with `is`',
+        'Use `element.tagName` instead'
+      );
+    }
 
     if (selector.type === REF_SELECTOR) {
       throwError('$ref selectors can not be used with wrapper.is()');
@@ -10605,30 +10690,9 @@ var VueTestUtils = (function (exports, Vue, vueTemplateCompiler) {
 
   /**
    * Checks if node is visible
-   * @deprecated
    */
   Wrapper.prototype.isVisible = function isVisible () {
-    warnDeprecated(
-      'isVisible',
-      'Consider a custom matcher such as those provided in jest-dom: https://github.com/testing-library/jest-dom#tobevisible. ' +
-        'When using with findComponent, access the DOM element with findComponent(Comp).element'
-    );
-    var element = this.element;
-    while (element) {
-      if (
-        // $FlowIgnore
-        element.hidden ||
-        // $FlowIgnore
-        (element.style &&
-          (element.style.visibility === 'hidden' ||
-            element.style.display === 'none'))
-      ) {
-        return false
-      }
-      element = element.parentElement;
-    }
-
-    return true
+    return isElementVisible(this.element)
   };
 
   /**
@@ -13678,8 +13742,19 @@ var VueTestUtils = (function (exports, Vue, vueTemplateCompiler) {
 
   // 
 
-  function createLocalVue(_Vue) {
+  /**
+   * Used internally by vue-server-test-utils and test-utils to propagate/create vue instances.
+   * This method is wrapped by createLocalVue in test-utils to provide a different public API signature
+   * @param {Component} _Vue
+   * @param {VueConfig} config
+   * @returns {Component}
+   */
+  function _createLocalVue(
+    _Vue,
+    config
+  ) {
     if ( _Vue === void 0 ) _Vue = Vue__default['default'];
+    if ( config === void 0 ) config = {};
 
     var instance = _Vue.extend();
 
@@ -13702,7 +13777,8 @@ var VueTestUtils = (function (exports, Vue, vueTemplateCompiler) {
     // config is not enumerable
     instance.config = cloneDeep_1(Vue__default['default'].config);
 
-    instance.config.errorHandler = Vue__default['default'].config.errorHandler;
+    // if a user defined errorHandler is defined by a localVue instance via createLocalVue, register it
+    instance.config.errorHandler = config.errorHandler || Vue__default['default'].config.errorHandler;
 
     // option merge strategies need to be exposed by reference
     // so that merge strats registered by plugins can work properly
@@ -13839,7 +13915,10 @@ var VueTestUtils = (function (exports, Vue, vueTemplateCompiler) {
 
     addGlobalErrorHandler(Vue__default['default']);
 
-    var _Vue = createLocalVue(options.localVue);
+    var _Vue = _createLocalVue(
+      options.localVue,
+      options.localVue ? options.localVue.config : undefined
+    );
 
     var mergedOptions = mergeOptions(options, config);
 
@@ -13877,6 +13956,19 @@ var VueTestUtils = (function (exports, Vue, vueTemplateCompiler) {
 
     return mount(component, Object.assign({}, options,
       {shouldProxy: true}))
+  }
+
+  // 
+
+  /**
+   * Returns a local vue instance to add components, mixins and install plugins without polluting the global Vue class
+   * @param {VueConfig} config
+   * @returns {Component}
+   */
+  function createLocalVue(config) {
+    if ( config === void 0 ) config = {};
+
+    return _createLocalVue(undefined, config)
   }
 
   // 
