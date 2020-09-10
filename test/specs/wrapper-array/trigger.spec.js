@@ -3,33 +3,33 @@ import ComponentWithEvents from '~resources/components/component-with-events.vue
 import { describeWithShallowAndMount } from '~resources/utils'
 
 describeWithShallowAndMount('trigger', mountingMethod => {
-  it('causes click handler to fire when wrapper.trigger("click") is called on a Component', () => {
+  it('causes click handler to fire when wrapper.trigger("click") is called on a Component', async () => {
     const clickHandler = jest.fn()
     const wrapper = mountingMethod(ComponentWithEvents, {
       propsData: { clickHandler }
     })
     const buttonArr = wrapper.findAll('.click')
-    buttonArr.trigger('click')
+    await buttonArr.trigger('click')
 
     expect(clickHandler).toHaveBeenCalled()
   })
 
-  it('causes keydown handler to fire when wrapper.trigger("keydown") is fired on a Component', () => {
+  it('causes keydown handler to fire when wrapper.trigger("keydown") is fired on a Component', async () => {
     const keydownHandler = jest.fn()
     const wrapper = mountingMethod(ComponentWithEvents, {
       propsData: { keydownHandler }
     })
-    wrapper.findAll('.keydown').trigger('keydown')
+    await wrapper.findAll('.keydown').trigger('keydown')
 
     expect(keydownHandler).toHaveBeenCalled()
   })
 
-  it('causes keydown handler to fire when wrapper.trigger("keydown.enter") is fired on a Component', () => {
+  it('causes keydown handler to fire when wrapper.trigger("keydown.enter") is fired on a Component', async () => {
     const keydownHandler = jest.fn()
     const wrapper = mountingMethod(ComponentWithEvents, {
       propsData: { keydownHandler }
     })
-    wrapper.findAll('.keydown-enter').trigger('keydown.enter')
+    await wrapper.findAll('.keydown-enter').trigger('keydown.enter')
 
     expect(keydownHandler).toHaveBeenCalled()
   })

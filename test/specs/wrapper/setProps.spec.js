@@ -43,14 +43,14 @@ describeWithShallowAndMount('setProps', mountingMethod => {
     expect(wrapper.is('div')).toEqual(true)
   })
 
-  it('setProps and props getter are in sync', () => {
+  it('setProps and props getter are in sync', async () => {
     const TestComponent = {
       template: `<div />`,
       props: { prop1: { default: 'initial value' } }
     }
     const wrapper = mountingMethod(TestComponent)
     const updatedValue = 'updated value'
-    wrapper.setProps({ prop1: updatedValue })
+    await wrapper.setProps({ prop1: updatedValue })
     expect(wrapper.props().prop1).toEqual(updatedValue)
   })
 
@@ -67,13 +67,13 @@ describeWithShallowAndMount('setProps', mountingMethod => {
     itDoNotRunIf(
       vueVersion < 2.4,
       'attributes not recognized as props are available via the $attrs instance property',
-      () => {
+      async () => {
         const TestComponent = {
           template: '<div></div>'
         }
         const prop1 = 'prop1'
         const wrapper = mountingMethod(TestComponent)
-        wrapper.setProps({ prop1 })
+        await wrapper.setProps({ prop1 })
         expect(wrapper.vm.$attrs.prop1).toEqual(prop1)
       }
     )
@@ -262,14 +262,14 @@ describeWithShallowAndMount('setProps', mountingMethod => {
     )
   })
 
-  it('props and setProps should return the same reference when called with same object', () => {
+  it('props and setProps should return the same reference when called with same object', async () => {
     const TestComponent = {
       template: `<div></div>`,
       props: ['obj']
     }
     const wrapper = mountingMethod(TestComponent)
     const obj = {}
-    wrapper.setProps({ obj })
+    await wrapper.setProps({ obj })
     expect(wrapper.props().obj).toEqual(obj)
   })
 
@@ -324,7 +324,7 @@ describeWithShallowAndMount('setProps', mountingMethod => {
       )
     })
 
-    it('throws an error if property is same reference', () => {
+    it('throws an error if property is same reference', async () => {
       const obj = {}
       const wrapper = mountingMethod(
         {

@@ -32,7 +32,6 @@ declare type NormalizedOptions = {
   attrs?: { [key: string]: string },
   listeners?: { [key: string]: Function | Array<Function> },
   parentComponent?: Object,
-  sync: boolean,
   shouldProxy?: boolean
 }
 

@@ -241,34 +241,30 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
     }
   )
 
-  itDoNotRunIf(
-    vueVersion < 2.5,
-    'renders scoped slots in sync mode by default',
-    async () => {
-      const TestComponent = {
-        template: '<div />',
-        data() {
-          return {
-            val: null
-          }
-        },
-        mounted() {
-          this.val = 123
-        },
-        render() {
-          return this.$scopedSlots.default(this.val)
+  itDoNotRunIf(vueVersion < 2.5, 'renders scoped slots', async () => {
+    const TestComponent = {
+      template: '<div />',
+      data() {
+        return {
+          val: null
         }
+      },
+      mounted() {
+        this.val = 123
+      },
+      render() {
+        return this.$scopedSlots.default(this.val)
       }
-      const stub = jest.fn()
-      mountingMethod(TestComponent, {
-        scopedSlots: {
-          default: stub
-        }
-      })
-      await Vue.nextTick()
-      expect(stub).toHaveBeenCalledWith(123)
     }
-  )
+    const stub = jest.fn()
+    mountingMethod(TestComponent, {
+      scopedSlots: {
+        default: stub
+      }
+    })
+    await Vue.nextTick()
+    expect(stub).toHaveBeenCalledWith(123)
+  })
 
   itDoNotRunIf(
     vueVersion < 2.6,

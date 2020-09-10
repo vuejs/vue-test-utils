@@ -1,7 +1,7 @@
 import { describeWithShallowAndMount } from '~resources/utils'
 
 describeWithShallowAndMount('setValue', mountingMethod => {
-  it('sets value to the text-control input elements', () => {
+  it('sets value to the text-control input elements', async () => {
     const wrapper = mountingMethod({
       data() {
         return {
@@ -18,7 +18,7 @@ describeWithShallowAndMount('setValue', mountingMethod => {
     const wrapperArray = wrapper.findAll('.foo')
     expect(wrapper.vm.t1).toEqual('')
     expect(wrapper.vm.t2).toEqual('')
-    wrapperArray.setValue('foo')
+    await wrapperArray.setValue('foo')
     expect(wrapper.vm.t1).toEqual('foo')
     expect(wrapper.vm.t2).toEqual('foo')
     expect(wrapperArray.at(0).element.value).toEqual('foo')

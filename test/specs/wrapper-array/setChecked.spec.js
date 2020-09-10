@@ -1,5 +1,4 @@
 import { describeWithShallowAndMount } from '~resources/utils'
-import Vue from 'vue'
 
 describeWithShallowAndMount('setChecked', mountingMethod => {
   it('sets value to the input elements of type checkbox or radio', async () => {
@@ -20,8 +19,7 @@ describeWithShallowAndMount('setChecked', mountingMethod => {
     const wrapperArray = wrapper.findAll('.foo')
     expect(wrapper.vm.t1).toEqual(false)
     expect(wrapper.vm.t2).toEqual('')
-    wrapperArray.setChecked()
-    await Vue.nextTick()
+    await wrapperArray.setChecked()
     expect(wrapper.vm.t1).toEqual(true)
     expect(wrapper.vm.t2).toEqual('foo')
     expect(wrapperArray.at(0).element.checked).toEqual(true)

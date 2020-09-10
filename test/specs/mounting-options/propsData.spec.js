@@ -20,9 +20,9 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'propsData', () => {
   })
 
   describe('should not modify propsData between tests', () => {
-    it('should have the correct props after modifying', () => {
+    it('should have the correct props after modifying', async () => {
       expect(wrapper.vm.prop1).toHaveLength(2)
-      wrapper.setProps({ prop1: [] })
+      await wrapper.setProps({ prop1: [] })
       expect(wrapper.vm.prop1).toHaveLength(0)
     })
 

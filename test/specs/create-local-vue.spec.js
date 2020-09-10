@@ -49,8 +49,7 @@ describeWithShallowAndMount('createLocalVue', mountingMethod => {
     const wrapper = mountingMethod(ComponentWithVuex, { localVue, store })
     expect(wrapper.vm.$store).toBeTruthy()
     expect(wrapper.text()).toEqual('0 1')
-    wrapper.trigger('click')
-    await Vue.nextTick()
+    await wrapper.trigger('click')
     expect(wrapper.text()).toEqual('1 1')
   })
 
@@ -70,7 +69,7 @@ describeWithShallowAndMount('createLocalVue', mountingMethod => {
   itDoNotRunIf(
     mountingMethod.name === 'shallowMount',
     'Router should work properly with local Vue',
-    () => {
+    async () => {
       const localVue = createLocalVue()
       localVue.use(VueRouter)
       const routes = [
@@ -95,7 +94,7 @@ describeWithShallowAndMount('createLocalVue', mountingMethod => {
 
       expect(wrapper.text()).toContain('home')
 
-      wrapper.find('a').trigger('click')
+      await wrapper.find('a').trigger('click')
       expect(wrapper.text()).toContain('foo')
 
       const freshWrapper = mountingMethod(Component)

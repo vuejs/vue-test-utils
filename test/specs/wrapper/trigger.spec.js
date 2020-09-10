@@ -22,34 +22,34 @@ describeWithShallowAndMount('trigger', mountingMethod => {
     expect(toggle.classes()).toContain('active')
   })
 
-  it('causes click handler to fire when wrapper.trigger("click") is called on a Component', () => {
+  it('causes click handler to fire when wrapper.trigger("click") is called on a Component', async () => {
     const clickHandler = jest.fn()
     const wrapper = mountingMethod(ComponentWithEvents, {
       propsData: { clickHandler }
     })
     const button = wrapper.find('.click')
-    button.trigger('click')
+    await button.trigger('click')
 
     expect(clickHandler).toHaveBeenCalled()
   })
 
-  it('causes keydown handler to fire when wrapper.trigger("keydown") is fired on a Component', () => {
+  it('causes keydown handler to fire when wrapper.trigger("keydown") is fired on a Component', async () => {
     const keydownHandler = jest.fn()
     const wrapper = mountingMethod(ComponentWithEvents, {
       propsData: { keydownHandler }
     })
-    wrapper.find('.keydown').trigger('keydown')
+    await wrapper.find('.keydown').trigger('keydown')
 
     expect(keydownHandler).toHaveBeenCalled()
   })
 
-  describe('causes keydown handler to fire with the appropriate keyCode when wrapper.trigger("keydown", { keyCode: 65 }) is fired on a Component', () => {
+  describe('causes keydown handler to fire with the appropriate keyCode when wrapper.trigger("keydown", { keyCode: 65 }) is fired on a Component', async () => {
     const keydownHandler = jest.fn()
     const wrapper = mountingMethod(ComponentWithEvents, {
       propsData: { keydownHandler }
     })
 
-    wrapper.find('.keydown').trigger('keydown', { keyCode: 65 })
+    await wrapper.find('.keydown').trigger('keydown', { keyCode: 65 })
 
     const keyboardEvent = keydownHandler.mock.calls[0][0]
 
@@ -63,17 +63,17 @@ describeWithShallowAndMount('trigger', mountingMethod => {
     })
   })
 
-  it('causes keydown handler to fire when wrapper.trigger("keydown.enter") is fired on a Component', () => {
+  it('causes keydown handler to fire when wrapper.trigger("keydown.enter") is fired on a Component', async () => {
     const keydownHandler = jest.fn()
     const wrapper = mountingMethod(ComponentWithEvents, {
       propsData: { keydownHandler }
     })
-    wrapper.find('.keydown-enter').trigger('keydown.enter')
+    await wrapper.find('.keydown-enter').trigger('keydown.enter')
 
     expect(keydownHandler).toHaveBeenCalled()
   })
 
-  it.skip('convert a registered key name to a key code', () => {
+  it.skip('convert a registered key name to a key code', async () => {
     const modifiers = {
       enter: 13,
       esc: 27,
@@ -97,7 +97,7 @@ describeWithShallowAndMount('trigger', mountingMethod => {
     })
     for (const keyName in modifiers) {
       const keyCode = modifiers[keyName]
-      wrapper.find('.keydown').trigger(`keyup.${keyName}`)
+      await wrapper.find('.keydown').trigger(`keyup.${keyName}`)
       expect(keyupHandler.mock.calls[0][0].keyCode).toEqual(keyCode)
     }
   })
@@ -109,28 +109,27 @@ describeWithShallowAndMount('trigger', mountingMethod => {
       const wrapper = mountingMethod(ComponentWithEvents)
       const toggle = wrapper.find('.toggle')
       expect(toggle.classes()).not.toContain('active')
-      toggle.trigger('click')
-      await Vue.nextTick()
+      await toggle.trigger('click')
       expect(toggle.classes()).toContain('active')
     }
   )
 
-  it('adds options to event', () => {
+  it('adds options to event', async () => {
     const clickHandler = jest.fn()
     const wrapper = mountingMethod(ComponentWithEvents, {
       propsData: { clickHandler }
     })
     const button = wrapper.find('.left-click')
-    button.trigger('mousedown', {
+    await button.trigger('mousedown', {
       button: 1
     })
-    button.trigger('mousedown', {
+    await button.trigger('mousedown', {
       button: 0
     })
     expect(clickHandler).toHaveBeenCalled()
   })
 
-  it('adds custom data to events', () => {
+  it('adds custom data to events', async () => {
     const stub = jest.fn()
     const TestComponent = {
       template: '<div @update="callStub" />',
@@ -143,14 +142,14 @@ describeWithShallowAndMount('trigger', mountingMethod => {
 
     const wrapper = mountingMethod(TestComponent)
 
-    wrapper.trigger('update', {
+    await wrapper.trigger('update', {
       customData: 123
     })
 
     expect(stub).toHaveBeenCalledWith(123)
   })
 
-  it('does not fire on valid disabled elements', () => {
+  it('does not fire on valid disabled elements', async () => {
     const clickHandler = jest.fn()
     const ButtonComponent = {
       template: '<button disabled @click="clickHandler">Button</button>',
@@ -161,7 +160,7 @@ describeWithShallowAndMount('trigger', mountingMethod => {
         clickHandler
       }
     })
-    buttonWrapper.trigger('click')
+    await buttonWrapper.trigger('click')
     expect(clickHandler).not.toHaveBeenCalled()
 
     const changeHandler = jest.fn()
@@ -174,11 +173,11 @@ describeWithShallowAndMount('trigger', mountingMethod => {
         changeHandler
       }
     })
-    inputWrapper.trigger('change')
+    await inputWrapper.trigger('change')
     expect(changeHandler).not.toHaveBeenCalled()
   })
 
-  it('fires on invalid disabled elements', () => {
+  it('fires on invalid disabled elements', async () => {
     const clickHandler = jest.fn()
     const LinkComponent = {
       template: '<a disabled href="#" @click="clickHandler">Link</a>',
@@ -189,22 +188,22 @@ describeWithShallowAndMount('trigger', mountingMethod => {
         clickHandler
       }
     })
-    linkWrapper.trigger('click')
+    await linkWrapper.trigger('click')
     expect(clickHandler).toHaveBeenCalled()
   })
 
-  it('handles .prevent', () => {
+  it('handles .prevent', async () => {
     const TestComponent = {
       template: '<input @keydown.enter.prevent="enter">'
     }
     const wrapper = mountingMethod(TestComponent)
-    wrapper.trigger('keydown')
+    await wrapper.trigger('keydown')
   })
 
   itDoNotRunIf(
     !scopedSlotsSupported || mountingMethod.name === 'shallowMount',
     'handles instances without update watchers',
-    () => {
+    async () => {
       const vm = new Vue()
       const item = () => vm.$createElement('button')
       const TestComponent = {
@@ -217,7 +216,7 @@ describeWithShallowAndMount('trigger', mountingMethod => {
         }
       }
       const wrapper = mountingMethod(TestComponent)
-      wrapper.findAll('button').trigger('click')
+      await wrapper.findAll('button').trigger('click')
     }
   )
 
@@ -258,7 +257,7 @@ describeWithShallowAndMount('trigger', mountingMethod => {
   itDoNotRunIf(
     isRunningChrome,
     'trigger should create events with correct interface',
-    () => {
+    async () => {
       let lastEvent
       const TestComponent = {
         template: `
@@ -273,18 +272,18 @@ describeWithShallowAndMount('trigger', mountingMethod => {
 
       const wrapper = mountingMethod(TestComponent)
 
-      wrapper.trigger('click')
+      await wrapper.trigger('click')
       expect(lastEvent).toBeInstanceOf(window.MouseEvent)
     }
   )
 
-  it('falls back to supported event if not supported by browser', () => {
+  it('falls back to supported event if not supported by browser', async () => {
     const TestComponent = {
       template: '<div />'
     }
 
     const wrapper = mountingMethod(TestComponent)
 
-    wrapper.trigger('gamepadconnected')
+    await wrapper.trigger('gamepadconnected')
   })
 })
