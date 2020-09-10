@@ -206,7 +206,7 @@ const WrapperComp = {
     ComponentUnderTest
   }
 }
-const wrapper = mount(WrapperComp).find(ComponentUnderTest)
+const wrapper = mount(WrapperComp).findComponent(ComponentUnderTest)
 ```
 
 ## stubs
