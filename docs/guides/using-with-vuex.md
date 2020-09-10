@@ -233,7 +233,8 @@ describe('MyComponent.vue', () => {
         myModule: {
           state,
           actions,
-          getters: myModule.getters
+          getters: myModule.getters,
+          namespaced: true
         }
       }
     })
