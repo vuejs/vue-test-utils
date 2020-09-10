@@ -10,6 +10,26 @@ import {
 import { throwError } from 'shared/util'
 import { matches } from './matches'
 
+/**
+ * Traverses a vue instance for its parents and returns them in an array format
+ * @param {Component} vm
+ * @returns {Component[]} The component and its corresponding parents, in order from left to right
+ */
+export function findAllParentInstances(childVm: any) {
+  const instances = [childVm]
+
+  function getParent(_vm) {
+    if (_vm && _vm.$parent) {
+      instances.push(_vm.$parent)
+      return getParent(_vm.$parent)
+    }
+    return _vm
+  }
+
+  getParent(childVm)
+  return instances
+}
+
 export function findAllInstances(rootVm: any) {
   const instances = [rootVm]
   let i = 0

@@ -5,8 +5,10 @@ import { createLocalVue } from 'packages/test-utils/src'
 import Component from '~resources/components/component.vue'
 import ComponentWithVuex from '~resources/components/component-with-vuex.vue'
 import ComponentWithRouter from '~resources/components/component-with-router.vue'
-import { describeWithShallowAndMount } from '~resources/utils'
-import { itDoNotRunIf } from 'conditional-specs'
+import ComponentWithSyncError from '~resources/components/component-with-sync-error.vue'
+import ComponentWithAsyncError from '~resources/components/component-with-async-error.vue'
+import { describeWithShallowAndMount, vueVersion } from '~resources/utils'
+import { itDoNotRunIf, itSkipIf } from 'conditional-specs'
 
 describeWithShallowAndMount('createLocalVue', mountingMethod => {
   it('installs Vuex without polluting global Vue', () => {
@@ -132,4 +134,42 @@ describeWithShallowAndMount('createLocalVue', mountingMethod => {
     }
     expect(installCount).toEqual(2)
   })
+
+  itSkipIf(
+    vueVersion < 2.4,
+    'Calls `errorHandler` when an error is thrown synchronously',
+    () => {
+      const errorHandler = jest.fn()
+      const localVue = createLocalVue({
+        errorHandler
+      })
+      try {
+        mountingMethod(ComponentWithSyncError, { localVue })
+      } catch (e) {
+        // asserting arguments is a bit difficult due to multiple Vue version support. Please see https://vuejs.org/v2/api/#errorHandler for more details
+        expect(errorHandler).toHaveBeenCalledTimes(1)
+      }
+    }
+  )
+
+  itSkipIf(
+    process.env.TEST_ENV === 'browser' || vueVersion < 2.6,
+    'Calls `errorHandler` when an error is thrown asynchronously',
+    async () => {
+      const errorHandler = jest.fn()
+      const localVue = createLocalVue({
+        errorHandler
+      })
+
+      try {
+        mountingMethod(ComponentWithAsyncError, { localVue })
+
+        await Vue.nextTick()
+        await setTimeout()
+      } finally {
+        // asserting arguments is a bit difficult due to multiple Vue version support. Please see https://vuejs.org/v2/api/#errorHandler for more details
+        expect(errorHandler).toHaveBeenCalledTimes(1)
+      }
+    }
+  )
 })

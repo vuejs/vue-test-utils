@@ -36,6 +36,10 @@ declare type NormalizedOptions = {
   shouldProxy?: boolean
 }
 
+declare type VueConfig = {
+  errorHandler?: Function
+}
+
 declare type SlotValue = Component | string | Array<Component | string>
 
 declare type SlotsObject = { [name: string]: SlotValue }

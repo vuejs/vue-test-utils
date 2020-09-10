@@ -7,7 +7,7 @@ import config from './config'
 import warnIfNoWindow from './warn-if-no-window'
 import polyfill from './polyfill'
 import createWrapper from './create-wrapper'
-import createLocalVue from './create-local-vue'
+import _createLocalVue from 'shared/create-local-vue'
 import { validateOptions } from 'shared/validate-options'
 
 Vue.config.productionTip = false
@@ -20,7 +20,10 @@ export default function mount(component, options = {}) {
 
   addGlobalErrorHandler(Vue)
 
-  const _Vue = createLocalVue(options.localVue)
+  const _Vue = _createLocalVue(
+    options.localVue,
+    options.localVue ? options.localVue.config : undefined
+  )
 
   const mergedOptions = mergeOptions(options, config)
 
