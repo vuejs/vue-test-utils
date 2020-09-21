@@ -224,7 +224,7 @@ export default class Wrapper implements BaseWrapper {
     const selector = getSelector(rawSelector, 'find')
     if (selector.type !== DOM_SELECTOR) {
       warnDeprecated(
-        'finding components with `find`',
+        'finding components with `find` or `get`',
         'Use `findComponent` instead'
       )
     }
