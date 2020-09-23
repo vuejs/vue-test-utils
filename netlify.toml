@@ -1,6 +1,6 @@
 [[redirects]]
   from = "/v2/*"
-  to = "https://vue-test-utils-next-docs.netlify.app/:splat"
+  to = "https://vue-test-utils-next-docs.netlify.app/v2/:splat"
   status = 200
   force = true # COMMENT: ensure that we always redirect
   headers = {X-From = "Netlify"}
