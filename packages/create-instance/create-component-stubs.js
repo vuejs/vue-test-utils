@@ -135,6 +135,9 @@ export function createStubFromComponent(
         tagName,
         {
           ref: componentOptions.functional ? context.data.ref : undefined,
+          domProps: componentOptions.functional
+            ? context.data.domProps
+            : undefined,
           attrs: componentOptions.functional
             ? {
                 ...context.props,
