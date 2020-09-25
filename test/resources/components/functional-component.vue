@@ -1,3 +1,5 @@
 <template functional>
-  <div />
+  <div>
+    <slot />
+  </div>
 </template>
