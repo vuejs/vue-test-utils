@@ -41,6 +41,11 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
     )
   })
 
+  it('renders v-text content of functional child', () => {
+    const wrapper = shallowMount(ComponentWithFunctionalChild)
+    expect(wrapper.find('functional-component-stub').text()).toBe('value')
+  })
+
   it('returns new VueWrapper of Vue localVue if no options are passed', () => {
     const compiled = compileToFunctions('<div><input /></div>')
     const wrapper = shallowMount(compiled)
