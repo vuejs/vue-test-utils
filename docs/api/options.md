@@ -302,6 +302,10 @@ HTMLElement, to which your component will be fully mounted in the document.
 When attaching to the DOM, you should call `wrapper.destroy()` at the end of your test to
 remove the rendered elements from the document and destroy the component instance.
 
+::: tip
+When using `attachTo: document.body` new `div` instead of replacing entire body new `<div>` will be appended. This is designed to mimic Vue3 behavior and simplify future migration. See [this comment](https://github.com/vuejs/vue-test-utils/issues/1578#issuecomment-674652747) for details
+:::
+
 ```js
 const div = document.createElement('div')
 div.id = 'root'
