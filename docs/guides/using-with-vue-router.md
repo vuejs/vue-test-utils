@@ -41,16 +41,19 @@ shallowMount(Component, {
 ### Installing Vue Router with localVue
 
 ```js
-import { shallowMount, createLocalVue } from '@vue/test-utils'
+import { mount, createLocalVue } from '@vue/test-utils'
 import VueRouter from 'vue-router'
 
 const localVue = createLocalVue()
 localVue.use(VueRouter)
 
-shallowMount(Component, {
-  localVue
+mount(Component, {
+  localVue,
+  router
 })
 ```
+
+The router instance is available to all children components, this is useful for integration level testing.
 
 ### Mocking `$route` and `$router`
 
@@ -71,6 +74,8 @@ const wrapper = shallowMount(Component, {
 
 wrapper.vm.$route.path // /some/path
 ```
+
+> **Note:** the mocked `$route` and `$router` values are not available to children components, either stub this components or use the `localVue` method.
 
 ### Common gotchas
 
