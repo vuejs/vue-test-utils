@@ -166,6 +166,7 @@ interface VueTestUtilsConfigOptions {
   provide?: Record<string, any>,
   silent?: Boolean,
   showDeprecationWarnings?: boolean
+  deprecationWarningHandler?: Function
 }
 
 export declare function createLocalVue (): typeof Vue

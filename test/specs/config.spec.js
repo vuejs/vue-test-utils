@@ -19,6 +19,7 @@ describeWithShallowAndMount('config', mountingMethod => {
     config.stubs = configStubsSave
     config.silent = configSilentSave
     config.methods = {}
+    config.deprecationWarningHandler = null
     console.error = consoleErrorSave
   })
 
@@ -101,6 +102,17 @@ describeWithShallowAndMount('config', mountingMethod => {
     wrapper.setData({ expanded: true })
     await wrapper.vm.$nextTick()
     expect(wrapper.find('[data-testid="expanded"]').exists()).toEqual(false)
+  })
+
+  it('invokes custom deprecation warning handler if specified in config', () => {
+    config.showDeprecationWarnings = true
+    config.deprecationWarningHandler = jest.fn()
+
+    const TestComponent = { template: `<div>Test</div>` }
+    mountingMethod(TestComponent, { attachToDocument: true })
+
+    expect(config.deprecationWarningHandler).toHaveBeenCalledTimes(1)
+    expect(console.error).not.toHaveBeenCalled()
   })
 
   it('allows control deprecation warnings visibility for name method', () => {

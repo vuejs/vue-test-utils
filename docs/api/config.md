@@ -19,6 +19,29 @@ import { config } from '@vue/test-utils'
 config.showDeprecationWarnings = false
 ```
 
+### `deprecationWarningHandler`
+
+- type: `Function`
+
+Allows fine-grained control on deprecation warnings. When `showDeprecationWarnings` is set to `true`, all deprecation warnings will be passed to this handler with method name as first argument and original message as second.
+
+::: tip
+This could be useful to log deprecation messages to separate location or to help in gradual upgrade of codebase to latest version of test utils by ignoring certain deprecated functions warnings
+:::
+
+Example:
+
+```js
+import { config } from '@vue/test-utils'
+
+config.showDeprecationWarnings = true
+config.deprecationWarningHandler = (method, message) => {
+  if (method === 'emittedByOrder') return
+
+  console.error(msg)
+}
+```
+
 ### `stubs`
 
 - type: `{ [name: string]: Component | boolean | string }`
