@@ -32,7 +32,9 @@ export default function mount(component, options = {}) {
   const parentVm = createInstance(component, mergedOptions, _Vue)
 
   const el =
-    options.attachTo || (options.attachToDocument ? createElement() : undefined)
+    options.attachToDocument || options.attachTo instanceof HTMLBodyElement
+      ? createElement()
+      : options.attachTo
   const vm = parentVm.$mount(el)
 
   component._Ctor = {}

@@ -32,6 +32,19 @@ describeWithShallowAndMount('options.attachTo', mountingMethod => {
     wrapper.destroy()
     expect(document.getElementById('attach-to')).toBeNull()
   })
+  it('appends new node when attached to document.body', () => {
+    const unrelatedDiv = document.createElement('div')
+    unrelatedDiv.id = 'unrelated'
+    document.body.appendChild(unrelatedDiv)
+    const wrapper = mountingMethod(TestComponent, {
+      attachTo: document.body
+    })
+    expect(document.body.contains(unrelatedDiv)).toBe(true)
+    expect(wrapper.vm.$el.parentNode).toBe(document.body)
+    expect(wrapper.options.attachedToDocument).toEqual(true)
+    wrapper.destroy()
+    unrelatedDiv.remove()
+  })
   it('attaches to a provided CSS selector string', () => {
     const div = document.createElement('div')
     div.id = 'root'
