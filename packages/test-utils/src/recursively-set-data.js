@@ -5,7 +5,11 @@ export function recursivelySetData(vm, target, data) {
     const val = data[key]
     const targetVal = target[key]
 
-    if (isPlainObject(val) && isPlainObject(targetVal) && Object.keys(val).length > 0) {
+    if (
+      isPlainObject(val) &&
+      isPlainObject(targetVal) &&
+      Object.keys(val).length > 0
+    ) {
       recursivelySetData(vm, targetVal, val)
     } else {
       vm.$set(target, key, val)
