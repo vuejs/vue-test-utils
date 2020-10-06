@@ -4,7 +4,7 @@
 
 Другая стратегия тестирования однофайловых компонентов заключается в компиляции всех наших тестов с помощью webpack, а затем программой для запуска тестов. Преимущество такого подхода заключается в том, что он даёт нам полную поддержку всех функций webpack и `vue-loader`, поэтому нам не нужно идти на компромиссы в нашем исходном коде.
 
-Технически, вы можете использовать любую программу для запуска тестов, которая вам нравится, и вручную соединять вещи, но мы нашли [`mocha-webpack`](https://github.com/zinserjan/mocha-webpack) как очень удобный способ для реализации этой задачи.
+Технически, вы можете использовать любую программу для запуска тестов, которая вам нравится, и вручную соединять вещи, но мы нашли [`mochapack`](https://github.com/sysgears/mochapack) как очень удобный способ для реализации этой задачи.
 
 ### Настройка `mocha-webpack`
 
@@ -13,7 +13,7 @@
 Первое, что нужно сделать, это установить тестовые зависимости:
 
 ```bash
-npm install --save-dev @vue/test-utils mocha mocha-webpack
+npm install --save-dev @vue/test-utils mocha mochapack
 ```
 
 Затем мы должны указать скрипт test в нашем `package.json`.
@@ -22,7 +22,7 @@ npm install --save-dev @vue/test-utils mocha mocha-webpack
 // package.json
 {
   "scripts": {
-    "test": "mocha-webpack --webpack-config webpack.config.js --require test/setup.js test/**/*.spec.js"
+    "test": "mochapack --webpack-config webpack.config.js --require test/setup.js test/**/*.spec.js"
   }
 }
 ```
@@ -53,7 +53,7 @@ module.exports = {
 
 #### Source Maps
 
-Source maps должны быть встроены для использования в `mocha-webpack`. Рекомендуемая конфигурация:
+Source maps должны быть встроены для использования в `mochapack`. Рекомендуемая конфигурация:
 
 ```js
 module.exports = {
@@ -172,13 +172,13 @@ npm run test
 
 ### Покрытие кода (Coverage)
 
-Для настройки покрытия кода в mocha-webpack, следуйте [инструкции по настройке покрытия кода mocha-webpack](https://github.com/zinserjan/mocha-webpack/blob/master/docs/guides/code-coverage.md).
+Для настройки покрытия кода в mochapack, следуйте [инструкции по настройке покрытия кода mochapack](https://github.com/sysgears/mochapack/blob/master/docs/guides/code-coverage.md).
 
 ### Ресурсы
 
 - [Пример проекта для этой настройки](https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-unit-mocha)
 - [Mocha](https://mochajs.org/)
-- [mocha-webpack](http://zinserjan.github.io/mocha-webpack/)
+- [mochapack](https://github.com/sysgears/mochapack)
 - [Chai](http://chaijs.com/)
 - [Sinon](http://sinonjs.org/)
 - [jest/expect](http://facebook.github.io/jest/docs/en/expect.html#content)
