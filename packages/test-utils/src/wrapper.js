@@ -17,6 +17,7 @@ import {
   getCheckedEvent,
   isPhantomJS,
   nextTick,
+  warn,
   warnDeprecated
 } from 'shared/util'
 import { isElementVisible } from 'shared/is-visible'
@@ -82,7 +83,18 @@ export default class Wrapper implements BaseWrapper {
     }
   }
 
+  /**
+   * Prints warning if component is destroyed
+   */
+  __warnIfDestroyed() {
+    if (!this.exists()) {
+      warn('Operations on destroyed component are discouraged')
+    }
+  }
+
   at(): void {
+    this.__warnIfDestroyed()
+
     throwError('at() must be called on a WrapperArray')
   }
 
@@ -90,6 +102,8 @@ export default class Wrapper implements BaseWrapper {
    * Returns an Object containing all the attribute/value pairs on the element.
    */
   attributes(key?: string): { [name: string]: string } | string {
+    this.__warnIfDestroyed()
+
     const attributes = this.element.attributes
     const attributeMap = {}
     for (let i = 0; i < attributes.length; i++) {
@@ -104,6 +118,8 @@ export default class Wrapper implements BaseWrapper {
    * Returns an Array containing all the classes on the element
    */
   classes(className?: string): Array<string> | boolean {
+    this.__warnIfDestroyed()
+
     const classAttribute = this.element.getAttribute('class')
     let classes = classAttribute ? classAttribute.split(' ') : []
     // Handle converting cssmodules identifiers back to the original class name
@@ -134,6 +150,9 @@ export default class Wrapper implements BaseWrapper {
       'contains',
       'Use `wrapper.find`, `wrapper.findComponent` or `wrapper.get` instead'
     )
+
+    this.__warnIfDestroyed()
+
     const selector = getSelector(rawSelector, 'contains')
     const nodes = find(this.rootNode, this.vm, selector)
     return nodes.length > 0
@@ -209,6 +228,8 @@ export default class Wrapper implements BaseWrapper {
    * matches the provided selector.
    */
   get(rawSelector: Selector): Wrapper {
+    this.__warnIfDestroyed()
+
     const found = this.find(rawSelector)
     if (found instanceof ErrorWrapper) {
       throw new Error(`Unable to find ${rawSelector} within: ${this.html()}`)
@@ -221,6 +242,8 @@ export default class Wrapper implements BaseWrapper {
    * matches the provided selector.
    */
   find(rawSelector: Selector): Wrapper | ErrorWrapper {
+    this.__warnIfDestroyed()
+
     const selector = getSelector(rawSelector, 'find')
     if (selector.type !== DOM_SELECTOR) {
       warnDeprecated(
@@ -237,6 +260,8 @@ export default class Wrapper implements BaseWrapper {
    * matches the provided selector.
    */
   findComponent(rawSelector: Selector): Wrapper | ErrorWrapper {
+    this.__warnIfDestroyed()
+
     const selector = getSelector(rawSelector, 'findComponent')
     if (!this.vm && !this.isFunctionalComponent) {
       throwError(
@@ -270,6 +295,8 @@ export default class Wrapper implements BaseWrapper {
    * the provided selector.
    */
   findAll(rawSelector: Selector): WrapperArray {
+    this.__warnIfDestroyed()
+
     const selector = getSelector(rawSelector, 'findAll')
     if (selector.type !== DOM_SELECTOR) {
       warnDeprecated(
@@ -285,6 +312,8 @@ export default class Wrapper implements BaseWrapper {
    * the provided selector.
    */
   findAllComponents(rawSelector: Selector): WrapperArray {
+    this.__warnIfDestroyed()
+
     const selector = getSelector(rawSelector, 'findAll')
     if (!this.vm) {
       throwError(
@@ -318,6 +347,8 @@ export default class Wrapper implements BaseWrapper {
    * Returns HTML of element as a string
    */
   html(): string {
+    this.__warnIfDestroyed()
+
     return pretty(this.element.outerHTML)
   }
 
@@ -325,6 +356,8 @@ export default class Wrapper implements BaseWrapper {
    * Checks if node matches selector or component definition
    */
   is(rawSelector: Selector): boolean {
+    this.__warnIfDestroyed()
+
     const selector = getSelector(rawSelector, 'is')
 
     if (selector.type === DOM_SELECTOR) {
@@ -351,6 +384,8 @@ export default class Wrapper implements BaseWrapper {
       'Consider a custom matcher such as those provided in jest-dom: https://github.com/testing-library/jest-dom#tobeempty. ' +
         'When using with findComponent, access the DOM element with findComponent(Comp).element'
     )
+    this.__warnIfDestroyed()
+
     if (!this.vnode) {
       return this.element.innerHTML === ''
     }
@@ -375,6 +410,8 @@ export default class Wrapper implements BaseWrapper {
    * Checks if node is visible
    */
   isVisible(): boolean {
+    this.__warnIfDestroyed()
+
     return isElementVisible(this.element)
   }
 
@@ -384,6 +421,8 @@ export default class Wrapper implements BaseWrapper {
    */
   isVueInstance(): boolean {
     warnDeprecated(`isVueInstance`)
+    this.__warnIfDestroyed()
+
     return !!this.vm
   }
 
@@ -393,6 +432,7 @@ export default class Wrapper implements BaseWrapper {
    */
   name(): string {
     warnDeprecated(`name`)
+    this.__warnIfDestroyed()
 
     if (this.vm) {
       return (
@@ -416,6 +456,7 @@ export default class Wrapper implements BaseWrapper {
    */
   overview(): void {
     warnDeprecated(`overview`)
+    this.__warnIfDestroyed()
 
     if (!this.vm) {
       throwError(`wrapper.overview() can only be called on a Vue instance`)
@@ -495,6 +536,7 @@ export default class Wrapper implements BaseWrapper {
     if (!this.vm) {
       throwError('wrapper.props() must be called on a Vue instance')
     }
+    this.__warnIfDestroyed()
 
     const props = {}
     const keys = this.vm && this.vm.$options._propKeys
@@ -519,6 +561,8 @@ export default class Wrapper implements BaseWrapper {
    * @deprecated
    */
   setChecked(checked: boolean = true): Promise<*> {
+    this.__warnIfDestroyed()
+
     if (typeof checked !== 'boolean') {
       throwError('wrapper.setChecked() must be passed a boolean')
     }
@@ -568,6 +612,8 @@ export default class Wrapper implements BaseWrapper {
    * @deprecated
    */
   setSelected(): Promise<void> {
+    this.__warnIfDestroyed()
+
     const tagName = this.element.tagName
 
     if (tagName === 'SELECT') {
@@ -613,6 +659,8 @@ export default class Wrapper implements BaseWrapper {
       throwError(`wrapper.setData() can only be called on a Vue instance`)
     }
 
+    this.__warnIfDestroyed()
+
     recursivelySetData(this.vm, this.vm, data)
     return nextTick()
   }
@@ -630,6 +678,8 @@ export default class Wrapper implements BaseWrapper {
     if (!this.vm) {
       throwError(`wrapper.setMethods() can only be called on a Vue instance`)
     }
+    this.__warnIfDestroyed()
+
     Object.keys(methods).forEach(key => {
       // $FlowIgnore : Problem with possibly null this.vm
       this.vm[key] = methods[key]
@@ -657,6 +707,7 @@ export default class Wrapper implements BaseWrapper {
     if (!this.vm) {
       throwError(`wrapper.setProps() can only be called on a Vue instance`)
     }
+    this.__warnIfDestroyed()
 
     // Save the original "silent" config so that we can directly mutate props
     const originalConfig = Vue.config.silent
@@ -730,6 +781,7 @@ export default class Wrapper implements BaseWrapper {
     const tagName = this.element.tagName
     // $FlowIgnore
     const type = this.attributes().type
+    this.__warnIfDestroyed()
 
     if (tagName === 'OPTION') {
       throwError(
@@ -782,6 +834,8 @@ export default class Wrapper implements BaseWrapper {
    * Return text of wrapper element
    */
   text(): string {
+    this.__warnIfDestroyed()
+
     return this.element.textContent.trim()
   }
 
@@ -789,6 +843,8 @@ export default class Wrapper implements BaseWrapper {
    * Dispatches a DOM event on wrapper
    */
   trigger(type: string, options: Object = {}): Promise<void> {
+    this.__warnIfDestroyed()
+
     if (typeof type !== 'string') {
       throwError('wrapper.trigger() must be passed a string')
     }

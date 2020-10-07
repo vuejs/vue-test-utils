@@ -1,6 +1,19 @@
 import { describeWithShallowAndMount } from '~resources/utils'
+import { config } from 'packages/test-utils/src'
 
 describeWithShallowAndMount('destroy', mountingMethod => {
+  let originalConsoleError
+
+  beforeEach(() => {
+    config.showDeprecationWarnings = true
+    originalConsoleError = console.error
+    console.error = jest.fn()
+  })
+
+  afterEach(() => {
+    console.error = originalConsoleError
+  })
+
   it('triggers beforeDestroy ', () => {
     const stub = jest.fn()
     mountingMethod({
@@ -60,5 +73,50 @@ describeWithShallowAndMount('destroy', mountingMethod => {
     }
     const wrapper = mountingMethod(TestComponent)
     expect(() => wrapper.destroy()).toThrow()
+  })
+
+  const StubComponent = { props: ['a'], template: '<div><p></p></div>' }
+
+  ;[
+    ['attributes'],
+    ['classes'],
+    ['isEmpty'],
+    ['isVisible'],
+    ['isVueInstance'],
+    ['name'],
+    ['overview'],
+    ['props'],
+    ['text'],
+    ['html'],
+    ['contains', ['p']],
+    ['get', ['p']],
+    ['find', ['p']],
+    ['findComponent', [StubComponent]],
+    ['findAll', [StubComponent]],
+    ['findAllComponents', [StubComponent]],
+    ['is', [StubComponent]],
+    ['setProps', [{ a: 1 }]],
+    ['setData', [{}]],
+    ['setMethods', [{}]],
+    ['trigger', ['test-event']]
+  ].forEach(([method, args = []]) => {
+    it(`displays warning when ${method} is called on destroyed wrapper`, () => {
+      config.showDeprecationWarnings = false
+      const wrapper = mountingMethod(StubComponent)
+      wrapper.destroy()
+      wrapper[method](...args)
+
+      expect(console.error).toHaveBeenCalled()
+    })
+  })
+  ;['emitted', 'emittedByOrder', 'exists'].forEach(method => {
+    it(`does not display warning when ${method} is called on destroyed wrapper`, () => {
+      config.showDeprecationWarnings = false
+      const wrapper = mountingMethod(StubComponent)
+      wrapper.destroy()
+      wrapper[method]()
+
+      expect(console.error).not.toHaveBeenCalled()
+    })
   })
 })
