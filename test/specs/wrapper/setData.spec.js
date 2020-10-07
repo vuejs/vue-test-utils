@@ -320,4 +320,29 @@ describeWithShallowAndMount('setData', mountingMethod => {
     await wrapper.setData({ selectedDate: testDate })
     expect(wrapper.vm.selectedDate).toEqual(testDate)
   })
+
+  it('allows empty objects to be set', () => {
+    const TestComponent = {
+      data() {
+        return {
+          someKey: { someValue: true }
+        }
+      },
+      render(h) {
+        return h('span')
+      }
+    }
+
+    const wrapper = mountingMethod(TestComponent)
+
+    expect(wrapper.vm.$data).toEqual({ someKey: { someValue: true } })
+
+    wrapper.setData({ someKey: {} })
+
+    expect(wrapper.vm.$data).toEqual({ someKey: {} })
+
+    wrapper.setData({ someKey: { someValue: false } })
+
+    expect(wrapper.vm.$data).toEqual({ someKey: { someValue: false } })
+  })
 })
