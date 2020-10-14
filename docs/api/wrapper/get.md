@@ -1,5 +1,9 @@
 ## get
 
+::: warning Deprecation warning
+Using `get` to search for a Component is deprecated and will be removed. Use [`getComponent`](./getComponent.md) instead.
+:::
+
 Works just like [find](./find.md) but will throw an error if nothing matching
 the given selector is found. You should use `find` when searching for an element
 that may not exist. You should use this method when getting an element that should

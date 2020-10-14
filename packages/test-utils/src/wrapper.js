@@ -238,6 +238,20 @@ export default class Wrapper implements BaseWrapper {
   }
 
   /**
+   * Gets first node in tree of the current wrapper that
+   * matches the provided selector.
+   */
+  getComponent(rawSelector: Selector): Wrapper {
+    this.__warnIfDestroyed()
+
+    const found = this.findComponent(rawSelector)
+    if (found instanceof ErrorWrapper) {
+      throw new Error(`Unable to get ${rawSelector} within: ${this.html()}`)
+    }
+    return found
+  }
+
+  /**
    * Finds first DOM node in tree of the current wrapper that
    * matches the provided selector.
    */
@@ -248,7 +262,7 @@ export default class Wrapper implements BaseWrapper {
     if (selector.type !== DOM_SELECTOR) {
       warnDeprecated(
         'finding components with `find` or `get`',
-        'Use `findComponent` instead'
+        'Use `findComponent` and `getComponent` instead'
       )
     }
 
