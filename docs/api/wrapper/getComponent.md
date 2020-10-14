@@ -14,9 +14,9 @@ const wrapper = mount(Foo)
 
 // similar to `wrapper.findComponent`.
 // `getComponent` will throw an error if an element is not found. `findComponent` will do nothing.
-expect(wrapper.getComponent(Bar)) // => finds Bar by component instance
-expect(wrapper.getComponent({ name: 'bar' })) // => finds Bar by `name`
-expect(wrapper.getComponent({ ref: 'bar' })) // => finds Bar by `ref`
+expect(wrapper.getComponent(Bar)) // => gets Bar by component instance
+expect(wrapper.getComponent({ name: 'bar' })) // => gets Bar by `name`
+expect(wrapper.getComponent({ ref: 'bar' })) // => gets Bar by `ref`
 
 expect(() => wrapper.getComponent({ name: 'does-not-exist' }))
   .to.throw()
