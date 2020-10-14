@@ -246,7 +246,7 @@ export default class Wrapper implements BaseWrapper {
 
     const found = this.findComponent(rawSelector)
     if (found instanceof ErrorWrapper) {
-      throw new Error(`Unable to find ${rawSelector} within: ${this.html()}`)
+      throw new Error(`Unable to get ${rawSelector} within: ${this.html()}`)
     }
     return found
   }
