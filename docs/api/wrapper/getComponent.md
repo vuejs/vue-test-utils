@@ -22,6 +22,6 @@ expect(() => wrapper.getComponent({ name: 'does-not-exist' }))
   .to.throw()
   .with.property(
     'message',
-    "Unable to find a component named 'does-not-exist' within: <div>the actual DOM here...</div>"
+    "Unable to get a component named 'does-not-exist' within: <div>the actual DOM here...</div>"
   )
 ```
