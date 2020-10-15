@@ -56,7 +56,8 @@ function getCoreProperties(componentOptions: Component): Object {
     style: componentOptions.style,
     normalizedStyle: componentOptions.normalizedStyle,
     nativeOn: componentOptions.nativeOn,
-    functional: componentOptions.functional
+    functional: componentOptions.functional,
+    abstract: componentOptions.abstract
   }
 }
 
