@@ -32,8 +32,8 @@ function _createLocalVue(
     }
   })
 
-  // config is not enumerable
-  instance.config = cloneDeep(Vue.config)
+  // merge the user config with default VUE config
+  instance.config = { ...Vue.config, ...config }
 
   // if a user defined errorHandler is defined by a localVue instance via createLocalVue, register it
   instance.config.errorHandler = config.errorHandler || Vue.config.errorHandler
