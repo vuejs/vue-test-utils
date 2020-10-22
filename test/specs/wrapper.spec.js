@@ -1,7 +1,8 @@
 import { describeWithShallowAndMount } from '~resources/utils'
 import {
   enableAutoDestroy,
-  resetAutoDestroyState
+  resetAutoDestroyState,
+  createWrapper
 } from 'packages/test-utils/src'
 
 describeWithShallowAndMount('Wrapper', mountingMethod => {
@@ -50,6 +51,17 @@ describeWithShallowAndMount('Wrapper', mountingMethod => {
       enableAutoDestroy(noop)
 
       expect(() => enableAutoDestroy(noop)).toThrow()
+    })
+
+    it('does not fail when non-Vue wrappers exist', async () => {
+      let hookCallback
+      enableAutoDestroy(callback => {
+        hookCallback = callback
+      })
+
+      createWrapper(document.createElement('div'))
+
+      expect(hookCallback).not.toThrow()
     })
   })
 })

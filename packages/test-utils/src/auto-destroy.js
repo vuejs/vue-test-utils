@@ -21,9 +21,9 @@ export function enableAutoDestroy(hook: (() => void) => void) {
   hook(() => {
     wrapperInstances.forEach((wrapper: Wrapper) => {
       // skip child wrappers created by wrapper.find()
-      if (wrapper.selector) return
-
-      wrapper.destroy()
+      if (wrapper.vm || wrapper.isFunctionalComponent) {
+        wrapper.destroy()
+      }
     })
 
     wrapperInstances.length = 0
