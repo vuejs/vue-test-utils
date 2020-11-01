@@ -8116,7 +8116,11 @@ function recursivelySetData(vm, target, data) {
     var val = data[key];
     var targetVal = target[key];
 
-    if (isPlainObject(val) && isPlainObject(targetVal)) {
+    if (
+      isPlainObject(val) &&
+      isPlainObject(targetVal) &&
+      Object.keys(val).length > 0
+    ) {
       recursivelySetData(vm, targetVal, val);
     } else {
       vm.$set(target, key, val);
@@ -9481,7 +9485,18 @@ var Wrapper = function Wrapper(
   }
 };
 
+/**
+ * Prints warning if component is destroyed
+ */
+Wrapper.prototype.__warnIfDestroyed = function __warnIfDestroyed () {
+  if (!this.exists()) {
+    warn('Operations on destroyed component are discouraged');
+  }
+};
+
 Wrapper.prototype.at = function at () {
+  this.__warnIfDestroyed();
+
   throwError('at() must be called on a WrapperArray');
 };
 
@@ -9489,6 +9504,8 @@ Wrapper.prototype.at = function at () {
  * Returns an Object containing all the attribute/value pairs on the element.
  */
 Wrapper.prototype.attributes = function attributes (key) {
+  this.__warnIfDestroyed();
+
   var attributes = this.element.attributes;
   var attributeMap = {};
   for (var i = 0; i < attributes.length; i++) {
@@ -9504,6 +9521,8 @@ Wrapper.prototype.attributes = function attributes (key) {
  */
 Wrapper.prototype.classes = function classes (className) {
     var this$1 = this;
+
+  this.__warnIfDestroyed();
 
   var classAttribute = this.element.getAttribute('class');
   var classes = classAttribute ? classAttribute.split(' ') : [];
@@ -9535,6 +9554,9 @@ Wrapper.prototype.contains = function contains (rawSelector) {
     'contains',
     'Use `wrapper.find`, `wrapper.findComponent` or `wrapper.get` instead'
   );
+
+  this.__warnIfDestroyed();
+
   var selector = getSelector(rawSelector, 'contains');
   var nodes = find(this.rootNode, this.vm, selector);
   return nodes.length > 0
@@ -9610,9 +9632,25 @@ Wrapper.prototype.filter = function filter () {
  * matches the provided selector.
  */
 Wrapper.prototype.get = function get (rawSelector) {
+  this.__warnIfDestroyed();
+
   var found = this.find(rawSelector);
   if (found instanceof ErrorWrapper) {
     throw new Error(("Unable to find " + rawSelector + " within: " + (this.html())))
+  }
+  return found
+};
+
+/**
+ * Gets first node in tree of the current wrapper that
+ * matches the provided selector.
+ */
+Wrapper.prototype.getComponent = function getComponent (rawSelector) {
+  this.__warnIfDestroyed();
+
+  var found = this.findComponent(rawSelector);
+  if (found instanceof ErrorWrapper) {
+    throw new Error(("Unable to get " + rawSelector + " within: " + (this.html())))
   }
   return found
 };
@@ -9622,11 +9660,13 @@ Wrapper.prototype.get = function get (rawSelector) {
  * matches the provided selector.
  */
 Wrapper.prototype.find = function find (rawSelector) {
+  this.__warnIfDestroyed();
+
   var selector = getSelector(rawSelector, 'find');
   if (selector.type !== DOM_SELECTOR) {
     warnDeprecated(
-      'finding components with `find`',
-      'Use `findComponent` instead'
+      'finding components with `find` or `get`',
+      'Use `findComponent` and `getComponent` instead'
     );
   }
 
@@ -9638,6 +9678,8 @@ Wrapper.prototype.find = function find (rawSelector) {
  * matches the provided selector.
  */
 Wrapper.prototype.findComponent = function findComponent (rawSelector) {
+  this.__warnIfDestroyed();
+
   var selector = getSelector(rawSelector, 'findComponent');
   if (!this.vm && !this.isFunctionalComponent) {
     throwError(
@@ -9671,6 +9713,8 @@ Wrapper.prototype.__find = function __find (rawSelector, selector) {
  * the provided selector.
  */
 Wrapper.prototype.findAll = function findAll (rawSelector) {
+  this.__warnIfDestroyed();
+
   var selector = getSelector(rawSelector, 'findAll');
   if (selector.type !== DOM_SELECTOR) {
     warnDeprecated(
@@ -9686,6 +9730,8 @@ Wrapper.prototype.findAll = function findAll (rawSelector) {
  * the provided selector.
  */
 Wrapper.prototype.findAllComponents = function findAllComponents (rawSelector) {
+  this.__warnIfDestroyed();
+
   var selector = getSelector(rawSelector, 'findAll');
   if (!this.vm) {
     throwError(
@@ -9721,6 +9767,8 @@ Wrapper.prototype.__findAll = function __findAll (rawSelector, selector) {
  * Returns HTML of element as a string
  */
 Wrapper.prototype.html = function html () {
+  this.__warnIfDestroyed();
+
   return pretty(this.element.outerHTML)
 };
 
@@ -9728,6 +9776,8 @@ Wrapper.prototype.html = function html () {
  * Checks if node matches selector or component definition
  */
 Wrapper.prototype.is = function is (rawSelector) {
+  this.__warnIfDestroyed();
+
   var selector = getSelector(rawSelector, 'is');
 
   if (selector.type === DOM_SELECTOR) {
@@ -9754,6 +9804,8 @@ Wrapper.prototype.isEmpty = function isEmpty () {
     'Consider a custom matcher such as those provided in jest-dom: https://github.com/testing-library/jest-dom#tobeempty. ' +
       'When using with findComponent, access the DOM element with findComponent(Comp).element'
   );
+  this.__warnIfDestroyed();
+
   if (!this.vnode) {
     return this.element.innerHTML === ''
   }
@@ -9778,6 +9830,8 @@ Wrapper.prototype.isEmpty = function isEmpty () {
  * Checks if node is visible
  */
 Wrapper.prototype.isVisible = function isVisible () {
+  this.__warnIfDestroyed();
+
   return isElementVisible(this.element)
 };
 
@@ -9787,6 +9841,8 @@ Wrapper.prototype.isVisible = function isVisible () {
  */
 Wrapper.prototype.isVueInstance = function isVueInstance () {
   warnDeprecated("isVueInstance");
+  this.__warnIfDestroyed();
+
   return !!this.vm
 };
 
@@ -9796,6 +9852,7 @@ Wrapper.prototype.isVueInstance = function isVueInstance () {
  */
 Wrapper.prototype.name = function name () {
   warnDeprecated("name");
+  this.__warnIfDestroyed();
 
   if (this.vm) {
     return (
@@ -9821,6 +9878,7 @@ Wrapper.prototype.overview = function overview () {
     var this$1 = this;
 
   warnDeprecated("overview");
+  this.__warnIfDestroyed();
 
   if (!this.vm) {
     throwError("wrapper.overview() can only be called on a Vue instance");
@@ -9907,6 +9965,7 @@ Wrapper.prototype.props = function props (key) {
   if (!this.vm) {
     throwError('wrapper.props() must be called on a Vue instance');
   }
+  this.__warnIfDestroyed();
 
   var props = {};
   var keys = this.vm && this.vm.$options._propKeys;
@@ -9932,6 +9991,8 @@ Wrapper.prototype.props = function props (key) {
  */
 Wrapper.prototype.setChecked = function setChecked (checked) {
     if ( checked === void 0 ) checked = true;
+
+  this.__warnIfDestroyed();
 
   if (typeof checked !== 'boolean') {
     throwError('wrapper.setChecked() must be passed a boolean');
@@ -9982,6 +10043,8 @@ Wrapper.prototype.setChecked = function setChecked (checked) {
  * @deprecated
  */
 Wrapper.prototype.setSelected = function setSelected () {
+  this.__warnIfDestroyed();
+
   var tagName = this.element.tagName;
 
   if (tagName === 'SELECT') {
@@ -10027,6 +10090,8 @@ Wrapper.prototype.setData = function setData (data) {
     throwError("wrapper.setData() can only be called on a Vue instance");
   }
 
+  this.__warnIfDestroyed();
+
   recursivelySetData(this.vm, this.vm, data);
   return nextTick()
 };
@@ -10046,6 +10111,8 @@ Wrapper.prototype.setMethods = function setMethods (methods) {
   if (!this.vm) {
     throwError("wrapper.setMethods() can only be called on a Vue instance");
   }
+  this.__warnIfDestroyed();
+
   Object.keys(methods).forEach(function (key) {
     // $FlowIgnore : Problem with possibly null this.vm
     this$1.vm[key] = methods[key];
@@ -10075,6 +10142,7 @@ Wrapper.prototype.setProps = function setProps (data) {
   if (!this.vm) {
     throwError("wrapper.setProps() can only be called on a Vue instance");
   }
+  this.__warnIfDestroyed();
 
   // Save the original "silent" config so that we can directly mutate props
   var originalConfig = Vue__default['default'].config.silent;
@@ -10148,6 +10216,7 @@ Wrapper.prototype.setValue = function setValue (value) {
   var tagName = this.element.tagName;
   // $FlowIgnore
   var type = this.attributes().type;
+  this.__warnIfDestroyed();
 
   if (tagName === 'OPTION') {
     throwError(
@@ -10200,6 +10269,8 @@ Wrapper.prototype.setValue = function setValue (value) {
  * Return text of wrapper element
  */
 Wrapper.prototype.text = function text () {
+  this.__warnIfDestroyed();
+
   return this.element.textContent.trim()
 };
 
@@ -10208,6 +10279,8 @@ Wrapper.prototype.text = function text () {
  */
 Wrapper.prototype.trigger = function trigger (type, options) {
     if ( options === void 0 ) options = {};
+
+  this.__warnIfDestroyed();
 
   if (typeof type !== 'string') {
     throwError('wrapper.trigger() must be passed a string');
@@ -13112,7 +13185,11 @@ function warnDeprecated(method, fallback) {
   if (!config.showDeprecationWarnings) { return }
   var msg = method + " is deprecated and will be removed in the next major version.";
   if (fallback) { msg += " " + fallback + "."; }
-  warn(msg);
+  if (config.deprecationWarningHandler) {
+    config.deprecationWarningHandler(method, msg);
+  } else {
+    warn(msg);
+  }
 }
 
 // 
@@ -13372,7 +13449,8 @@ function getCoreProperties(componentOptions) {
     style: componentOptions.style,
     normalizedStyle: componentOptions.normalizedStyle,
     nativeOn: componentOptions.nativeOn,
-    functional: componentOptions.functional
+    functional: componentOptions.functional,
+    abstract: componentOptions.abstract
   }
 }
 
@@ -13452,6 +13530,9 @@ function createStubFromComponent(
         tagName,
         {
           ref: componentOptions.functional ? context.data.ref : undefined,
+          domProps: componentOptions.functional
+            ? context.data.domProps
+            : undefined,
           attrs: componentOptions.functional
             ? Object.assign({}, context.props,
                 context.data.attrs,
