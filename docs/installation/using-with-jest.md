@@ -54,6 +54,14 @@ Then, you need to tell Jest to transform `.js` files using `babel-jest`. You can
 
 Then you need to create babel config using [babel.config.json](https://babeljs.io/docs/en/configuration#babelconfigjson), [.babelrc.json](https://babeljs.io/docs/en/configuration#babelrcjson) or `package.json`:
 
+`babel.config.json or .bablrc.json`
+```json
+{
+  "presets": ["@babel/preset-env"]
+}
+```
+
+`package.json`
 ```json
 {
   "babel": {
