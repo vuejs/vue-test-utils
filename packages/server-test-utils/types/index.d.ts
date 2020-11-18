@@ -50,9 +50,9 @@ interface VueTestUtilsConfigOptions {
 
 export declare let config: VueTestUtilsConfigOptions
 
-export declare function render<V extends Vue> (component: VueClass<V>, options?: ThisTypedMountOptions<V>): Promise<Cheerio>
-export declare function render<V extends Vue> (component: ComponentOptions<V>, options?: ThisTypedMountOptions<V>): Promise<Cheerio>
-export declare function render<Props = DefaultProps, PropDefs = PropsDefinition<Props>>(component: FunctionalComponentOptions<Props, PropDefs>, options?: MountOptions<Vue>): Promise<Cheerio>
+export declare function render<V extends Vue> (component: VueClass<V>, options?: ThisTypedMountOptions<V>): Promise<typeof Cheerio>
+export declare function render<V extends Vue> (component: ComponentOptions<V>, options?: ThisTypedMountOptions<V>): Promise<typeof Cheerio>
+export declare function render<Props = DefaultProps, PropDefs = PropsDefinition<Props>>(component: FunctionalComponentOptions<Props, PropDefs>, options?: MountOptions<Vue>): Promise<typeof Cheerio>
 
 export declare function renderToString<V extends Vue> (component: VueClass<V>, options?: ThisTypedMountOptions<V>): Promise<string>
 export declare function renderToString<V extends Vue> (component: ComponentOptions<V>, options?: ThisTypedMountOptions<V>): Promise<string>
