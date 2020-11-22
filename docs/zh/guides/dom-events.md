@@ -7,17 +7,21 @@
 `Wrapper` 暴露了一个 `trigger` 方法。它可以用来触发 DOM 事件。
 
 ```js
-const wrapper = mount(MyButton)
+test('triggers a click', async () => {
+  const wrapper = mount(MyButton)
 
-await wrapper.trigger('click')
+  await wrapper.trigger('click')
+})
 ```
 
 你应该注意到了，`find` 方法也会返回一个 `Wrapper`。假设 `MyComponent` 包含一个按钮，下面的代码会点击这个按钮。
 
 ```js
-const wrapper = mount(MyComponent)
+test('triggers a click', async () => {
+  const wrapper = mount(MyComponent)
 
-await wrapper.find('button').trigger('click')
+  await wrapper.find('button').trigger('click')
+})
 ```
 
 ### 选项
@@ -27,9 +31,11 @@ await wrapper.find('button').trigger('click')
 注意其目标不能被添加到 `options` 对象中。
 
 ```js
-const wrapper = mount(MyButton)
+test('triggers a click', async () => {
+  const wrapper = mount(MyComponent)
 
-await wrapper.trigger('click', { button: 0 })
+  await wrapper.trigger('click', { button: 0 })
+})
 ```
 
 ### 鼠标点击示例

@@ -7,17 +7,21 @@
 The `Wrapper` exposes an async `trigger` method. It can be used to trigger DOM events.
 
 ```js
-const wrapper = mount(MyButton)
+test('triggers a click', async () => {
+  const wrapper = mount(MyComponent)
 
-await wrapper.trigger('click')
+  await wrapper.trigger('click')
+})
 ```
 
 You should be aware that the `find` method returns a `Wrapper` as well. Assuming `MyComponent` contains a button, the following code clicks the button.
 
 ```js
-const wrapper = mount(MyComponent)
+test('triggers a click', async () => {
+  const wrapper = mount(MyComponent)
 
-await wrapper.find('button').trigger('click')
+  await wrapper.find('button').trigger('click')
+})
 ```
 
 ### Options
@@ -27,9 +31,11 @@ The `trigger` method takes an optional `options` object. The properties in the `
 Note that target cannot be added in the `options` object.
 
 ```js
-const wrapper = mount(MyButton)
+test('triggers a click', async () => {
+  const wrapper = mount(MyComponent)
 
-await wrapper.trigger('click', { button: 0 })
+  await wrapper.trigger('click', { button: 0 })
+})
 ```
 
 ### Mouse Click Example
