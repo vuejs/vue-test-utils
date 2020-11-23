@@ -5,17 +5,21 @@
 `Wrapper` の `trigger` メソッドで DOM イベントをトリガすることができます。
 
 ```js
-const wrapper = mount(MyButton)
+test('triggers a click', async () => {
+  const wrapper = mount(MyComponent)
 
-wrapper.trigger('click')
+  await wrapper.trigger('click')
+})
 ```
 
 `find` メソッドは `mount` メソッドと同じように `Wrapper` を返します。 `MyComponent` 内に `button` があると仮定すると、以下のコードは、 `button` をクリックします。
 
 ```js
-const wrapper = mount(MyComponent)
+test('triggers a click', async () => {
+  const wrapper = mount(MyComponent)
 
-wrapper.find('button').trigger('click')
+  await wrapper.find('button').trigger('click')
+})
 ```
 
 ### オプション
@@ -25,9 +29,11 @@ wrapper.find('button').trigger('click')
 target を `options` オブジェクトに追加することができないことに注意してください。
 
 ```js
-const wrapper = mount(MyButton)
+test('triggers a click', async () => {
+  const wrapper = mount(MyComponent)
 
-wrapper.trigger('click', { button: 0 })
+  await wrapper.trigger('click', { button: 0 })
+})
 ```
 
 ### マウスクリックの例
@@ -68,18 +74,16 @@ import YesNoComponent from '@/components/YesNoComponent'
 import { mount } from '@vue/test-utils'
 import sinon from 'sinon'
 
-describe('Click event', () => {
-  it('Click on yes button calls our method with argument "yes"', () => {
-    const spy = sinon.spy()
-    const wrapper = mount(YesNoComponent, {
-      propsData: {
-        callMe: spy
-      }
-    })
-    wrapper.find('button.yes').trigger('click')
-
-    spy.should.have.been.calledWith('yes')
+it('Click on yes button calls our method with argument "yes"', async () => {
+  const spy = sinon.spy()
+  const wrapper = mount(YesNoComponent, {
+    propsData: {
+      callMe: spy
+    }
   })
+  await wrapper.find('button.yes').trigger('click')
+
+  spy.should.have.been.calledWith('yes')
 })
 ```
 
@@ -150,29 +154,29 @@ describe('Key event tests', () => {
     expect(wrapper.vm.quantity).toBe(0)
   })
 
-  it('Cursor up sets quantity to 1', () => {
+  it('Cursor up sets quantity to 1', async () => {
     const wrapper = mount(QuantityComponent)
-    wrapper.trigger('keydown.up')
+    await wrapper.trigger('keydown.up')
     expect(wrapper.vm.quantity).toBe(1)
   })
 
-  it('Cursor down reduce quantity by 1', () => {
+  it('Cursor down reduce quantity by 1', async () => {
     const wrapper = mount(QuantityComponent)
     wrapper.vm.quantity = 5
-    wrapper.trigger('keydown.down')
+    await wrapper.trigger('keydown.down')
     expect(wrapper.vm.quantity).toBe(4)
   })
 
-  it('Escape sets quantity to 0', () => {
+  it('Escape sets quantity to 0', async () => {
     const wrapper = mount(QuantityComponent)
     wrapper.vm.quantity = 5
-    wrapper.trigger('keydown.esc')
+    await wrapper.trigger('keydown.esc')
     expect(wrapper.vm.quantity).toBe(0)
   })
 
-  it('Magic character "a" sets quantity to 13', () => {
+  it('Magic character "a" sets quantity to 13', async () => {
     const wrapper = mount(QuantityComponent)
-    wrapper.trigger('keydown', {
+    await wrapper.trigger('keydown', {
       key: 'a'
     })
     expect(wrapper.vm.quantity).toBe(13)
