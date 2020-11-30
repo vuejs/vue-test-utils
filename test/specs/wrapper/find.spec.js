@@ -257,6 +257,28 @@ describeWithShallowAndMount('find', mountingMethod => {
     }
   })
 
+  itSkipIf(
+    vueVersion < 2.3,
+    'returns functional component with name by name',
+    () => {
+      const TestFunctionalComponent = {
+        render: h => h('div'),
+        functional: true,
+        name: 'test-functional-component'
+      }
+      const TestComponent = {
+        template: '<div><test-functional-component /></div>',
+        components: {
+          TestFunctionalComponent
+        }
+      }
+      const wrapper = mountingMethod(TestComponent)
+      expect(
+        wrapper.find({ name: 'test-functional-component' }).exists()
+      ).toEqual(true)
+    }
+  )
+
   it('returns extended functional component', () => {
     const TestFunctionalComponent = Vue.extend({
       render: h => h('div'),
