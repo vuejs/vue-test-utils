@@ -33,6 +33,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
   it('renders dynamic class of functional child', () => {
     const wrapper = shallowMount(ComponentWithFunctionalChild)
     expect(wrapper.find('functional-component-stub').classes()).toContain(
+      'baz',
       'foo',
       'bar'
     )
@@ -44,6 +45,14 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
   it('renders v-text content of functional child', () => {
     const wrapper = shallowMount(ComponentWithFunctionalChild)
     expect(wrapper.find('functional-component-stub').text()).toBe('value')
+  })
+
+  it('trigger click must change content of functional child', async () => {
+    const wrapper = shallowMount(ComponentWithFunctionalChild)
+
+    await wrapper.trigger('click')
+
+    expect(wrapper.find('functional-component-stub').text()).toBe('newValue')
   })
 
   it('returns new VueWrapper of Vue localVue if no options are passed', () => {
