@@ -1,7 +1,8 @@
 <template>
   <functional-component
-    :class="{ bar: a + b === 2, foo: a === 1, qux: a === 2 }"
+    :class="['baz', { bar: a + b === 2, foo: a === 1, qux: a === 2 }]"
     v-text="something"
+    @click="handleFunctionalComponentClick"
   />
 </template>
 
@@ -18,6 +19,12 @@ export default {
       a: 1,
       b: 1,
       something: 'value'
+    }
+  },
+
+  methods: {
+    handleFunctionalComponentClick() {
+      this.something = 'newValue'
     }
   }
 }
