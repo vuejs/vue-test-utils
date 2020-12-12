@@ -3,6 +3,7 @@ declare type Options = {
   attachToDocument?: boolean,
   attachTo?: HTMLElement | string,
   propsData?: Object,
+  data?: Object | Function,
   mocks?: Object,
   methods?: { [key: string]: Function },
   slots?: SlotsObject,
@@ -20,6 +21,7 @@ declare type Options = {
 declare type NormalizedOptions = {
   attachTo?: HTMLElement | string,
   attachToDocument?: boolean,
+  data?: Object | Function,
   propsData?: Object,
   mocks: Object,
   methods: { [key: string]: Function },
