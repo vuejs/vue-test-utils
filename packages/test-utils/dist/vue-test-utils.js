@@ -2285,28 +2285,6 @@ function getCoreProperties(componentOptions) {
   }
 }
 
-function createClassString(staticClass, dynamicClass) {
-  // :class="someComputedObject" can return a string, object or undefined
-  // if it is a string, we don't need to do anything special.
-  var evaluatedDynamicClass = dynamicClass;
-
-  // if it is an object, eg { 'foo': true }, we need to evaluate it.
-  // see https://github.com/vuejs/vue-test-utils/issues/1474 for more context.
-  if (typeof dynamicClass === 'object') {
-    evaluatedDynamicClass = Object.keys(dynamicClass).reduce(function (acc, key) {
-      if (dynamicClass[key]) {
-        return acc + ' ' + key
-      }
-      return acc
-    }, '');
-  }
-
-  if (staticClass && evaluatedDynamicClass) {
-    return staticClass + ' ' + evaluatedDynamicClass
-  }
-  return staticClass || evaluatedDynamicClass
-}
-
 function resolveOptions(component, _Vue) {
   if (isDynamicComponent(component)) {
     return {}
@@ -2359,20 +2337,13 @@ function createStubFromComponent(
 
       return h(
         tagName,
-        {
-          ref: componentOptions.functional ? context.data.ref : undefined,
-          domProps: componentOptions.functional
-            ? context.data.domProps
-            : undefined,
-          attrs: componentOptions.functional
-            ? Object.assign({}, context.props,
-                context.data.attrs,
-                {class: createClassString(
-                  context.data.staticClass,
-                  context.data.class
-                )})
-            : Object.assign({}, this.$props)
-        },
+        componentOptions.functional
+          ? Object.assign({}, context.data,
+              {attrs: Object.assign({}, context.props,
+                context.data.attrs)})
+          : {
+              attrs: Object.assign({}, this.$props)
+            },
         context
           ? context.children
           : this.$options._renderChildren ||
@@ -2669,8 +2640,10 @@ function createInstance(
   };
 
   // options  "propsData" can only be used during instance creation with the `new` keyword
+  // "data" should be set only on component under test to avoid reactivity issues
   var propsData = options.propsData;
-  var rest$1 = objectWithoutProperties( options, ["propsData"] );
+  var data = options.data;
+  var rest$1 = objectWithoutProperties( options, ["propsData", "data"] );
   var rest = rest$1; // eslint-disable-line
   var Parent = _Vue.extend(Object.assign({}, rest,
     parentComponentOptions));
