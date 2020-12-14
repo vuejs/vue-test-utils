@@ -1,5 +1,9 @@
 # 介绍
 
+::: warning
+本文档基于 Vue2.x，新版本文档请移步至[这里](https://vue-test-utils.vuejs.org/v2/guide/introduction.html)
+:::
+
 Vue Test Utils 是 Vue.js 官方的单元测试实用工具库。
 
 <div class="vueschool"><a href="https://vueschool.io/courses/learn-how-to-test-vuejs-components?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to use Vue Test Utils to test Vue.js Components with Vue School">在 Vue School 学习如何测试 Vue.js 组件</a></div>
