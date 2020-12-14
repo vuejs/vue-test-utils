@@ -125,7 +125,8 @@ export default function createInstance(
   }
 
   // options  "propsData" can only be used during instance creation with the `new` keyword
-  const { propsData, ...rest } = options // eslint-disable-line
+  // "data" should be set only on component under test to avoid reactivity issues
+  const { propsData, data, ...rest } = options // eslint-disable-line
   const Parent = _Vue.extend({
     ...rest,
     ...parentComponentOptions
