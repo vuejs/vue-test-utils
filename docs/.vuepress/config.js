@@ -48,7 +48,14 @@ module.exports = {
           },
           {
             text: 'Guides',
-            link: '/guides/'
+            link: '/guides/',
+            items: [
+              {
+                text: '2.x-beta',
+                link:
+                  'https://vuejs.github.io/vue-test-utils-next-docs/guide/introduction.html'
+              }
+            ]
           },
           {
             text: 'Upgrading to V1',
@@ -77,7 +84,14 @@ module.exports = {
           },
           {
             text: '教程',
-            link: '/zh/guides/'
+            link: '/zh/guides/',
+            items: [
+              {
+                text: '2.x-beta',
+                link:
+                  'https://vuejs.github.io/vue-test-utils-next-docs/guide/introduction.html'
+              }
+            ]
           }
         ],
         sidebar: [
@@ -102,7 +116,14 @@ module.exports = {
           },
           {
             text: 'ガイド',
-            link: '/ja/guides/'
+            link: '/ja/guides/',
+            items: [
+              {
+                text: '2.x-beta',
+                link:
+                  'https://vuejs.github.io/vue-test-utils-next-docs/guide/introduction.html'
+              }
+            ]
           }
         ],
         sidebar: [
@@ -127,7 +148,14 @@ module.exports = {
           },
           {
             text: 'Руководства',
-            link: '/ru/guides/'
+            link: '/ru/guides/',
+            items: [
+              {
+                text: '2.x-beta',
+                link:
+                  'https://vuejs.github.io/vue-test-utils-next-docs/guide/introduction.html'
+              }
+            ]
           }
         ],
         sidebar: [
