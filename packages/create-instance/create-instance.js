@@ -11,7 +11,7 @@ import createScopedSlots from './create-scoped-slots'
 import { createStubsFromStubsObject } from './create-component-stubs'
 import { patchCreateElement } from './patch-create-element'
 
-function createContext(options, scopedSlots) {
+function createContext(options, scopedSlots, currentProps) {
   const on = {
     ...(options.context && options.context.on),
     ...options.listeners
@@ -20,8 +20,8 @@ function createContext(options, scopedSlots) {
     attrs: {
       ...options.attrs,
       // pass as attrs so that inheritAttrs works correctly
-      // propsData should take precedence over attrs
-      ...options.propsData
+      // props should take precedence over attrs
+      ...currentProps
     },
     ...(options.context || {}),
     on,
@@ -110,16 +110,26 @@ export default function createInstance(
   parentComponentOptions.provide = function() {
     return {
       ...getValuesFromCallableOption.call(this, originalParentComponentProvide),
+      // $FlowIgnore
       ...getValuesFromCallableOption.call(this, options.provide)
     }
   }
 
+  const originalParentComponentData = parentComponentOptions.data
+  parentComponentOptions.data = function() {
+    return {
+      ...getValuesFromCallableOption.call(this, originalParentComponentData),
+      vueTestUtils_childProps: { ...options.propsData }
+    }
+  }
+
   parentComponentOptions.$_doNotStubChildren = true
+  parentComponentOptions.$_isWrapperParent = true
   parentComponentOptions._isFunctionalContainer = componentOptions.functional
   parentComponentOptions.render = function(h) {
     return h(
       Constructor,
-      createContext(options, scopedSlots),
+      createContext(options, scopedSlots, this.vueTestUtils_childProps),
       createChildren(this, h, options)
     )
   }

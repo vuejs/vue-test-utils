@@ -22,7 +22,7 @@ describeWithShallowAndMount('props', mountingMethod => {
     expect(wrapper.props()).toEqual({})
   })
 
-  it('should update after setProps', () => {
+  it('should update after setProps', async () => {
     const prop1 = {}
     const prop2 = 'val1'
     const wrapper = mountingMethod(ComponentWithProps, {
@@ -31,7 +31,7 @@ describeWithShallowAndMount('props', mountingMethod => {
 
     expect(wrapper.props()).toEqual({ prop1: {}, prop2: 'val1' })
     // setProps
-    wrapper.setProps({ prop2: 'val2' })
+    await wrapper.setProps({ prop2: 'val2' })
     expect(wrapper.vm.prop2).toEqual('val2') // pass
     expect(wrapper.props()).toEqual({ prop1: {}, prop2: 'val2' }) // fail
   })

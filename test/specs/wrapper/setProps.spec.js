@@ -1,6 +1,8 @@
 import { compileToFunctions } from 'vue-template-compiler'
+import ComponentWithChild from '~resources/components/component-with-child.vue'
 import ComponentWithProps from '~resources/components/component-with-props.vue'
 import ComponentWithWatch from '~resources/components/component-with-watch.vue'
+import ComponentWithWatchImmediate from '~resources/components/component-with-watch-immediate.vue'
 import {
   describeWithShallowAndMount,
   isPromise,
@@ -260,6 +262,29 @@ describeWithShallowAndMount('setProps', mountingMethod => {
         expect(callback).toHaveBeenCalledTimes(2)
       }
     )
+
+    it('correctly handles consecutive setProps calls when immediate watcher is attached', async () => {
+      const wrapper = mountingMethod(ComponentWithWatchImmediate, {
+        propsData: { prop1: 'zero' }
+      })
+
+      await wrapper.setProps({ prop1: 'one' })
+      await wrapper.setProps({ prop1: 'two' })
+
+      expect(wrapper.vm.prop1).toBe('two')
+    })
+
+    it('correctly handles multiple setProps calls in one tick when immediate watcher is attached', async () => {
+      const wrapper = mountingMethod(ComponentWithWatchImmediate, {
+        propsData: { prop1: 'zero' }
+      })
+
+      wrapper.setProps({ prop1: 'one' })
+      wrapper.setProps({ prop1: 'two' })
+      await wrapper.vm.$nextTick()
+
+      expect(wrapper.vm.prop1).toBe('two')
+    })
   })
 
   it('props and setProps should return the same reference when called with same object', async () => {
@@ -278,7 +303,8 @@ describeWithShallowAndMount('setProps', mountingMethod => {
       FUNCTIONAL_COMPONENT_ERROR: `[vue-test-utils]: wrapper.setProps() cannot be called on a functional component`,
       SAME_REFERENCE_ERROR: `[vue-test-utils]: wrapper.setProps() called with the same object of the existing obj property. You must call wrapper.setProps() with a new object to trigger reactivity`,
       INVALID_NODE_ERROR: `wrapper.setProps() can only be called on a Vue instance`,
-      WRONG_PROP_ERROR: `[vue-test-utils]: wrapper.setProps() called with prop1 property which is not defined on the component`
+      WRONG_PROP_ERROR: `[vue-test-utils]: wrapper.setProps() called with prop1 property which is not defined on the component`,
+      ONLY_TOP_LEVEL_ERROR: `[vue-test-utils]: wrapper.setProps() can only be called for top-level component`
     }
 
     describe('functional components', () => {
@@ -346,6 +372,12 @@ describeWithShallowAndMount('setProps', mountingMethod => {
       expect(() => p.setProps({ ready: true })).toThrow(
         errors.INVALID_NODE_ERROR
       )
+    })
+
+    it('throws an error if called on child component', () => {
+      const wrapper = mountingMethod(ComponentWithChild)
+      const child = wrapper.find({ ref: 'child' })
+      expect(() => child.setProps({})).toThrow(errors.ONLY_TOP_LEVEL_ERROR)
     })
   })
 })

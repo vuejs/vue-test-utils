@@ -8,7 +8,9 @@
 
 Sets `Wrapper` `vm` props and forces update.
 
-**Note the Wrapper must contain a Vue instance.**
+::: warning
+`setProps` could be called only for top-level component, mounted by `mount` or `shallowMount`
+:::
 
 ```js
 import { mount } from '@vue/test-utils'

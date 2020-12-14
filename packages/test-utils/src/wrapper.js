@@ -1,6 +1,5 @@
 // @flow
 
-import Vue from 'vue'
 import pretty from 'pretty'
 import getSelector from './get-selector'
 import {
@@ -9,7 +8,6 @@ import {
   VUE_VERSION,
   DOM_SELECTOR
 } from 'shared/consts'
-import config from './config'
 import WrapperArray from './wrapper-array'
 import ErrorWrapper from './error-wrapper'
 import {
@@ -721,71 +719,49 @@ export default class Wrapper implements BaseWrapper {
     if (!this.vm) {
       throwError(`wrapper.setProps() can only be called on a Vue instance`)
     }
+
+    // $FlowIgnore : Problem with possibly null this.vm
+    if (!this.vm.$parent.$options.$_isWrapperParent) {
+      throwError(
+        `wrapper.setProps() can only be called for top-level component`
+      )
+    }
+
     this.__warnIfDestroyed()
 
-    // Save the original "silent" config so that we can directly mutate props
-    const originalConfig = Vue.config.silent
-    Vue.config.silent = config.silent
-
-    try {
-      Object.keys(data).forEach(key => {
-        // Don't let people set entire objects, because reactivity won't work
-        if (
-          typeof data[key] === 'object' &&
-          data[key] !== null &&
-          // $FlowIgnore : Problem with possibly null this.vm
-          data[key] === this.vm[key]
-        ) {
-          throwError(
-            `wrapper.setProps() called with the same object of the existing ` +
-              `${key} property. You must call wrapper.setProps() with a new ` +
-              `object to trigger reactivity`
-          )
-        }
-
-        if (
-          !this.vm ||
-          !this.vm.$options._propKeys ||
-          !this.vm.$options._propKeys.some(prop => prop === key)
-        ) {
-          if (VUE_VERSION > 2.3) {
-            // $FlowIgnore : Problem with possibly null this.vm
-            this.vm.$attrs[key] = data[key]
-            return nextTick()
-          }
-          throwError(
-            `wrapper.setProps() called with ${key} property which ` +
-              `is not defined on the component`
-          )
-        }
-
-        // Actually set the prop
+    Object.keys(data).forEach(key => {
+      // Don't let people set entire objects, because reactivity won't work
+      if (
+        typeof data[key] === 'object' &&
+        data[key] !== null &&
         // $FlowIgnore : Problem with possibly null this.vm
-        this.vm[key] = data[key]
-      })
+        data[key] === this.vm[key]
+      ) {
+        throwError(
+          `wrapper.setProps() called with the same object of the existing ` +
+            `${key} property. You must call wrapper.setProps() with a new ` +
+            `object to trigger reactivity`
+        )
+      }
+
+      if (
+        VUE_VERSION <= 2.3 &&
+        (!this.vm ||
+          !this.vm.$options._propKeys ||
+          !this.vm.$options._propKeys.some(prop => prop === key))
+      ) {
+        throwError(
+          `wrapper.setProps() called with ${key} property which ` +
+            `is not defined on the component`
+        )
+      }
 
       // $FlowIgnore : Problem with possibly null this.vm
-      this.vm.$forceUpdate()
-      return new Promise(resolve => {
-        nextTick().then(() => {
-          const isUpdated = Object.keys(data).some(key => {
-            return (
-              // $FlowIgnore : Problem with possibly null this.vm
-              this.vm[key] === data[key] ||
-              // $FlowIgnore : Problem with possibly null this.vm
-              (this.vm.$attrs && this.vm.$attrs[key] === data[key])
-            )
-          })
-          return !isUpdated ? this.setProps(data).then(resolve()) : resolve()
-        })
-      })
-    } catch (err) {
-      throw err
-    } finally {
-      // Ensure you teardown the modifications you made to the user's config
-      // After all the props are set, then reset the state
-      Vue.config.silent = originalConfig
-    }
+      const parent = this.vm.$parent
+      parent.$set(parent.vueTestUtils_childProps, key, data[key])
+    })
+
+    return nextTick()
   }
 
   /**

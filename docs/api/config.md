@@ -47,7 +47,7 @@ config.deprecationWarningHandler = (method, message) => {
 - type: `{ [name: string]: Component | boolean | string }`
 - default: `{}`
 
-The stub stored in `config.stubs` is used by default.  
+The stub stored in `config.stubs` is used by default.
 Stubs to use in components. These are overwritten by `stubs` passed in the mounting options.
 
 When passing `stubs` as an array in the mounting options, `config.stubs` are converted to an array, and will stub components with a basic component that returns `<${component name}-stub>`.
@@ -111,19 +111,4 @@ config.provide['$logger'] = {
     console.log(...args)
   }
 }
-```
-
-### `silent`
-
-- type: `Boolean`
-- default: `true`
-
-It suppresses warnings triggered by Vue while mutating component's observables (e.g. props). When set to `false`, all warnings are visible in the console. This is a configurable way which relies on `Vue.config.silent`.
-
-Example:
-
-```js
-import { config } from '@vue/test-utils'
-
-config.silent = false
 ```

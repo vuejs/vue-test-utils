@@ -73,18 +73,3 @@ config.provide['$logger'] = {
   }
 }
 ```
-
-### `silent`
-
-- 型: `Boolean`
-- デフォルト: `true`
-
-Vue がコンポーネントの変更を感知するプロパティ(例えば props )が変更される時に出す警告を出力しません。`false` をセットするとすべての警告はコンソールに表示されません。この機能は `Vue.config.silent` を使って実現しています。
-
-例:
-
-```js
-import { config } from '@vue/test-utils'
-
-config.silent = false
-```
