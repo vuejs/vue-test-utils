@@ -1,23 +1,19 @@
 import { describeWithShallowAndMount } from '~resources/utils'
-import ComponentWithProps from '~resources/components/component-with-props.vue'
 import { config, createLocalVue } from 'packages/test-utils/src'
 import ComponentWithTransitions from '~resources/components/component-with-transitions.vue'
 
 describeWithShallowAndMount('config', mountingMethod => {
   let configStubsSave
-  let configSilentSave
   let consoleErrorSave
 
   beforeEach(() => {
     configStubsSave = config.stubs
-    configSilentSave = config.silent
     consoleErrorSave = console.error
     console.error = jest.fn()
   })
 
   afterEach(() => {
     config.stubs = configStubsSave
-    config.silent = configSilentSave
     config.methods = {}
     config.deprecationWarningHandler = null
     console.error = consoleErrorSave
@@ -60,40 +56,6 @@ describeWithShallowAndMount('config', mountingMethod => {
 
     expect(wrapper.vm.val()).toEqual('method')
     expect(wrapper.text()).toEqual('method')
-  })
-
-  it("doesn't throw Vue warning when silent is set to true", () => {
-    config.silent = true
-    const localVue = createLocalVue()
-    const wrapper = mountingMethod(ComponentWithProps, {
-      propsData: {
-        prop1: 'example'
-      },
-      localVue
-    })
-    expect(wrapper.vm.prop1).toEqual('example')
-    wrapper.setProps({
-      prop1: 'new value'
-    })
-    expect(console.error).not.toHaveBeenCalled()
-  })
-
-  it('does throw Vue warning when silent is set to false', () => {
-    config.silent = false
-    const localVue = createLocalVue()
-    const wrapper = mountingMethod(ComponentWithProps, {
-      propsData: {
-        prop1: 'example'
-      },
-      localVue
-    })
-    expect(wrapper.vm.prop1).toEqual('example')
-    wrapper.setProps({
-      prop1: 'new value'
-    })
-    expect(console.error).toHaveBeenCalledWith(
-      expect.stringMatching(/[Vue warn]/)
-    )
   })
 
   it('stubs out transitions by default', async () => {

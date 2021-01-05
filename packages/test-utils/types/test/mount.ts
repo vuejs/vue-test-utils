@@ -101,8 +101,7 @@ config.provide = {
 config.provide['foo'] = {
   bar: {}
 }
-config.silent = true
 config.showDeprecationWarnings = false
 
 // Check we can use default export
-VueTestUtils.config.silent = false
+VueTestUtils.config.showDeprecationWarnings = false

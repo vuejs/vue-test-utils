@@ -66,4 +66,3 @@ config.methods = {
 config.provide = {
   foo: {}
 }
-config.silent = true

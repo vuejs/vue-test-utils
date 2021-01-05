@@ -45,7 +45,6 @@ interface VueTestUtilsConfigOptions {
   mocks?: object
   methods?: Record<string, Function>
   provide?: object,
-  silent?: Boolean
 }
 
 export declare let config: VueTestUtilsConfigOptions
