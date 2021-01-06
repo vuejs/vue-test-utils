@@ -22,13 +22,14 @@ function errorHandler(errorOrString, vm, info) {
     vm._error = error
   }
 
+  if (!instancedErrorHandlers.length) {
+    throw error
+  }
   // should be one error handler, as only once can be registered with local vue
   // regardless, if more exist (for whatever reason), invoke the other user defined error handlers
   instancedErrorHandlers.forEach(instancedErrorHandler => {
     instancedErrorHandler(error, vm, info)
   })
-
-  throw error
 }
 
 export function throwIfInstancesThrew(vm) {
