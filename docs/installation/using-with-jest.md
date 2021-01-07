@@ -52,7 +52,15 @@ Then, you need to tell Jest to transform `.js` files using `babel-jest`. You can
 }
 ```
 
-Then you need to create babel config using [babel.config.json](https://babeljs.io/docs/en/configuration#babelconfigjson), [.babelrc.json](https://babeljs.io/docs/en/configuration#babelrcjson) or `package.json`:
+Then you need to create babel config using [babel.config.json](https://babeljs.io/docs/en/configuration#babelconfigjson) or [.babelrc.json](https://babeljs.io/docs/en/configuration#babelrcjson) config files:
+
+```json
+{
+  "presets": ["@babel/preset-env"]
+}
+```
+
+You can also add these options to `package.json`:
 
 ```json
 {
@@ -62,7 +70,7 @@ Then you need to create babel config using [babel.config.json](https://babeljs.i
 }
 ```
 
-### Handling webpack Aliases
+### Handling webpack aliases
 
 If you use a resolve alias in the webpack config, e.g. aliasing `@` to `/src`, you need to add a matching config for Jest as well, using the `moduleNameMapper` option:
 
