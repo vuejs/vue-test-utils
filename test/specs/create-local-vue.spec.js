@@ -152,6 +152,66 @@ describeWithShallowAndMount('createLocalVue', mountingMethod => {
   )
 
   itSkipIf(
+    vueVersion < 2.6,
+    'Exception suppresed in `errorHandler` is not logged to console.error',
+    async () => {
+      const component = Vue.component('TestComponent', {
+        template: '<button id="btn" @click="clickHandler">Click me</button>',
+        methods: {
+          clickHandler() {
+            throw new Error('Should not be logged')
+          }
+        }
+      })
+      const errorHandler = jest.fn()
+      const localVue = createLocalVue({
+        errorHandler
+      })
+      const wrapper = mountingMethod(component, { localVue })
+      await wrapper.vm.$nextTick()
+
+      const { error } = global.console
+      const spy = jest.spyOn(global.console, 'error')
+      await wrapper.trigger('click')
+      global.console.error = error
+      expect(spy).not.toHaveBeenCalled()
+    }
+  )
+
+  itSkipIf(
+    vueVersion < 2.6,
+    'Exception raised in `errorHandler` bubbles up',
+    async () => {
+      const component = Vue.component('TestComponent', {
+        template: '<button id="btn" @click="clickHandler">Click me</button>',
+        methods: {
+          clickHandler() {
+            throw new Error()
+          }
+        }
+      })
+      const errorHandler = (err, vm, info) => {
+        if (err) {
+          throw new Error('An error that should log')
+        }
+      }
+      const localVue = createLocalVue({
+        errorHandler
+      })
+      const wrapper = mountingMethod(component, { localVue })
+      await wrapper.vm.$nextTick()
+
+      const { error } = global.console
+      const spy = jest.spyOn(global.console, 'error')
+      await wrapper.trigger('click')
+      global.console.error = error
+      expect(spy).toHaveBeenCalledWith(
+        '[Vue warn]: Error in config.errorHandler: "Error: An error that should log"'
+      )
+    }
+  )
+
+  itSkipIf(
     process.env.TEST_ENV === 'browser' || vueVersion < 2.6,
     'Calls `errorHandler` when an error is thrown asynchronously',
     async () => {
