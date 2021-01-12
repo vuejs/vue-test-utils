@@ -2,6 +2,7 @@
 
 ::: warning Deprecation warning
 Using `findAll` to search for Components is deprecated and will be removed. Use `findAllComponents` instead.
+The `findAll` method will continue to work for finding elements using any valid [selector](../selectors.md).
 :::
 
 Returns a [`WrapperArray`](../wrapper-array/).
