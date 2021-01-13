@@ -2,6 +2,7 @@
 
 ::: warning Deprecation warning
 Using `find` to search for a Component is deprecated and will be removed. Use [`findComponent`](./findComponent.md) instead.
+The `find` method will continue to work for finding elements using any valid [selector](../selectors.md).
 :::
 
 Returns `Wrapper` of first DOM node or Vue component matching selector.
