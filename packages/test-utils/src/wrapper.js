@@ -31,7 +31,7 @@ export default class Wrapper implements BaseWrapper {
   +vm: Component | void
   _emitted: { [name: string]: Array<Array<any>> }
   _emittedByOrder: Array<{ name: string, args: Array<any> }>
-  +element: Element
+  +element: Element | HTMLInputElement
   +options: WrapperOptions
   isFunctionalComponent: boolean
   rootNode: VNode | Element
@@ -831,8 +831,8 @@ export default class Wrapper implements BaseWrapper {
 
   /**
    * Simulates event triggering
-   * @param type
-   * @param options
+   * @param type {string}
+   * @param [options] {Object}
    * @returns {*}
    * @private
    */
