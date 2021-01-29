@@ -31,7 +31,7 @@ export default class Wrapper implements BaseWrapper {
   +vm: Component | void
   _emitted: { [name: string]: Array<Array<any>> }
   _emittedByOrder: Array<{ name: string, args: Array<any> }>
-  +element: Element | HTMLInputElement
+  +element: Element
   +options: WrapperOptions
   isFunctionalComponent: boolean
   rootNode: VNode | Element
@@ -831,18 +831,20 @@ export default class Wrapper implements BaseWrapper {
 
   /**
    * Simulates event triggering
-   * @param type {string}
-   * @param [options] {Object}
-   * @returns {*}
-   * @private
    */
-  __simulateTrigger(type, options) {
+  __simulateTrigger(type: string, options?: Object): void {
     const regularEventTrigger = (type, options) => {
       const event = createDOMEvent(type, options)
       return this.element.dispatchEvent(event)
     }
 
-    const focusEventTrigger = (type, options) => this.element.focus(options)
+    const focusEventTrigger = (type, options) => {
+      if (this.element instanceof HTMLElement) {
+        return this.element.focus()
+      }
+
+      regularEventTrigger(type, options)
+    }
 
     const triggerProcedureMap = {
       focus: focusEventTrigger,
