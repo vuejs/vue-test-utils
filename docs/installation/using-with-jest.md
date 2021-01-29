@@ -4,7 +4,23 @@ Jest is a test runner developed by Facebook, aiming to deliver a battery-include
 
 <div class="vueschool"><a href="https://vueschool.io/courses/learn-how-to-test-vuejs-components?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to use Jest and Vue Test Utils to test Single File Components with Vue School">Learn how to use Jest to test Single File Components with Vue School</a></div>
 
+### Installation with Vue CLI (recommended)
+
 If you are using the Vue CLI to build your project, you can use the plugin [cli-plugin-unit-jest](https://cli.vuejs.org/core-plugins/unit-jest.html) to run Jest tests.
+
+```bash
+$ vue add unit-jest
+```
+
+The plugin pulls all required dependencies (including jest), creates a `jest.config.js` file with sensible defaults, and generates a sample test suite.
+
+After that, all you need to do is to install Vue Test Utils.
+
+```bash
+$ npm install --save-dev @vue/test-utils
+```
+
+### Manual installation
 
 After setting up Jest, the first thing to do is to install Vue Test Utils and [`vue-jest`](https://github.com/vuejs/vue-jest) to process Single-File Components:
 
@@ -31,7 +47,7 @@ Then, you need to tell Jest to transform `.vue` files using `vue-jest`. You can 
 }
 ```
 
-### Using with Babel
+#### Using with Babel
 
 If you are going to use `babel` and import vue single file components with `.vue` extension inside your tests, you will need to install babel and transform `.js` files with `babel-jest` .
 
@@ -70,7 +86,7 @@ You can also add these options to `package.json`:
 }
 ```
 
-### Handling webpack aliases
+#### Handling webpack aliases
 
 If you use a resolve alias in the webpack config, e.g. aliasing `@` to `/src`, you need to add a matching config for Jest as well, using the `moduleNameMapper` option:
 
@@ -87,7 +103,7 @@ If you use a resolve alias in the webpack config, e.g. aliasing `@` to `/src`, y
 
 ### Code Coverage
 
-Jest can be used to generate coverage reports in multiple formats. The following is a simple example to get started with:
+Jest can be used to generate coverage reports in multiple formats. This is disabled by default (both for a vue-cli installation and for a manual one). The following is a simple example to get started with:
 
 Extend your `jest` config with the [`collectCoverage`](https://jestjs.io/docs/en/configuration#collectcoverage-boolean) option, and then add the [`collectCoverageFrom`](https://jestjs.io/docs/en/configuration#collectcoveragefrom-array) array to define the files for which coverage information should be collected.
 
