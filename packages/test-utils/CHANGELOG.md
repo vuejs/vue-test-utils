@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.3](https://github.com/vuejs/vue-test-utils/compare/v1.1.2...v1.1.3) (2021-02-04)
+
+
+### Bug Fixes
+
+* **error.js:** do not console.error handled exceptions ([#1761](https://github.com/vuejs/vue-test-utils/issues/1761)) ([c4133d6](https://github.com/vuejs/vue-test-utils/commit/c4133d6a78cd0ad7efafdfadb4f1ae28e31079b4)), closes [#1760](https://github.com/vuejs/vue-test-utils/issues/1760)
+* prevent setProps infinite loop with immediate watchers ([#1752](https://github.com/vuejs/vue-test-utils/issues/1752)) ([db4ab8b](https://github.com/vuejs/vue-test-utils/commit/db4ab8b10872ff1ca492c02ad0f62368ed748631))
+
+
+
+
+
 ## [1.0.5](https://github.com/vuejs/vue-test-utils/compare/v1.0.4...v1.0.5) (2020-08-29)
 
 **Note:** Version bump only for package @vue/test-utils

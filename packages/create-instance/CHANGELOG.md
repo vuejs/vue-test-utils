@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.3](https://github.com/vuejs/vue-test-utils/compare/v1.1.2...v1.1.3) (2021-02-04)
+
+
+### Bug Fixes
+
+* prevent setProps infinite loop with immediate watchers ([#1752](https://github.com/vuejs/vue-test-utils/issues/1752)) ([db4ab8b](https://github.com/vuejs/vue-test-utils/commit/db4ab8b10872ff1ca492c02ad0f62368ed748631))
+
+
+
+
+
 ## [1.0.5](https://github.com/vuejs/vue-test-utils/compare/v1.0.4...v1.0.5) (2020-08-29)
 
 
