@@ -231,4 +231,27 @@ describeWithShallowAndMount('createLocalVue', mountingMethod => {
       }
     }
   )
+
+  // This test is related to the issue 1768.
+  // See: https://github.com/vuejs/vue-test-utils/issues/1768
+  itSkipIf(
+    process.env.TEST_ENV === 'browser' || vueVersion < 2.6,
+    'Does not exceed maximum call stack size when no custom error handler is defined',
+    async () => {
+      const { error } = global.console
+      const spy = jest.spyOn(global.console, 'error')
+      const localVue = createLocalVue()
+
+      try {
+        mountingMethod(ComponentWithSyncError, { localVue })
+      } catch {
+        const expected = expect.stringMatching(
+          /Maximum call stack size exceeded/
+        )
+
+        global.console.error = error
+        expect(spy).not.toHaveBeenCalledWith(expected)
+      }
+    }
+  )
 })
