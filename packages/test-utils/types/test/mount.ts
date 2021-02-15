@@ -1,6 +1,6 @@
 import Vuex from 'vuex'
 import VueTestUtils, { mount, createLocalVue, config } from '../'
-import { normalOptions, functionalOptions, ClassComponent } from './resources'
+import { normalOptions, functionalOptions, ClassComponent, extendedFunctionalComponent, extendedNormalComponent } from './resources'
 
 /**
  * Should create wrapper vm based on (function) component options or constructors
@@ -9,10 +9,14 @@ import { normalOptions, functionalOptions, ClassComponent } from './resources'
 const normalWrapper = mount(normalOptions)
 const normalFoo: string = normalWrapper.vm.foo
 
+const extendedNormalWrapper = mount(extendedNormalComponent)
+const extendedNormalFoo: string = extendedNormalWrapper.vm.foo
+
 const classWrapper = mount(ClassComponent)
 const classFoo: string = classWrapper.vm.bar
 
 const functionalWrapper = mount(functionalOptions)
+const extendedFunctionalWrapper = mount(extendedFunctionalComponent)
 
 /**
  * Test for mount options
@@ -57,6 +61,15 @@ mount(ClassComponent, {
 mount(functionalOptions, {
   context: {
     props: { foo: 'test' }
+  },
+  attachTo: document.createElement('div'),
+  stubs: ['child']
+})
+
+mount(extendedFunctionalComponent, {
+  context: {
+    props: { foo: 'test' },
+    data: {}
   },
   attachTo: document.createElement('div'),
   stubs: ['child']
