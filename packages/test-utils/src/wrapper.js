@@ -208,7 +208,7 @@ export default class Wrapper implements BaseWrapper {
   }
 
   /**
-   * Utility to check wrapper exists. Returns true as Wrapper always exists
+   * Utility to check wrapper exists.
    */
   exists(): boolean {
     if (this.vm) {
