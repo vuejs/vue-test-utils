@@ -1,7 +1,7 @@
 # Introduction
 
 ::: warning
-This doc is for Vue2.x only. If you want to see docs related to 3.x, please move to [here](https://next.vue-test-utils.vuejs.org/introduction/)
+This doc is for Vue2.x only. If you want to see docs related to 3.x, please move [here](https://next.vue-test-utils.vuejs.org/introduction/)
 :::
 
 Vue Test Utils is the official unit testing utility library for Vue.js.
