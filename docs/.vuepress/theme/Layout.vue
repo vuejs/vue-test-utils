@@ -1,26 +1,24 @@
 <template>
-  <div>
-    <ParentLayout>
-      <template #page-top>
-        <div class="warning-wrapper">
-          <div class="custom-block warning vue3-warning">
-            <p>
-              You’re browsing the documentation for Vue Test Utils for Vue v2.x
-              and earlier.
-            </p>
-            <p>
-              To read docs for Vue Test Utils for Vue 3,
-              <a
-                href="https://next.vue-test-utils.vuejs.org/introduction/"
-                v-text="'click here'"
-              />.
-            </p>
-          </div>
+  <ParentLayout>
+    <template #page-top>
+      <div class="warning-wrapper">
+        <div class="custom-block warning vue3-warning">
+          <p>
+            You’re browsing the documentation for Vue Test Utils for Vue v2.x
+            and earlier.
+          </p>
+          <p>
+            To read docs for Vue Test Utils for Vue 3,
+            <a
+              href="https://next.vue-test-utils.vuejs.org/introduction/"
+              v-text="'click here'"
+            />.
+          </p>
         </div>
-      </template>
-      <Content />
-    </ParentLayout>
-  </div>
+      </div>
+    </template>
+    <Content />
+  </ParentLayout>
 </template>
 
 <script>
