@@ -1,4 +1,4 @@
-import Vue, { ComponentOptions, FunctionalComponentOptions } from 'vue'
+import Vue, { ComponentOptions, FunctionalComponentOptions, CreateElement, RenderContext, VNode } from 'vue'
 
 /**
  * Normal component options
@@ -15,6 +15,15 @@ export const normalOptions: ComponentOptions<Normal> = {
   }
 }
 
+export const extendedNormalComponent = Vue.extend({
+  name: 'normal',
+  data() {
+    return {
+      foo: 'bar'
+    }
+  }
+})
+
 /**
  * Functional component options
  */
@@ -24,6 +33,16 @@ export const functionalOptions: FunctionalComponentOptions = {
     return h('div')
   }
 }
+
+/**
+ * Functional component with Vue.extend()
+ */
+export const extendedFunctionalComponent = Vue.extend({
+  functional: true,
+  render: (createElement: CreateElement, context: RenderContext): VNode => {
+    return createElement('div')
+  }
+})
 
 /**
  * Component constructor declared with vue-class-component etc.

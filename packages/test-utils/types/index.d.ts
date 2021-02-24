@@ -1,5 +1,6 @@
-import Vue, { VNodeData, ComponentOptions, FunctionalComponentOptions, Component } from 'vue'
+import Vue, { VNodeData, ComponentOptions, FunctionalComponentOptions, Component, RenderContext } from 'vue'
 import { DefaultProps, PropsDefinition } from 'vue/types/options'
+import { ExtendedVue, CombinedVueInstance } from 'vue/types/vue'
 
 /**
  * Utility type to declare an extended Vue constructor
@@ -161,9 +162,17 @@ interface MountOptions<V extends Vue> extends ComponentOptions<V> {
 
 type ThisTypedMountOptions<V extends Vue> = MountOptions<V> & ThisType<V>
 
+interface FunctionalComponentMountOptions<V extends Vue> extends MountOptions<V> {
+  context?: Partial<RenderContext>
+}
+
 type ShallowMountOptions<V extends Vue> = MountOptions<V>
 
 type ThisTypedShallowMountOptions<V extends Vue> = ShallowMountOptions<V> & ThisType<V>
+
+interface FunctionalComponentShallowMountOptions<V extends Vue> extends ShallowMountOptions<V> {
+  context?: Partial<RenderContext>
+}
 
 interface VueTestUtilsConfigOptions {
   stubs: Record<string, Component | boolean | string>
@@ -179,11 +188,15 @@ export declare let config: VueTestUtilsConfigOptions
 
 export declare function mount<V extends Vue> (component: VueClass<V>, options?: ThisTypedMountOptions<V>): Wrapper<V>
 export declare function mount<V extends Vue> (component: ComponentOptions<V>, options?: ThisTypedMountOptions<V>): Wrapper<V>
-export declare function mount<Props = DefaultProps, PropDefs = PropsDefinition<Props>>(component: FunctionalComponentOptions<Props, PropDefs>, options?: MountOptions<Vue>): Wrapper<Vue>
+export declare function mount<V extends Vue, Data, Methods, Computed, Props> (component: ExtendedVue<V, Data, Methods, Computed, Props>, options?: ThisTypedMountOptions<V>): Wrapper<CombinedVueInstance<V, Data, Methods, Computed, Props> & Vue>
+export declare function mount<Props = DefaultProps, PropDefs = PropsDefinition<Props>> (component: FunctionalComponentOptions<Props, PropDefs>, options?: MountOptions<Vue>): Wrapper<Vue>
+export declare function mount<V extends Vue, Props = DefaultProps> (component: ExtendedVue<V, {}, {}, {}, Props>, options?: FunctionalComponentMountOptions<V>): Wrapper<CombinedVueInstance<V, {}, {}, {}, Props> & Vue>
 
 export declare function shallowMount<V extends Vue> (component: VueClass<V>, options?: ThisTypedShallowMountOptions<V>): Wrapper<V>
 export declare function shallowMount<V extends Vue> (component: ComponentOptions<V>, options?: ThisTypedShallowMountOptions<V>): Wrapper<V>
+export declare function shallowMount<V extends Vue, Data, Methods, Computed, Props> (component: ExtendedVue<V, Data, Methods, Computed, Props>, options?: ThisTypedShallowMountOptions<V>): Wrapper<CombinedVueInstance<V, Data, Methods, Computed, Props> & Vue>
 export declare function shallowMount<Props = DefaultProps, PropDefs = PropsDefinition<Props>>(component: FunctionalComponentOptions<Props, PropDefs>, options?: ShallowMountOptions<Vue>): Wrapper<Vue>
+export declare function shallowMount<V extends Vue, Props = DefaultProps> (component: ExtendedVue<V, {}, {}, {}, Props>, options?: FunctionalComponentShallowMountOptions<V>): Wrapper<CombinedVueInstance<V, {}, {}, {}, Props> & Vue>
 
 export declare function createWrapper(node: Vue, options?: WrapperOptions): Wrapper<Vue>
 export declare function createWrapper(node: HTMLElement, options?: WrapperOptions): Wrapper<null>
