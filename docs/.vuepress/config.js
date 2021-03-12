@@ -55,8 +55,7 @@ module.exports = {
             items: [
               {
                 text: '2.x-beta',
-                link:
-                  'https://vuejs.github.io/vue-test-utils-next-docs/guide/introduction.html'
+                link: 'https://next.vue-test-utils.vuejs.org/guide/'
               }
             ]
           },
@@ -91,8 +90,7 @@ module.exports = {
             items: [
               {
                 text: '2.x-beta',
-                link:
-                  'https://vuejs.github.io/vue-test-utils-next-docs/guide/introduction.html'
+                link: 'https://next.vue-test-utils.vuejs.org/guide/'
               }
             ]
           }
@@ -123,8 +121,7 @@ module.exports = {
             items: [
               {
                 text: '2.x-beta',
-                link:
-                  'https://vuejs.github.io/vue-test-utils-next-docs/guide/introduction.html'
+                link: 'https://next.vue-test-utils.vuejs.org/guide/'
               }
             ]
           }
@@ -155,8 +152,7 @@ module.exports = {
             items: [
               {
                 text: '2.x-beta',
-                link:
-                  'https://vuejs.github.io/vue-test-utils-next-docs/guide/introduction.html'
+                link: 'https://next.vue-test-utils.vuejs.org/guide/'
               }
             ]
           }

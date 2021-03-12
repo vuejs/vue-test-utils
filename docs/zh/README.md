@@ -1,7 +1,7 @@
 # 介绍
 
 ::: warning
-本文档基于 Vue2.x，新版本文档请移步至[这里](https://vue-test-utils.vuejs.org/v2/guide/introduction.html)
+本文档基于 Vue2.x，新版本文档请移步至[这里](https://next.vue-test-utils.vuejs.org/guide/)
 :::
 
 Vue Test Utils 是 Vue.js 官方的单元测试实用工具库。
