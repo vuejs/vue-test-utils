@@ -27,6 +27,7 @@ const modifiers = {
 function getOptions(eventParams) {
   const { modifier, meta, options } = eventParams
   const keyCode = modifiers[modifier] || options.keyCode || options.code
+  const key = modifier
 
   return {
     ...options, // What the user passed in as the second argument to #trigger
@@ -36,6 +37,7 @@ function getOptions(eventParams) {
 
     // Any derived options should go here
     keyCode,
+    key,
     code: keyCode
   }
 }
