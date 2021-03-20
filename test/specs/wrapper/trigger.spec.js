@@ -77,7 +77,7 @@ describeWithShallowAndMount('trigger', mountingMethod => {
     expect(keydownHandler).toHaveBeenCalled()
   })
 
-  it('convert a registered key name to a key code key', async () => {
+  it('convert a registered key name to a key code and key', async () => {
     const modifiers = {
       enter: 13,
       esc: 27,
