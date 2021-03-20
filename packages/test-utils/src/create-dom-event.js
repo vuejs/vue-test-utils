@@ -118,7 +118,6 @@ export default function createDOMEvent(type, options) {
       propertyDescriptor && propertyDescriptor.setter === undefined
     )
     if (canSetProperty) {
-      console.log('canSetProperty')
       event[key] = options[key]
     }
   })
