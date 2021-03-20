@@ -24,10 +24,35 @@ const modifiers = {
   pagedown: 34
 }
 
+// get from https://github.com/ashubham/w3c-keys/blob/master/index.ts
+const w3cKeys = {
+  enter: 'Enter',
+  tab: 'Tab',
+  delete: 'Delete',
+  esc: 'Esc',
+  escape: 'Escape',
+  space: ' ',
+  up: 'Up',
+  left: 'Left',
+  right: 'Right',
+  down: 'Down',
+  end: 'End',
+  home: 'Home',
+  backspace: 'Backspace',
+  insert: 'Insert',
+  pageup: 'PageUp',
+  pagedown: 'PageDown'
+}
+
+const codeToKeyNameMap = Object.entries(modifiers).reduce(
+  (acc, [key, value]) => Object.assign(acc, { [value]: w3cKeys[key] }),
+  {}
+)
+
 function getOptions(eventParams) {
   const { modifier, meta, options } = eventParams
   const keyCode = modifiers[modifier] || options.keyCode || options.code
-  const key = modifier
+  const key = codeToKeyNameMap[keyCode]
 
   return {
     ...options, // What the user passed in as the second argument to #trigger
@@ -37,8 +62,8 @@ function getOptions(eventParams) {
 
     // Any derived options should go here
     keyCode,
-    key,
-    code: keyCode
+    code: keyCode,
+    key
   }
 }
 
@@ -93,6 +118,7 @@ export default function createDOMEvent(type, options) {
       propertyDescriptor && propertyDescriptor.setter === undefined
     )
     if (canSetProperty) {
+      console.log('canSetProperty')
       event[key] = options[key]
     }
   })
