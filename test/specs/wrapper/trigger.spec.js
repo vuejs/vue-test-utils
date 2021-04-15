@@ -67,6 +67,21 @@ describeWithShallowAndMount('trigger', mountingMethod => {
     })
   })
 
+  describe('causes keydown handler to fire with the appropriate key when wrapper.trigger("keydown", { key: "k" }) is fired on a Component', async () => {
+    const keydownHandler = jest.fn()
+    const wrapper = mountingMethod(ComponentWithEvents, {
+      propsData: { keydownHandler }
+    })
+
+    await wrapper.find('.keydown').trigger('keydown', { key: 'k' })
+
+    const keyboardEvent = keydownHandler.mock.calls[0][0]
+
+    it('contains the key', () => {
+      expect(keyboardEvent.key).toEqual('k')
+    })
+  })
+
   it('causes keydown handler to fire when wrapper.trigger("keydown.enter") is fired on a Component', async () => {
     const keydownHandler = jest.fn()
     const wrapper = mountingMethod(ComponentWithEvents, {
