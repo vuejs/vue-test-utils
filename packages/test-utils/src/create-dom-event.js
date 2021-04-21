@@ -63,7 +63,7 @@ function getOptions(eventParams) {
     // Any derived options should go here
     keyCode,
     code: keyCode,
-    key
+    key: key || options.key
   }
 }
 
