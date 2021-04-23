@@ -279,6 +279,35 @@ describeWithShallowAndMount('find', mountingMethod => {
     }
   )
 
+  it('have no better name right now, but this does not fail.........', () => {
+    const TestComponentToFind = {
+      render: h => h('div'),
+      name: 'test-component-to-find'
+    }
+    const TestComponent = {
+      template: `
+        <div>
+          <test-component-to-find/>
+          <test-component-to-find/>
+          <test-component-to-find/>
+        </div>'
+      `,
+      components: {
+        TestComponentToFind
+      },
+      name: 'test-component'
+    }
+
+    const wrapper = mountingMethod(TestComponent)
+
+    expect(
+      wrapper
+        .findAllComponents({ name: 'test-component-to-find' })
+        .at(0)
+        .exists()
+    ).toBe(true)
+  })
+
   it('returns extended functional component', () => {
     const TestFunctionalComponent = Vue.extend({
       render: h => h('div'),
