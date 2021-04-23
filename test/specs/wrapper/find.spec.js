@@ -15,6 +15,7 @@ import {
   isRunningChrome
 } from '~resources/utils'
 import { itDoNotRunIf, itSkipIf } from 'conditional-specs'
+import VueRouter from 'vue-router'
 
 describeWithShallowAndMount('find', mountingMethod => {
   it('returns a Wrapper matching tag selector passed', () => {
@@ -306,6 +307,39 @@ describeWithShallowAndMount('find', mountingMethod => {
         .at(0)
         .exists()
     ).toBe(true)
+  })
+
+  it('ok this test fails', async () => {
+    const TestComponentToFind = {
+      render: h => h('div'),
+      name: 'test-component-to-find'
+    }
+    const localVue = createLocalVue()
+    localVue.use(VueRouter)
+    const routes = [
+      {
+        path: '/a/b',
+        name: 'ab',
+        component: TestComponentToFind
+      }
+    ]
+    const router = new VueRouter({ routes })
+    // and this will not work with shallowMount because router view gets stubbed! How can I just test mount?
+    const wrapper = mountingMethod(
+      {
+        template: '<router-view/>'
+      },
+      {
+        localVue,
+        router
+      }
+    )
+
+    try {
+      await router.push('/a/b')
+    } catch (e) {} // this will throw NavigationDuplicated the second time, dunno how to fix it
+
+    expect(wrapper.findComponent(TestComponentToFind).exists()).toBe(true)
   })
 
   it('returns extended functional component', () => {
