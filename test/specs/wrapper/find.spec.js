@@ -280,67 +280,39 @@ describeWithShallowAndMount('find', mountingMethod => {
     }
   )
 
-  it('have no better name right now, but this does not fail.........', () => {
-    const TestComponentToFind = {
-      render: h => h('div'),
-      name: 'test-component-to-find'
-    }
-    const TestComponent = {
-      template: `
-        <div>
-          <test-component-to-find/>
-          <test-component-to-find/>
-          <test-component-to-find/>
-        </div>'
-      `,
-      components: {
-        TestComponentToFind
-      },
-      name: 'test-component'
-    }
-
-    const wrapper = mountingMethod(TestComponent)
-
-    expect(
-      wrapper
-        .findAllComponents({ name: 'test-component-to-find' })
-        .at(0)
-        .exists()
-    ).toBe(true)
-  })
-
-  it('ok this test fails', async () => {
-    const TestComponentToFind = {
-      render: h => h('div'),
-      name: 'test-component-to-find'
-    }
-    const localVue = createLocalVue()
-    localVue.use(VueRouter)
-    const routes = [
-      {
-        path: '/a/b',
-        name: 'ab',
-        component: TestComponentToFind
+  itDoNotRunIf(
+    mountingMethod.name === 'shallowMount',
+    'returns a VueWrapper using a <router-view/> component',
+    async () => {
+      const localVue = createLocalVue()
+      localVue.use(VueRouter)
+      const TestComponentToFind = {
+        render: h => h('div'),
+        name: 'test-component-to-find'
       }
-    ]
-    const router = new VueRouter({ routes })
-    // and this will not work with shallowMount because router view gets stubbed! How can I just test mount?
-    const wrapper = mountingMethod(
-      {
-        template: '<router-view/>'
-      },
-      {
-        localVue,
-        router
-      }
-    )
+      const routes = [
+        {
+          path: '/a/b',
+          name: 'ab',
+          component: TestComponentToFind
+        }
+      ]
+      const router = new VueRouter({ routes })
+      const wrapper = mountingMethod(
+        {
+          template: '<router-view/>'
+        },
+        {
+          localVue,
+          router
+        }
+      )
 
-    try {
       await router.push('/a/b')
-    } catch (e) {} // this will throw NavigationDuplicated the second time, dunno how to fix it
 
-    expect(wrapper.findComponent(TestComponentToFind).exists()).toBe(true)
-  })
+      expect(wrapper.findComponent(TestComponentToFind).exists()).toBe(true)
+    }
+  )
 
   it('returns extended functional component', () => {
     const TestFunctionalComponent = Vue.extend({
