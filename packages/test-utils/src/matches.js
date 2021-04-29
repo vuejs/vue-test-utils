@@ -59,7 +59,7 @@ export function matches(node, selector) {
   // ignore the functional component if its a RouterView
   // Find a good explanation comment why tahts the case, please help!
   const componentInstance =
-    node[FUNCTIONAL_OPTIONS]?.name === 'RouterView'
+    node[FUNCTIONAL_OPTIONS] && node[FUNCTIONAL_OPTIONS]?.name === 'RouterView'
       ? node.child
       : node[FUNCTIONAL_OPTIONS] || node.child
 
