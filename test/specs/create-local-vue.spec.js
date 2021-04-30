@@ -67,7 +67,7 @@ describeWithShallowAndMount('createLocalVue', mountingMethod => {
   })
 
   itDoNotRunIf(
-    mountingMethod.name === 'shallowMount',
+    mountingMethod.name === 'shallowMount' || vueVersion < 2.6,
     'Router should work properly with local Vue',
     async () => {
       const localVue = createLocalVue()
