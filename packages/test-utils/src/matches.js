@@ -56,7 +56,14 @@ export function matches(node, selector) {
     return element && element.matches && element.matches(selector.value)
   }
 
-  const componentInstance = node[FUNCTIONAL_OPTIONS] || node.child
+  const isFunctionalSelector = isConstructor(selector.value)
+    ? selector.value.options.functional
+    : selector.value.functional
+
+  const componentInstance =
+    (isFunctionalSelector ? node[FUNCTIONAL_OPTIONS] : node.child) ||
+    node[FUNCTIONAL_OPTIONS] ||
+    node.child
 
   if (!componentInstance) {
     return false
