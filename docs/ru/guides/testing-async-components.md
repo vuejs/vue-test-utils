@@ -44,7 +44,9 @@ export default {
 ```js
 import { shallowMount } from '@vue/test-utils'
 import Foo from './Foo'
-jest.mock('axios')
+jest.mock('axios', () => ({
+  get: Promise.resolve('value')
+}))
 
 it('делает асинхронный запрос при нажатии кнопки', () => {
   const wrapper = shallowMount(Foo)
