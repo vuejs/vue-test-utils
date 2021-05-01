@@ -19,6 +19,11 @@ module.exports = {
       lang: 'ru',
       title: 'Vue Test Utils',
       description: 'Библиотека для тестирования Vue-компонентов'
+    },
+    '/fr/': {
+      title: 'Vue Test Utils',
+      lang: 'fr',
+      description: 'Utilitaires pour tester les composants Vue'
     }
   },
   plugins: ['@vuepress/pwa'],
@@ -170,6 +175,38 @@ module.exports = {
           '/ru/api/wrapper-array/',
           '/ru/api/options',
           '/ru/api/components/'
+        ]
+      },
+      '/fr/': {
+        label: 'Français',
+        selectText: 'langue',
+        editLinkText: 'Modifier cette page sur GitHub',
+        nav: [
+          {
+            text: 'API',
+            link: '/fr/api/'
+          },
+          {
+            text: 'Guides',
+            link: '/fr/guides/',
+            items: [
+              {
+                text: '2.x-beta',
+                link:
+                  'https://vuejs.github.io/vue-test-utils-next-docs/guide/introduction.html'
+              }
+            ]
+          }
+        ],
+        sidebar: [
+          '/fr/',
+          '/fr/installation/',
+          '/fr/guides/',
+          '/fr/api/',
+          '/fr/api/wrapper/',
+          '/fr/api/wrapper-array/',
+          '/fr/api/options',
+          '/fr/api/components/'
         ]
       }
     }
