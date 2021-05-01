@@ -4,11 +4,10 @@ import VueRouter from 'vue-router'
 import { createLocalVue } from 'packages/test-utils/src'
 import Component from '~resources/components/component.vue'
 import ComponentWithVuex from '~resources/components/component-with-vuex.vue'
-import ComponentWithRouter from '~resources/components/component-with-router.vue'
 import ComponentWithSyncError from '~resources/components/component-with-sync-error.vue'
 import ComponentWithAsyncError from '~resources/components/component-with-async-error.vue'
 import { describeWithShallowAndMount, vueVersion } from '~resources/utils'
-import { itDoNotRunIf, itSkipIf } from 'conditional-specs'
+import { itSkipIf } from 'conditional-specs'
 
 describeWithShallowAndMount('createLocalVue', mountingMethod => {
   it('installs Vuex without polluting global Vue', () => {
@@ -65,42 +64,6 @@ describeWithShallowAndMount('createLocalVue', mountingMethod => {
     const freshWrapper = mountingMethod(Component)
     expect(typeof freshWrapper.vm.$route).toEqual('undefined')
   })
-
-  itDoNotRunIf(
-    mountingMethod.name === 'shallowMount' || vueVersion < 2.6,
-    'Router should work properly with local Vue',
-    async () => {
-      const localVue = createLocalVue()
-      localVue.use(VueRouter)
-      const routes = [
-        {
-          path: '/',
-          component: {
-            render: h => h('div', 'home')
-          }
-        },
-        {
-          path: '/foo',
-          component: {
-            render: h => h('div', 'foo')
-          }
-        }
-      ]
-      const router = new VueRouter({
-        routes
-      })
-      const wrapper = mountingMethod(ComponentWithRouter, { localVue, router })
-      expect(wrapper.vm.$route).toBeTruthy()
-
-      expect(wrapper.text()).toContain('home')
-
-      await wrapper.find('a').trigger('click')
-      expect(wrapper.text()).toContain('foo')
-
-      const freshWrapper = mountingMethod(Component)
-      expect(typeof freshWrapper.vm.$route).toEqual('undefined')
-    }
-  )
 
   it('use can take additional arguments', () => {
     const localVue = createLocalVue()
