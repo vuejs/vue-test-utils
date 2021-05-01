@@ -2242,6 +2242,8 @@ function createScopedSlots(
 
 // 
 
+var FUNCTION_PLACEHOLDER = '[Function]';
+
 function isVueComponentStub(comp) {
   return (comp && comp.template) || isVueComponent(comp)
 }
@@ -2339,10 +2341,10 @@ function createStubFromComponent(
         tagName,
         componentOptions.functional
           ? Object.assign({}, context.data,
-              {attrs: Object.assign({}, context.props,
+              {attrs: Object.assign({}, shapeStubProps(context.props),
                 context.data.attrs)})
           : {
-              attrs: Object.assign({}, this.$props)
+              attrs: Object.assign({}, shapeStubProps(this.$props))
             },
         context
           ? context.children
@@ -2351,6 +2353,27 @@ function createStubFromComponent(
               )
       )
     }})
+}
+
+function shapeStubProps(props) {
+  var shapedProps = {};
+  for (var propName in props) {
+    if (typeof props[propName] === 'function') {
+      shapedProps[propName] = FUNCTION_PLACEHOLDER;
+      continue
+    }
+
+    if (Array.isArray(props[propName])) {
+      shapedProps[propName] = props[propName].map(function (value) {
+        return typeof value === 'function' ? FUNCTION_PLACEHOLDER : value
+      });
+      continue
+    }
+
+    shapedProps[propName] = props[propName];
+  }
+
+  return shapedProps
 }
 
 // DEPRECATED: converts string stub to template stub.
@@ -2740,7 +2763,14 @@ function matches(node, selector) {
     return element && element.matches && element.matches(selector.value)
   }
 
-  var componentInstance = node[FUNCTIONAL_OPTIONS] || node.child;
+  var isFunctionalSelector = isConstructor(selector.value)
+    ? selector.value.options.functional
+    : selector.value.functional;
+
+  var componentInstance =
+    (isFunctionalSelector ? node[FUNCTIONAL_OPTIONS] : node.child) ||
+    node[FUNCTIONAL_OPTIONS] ||
+    node.child;
 
   if (!componentInstance) {
     return false
@@ -10306,7 +10336,7 @@ function getOptions(eventParams) {
     // Any derived options should go here
     keyCode: keyCode,
     code: keyCode,
-    key: key})
+    key: key || options.key})
 }
 
 function createEvent(eventParams) {
