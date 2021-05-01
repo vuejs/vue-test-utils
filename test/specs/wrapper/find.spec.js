@@ -19,7 +19,7 @@ import { itDoNotRunIf, itSkipIf } from 'conditional-specs'
 
 describeWithShallowAndMount('find', mountingMethod => {
   itDoNotRunIf(
-    mountingMethod.name === 'shallowMount',
+    mountingMethod.name === 'shallowMount' || vueVersion < 2.6,
     'returns a VueWrapper using a <router-view /> component',
     async () => {
       const localVue = createLocalVue()
