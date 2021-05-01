@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 import { createLocalVue } from 'packages/test-utils/src'
 import Component from '~resources/components/component.vue'
 import ComponentWithVuex from '~resources/components/component-with-vuex.vue'
+import ComponentWithRouter from '~resources/components/component-with-router.vue'
 import ComponentWithSyncError from '~resources/components/component-with-sync-error.vue'
 import ComponentWithAsyncError from '~resources/components/component-with-async-error.vue'
 import { describeWithShallowAndMount, vueVersion } from '~resources/utils'
@@ -63,6 +64,37 @@ describeWithShallowAndMount('createLocalVue', mountingMethod => {
     expect(wrapper.vm.$route).toBeTruthy()
     const freshWrapper = mountingMethod(Component)
     expect(typeof freshWrapper.vm.$route).toEqual('undefined')
+  })
+
+  it('works with VueRouter', async () => {
+    if (mountingMethod.name === 'shallowMount') {
+      return
+    }
+    const localVue = createLocalVue()
+    localVue.use(VueRouter)
+    const Foo = {
+      name: 'Foo',
+      render: h => h('span', 'Foo component')
+    }
+    const routes = [{ path: '/foo', component: Foo }]
+    const router = new VueRouter({
+      routes
+    })
+    const wrapper = mountingMethod(ComponentWithRouter, {
+      localVue,
+      router
+    })
+
+    expect(wrapper.html()).not.toContain('Foo component')
+    expect(wrapper.vm.$route).toBeTruthy()
+
+    await wrapper.vm.$router.push('/foo')
+    expect(wrapper.html()).toContain('Foo component')
+
+    await wrapper.vm.$router.push('/')
+    expect(wrapper.html()).not.toContain('Foo component')
+    await wrapper.find('a').trigger('click')
+    expect(wrapper.html()).toContain('Foo component')
   })
 
   it('use can take additional arguments', () => {
