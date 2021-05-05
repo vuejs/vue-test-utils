@@ -208,7 +208,7 @@ export default class Wrapper implements BaseWrapper {
   }
 
   /**
-   * Utility to check wrapper exists. Returns true as Wrapper always exists
+   * Utility to check wrapper exists.
    */
   exists(): boolean {
     if (this.vm) {
@@ -830,6 +830,33 @@ export default class Wrapper implements BaseWrapper {
   }
 
   /**
+   * Simulates event triggering
+   */
+  __simulateTrigger(type: string, options?: Object): void {
+    const regularEventTrigger = (type, options) => {
+      const event = createDOMEvent(type, options)
+      return this.element.dispatchEvent(event)
+    }
+
+    const focusEventTrigger = (type, options) => {
+      if (this.element instanceof HTMLElement) {
+        return this.element.focus()
+      }
+
+      regularEventTrigger(type, options)
+    }
+
+    const triggerProcedureMap = {
+      focus: focusEventTrigger,
+      __default: regularEventTrigger
+    }
+
+    const triggerFn = triggerProcedureMap[type] || triggerProcedureMap.__default
+
+    return triggerFn(type, options)
+  }
+
+  /**
    * Dispatches a DOM event on wrapper
    */
   trigger(type: string, options: Object = {}): Promise<void> {
@@ -869,8 +896,7 @@ export default class Wrapper implements BaseWrapper {
       return nextTick()
     }
 
-    const event = createDOMEvent(type, options)
-    this.element.dispatchEvent(event)
+    this.__simulateTrigger(type, options)
     return nextTick()
   }
 }

@@ -1,10 +1,13 @@
 # Introduction
 
-::: warning
-This doc is for Vue2.x only. If you want to see docs related to 3.x, please move to [here](https://vue-test-utils.vuejs.org/v2/guide/introduction.html)
-:::
-
 Vue Test Utils is the official unit testing utility library for Vue.js.
+
+This is the documentation for Vue Test Utils v1, which targets Vue 2 and earlier.
+
+In short:
+
+- [Vue Test Utils 1](https://github.com/vuejs/vue-test-utils/) targets [Vue 2](https://github.com/vuejs/vue/).
+- [Vue Test Utils 2](https://github.com/vuejs/vue-test-utils-next/) targets [Vue 3](https://github.com/vuejs/vue-next/).
 
 <div class="vueschool"><a href="https://vueschool.io/courses/learn-how-to-test-vuejs-components?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to use Vue Test Utils to test Vue.js Components with Vue School">Learn how to test Vue.js components with Vue School</a></div>
 

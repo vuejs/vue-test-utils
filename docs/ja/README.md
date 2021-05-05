@@ -2,7 +2,7 @@
 
 `vue-test-utils`は Vue.js 向けの公式単体テストライブラリです。
 
-- [インスト](installation/)
+- [インストール](installation/)
   - [テストランナを選ぶ](installation/choosing-a-test-runner.md)
   - [Jest による単一ファイルコンポーネントのテスト](installation/testing-single-file-components-with-jest.md)
   - [Mocha + webpack による単一ファイルコンポーネントのテスト](installation/testing-single-file-components-with-mocha-webpack.md)

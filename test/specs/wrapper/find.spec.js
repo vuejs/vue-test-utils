@@ -1,6 +1,7 @@
 import { compileToFunctions } from 'vue-template-compiler'
-import { createLocalVue } from 'packages/test-utils/src'
+import { createLocalVue, shallowMount } from 'packages/test-utils/src'
 import Vue from 'vue'
+import VueRouter from 'vue-router'
 import ComponentWithChild from '~resources/components/component-with-child.vue'
 import ComponentWithoutName from '~resources/components/component-without-name.vue'
 import ComponentWithSlots from '~resources/components/component-with-slots.vue'
@@ -17,6 +18,58 @@ import {
 import { itDoNotRunIf, itSkipIf } from 'conditional-specs'
 
 describeWithShallowAndMount('find', mountingMethod => {
+  itDoNotRunIf(
+    mountingMethod.name === 'shallowMount' || vueVersion < 2.6,
+    'returns a VueWrapper using a <router-view /> component',
+    async () => {
+      const localVue = createLocalVue()
+      localVue.use(VueRouter)
+      const TestComponentToFind = {
+        render: h => h('div'),
+        name: 'test-component-to-find'
+      }
+      const routes = [
+        {
+          path: '/a/b',
+          name: 'ab',
+          component: TestComponentToFind
+        }
+      ]
+      const router = new VueRouter({ routes })
+      const wrapper = mountingMethod(
+        {
+          template: '<router-view/>'
+        },
+        {
+          localVue,
+          router
+        }
+      )
+
+      await router.push('/a/b')
+
+      expect(wrapper.findComponent(TestComponentToFind).exists()).toBe(true)
+    }
+  )
+
+  it('findComponent in functional component', () => {
+    const Comp2 = {
+      name: 'test',
+      render(h) {
+        return h('div', 'test')
+      }
+    }
+    const Comp = {
+      name: 'Comp',
+      functional: true,
+      render(h) {
+        return h(Comp2)
+      }
+    }
+    const wrapper = shallowMount(Comp)
+    wrapper.getComponent(Comp2)
+  })
+
   it('returns a Wrapper matching tag selector passed', () => {
     const compiled = compileToFunctions('<div><p></p><p></p></div>')
     const wrapper = mountingMethod(compiled)
@@ -256,6 +309,28 @@ describeWithShallowAndMount('find', mountingMethod => {
       expect(wrapper.find(TestFunctionalComponent).exists()).toEqual(true)
     }
   })
+
+  itSkipIf(
+    vueVersion < 2.3,
+    'returns functional component with name by name',
+    () => {
+      const TestFunctionalComponent = {
+        render: h => h('div'),
+        functional: true,
+        name: 'test-functional-component'
+      }
+      const TestComponent = {
+        template: '<div><test-functional-component /></div>',
+        components: {
+          TestFunctionalComponent
+        }
+      }
+      const wrapper = mountingMethod(TestComponent)
+      expect(
+        wrapper.find({ name: 'test-functional-component' }).exists()
+      ).toEqual(true)
+    }
+  )
 
   it('returns extended functional component', () => {
     const TestFunctionalComponent = Vue.extend({

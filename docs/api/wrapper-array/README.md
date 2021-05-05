@@ -17,6 +17,7 @@ A `WrapperArray` is an object that contains an array of [`Wrappers`](../wrapper/
 !!!include(docs/api/wrapper-array/at.md)!!!
 !!!include(docs/api/wrapper-array/contains.md)!!!
 !!!include(docs/api/wrapper-array/destroy.md)!!!
+!!!include(docs/api/wrapper-array/exists.md)!!!
 !!!include(docs/api/wrapper-array/filter.md)!!!
 !!!include(docs/api/wrapper-array/is.md)!!!
 !!!include(docs/api/wrapper-array/isEmpty.md)!!!

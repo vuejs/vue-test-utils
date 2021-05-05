@@ -6,6 +6,7 @@ import RouterLinkStub from './components/RouterLinkStub'
 import createWrapper from './create-wrapper'
 import Wrapper from './wrapper'
 import WrapperArray from './wrapper-array'
+import ErrorWrapper from './error-wrapper'
 import config from './config'
 import { warn } from 'shared/util'
 
@@ -28,5 +29,6 @@ export {
   shallowMount,
   RouterLinkStub,
   Wrapper,
-  WrapperArray
+  WrapperArray,
+  ErrorWrapper
 }

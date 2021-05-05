@@ -30,7 +30,10 @@ module.exports = {
   themeConfig: {
     algolia: {
       apiKey: 'ee1b8516c9e5a5be9b6c25684eafc42f',
-      indexName: 'vue_test_utils'
+      indexName: 'vue_test_utils',
+      algoliaOptions: {
+        facetFilters: ['tags:current']
+      }
     },
     repo: 'vuejs/vue-test-utils',
     docsDir: 'docs',
@@ -52,8 +55,7 @@ module.exports = {
             items: [
               {
                 text: '2.x-beta',
-                link:
-                  'https://vuejs.github.io/vue-test-utils-next-docs/guide/introduction.html'
+                link: 'https://next.vue-test-utils.vuejs.org/guide/'
               }
             ]
           },
@@ -88,8 +90,7 @@ module.exports = {
             items: [
               {
                 text: '2.x-beta',
-                link:
-                  'https://vuejs.github.io/vue-test-utils-next-docs/guide/introduction.html'
+                link: 'https://next.vue-test-utils.vuejs.org/guide/'
               }
             ]
           }
@@ -120,8 +121,7 @@ module.exports = {
             items: [
               {
                 text: '2.x-beta',
-                link:
-                  'https://vuejs.github.io/vue-test-utils-next-docs/guide/introduction.html'
+                link: 'https://next.vue-test-utils.vuejs.org/guide/'
               }
             ]
           }
@@ -152,8 +152,7 @@ module.exports = {
             items: [
               {
                 text: '2.x-beta',
-                link:
-                  'https://vuejs.github.io/vue-test-utils-next-docs/guide/introduction.html'
+                link: 'https://next.vue-test-utils.vuejs.org/guide/'
               }
             ]
           }

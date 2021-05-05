@@ -2242,6 +2242,8 @@ function createScopedSlots(
 
 // 
 
+var FUNCTION_PLACEHOLDER = '[Function]';
+
 function isVueComponentStub(comp) {
   return (comp && comp.template) || isVueComponent(comp)
 }
@@ -2339,10 +2341,10 @@ function createStubFromComponent(
         tagName,
         componentOptions.functional
           ? Object.assign({}, context.data,
-              {attrs: Object.assign({}, context.props,
+              {attrs: Object.assign({}, shapeStubProps(context.props),
                 context.data.attrs)})
           : {
-              attrs: Object.assign({}, this.$props)
+              attrs: Object.assign({}, shapeStubProps(this.$props))
             },
         context
           ? context.children
@@ -2351,6 +2353,27 @@ function createStubFromComponent(
               )
       )
     }})
+}
+
+function shapeStubProps(props) {
+  var shapedProps = {};
+  for (var propName in props) {
+    if (typeof props[propName] === 'function') {
+      shapedProps[propName] = FUNCTION_PLACEHOLDER;
+      continue
+    }
+
+    if (Array.isArray(props[propName])) {
+      shapedProps[propName] = props[propName].map(function (value) {
+        return typeof value === 'function' ? FUNCTION_PLACEHOLDER : value
+      });
+      continue
+    }
+
+    shapedProps[propName] = props[propName];
+  }
+
+  return shapedProps
 }
 
 // DEPRECATED: converts string stub to template stub.
@@ -2531,13 +2554,13 @@ function patchCreateElement(_Vue, stubs, stubAllComponents) {
 
 function objectWithoutProperties (obj, exclude) { var target = {}; for (var k in obj) if (Object.prototype.hasOwnProperty.call(obj, k) && exclude.indexOf(k) === -1) target[k] = obj[k]; return target; }
 
-function createContext(options, scopedSlots) {
+function createContext(options, scopedSlots, currentProps) {
   var on = Object.assign({}, (options.context && options.context.on),
     options.listeners);
   return Object.assign({}, {attrs: Object.assign({}, options.attrs,
       // pass as attrs so that inheritAttrs works correctly
-      // propsData should take precedence over attrs
-      options.propsData)},
+      // props should take precedence over attrs
+      currentProps)},
     (options.context || {}),
     {on: on,
     scopedSlots: scopedSlots})
@@ -2626,15 +2649,23 @@ function createInstance(
   var originalParentComponentProvide = parentComponentOptions.provide;
   parentComponentOptions.provide = function() {
     return Object.assign({}, getValuesFromCallableOption.call(this, originalParentComponentProvide),
+      // $FlowIgnore
       getValuesFromCallableOption.call(this, options.provide))
   };
 
+  var originalParentComponentData = parentComponentOptions.data;
+  parentComponentOptions.data = function() {
+    return Object.assign({}, getValuesFromCallableOption.call(this, originalParentComponentData),
+      {vueTestUtils_childProps: Object.assign({}, options.propsData)})
+  };
+
   parentComponentOptions.$_doNotStubChildren = true;
+  parentComponentOptions.$_isWrapperParent = true;
   parentComponentOptions._isFunctionalContainer = componentOptions.functional;
   parentComponentOptions.render = function(h) {
     return h(
       Constructor,
-      createContext(options, scopedSlots),
+      createContext(options, scopedSlots, this.vueTestUtils_childProps),
       createChildren(this, h, options)
     )
   };
@@ -2686,7 +2717,7 @@ function vmMatchesName(vm, name) {
   // We want to mirror how Vue resolves component names in SFCs:
   // For example, <test-component />, <TestComponent /> and `<testComponent />
   // all resolve to the same component
-  var componentName = (vm.$options && vm.$options.name) || '';
+  var componentName = vm.name || (vm.$options && vm.$options.name) || '';
   return (
     !!name &&
     (componentName === name ||
@@ -2736,9 +2767,10 @@ function matches(node, selector) {
     ? selector.value.options.functional
     : selector.value.functional;
 
-  var componentInstance = isFunctionalSelector
-    ? node[FUNCTIONAL_OPTIONS]
-    : node.child;
+  var componentInstance =
+    (isFunctionalSelector ? node[FUNCTIONAL_OPTIONS] : node.child) ||
+    node[FUNCTIONAL_OPTIONS] ||
+    node.child;
 
   if (!componentInstance) {
     return false
@@ -2896,13 +2928,14 @@ function errorHandler(errorOrString, vm, info) {
     vm._error = error;
   }
 
+  if (!instancedErrorHandlers.length) {
+    throw error
+  }
   // should be one error handler, as only once can be registered with local vue
   // regardless, if more exist (for whatever reason), invoke the other user defined error handlers
   instancedErrorHandlers.forEach(function (instancedErrorHandler) {
     instancedErrorHandler(error, vm, info);
   });
-
-  throw error
 }
 
 function throwIfInstancesThrew(vm) {
@@ -3026,7 +3059,6 @@ var config = {
   mocks: {},
   methods: {},
   provide: {},
-  silent: true,
   showDeprecationWarnings:
      true
 };
@@ -10258,11 +10290,43 @@ var modifiers = {
   pagedown: 34
 };
 
+// get from https://github.com/ashubham/w3c-keys/blob/master/index.ts
+var w3cKeys = {
+  enter: 'Enter',
+  tab: 'Tab',
+  delete: 'Delete',
+  esc: 'Esc',
+  escape: 'Escape',
+  space: ' ',
+  up: 'Up',
+  left: 'Left',
+  right: 'Right',
+  down: 'Down',
+  end: 'End',
+  home: 'Home',
+  backspace: 'Backspace',
+  insert: 'Insert',
+  pageup: 'PageUp',
+  pagedown: 'PageDown'
+};
+
+var codeToKeyNameMap = Object.entries(modifiers).reduce(
+  function (acc, ref) {
+    var obj;
+
+    var key = ref[0];
+    var value = ref[1];
+    return Object.assign(acc, ( obj = {}, obj[value] = w3cKeys[key], obj ));
+},
+  {}
+);
+
 function getOptions(eventParams) {
   var modifier = eventParams.modifier;
   var meta = eventParams.meta;
   var options = eventParams.options;
   var keyCode = modifiers[modifier] || options.keyCode || options.code;
+  var key = codeToKeyNameMap[keyCode];
 
   return Object.assign({}, options, // What the user passed in as the second argument to #trigger
 
@@ -10271,7 +10335,8 @@ function getOptions(eventParams) {
 
     // Any derived options should go here
     keyCode: keyCode,
-    code: keyCode})
+    code: keyCode,
+    key: key || options.key})
 }
 
 function createEvent(eventParams) {
@@ -10513,7 +10578,7 @@ Wrapper.prototype.emittedByOrder = function emittedByOrder () {
 };
 
 /**
- * Utility to check wrapper exists. Returns true as Wrapper always exists
+ * Utility to check wrapper exists.
  */
 Wrapper.prototype.exists = function exists () {
   if (this.vm) {
@@ -11041,71 +11106,49 @@ Wrapper.prototype.setProps = function setProps (data) {
   if (!this.vm) {
     throwError("wrapper.setProps() can only be called on a Vue instance");
   }
+
+  // $FlowIgnore : Problem with possibly null this.vm
+  if (!this.vm.$parent.$options.$_isWrapperParent) {
+    throwError(
+      "wrapper.setProps() can only be called for top-level component"
+    );
+  }
+
   this.__warnIfDestroyed();
 
-  // Save the original "silent" config so that we can directly mutate props
-  var originalConfig = Vue__default['default'].config.silent;
-  Vue__default['default'].config.silent = config.silent;
-
-  try {
-    Object.keys(data).forEach(function (key) {
-      // Don't let people set entire objects, because reactivity won't work
-      if (
-        typeof data[key] === 'object' &&
-        data[key] !== null &&
-        // $FlowIgnore : Problem with possibly null this.vm
-        data[key] === this$1.vm[key]
-      ) {
-        throwError(
-          "wrapper.setProps() called with the same object of the existing " +
-            key + " property. You must call wrapper.setProps() with a new " +
-            "object to trigger reactivity"
-        );
-      }
-
-      if (
-        !this$1.vm ||
-        !this$1.vm.$options._propKeys ||
-        !this$1.vm.$options._propKeys.some(function (prop) { return prop === key; })
-      ) {
-        if (VUE_VERSION > 2.3) {
-          // $FlowIgnore : Problem with possibly null this.vm
-          this$1.vm.$attrs[key] = data[key];
-          return nextTick()
-        }
-        throwError(
-          "wrapper.setProps() called with " + key + " property which " +
-            "is not defined on the component"
-        );
-      }
-
-      // Actually set the prop
+  Object.keys(data).forEach(function (key) {
+    // Don't let people set entire objects, because reactivity won't work
+    if (
+      typeof data[key] === 'object' &&
+      data[key] !== null &&
       // $FlowIgnore : Problem with possibly null this.vm
-      this$1.vm[key] = data[key];
-    });
+      data[key] === this$1.vm[key]
+    ) {
+      throwError(
+        "wrapper.setProps() called with the same object of the existing " +
+          key + " property. You must call wrapper.setProps() with a new " +
+          "object to trigger reactivity"
+      );
+    }
+
+    if (
+      VUE_VERSION <= 2.3 &&
+      (!this$1.vm ||
+        !this$1.vm.$options._propKeys ||
+        !this$1.vm.$options._propKeys.some(function (prop) { return prop === key; }))
+    ) {
+      throwError(
+        "wrapper.setProps() called with " + key + " property which " +
+          "is not defined on the component"
+      );
+    }
 
     // $FlowIgnore : Problem with possibly null this.vm
-    this.vm.$forceUpdate();
-    return new Promise(function (resolve) {
-      nextTick().then(function () {
-        var isUpdated = Object.keys(data).some(function (key) {
-          return (
-            // $FlowIgnore : Problem with possibly null this.vm
-            this$1.vm[key] === data[key] ||
-            // $FlowIgnore : Problem with possibly null this.vm
-            (this$1.vm.$attrs && this$1.vm.$attrs[key] === data[key])
-          )
-        });
-        return !isUpdated ? this$1.setProps(data).then(resolve()) : resolve()
-      });
-    })
-  } catch (err) {
-    throw err
-  } finally {
-    // Ensure you teardown the modifications you made to the user's config
-    // After all the props are set, then reset the state
-    Vue__default['default'].config.silent = originalConfig;
-  }
+    var parent = this$1.vm.$parent;
+    parent.$set(parent.vueTestUtils_childProps, key, data[key]);
+  });
+
+  return nextTick()
 };
 
 /**
@@ -11174,6 +11217,35 @@ Wrapper.prototype.text = function text () {
 };
 
 /**
+ * Simulates event triggering
+ */
+Wrapper.prototype.__simulateTrigger = function __simulateTrigger (type, options) {
+    var this$1 = this;
+
+  var regularEventTrigger = function (type, options) {
+    var event = createDOMEvent(type, options);
+    return this$1.element.dispatchEvent(event)
+  };
+
+  var focusEventTrigger = function (type, options) {
+    if (this$1.element instanceof HTMLElement) {
+      return this$1.element.focus()
+    }
+
+    regularEventTrigger(type, options);
+  };
+
+  var triggerProcedureMap = {
+    focus: focusEventTrigger,
+    __default: regularEventTrigger
+  };
+
+  var triggerFn = triggerProcedureMap[type] || triggerProcedureMap.__default;
+
+  return triggerFn(type, options)
+};
+
+/**
  * Dispatches a DOM event on wrapper
  */
 Wrapper.prototype.trigger = function trigger (type, options) {
@@ -11215,8 +11287,7 @@ Wrapper.prototype.trigger = function trigger (type, options) {
     return nextTick()
   }
 
-  var event = createDOMEvent(type, options);
-  this.element.dispatchEvent(event);
+  this.__simulateTrigger(type, options);
   return nextTick()
 };
 
@@ -13836,7 +13907,7 @@ function _createLocalVue(
   instance.config = cloneDeep_1(Vue__default['default'].config);
 
   // if a user defined errorHandler is defined by a localVue instance via createLocalVue, register it
-  instance.config.errorHandler = config.errorHandler || Vue__default['default'].config.errorHandler;
+  instance.config.errorHandler = config.errorHandler;
 
   // option merge strategies need to be exposed by reference
   // so that merge strats registered by plugins can work properly
@@ -14069,6 +14140,7 @@ function shallow(component, options) {
   return shallowMount(component, options)
 }
 
+exports.ErrorWrapper = ErrorWrapper;
 exports.RouterLinkStub = RouterLinkStub;
 exports.Wrapper = Wrapper;
 exports.WrapperArray = WrapperArray;

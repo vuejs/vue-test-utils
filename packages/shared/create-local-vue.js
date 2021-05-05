@@ -36,7 +36,7 @@ function _createLocalVue(
   instance.config = cloneDeep(Vue.config)
 
   // if a user defined errorHandler is defined by a localVue instance via createLocalVue, register it
-  instance.config.errorHandler = config.errorHandler || Vue.config.errorHandler
+  instance.config.errorHandler = config.errorHandler
 
   // option merge strategies need to be exposed by reference
   // so that merge strats registered by plugins can work properly
