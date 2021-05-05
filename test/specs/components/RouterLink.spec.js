@@ -13,6 +13,7 @@ describeWithShallowAndMount('RouterLinkStub', mountingMethod => {
             exactActiveClass="exactActiveClass1"
             event="event1"
             exact
+            exact-path
             append
             replace
           />
@@ -25,10 +26,11 @@ describeWithShallowAndMount('RouterLinkStub', mountingMethod => {
       }
     })
 
-    const routerLink = wrapper.find(RouterLinkStub)
+    const routerLink = wrapper.getComponent(RouterLinkStub)
     expect(routerLink.props().to).toEqual('to1')
     expect(routerLink.props().tag).toEqual('a')
     expect(routerLink.props().exact).toEqual(true)
+    expect(routerLink.props().exactPath).toEqual(true)
     expect(routerLink.props().append).toEqual(true)
     expect(routerLink.props().replace).toEqual(true)
     expect(routerLink.props().activeClass).toEqual('activeClass1')
@@ -49,6 +51,6 @@ describeWithShallowAndMount('RouterLinkStub', mountingMethod => {
         RouterLink: RouterLinkStub
       }
     })
-    expect(wrapper.find(RouterLinkStub).text()).toEqual('some text')
+    expect(wrapper.getComponent(RouterLinkStub).text()).toEqual('some text')
   })
 })

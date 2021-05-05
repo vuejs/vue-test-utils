@@ -14,6 +14,7 @@ export default {
       default: 'a'
     },
     exact: Boolean,
+    exactPath: Boolean,
     append: Boolean,
     replace: Boolean,
     activeClass: String,
