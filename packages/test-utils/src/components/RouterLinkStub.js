@@ -19,6 +19,7 @@ export default {
     replace: Boolean,
     activeClass: String,
     exactActiveClass: String,
+    exactPathActiveClass: String,
     event: {
       type: eventTypes,
       default: 'click'

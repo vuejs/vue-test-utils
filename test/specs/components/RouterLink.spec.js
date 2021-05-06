@@ -12,6 +12,7 @@ describeWithShallowAndMount('RouterLinkStub', mountingMethod => {
             activeClass="activeClass1"
             exactActiveClass="exactActiveClass1"
             event="event1"
+            exact-path-active-class="exact-path-active-class"
             exact
             exact-path
             append
@@ -35,6 +36,9 @@ describeWithShallowAndMount('RouterLinkStub', mountingMethod => {
     expect(routerLink.props().replace).toEqual(true)
     expect(routerLink.props().activeClass).toEqual('activeClass1')
     expect(routerLink.props().exactActiveClass).toEqual('exactActiveClass1')
+    expect(routerLink.props().exactPathActiveClass).toEqual(
+      'exact-path-active-class'
+    )
     expect(routerLink.props().event).toEqual('event1')
   })
 
