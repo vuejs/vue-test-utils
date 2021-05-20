@@ -5,6 +5,7 @@ import {
   functionalSFCsSupported
 } from '~resources/utils'
 import { itSkipIf } from 'conditional-specs'
+import { deepStrictEqual } from 'assert'
 
 describeWithShallowAndMount('props', mountingMethod => {
   it('returns true if wrapper has prop', () => {
@@ -105,5 +106,73 @@ describeWithShallowAndMount('props', mountingMethod => {
       propsData: { prop1, prop2 }
     })
     expect(wrapper.props('propNotHere')).toEqual(undefined)
+  })
+
+  it('returns true on the props comparison', () => {
+    const TestComponent = {
+      template: `
+          <div>
+            {{ array }}
+          </div>'
+        `,
+      props: {
+        keys: {
+          type: Array,
+          required: true
+        }
+      },
+      name: 'test-component'
+    }
+    const wrapper = mountingMethod(TestComponent, {
+      propsData: { keys: ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'] }
+    })
+    expect(wrapper.props('keys')).toEqual([
+      'Q',
+      'W',
+      'E',
+      'R',
+      'T',
+      'Y',
+      'U',
+      'I',
+      'O',
+      'P'
+    ])
+    expect(wrapper.vm.$props.keys).toEqual([
+      'Q',
+      'W',
+      'E',
+      'R',
+      'T',
+      'Y',
+      'U',
+      'I',
+      'O',
+      'P'
+    ])
+    deepStrictEqual(wrapper.props('keys'), [
+      'Q',
+      'W',
+      'E',
+      'R',
+      'T',
+      'Y',
+      'U',
+      'I',
+      'O',
+      'P'
+    ])
+    deepStrictEqual(wrapper.vm.$props.keys, [
+      'Q',
+      'W',
+      'E',
+      'R',
+      'T',
+      'Y',
+      'U',
+      'I',
+      'O',
+      'P'
+    ])
   })
 })
