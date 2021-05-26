@@ -112,7 +112,7 @@ describeWithShallowAndMount('props', mountingMethod => {
     const TestComponent = {
       template: `
           <div>
-            {{ array }}
+            {{ keys }}
           </div>'
         `,
       props: {
