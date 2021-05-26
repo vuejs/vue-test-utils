@@ -113,7 +113,7 @@ describeWithShallowAndMount('props', mountingMethod => {
       template: `
           <div>
             {{ keys }}
-          </div>'
+          </div>
         `,
       props: {
         keys: {
