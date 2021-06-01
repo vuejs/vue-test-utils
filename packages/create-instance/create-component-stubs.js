@@ -18,6 +18,8 @@ import {
 } from '../shared/validators'
 import { compileTemplate } from '../shared/compile-template'
 
+const FUNCTION_PLACEHOLDER = '[Function]'
+
 function isVueComponentStub(comp): boolean {
   return (comp && comp.template) || isVueComponent(comp)
 }
@@ -116,13 +118,13 @@ export function createStubFromComponent(
           ? {
               ...context.data,
               attrs: {
-                ...context.props,
+                ...shapeStubProps(context.props),
                 ...context.data.attrs
               }
             }
           : {
               attrs: {
-                ...this.$props
+                ...shapeStubProps(this.$props)
               }
             },
         context
@@ -134,6 +136,27 @@ export function createStubFromComponent(
       )
     }
   }
+}
+
+function shapeStubProps(props) {
+  const shapedProps: Object = {}
+  for (const propName in props) {
+    if (typeof props[propName] === 'function') {
+      shapedProps[propName] = FUNCTION_PLACEHOLDER
+      continue
+    }
+
+    if (Array.isArray(props[propName])) {
+      shapedProps[propName] = props[propName].map(value => {
+        return typeof value === 'function' ? FUNCTION_PLACEHOLDER : value
+      })
+      continue
+    }
+
+    shapedProps[propName] = props[propName]
+  }
+
+  return shapedProps
 }
 
 // DEPRECATED: converts string stub to template stub.

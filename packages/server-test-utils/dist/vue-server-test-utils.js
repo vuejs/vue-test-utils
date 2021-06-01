@@ -1885,7 +1885,7 @@ function vmMatchesName(vm, name) {
   // We want to mirror how Vue resolves component names in SFCs:
   // For example, <test-component />, <TestComponent /> and `<testComponent />
   // all resolve to the same component
-  var componentName = (vm.$options && vm.$options.name) || '';
+  var componentName = vm.name || (vm.$options && vm.$options.name) || '';
   return (
     !!name &&
     (componentName === name ||
@@ -1935,9 +1935,10 @@ function matches(node, selector) {
     ? selector.value.options.functional
     : selector.value.functional;
 
-  var componentInstance = isFunctionalSelector
-    ? node[FUNCTIONAL_OPTIONS]
-    : node.child;
+  var componentInstance =
+    (isFunctionalSelector ? node[FUNCTIONAL_OPTIONS] : node.child) ||
+    node[FUNCTIONAL_OPTIONS] ||
+    node.child;
 
   if (!componentInstance) {
     return false
@@ -9358,11 +9359,43 @@ var modifiers = {
   pagedown: 34
 };
 
+// get from https://github.com/ashubham/w3c-keys/blob/master/index.ts
+var w3cKeys = {
+  enter: 'Enter',
+  tab: 'Tab',
+  delete: 'Delete',
+  esc: 'Esc',
+  escape: 'Escape',
+  space: ' ',
+  up: 'Up',
+  left: 'Left',
+  right: 'Right',
+  down: 'Down',
+  end: 'End',
+  home: 'Home',
+  backspace: 'Backspace',
+  insert: 'Insert',
+  pageup: 'PageUp',
+  pagedown: 'PageDown'
+};
+
+var codeToKeyNameMap = Object.entries(modifiers).reduce(
+  function (acc, ref) {
+    var obj;
+
+    var key = ref[0];
+    var value = ref[1];
+    return Object.assign(acc, ( obj = {}, obj[value] = w3cKeys[key], obj ));
+},
+  {}
+);
+
 function getOptions(eventParams) {
   var modifier = eventParams.modifier;
   var meta = eventParams.meta;
   var options = eventParams.options;
   var keyCode = modifiers[modifier] || options.keyCode || options.code;
+  var key = codeToKeyNameMap[keyCode];
 
   return Object.assign({}, options, // What the user passed in as the second argument to #trigger
 
@@ -9371,7 +9404,8 @@ function getOptions(eventParams) {
 
     // Any derived options should go here
     keyCode: keyCode,
-    code: keyCode})
+    code: keyCode,
+    key: key || options.key})
 }
 
 function createEvent(eventParams) {
@@ -9613,7 +9647,7 @@ Wrapper.prototype.emittedByOrder = function emittedByOrder () {
 };
 
 /**
- * Utility to check wrapper exists. Returns true as Wrapper always exists
+ * Utility to check wrapper exists.
  */
 Wrapper.prototype.exists = function exists () {
   if (this.vm) {
@@ -10252,6 +10286,35 @@ Wrapper.prototype.text = function text () {
 };
 
 /**
+ * Simulates event triggering
+ */
+Wrapper.prototype.__simulateTrigger = function __simulateTrigger (type, options) {
+    var this$1 = this;
+
+  var regularEventTrigger = function (type, options) {
+    var event = createDOMEvent(type, options);
+    return this$1.element.dispatchEvent(event)
+  };
+
+  var focusEventTrigger = function (type, options) {
+    if (this$1.element instanceof HTMLElement) {
+      return this$1.element.focus()
+    }
+
+    regularEventTrigger(type, options);
+  };
+
+  var triggerProcedureMap = {
+    focus: focusEventTrigger,
+    __default: regularEventTrigger
+  };
+
+  var triggerFn = triggerProcedureMap[type] || triggerProcedureMap.__default;
+
+  return triggerFn(type, options)
+};
+
+/**
  * Dispatches a DOM event on wrapper
  */
 Wrapper.prototype.trigger = function trigger (type, options) {
@@ -10293,8 +10356,7 @@ Wrapper.prototype.trigger = function trigger (type, options) {
     return nextTick()
   }
 
-  var event = createDOMEvent(type, options);
-  this.element.dispatchEvent(event);
+  this.__simulateTrigger(type, options);
   return nextTick()
 };
 
@@ -12877,7 +12939,7 @@ function _createLocalVue(
   instance.config = cloneDeep_1(Vue__default['default'].config);
 
   // if a user defined errorHandler is defined by a localVue instance via createLocalVue, register it
-  instance.config.errorHandler = config.errorHandler || Vue__default['default'].config.errorHandler;
+  instance.config.errorHandler = config.errorHandler;
 
   // option merge strategies need to be exposed by reference
   // so that merge strats registered by plugins can work properly
@@ -13388,6 +13450,8 @@ function createScopedSlots(
 
 // 
 
+var FUNCTION_PLACEHOLDER = '[Function]';
+
 function isVueComponentStub(comp) {
   return (comp && comp.template) || isVueComponent(comp)
 }
@@ -13485,10 +13549,10 @@ function createStubFromComponent(
         tagName,
         componentOptions.functional
           ? Object.assign({}, context.data,
-              {attrs: Object.assign({}, context.props,
+              {attrs: Object.assign({}, shapeStubProps(context.props),
                 context.data.attrs)})
           : {
-              attrs: Object.assign({}, this.$props)
+              attrs: Object.assign({}, shapeStubProps(this.$props))
             },
         context
           ? context.children
@@ -13497,6 +13561,27 @@ function createStubFromComponent(
               )
       )
     }})
+}
+
+function shapeStubProps(props) {
+  var shapedProps = {};
+  for (var propName in props) {
+    if (typeof props[propName] === 'function') {
+      shapedProps[propName] = FUNCTION_PLACEHOLDER;
+      continue
+    }
+
+    if (Array.isArray(props[propName])) {
+      shapedProps[propName] = props[propName].map(function (value) {
+        return typeof value === 'function' ? FUNCTION_PLACEHOLDER : value
+      });
+      continue
+    }
+
+    shapedProps[propName] = props[propName];
+  }
+
+  return shapedProps
 }
 
 // DEPRECATED: converts string stub to template stub.

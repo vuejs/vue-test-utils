@@ -14,10 +14,12 @@ export default {
       default: 'a'
     },
     exact: Boolean,
+    exactPath: Boolean,
     append: Boolean,
     replace: Boolean,
     activeClass: String,
     exactActiveClass: String,
+    exactPathActiveClass: String,
     event: {
       type: eventTypes,
       default: 'click'

@@ -8,7 +8,7 @@ import ComponentWithRouter from '~resources/components/component-with-router.vue
 import ComponentWithSyncError from '~resources/components/component-with-sync-error.vue'
 import ComponentWithAsyncError from '~resources/components/component-with-async-error.vue'
 import { describeWithShallowAndMount, vueVersion } from '~resources/utils'
-import { itDoNotRunIf, itSkipIf } from 'conditional-specs'
+import { itSkipIf } from 'conditional-specs'
 
 describeWithShallowAndMount('createLocalVue', mountingMethod => {
   it('installs Vuex without polluting global Vue', () => {
@@ -66,41 +66,36 @@ describeWithShallowAndMount('createLocalVue', mountingMethod => {
     expect(typeof freshWrapper.vm.$route).toEqual('undefined')
   })
 
-  itDoNotRunIf(
-    mountingMethod.name === 'shallowMount',
-    'Router should work properly with local Vue',
-    async () => {
-      const localVue = createLocalVue()
-      localVue.use(VueRouter)
-      const routes = [
-        {
-          path: '/',
-          component: {
-            render: h => h('div', 'home')
-          }
-        },
-        {
-          path: '/foo',
-          component: {
-            render: h => h('div', 'foo')
-          }
-        }
-      ]
-      const router = new VueRouter({
-        routes
-      })
-      const wrapper = mountingMethod(ComponentWithRouter, { localVue, router })
-      expect(wrapper.vm.$route).toBeTruthy()
-
-      expect(wrapper.text()).toContain('home')
-
-      await wrapper.find('a').trigger('click')
-      expect(wrapper.text()).toContain('foo')
-
-      const freshWrapper = mountingMethod(Component)
-      expect(typeof freshWrapper.vm.$route).toEqual('undefined')
+  it('works with VueRouter', async () => {
+    if (mountingMethod.name === 'shallowMount') {
+      return
     }
-  )
+    const localVue = createLocalVue()
+    localVue.use(VueRouter)
+    const Foo = {
+      name: 'Foo',
+      render: h => h('span', 'Foo component')
+    }
+    const routes = [{ path: '/foo', component: Foo }]
+    const router = new VueRouter({
+      routes
+    })
+    const wrapper = mountingMethod(ComponentWithRouter, {
+      localVue,
+      router
+    })
+
+    expect(wrapper.html()).not.toContain('Foo component')
+    expect(wrapper.vm.$route).toBeTruthy()
+
+    await wrapper.vm.$router.push('/foo')
+    expect(wrapper.html()).toContain('Foo component')
+
+    await wrapper.vm.$router.push('/')
+    expect(wrapper.html()).not.toContain('Foo component')
+    await wrapper.find('a').trigger('click')
+    expect(wrapper.html()).toContain('Foo component')
+  })
 
   it('use can take additional arguments', () => {
     const localVue = createLocalVue()

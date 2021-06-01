@@ -1,4 +1,4 @@
-### contains
+## contains
 
 Assert every wrapper in `WrapperArray` contains selector.
 

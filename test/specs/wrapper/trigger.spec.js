@@ -43,23 +43,42 @@ describeWithShallowAndMount('trigger', mountingMethod => {
     expect(keydownHandler).toHaveBeenCalled()
   })
 
-  describe('causes keydown handler to fire with the appropriate keyCode when wrapper.trigger("keydown", { keyCode: 65 }) is fired on a Component', async () => {
+  describe('causes keydown handler to fire with the appropriate keyCode when wrapper.trigger("keydown", { keyCode: 46 }) is fired on a Component', async () => {
     const keydownHandler = jest.fn()
     const wrapper = mountingMethod(ComponentWithEvents, {
       propsData: { keydownHandler }
     })
 
-    await wrapper.find('.keydown').trigger('keydown', { keyCode: 65 })
+    await wrapper.find('.keydown').trigger('keydown', { keyCode: 46 })
 
     const keyboardEvent = keydownHandler.mock.calls[0][0]
 
     // Unfortunately, JSDom will give different types than PhantomJS for keyCodes (string vs number), so we have to use parseInt to normalize the types.
     it('contains the keyCode', () => {
-      expect(parseInt(keyboardEvent.keyCode, 10)).toEqual(65)
+      expect(parseInt(keyboardEvent.keyCode, 10)).toEqual(46)
+    })
+
+    it('contains the key', () => {
+      expect(keyboardEvent.key).toEqual('Delete')
     })
 
     itDoNotRunIf(isRunningChrome, 'contains the code', () => {
-      expect(parseInt(keyboardEvent.code, 10)).toEqual(65)
+      expect(parseInt(keyboardEvent.code, 10)).toEqual(46)
+    })
+  })
+
+  describe('causes keydown handler to fire with the appropriate key when wrapper.trigger("keydown", { key: "k" }) is fired on a Component', async () => {
+    const keydownHandler = jest.fn()
+    const wrapper = mountingMethod(ComponentWithEvents, {
+      propsData: { keydownHandler }
+    })
+
+    await wrapper.find('.keydown').trigger('keydown', { key: 'k' })
+
+    const keyboardEvent = keydownHandler.mock.calls[0][0]
+
+    it('contains the key', () => {
+      expect(keyboardEvent.key).toEqual('k')
     })
   })
 
@@ -73,7 +92,7 @@ describeWithShallowAndMount('trigger', mountingMethod => {
     expect(keydownHandler).toHaveBeenCalled()
   })
 
-  it.skip('convert a registered key name to a key code', async () => {
+  it('convert a registered key name to a key code and key', async () => {
     const modifiers = {
       enter: 13,
       esc: 27,
@@ -91,14 +110,47 @@ describeWithShallowAndMount('trigger', mountingMethod => {
       pageup: 33,
       pagedown: 34
     }
+
+    // get from https://github.com/ashubham/w3c-keys/blob/master/index.ts
+    const w3cKeys = {
+      enter: 'Enter',
+      tab: 'Tab',
+      delete: 'Delete',
+      esc: 'Esc',
+      escape: 'Escape',
+      space: ' ',
+      up: 'Up',
+      left: 'Left',
+      right: 'Right',
+      down: 'Down',
+      end: 'End',
+      home: 'Home',
+      backspace: 'Backspace',
+      insert: 'Insert',
+      pageup: 'PageUp',
+      pagedown: 'PageDown'
+    }
+
+    const codeToKeyNameMap = Object.entries(modifiers).reduce(
+      (acc, [key, value]) => Object.assign(acc, { [value]: w3cKeys[key] }),
+      {}
+    )
+
+    const modifiersArray = Object.entries(modifiers)
+
     const keyupHandler = jest.fn()
     const wrapper = mountingMethod(ComponentWithEvents, {
       propsData: { keyupHandler }
     })
-    for (const keyName in modifiers) {
-      const keyCode = modifiers[keyName]
+
+    for (let index = 0; index < modifiersArray.length; index++) {
+      const [keyName, keyCode] = modifiersArray[index]
       await wrapper.find('.keydown').trigger(`keyup.${keyName}`)
-      expect(keyupHandler.mock.calls[0][0].keyCode).toEqual(keyCode)
+
+      expect(keyupHandler.mock.calls[index][0].keyCode).toEqual(keyCode)
+      expect(keyupHandler.mock.calls[index][0].key).toEqual(
+        codeToKeyNameMap[keyCode]
+      )
     }
   })
 

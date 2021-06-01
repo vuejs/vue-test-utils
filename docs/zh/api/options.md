@@ -264,7 +264,7 @@ expect(wrapper.vm.$route.path).toBe($route.path)
 
 - 类型：`Vue`
 
-通过 [`./createLocalVue.md`] 创建的一个 `Vue` 的本地拷贝，用于挂载该组件的时候。在这份拷贝上安装插件可以防止原始的 `Vue` 被污染。
+通过 [`createLocalVue`](./createLocalVue.md) 创建的一个 `Vue` 的本地拷贝，用于挂载该组件的时候。在这份拷贝上安装插件可以防止原始的 `Vue` 被污染。
 
 示例：
 

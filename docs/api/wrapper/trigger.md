@@ -38,6 +38,10 @@ test('trigger demo', async () => {
 })
 ```
 
+::: tip
+When using `trigger('focus')` with [jsdom v16.4.0](https://github.com/jsdom/jsdom/releases/tag/16.4.0) and above you must use the [attachTo](../options.md#attachto) option when mounting the component. This is because a bug fix in [jsdom v16.4.0](https://github.com/jsdom/jsdom/releases/tag/16.4.0) changed `el.focus()` to do nothing on elements that are disconnected from the DOM.
+:::
+
 - **Setting the event target:**
 
 Under the hood, `trigger` creates an `Event` object and dispatches the event on the Wrapper element.
