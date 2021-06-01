@@ -2,7 +2,7 @@
 
 > Un exemple de projet pour cette installation est disponible sur [GitHub](https://github.com/vuejs/vue-test-utils-typescript-example).
 
-TypeScript est un sur-ensemble populaire de JavaScript qui ajoute des types et des classes en plus des JS ordinaires. Vue Test Utils inclut les types dans le paquet distribué, donc il fonctionne bien avec TypeScript.
+TypeScript est un superset populaire de JavaScript qui ajoute des types et des classes au dessus du JS normal. Vue Test Utils inclut les types dans le package distribué, il fonctionne donc bien avec TypeScript.
 
 Dans ce guide, nous expliquerons comment configurer un dispositif de test pour un projet TypeScript en utilisant Jest et Vue Test Utils à partir d'une configuration de base de Vue CLI TypeScript.
 
@@ -20,13 +20,13 @@ Et créer un projet avec :
 $ vue create hello-world
 ```
 
-Dans l’invite du CLI, choisissez de `Manually select features`, sélectionnez TypeScript et appuyez sur la touche enter. Cela créera un projet avec TypeScript déjà configuré.
+Dans l’invite du CLI, choisissez l'option `Manually select features`, sélectionnez TypeScript et appuyez sur la touche enter. Cela créera un projet avec TypeScript déjà configuré.
 
 ::: tip NOTE
-Si vous souhaitez obtenir un guide plus détaillé sur la configuration de Vue avec TypyScript, consultez le [guide de démarrage de Vue avec TypeScript](https://github.com/Microsoft/TypeScript-Vue-Starter).
+Si vous souhaitez obtenir un guide plus détaillé sur la configuration de Vue avec TypeScript, consultez le [guide de démarrage de Vue avec TypeScript](https://github.com/Microsoft/TypeScript-Vue-Starter).
 :::
 
-L'étape suivante consiste d'ajouter Jest au projet.
+L'étape suivante consiste à ajouter Jest au projet.
 
 ### Mise en place de Jest
 

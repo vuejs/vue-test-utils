@@ -6,7 +6,6 @@ Vue Test Utils fournit des méthodes pour tester les composants de Vue. Les memb
 
 [Vue Testing Library](https://github.com/testing-library/vue-testing-library) est un ensemble d'outils visant à tester les composants sans se fier aux détails de la mise en œuvre. Conçu dans un souci d'accessibilité, son approche permet également de remanier facilement les composants.
 
-It is built on top of Vue Test Utils.
 Il est construit à partir de Vue Test Utils.
 
 ### `vuex-mock-store`

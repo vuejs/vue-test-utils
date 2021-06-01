@@ -2,7 +2,7 @@
 
 Vérifie que `WrapperArray` existe.
 
-Renvoie false si elle est appelée sur un `WrapperArray` sans objets Wrapper`, ou si l'un d'entre eux n'existe pas.
+Renvoie false si elle est appelée sur un `WrapperArray` sans objets `Wrapper`, ou si l'un d'entre eux n'existe pas.
 
 - **Returns:** `{boolean}`
 

@@ -8,8 +8,6 @@
 
 Définir les props de `Wrapper` `vm` et forcer à mettre à jour
 
-Définit les props `Wrapper` `vm` et force la mise à jour.
-
 :: : avertissement
 `setProps` ne peut être appelé que pour un composant de haut niveau, monté par `mount` ou `shallowMount`.
 :: :

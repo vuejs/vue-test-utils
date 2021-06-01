@@ -19,7 +19,7 @@ radioInput.setChecked()
 
 - **Note:**
 
-Lorsque vous essayez de mettre la valeur à state via `v-model` par `radioInput.element.checked = true ; radioInput.trigger('input')`, `v-model` n'est pas déclenché. Le `v-model` est déclenché par l'événement `change`.
+Lorsque vous essayez de mettre la valeur à l'état via `v-model` par `radioInput.element.checked = true ; radioInput.trigger('input')`, `v-model` n'est pas déclenché. Le `v-model` est déclenché par l'événement `change`.
 
 `checkboxInput.setChecked(checked)` est un alias du code suivant.
 

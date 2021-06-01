@@ -10,7 +10,7 @@ Un `WrapperArray` est un objet qui contient un tableau de [`Wrappers`](../wrappe
 
 ### `length`
 
-`number` (lecture seulement): le nombre de `Wrappers`constenus dans le `WrapperArry`
+`number` (lecture seulement): le nombre de `Wrappers`contenus dans le `WrapperArry`
 
 ## Les Méthodes
 

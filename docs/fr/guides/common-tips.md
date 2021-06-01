@@ -39,7 +39,7 @@ De plus, le composant ne sera pas automatiquement détruit à la fin de chaque s
 
 ### Écrire des tests asynchrones (nouveau)
 
-Par défaut, les mises à jour des lots de Vue s'effectuent de manière asynchrone (à la prochaine "cloche"). Ceci afin d'éviter les re-rendus DOM inutiles, et les calculs des watchers ([voir les docs](https://vuejs.org/v2/guide/reactivity.html#Async-Update-Queue) pour plus de détails).
+Par défaut, Vue regroupe les mises à jour pour les exécuter de manière asynchrone (à la prochaine "coche"). Ceci afin d'éviter les re-rendus DOM inutiles, et les calculs des watchers ([voir les docs](https://vuejs.org/v2/guide/reactivity.html#Async-Update-Queue) pour plus de détails).
 
 Cela signifie que vous **devez** attendre que les mises à jour s'exécutent après avoir modifié une propriété réactive. Vous pouvez le faire en attendant les méthodes de mutations comme le `trigger` :
 
@@ -178,7 +178,7 @@ Vous pouvez également mettre à jour les props d'un composant déjà monté ave
 
 ### Simulation de transition
 
-Bien qu'appeler `await Vue.nextTick()` fonctionne bien pour la plupart des cas d'utilisation, il y a certaines situations où des solutions de contournement supplémentaire sont nécessaires. Ces problèmes seront résolus avant que la bibliothèque `vue-test-utils`ne sorte de la version bêta. Un exemple est celui des composants de test unitaire avec le wrapper `<transition>` fourni par Vue.
+Bien qu'appeler `await Vue.nextTick()` fonctionne bien pour la plupart des cas d'utilisation, il y a certaines situations où des solutions de contournement supplémentaire sont nécessaires. Ces problèmes seront résolus avant que la bibliothèque `vue-test-utils` ne sorte de la version bêta. Un exemple est celui des composants de test unitaire avec le wrapper `<transition>` fourni par Vue.
 
 ```vue
 <template>
@@ -242,7 +242,7 @@ test('should render Foo, then hide it', async () => {
 })
 ```
 
-Cela remplace le comportement par défaut du composant `<transition>` et rend les enfants dès que la condition booléenne pertinente change, par opposition à l'application de classes CSS, qui est la façon dont le composant `<transition>` de Vue fonctionne.
+Cela remplace le comportement par défaut du composant `<transition>` et affiche les enfants dès que la condition booléenne pertinente change, par opposition à l'application de classes CSS, qui est la façon dont le composant `<transition>` de Vue fonctionne.
 
 #### Éviter `setData`
 

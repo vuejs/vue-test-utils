@@ -1,7 +1,6 @@
 ## Utilisation des outils de Vue Test Utils avec Jest (recommandé)
 
-Jest est un outils de test développé par Facebook, visant à fournir une solution de test unitaire sur batterie. Vous pouvez en savoir plus sur Jest en consultant sa [documentation officielle](https://jestjs.io/).
-
+Jest est un outils de test développé par Facebook, visant à fournir une solution de test unitaire avec tout le nécessaire fourni. Vous pouvez en savoir plus sur Jest en consultant sa [documentation officielle](https://jestjs.io/).
 <div class="vueschool"><a href="https://vueschool.io/courses/learn-how-to-test-vuejs-components?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to use Jest and Vue Test Utils to test Single File Components with Vue School">Apprenez comment utiliser Jest pour tester les composants à fichier unique avec Vue School</a></div>
 
 ### Installation avec Vue CLI (recommandé)
@@ -28,7 +27,7 @@ Après avoir configuré Jest, la première chose à faire est d'installer Vue Te
 $ npm install --save-dev @vue/test-utils vue-jest
 ```
 
-Ensuite, vous devez dire à Jest de transformer les fichiers `.vue` en utilisant `.vu-jest`. Vous pouvez le faire en ajoutant la configuration suivante dans le `package.json` ou dans un [fichier de configuration de Jest](https://jestjs.io/docs/en/configuration) :
+Ensuite, vous devez dire à Jest de transformer les fichiers `.vue` en utilisant `.vue-jest`. Vous pouvez le faire en ajoutant la configuration suivante dans le `package.json` ou dans un [fichier de configuration de Jest](https://jestjs.io/docs/en/configuration) :
 
 ```json
 {
@@ -103,7 +102,7 @@ Si vous utilisez un alias de résolution dans la configuration du webpack, par e
 
 ### Couverture du code
 
-Jest peut être utilisé pour générer des rapports de couverture dans plusieur formats. Voici un exemple simple pour commencer :
+Jest peut être utilisé pour générer des rapports de couverture dans plusieurs formats. Voici un exemple simple pour commencer :
 
 Développez votre configuration de `jest` avec l'option [`collectCoverage`](https://jestjs.io/docs/en/configuration#collectcoverage-boolean), puis ajoutez le tableau [`collectCoverageFrom`](https://jestjs.io/docs/en/configuration#collectcoveragefrom-array) pour définir les fichiers pour lesquels les informations de couverture doivent être collectées.
 

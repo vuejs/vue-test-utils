@@ -16,7 +16,7 @@ options.at(1).setSelected()
 
 - **Note:**
 
-Lorsque vous essayez de mettre la valeur à state via `v-model` par `option.element.selected = true ; parentSelect.trigger('input')`, `v-model` n'est pas déclenché. Le `v-model` est déclenché par l'événement `change`.
+Lorsque vous essayez de mettre la valeur à l'état via `v-model` par `option.element.selected = true ; parentSelect.trigger('input')`, `v-model` n'est pas déclenché. Le `v-model` est déclenché par l'événement `change`.
 
 `option.setSelected()` est un alias du code suivant.
 

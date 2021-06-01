@@ -25,7 +25,7 @@ test('triggers a click', async () => {
 
 ### Les Options
 
-La méthode `trigger` prend en option un objet optionnel `options`. Les propriétés dans cet objet `options` sont ajoutés à l'événement.
+La méthode `trigger` prend en option un objet optionnel `options`. Les propriétés dans cet objet `options` sont ajoutées à l'événement.
 
 A noter que la cible ne peut pas être ajoutée dans l'objet `options`.
 

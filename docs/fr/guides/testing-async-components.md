@@ -12,7 +12,7 @@ Visualiser les lots en attente de mises à jour du DOM et les appliquer de mani�
 _Vous pouvez en savoir plus sur les mises à jour asynchrones dans la [Vue docs](https://vuejs.org/v2/guide/reactivity.html#Async-Update-Queue)_
 
 En pratique, cela signifie qu'après la mutation d'une propriété réactive, pour affirmer que le changement a été apporté, votre test doit attendre pendant que Vue effectue les mises à jour.
-Un autre moyen est d'utiliser `await Vue.nextTick()`, mais un moyen plus facile et plus propre est de simplement `await`(attendre) la méthode avec laquelle vous avez muté l'état, comme `trigger`
+Un autre moyen est d'utiliser `await Vue.nextTick()`, mais un moyen plus facile et plus propre est de simplement `await` (attendre) la méthode avec laquelle vous avez muté l'état, comme `trigger`
 
 ```js
 // à l'intérieur de la suite de test, ajouter ce cas test
@@ -137,8 +137,7 @@ Cette même technique peut être appliquée aux actionx de Vuex, qui retournent 
 
 #### Pourquoi ne pas se contenter de `await button.trigger()` ?
 
-Comme expliqué ci-dessus, il y a une différence entre le temps nécessaire à Vue pour mettre à jour ses composants,
-et le temps qu'il faut pour qu'une promesse, comme celle d'`axios` soit tenue.
+Comme expliqué ci-dessus, il y a une différence entre le temps nécessaire à Vue pour mettre à jour ses composants, et le temps qu'il faut pour qu'une promesse, comme celle d'`axios` soit résolue.
 
 Une bonne règle à suivre est de toujours `await` les mutations comme `trigger` ou `setProps`.
 Si votre code repose sur quelque chose d'asynchrone, comme appeler `axios`, ajoutez également une attente à l'appel `flushPromises`.

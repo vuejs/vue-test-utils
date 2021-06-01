@@ -1,7 +1,7 @@
 ## get
 
 ::: warning Avertissement de déprédation
-L'utilisation de `get`pour rechercher un Composant est dépréciée et sera supprimée. Utilisé plutôt [`getCompoenent`](./getComponent.md)
+L'utilisation de `get` pour rechercher un Composant est dépréciée et sera supprimée. Utilisez plutôt [`getComponent`](./getComponent.md)
 :::
 Fonctionne exactement comme [find](./find.md), mais lance une erreur si aucun élément correspondant au sélecteur donné n'est trouvé. Vous devez utiliser `find` lorsque vous recherchez un élément qui peut ne pas exister. Vous devez utiliser cette méthode lorsque vous obtenez un élément qui devrait exister et elle fournira un beau message d'erreur si ce n'est pas le cas.
 

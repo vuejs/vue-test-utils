@@ -9,7 +9,7 @@ Vue Test Utils comprend un objet de configuration des options définies utilisé
 - type: `Boolean`
 - default: `true`
 
-Contrôler s'il faut ou non afficher des avertissements de dépréciation . Lorsqu'il est sur `true`, tous les avertissements de déprédation sont visibles dans la console.
+Contrôler s'il faut ou non afficher des avertissements de dépréciation . Lorsqu'il est sur `true`, tous les avertissements de dépréciation sont visibles dans la console.
 
 Exemple:
 
@@ -65,7 +65,7 @@ config.stubs['my-component'] = '<div />'
 - type: `Object`
 - default: `{}`
 
-Comme pour les `stubs`, les valeurs passées à `config.mocks` sont utilisées par défaut. Toute valeur passées à l'objet d'options de montage `mocks` aura la priorité sur celles déclarées dans `config.mocks`.
+Comme pour les `stubs`, les valeurs passées à `config.mocks` sont utilisées par défaut. Toute valeur passée à l'objet d'options de montage `mocks` aura la priorité sur celles déclarées dans `config.mocks`.
 
 Exemple:
 

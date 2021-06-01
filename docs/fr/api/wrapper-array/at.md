@@ -1,6 +1,6 @@
 ## at
 
-Retourne `Wrapper` à `index` passé. Utilise une numérotation basée sur les zéros (c'est-à-dire que le premier élément est à l'index 0).
+Retourne le `Wrapper` à `index` passé. Utilise une numérotation basée sur les zéros (c'est-à-dire que le premier élément est à l'index 0).
 Si `index` est négatif, l'indexation commence à partir du dernier élément (c'est-à-dire que le premier élément est à l'index -1).
 
 - **Arguments:**

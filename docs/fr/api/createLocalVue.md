@@ -11,7 +11,7 @@
 
 - **Usage:**
 
-`createLocalVue` renvoie une classe Vue pour que vous puissiez ajouter des composants, des mixins et installer des plugins dans polluer la classe Vue globale.
+`createLocalVue` renvoie une classe Vue pour que vous puissiez ajouter des composants, des mixins et installer des plugins sans polluer la classe Vue globale.
 
 L'option `errorHandler` peut être utilisée pour gérer les erreurs non attrapées pendant la fonction de rendu du composant et les observateurs.
 

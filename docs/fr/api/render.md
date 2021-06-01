@@ -23,7 +23,7 @@ Voir [les options](./options.md)
 
 Rend un objet en chaîne de caractères et retourne un [cheerio wrapper](https://github.com/cheeriojs/cheerio).
 
-Cheerio est une bibliothèque de type jQuery pour parcourir le DOM dans Node.js. Elle possède une API similaire à celles de [`Wrapper`](wrapper/) Vue Test Utils .
+Cheerio est une bibliothèque de type jQuery pour parcourir le DOM dans Node.js. Elle possède une API similaire à celle de [`Wrapper`](wrapper/) Vue Test Utils .
 
 `render` utilise [`vue-server-renderer`](https://ssr.vuejs.org/en/basic.html) sous le capot, pour rendre un composant en HTML statique.
 
