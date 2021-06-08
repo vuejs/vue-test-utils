@@ -9,7 +9,7 @@
 Sets `Wrapper` `vm` props and forces update.
 
 ::: warning
-`setProps` could be called only for top-level component, mounted by `mount` or `shallowMount`
+`setProps` should be called only for top-level component, mounted by `mount` or `shallowMount`
 :::
 
 ```js
