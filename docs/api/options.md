@@ -336,15 +336,12 @@ wrapper.destroy()
 `attachToDocument` is deprecated and will be removed in future releases. Use [`attachTo`](#attachto) instead. For example, if you need to attach the component to the document.body:
 
 ```js
-const elem = document.createElement('div')
-if (document.body) {
-  document.body.appendChild(elem)
-}
 wrapper = mount(Component, {
-  attachTo: elem
+  attachTo: document.body
 })
 ```
 
+For more information, see [`attachTo`](#attachto)'s tip above.
 :::
 
 Like [`attachTo`](#attachto), but automatically creates a new `div` element for you and inserts it into the body.
