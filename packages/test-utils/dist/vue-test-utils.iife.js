@@ -2713,9 +2713,13 @@ var VueTestUtils = (function (exports, Vue, vueTemplateCompiler) {
     // We want to mirror how Vue resolves component names in SFCs:
     // For example, <test-component />, <TestComponent /> and `<testComponent />
     // all resolve to the same component
-    var componentName = vm.name || (vm.$options && vm.$options.name) || '';
+    var componentName = isFunctionalComponent(vm)
+      ? vm.name
+      : vm.$options && vm.$options.name;
+
     return (
       !!name &&
+      !!componentName &&
       (componentName === name ||
         // testComponent -> TestComponent
         componentName === capitalize(name) ||
@@ -14114,10 +14118,12 @@ var VueTestUtils = (function (exports, Vue, vueTemplateCompiler) {
         default: 'a'
       },
       exact: Boolean,
+      exactPath: Boolean,
       append: Boolean,
       replace: Boolean,
       activeClass: String,
       exactActiveClass: String,
+      exactPathActiveClass: String,
       event: {
         type: eventTypes,
         default: 'click'

@@ -1885,9 +1885,13 @@ function vmMatchesName(vm, name) {
   // We want to mirror how Vue resolves component names in SFCs:
   // For example, <test-component />, <TestComponent /> and `<testComponent />
   // all resolve to the same component
-  var componentName = vm.name || (vm.$options && vm.$options.name) || '';
+  var componentName = isFunctionalComponent(vm)
+    ? vm.name
+    : vm.$options && vm.$options.name;
+
   return (
     !!name &&
+    !!componentName &&
     (componentName === name ||
       // testComponent -> TestComponent
       componentName === capitalize(name) ||
