@@ -6,12 +6,12 @@ import ComponentWithParentName from '~resources/components/component-with-parent
 import { describeWithShallowAndMount, vueVersion } from '~resources/utils'
 import { itDoNotRunIf } from 'conditional-specs'
 import LoginForm, { FormError } from '~resources/components/LoginForm.vue'
-import { mount, createLocalVue, shallowMount } from 'packages/test-utils/src'
+import { mount, createLocalVue } from 'packages/test-utils/src'
 
-it('fails to reproduce https://github.com/vuejs/vue-test-utils/issues/1766', () => {
+it.only('fails to reproduce https://github.com/vuejs/vue-test-utils/issues/1766', () => {
   const localVue = createLocalVue()
-  const wrapper = shallowMount(LoginForm, { localVue })
-  expect(wrapper.findComponent(FormError).props('show')).toBeTruthy()
+  const wrapper = mount(LoginForm, { localVue })
+  expect(wrapper.findComponent(FormError).props('show')).toBe('blah')
 })
 
 describeWithShallowAndMount('options.slots', mountingMethod => {

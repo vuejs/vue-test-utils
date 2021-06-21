@@ -1,6 +1,6 @@
 <template>
   <div>
     Form
-    <slot />
+    <slot :username="'blah'" />
   </div>
 </template>

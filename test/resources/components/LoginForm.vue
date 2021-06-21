@@ -1,7 +1,7 @@
 <template>
   <Form>
     <template v-slot="{ username }">
-      <FormError :show="true" />
+      <FormError :show="username" />
     </template>
   </Form>
 </template>
