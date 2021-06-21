@@ -5,7 +5,14 @@ import ComponentAsAClass from '~resources/components/component-as-a-class.vue'
 import ComponentWithParentName from '~resources/components/component-with-parent-name.vue'
 import { describeWithShallowAndMount, vueVersion } from '~resources/utils'
 import { itDoNotRunIf } from 'conditional-specs'
-import { mount, createLocalVue } from 'packages/test-utils/src'
+import LoginForm, { FormError } from '~resources/components/LoginForm.vue'
+import { mount, createLocalVue, shallowMount } from 'packages/test-utils/src'
+
+it('fails to reproduce https://github.com/vuejs/vue-test-utils/issues/1766', () => {
+  const localVue = createLocalVue()
+  const wrapper = shallowMount(LoginForm, { localVue })
+  expect(wrapper.findComponent(FormError).props('show')).toBeTruthy()
+})
 
 describeWithShallowAndMount('options.slots', mountingMethod => {
   it('mounts component with default slot if passed component in slot object', () => {
