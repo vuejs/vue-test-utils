@@ -96,7 +96,7 @@ export interface Wrapper<V extends Vue | null, el extends Element = Element> ext
   find<R extends Vue> (selector: VueClass<R>): Wrapper<R>
   find<R extends Vue> (selector: ComponentOptions<R>): Wrapper<R>
   find<Props = DefaultProps, PropDefs = PropsDefinition<Props>>(selector: FunctionalComponentOptions<Props, PropDefs>): Wrapper<Vue>
-  find<el extends Element>(selector: string): Wrapper<Vue>
+  find<el extends Element>(selector: string): Wrapper<Vue, el>
   find (selector: RefSelector): Wrapper<Vue>
   find (selector: NameSelector): Wrapper<Vue>
 
