@@ -51,7 +51,7 @@ wrapper.findComponent(ClassComponent)
 wrapper.vm.foo
 wrapper.vm.$emit('event', 'arg')
 
-let el: HTMLElement = wrapper.element
+let el: Element = wrapper.element
 
 let selector: Selector | void
 
