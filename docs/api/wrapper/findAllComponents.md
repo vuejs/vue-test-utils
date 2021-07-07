@@ -19,5 +19,5 @@ const wrapper = mount(Foo)
 const bar = wrapper.findAllComponents(Bar).at(0)
 expect(bar.exists()).toBeTruthy()
 const bars = wrapper.findAllComponents(Bar)
-expect(bar).toHaveLength(1)
+expect(bars).toHaveLength(1)
 ```

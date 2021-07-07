@@ -3,6 +3,7 @@ import { createLocalVue, shallowMount } from 'packages/test-utils/src'
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import ComponentWithChild from '~resources/components/component-with-child.vue'
+import ComponentWithNameProp from '~resources/components/component-with-name-prop.vue'
 import ComponentWithoutName from '~resources/components/component-without-name.vue'
 import ComponentWithSlots from '~resources/components/component-with-slots.vue'
 import ComponentWithVFor from '~resources/components/component-with-v-for.vue'
@@ -554,6 +555,15 @@ describeWithShallowAndMount('find', mountingMethod => {
     }
     const wrapper = mountingMethod(component)
     expect(wrapper.find({ name: 'CamelCase' }).name()).toEqual('camel-case')
+  })
+
+  it('returns a Wrapper matching a component name if Component has a name prop', () => {
+    const wrapper = mountingMethod(ComponentWithNameProp, {
+      propsData: { name: 'prop1' }
+    })
+    expect(
+      wrapper.findComponent({ name: 'component-with-name-prop' }).vnode
+    ).toBeTruthy()
   })
 
   it('returns Wrapper of Vue Component matching the ref in options object', () => {

@@ -3,16 +3,20 @@ import {
   COMPONENT_SELECTOR,
   FUNCTIONAL_OPTIONS
 } from 'shared/consts'
-import { isConstructor } from 'shared/validators'
+import { isConstructor, isFunctionalComponent } from 'shared/validators'
 import { capitalize, camelize } from 'shared/util'
 
 function vmMatchesName(vm, name) {
   // We want to mirror how Vue resolves component names in SFCs:
   // For example, <test-component />, <TestComponent /> and `<testComponent />
   // all resolve to the same component
-  const componentName = vm.name || (vm.$options && vm.$options.name) || ''
+  const componentName = isFunctionalComponent(vm)
+    ? vm.name
+    : vm.$options && vm.$options.name
+
   return (
     !!name &&
+    !!componentName &&
     (componentName === name ||
       // testComponent -> TestComponent
       componentName === capitalize(name) ||
