@@ -75,7 +75,7 @@ interface BaseWrapper {
   selector: Selector | void
 }
 
-export interface Wrapper<V extends Vue | null, el extends HTMLElement = HTMLElement> extends BaseWrapper {
+export interface Wrapper<V extends Vue | null, el extends Element = Element> extends BaseWrapper {
   readonly vm: V
   readonly element: el
   readonly options: WrapperOptions
@@ -83,7 +83,7 @@ export interface Wrapper<V extends Vue | null, el extends HTMLElement = HTMLElem
   get<R extends Vue> (selector: VueClass<R>): Wrapper<R>
   get<R extends Vue> (selector: ComponentOptions<R>): Wrapper<R>
   get<Props = DefaultProps, PropDefs = PropsDefinition<Props>>(selector: FunctionalComponentOptions<Props, PropDefs>): Wrapper<Vue>
-  get<el extends HTMLElement>(selector: string): Wrapper<Vue, el>
+  get<el extends Element>(selector: string): Wrapper<Vue, el>
   get (selector: RefSelector): Wrapper<Vue>
   get (selector: NameSelector): Wrapper<Vue>
 
@@ -96,7 +96,7 @@ export interface Wrapper<V extends Vue | null, el extends HTMLElement = HTMLElem
   find<R extends Vue> (selector: VueClass<R>): Wrapper<R>
   find<R extends Vue> (selector: ComponentOptions<R>): Wrapper<R>
   find<Props = DefaultProps, PropDefs = PropsDefinition<Props>>(selector: FunctionalComponentOptions<Props, PropDefs>): Wrapper<Vue>
-  find<el extends HTMLElement>(selector: string): Wrapper<Vue>
+  find<el extends Element>(selector: string): Wrapper<Vue>
   find (selector: RefSelector): Wrapper<Vue>
   find (selector: NameSelector): Wrapper<Vue>
 
