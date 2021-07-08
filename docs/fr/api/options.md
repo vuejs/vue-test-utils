@@ -116,7 +116,7 @@ const yourComponent = {
 const wrapper = shallowMount(Component, {
   slots: {
     default: [Foo, '<my-component />', 'text'],
-    fooBar: Foo, //Correspondra à `<slot name="FooBar" />`.
+    fooBar: Foo, // Correspondra à `<slot name="FooBar" />`.
     foo: '<div />',
     bar: 'bar',
     baz: bazComponent,

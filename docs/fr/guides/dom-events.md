@@ -11,6 +11,7 @@ test('triggers a click', async () => {
   const wrapper = mount(MyComponent)
 
   await wrapper.trigger('click')
+})
 ```
 
 Vous devez savoir que la méthode `find` renvoie également un `Wrapper`. En supposant que `MyComponent` contient un bouton, le code suivant clique sur le bouton.
