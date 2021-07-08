@@ -68,6 +68,8 @@ selector = found.selector
 found = wrapper.find({ name: 'my-button' })
 selector = found.selector
 
+wrapper.find<HTMLInputElement>('input').element.value
+
 let array = wrapper.findAll('.bar')
 selector = array.selector
 array = wrapper.findAll(normalOptions)
