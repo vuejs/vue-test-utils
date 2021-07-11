@@ -183,7 +183,7 @@ interface VueTestUtilsConfigOptions {
   deprecationWarningHandler?: Function
 }
 
-export declare function createLocalVue (): typeof Vue
+export declare function createLocalVue (options?: any): typeof Vue
 export declare let config: VueTestUtilsConfigOptions
 
 export declare function mount<V extends Vue> (component: VueClass<V>, options?: ThisTypedMountOptions<V>): Wrapper<V>
