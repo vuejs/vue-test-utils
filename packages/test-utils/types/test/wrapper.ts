@@ -51,7 +51,7 @@ wrapper.findComponent(ClassComponent)
 wrapper.vm.foo
 wrapper.vm.$emit('event', 'arg')
 
-let el: HTMLElement = wrapper.element
+let el: Element = wrapper.element
 
 let selector: Selector | void
 
@@ -67,6 +67,8 @@ found = wrapper.find({ ref: 'myButton' })
 selector = found.selector
 found = wrapper.find({ name: 'my-button' })
 selector = found.selector
+
+wrapper.find<HTMLInputElement>('input').element.value
 
 let array = wrapper.findAll('.bar')
 selector = array.selector
