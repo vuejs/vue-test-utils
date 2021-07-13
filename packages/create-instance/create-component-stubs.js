@@ -125,7 +125,7 @@ export function createStubFromComponent(
           ? context.children
           : this.$options._renderChildren ||
               getScopedSlotRenderFunctions(this).map(x =>
-                this.$options.parent._vnode.data.scopedSlots[x]({})
+                this.$vnode.data.scopedSlots[x]({})
               )
       )
     }
