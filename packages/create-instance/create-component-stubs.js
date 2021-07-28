@@ -87,7 +87,6 @@ function getScopedSlotRenderFunctions(ctx: any): Array<string> {
   return []
 }
 
-
 export function createStubFromComponent(
   originalComponent: Component,
   name: string,

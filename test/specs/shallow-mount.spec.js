@@ -11,7 +11,6 @@ import ComponentAsAClassWithChild from '~resources/components/component-as-a-cla
 import ComponentWithVSlotSyntax from '~resources/components/component-with-v-slot-syntax.vue'
 import ComponentWithVSlotSyntaxNested from '~resources/components/component-with-v-slot-syntax-nested.vue'
 import ComponentWithVSlot from '~resources/components/component-with-v-slot.vue'
-import ComponentWithVSlot from '~resources/components/component-with-v-slot.vue'
 import RecursiveComponent from '~resources/components/recursive-component.vue'
 import { vueVersion } from '~resources/utils'
 import { describeRunIf, itDoNotRunIf } from 'conditional-specs'
