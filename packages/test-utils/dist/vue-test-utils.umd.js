@@ -1956,7 +1956,7 @@
   }
 
   function isComponentOptions(c) {
-    return typeof c === 'object' && (c.template || c.render)
+    return c !== null && typeof c === 'object' && (c.template || c.render)
   }
 
   function isFunctionalComponent(c) {

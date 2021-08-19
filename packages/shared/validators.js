@@ -89,7 +89,7 @@ export function isDynamicComponent(c: any) {
 }
 
 export function isComponentOptions(c: any) {
-  return typeof c === 'object' && (c.template || c.render)
+  return c !== null && typeof c === 'object' && (c.template || c.render)
 }
 
 export function isFunctionalComponent(c: any) {
