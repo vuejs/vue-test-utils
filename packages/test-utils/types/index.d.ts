@@ -75,15 +75,15 @@ interface BaseWrapper {
   selector: Selector | void
 }
 
-export interface Wrapper<V extends Vue | null> extends BaseWrapper {
+export interface Wrapper<V extends Vue | null, el extends Element = Element> extends BaseWrapper {
   readonly vm: V
-  readonly element: HTMLElement
+  readonly element: el
   readonly options: WrapperOptions
 
   get<R extends Vue> (selector: VueClass<R>): Wrapper<R>
   get<R extends Vue> (selector: ComponentOptions<R>): Wrapper<R>
   get<Props = DefaultProps, PropDefs = PropsDefinition<Props>>(selector: FunctionalComponentOptions<Props, PropDefs>): Wrapper<Vue>
-  get (selector: string): Wrapper<Vue>
+  get<el extends Element>(selector: string): Wrapper<Vue, el>
   get (selector: RefSelector): Wrapper<Vue>
   get (selector: NameSelector): Wrapper<Vue>
 
@@ -96,7 +96,7 @@ export interface Wrapper<V extends Vue | null> extends BaseWrapper {
   find<R extends Vue> (selector: VueClass<R>): Wrapper<R>
   find<R extends Vue> (selector: ComponentOptions<R>): Wrapper<R>
   find<Props = DefaultProps, PropDefs = PropsDefinition<Props>>(selector: FunctionalComponentOptions<Props, PropDefs>): Wrapper<Vue>
-  find (selector: string): Wrapper<Vue>
+  find<el extends Element>(selector: string): Wrapper<Vue, el>
   find (selector: RefSelector): Wrapper<Vue>
   find (selector: NameSelector): Wrapper<Vue>
 
@@ -183,7 +183,7 @@ interface VueTestUtilsConfigOptions {
   deprecationWarningHandler?: Function
 }
 
-export declare function createLocalVue (): typeof Vue
+export declare function createLocalVue (options?: any): typeof Vue
 export declare let config: VueTestUtilsConfigOptions
 
 export declare function mount<V extends Vue> (component: VueClass<V>, options?: ThisTypedMountOptions<V>): Wrapper<V>
