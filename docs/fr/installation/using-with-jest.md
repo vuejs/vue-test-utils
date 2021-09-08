@@ -1,6 +1,7 @@
 ## Utilisation des outils de Vue Test Utils avec Jest (recommandé)
 
 Jest est un outils de test développé par Facebook, visant à fournir une solution de test unitaire avec tout le nécessaire fourni. Vous pouvez en savoir plus sur Jest en consultant sa [documentation officielle](https://jestjs.io/).
+
 <div class="vueschool"><a href="https://vueschool.io/courses/learn-how-to-test-vuejs-components?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to use Jest and Vue Test Utils to test Single File Components with Vue School">Apprenez comment utiliser Jest pour tester les composants à fichier unique avec Vue School</a></div>
 
 ### Installation avec Vue CLI (recommandé)
