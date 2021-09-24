@@ -112,7 +112,7 @@ it('fetches async when a button is clicked', done => {
 })
 ```
 
-setTimeout 也可以使测试通过的原因是，Promise 回调的微任务队列会排在 setTimeout 回调的微任务队列之前。这意味着当 setTimeout 回调执行时，微任务队列上的所有 Promise 回调已经被执行过了。另一方面，`$nextTick` 也存在调度微任务的情况，但是由于微任务队列是先进先出的，因此也保证了在进行断言时已经处理完所有的 Promise 回调。请参阅[此处](https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/)了解更多详细说明。
+setTimeout 也可以使测试通过的原因是，Promise 回调的微任务队列会在 setTimeout 回调的（宏）任务队列之前执行。这意味着当 setTimeout 回调执行时，微任务队列上的所有 Promise 回调已经被执行过了。另一方面，`$nextTick` 也存在调度微任务的情况，但是由于微任务队列是先进先出的，因此也保证了在进行断言时已经处理完所有的 Promise 回调。请参阅[此处](https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/)了解更多详细说明。
 
 另外一个使用 `async` 方法的解决方案是使用类似 [flush-promises](https://www.npmjs.com/package/flush-promises) 的包。`flush-promises` 会刷新所有处于 pending 状态或 resolved 状态的 Promise。你可以用 `await` 语句来等待 `flushPromises` 刷新 Promise 的状态，这样可以提升你代码的可读性。
 
