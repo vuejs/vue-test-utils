@@ -49,7 +49,7 @@ it('updates text', async () => {
   await wrapper.trigger('click')
   expect(wrapper.text()).toContain('updated')
   await wrapper.trigger('click')
-  wrapper.text().toContain('some different text')
+  expect(wrapper.text()).toContain('some different text')
 })
 
 // Or if you're without async/await
