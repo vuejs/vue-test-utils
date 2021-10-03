@@ -149,20 +149,51 @@ describeWithShallowAndMount('findAll', mountingMethod => {
     expect(componentArr.length).toEqual(1)
   })
 
-  it('throws an error if findAllComponents selector is a CSS selector', () => {
-    const wrapper = mountingMethod(Component)
-    const message =
-      '[vue-test-utils]: findAllComponents requires a Vue constructor or valid find object. If you are searching for DOM nodes, use `find` instead'
-    const fn = () => wrapper.findAllComponents('#foo')
-    expect(fn).toThrow(message)
+  it('findAllComponents ignores DOM nodes matching same CSS selector', () => {
+    const RootComponent = {
+      components: { Component },
+      template: '<div><Component class="foo" /><div class="foo"></div></div>'
+    }
+    const wrapper = mountingMethod(RootComponent)
+    expect(wrapper.findAllComponents('.foo')).toHaveLength(1)
+    expect(
+      wrapper
+        .findAllComponents('.foo')
+        .at(0)
+        .is(Component)
+    ).toBe(true)
   })
 
-  it('throws an error if chaining findAllComponents off a DOM element', () => {
-    const wrapper = mountingMethod(ComponentWithChild)
-    const message =
-      '[vue-test-utils]: You cannot chain findAllComponents off a DOM element. It can only be used on Vue Components.'
-    const fn = () => wrapper.find('span').findAllComponents('#foo')
-    expect(fn).toThrow(message)
+  it('findAllComponents returns top-level components when components are nested', () => {
+    const DeepNestedChild = {
+      name: 'DeepNestedChild',
+      template: '<div>I am deeply nested</div>'
+    }
+    const NestedChild = {
+      name: 'NestedChild',
+      components: { DeepNestedChild },
+      template: '<deep-nested-child class="in-child" />'
+    }
+    const RootComponent = {
+      name: 'RootComponent',
+      components: { NestedChild },
+      template: '<div><nested-child class="in-root"></nested-child></div>'
+    }
+
+    const wrapper = mountingMethod(RootComponent, { stubs: { NestedChild } })
+
+    expect(wrapper.findAllComponents('.in-root')).toHaveLength(1)
+    expect(
+      wrapper.findAllComponents('.in-root').at(0).vm.$options.name
+    ).toEqual('NestedChild')
+
+    expect(wrapper.findAllComponents('.in-child')).toHaveLength(1)
+
+    // someone might expect DeepNestedChild here, but
+    // we always return TOP component matching DOM element
+    expect(
+      wrapper.findAllComponents('.in-child').at(0).vm.$options.name
+    ).toEqual('NestedChild')
   })
 
   it('returns correct number of Vue Wrapper when component has a v-for', () => {
