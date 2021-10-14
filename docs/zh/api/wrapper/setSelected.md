@@ -20,7 +20,7 @@ test('setSelected demo', async () => {
 
 - **注意：**
 
-当你尝试通过 `option.element.selected = true; arentSelect.trigger('input')` 经由 `v-model` 向 state 设置值的时候，`v-model` 不会被触发。`v-model` 是被 `change` 事件触发的。
+当你尝试通过 `option.element.selected = true; parentSelect.trigger('input')` 经由 `v-model` 向 state 设置值的时候，`v-model` 不会被触发。`v-model` 是被 `change` 事件触发的。
 
 `option.setSelected()` 是接下来这段代码的别名。
 
