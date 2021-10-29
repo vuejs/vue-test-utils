@@ -202,6 +202,6 @@ export declare function createWrapper(node: Vue, options?: WrapperOptions): Wrap
 export declare function createWrapper(node: HTMLElement, options?: WrapperOptions): Wrapper<null>
 
 export declare function enableAutoDestroy(hook: (...args: any[]) => any): void
-export declare function resetAutoDestroyState(hook: (...args: any[]) => any): void
+export declare function resetAutoDestroyState(): void
 
 export declare let RouterLinkStub: VueClass<Vue>
