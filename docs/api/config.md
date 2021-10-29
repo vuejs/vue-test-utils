@@ -38,7 +38,7 @@ config.showDeprecationWarnings = true
 config.deprecationWarningHandler = (method, message) => {
   if (method === 'emittedByOrder') return
 
-  console.error(msg)
+  console.error(message)
 }
 ```
 
