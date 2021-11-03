@@ -161,7 +161,7 @@ Jest 可以被用来生成多种格式的测试覆盖率报告。以下是一个
 }
 ```
 
-更多文档内容请移步至 [Jest 配置文档](https://jestjs.io/docs/zh-Hans/configuration#collectcoverage-boolean)，在那里你可以找到覆盖率阀值、目标输出目录等选项。
+更多文档内容请移步至 [Jest 配置文档](https://jestjs.io/docs/zh-Hans/configuration#collectcoverage-boolean)，在那里你可以找到覆盖率阈值、目标输出目录等选项。
 
 ### 测试规范示例
 
