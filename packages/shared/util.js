@@ -111,3 +111,7 @@ export function warnDeprecated(method: string, fallback: string = '') {
     warn(msg)
   }
 }
+
+export function isVueWrapper(wrapper: Object) {
+  return wrapper.vm || wrapper.isFunctionalComponent
+}

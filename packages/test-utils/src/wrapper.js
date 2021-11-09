@@ -16,7 +16,8 @@ import {
   isPhantomJS,
   nextTick,
   warn,
-  warnDeprecated
+  warnDeprecated,
+  isVueWrapper
 } from 'shared/util'
 import { isElementVisible } from 'shared/is-visible'
 import find from './find'
@@ -275,17 +276,6 @@ export default class Wrapper implements BaseWrapper {
     this.__warnIfDestroyed()
 
     const selector = getSelector(rawSelector, 'findComponent')
-    if (!this.vm && !this.isFunctionalComponent) {
-      throwError(
-        'You cannot chain findComponent off a DOM element. It can only be used on Vue Components.'
-      )
-    }
-
-    if (selector.type === DOM_SELECTOR) {
-      throwError(
-        'findComponent requires a Vue constructor or valid find object. If you are searching for DOM nodes, use `find` instead'
-      )
-    }
 
     return this.__find(rawSelector, selector)
   }
@@ -327,28 +317,25 @@ export default class Wrapper implements BaseWrapper {
     this.__warnIfDestroyed()
 
     const selector = getSelector(rawSelector, 'findAll')
-    if (!this.vm) {
-      throwError(
-        'You cannot chain findAllComponents off a DOM element. It can only be used on Vue Components.'
-      )
-    }
-    if (selector.type === DOM_SELECTOR) {
-      throwError(
-        'findAllComponents requires a Vue constructor or valid find object. If you are searching for DOM nodes, use `find` instead'
-      )
-    }
-    return this.__findAll(rawSelector, selector)
+
+    return this.__findAll(rawSelector, selector, isVueWrapper)
   }
 
-  __findAll(rawSelector: Selector, selector: Object): WrapperArray {
+  __findAll(
+    rawSelector: Selector,
+    selector: Object,
+    filterFn: Function = () => true
+  ): WrapperArray {
     const nodes = find(this.rootNode, this.vm, selector)
-    const wrappers = nodes.map(node => {
-      // Using CSS Selector, returns a VueWrapper instance if the root element
-      // binds a Vue instance.
-      const wrapper = createWrapper(node, this.options)
-      wrapper.selector = rawSelector
-      return wrapper
-    })
+    const wrappers = nodes
+      .map(node => {
+        // Using CSS Selector, returns a VueWrapper instance if the root element
+        // binds a Vue instance.
+        const wrapper = createWrapper(node, this.options)
+        wrapper.selector = rawSelector
+        return wrapper
+      })
+      .filter(filterFn)
 
     const wrapperArray = new WrapperArray(wrappers)
     wrapperArray.selector = rawSelector

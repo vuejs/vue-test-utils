@@ -4,7 +4,7 @@ Returns a [`WrapperArray`](../wrapper-array/) of all matching Vue components.
 
 - **Arguments:**
 
-  - `{Component|ref|name} selector`
+  - `selector` Use any valid [selector](../selectors.md)
 
 - **Returns:** `{WrapperArray}`
 
@@ -21,3 +21,7 @@ expect(bar.exists()).toBeTruthy()
 const bars = wrapper.findAllComponents(Bar)
 expect(bars).toHaveLength(1)
 ```
+
+::: warning Usage with CSS selectors
+Using `findAllComponents` with CSS selector is subject to same limitations as [findComponent](api/wrapper/findComponent.md)
+:::
