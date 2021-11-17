@@ -9718,17 +9718,6 @@ Wrapper.prototype.findComponent = function findComponent (rawSelector) {
   this.__warnIfDestroyed();
 
   var selector = getSelector(rawSelector, 'findComponent');
-  if (!this.vm && !this.isFunctionalComponent) {
-    throwError(
-      'You cannot chain findComponent off a DOM element. It can only be used on Vue Components.'
-    );
-  }
-
-  if (selector.type === DOM_SELECTOR) {
-    throwError(
-      'findComponent requires a Vue constructor or valid find object. If you are searching for DOM nodes, use `find` instead'
-    );
-  }
 
   return this.__find(rawSelector, selector)
 };
@@ -9770,30 +9759,28 @@ Wrapper.prototype.findAllComponents = function findAllComponents (rawSelector) {
   this.__warnIfDestroyed();
 
   var selector = getSelector(rawSelector, 'findAll');
-  if (!this.vm) {
-    throwError(
-      'You cannot chain findAllComponents off a DOM element. It can only be used on Vue Components.'
-    );
-  }
-  if (selector.type === DOM_SELECTOR) {
-    throwError(
-      'findAllComponents requires a Vue constructor or valid find object. If you are searching for DOM nodes, use `find` instead'
-    );
-  }
-  return this.__findAll(rawSelector, selector)
+
+  return this.__findAll(rawSelector, selector, isVueWrapper)
 };
 
-Wrapper.prototype.__findAll = function __findAll (rawSelector, selector) {
+Wrapper.prototype.__findAll = function __findAll (
+  rawSelector,
+  selector,
+  filterFn
+) {
     var this$1 = this;
+    if ( filterFn === void 0 ) filterFn = function () { return true; };
 
   var nodes = find(this.rootNode, this.vm, selector);
-  var wrappers = nodes.map(function (node) {
-    // Using CSS Selector, returns a VueWrapper instance if the root element
-    // binds a Vue instance.
-    var wrapper = createWrapper(node, this$1.options);
-    wrapper.selector = rawSelector;
-    return wrapper
-  });
+  var wrappers = nodes
+    .map(function (node) {
+      // Using CSS Selector, returns a VueWrapper instance if the root element
+      // binds a Vue instance.
+      var wrapper = createWrapper(node, this$1.options);
+      wrapper.selector = rawSelector;
+      return wrapper
+    })
+    .filter(filterFn);
 
   var wrapperArray = new WrapperArray(wrappers);
   wrapperArray.selector = rawSelector;
@@ -13233,6 +13220,10 @@ function warnDeprecated(method, fallback) {
   } else {
     warn(msg);
   }
+}
+
+function isVueWrapper(wrapper) {
+  return wrapper.vm || wrapper.isFunctionalComponent
 }
 
 // 
