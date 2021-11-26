@@ -317,13 +317,13 @@ const Component = {
 let wrapper = mount(Component, {
   attachTo: '#root'
 })
-expect(wrapper.vm.$el.parentNode).to.not.be.null
+expect(wrapper.vm.$el.parentNode).not.toBeNull()
 wrapper.destroy()
 
 wrapper = mount(Component, {
   attachTo: document.getElementById('root')
 })
-expect(wrapper.vm.$el.parentNode).to.not.be.null
+expect(wrapper.vm.$el.parentNode).not.toBeNull()
 wrapper.destroy()
 ```
 
