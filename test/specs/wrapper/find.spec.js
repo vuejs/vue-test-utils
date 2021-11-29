@@ -194,20 +194,33 @@ describeWithShallowAndMount('find', mountingMethod => {
     expect(wrapper.findComponent(Component).vnode).toBeTruthy()
   })
 
-  it('throws an error if findComponent selector is a CSS selector', () => {
-    const wrapper = mountingMethod(Component)
-    const message =
-      '[vue-test-utils]: findComponent requires a Vue constructor or valid find object. If you are searching for DOM nodes, use `find` instead'
-    const fn = () => wrapper.findComponent('#foo')
-    expect(fn).toThrow(message)
-  })
+  it('findComponent returns top-level component when multiple components are matching', () => {
+    const DeepNestedChild = {
+      name: 'DeepNestedChild',
+      template: '<div>I am deeply nested</div>'
+    }
+    const NestedChild = {
+      name: 'NestedChild',
+      components: { DeepNestedChild },
+      template: '<deep-nested-child class="in-child" />'
+    }
+    const RootComponent = {
+      name: 'RootComponent',
+      components: { NestedChild },
+      template: '<div><nested-child class="in-root"></nested-child></div>'
+    }
 
-  it('throws an error if findComponent is chained off a DOM element', () => {
-    const wrapper = mountingMethod(ComponentWithChild)
-    const message =
-      '[vue-test-utils]: You cannot chain findComponent off a DOM element. It can only be used on Vue Components.'
-    const fn = () => wrapper.find('span').findComponent('#foo')
-    expect(fn).toThrow(message)
+    const wrapper = mountingMethod(RootComponent, { stubs: { NestedChild } })
+
+    expect(wrapper.findComponent('.in-root').vm.$options.name).toEqual(
+      'NestedChild'
+    )
+
+    // someone might expect DeepNestedChild here, but
+    // we always return TOP component matching DOM element
+    expect(wrapper.findComponent('.in-child').vm.$options.name).toEqual(
+      'NestedChild'
+    )
   })
 
   it('allows using findComponent on functional component', () => {
