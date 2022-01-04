@@ -58,7 +58,7 @@ describe('Foo', () => {
     const div = document.createElement('div')
     document.body.appendChild(div)
     const wrapper = mount(Foo, {
-      attachTo: true
+      attachTo: div
     })
     expect(wrapper.contains('div')).toBe(true)
     wrapper.destroy()
