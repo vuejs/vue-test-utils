@@ -2,7 +2,7 @@
 
 Vue Test Utils 是一个基于包裹器的 API。
 
-一个 `Wrapper` 是一个包括了一个挂载组件或 vnode，以及测试该组件或 vnode 的方法。
+`Wrapper` 是一个对象，该对象包含了一个挂载的组件或 vnode，以及测试该组件或 vnode 的方法。
 
 <div class="vueschool"><a href="https://vueschool.io/lessons/the-wrapper-object?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn about the Wrapper object in a FREE video lesson from Vue School">通过 Vue School 的免费视频学习 Wrapper 对象</a></div>
 
