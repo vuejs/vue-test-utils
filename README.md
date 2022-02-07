@@ -1,6 +1,6 @@
 # Vue Test Utils [![Build Status](https://circleci.com/gh/vuejs/vue-test-utils/tree/dev.png?style=shield)](https://circleci.com/gh/vuejs/vue-test-utils)
 
-Vue Test Utils is the official testing library for Vue.js.
+Component testing utils for Vue 2.
 
 ## Packages
 
@@ -12,8 +12,8 @@ This repository provides the following two packages:
 You can install these packages by the following command.
 
 ```
-npm install --save-dev @vue/test-utils
-npm install --save-dev @vue/server-test-utils
+npm install --save-dev @vue/test-utils@1
+npm install --save-dev @vue/server-test-utils@1
 ```
 
 ## Peer Dependencies
@@ -26,7 +26,7 @@ npm install --save-dev vue-template-compiler
 
 ## Documentation
 
-Refer to the [documentation](https://vue-test-utils.vuejs.org/)
+Refer to the [documentation](https://v1.test-utils.vuejs.org/)
 
 ## Questions
 
@@ -34,7 +34,7 @@ For questions and support please use the [Discord chat room](https://vue-land.js
 
 ## Issues
 
-Please make sure to read the [Issue Reporting Checklist](https://github.com/vuejs/vue/blob/dev/.github/CONTRIBUTING.md#issue-reporting-guidelines) before opening an issue. Issues not conforming to the guidelines may be closed immediately.
+Please make sure to read the issue reporting requirements before opening an issue. Issues not conforming to the guidelines may be closed immediately.
 
 ## Contribution
 
