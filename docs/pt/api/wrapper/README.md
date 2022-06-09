@@ -1,6 +1,6 @@
-# Wrapper (Envolvedor)
+# Wrapper
 
-O Vue Test Utils (Utilitário de Teste do Vue) é uma API baseada em envolvedor.
+O Vue Test Utils (Utilitário de Teste da Vue) é uma API baseada em envolvedor.
 
 Um `Wrapper` (envolvedor) é um objeto que contém um componente montado ou vnode (nó do vue) ou métodos para testar o componente ou vnode (nó do vue).
 
@@ -28,30 +28,30 @@ Um `Wrapper` (envolvedor) é um objeto que contém um componente montado ou vnod
 
 ## Métodos
 
-!!!include(docs/api/wrapper/attributes.md)!!!
-!!!include(docs/api/wrapper/classes.md)!!!
-!!!include(docs/api/wrapper/contains.md)!!!
-!!!include(docs/api/wrapper/destroy.md)!!!
-!!!include(docs/api/wrapper/emitted.md)!!!
-!!!include(docs/api/wrapper/emittedByOrder.md)!!!
-!!!include(docs/api/wrapper/exists.md)!!!
-!!!include(docs/api/wrapper/find.md)!!!
-!!!include(docs/api/wrapper/findAll.md)!!!
-!!!include(docs/api/wrapper/findComponent.md)!!!
-!!!include(docs/api/wrapper/findAllComponents.md)!!!
-!!!include(docs/api/wrapper/html.md)!!!
-!!!include(docs/api/wrapper/get.md)!!!
-!!!include(docs/api/wrapper/is.md)!!!
-!!!include(docs/api/wrapper/isEmpty.md)!!!
-!!!include(docs/api/wrapper/isVisible.md)!!!
-!!!include(docs/api/wrapper/isVueInstance.md)!!!
-!!!include(docs/api/wrapper/name.md)!!!
-!!!include(docs/api/wrapper/props.md)!!!
-!!!include(docs/api/wrapper/setChecked.md)!!!
-!!!include(docs/api/wrapper/setData.md)!!!
-!!!include(docs/api/wrapper/setMethods.md)!!!
-!!!include(docs/api/wrapper/setProps.md)!!!
-!!!include(docs/api/wrapper/setSelected.md)!!!
-!!!include(docs/api/wrapper/setValue.md)!!!
-!!!include(docs/api/wrapper/text.md)!!!
-!!!include(docs/api/wrapper/trigger.md)!!!
+!!!include(docs/pt/api/wrapper/attributes.md)!!!
+!!!include(docs/pt/api/wrapper/classes.md)!!!
+!!!include(docs/pt/api/wrapper/contains.md)!!!
+!!!include(docs/pt/api/wrapper/destroy.md)!!!
+!!!include(docs/pt/api/wrapper/emitted.md)!!!
+!!!include(docs/pt/api/wrapper/emittedByOrder.md)!!!
+!!!include(docs/pt/api/wrapper/exists.md)!!!
+!!!include(docs/pt/api/wrapper/find.md)!!!
+!!!include(docs/pt/api/wrapper/findAll.md)!!!
+!!!include(docs/pt/api/wrapper/findComponent.md)!!!
+!!!include(docs/pt/api/wrapper/findAllComponents.md)!!!
+!!!include(docs/pt/api/wrapper/html.md)!!!
+!!!include(docs/pt/api/wrapper/get.md)!!!
+!!!include(docs/pt/api/wrapper/is.md)!!!
+!!!include(docs/pt/api/wrapper/isEmpty.md)!!!
+!!!include(docs/pt/api/wrapper/isVisible.md)!!!
+!!!include(docs/pt/api/wrapper/isVueInstance.md)!!!
+!!!include(docs/pt/api/wrapper/name.md)!!!
+!!!include(docs/pt/api/wrapper/props.md)!!!
+!!!include(docs/pt/api/wrapper/setChecked.md)!!!
+!!!include(docs/pt/api/wrapper/setData.md)!!!
+!!!include(docs/pt/api/wrapper/setMethods.md)!!!
+!!!include(docs/pt/api/wrapper/setProps.md)!!!
+!!!include(docs/pt/api/wrapper/setSelected.md)!!!
+!!!include(docs/pt/api/wrapper/setValue.md)!!!
+!!!include(docs/pt/api/wrapper/text.md)!!!
+!!!include(docs/pt/api/wrapper/trigger.md)!!!
