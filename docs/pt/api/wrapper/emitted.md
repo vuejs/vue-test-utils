@@ -1,6 +1,6 @@
 ## O método emitted
 
-Retorna um objeto contento eventos personalizados emitidos pelo `Wrapper` (envolvedor) `vm`.
+Retorna um objeto contento eventos personalizados emitidos pelo `Wrapper` `vm`.
 
 - **Retorna:** `{ [name: string]: Array<Array<any>> }`
 
