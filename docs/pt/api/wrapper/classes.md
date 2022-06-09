@@ -1,6 +1,6 @@
 ## O método classes
 
-Retorna o `Wrapper` (envolvedor) de classes do nó do DOM.
+Retorna o `Wrapper` de classes do nó do DOM.
 
 Retorna um `Array` de nomes de classes ou um booleano se um nome de classe for fornecido.
 
