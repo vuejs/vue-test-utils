@@ -1,11 +1,11 @@
 # API
 
-!!!include(docs/api/mount.md)!!!
-!!!include(docs/api/shallowMount.md)!!!
-!!!include(docs/api/render.md)!!!
-!!!include(docs/api/renderToString.md)!!!
-!!!include(docs/api/selectors.md)!!!
-!!!include(docs/api/createLocalVue.md)!!!
-!!!include(docs/api/createWrapper.md)!!!
-!!!include(docs/api/config.md)!!!
-!!!include(docs/api/enableAutoDestroy.md)!!!
+!!!include(docs/pt/api/mount.md)!!!
+!!!include(docs/pt/api/shallowMount.md)!!!
+!!!include(docs/pt/api/render.md)!!!
+!!!include(docs/pt/api/renderToString.md)!!!
+!!!include(docs/pt/api/selectors.md)!!!
+!!!include(docs/pt/api/createLocalVue.md)!!!
+!!!include(docs/pt/api/createWrapper.md)!!!
+!!!include(docs/pt/api/config.md)!!!
+!!!include(docs/pt/api/enableAutoDestroy.md)!!!
