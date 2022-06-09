@@ -4,7 +4,7 @@
 O uso de `contains` está depreciado e será removido nos futuros lançamentos. Use o [`find`](./find.md) para nós (nodes) do DOM (usando a sintaxe do `querySelector`), o [`findComponent`](./findComponent.md) para componentes, ou antes o [`wrapper.get`](./get.md).
 :::
 
-Afirma que `Wrapper` (envolvedor) contém um lemento ou componente que corresponde ao [seletor](../selectors.md).
+Afirma que `Wrapper` contém um elemento ou componente que corresponde ao [seletor](../selectors.md).
 
 - **Argumentos:**
 
