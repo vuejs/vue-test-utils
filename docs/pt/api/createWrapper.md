@@ -12,7 +12,7 @@
 
 - **Uso:**
 
-O `createWrapper` cria um `Wrapper` (envolvedor) para uma instância do Vue montada, ou um elemento HTML.
+O `createWrapper` cria um `Wrapper` para uma instância do Vue montada, ou um elemento HTML.
 
 ```js
 import { createWrapper } from '@vue/test-utils'
