@@ -29,7 +29,7 @@ module.exports = {
       title: 'Vue Test Utils',
       lang: 'pt',
       description: 'Utilitários para testes de componentes de Vue'
-    },
+    }
   },
   plugins: ['@vuepress/pwa'],
   head: [
@@ -209,7 +209,7 @@ module.exports = {
           '/fr/api/components/'
         ]
       },
-      '/': {
+      '/pt/': {
         label: 'Português',
         selectText: 'Idiomas',
         editLinkText: 'Edite esta página no GitHub',
@@ -243,7 +243,7 @@ module.exports = {
           '/pt/api/options',
           '/pt/api/components/'
         ]
-      },
+      }
     }
   },
   extendMarkdown: md => {
