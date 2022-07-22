@@ -2,7 +2,7 @@
 
 Vue Test Utils — официальная библиотека модульного тестирования для Vue.js.
 
-- [сборка](installation/)
+- [Сборка](installation/)
   - [Чем запускать тесты](installation/choosing-a-test-runner.md)
   - [Тестирование однофайловых компонентов с Jest](installation/testing-single-file-components-with-jest.md)
   - [Тестирование однофайловых компонентов с Mocha + webpack](installation/testing-single-file-components-with-mocha-webpack.md)
