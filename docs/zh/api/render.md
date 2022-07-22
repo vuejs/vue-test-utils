@@ -38,7 +38,7 @@ import Foo from './Foo.vue'
 describe('Foo', () => {
   it('renders a div', async () => {
     const wrapper = await render(Foo)
-    expect(wrapper.text()).toContain('<div></div>')
+    expect(wrapper.html()).toContain('<div></div>')
   })
 })
 ```
@@ -56,7 +56,7 @@ describe('Foo', () => {
         color: 'red'
       }
     })
-    expect(wrapper.text()).toContain('red')
+    expect(wrapper.html()).toContain('red')
   })
 })
 ```
@@ -78,7 +78,7 @@ describe('Foo', () => {
         foo: '<div />'
       }
     })
-    expect(wrapper.text()).toContain('<div></div>')
+    expect(wrapper.html()).toContain('<div></div>')
   })
 })
 ```
@@ -97,7 +97,7 @@ describe('Foo', () => {
         $route
       }
     })
-    expect(wrapper.text()).toContain($route.path)
+    expect(wrapper.html()).toContain($route.path)
   })
 })
 ```
