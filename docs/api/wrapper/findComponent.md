@@ -26,7 +26,7 @@ expect(barRef.exists()).toBe(true)
 ```
 
 ::: warning Usage with CSS selectors
-Using `findAllComponents` with CSS selector might have confusing behavior
+Using `findComponent` with a CSS selector might have confusing behavior
 
 Consider this example:
 
@@ -50,5 +50,5 @@ const childByCss = wrapper.findComponent('.child')
 expect(childByCss.vm.$options.name).toBe('Root') // => still Root
 ```
 
-The reason for such behavior is that `RootComponent` and `ChildComponent` are sharing same DOM node and only first matching component is included for each unique DOM node
+The reason for such behavior is that `RootComponent` and `ChildComponent` are sharing the same DOM node and only the first matching component is returned for each unique DOM node
 :::
