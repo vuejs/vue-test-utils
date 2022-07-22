@@ -26,7 +26,7 @@ expect(barRef.exists()).toBe(true)
 ```
 
 ::: warning Uso com seletores de CSS
-Ao usar `findAllComponents` com o seletor de CSS pode resultar em comportamento confuso
+Usar `findComponent` com um seletor de CSS pode resultar em confusão de comportamento
 
 Considere este exemplo:
 
