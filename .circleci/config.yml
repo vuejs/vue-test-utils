@@ -60,13 +60,6 @@ jobs:
       - run:
           name: yarn test
           command: yarn test
-  test_compat:
-    <<: *defaults
-    steps:
-      - attach_workspace:
-          at: ~/repo
-      - *restore_node_modules
-      - run: yarn test:compat
 workflows:
   version: 2
   install-tests:
@@ -81,8 +74,3 @@ workflows:
       - test:
           requires:
             - install
-      - test_compat:
-          requires:
-            - install
-            - build_test
-            - test
