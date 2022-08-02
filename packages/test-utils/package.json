@@ -4,6 +4,15 @@
   "description": "Utilities for testing Vue components.",
   "main": "dist/vue-test-utils.js",
   "module": "dist/vue-test-utils.esm.js",
+  "exports": {
+    ".": {
+      "import": {
+        "node": "./dist/vue-test-utils.js",
+        "require": "./dist/vue-test-utils.js",
+        "default": "./dist/vue-test-utils.esm.js"
+      }
+    }
+  },
   "types": "types/index.d.ts",
   "files": [
     "dist/*.js",
