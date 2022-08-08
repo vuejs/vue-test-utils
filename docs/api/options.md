@@ -21,6 +21,7 @@ These options will be merged with the component's existing options when mounted 
   - [attachToDocument](#attachtodocument)
   - [attrs](#attrs)
   - [propsData](#propsdata)
+  - [computed](#computed)
   - [listeners](#listeners)
   - [parentComponent](#parentcomponent)
   - [provide](#provide)
@@ -381,6 +382,33 @@ It's worth noting that `propsData` is actually a [Vue API](https://vuejs.org/v2/
 Vue Test Utils mounting option. It is processed through [`extends`](https://vuejs.org/v2/api/#extends).
 Please see [Other options](#other-options).
 :::
+
+## computed
+
+- type: `Object`
+
+Set the component instance's computed properties when the component is mounted.
+
+Example:
+
+```js
+const Component = {
+  template: '<div>{{ msg }}</div>',
+  computed: {
+    msg() {
+      return '123'
+    }
+  }
+}
+const wrapper = mount(Component, {
+  computed: {
+    msg(): {
+      return 'aBC'
+    }
+  }
+})
+expect(wrapper.text()).toBe('aBC')
+```
 
 ## listeners
 
