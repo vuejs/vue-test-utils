@@ -10,7 +10,7 @@
           <p>
             To read docs for Vue Test Utils for Vue 3,
             <a
-              href="https://next.vue-test-utils.vuejs.org/guide/"
+              href="https://test-utils.vuejs.org/guide/"
               v-text="'click here'"
             />.
           </p>
