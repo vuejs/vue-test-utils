@@ -5,13 +5,20 @@
  */
 
 function isStyleVisible(element) {
-  const { display, visibility, opacity } = element.style
+  if (!(element instanceof HTMLElement) && !(element instanceof SVGElement)) {
+    return false
+  }
+
+  // Per https://lists.w3.org/Archives/Public/www-style/2018May/0031.html
+  // getComputedStyle should only work with connected elements.
+  const { display, visibility, opacity } = element.isConnected
+    ? getComputedStyle(element)
+    : element.style
   return (
     display !== 'none' &&
     visibility !== 'hidden' &&
     visibility !== 'collapse' &&
-    opacity !== '0' &&
-    opacity !== 0
+    opacity !== '0'
   )
 }
 

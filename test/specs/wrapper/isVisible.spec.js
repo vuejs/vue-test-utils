@@ -176,4 +176,19 @@ describeWithShallowAndMount('isVisible', mountingMethod => {
 
     expect(wrapper.find('.child.ready').isVisible()).toEqual(true)
   })
+
+  it('returns false if element has class with opacity: 0', async () => {
+    const style = document.createElement('style')
+    style.type = 'text/css'
+    document.head.appendChild(style)
+    style.sheet.insertRule('.opacity-0 { opacity: 0; }')
+
+    const compiled = compileToFunctions('<div id="my-div" class="opacity-0" />')
+    const wrapper = mountingMethod(compiled, {
+      attachTo: document.body
+    })
+    expect(wrapper.get('#my-div').isVisible()).toBe(false)
+
+    document.head.removeChild(style)
+  })
 })
