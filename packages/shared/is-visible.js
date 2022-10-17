@@ -18,7 +18,8 @@ function isStyleVisible(element) {
     display !== 'none' &&
     visibility !== 'hidden' &&
     visibility !== 'collapse' &&
-    opacity !== '0'
+    opacity !== '0' &&
+    opacity !== 0
   )
 }
 
