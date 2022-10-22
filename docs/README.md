@@ -7,7 +7,7 @@ This is the documentation for Vue Test Utils v1, which targets Vue 2 and earlier
 In short:
 
 - [Vue Test Utils 1](https://github.com/vuejs/vue-test-utils/) targets [Vue 2](https://github.com/vuejs/vue/).
-- [Vue Test Utils 2](https://github.com/vuejs/vue-test-utils-next/) targets [Vue 3](https://github.com/vuejs/vue-next/).
+- [Vue Test Utils 2](https://github.com/vuejs/test-utils) targets [Vue 3](https://github.com/vuejs/core).
 
 <div class="vueschool"><a href="https://vueschool.io/courses/learn-how-to-test-vuejs-components?friend=vuejs" target="_blank" rel="sponsored noopener" title="Learn how to use Vue Test Utils to test Vue.js Components with Vue School">Learn how to test Vue.js components with Vue School</a></div>
 
