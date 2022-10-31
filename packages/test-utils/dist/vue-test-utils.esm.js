@@ -1,18 +1,10 @@
-'use strict';
-
-Object.defineProperty(exports, '__esModule', { value: true });
-
-var Vue = require('vue');
-var vueTemplateCompiler = require('vue-template-compiler');
-
-function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
-
-var Vue__default = /*#__PURE__*/_interopDefaultLegacy(Vue);
+import Vue from 'vue';
+import { compileToFunctions } from 'vue-template-compiler';
 
 // 
 
 function createVNodes(vm, slotValue, name) {
-  var el = vueTemplateCompiler.compileToFunctions(
+  var el = compileToFunctions(
     ("<div><template slot=" + name + ">" + slotValue + "</template></div>")
   );
   var _staticRenderFns = vm._renderProxy.$options.staticRenderFns;
@@ -1680,17 +1672,17 @@ var DOM_SELECTOR = 'DOM_SELECTOR';
 var INVALID_SELECTOR = 'INVALID_SELECTOR';
 
 var VUE_VERSION = Number(
-  ((Vue__default['default'].version.split('.')[0]) + "." + (Vue__default['default'].version.split('.')[1]))
+  ((Vue.version.split('.')[0]) + "." + (Vue.version.split('.')[1]))
 );
 
 var FUNCTIONAL_OPTIONS =
   VUE_VERSION >= 2.5 ? 'fnOptions' : 'functionalOptions';
 
-var BEFORE_RENDER_LIFECYCLE_HOOK = semver.gt(Vue__default['default'].version, '2.1.8')
+var BEFORE_RENDER_LIFECYCLE_HOOK = semver.gt(Vue.version, '2.1.8')
   ? 'beforeCreate'
   : 'beforeMount';
 
-var CREATE_ELEMENT_ALIAS = semver.gt(Vue__default['default'].version, '2.1.5')
+var CREATE_ELEMENT_ALIAS = semver.gt(Vue.version, '2.1.5')
   ? '_c'
   : '_h';
 
@@ -1764,7 +1756,7 @@ var isChrome = UA && /chrome\/\d+/.test(UA) && !isEdge;
 
 // get the event used to trigger v-model handler that updates bound data
 function getCheckedEvent() {
-  var version = Vue__default['default'].version;
+  var version = Vue.version;
 
   if (semver.satisfies(version, '2.1.9 - 2.1.10')) {
     return 'click'
@@ -1784,9 +1776,9 @@ function getCheckedEvent() {
  * @return {Promise<R>}
  */
 function nextTick() {
-  if (VUE_VERSION > 2) { return Vue__default['default'].nextTick() }
+  if (VUE_VERSION > 2) { return Vue.nextTick() }
   return new Promise(function (resolve) {
-    Vue__default['default'].nextTick(resolve);
+    Vue.nextTick(resolve);
   })
 }
 
@@ -1830,7 +1822,7 @@ function addMocks(
       );
     }
     // $FlowIgnore
-    Vue__default['default'].util.defineReactive(_Vue, key, mockedProperties[key]);
+    Vue.util.defineReactive(_Vue, key, mockedProperties[key]);
   });
 }
 
@@ -2040,7 +2032,7 @@ var isReservedTag = function (tag) { return isHTMLTag(tag) || isSVG(tag); };
 
 function compileTemplate(component) {
   if (component.template) {
-    if (!vueTemplateCompiler.compileToFunctions) {
+    if (!compileToFunctions) {
       throwError(
         "vueTemplateCompiler is undefined, you must pass " +
           "precompiled components if vue-template-compiler is " +
@@ -2058,7 +2050,7 @@ function compileTemplate(component) {
       component.template = el.innerHTML;
     }
 
-    Object.assign(component, Object.assign({}, vueTemplateCompiler.compileToFunctions(component.template),
+    Object.assign(component, Object.assign({}, compileToFunctions(component.template),
       {name: component.name}));
   }
 
@@ -2217,7 +2209,7 @@ function createScopedSlots(
     var renderFn =
       typeof slot === 'function'
         ? slot
-        : vueTemplateCompiler.compileToFunctions(scopedSlotMatches.slot, { warn: customWarn })
+        : compileToFunctions(scopedSlotMatches.slot, { warn: customWarn })
             .render;
 
     var slotScope = scopedSlotMatches.match && scopedSlotMatches.match[1];
@@ -2331,8 +2323,8 @@ function createStubFromComponent(
   var tagName = (name || 'anonymous') + "-stub";
 
   // ignoreElements does not exist in Vue 2.0.x
-  if (Vue__default['default'].config.ignoredElements) {
-    Vue__default['default'].config.ignoredElements.push(tagName);
+  if (Vue.config.ignoredElements) {
+    Vue.config.ignoredElements.push(tagName);
   }
 
   return Object.assign({}, getCoreProperties(componentOptions),
@@ -11383,7 +11375,7 @@ function createWrapper(
     return wrapper$1
   }
   var wrapper =
-    node instanceof Vue__default['default']
+    node instanceof Vue
       ? new VueWrapper(node, options)
       : new Wrapper(node, options);
   trackInstance(wrapper);
@@ -13885,7 +13877,7 @@ function _createLocalVue(
   _Vue,
   config
 ) {
-  if ( _Vue === void 0 ) _Vue = Vue__default['default'];
+  if ( _Vue === void 0 ) _Vue = Vue;
   if ( config === void 0 ) config = {};
 
   var instance = _Vue.extend();
@@ -13907,14 +13899,14 @@ function _createLocalVue(
   });
 
   // config is not enumerable
-  instance.config = cloneDeep_1(Vue__default['default'].config);
+  instance.config = cloneDeep_1(Vue.config);
 
   // if a user defined errorHandler is defined by a localVue instance via createLocalVue, register it
   instance.config.errorHandler = config.errorHandler;
 
   // option merge strategies need to be exposed by reference
   // so that merge strats registered by plugins can work properly
-  instance.config.optionMergeStrategies = Vue__default['default'].config.optionMergeStrategies;
+  instance.config.optionMergeStrategies = Vue.config.optionMergeStrategies;
 
   // make sure all extends are based on this instance.
   // this is important so that global components registered by plugins,
@@ -13948,7 +13940,7 @@ function isValidSlot(slot) {
 }
 
 function requiresTemplateCompiler(slot) {
-  if (typeof slot === 'string' && !vueTemplateCompiler.compileToFunctions) {
+  if (typeof slot === 'string' && !compileToFunctions) {
     throwError(
       "vueTemplateCompiler is undefined, you must pass " +
         "precompiled components if vue-template-compiler is " +
@@ -14035,8 +14027,8 @@ function validateOptions(options, component) {
   }
 }
 
-Vue__default['default'].config.productionTip = false;
-Vue__default['default'].config.devtools = false;
+Vue.config.productionTip = false;
+Vue.config.devtools = false;
 
 function mount(component, options) {
   if ( options === void 0 ) options = {};
@@ -14045,7 +14037,7 @@ function mount(component, options) {
 
   polyfill();
 
-  addGlobalErrorHandler(Vue__default['default']);
+  addGlobalErrorHandler(Vue);
 
   var _Vue = _createLocalVue(
     options.localVue,
@@ -14145,15 +14137,4 @@ function shallow(component, options) {
   return shallowMount(component, options)
 }
 
-exports.ErrorWrapper = ErrorWrapper;
-exports.RouterLinkStub = RouterLinkStub;
-exports.Wrapper = Wrapper;
-exports.WrapperArray = WrapperArray;
-exports.config = config;
-exports.createLocalVue = createLocalVue;
-exports.createWrapper = createWrapper;
-exports.enableAutoDestroy = enableAutoDestroy;
-exports.mount = mount;
-exports.resetAutoDestroyState = resetAutoDestroyState;
-exports.shallow = shallow;
-exports.shallowMount = shallowMount;
+export { ErrorWrapper, RouterLinkStub, Wrapper, WrapperArray, config, createLocalVue, createWrapper, enableAutoDestroy, mount, resetAutoDestroyState, shallow, shallowMount };
