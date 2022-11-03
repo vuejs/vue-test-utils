@@ -6,9 +6,9 @@
   "module": "dist/vue-test-utils.esm.js",
   "exports": {
     ".": {
-      "default": "./dist/vue-test-utils.js",
       "require": "./dist/vue-test-utils.js",
-      "import": "./dist/vue-test-utils.esm.js"
+      "import": "./dist/vue-test-utils.esm.js",
+      "default": "./dist/vue-test-utils.js"
     }
   },
   "types": "types/index.d.ts",
