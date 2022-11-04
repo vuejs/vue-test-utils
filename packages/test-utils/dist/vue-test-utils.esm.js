@@ -9011,7 +9011,10 @@ ErrorWrapper.prototype.destroy = function destroy () {
  */
 
 function isStyleVisible(element) {
-  if (!(element instanceof HTMLElement) && !(element instanceof SVGElement)) {
+  if (
+    !(element instanceof window.HTMLElement) &&
+    !(element instanceof window.SVGElement)
+  ) {
     return false
   }
 
