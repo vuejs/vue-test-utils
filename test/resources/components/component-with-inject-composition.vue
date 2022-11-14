@@ -3,9 +3,9 @@
 </template>
 
 <script>
-import { createComponent, inject, ref } from '@vue/composition-api'
+import { defineComponent, inject, ref } from 'vue'
 
-export default createComponent({
+export default defineComponent({
   name: 'component-with-inject-composition',
   setup: () => {
     const fromMount = inject('fromMount')
