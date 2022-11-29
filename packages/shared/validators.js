@@ -33,7 +33,7 @@ export function isVueComponent(c: any): boolean {
     return true
   }
 
-  if (c === null || typeof c !== 'object') {
+  if (!isPlainObject(c)) {
     return false
   }
 
@@ -63,7 +63,7 @@ export function componentNeedsCompiling(component: Component): boolean {
 
 export function isRefSelector(refOptionsObject: any): boolean {
   if (
-    typeof refOptionsObject !== 'object' ||
+    !isPlainObject(refOptionsObject) ||
     Object.keys(refOptionsObject || {}).length !== 1
   ) {
     return false
@@ -73,7 +73,7 @@ export function isRefSelector(refOptionsObject: any): boolean {
 }
 
 export function isNameSelector(nameOptionsObject: any): boolean {
-  if (typeof nameOptionsObject !== 'object' || nameOptionsObject === null) {
+  if (!isPlainObject(nameOptionsObject)) {
     return false
   }
 
@@ -89,7 +89,7 @@ export function isDynamicComponent(c: any) {
 }
 
 export function isComponentOptions(c: any) {
-  return c !== null && typeof c === 'object' && (c.template || c.render)
+  return isPlainObject(c) && (c.template || c.render)
 }
 
 export function isFunctionalComponent(c: any) {

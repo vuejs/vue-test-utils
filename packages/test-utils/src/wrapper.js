@@ -19,6 +19,7 @@ import {
   warnDeprecated,
   isVueWrapper
 } from 'shared/util'
+import { isPlainObject } from 'shared/validators'
 import { isElementVisible } from 'shared/is-visible'
 import find from './find'
 import createWrapper from './create-wrapper'
@@ -719,8 +720,7 @@ export default class Wrapper implements BaseWrapper {
     Object.keys(data).forEach(key => {
       // Don't let people set entire objects, because reactivity won't work
       if (
-        typeof data[key] === 'object' &&
-        data[key] !== null &&
+        isPlainObject(data[key]) &&
         // $FlowIgnore : Problem with possibly null this.vm
         data[key] === this.vm[key]
       ) {
