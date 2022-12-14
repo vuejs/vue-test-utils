@@ -83,7 +83,7 @@ it('Click on yes button calls our method with argument "yes"', async () => {
   })
   await wrapper.find('button.yes').trigger('click')
 
-  spy.should.have.been.calledWith('yes')
+  expect(spy.calledWith('yes')).to.equal(true)
 })
 ```
 

@@ -89,7 +89,7 @@ describe('Click event', () => {
     })
     wrapper.find('button.yes').trigger('click')
 
-    spy.should.have.been.calledWith('yes')
+    expect(spy.calledWith('yes')).to.equal(true)
   })
 })
 ```
