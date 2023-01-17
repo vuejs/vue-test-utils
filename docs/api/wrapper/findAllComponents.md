@@ -23,5 +23,5 @@ expect(bars).toHaveLength(1)
 ```
 
 ::: warning Usage with CSS selectors
-Using `findAllComponents` with CSS selector is subject to same limitations as [findComponent](api/wrapper/findComponent.md)
+Using `findAllComponents` with CSS selector is subject to same limitations as [findComponent](./findComponent.md)
 :::

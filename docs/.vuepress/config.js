@@ -59,8 +59,8 @@ module.exports = {
             link: '/guides/',
             items: [
               {
-                text: '2.x-beta',
-                link: 'https://next.vue-test-utils.vuejs.org/guide/'
+                text: 'v2 (Vue.js 3)',
+                link: 'https://test-utils.vuejs.org/'
               }
             ]
           },
@@ -94,8 +94,8 @@ module.exports = {
             link: '/zh/guides/',
             items: [
               {
-                text: '2.x-beta',
-                link: 'https://next.vue-test-utils.vuejs.org/guide/'
+                text: 'v2 (Vue.js 3)',
+                link: 'https://test-utils.vuejs.org/'
               }
             ]
           }
@@ -125,8 +125,8 @@ module.exports = {
             link: '/ja/guides/',
             items: [
               {
-                text: '2.x-beta',
-                link: 'https://next.vue-test-utils.vuejs.org/guide/'
+                text: 'v2 (Vue.js 3)',
+                link: 'https://test-utils.vuejs.org/'
               }
             ]
           }
@@ -156,8 +156,8 @@ module.exports = {
             link: '/ru/guides/',
             items: [
               {
-                text: '2.x-beta',
-                link: 'https://next.vue-test-utils.vuejs.org/guide/'
+                text: 'v2 (Vue.js 3)',
+                link: 'https://test-utils.vuejs.org/'
               }
             ]
           }
@@ -187,9 +187,8 @@ module.exports = {
             link: '/fr/guides/',
             items: [
               {
-                text: '2.x-beta',
-                link:
-                  'https://vuejs.github.io/vue-test-utils-next-docs/guide/introduction.html'
+                text: 'v2 (Vue.js 3)',
+                link: 'https://test-utils.vuejs.org/'
               }
             ]
           }

@@ -1,6 +1,8 @@
 import Vue, { VNodeData, ComponentOptions, FunctionalComponentOptions, Component, RenderContext } from 'vue'
-import { DefaultProps, PropsDefinition } from 'vue/types/options'
+import { PropsDefinition } from 'vue/types/options'
 import { ExtendedVue, CombinedVueInstance } from 'vue/types/vue'
+
+type DefaultProps = Record<string, any>;
 
 /**
  * Utility type to declare an extended Vue constructor
@@ -174,7 +176,7 @@ interface FunctionalComponentShallowMountOptions<V extends Vue> extends ShallowM
   context?: Partial<RenderContext>
 }
 
-interface VueTestUtilsConfigOptions {
+export interface VueTestUtilsConfigOptions {
   stubs: Record<string, Component | boolean | string>
   mocks: Record<string, any>
   methods: Record<string, Function>
