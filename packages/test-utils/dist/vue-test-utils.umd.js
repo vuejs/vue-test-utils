@@ -9018,7 +9018,15 @@
    */
 
   function isStyleVisible(element) {
-    var ref = element.style;
+    if (!(element instanceof HTMLElement) && !(element instanceof SVGElement)) {
+      return false
+    }
+
+    // Per https://lists.w3.org/Archives/Public/www-style/2018May/0031.html
+    // getComputedStyle should only work with connected elements.
+    var ref = element.isConnected
+      ? getComputedStyle(element)
+      : element.style;
     var display = ref.display;
     var visibility = ref.visibility;
     var opacity = ref.opacity;

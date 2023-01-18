@@ -30,7 +30,7 @@ test('emit demo', async () => {
   // 断言事件的数量
   expect(wrapper.emitted().foo.length).toBe(2)
 
-  // 断言事件的数量
+  // 断言事件的有效数据
   expect(wrapper.emitted().foo[1]).toEqual([123])
 })
 ```
