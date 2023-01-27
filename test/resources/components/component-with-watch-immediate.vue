@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  data: function() {
+  data: function () {
     return {
       data1: null
     }

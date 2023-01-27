@@ -94,7 +94,7 @@ props を引数に取る関数を渡すことができます。
 ```js
 shallowMount(Component, {
   scopedSlots: {
-    foo: function(props) {
+    foo: function (props) {
       return this.$createElement('div', props.index)
     }
   }

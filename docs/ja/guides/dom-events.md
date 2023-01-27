@@ -134,7 +134,7 @@ it('Click on yes button calls our method with argument "yes"', async () => {
       }
     },
     watch: {
-      quantity: function(newValue) {
+      quantity: function (newValue) {
         this.$emit('input', newValue)
       }
     }

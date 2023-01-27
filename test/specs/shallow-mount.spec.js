@@ -554,7 +554,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
   )
 
   it('stubs components registered on localVue after multiple installs', () => {
-    const myPlugin = function(_Vue, opts) {
+    const myPlugin = function (_Vue, opts) {
       _Vue.mixin({})
     }
     const localVue = createLocalVue()
@@ -574,7 +574,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
     expect(() =>
       shallowMount({
         template: '<div></div>',
-        mounted: function() {
+        mounted: function () {
           throw new Error('Error')
         }
       })

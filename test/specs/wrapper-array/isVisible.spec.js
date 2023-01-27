@@ -31,10 +31,7 @@ describeWithShallowAndMount('isVisible', mountingMethod => {
   it('throws error if wrapper array contains no items', () => {
     const compiled = compileToFunctions('<div />')
     const message = '[vue-test-utils]: isVisible cannot be called on 0 items'
-    const fn = () =>
-      mountingMethod(compiled)
-        .findAll('p')
-        .isVisible('p')
+    const fn = () => mountingMethod(compiled).findAll('p').isVisible('p')
     expect(fn).toThrow(message)
   })
 })

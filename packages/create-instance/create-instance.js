@@ -107,7 +107,7 @@ export default function createInstance(
   const parentComponentOptions = options.parentComponent || {}
 
   const originalParentComponentProvide = parentComponentOptions.provide
-  parentComponentOptions.provide = function() {
+  parentComponentOptions.provide = function () {
     return {
       ...getValuesFromCallableOption.call(this, originalParentComponentProvide),
       // $FlowIgnore
@@ -116,7 +116,7 @@ export default function createInstance(
   }
 
   const originalParentComponentData = parentComponentOptions.data
-  parentComponentOptions.data = function() {
+  parentComponentOptions.data = function () {
     return {
       ...getValuesFromCallableOption.call(this, originalParentComponentData),
       vueTestUtils_childProps: { ...options.propsData }
@@ -126,7 +126,7 @@ export default function createInstance(
   parentComponentOptions.$_doNotStubChildren = true
   parentComponentOptions.$_isWrapperParent = true
   parentComponentOptions._isFunctionalContainer = componentOptions.functional
-  parentComponentOptions.render = function(h) {
+  parentComponentOptions.render = function (h) {
     return h(
       Constructor,
       createContext(options, scopedSlots, this.vueTestUtils_childProps),

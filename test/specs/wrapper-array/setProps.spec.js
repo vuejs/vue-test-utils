@@ -37,10 +37,7 @@ describeWithShallowAndMount('setProps', mountingMethod => {
   it('throws error if wrapper array contains no items', () => {
     const compiled = compileToFunctions('<div />')
     const message = '[vue-test-utils]: setProps cannot be called on 0 items'
-    const fn = () =>
-      mountingMethod(compiled)
-        .findAll('p')
-        .setProps('p')
+    const fn = () => mountingMethod(compiled).findAll('p').setProps('p')
     expect(fn).toThrow(message)
   })
 })

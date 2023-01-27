@@ -142,7 +142,7 @@ This component allows to increment/decrement the quantity using various keys.
     },
 
     watch: {
-      quantity: function(newValue) {
+      quantity: function (newValue) {
         this.$emit('input', newValue)
       }
     }

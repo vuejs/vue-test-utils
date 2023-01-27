@@ -144,7 +144,7 @@ Ce composant permet d'incrémenter/décrémenter la quantité à l'aide de diff�
     },
 
     watch: {
-      quantity: function(newValue) {
+      quantity: function (newValue) {
         this.$emit('input', newValue)
       }
     }

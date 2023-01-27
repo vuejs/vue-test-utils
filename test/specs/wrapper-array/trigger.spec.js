@@ -83,10 +83,7 @@ describeWithShallowAndMount('trigger', mountingMethod => {
   it('throws error if wrapper array contains no items', () => {
     const compiled = compileToFunctions('<div />')
     const message = '[vue-test-utils]: trigger cannot be called on 0 items'
-    const fn = () =>
-      mountingMethod(compiled)
-        .findAll('p')
-        .trigger('p')
+    const fn = () => mountingMethod(compiled).findAll('p').trigger('p')
     expect(fn).toThrow(message)
   })
 })

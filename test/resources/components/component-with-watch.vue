@@ -7,7 +7,7 @@
 
 <script>
 export default {
-  data: function() {
+  data: function () {
     return {
       data1: 'default data1',
       data2: 'default data2'
