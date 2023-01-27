@@ -1897,7 +1897,7 @@ function isVueComponent(c) {
     return true
   }
 
-  if (c === null || typeof c !== 'object') {
+  if (!isPlainObject(c)) {
     return false
   }
 
@@ -1927,7 +1927,7 @@ function componentNeedsCompiling(component) {
 
 function isRefSelector(refOptionsObject) {
   if (
-    typeof refOptionsObject !== 'object' ||
+    !isPlainObject(refOptionsObject) ||
     Object.keys(refOptionsObject || {}).length !== 1
   ) {
     return false
@@ -1937,7 +1937,7 @@ function isRefSelector(refOptionsObject) {
 }
 
 function isNameSelector(nameOptionsObject) {
-  if (typeof nameOptionsObject !== 'object' || nameOptionsObject === null) {
+  if (!isPlainObject(nameOptionsObject)) {
     return false
   }
 
@@ -1953,7 +1953,7 @@ function isDynamicComponent(c) {
 }
 
 function isComponentOptions(c) {
-  return c !== null && typeof c === 'object' && (c.template || c.render)
+  return isPlainObject(c) && (c.template || c.render)
 }
 
 function isFunctionalComponent(c) {
@@ -2263,10 +2263,10 @@ function resolveComponent$1(obj, component) {
   )
 }
 
-function getCoreProperties(componentOptions) {
+function getCoreProperties(componentOptions, name) {
   return {
     attrs: componentOptions.attrs,
-    name: componentOptions.name,
+    name: componentOptions.name || name,
     model: componentOptions.model,
     props: componentOptions.props,
     on: componentOptions.on,
@@ -2327,7 +2327,7 @@ function createStubFromComponent(
     Vue.config.ignoredElements.push(tagName);
   }
 
-  return Object.assign({}, getCoreProperties(componentOptions),
+  return Object.assign({}, getCoreProperties(componentOptions, name),
     {$_vueTestUtils_original: originalComponent,
     $_doNotStubChildren: true,
     render: function render(h, context) {
@@ -2508,8 +2508,16 @@ function patchCreateElement(_Vue, stubs, stubAllComponents) {
       }
 
       if (isConstructor(el) || isComponentOptions(el)) {
+        var componentOptions = isConstructor(el) ? el.options : el;
+        var elName = componentOptions.name;
+
+        var stubbedComponent = resolveComponent(elName, stubs);
+        if (stubbedComponent) {
+          return originalCreateElement.apply(void 0, [ stubbedComponent ].concat( args ))
+        }
+
         if (stubAllComponents) {
-          var stub = createStubFromComponent(el, el.name || 'anonymous', _Vue);
+          var stub = createStubFromComponent(el, elName || 'anonymous', _Vue);
           return originalCreateElement.apply(void 0, [ stub ].concat( args ))
         }
         var Constructor = shouldExtend(el) ? extend(el, _Vue) : el;
@@ -9011,7 +9019,10 @@ ErrorWrapper.prototype.destroy = function destroy () {
  */
 
 function isStyleVisible(element) {
-  if (!(element instanceof HTMLElement) && !(element instanceof SVGElement)) {
+  if (
+    !(element instanceof window.HTMLElement) &&
+    !(element instanceof window.SVGElement)
+  ) {
     return false
   }
 
@@ -11114,8 +11125,7 @@ Wrapper.prototype.setProps = function setProps (data) {
   Object.keys(data).forEach(function (key) {
     // Don't let people set entire objects, because reactivity won't work
     if (
-      typeof data[key] === 'object' &&
-      data[key] !== null &&
+      isPlainObject(data[key]) &&
       // $FlowIgnore : Problem with possibly null this.vm
       data[key] === this$1.vm[key]
     ) {
