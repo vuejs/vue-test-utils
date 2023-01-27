@@ -43,10 +43,10 @@ function resolveComponent(obj: Object, component: string): Object {
   )
 }
 
-function getCoreProperties(componentOptions: Component): Object {
+function getCoreProperties(componentOptions: Component, name?: string): Object {
   return {
     attrs: componentOptions.attrs,
-    name: componentOptions.name,
+    name: componentOptions.name || name,
     model: componentOptions.model,
     props: componentOptions.props,
     on: componentOptions.on,
@@ -108,7 +108,7 @@ export function createStubFromComponent(
   }
 
   return {
-    ...getCoreProperties(componentOptions),
+    ...getCoreProperties(componentOptions, name),
     $_vueTestUtils_original: originalComponent,
     $_doNotStubChildren: true,
     render(h, context) {

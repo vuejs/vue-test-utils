@@ -68,8 +68,16 @@ export function patchCreateElement(_Vue, stubs, stubAllComponents) {
       }
 
       if (isConstructor(el) || isComponentOptions(el)) {
+        const componentOptions = isConstructor(el) ? el.options : el
+        const elName = componentOptions.name
+
+        const stubbedComponent = resolveComponent(elName, stubs)
+        if (stubbedComponent) {
+          return originalCreateElement(stubbedComponent, ...args)
+        }
+
         if (stubAllComponents) {
-          const stub = createStubFromComponent(el, el.name || 'anonymous', _Vue)
+          const stub = createStubFromComponent(el, elName || 'anonymous', _Vue)
           return originalCreateElement(stub, ...args)
         }
         const Constructor = shouldExtend(el, _Vue) ? extend(el, _Vue) : el
