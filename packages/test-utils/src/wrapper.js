@@ -792,8 +792,11 @@ export default class Wrapper implements BaseWrapper {
       return nextTick()
     } else if (tagName === 'INPUT' || tagName === 'TEXTAREA') {
       // $FlowIgnore
-      if (this.element.maxLength < value) {
-        value = value.slice(0, this.element.maxLength)
+      if (
+        this.element.hasAttribute('maxlength') &&
+        this.element?.maxLength < value
+      ) {
+        value = value.slice(0, this.element?.maxLength)
       }
       this.element.value = value
 
