@@ -49,6 +49,13 @@ describeWithShallowAndMount('setValue', mountingMethod => {
     }
   )
 
+  it('slice value, when input el has maxLength prop', () => {
+    const wrapper = mountingMethod(ComponentWithInput)
+    const input = wrapper.find('input[maxlength="5"]')
+    input.setValue('123456')
+    expect(input.element.value).toBe('12345')
+  })
+
   it('sets element of select value', async () => {
     const wrapper = mountingMethod(ComponentWithInput)
     const select = wrapper.find('select')

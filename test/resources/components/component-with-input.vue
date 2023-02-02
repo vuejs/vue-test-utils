@@ -14,6 +14,7 @@
       value="radioBarResult"
     />
     <input type="text" v-model="textVal" />
+    <input type="text" maxlength="5" v-model="textValWithMaxLength" />
     <textarea v-model="textareaVal"></textarea>
     <select v-model="selectVal">
       <option value="selectA"></option>
