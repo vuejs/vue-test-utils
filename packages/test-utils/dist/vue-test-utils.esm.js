@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import { compileToFunctions } from 'vue-template-compiler';
 
-// 
+//
 
 function createVNodes(vm, slotValue, name) {
   var el = compileToFunctions(
@@ -1686,7 +1686,7 @@ var CREATE_ELEMENT_ALIAS = semver.gt(Vue.version, '2.1.5')
   ? '_c'
   : '_h';
 
-// 
+//
 
 function throwError(msg) {
   throw new Error(("[vue-test-utils]: " + msg))
@@ -1799,7 +1799,7 @@ function isVueWrapper(wrapper) {
   return wrapper.vm || wrapper.isFunctionalComponent
 }
 
-// 
+//
 
 function addMocks(
   _Vue,
@@ -1826,7 +1826,7 @@ function addMocks(
   });
 }
 
-// 
+//
 
 function logEvents(
   vm,
@@ -1845,7 +1845,7 @@ function logEvents(
 
 function addEventLogger(_Vue) {
   _Vue.mixin({
-    beforeCreate: function () {
+    beforeCreate: function() {
       this.__emitted = Object.create(null);
       this.__emittedByOrder = [];
       logEvents(this, this.__emitted, this.__emittedByOrder);
@@ -1863,7 +1863,7 @@ function addStubs(_Vue, stubComponents) {
   _Vue.mixin(( obj = {}, obj[BEFORE_RENDER_LIFECYCLE_HOOK] = addStubComponentsMixin, obj ));
 }
 
-// 
+//
 
 function isDomSelector(selector) {
   if (typeof selector !== 'string') {
@@ -1897,7 +1897,7 @@ function isVueComponent(c) {
     return true
   }
 
-  if (!isPlainObject(c)) {
+  if (c === null || typeof c !== 'object') {
     return false
   }
 
@@ -1927,7 +1927,7 @@ function componentNeedsCompiling(component) {
 
 function isRefSelector(refOptionsObject) {
   if (
-    !isPlainObject(refOptionsObject) ||
+    typeof refOptionsObject !== 'object' ||
     Object.keys(refOptionsObject || {}).length !== 1
   ) {
     return false
@@ -1937,7 +1937,7 @@ function isRefSelector(refOptionsObject) {
 }
 
 function isNameSelector(nameOptionsObject) {
-  if (!isPlainObject(nameOptionsObject)) {
+  if (typeof nameOptionsObject !== 'object' || nameOptionsObject === null) {
     return false
   }
 
@@ -1953,7 +1953,7 @@ function isDynamicComponent(c) {
 }
 
 function isComponentOptions(c) {
-  return isPlainObject(c) && (c.template || c.render)
+  return c !== null && typeof c === 'object' && (c.template || c.render)
 }
 
 function isFunctionalComponent(c) {
@@ -1995,10 +1995,10 @@ function makeMap(str, expectsLowerCase) {
     map[list[i]] = true;
   }
   return expectsLowerCase
-    ? function (val) {
+    ? function(val) {
         return map[val.toLowerCase()]
       }
-    : function (val) {
+    : function(val) {
         return map[val]
       }
 }
@@ -2028,7 +2028,7 @@ var isSVG = makeMap(
 
 var isReservedTag = function (tag) { return isHTMLTag(tag) || isSVG(tag); };
 
-// 
+//
 
 function compileTemplate(component) {
   if (component.template) {
@@ -2083,7 +2083,7 @@ function compileTemplateForSlots(slots) {
   });
 }
 
-// 
+//
 
 var MOUNTING_OPTIONS = [
   'attachToDocument',
@@ -2107,13 +2107,15 @@ function extractInstanceOptions(options) {
   return instanceOptions
 }
 
-// 
+//
 
 function isDestructuringSlotScope(slotScope) {
   return /^{.*}$/.test(slotScope)
 }
 
-function getVueTemplateCompilerHelpers(_Vue) {
+function getVueTemplateCompilerHelpers(
+  _Vue
+) {
   // $FlowIgnore
   var vue = new _Vue();
   var helpers = {};
@@ -2212,7 +2214,7 @@ function createScopedSlots(
 
     var slotScope = scopedSlotMatches.match && scopedSlotMatches.match[1];
 
-    scopedSlots[scopedSlotName] = function (props) {
+    scopedSlots[scopedSlotName] = function(props) {
       var obj;
 
       var res;
@@ -2234,7 +2236,7 @@ function createScopedSlots(
   return scopedSlots
 }
 
-// 
+//
 
 var FUNCTION_PLACEHOLDER = '[Function]';
 
@@ -2261,10 +2263,10 @@ function resolveComponent$1(obj, component) {
   )
 }
 
-function getCoreProperties(componentOptions, name) {
+function getCoreProperties(componentOptions) {
   return {
     attrs: componentOptions.attrs,
-    name: componentOptions.name || name,
+    name: componentOptions.name,
     model: componentOptions.model,
     props: componentOptions.props,
     on: componentOptions.on,
@@ -2325,7 +2327,7 @@ function createStubFromComponent(
     Vue.config.ignoredElements.push(tagName);
   }
 
-  return Object.assign({}, getCoreProperties(componentOptions, name),
+  return Object.assign({}, getCoreProperties(componentOptions),
     {$_vueTestUtils_original: originalComponent,
     $_doNotStubChildren: true,
     render: function render(h, context) {
@@ -2506,16 +2508,8 @@ function patchCreateElement(_Vue, stubs, stubAllComponents) {
       }
 
       if (isConstructor(el) || isComponentOptions(el)) {
-        var componentOptions = isConstructor(el) ? el.options : el;
-        var elName = componentOptions.name;
-
-        var stubbedComponent = resolveComponent(elName, stubs);
-        if (stubbedComponent) {
-          return originalCreateElement.apply(void 0, [ stubbedComponent ].concat( args ))
-        }
-
         if (stubAllComponents) {
-          var stub = createStubFromComponent(el, elName || 'anonymous', _Vue);
+          var stub = createStubFromComponent(el, el.name || 'anonymous', _Vue);
           return originalCreateElement.apply(void 0, [ stub ].concat( args ))
         }
         var Constructor = shouldExtend(el) ? extend(el, _Vue) : el;
@@ -2552,7 +2546,7 @@ function patchCreateElement(_Vue, stubs, stubAllComponents) {
   _Vue.mixin(( obj = {}, obj[BEFORE_RENDER_LIFECYCLE_HOOK] = patchCreateElementMixin, obj ));
 }
 
-// 
+//
 
 function objectWithoutProperties (obj, exclude) { var target = {}; for (var k in obj) if (Object.prototype.hasOwnProperty.call(obj, k) && exclude.indexOf(k) === -1) target[k] = obj[k]; return target; }
 
@@ -2649,14 +2643,14 @@ function createInstance(
   var parentComponentOptions = options.parentComponent || {};
 
   var originalParentComponentProvide = parentComponentOptions.provide;
-  parentComponentOptions.provide = function () {
+  parentComponentOptions.provide = function() {
     return Object.assign({}, getValuesFromCallableOption.call(this, originalParentComponentProvide),
       // $FlowIgnore
       getValuesFromCallableOption.call(this, options.provide))
   };
 
   var originalParentComponentData = parentComponentOptions.data;
-  parentComponentOptions.data = function () {
+  parentComponentOptions.data = function() {
     return Object.assign({}, getValuesFromCallableOption.call(this, originalParentComponentData),
       {vueTestUtils_childProps: Object.assign({}, options.propsData)})
   };
@@ -2664,7 +2658,7 @@ function createInstance(
   parentComponentOptions.$_doNotStubChildren = true;
   parentComponentOptions.$_isWrapperParent = true;
   parentComponentOptions._isFunctionalContainer = componentOptions.functional;
-  parentComponentOptions.render = function (h) {
+  parentComponentOptions.render = function(h) {
     return h(
       Constructor,
       createContext(options, scopedSlots, this.vueTestUtils_childProps),
@@ -2684,7 +2678,7 @@ function createInstance(
   return new Parent()
 }
 
-// 
+//
 
 function createElement() {
   if (document) {
@@ -2697,7 +2691,7 @@ function createElement() {
   }
 }
 
-// 
+//
 
 function findDOMNodes(
   element,
@@ -2795,7 +2789,7 @@ function matches(node, selector) {
   return vmMatchesName(componentInstance, nameSelector)
 }
 
-// 
+//
 
 /**
  * Traverses a vue instance for its parents and returns them in an array format
@@ -3010,7 +3004,7 @@ function normalizeProvide(provide) {
   return provide
 }
 
-// 
+//
 
 function getOption(option, config) {
   if (option === false) {
@@ -3069,7 +3063,7 @@ var config = {
      true
 };
 
-// 
+//
 
 function warnIfNoWindow() {
   if (typeof window === 'undefined') {
@@ -8478,7 +8472,7 @@ function ocd(str, options) {
     .replace(/>(\s*)(?=<!--\s*\/)/g, '> ');
 }
 
-// 
+//
 
 function getSelectorType(selector) {
   if (isDomSelector(selector)) { return DOM_SELECTOR }
@@ -8506,7 +8500,7 @@ function getSelector(
   }
 }
 
-// 
+//
 
 var WrapperArray = function WrapperArray(wrappers) {
   var length = wrappers.length;
@@ -8732,7 +8726,7 @@ WrapperArray.prototype.destroy = function destroy () {
   this.wrappers.forEach(function (wrapper) { return wrapper.destroy(); });
 };
 
-// 
+//
 
 var buildSelectorString = function (selector) {
   if (getSelectorType(selector) === REF_SELECTOR) {
@@ -9017,10 +9011,7 @@ ErrorWrapper.prototype.destroy = function destroy () {
  */
 
 function isStyleVisible(element) {
-  if (
-    !(element instanceof window.HTMLElement) &&
-    !(element instanceof window.SVGElement)
-  ) {
+  if (!(element instanceof HTMLElement) && !(element instanceof SVGElement)) {
     return false
   }
 
@@ -10420,7 +10411,7 @@ function createDOMEvent(type, options) {
   return event
 }
 
-// 
+//
 
 var Wrapper = function Wrapper(
   node,
@@ -10897,7 +10888,9 @@ Wrapper.prototype.overview = function overview () {
   var emittedJSONReplacer = function (key, value) { return value instanceof Array
       ? value.map(function (calledWith, index) {
           var callParams = calledWith.map(function (param) { return typeof param === 'object'
-              ? JSON.stringify(param).replace(/"/g, '').replace(/,/g, ', ')
+              ? JSON.stringify(param)
+                  .replace(/"/g, '')
+                  .replace(/,/g, ', ')
               : param; }
           );
 
@@ -11121,7 +11114,8 @@ Wrapper.prototype.setProps = function setProps (data) {
   Object.keys(data).forEach(function (key) {
     // Don't let people set entire objects, because reactivity won't work
     if (
-      isPlainObject(data[key]) &&
+      typeof data[key] === 'object' &&
+      data[key] !== null &&
       // $FlowIgnore : Problem with possibly null this.vm
       data[key] === this$1.vm[key]
     ) {
@@ -11292,7 +11286,7 @@ Wrapper.prototype.trigger = function trigger (type, options) {
   return nextTick()
 };
 
-// 
+//
 
 var VueWrapper = /*@__PURE__*/(function (Wrapper) {
   function VueWrapper(vm, options) {
@@ -11331,7 +11325,7 @@ var VueWrapper = /*@__PURE__*/(function (Wrapper) {
   return VueWrapper;
 }(Wrapper));
 
-// 
+//
 
 var isEnabled = false;
 var wrapperInstances = [];
@@ -11366,7 +11360,7 @@ function trackInstance(wrapper) {
   wrapperInstances.push(wrapper);
 }
 
-// 
+//
 
 function createWrapper(
   node,
@@ -13870,7 +13864,7 @@ function cloneDeep(value) {
 
 var cloneDeep_1 = cloneDeep;
 
-// 
+//
 
 /**
  * Used internally by vue-server-test-utils and test-utils to propagate/create vue instances.
@@ -13939,7 +13933,7 @@ function _createLocalVue(
   return instance
 }
 
-// 
+//
 
 function isValidSlot(slot) {
   return isVueComponent(slot) || typeof slot === 'string'
@@ -14077,7 +14071,7 @@ function mount(component, options) {
   return createWrapper(root, wrapperOptions)
 }
 
-// 
+//
 
 
 function shallowMount(
@@ -14090,7 +14084,7 @@ function shallowMount(
     {shouldProxy: true}))
 }
 
-// 
+//
 
 /**
  * Returns a local vue instance to add components, mixins and install plugins without polluting the global Vue class
@@ -14103,7 +14097,7 @@ function createLocalVue(config) {
   return _createLocalVue(undefined, config)
 }
 
-// 
+//
 var toTypes = [String, Object];
 var eventTypes = [String, Array];
 
