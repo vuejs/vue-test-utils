@@ -32,7 +32,7 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
       },
       {
         scopedSlots: {
-          single: function(props) {
+          single: function (props) {
             return this.$createElement('p', props.text)
           }
         }
@@ -47,7 +47,7 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
     () => {
       const destructuringWrapper = mountingMethod(
         {
-          render: function() {
+          render: function () {
             return this.$scopedSlots.default({
               index: 1,
               item: 'foo'
@@ -65,7 +65,7 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
 
       const notDestructuringWrapper = mountingMethod(
         {
-          render: function() {
+          render: function () {
             return this.$scopedSlots.named({
               index: 1,
               item: 'foo'
@@ -89,7 +89,7 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
       const destructuringWrapper = mountingMethod(
         {
           functional: true,
-          render: function(createElement, context) {
+          render: function (createElement, context) {
             return context.data.scopedSlots.default({
               index: 1,
               item: 'foo'
@@ -108,7 +108,7 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
       const notDestructuringWrapper = mountingMethod(
         {
           functional: true,
-          render: function(createElement, context) {
+          render: function (createElement, context) {
             return context.data.scopedSlots.named({
               index: 1,
               item: 'foo'
@@ -130,8 +130,7 @@ describeWithShallowAndMount('scopedSlots', mountingMethod => {
       slots: { default: '<span>123</span>' },
       scopedSlots: {
         destructuring: '<p slot-scope="{ index, item }">{{index}},{{item}}</p>',
-        list:
-          '<template slot-scope="foo"><p>{{foo.index}},{{foo.text}}</p></template>',
+        list: '<template slot-scope="foo"><p>{{foo.index}},{{foo.text}}</p></template>',
         single: '<p slot-scope="bar">{{bar.text}}</p>',
         noProps: '<p slot-scope="baz">baz</p>'
       }

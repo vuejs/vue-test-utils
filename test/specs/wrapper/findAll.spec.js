@@ -156,12 +156,7 @@ describeWithShallowAndMount('findAll', mountingMethod => {
     }
     const wrapper = mountingMethod(RootComponent)
     expect(wrapper.findAllComponents('.foo')).toHaveLength(1)
-    expect(
-      wrapper
-        .findAllComponents('.foo')
-        .at(0)
-        .is(Component)
-    ).toBe(true)
+    expect(wrapper.findAllComponents('.foo').at(0).is(Component)).toBe(true)
   })
 
   it('findAllComponents returns top-level components when components are nested', () => {

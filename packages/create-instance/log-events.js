@@ -15,7 +15,7 @@ export function logEvents(
 
 export function addEventLogger(_Vue: Component): void {
   _Vue.mixin({
-    beforeCreate: function() {
+    beforeCreate: function () {
       this.__emitted = Object.create(null)
       this.__emittedByOrder = []
       logEvents(this, this.__emitted, this.__emittedByOrder)

@@ -8,9 +8,7 @@ describeWithShallowAndMount('attributes', mountingMethod => {
     }
     const message = '[vue-test-utils]: attributes cannot be called on 0 items'
     expect(() =>
-      mountingMethod(TestComponent)
-        .findAll('p')
-        .attributes('p')
+      mountingMethod(TestComponent).findAll('p').attributes('p')
     ).toThrow(message)
   })
 

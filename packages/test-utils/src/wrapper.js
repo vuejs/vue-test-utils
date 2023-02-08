@@ -29,11 +29,11 @@ import createDOMEvent from './create-dom-event'
 import { throwIfInstancesThrew } from './error'
 
 export default class Wrapper implements BaseWrapper {
-  +vnode: VNode | null
+  +vnode: VNode | null;
   +vm: Component | void
   _emitted: { [name: string]: Array<Array<any>> }
-  _emittedByOrder: Array<{ name: string, args: Array<any> }>
-  +element: Element
+  _emittedByOrder: Array<{ name: string, args: Array<any> }>;
+  +element: Element;
   +options: WrapperOptions
   isFunctionalComponent: boolean
   rootNode: VNode | Element
@@ -502,9 +502,7 @@ export default class Wrapper implements BaseWrapper {
         ? value.map((calledWith, index) => {
             const callParams = calledWith.map(param =>
               typeof param === 'object'
-                ? JSON.stringify(param)
-                    .replace(/"/g, '')
-                    .replace(/,/g, ', ')
+                ? JSON.stringify(param).replace(/"/g, '').replace(/,/g, ', ')
                 : param
             )
 

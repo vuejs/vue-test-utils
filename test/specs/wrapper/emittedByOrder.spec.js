@@ -44,13 +44,13 @@ describeWithShallowAndMount('emittedByOrder', mountingMethod => {
   it('captures in lifecycle hooks emitted events in order', () => {
     const wrapper = mountingMethod({
       render: h => h('div'),
-      beforeCreate: function() {
+      beforeCreate: function () {
         this.$emit('foo')
       },
-      created: function() {
+      created: function () {
         this.$emit('bar', 1, 2, 3)
       },
-      mounted: function() {
+      mounted: function () {
         this.$emit('foo', 2, 3, 4)
       }
     })

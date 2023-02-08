@@ -7,11 +7,9 @@ describeWithShallowAndMount('find', mountingMethod => {
       template: '<div />'
     }
     const message = '[vue-test-utils]: find cannot be called on 0 items'
-    expect(() =>
-      mountingMethod(TestComponent)
-        .findAll('p')
-        .find('p')
-    ).toThrow(message)
+    expect(() => mountingMethod(TestComponent).findAll('p').find('p')).toThrow(
+      message
+    )
   })
 
   it('throws an error when called on a WrapperArray', () => {

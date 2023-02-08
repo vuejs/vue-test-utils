@@ -20,10 +20,7 @@ describeWithShallowAndMount('isEmpty', mountingMethod => {
   it('throws error if wrapper array contains no items', () => {
     const compiled = compileToFunctions('<div />')
     const message = '[vue-test-utils]: isEmpty cannot be called on 0 items'
-    const fn = () =>
-      mountingMethod(compiled)
-        .findAll('p')
-        .isEmpty('p')
+    const fn = () => mountingMethod(compiled).findAll('p').isEmpty('p')
     expect(fn).toThrow(message)
   })
 })

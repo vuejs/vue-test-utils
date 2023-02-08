@@ -284,7 +284,7 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
   it('propagates errors when they are thrown', () => {
     const TestComponent = {
       template: '<div></div>',
-      mounted: function() {
+      mounted: function () {
         throw new Error('Error in mounted')
       }
     }
@@ -296,12 +296,12 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'mount', () => {
   it('propagates errors when they are thrown by a nested component', () => {
     const childComponent = {
       template: '<div></div>',
-      mounted: function() {
+      mounted: function () {
         throw new Error('Error in mounted')
       }
     }
     const rootComponent = {
-      render: function(h) {
+      render: function (h) {
         return h('div', [h(childComponent)])
       }
     }

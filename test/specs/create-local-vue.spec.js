@@ -101,7 +101,7 @@ describeWithShallowAndMount('createLocalVue', mountingMethod => {
     const localVue = createLocalVue()
     const pluginOptions = { foo: 'bar' }
     const plugin = {
-      install: function(_Vue, options) {
+      install: function (_Vue, options) {
         expect(options).toEqual(pluginOptions)
       }
     }
@@ -112,7 +112,7 @@ describeWithShallowAndMount('createLocalVue', mountingMethod => {
     let installCount = 0
 
     class Plugin {}
-    Plugin.install = function(_Vue) {
+    Plugin.install = function (_Vue) {
       if (_Vue._installedPlugins) {
         expect(_Vue._installedPlugins.indexOf(Plugin)).toEqual(-1)
       }

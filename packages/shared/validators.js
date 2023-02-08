@@ -137,10 +137,10 @@ function makeMap(str: string, expectsLowerCase?: boolean) {
     map[list[i]] = true
   }
   return expectsLowerCase
-    ? function(val: string) {
+    ? function (val: string) {
         return map[val.toLowerCase()]
       }
-    : function(val: string) {
+    : function (val: string) {
         return map[val]
       }
 }

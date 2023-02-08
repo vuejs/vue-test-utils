@@ -221,7 +221,7 @@ En pratique, bien que nous appelions et attendions `setData` pour assurer la mis
 
 ```js
 const transitionStub = () => ({
-  render: function(h) {
+  render: function (h) {
     return this.$options._renderChildren
   }
 })

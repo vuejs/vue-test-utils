@@ -223,7 +223,7 @@ In practice, although we are calling and awaiting `setData` to ensure the DOM is
 
 ```js
 const transitionStub = () => ({
-  render: function(h) {
+  render: function (h) {
     return this.$options._renderChildren
   }
 })

@@ -169,7 +169,7 @@ You can also pass a function that takes the props as an argument:
 ```js
 shallowMount(Component, {
   scopedSlots: {
-    foo: function(props) {
+    foo: function (props) {
       return this.$createElement('div', props.index)
     }
   }

@@ -12,7 +12,9 @@ describeWithShallowAndMount('contains', mountingMethod => {
   })
 
   it('returns false if any Wrapper does not contain element', () => {
-    const TestComponent = { template: '<div><div></div><div><p /></div></div>' }
+    const TestComponent = {
+      template: '<div><div></div><div><p /></div></div>'
+    }
     const wrapper = mountingMethod(TestComponent)
     const divArr = wrapper.findAll('div')
     expect(divArr.contains('p')).toEqual(false)
@@ -22,9 +24,7 @@ describeWithShallowAndMount('contains', mountingMethod => {
     const TestComponent = { template: '<div />' }
     const message = '[vue-test-utils]: contains cannot be called on 0 items'
     expect(() =>
-      mountingMethod(TestComponent)
-        .findAll('p')
-        .contains('p')
+      mountingMethod(TestComponent).findAll('p').contains('p')
     ).toThrow(message)
   })
 

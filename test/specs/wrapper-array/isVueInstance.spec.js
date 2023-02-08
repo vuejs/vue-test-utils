@@ -19,10 +19,7 @@ describeWithShallowAndMount('isVueInstance', mountingMethod => {
     const compiled = compileToFunctions('<div />')
     const message =
       '[vue-test-utils]: isVueInstance cannot be called on 0 items'
-    const fn = () =>
-      mountingMethod(compiled)
-        .findAll('p')
-        .isVueInstance('p')
+    const fn = () => mountingMethod(compiled).findAll('p').isVueInstance('p')
     expect(fn).toThrow(message)
   })
 })
