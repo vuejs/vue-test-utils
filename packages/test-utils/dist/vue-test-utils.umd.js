@@ -8,7 +8,7 @@
 
   var Vue__default = /*#__PURE__*/_interopDefaultLegacy(Vue);
 
-  //
+  // 
 
   function createVNodes(vm, slotValue, name) {
     var el = vueTemplateCompiler.compileToFunctions(
@@ -1693,7 +1693,7 @@
     ? '_c'
     : '_h';
 
-  //
+  // 
 
   function throwError(msg) {
     throw new Error(("[vue-test-utils]: " + msg))
@@ -1806,7 +1806,7 @@
     return wrapper.vm || wrapper.isFunctionalComponent
   }
 
-  //
+  // 
 
   function addMocks(
     _Vue,
@@ -1833,7 +1833,7 @@
     });
   }
 
-  //
+  // 
 
   function logEvents(
     vm,
@@ -1870,7 +1870,7 @@
     _Vue.mixin(( obj = {}, obj[BEFORE_RENDER_LIFECYCLE_HOOK] = addStubComponentsMixin, obj ));
   }
 
-  //
+  // 
 
   function isDomSelector(selector) {
     if (typeof selector !== 'string') {
@@ -2035,7 +2035,7 @@
 
   var isReservedTag = function (tag) { return isHTMLTag(tag) || isSVG(tag); };
 
-  //
+  // 
 
   function compileTemplate(component) {
     if (component.template) {
@@ -2090,7 +2090,7 @@
     });
   }
 
-  //
+  // 
 
   var MOUNTING_OPTIONS = [
     'attachToDocument',
@@ -2114,7 +2114,7 @@
     return instanceOptions
   }
 
-  //
+  // 
 
   function isDestructuringSlotScope(slotScope) {
     return /^{.*}$/.test(slotScope)
@@ -2243,7 +2243,7 @@
     return scopedSlots
   }
 
-  //
+  // 
 
   var FUNCTION_PLACEHOLDER = '[Function]';
 
@@ -2553,7 +2553,7 @@
     _Vue.mixin(( obj = {}, obj[BEFORE_RENDER_LIFECYCLE_HOOK] = patchCreateElementMixin, obj ));
   }
 
-  //
+  // 
 
   function objectWithoutProperties (obj, exclude) { var target = {}; for (var k in obj) if (Object.prototype.hasOwnProperty.call(obj, k) && exclude.indexOf(k) === -1) target[k] = obj[k]; return target; }
 
@@ -2685,7 +2685,7 @@
     return new Parent()
   }
 
-  //
+  // 
 
   function createElement() {
     if (document) {
@@ -2698,7 +2698,7 @@
     }
   }
 
-  //
+  // 
 
   function findDOMNodes(
     element,
@@ -2796,7 +2796,7 @@
     return vmMatchesName(componentInstance, nameSelector)
   }
 
-  //
+  // 
 
   /**
    * Traverses a vue instance for its parents and returns them in an array format
@@ -3011,7 +3011,7 @@
     return provide
   }
 
-  //
+  // 
 
   function getOption(option, config) {
     if (option === false) {
@@ -3070,7 +3070,7 @@
        true
   };
 
-  //
+  // 
 
   function warnIfNoWindow() {
     if (typeof window === 'undefined') {
@@ -8479,7 +8479,7 @@
       .replace(/>(\s*)(?=<!--\s*\/)/g, '> ');
   }
 
-  //
+  // 
 
   function getSelectorType(selector) {
     if (isDomSelector(selector)) { return DOM_SELECTOR }
@@ -8507,7 +8507,7 @@
     }
   }
 
-  //
+  // 
 
   var WrapperArray = function WrapperArray(wrappers) {
     var length = wrappers.length;
@@ -8733,7 +8733,7 @@
     this.wrappers.forEach(function (wrapper) { return wrapper.destroy(); });
   };
 
-  //
+  // 
 
   var buildSelectorString = function (selector) {
     if (getSelectorType(selector) === REF_SELECTOR) {
@@ -10418,7 +10418,7 @@
     return event
   }
 
-  //
+  // 
 
   var Wrapper = function Wrapper(
     node,
@@ -11293,7 +11293,7 @@
     return nextTick()
   };
 
-  //
+  // 
 
   var VueWrapper = /*@__PURE__*/(function (Wrapper) {
     function VueWrapper(vm, options) {
@@ -11332,7 +11332,7 @@
     return VueWrapper;
   }(Wrapper));
 
-  //
+  // 
 
   var isEnabled = false;
   var wrapperInstances = [];
@@ -11367,7 +11367,7 @@
     wrapperInstances.push(wrapper);
   }
 
-  //
+  // 
 
   function createWrapper(
     node,
@@ -13871,7 +13871,7 @@
 
   var cloneDeep_1 = cloneDeep;
 
-  //
+  // 
 
   /**
    * Used internally by vue-server-test-utils and test-utils to propagate/create vue instances.
@@ -13940,7 +13940,7 @@
     return instance
   }
 
-  //
+  // 
 
   function isValidSlot(slot) {
     return isVueComponent(slot) || typeof slot === 'string'
@@ -14078,7 +14078,7 @@
     return createWrapper(root, wrapperOptions)
   }
 
-  //
+  // 
 
 
   function shallowMount(
@@ -14091,7 +14091,7 @@
       {shouldProxy: true}))
   }
 
-  //
+  // 
 
   /**
    * Returns a local vue instance to add components, mixins and install plugins without polluting the global Vue class
@@ -14104,7 +14104,7 @@
     return _createLocalVue(undefined, config)
   }
 
-  //
+  // 
   var toTypes = [String, Object];
   var eventTypes = [String, Array];
 

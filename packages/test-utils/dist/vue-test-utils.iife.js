@@ -5,7 +5,7 @@ var VueTestUtils = (function (exports, Vue, vueTemplateCompiler) {
 
   var Vue__default = /*#__PURE__*/_interopDefaultLegacy(Vue);
 
-  //
+  // 
 
   function createVNodes(vm, slotValue, name) {
     var el = vueTemplateCompiler.compileToFunctions(
@@ -1690,7 +1690,7 @@ var VueTestUtils = (function (exports, Vue, vueTemplateCompiler) {
     ? '_c'
     : '_h';
 
-  //
+  // 
 
   function throwError(msg) {
     throw new Error(("[vue-test-utils]: " + msg))
@@ -1803,7 +1803,7 @@ var VueTestUtils = (function (exports, Vue, vueTemplateCompiler) {
     return wrapper.vm || wrapper.isFunctionalComponent
   }
 
-  //
+  // 
 
   function addMocks(
     _Vue,
@@ -1830,7 +1830,7 @@ var VueTestUtils = (function (exports, Vue, vueTemplateCompiler) {
     });
   }
 
-  //
+  // 
 
   function logEvents(
     vm,
@@ -1867,7 +1867,7 @@ var VueTestUtils = (function (exports, Vue, vueTemplateCompiler) {
     _Vue.mixin(( obj = {}, obj[BEFORE_RENDER_LIFECYCLE_HOOK] = addStubComponentsMixin, obj ));
   }
 
-  //
+  // 
 
   function isDomSelector(selector) {
     if (typeof selector !== 'string') {
@@ -2032,7 +2032,7 @@ var VueTestUtils = (function (exports, Vue, vueTemplateCompiler) {
 
   var isReservedTag = function (tag) { return isHTMLTag(tag) || isSVG(tag); };
 
-  //
+  // 
 
   function compileTemplate(component) {
     if (component.template) {
@@ -2087,7 +2087,7 @@ var VueTestUtils = (function (exports, Vue, vueTemplateCompiler) {
     });
   }
 
-  //
+  // 
 
   var MOUNTING_OPTIONS = [
     'attachToDocument',
@@ -2111,7 +2111,7 @@ var VueTestUtils = (function (exports, Vue, vueTemplateCompiler) {
     return instanceOptions
   }
 
-  //
+  // 
 
   function isDestructuringSlotScope(slotScope) {
     return /^{.*}$/.test(slotScope)
@@ -2240,7 +2240,7 @@ var VueTestUtils = (function (exports, Vue, vueTemplateCompiler) {
     return scopedSlots
   }
 
-  //
+  // 
 
   var FUNCTION_PLACEHOLDER = '[Function]';
 
@@ -2550,7 +2550,7 @@ var VueTestUtils = (function (exports, Vue, vueTemplateCompiler) {
     _Vue.mixin(( obj = {}, obj[BEFORE_RENDER_LIFECYCLE_HOOK] = patchCreateElementMixin, obj ));
   }
 
-  //
+  // 
 
   function objectWithoutProperties (obj, exclude) { var target = {}; for (var k in obj) if (Object.prototype.hasOwnProperty.call(obj, k) && exclude.indexOf(k) === -1) target[k] = obj[k]; return target; }
 
@@ -2682,7 +2682,7 @@ var VueTestUtils = (function (exports, Vue, vueTemplateCompiler) {
     return new Parent()
   }
 
-  //
+  // 
 
   function createElement() {
     if (document) {
@@ -2695,7 +2695,7 @@ var VueTestUtils = (function (exports, Vue, vueTemplateCompiler) {
     }
   }
 
-  //
+  // 
 
   function findDOMNodes(
     element,
@@ -2793,7 +2793,7 @@ var VueTestUtils = (function (exports, Vue, vueTemplateCompiler) {
     return vmMatchesName(componentInstance, nameSelector)
   }
 
-  //
+  // 
 
   /**
    * Traverses a vue instance for its parents and returns them in an array format
@@ -3008,7 +3008,7 @@ var VueTestUtils = (function (exports, Vue, vueTemplateCompiler) {
     return provide
   }
 
-  //
+  // 
 
   function getOption(option, config) {
     if (option === false) {
@@ -3067,7 +3067,7 @@ var VueTestUtils = (function (exports, Vue, vueTemplateCompiler) {
        true
   };
 
-  //
+  // 
 
   function warnIfNoWindow() {
     if (typeof window === 'undefined') {
@@ -8476,7 +8476,7 @@ var VueTestUtils = (function (exports, Vue, vueTemplateCompiler) {
       .replace(/>(\s*)(?=<!--\s*\/)/g, '> ');
   }
 
-  //
+  // 
 
   function getSelectorType(selector) {
     if (isDomSelector(selector)) { return DOM_SELECTOR }
@@ -8504,7 +8504,7 @@ var VueTestUtils = (function (exports, Vue, vueTemplateCompiler) {
     }
   }
 
-  //
+  // 
 
   var WrapperArray = function WrapperArray(wrappers) {
     var length = wrappers.length;
@@ -8730,7 +8730,7 @@ var VueTestUtils = (function (exports, Vue, vueTemplateCompiler) {
     this.wrappers.forEach(function (wrapper) { return wrapper.destroy(); });
   };
 
-  //
+  // 
 
   var buildSelectorString = function (selector) {
     if (getSelectorType(selector) === REF_SELECTOR) {
@@ -10415,7 +10415,7 @@ var VueTestUtils = (function (exports, Vue, vueTemplateCompiler) {
     return event
   }
 
-  //
+  // 
 
   var Wrapper = function Wrapper(
     node,
@@ -11290,7 +11290,7 @@ var VueTestUtils = (function (exports, Vue, vueTemplateCompiler) {
     return nextTick()
   };
 
-  //
+  // 
 
   var VueWrapper = /*@__PURE__*/(function (Wrapper) {
     function VueWrapper(vm, options) {
@@ -11329,7 +11329,7 @@ var VueTestUtils = (function (exports, Vue, vueTemplateCompiler) {
     return VueWrapper;
   }(Wrapper));
 
-  //
+  // 
 
   var isEnabled = false;
   var wrapperInstances = [];
@@ -11364,7 +11364,7 @@ var VueTestUtils = (function (exports, Vue, vueTemplateCompiler) {
     wrapperInstances.push(wrapper);
   }
 
-  //
+  // 
 
   function createWrapper(
     node,
@@ -13868,7 +13868,7 @@ var VueTestUtils = (function (exports, Vue, vueTemplateCompiler) {
 
   var cloneDeep_1 = cloneDeep;
 
-  //
+  // 
 
   /**
    * Used internally by vue-server-test-utils and test-utils to propagate/create vue instances.
@@ -13937,7 +13937,7 @@ var VueTestUtils = (function (exports, Vue, vueTemplateCompiler) {
     return instance
   }
 
-  //
+  // 
 
   function isValidSlot(slot) {
     return isVueComponent(slot) || typeof slot === 'string'
@@ -14075,7 +14075,7 @@ var VueTestUtils = (function (exports, Vue, vueTemplateCompiler) {
     return createWrapper(root, wrapperOptions)
   }
 
-  //
+  // 
 
 
   function shallowMount(
@@ -14088,7 +14088,7 @@ var VueTestUtils = (function (exports, Vue, vueTemplateCompiler) {
       {shouldProxy: true}))
   }
 
-  //
+  // 
 
   /**
    * Returns a local vue instance to add components, mixins and install plugins without polluting the global Vue class
@@ -14101,7 +14101,7 @@ var VueTestUtils = (function (exports, Vue, vueTemplateCompiler) {
     return _createLocalVue(undefined, config)
   }
 
-  //
+  // 
   var toTypes = [String, Object];
   var eventTypes = [String, Array];
 
