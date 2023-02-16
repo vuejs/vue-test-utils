@@ -4,7 +4,7 @@ import {
   FUNCTIONAL_OPTIONS
 } from 'shared/consts'
 import { isConstructor, isFunctionalComponent } from 'shared/validators'
-import { capitalize, camelize } from 'shared/util'
+import { capitalize, camelize, keys } from 'shared/util'
 
 function vmMatchesName(vm, name) {
   // We want to mirror how Vue resolves component names in SFCs:
@@ -48,7 +48,7 @@ function vmCtorMatches(vm, component) {
   }
 
   if (component.functional) {
-    return Object.keys(vm._Ctor || {}).some(c => {
+    return keys(vm._Ctor || {}).some(c => {
       return component === vm._Ctor[c].extendOptions
     })
   }

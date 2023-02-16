@@ -195,7 +195,7 @@ export function createStubsFromStubsObject(
   stubs: Object,
   _Vue: Component
 ): Components {
-  return Object.keys(stubs || {}).reduce((acc, stubName) => {
+  return keys(stubs || {}).reduce((acc, stubName) => {
     let stub = stubs[stubName]
 
     validateStub(stub)

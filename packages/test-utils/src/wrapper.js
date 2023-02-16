@@ -17,7 +17,8 @@ import {
   nextTick,
   warn,
   warnDeprecated,
-  isVueWrapper
+  isVueWrapper,
+  keys
 } from 'shared/util'
 import { isPlainObject } from 'shared/validators'
 import { isElementVisible } from 'shared/is-visible'
@@ -124,17 +125,14 @@ export default class Wrapper implements BaseWrapper {
     let classes = classAttribute ? classAttribute.split(' ') : []
     // Handle converting cssmodules identifiers back to the original class name
     if (this.vm && this.vm.$style) {
-      const cssModuleIdentifiers = Object.keys(this.vm.$style).reduce(
-        (acc, key) => {
-          // $FlowIgnore
-          const moduleIdent = this.vm.$style[key]
-          if (moduleIdent) {
-            acc[moduleIdent.split(' ')[0]] = key
-          }
-          return acc
-        },
-        {}
-      )
+      const cssModuleIdentifiers = keys(this.vm.$style).reduce((acc, key) => {
+        // $FlowIgnore
+        const moduleIdent = this.vm.$style[key]
+        if (moduleIdent) {
+          acc[moduleIdent.split(' ')[0]] = key
+        }
+        return acc
+      }, {})
       classes = classes.map(name => cssModuleIdentifiers[name] || name)
     }
 
@@ -480,7 +478,7 @@ export default class Wrapper implements BaseWrapper {
     const computed = this.vm._computedWatchers
       ? formatJSON(
           // $FlowIgnore
-          ...Object.keys(this.vm._computedWatchers).map(computedKey => ({
+          ...keys(this.vm._computedWatchers).map(computedKey => ({
             // $FlowIgnore
             [computedKey]: this.vm[computedKey]
           }))
@@ -678,7 +676,7 @@ export default class Wrapper implements BaseWrapper {
     }
     this.__warnIfDestroyed()
 
-    Object.keys(methods).forEach(key => {
+    keys(methods).forEach(key => {
       // $FlowIgnore : Problem with possibly null this.vm
       this.vm[key] = methods[key]
       // $FlowIgnore : Problem with possibly null this.vm
@@ -715,7 +713,7 @@ export default class Wrapper implements BaseWrapper {
 
     this.__warnIfDestroyed()
 
-    Object.keys(data).forEach(key => {
+    keys(data).forEach(key => {
       // Don't let people set entire objects, because reactivity won't work
       if (
         isPlainObject(data[key]) &&

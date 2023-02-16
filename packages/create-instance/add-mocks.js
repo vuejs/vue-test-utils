@@ -1,6 +1,6 @@
 // @flow
 import $$Vue from 'vue'
-import { warn } from 'shared/util'
+import { warn, keys } from 'shared/util'
 
 export default function addMocks(
   _Vue: Component,
@@ -9,7 +9,7 @@ export default function addMocks(
   if (mockedProperties === false) {
     return
   }
-  Object.keys(mockedProperties).forEach(key => {
+  keys(mockedProperties).forEach(key => {
     try {
       // $FlowIgnore
       _Vue.prototype[key] = mockedProperties[key]

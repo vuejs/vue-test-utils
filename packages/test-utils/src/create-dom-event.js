@@ -1,4 +1,5 @@
 import eventTypes from 'dom-event-types'
+import { keys } from 'shared/util'
 
 const defaultEventType = {
   eventInterface: 'Event',
@@ -108,7 +109,7 @@ export default function createDOMEvent(type, options) {
       : createOldEvent(eventParams)
 
   const eventPrototype = Object.getPrototypeOf(event)
-  Object.keys(options || {}).forEach(key => {
+  keys(options || {}).forEach(key => {
     const propertyDescriptor = Object.getOwnPropertyDescriptor(
       eventPrototype,
       key

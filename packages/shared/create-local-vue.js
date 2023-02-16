@@ -2,6 +2,7 @@
 
 import Vue from 'vue'
 import cloneDeep from 'lodash/cloneDeep'
+import { keys } from './util'
 
 /**
  * Used internally by vue-server-test-utils and test-utils to propagate/create vue instances.
@@ -17,7 +18,7 @@ function _createLocalVue(
   const instance = _Vue.extend()
 
   // clone global APIs
-  Object.keys(_Vue).forEach(key => {
+  keys(_Vue).forEach(key => {
     if (!instance.hasOwnProperty(key)) {
       const original = _Vue[key]
       // cloneDeep can fail when cloning Vue instances

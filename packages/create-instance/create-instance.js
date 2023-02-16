@@ -10,6 +10,7 @@ import { componentNeedsCompiling, isConstructor } from 'shared/validators'
 import createScopedSlots from './create-scoped-slots'
 import { createStubsFromStubsObject } from './create-component-stubs'
 import { patchCreateElement } from './patch-create-element'
+import { keys } from 'shared/util'
 
 function createContext(options, scopedSlots, currentProps) {
   const on = {
@@ -86,8 +87,8 @@ export default function createInstance(
 
   // watchers provided in mounting options should override preexisting ones
   if (componentOptions.watch && instanceOptions.watch) {
-    const componentWatchers = Object.keys(componentOptions.watch)
-    const instanceWatchers = Object.keys(instanceOptions.watch)
+    const componentWatchers = keys(componentOptions.watch)
+    const instanceWatchers = keys(instanceOptions.watch)
 
     for (let i = 0; i < instanceWatchers.length; i++) {
       const k = instanceWatchers[i]
