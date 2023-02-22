@@ -12,7 +12,7 @@ Following is a basic Karma config for Vue Test Utils:
 // karma.conf.js
 var webpackConfig = require('./webpack.config.js')
 
-module.exports = function(config) {
+module.exports = function (config) {
   config.set({
     frameworks: ['mocha'],
     files: ['test/**/*.spec.js'],

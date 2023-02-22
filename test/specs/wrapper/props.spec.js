@@ -79,9 +79,7 @@ describeWithShallowAndMount('props', mountingMethod => {
 
   it('throws an error if called on a non vm wrapper', () => {
     const compiled = compileToFunctions('<div><p /></div>')
-    const p = mountingMethod(compiled)
-      .findAll('p')
-      .at(0)
+    const p = mountingMethod(compiled).findAll('p').at(0)
     const message =
       '[vue-test-utils]: wrapper.props() must be called on a Vue instance'
     const fn = () => p.props()

@@ -222,7 +222,7 @@ test('should render Foo, then hide it', async () => {
 
 ```js
 const transitionStub = () => ({
-  render: function(h) {
+  render: function (h) {
     return this.$options._renderChildren
   }
 })

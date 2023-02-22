@@ -8,9 +8,9 @@ function isDestructuringSlotScope(slotScope: string): boolean {
   return /^{.*}$/.test(slotScope)
 }
 
-function getVueTemplateCompilerHelpers(
-  _Vue: Component
-): { [name: string]: Function } {
+function getVueTemplateCompilerHelpers(_Vue: Component): {
+  [name: string]: Function
+} {
   // $FlowIgnore
   const vue = new _Vue()
   const helpers = {}
@@ -111,7 +111,7 @@ export default function createScopedSlots(
 
     const slotScope = scopedSlotMatches.match && scopedSlotMatches.match[1]
 
-    scopedSlots[scopedSlotName] = function(props) {
+    scopedSlots[scopedSlotName] = function (props) {
       let res
       if (isFn) {
         res = renderFn.call({ ...helpers }, props)

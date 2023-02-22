@@ -167,7 +167,7 @@ shallowMount(Component, {
 ```js
 shallowMount(Component, {
   scopedSlots: {
-    foo: function(props) {
+    foo: function (props) {
       return this.$createElement('div', props.index)
     }
   }

@@ -1,6 +1,6 @@
 // @flow
 
-import { throwError } from 'shared/util'
+import { throwError, keys } from 'shared/util'
 import { compileToFunctions } from 'vue-template-compiler'
 import { isVueComponent } from './validators'
 
@@ -19,7 +19,7 @@ function requiresTemplateCompiler(slot: any): void {
 }
 
 export function validateSlots(slots: SlotsObject): void {
-  Object.keys(slots).forEach(key => {
+  keys(slots).forEach(key => {
     const slot = Array.isArray(slots[key]) ? slots[key] : [slots[key]]
 
     slot.forEach(slotValue => {

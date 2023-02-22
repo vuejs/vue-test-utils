@@ -164,7 +164,7 @@ it('will catch the error using done', done => {
 })
 
 it('will catch the error using a promise', () => {
-  return Vue.nextTick().then(function() {
+  return Vue.nextTick().then(function () {
     expect(true).toBe(false)
   })
 })

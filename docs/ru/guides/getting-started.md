@@ -131,7 +131,7 @@ it('должен отлавливать ошибку с использовани
 })
 
 it('должен отлавливать ошибку с использованием promise', () => {
-  return Vue.nextTick().then(function() {
+  return Vue.nextTick().then(function () {
     expect(true).toBe(false)
   })
 })

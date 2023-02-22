@@ -1,12 +1,12 @@
 // @flow
 import { normalizeStubs, normalizeProvide } from './normalize'
-import { warnDeprecated } from 'shared/util'
+import { warnDeprecated, keys } from 'shared/util'
 
 function getOption(option, config?: Object): any {
   if (option === false) {
     return false
   }
-  if (option || (config && Object.keys(config).length > 0)) {
+  if (option || (config && keys(config).length > 0)) {
     if (option instanceof Function) {
       return option
     }
@@ -34,7 +34,7 @@ export function mergeOptions(
   const methods = (getOption(options.methods, config.methods): {
     [key: string]: Function
   })
-  if (methods && Object.keys(methods).length) {
+  if (methods && keys(methods).length) {
     warnDeprecated(
       'overwriting methods via the `methods` property',
       'There is no clear migration path for the `methods` property - Vue does not support arbitrarily replacement of methods, nor should VTU. To stub a complex method extract it from the component and test it in isolation. Otherwise, the suggestion is to rethink those tests'

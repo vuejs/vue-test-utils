@@ -17,8 +17,10 @@ import {
   nextTick,
   warn,
   warnDeprecated,
-  isVueWrapper
+  isVueWrapper,
+  keys
 } from 'shared/util'
+import { isPlainObject } from 'shared/validators'
 import { isElementVisible } from 'shared/is-visible'
 import find from './find'
 import createWrapper from './create-wrapper'
@@ -28,11 +30,11 @@ import createDOMEvent from './create-dom-event'
 import { throwIfInstancesThrew } from './error'
 
 export default class Wrapper implements BaseWrapper {
-  +vnode: VNode | null
+  +vnode: VNode | null;
   +vm: Component | void
   _emitted: { [name: string]: Array<Array<any>> }
-  _emittedByOrder: Array<{ name: string, args: Array<any> }>
-  +element: Element
+  _emittedByOrder: Array<{ name: string, args: Array<any> }>;
+  +element: Element;
   +options: WrapperOptions
   isFunctionalComponent: boolean
   rootNode: VNode | Element
@@ -123,17 +125,14 @@ export default class Wrapper implements BaseWrapper {
     let classes = classAttribute ? classAttribute.split(' ') : []
     // Handle converting cssmodules identifiers back to the original class name
     if (this.vm && this.vm.$style) {
-      const cssModuleIdentifiers = Object.keys(this.vm.$style).reduce(
-        (acc, key) => {
-          // $FlowIgnore
-          const moduleIdent = this.vm.$style[key]
-          if (moduleIdent) {
-            acc[moduleIdent.split(' ')[0]] = key
-          }
-          return acc
-        },
-        {}
-      )
+      const cssModuleIdentifiers = keys(this.vm.$style).reduce((acc, key) => {
+        // $FlowIgnore
+        const moduleIdent = this.vm.$style[key]
+        if (moduleIdent) {
+          acc[moduleIdent.split(' ')[0]] = key
+        }
+        return acc
+      }, {})
       classes = classes.map(name => cssModuleIdentifiers[name] || name)
     }
 
@@ -479,7 +478,7 @@ export default class Wrapper implements BaseWrapper {
     const computed = this.vm._computedWatchers
       ? formatJSON(
           // $FlowIgnore
-          ...Object.keys(this.vm._computedWatchers).map(computedKey => ({
+          ...keys(this.vm._computedWatchers).map(computedKey => ({
             // $FlowIgnore
             [computedKey]: this.vm[computedKey]
           }))
@@ -501,9 +500,7 @@ export default class Wrapper implements BaseWrapper {
         ? value.map((calledWith, index) => {
             const callParams = calledWith.map(param =>
               typeof param === 'object'
-                ? JSON.stringify(param)
-                    .replace(/"/g, '')
-                    .replace(/,/g, ', ')
+                ? JSON.stringify(param).replace(/"/g, '').replace(/,/g, ', ')
                 : param
             )
 
@@ -679,7 +676,7 @@ export default class Wrapper implements BaseWrapper {
     }
     this.__warnIfDestroyed()
 
-    Object.keys(methods).forEach(key => {
+    keys(methods).forEach(key => {
       // $FlowIgnore : Problem with possibly null this.vm
       this.vm[key] = methods[key]
       // $FlowIgnore : Problem with possibly null this.vm
@@ -716,11 +713,10 @@ export default class Wrapper implements BaseWrapper {
 
     this.__warnIfDestroyed()
 
-    Object.keys(data).forEach(key => {
+    keys(data).forEach(key => {
       // Don't let people set entire objects, because reactivity won't work
       if (
-        typeof data[key] === 'object' &&
-        data[key] !== null &&
+        isPlainObject(data[key]) &&
         // $FlowIgnore : Problem with possibly null this.vm
         data[key] === this.vm[key]
       ) {

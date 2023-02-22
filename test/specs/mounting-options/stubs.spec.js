@@ -704,4 +704,90 @@ describeWithShallowAndMount('options.stub', mountingMethod => {
         `</div>`
     )
   })
+
+  it('stubs component inlined in render function with custom stub', () => {
+    let childComponentCreated = false
+    let childComponent2Created = false
+    const ChildComponent = Vue.extend({
+      name: 'child-component',
+      template: '<div />',
+      created() {
+        childComponentCreated = true
+      }
+    })
+    const ChildComponent2 = {
+      name: 'child-component-2',
+      template: '<div />',
+      created() {
+        childComponent2Created = true
+      }
+    }
+
+    const ParentComponent = {
+      name: 'parent-component',
+      render(h) {
+        return h('div', [h(ChildComponent), h(ChildComponent2)])
+      }
+    }
+
+    const wrapper = mountingMethod(ParentComponent, {
+      stubs: {
+        ChildComponent: {
+          name: 'child-component',
+          template: '<div class="stub" />'
+        },
+        ChildComponent2: {
+          name: 'child-component-2',
+          template: '<div class="stub-2" />'
+        }
+      }
+    })
+
+    expect(childComponentCreated).toBe(false)
+    expect(childComponent2Created).toBe(false)
+
+    expect(wrapper.find('.stub').exists()).toBe(true)
+    expect(wrapper.find('.stub-2').exists()).toBe(true)
+    expect(wrapper.find(ChildComponent).exists()).toBe(true)
+    expect(wrapper.find(ChildComponent2).exists()).toBe(true)
+  })
+
+  it('stubs component inlined in render function with default stub', () => {
+    let childComponentCreated = false
+    let childComponent2Created = false
+    const ChildComponent = Vue.extend({
+      name: 'child-component',
+      template: '<div />',
+      created() {
+        childComponentCreated = true
+      }
+    })
+    const ChildComponent2 = {
+      name: 'child-component-2',
+      template: '<div />',
+      created() {
+        childComponent2Created = true
+      }
+    }
+
+    const ParentComponent = {
+      name: 'parent-component',
+      render(h) {
+        return h('div', [h(ChildComponent), h(ChildComponent2)])
+      }
+    }
+
+    const wrapper = mountingMethod(ParentComponent, {
+      stubs: {
+        ChildComponent: true,
+        ChildComponent2: true
+      }
+    })
+
+    expect(childComponentCreated).toBe(false)
+    expect(childComponent2Created).toBe(false)
+
+    expect(wrapper.find(ChildComponent).exists()).toBe(true)
+    expect(wrapper.find(ChildComponent2).exists()).toBe(true)
+  })
 })

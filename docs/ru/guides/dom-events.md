@@ -136,7 +136,7 @@ describe('Click event', () => {
     },
 
     watch: {
-      quantity: function(newValue) {
+      quantity: function (newValue) {
         this.$emit('input', newValue)
       }
     }

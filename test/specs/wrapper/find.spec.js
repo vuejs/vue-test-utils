@@ -379,12 +379,7 @@ describeWithShallowAndMount('find', mountingMethod => {
       }
     }
     const wrapper = mountingMethod(TestComponent)
-    expect(
-      wrapper
-        .find('svg')
-        .find('svg')
-        .exists()
-    ).toEqual(true)
+    expect(wrapper.find('svg').find('svg').exists()).toEqual(true)
   })
 
   it('throws errror when searching for a component on an element Wrapper', () => {
@@ -397,10 +392,7 @@ describeWithShallowAndMount('find', mountingMethod => {
         })
       }
     }
-    const fn = () =>
-      mountingMethod(TestComponent)
-        .find('svg')
-        .find(Component)
+    const fn = () => mountingMethod(TestComponent).find('svg').find(Component)
     const message =
       '[vue-test-utils]: cannot find a Vue instance on a DOM node. The node you are calling find on does not exist in the VDom. Are you adding the node as innerHTML?'
     expect(fn).toThrow(message)
@@ -417,9 +409,7 @@ describeWithShallowAndMount('find', mountingMethod => {
       }
     }
     const fn = () =>
-      mountingMethod(TestComponent)
-        .find('svg')
-        .find({ ref: 'some-ref' })
+      mountingMethod(TestComponent).find('svg').find({ ref: 'some-ref' })
     const message =
       '[vue-test-utils]: cannot find a Vue instance on a DOM node. The node you are calling find on does not exist in the VDom. Are you adding the node as innerHTML?'
     expect(fn).toThrow(message)
@@ -656,7 +646,7 @@ describeWithShallowAndMount('find', mountingMethod => {
     const TestComponent = {
       template: '<child-component v-if="renderChild" />',
       components: { ChildComponent },
-      data: function() {
+      data: function () {
         return {
           renderChild: false
         }

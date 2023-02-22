@@ -24,10 +24,7 @@ describeWithShallowAndMount('setData', mountingMethod => {
   it('throws error if wrapper array contains no items', () => {
     const compiled = compileToFunctions('<div />')
     const message = '[vue-test-utils]: setData cannot be called on 0 items'
-    const fn = () =>
-      mountingMethod(compiled)
-        .findAll('p')
-        .setData('p')
+    const fn = () => mountingMethod(compiled).findAll('p').setData('p')
     expect(fn).toThrow(message)
   })
 })

@@ -140,11 +140,8 @@ describeWithShallowAndMount('setData', mountingMethod => {
         message: 'egassem'
       }),
       computed: {
-        reversedMessage: function() {
-          return this.message
-            .split('')
-            .reverse()
-            .join('')
+        reversedMessage: function () {
+          return this.message.split('').reverse().join('')
         }
       }
     }
