@@ -1,7 +1,8 @@
 ## find(selector)
 
 ::: warning Deprecation warning
-コンポーネントの検索に `find` を使用することは非推奨となり、削除される予定です。代わりに `findComponent` を使用してください。
+コンポーネントの検索に `find` を使用することは非推奨となり、削除される予定です。代わりに [`findComponent`](./findComponent.md) を使用してください。
+コンポーネントではなく有効な [selector](../selectors.md) を引数にする場合は、引き続き `find` でコンポーネントを検索できます。
 :::
 
 最初の DOM ノードの Wrapper、またはセレクタで一致した Vue コンポーネントを返します。
