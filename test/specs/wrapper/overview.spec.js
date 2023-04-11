@@ -75,7 +75,9 @@ describeWithShallowAndMount('overview', mountingMethod => {
 
     describe('vibility', () => {
       it('prints "Visible" when the wrapper is visible', () => {
-        const wrapper = mountingMethod({ template: '<div class="test"></div>' })
+        const wrapper = mountingMethod({
+          template: '<div class="test"></div>'
+        })
 
         const expectedConsoleOutput = [
           '',
@@ -98,7 +100,9 @@ describeWithShallowAndMount('overview', mountingMethod => {
       })
 
       it('prints "Not Visible" when the wrapper is not visible', () => {
-        const wrapper = mountingMethod({ template: '<div class="test"></div>' })
+        const wrapper = mountingMethod({
+          template: '<div class="test"></div>'
+        })
 
         const expectedConsoleOutput = [
           '',

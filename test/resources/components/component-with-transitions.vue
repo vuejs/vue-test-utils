@@ -1,9 +1,7 @@
 <template>
   <div>
     <transition>
-      <span v-if="!expanded" data-testid="expanded">
-        Content
-      </span>
+      <span v-if="!expanded" data-testid="expanded"> Content </span>
     </transition>
   </div>
 </template>

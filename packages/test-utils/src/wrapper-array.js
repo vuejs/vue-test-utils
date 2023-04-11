@@ -5,7 +5,7 @@ import type VueWrapper from './vue-wrapper'
 import { throwError } from 'shared/util'
 
 export default class WrapperArray implements BaseWrapper {
-  +wrappers: Array<Wrapper | VueWrapper>
+  +wrappers: Array<Wrapper | VueWrapper>;
   +length: number
   selector: Selector | void
 

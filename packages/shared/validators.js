@@ -1,5 +1,5 @@
 // @flow
-import { throwError, capitalize, camelize, hyphenate } from './util'
+import { throwError, capitalize, camelize, hyphenate, keys } from './util'
 
 export function isDomSelector(selector: any): boolean {
   if (typeof selector !== 'string') {
@@ -64,7 +64,7 @@ export function componentNeedsCompiling(component: Component): boolean {
 export function isRefSelector(refOptionsObject: any): boolean {
   if (
     !isPlainObject(refOptionsObject) ||
-    Object.keys(refOptionsObject || {}).length !== 1
+    keys(refOptionsObject || {}).length !== 1
   ) {
     return false
   }
@@ -137,10 +137,10 @@ function makeMap(str: string, expectsLowerCase?: boolean) {
     map[list[i]] = true
   }
   return expectsLowerCase
-    ? function(val: string) {
+    ? function (val: string) {
         return map[val.toLowerCase()]
       }
-    : function(val: string) {
+    : function (val: string) {
         return map[val]
       }
 }

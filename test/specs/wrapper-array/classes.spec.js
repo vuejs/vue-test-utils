@@ -8,9 +8,7 @@ describeWithShallowAndMount('classes', mountingMethod => {
     }
     const message = '[vue-test-utils]: classes cannot be called on 0 items'
     expect(() =>
-      mountingMethod(TestComponent)
-        .findAll('p')
-        .classes('p')
+      mountingMethod(TestComponent).findAll('p').classes('p')
     ).toThrow(message)
   })
 

@@ -36,7 +36,7 @@ npm install --save-dev @vue/test-utils karma karma-chrome-launcher karma-mocha k
 
 var webpackConfig = require('./webpack.config.js')
 
-module.exports = function(config) {
+module.exports = function (config) {
   config.set({
     frameworks: ['mocha'],
 
@@ -160,7 +160,7 @@ npm install --save-dev babel-plugin-istanbul
 ```js
 // karma.conf.js
 
-module.exports = function(config) {
+module.exports = function (config) {
   config.set({
     // ...
 

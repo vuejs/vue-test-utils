@@ -6,11 +6,9 @@ describeWithShallowAndMount('html', mountingMethod => {
   it('throws error if wrapper array contains no items', () => {
     const compiled = compileToFunctions('<div />')
     const message = '[vue-test-utils]: html cannot be called on 0 items'
-    expect(() =>
-      mountingMethod(compiled)
-        .findAll('p')
-        .html('p')
-    ).toThrow(message)
+    expect(() => mountingMethod(compiled).findAll('p').html('p')).toThrow(
+      message
+    )
   })
 
   it('throws error when called on a WrapperArray', () => {

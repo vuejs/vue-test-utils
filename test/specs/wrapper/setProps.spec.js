@@ -92,7 +92,7 @@ describeWithShallowAndMount('setProps', mountingMethod => {
           mounted() {
             this.$watch(
               'propA',
-              function() {
+              function () {
                 this.propA
               },
               { immediate: true }
@@ -159,11 +159,8 @@ describeWithShallowAndMount('setProps', mountingMethod => {
           </div>
         `,
         computed: {
-          reversedMessage: function() {
-            return this.message
-              .split('')
-              .reverse()
-              .join('')
+          reversedMessage: function () {
+            return this.message.split('').reverse().join('')
           }
         },
         props: ['message']
@@ -194,7 +191,7 @@ describeWithShallowAndMount('setProps', mountingMethod => {
           mounted() {
             this.$watch(
               'propA',
-              function() {
+              function () {
                 callback()
               },
               { immediate: true }
@@ -223,7 +220,7 @@ describeWithShallowAndMount('setProps', mountingMethod => {
           mounted() {
             this.$watch(
               'propA',
-              function() {
+              function () {
                 callback()
               },
               { immediate: true }
