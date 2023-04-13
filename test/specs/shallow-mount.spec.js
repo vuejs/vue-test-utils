@@ -9,6 +9,7 @@ import ComponentWithLifecycleHooks from '~resources/components/component-with-li
 import ComponentWithoutName from '~resources/components/component-without-name.vue'
 import ComponentAsAClassWithChild from '~resources/components/component-as-a-class-with-child.vue'
 import ComponentWithVSlotSyntax from '~resources/components/component-with-v-slot-syntax.vue'
+import ComponentWithVSlotSyntaxNested from '~resources/components/component-with-v-slot-syntax-nested.vue'
 import ComponentWithVSlot from '~resources/components/component-with-v-slot.vue'
 import RecursiveComponent from '~resources/components/recursive-component.vue'
 import { vueVersion } from '~resources/utils'
@@ -125,6 +126,20 @@ describeRunIf(process.env.TEST_ENV !== 'node', 'shallowMount', () => {
         '  <p>Hello</p>\n' +
         '  <p>World</p>\n' +
         '</child-stub>'
+    )
+  })
+
+  it('renders SFC with named slots with v-slot syntax nested in a div', () => {
+    const wrapper = shallowMount(ComponentWithVSlotSyntaxNested)
+
+    expect(wrapper.find(ComponentWithVSlot).exists()).toEqual(true)
+    expect(wrapper.find('.new-example').exists()).toEqual(true)
+    expect(wrapper.html()).toEqual(
+      '<div>\n' +
+        '  <componentwithvslot-stub>\n' +
+        '    <p class="new-example">new slot syntax</p>\n' +
+        '  </componentwithvslot-stub>\n' +
+        '</div>'
     )
   })
 
