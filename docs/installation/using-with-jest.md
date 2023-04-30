@@ -17,7 +17,7 @@ The plugin pulls all required dependencies (including jest), creates a `jest.con
 After that, all you need to do is to install Vue Test Utils.
 
 ```bash
-$ npm install --save-dev @vue/test-utils
+$ npm install --save-dev @vue/test-utils@legacy
 ```
 
 ### Manual installation
@@ -25,7 +25,7 @@ $ npm install --save-dev @vue/test-utils
 After setting up Jest, the first thing to do is to install Vue Test Utils and [`vue-jest`](https://github.com/vuejs/vue-jest) to process Single-File Components:
 
 ```bash
-$ npm install --save-dev @vue/test-utils vue-jest
+$ npm install --save-dev @vue/test-utils@legacy vue-jest
 ```
 
 Then, you need to tell Jest to transform `.vue` files using `vue-jest`. You can do so by adding the following configuration in `package.json` or in a standalone [Jest config file](https://jestjs.io/docs/en/configuration):

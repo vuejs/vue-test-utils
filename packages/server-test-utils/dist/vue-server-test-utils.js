@@ -1750,7 +1750,7 @@ function isVueComponent(c) {
     return true
   }
 
-  if (c === null || typeof c !== 'object') {
+  if (!isPlainObject(c)) {
     return false
   }
 
@@ -1780,8 +1780,8 @@ function componentNeedsCompiling(component) {
 
 function isRefSelector(refOptionsObject) {
   if (
-    typeof refOptionsObject !== 'object' ||
-    Object.keys(refOptionsObject || {}).length !== 1
+    !isPlainObject(refOptionsObject) ||
+    keys$1(refOptionsObject || {}).length !== 1
   ) {
     return false
   }
@@ -1790,7 +1790,7 @@ function isRefSelector(refOptionsObject) {
 }
 
 function isNameSelector(nameOptionsObject) {
-  if (typeof nameOptionsObject !== 'object' || nameOptionsObject === null) {
+  if (!isPlainObject(nameOptionsObject)) {
     return false
   }
 
@@ -1806,7 +1806,7 @@ function isDynamicComponent(c) {
 }
 
 function isComponentOptions(c) {
-  return c !== null && typeof c === 'object' && (c.template || c.render)
+  return isPlainObject(c) && (c.template || c.render)
 }
 
 function isFunctionalComponent(c) {
@@ -1848,10 +1848,10 @@ function makeMap(str, expectsLowerCase) {
     map[list[i]] = true;
   }
   return expectsLowerCase
-    ? function(val) {
+    ? function (val) {
         return map[val.toLowerCase()]
       }
-    : function(val) {
+    : function (val) {
         return map[val]
       }
 }
@@ -1923,7 +1923,7 @@ function vmCtorMatches(vm, component) {
   }
 
   if (component.functional) {
-    return Object.keys(vm._Ctor || {}).some(function (c) {
+    return keys$1(vm._Ctor || {}).some(function (c) {
       return component === vm._Ctor[c].extendOptions
     })
   }
@@ -2105,7 +2105,7 @@ function getOption(option, config) {
   if (option === false) {
     return false
   }
-  if (option || (config && Object.keys(config).length > 0)) {
+  if (option || (config && keys$1(config).length > 0)) {
     if (option instanceof Function) {
       return option
     }
@@ -2129,7 +2129,7 @@ function mergeOptions(
 ) {
   var mocks = (getOption(options.mocks, config.mocks));
   var methods = (getOption(options.methods, config.methods));
-  if (methods && Object.keys(methods).length) {
+  if (methods && keys$1(methods).length) {
     warnDeprecated(
       'overwriting methods via the `methods` property',
       'There is no clear migration path for the `methods` property - Vue does not support arbitrarily replacement of methods, nor should VTU. To stub a complex method extract it from the component and test it in isolation. Otherwise, the suggestion is to rethink those tests'
@@ -8084,7 +8084,10 @@ ErrorWrapper.prototype.destroy = function destroy () {
  */
 
 function isStyleVisible(element) {
-  if (!(element instanceof HTMLElement) && !(element instanceof SVGElement)) {
+  if (
+    !(element instanceof window.HTMLElement) &&
+    !(element instanceof window.SVGElement)
+  ) {
     return false
   }
 
@@ -8124,14 +8127,14 @@ function isElementVisible(element, previousElement) {
 }
 
 function recursivelySetData(vm, target, data) {
-  Object.keys(data).forEach(function (key) {
+  keys$1(data).forEach(function (key) {
     var val = data[key];
     var targetVal = target[key];
 
     if (
       isPlainObject(val) &&
       isPlainObject(targetVal) &&
-      Object.keys(val).length > 0
+      keys$1(val).length > 0
     ) {
       recursivelySetData(vm, targetVal, val);
     } else {
@@ -9379,10 +9382,10 @@ var w3cKeys = {
   esc: 'Esc',
   escape: 'Escape',
   space: ' ',
-  up: 'Up',
-  left: 'Left',
-  right: 'Right',
-  down: 'Down',
+  up: 'ArrowUp',
+  left: 'ArrowLeft',
+  right: 'ArrowRight',
+  down: 'ArrowDown',
   end: 'End',
   home: 'Home',
   backspace: 'Backspace',
@@ -9467,7 +9470,7 @@ function createDOMEvent(type, options) {
       : createOldEvent(eventParams);
 
   var eventPrototype = Object.getPrototypeOf(event);
-  Object.keys(options || {}).forEach(function (key) {
+  keys$1(options || {}).forEach(function (key) {
     var propertyDescriptor = Object.getOwnPropertyDescriptor(
       eventPrototype,
       key
@@ -9573,17 +9576,14 @@ Wrapper.prototype.classes = function classes (className) {
   var classes = classAttribute ? classAttribute.split(' ') : [];
   // Handle converting cssmodules identifiers back to the original class name
   if (this.vm && this.vm.$style) {
-    var cssModuleIdentifiers = Object.keys(this.vm.$style).reduce(
-      function (acc, key) {
-        // $FlowIgnore
-        var moduleIdent = this$1.vm.$style[key];
-        if (moduleIdent) {
-          acc[moduleIdent.split(' ')[0]] = key;
-        }
-        return acc
-      },
-      {}
-    );
+    var cssModuleIdentifiers = keys$1(this.vm.$style).reduce(function (acc, key) {
+      // $FlowIgnore
+      var moduleIdent = this$1.vm.$style[key];
+      if (moduleIdent) {
+        acc[moduleIdent.split(' ')[0]] = key;
+      }
+      return acc
+    }, {});
     classes = classes.map(function (name) { return cssModuleIdentifiers[name] || name; });
   }
 
@@ -9937,7 +9937,7 @@ Wrapper.prototype.overview = function overview () {
   var computed = this.vm._computedWatchers
     ? formatJSON.apply(
         // $FlowIgnore
-        void 0, Object.keys(this.vm._computedWatchers).map(function (computedKey) {
+        void 0, keys$1(this.vm._computedWatchers).map(function (computedKey) {
             var obj;
 
             return (( obj = {}, obj[computedKey] = this$1.vm[computedKey], obj ));
@@ -9961,9 +9961,7 @@ Wrapper.prototype.overview = function overview () {
   var emittedJSONReplacer = function (key, value) { return value instanceof Array
       ? value.map(function (calledWith, index) {
           var callParams = calledWith.map(function (param) { return typeof param === 'object'
-              ? JSON.stringify(param)
-                  .replace(/"/g, '')
-                  .replace(/,/g, ', ')
+              ? JSON.stringify(param).replace(/"/g, '').replace(/,/g, ', ')
               : param; }
           );
 
@@ -10145,7 +10143,7 @@ Wrapper.prototype.setMethods = function setMethods (methods) {
   }
   this.__warnIfDestroyed();
 
-  Object.keys(methods).forEach(function (key) {
+  keys$1(methods).forEach(function (key) {
     // $FlowIgnore : Problem with possibly null this.vm
     this$1.vm[key] = methods[key];
     // $FlowIgnore : Problem with possibly null this.vm
@@ -10184,11 +10182,10 @@ Wrapper.prototype.setProps = function setProps (data) {
 
   this.__warnIfDestroyed();
 
-  Object.keys(data).forEach(function (key) {
+  keys$1(data).forEach(function (key) {
     // Don't let people set entire objects, because reactivity won't work
     if (
-      typeof data[key] === 'object' &&
-      data[key] !== null &&
+      isPlainObject(data[key]) &&
       // $FlowIgnore : Problem with possibly null this.vm
       data[key] === this$1.vm[key]
     ) {
@@ -12919,7 +12916,7 @@ function _createLocalVue(
   var instance = _Vue.extend();
 
   // clone global APIs
-  Object.keys(_Vue).forEach(function (key) {
+  keys$1(_Vue).forEach(function (key) {
     if (!instance.hasOwnProperty(key)) {
       var original = _Vue[key];
       // cloneDeep can fail when cloning Vue instances
@@ -12996,7 +12993,7 @@ function compileTemplate(component) {
   }
 
   if (component.components) {
-    Object.keys(component.components).forEach(function (c) {
+    keys$1(component.components).forEach(function (c) {
       var cmp = component.components[c];
       if (!cmp.render) {
         compileTemplate(cmp);
@@ -13014,7 +13011,7 @@ function compileTemplate(component) {
 }
 
 function compileTemplateForSlots(slots) {
-  Object.keys(slots).forEach(function (key) {
+  keys$1(slots).forEach(function (key) {
     var slot = Array.isArray(slots[key]) ? slots[key] : [slots[key]];
     slot.forEach(function (slotValue) {
       if (componentNeedsCompiling(slotValue)) {
@@ -13041,7 +13038,7 @@ function requiresTemplateCompiler(slot) {
 }
 
 function validateSlots(slots) {
-  Object.keys(slots).forEach(function (key) {
+  keys$1(slots).forEach(function (key) {
     var slot = Array.isArray(slots[key]) ? slots[key] : [slots[key]];
 
     slot.forEach(function (slotValue) {
@@ -13245,7 +13242,7 @@ function addMocks(
   if (mockedProperties === false) {
     return
   }
-  Object.keys(mockedProperties).forEach(function (key) {
+  keys$1(mockedProperties).forEach(function (key) {
     try {
       // $FlowIgnore
       _Vue.prototype[key] = mockedProperties[key];
@@ -13280,7 +13277,7 @@ function logEvents(
 
 function addEventLogger(_Vue) {
   _Vue.mixin({
-    beforeCreate: function() {
+    beforeCreate: function () {
       this.__emitted = Object.create(null);
       this.__emittedByOrder = [];
       logEvents(this, this.__emitted, this.__emittedByOrder);
@@ -13328,9 +13325,7 @@ function isDestructuringSlotScope(slotScope) {
   return /^{.*}$/.test(slotScope)
 }
 
-function getVueTemplateCompilerHelpers(
-  _Vue
-) {
+function getVueTemplateCompilerHelpers(_Vue) {
   // $FlowIgnore
   var vue = new _Vue();
   var helpers = {};
@@ -13429,7 +13424,7 @@ function createScopedSlots(
 
     var slotScope = scopedSlotMatches.match && scopedSlotMatches.match[1];
 
-    scopedSlots[scopedSlotName] = function(props) {
+    scopedSlots[scopedSlotName] = function (props) {
       var obj;
 
       var res;
@@ -13478,10 +13473,10 @@ function resolveComponent$1(obj, component) {
   )
 }
 
-function getCoreProperties(componentOptions) {
+function getCoreProperties(componentOptions, name) {
   return {
     attrs: componentOptions.attrs,
-    name: componentOptions.name,
+    name: componentOptions.name || name,
     model: componentOptions.model,
     props: componentOptions.props,
     on: componentOptions.on,
@@ -13542,7 +13537,7 @@ function createStubFromComponent(
     Vue__default['default'].config.ignoredElements.push(tagName);
   }
 
-  return Object.assign({}, getCoreProperties(componentOptions),
+  return Object.assign({}, getCoreProperties(componentOptions, name),
     {$_vueTestUtils_original: originalComponent,
     $_doNotStubChildren: true,
     render: function render(h, context) {
@@ -13627,7 +13622,7 @@ function createStubsFromStubsObject(
 ) {
   if ( originalComponents === void 0 ) originalComponents = {};
 
-  return Object.keys(stubs || {}).reduce(function (acc, stubName) {
+  return keys$1(stubs || {}).reduce(function (acc, stubName) {
     var stub = stubs[stubName];
 
     validateStub(stub);
@@ -13723,8 +13718,16 @@ function patchCreateElement(_Vue, stubs, stubAllComponents) {
       }
 
       if (isConstructor(el) || isComponentOptions(el)) {
+        var componentOptions = isConstructor(el) ? el.options : el;
+        var elName = componentOptions.name;
+
+        var stubbedComponent = resolveComponent(elName, stubs);
+        if (stubbedComponent) {
+          return originalCreateElement.apply(void 0, [ stubbedComponent ].concat( args ))
+        }
+
         if (stubAllComponents) {
-          var stub = createStubFromComponent(el, el.name || 'anonymous', _Vue);
+          var stub = createStubFromComponent(el, elName || 'anonymous', _Vue);
           return originalCreateElement.apply(void 0, [ stub ].concat( args ))
         }
         var Constructor = shouldExtend(el) ? extend(el, _Vue) : el;
@@ -13837,8 +13840,8 @@ function createInstance(
 
   // watchers provided in mounting options should override preexisting ones
   if (componentOptions.watch && instanceOptions.watch) {
-    var componentWatchers = Object.keys(componentOptions.watch);
-    var instanceWatchers = Object.keys(instanceOptions.watch);
+    var componentWatchers = keys$1(componentOptions.watch);
+    var instanceWatchers = keys$1(instanceOptions.watch);
 
     for (var i = 0; i < instanceWatchers.length; i++) {
       var k = instanceWatchers[i];
@@ -13858,14 +13861,14 @@ function createInstance(
   var parentComponentOptions = options.parentComponent || {};
 
   var originalParentComponentProvide = parentComponentOptions.provide;
-  parentComponentOptions.provide = function() {
+  parentComponentOptions.provide = function () {
     return Object.assign({}, getValuesFromCallableOption.call(this, originalParentComponentProvide),
       // $FlowIgnore
       getValuesFromCallableOption.call(this, options.provide))
   };
 
   var originalParentComponentData = parentComponentOptions.data;
-  parentComponentOptions.data = function() {
+  parentComponentOptions.data = function () {
     return Object.assign({}, getValuesFromCallableOption.call(this, originalParentComponentData),
       {vueTestUtils_childProps: Object.assign({}, options.propsData)})
   };
@@ -13873,7 +13876,7 @@ function createInstance(
   parentComponentOptions.$_doNotStubChildren = true;
   parentComponentOptions.$_isWrapperParent = true;
   parentComponentOptions._isFunctionalContainer = componentOptions.functional;
-  parentComponentOptions.render = function(h) {
+  parentComponentOptions.render = function (h) {
     return h(
       Constructor,
       createContext(options, scopedSlots, this.vueTestUtils_childProps),

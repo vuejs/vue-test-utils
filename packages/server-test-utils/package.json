@@ -1,6 +1,6 @@
 {
   "name": "@vue/server-test-utils",
-  "version": "1.3.3",
+  "version": "1.3.5",
   "description": "Utilities for testing Vue components.",
   "main": "dist/vue-server-test-utils.js",
   "types": "types/index.d.ts",
