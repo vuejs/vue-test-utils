@@ -77,16 +77,8 @@ function getScopedSlotRenderFunctions(ctx: any): Array<string> {
   // In Vue 2.6+ a new v-slot syntax was introduced
   // scopedSlots are now saved in parent._vnode.data.scopedSlots
   // We filter out _normalized, $stable and $key keys
-  if (
-    ctx &&
-    ctx.$options &&
-    ctx.$options.parent &&
-    ctx.$options.parent._vnode &&
-    ctx.$options.parent._vnode.data &&
-    ctx.$options.parent._vnode.data.scopedSlots
-  ) {
-    const slotKeys: Array<string> = ctx.$options.parent._vnode.data.scopedSlots
-    return keys(slotKeys).filter(
+  if (ctx.$vnode.data.scopedSlots) {
+    return keys(ctx.$vnode.data.scopedSlots).filter(
       x => x !== '_normalized' && x !== '$stable' && x !== '$key'
     )
   }
@@ -130,9 +122,15 @@ export function createStubFromComponent(
         context
           ? context.children
           : this.$options._renderChildren ||
-              getScopedSlotRenderFunctions(this).map(x =>
-                this.$options.parent._vnode.data.scopedSlots[x]({})
-              )
+              getScopedSlotRenderFunctions(this)
+                .map(x => {
+                  let result = null
+                  try {
+                    result = this.$vnode.data.scopedSlots[x]({})
+                  } catch (e) {}
+                  return result
+                })
+                .filter(Boolean)
       )
     }
   }
