@@ -2,6 +2,7 @@
 
 ::: warning Deprecation warning
 `findAll` を使用してコンポーネントを検索することは非推奨となり、削除される予定です。代わりに `findAllComponents` を使用してください。
+コンポーネントではなく有効な [selector](../selectors.md) を引数にする場合は、今後も `findAll` でコンポーネントを検索できます。
 :::
 
 [`WrapperArray`](../wrapper-array/)を返します。
