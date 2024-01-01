@@ -41,6 +41,35 @@ expect(wrapper.is(Foo)).toBe(true)
 
 ### Find Option Object
 
+Suppose you have the following component
+```js
+// MyButtonComponent.vue
+
+<template>
+  <button class="btn" name="my-button" :ref="myButtonRef">Click My Button</button>
+</template>
+<script lang="ts">
+export default defineComponent({
+  name: 'MyButtonComponent',
+  computed: {
+    myButtonRef() {
+      return 'dynamic-my-button-ref';
+    }
+  }
+</script>
+
+or
+
+const MyButtonComponent = {
+  template: '<button class="btn" name="my-button" :ref="myButtonRef">Click My Button</button>',
+  computed: {
+    myButtonRef() {
+      return 'dynamic-my-button-ref';
+    }
+  }
+};
+```
+
 #### Name
 
 Using a find option object, Vue Test Utils allows for selecting elements by a `name` of component on wrapper components.
@@ -55,6 +84,6 @@ buttonWrapper.trigger('click')
 Using a find option object, Vue Test Utils allows for selecting elements by `$ref` on wrapper components.
 
 ```js
-const buttonWrapper = wrapper.find({ ref: 'myButton' })
+const buttonWrapper = wrapper.find({ ref: 'dynamic-my-button-ref' })
 buttonWrapper.trigger('click')
 ```
